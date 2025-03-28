@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Differential and Integral Calculus Lecture Notes</title>
+    <style>
+        :root {
+            --primary-color: #2c3e50;
+            --secondary-color: #3498db;
+            --accent-color: #e74c3c;
+            --background-color: #f9f9f9;
+            --text-color: #333;
+            --container-shadow: 0 4px 6px rgba(0, 0, 0, 0.1), 0 1px 3px rgba(0, 0, 0, 0.08);
+        }
+
+        body {
+            font-family: 'Georgia', serif;
+            line-height: 1.7;
+            margin: 0;
+            padding: 0;
+            background-color: var(--background-color);
+            color: var(--text-color);
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 20px auto;
+            padding: 30px;
+            background-color: white;
+            box-shadow: var(--container-shadow);
+            border-radius: 10px;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 40px;
+            border-bottom: 2px solid var(--secondary-color);
+            padding-bottom: 20px;
+        }
+
+        h1 {
+            color: var(--primary-color);
+            margin-bottom: 10px;
+            font-size: 2.5rem;
+        }
+
+        .lecture-title {
+            color: var(--secondary-color);
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+            font-weight: normal;
+        }
+
+        .author-info {
+            font-style: italic;
+            color: #777;
+        }
+
+        /* Navigation Styles */
+        .navigation {
+            position: sticky;
+            top: 20px;
+            margin-bottom: 40px;
+            z-index: 100;
+        }
+
+        .nav-container {
+            background-color: var(--primary-color);
+            border-radius: 8px;
+            padding: 10px;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 5px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .nav-button {
+            padding: 8px 12px;
+            background-color: transparent;
+            color: white;
+            border: 1px solid rgba(255,255,255,0.2);
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.3s;
+            text-decoration: none;
+        }
+
+        .nav-button:hover {
+            background-color: rgba(255,255,255,0.1);
+            transform: translateY(-2px);
+        }
+
+        .nav-button.active {
+            background-color: var(--secondary-color);
+            border-color: var(--secondary-color);
+            transform: translateY(-2px);
+        }
+
+        /* Mobile navigation */
+        .mobile-nav-select {
+            display: none;
+            width: 100%;
+            padding: 10px;
+            font-family: 'Georgia', serif;
+            border-radius: 5px;
+            border: 1px solid #ddd;
+            background-color: white;
+            color: var(--primary-color);
+        }
+
+        /* Content Section Styles */
+        .content-section {
+            display: block;
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .home {
+            text-align: center;
+        }
+
+        .section-title {
+            color: var(--primary-color);
+            font-size: 1.8rem;
+            margin-top: 30px;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .math {
+            font-style: italic;
+            padding: 0 3px;
+        }
+
+        .figure {
+            text-align: center;
+            margin: 30px 0;
+            padding: 10px;
+            background-color: #f8f9fa;
+            border-radius: 5px;
+        }
+
+        .figure img {
+            max-width: 100%;
+            border-radius: 5px;
+        }
+
+        .figure-caption {
+            font-style: italic;
+            color: #777;
+            margin-top: 10px;
+        }
+
+        .summary-list {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+            margin-top: 20px;
+            margin-bottom: 20px;
+        }
+
+        .summary-list-item {
+            margin-bottom: 25px;
+            padding: 20px 25px 20px 120px;
+            position: relative;
+            background-color: white;
+            border-radius: 12px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            transition: all 0.3s ease;
+            border-left: 4px solid transparent;
+        }
+
+        .summary-list-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+            border-left: 4px solid var(--secondary-color);
+        }
+
+        .class-number {
+            position: absolute;
+            left: 25px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: linear-gradient(135deg, #3498db, #2980b9);
+            color: white;
+            width: 70px;
+            height: 70px;
+            border-radius: 12px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Georgia', sans-serif;
+            box-shadow: 0 4px 8px rgba(52, 152, 219, 0.4);
+        }
+
+        .class-number .number {
+            font-size: 1.8rem;
+            font-weight: 700;
+            line-height: 1;
+        }
+
+        .class-number .label {
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            opacity: 0.9;
+        }
+
+        .topic-highlight {
+            display: inline-block;
+            background-color: rgba(52, 152, 219, 0.1);
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-weight: 500;
+            color: var(--primary-color);
+        }
+
+        /* Theme toggle */
+        .theme-toggle {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            font-size: 20px;
+            cursor: pointer;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+            transition: transform 0.3s;
+            z-index: 1000;
+        }
+
+        .theme-toggle:hover {
+            transform: rotate(30deg);
+        }
+
+        /* Dark theme */
+        body.dark-theme {
+            --primary-color: #3498db;
+            --secondary-color: #2ecc71;
+            --accent-color: #e74c3c;
+            --background-color: #2c3e50;
+            --text-color: #ecf0f1;
+            --container-shadow: 0 4px 6px rgba(0, 0, 0, 0.3), 0 1px 3px rgba(0, 0, 0, 0.2);
+        }
+
+        body.dark-theme .container {
+            background-color: #34495e;
+        }
+
+        body.dark-theme .formula,
+        body.dark-theme .figure {
+            background-color: #2c3e50;
+        }
+    </style>
+    
+    <!-- MathJax configuration -->
+    <script>
+      window.MathJax = {
+        tex: {
+          inlineMath: [['$', '$']],
+          displayMath: [['$$', '$$']]
+        },
+        svg: {
+          fontCache: 'global'
+        }
+      };
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js" async></script>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Differential and Integral Calculus I</h1>
+            <div class="lecture-title">Engineering: Electrical & Electronic Group 4</div>
+            <div class="author-info">Lecture Notes</div>
+        </header>
+
+        <div class="navigation">
+            <div class="nav-container">
+                <a href="index.html" class="nav-button active">Home</a>
+                <a href="classes/class1.html" class="nav-button">Class 1</a>
+                <a href="classes/class2.html" class="nav-button">Class 2</a>
+                <a href="classes/class3.html" class="nav-button">Class 3</a>
+                <a href="#" class="nav-button">Class 4</a>
+                <a href="#" class="nav-button">Class 5</a>
+                <a href="#" class="nav-button">Class 6</a>
+                <a href="#" class="nav-button">Class 7</a>
+                <a href="#" class="nav-button">Class 8</a>
+                <a href="#" class="nav-button">Class 9</a>
+                <a href="#" class="nav-button">Class 10</a>
+                <a href="#" class="nav-button">Class 11</a>
+                <a href="#" class="nav-button">Class 12</a>
+                <a href="#" class="nav-button">Class 13</a>
+                <a href="#" class="nav-button">Summary</a>
+            </div>
+        </div>
+
+        <div class="content-section">
+            <div class="home">
+                <div class="section-title">Welcome to Differential and Integral Calculus I</div>
+                <p>This interactive document contains comprehensive lecture notes for the Differential and Integral Calculus I course for Engineering students in the Electrical & Electronic Group 4.</p>
+                <p>Use the navigation menu above to browse through different classes of the course material. Each section includes examples, interactive demonstrations, and practice problems.</p>
+        
+                <div class="figure">
+                    <img src="analysisImage.webp" alt="Calculus concept illustration" style="width: 70%;">
+                    <div class="figure-caption">An illustration of calculus concepts</div>
+                </div>
+                
+                <div class="section-title">Course Overview</div>
+                <p style="text-align: center; max-width: 800px; margin: 0 auto 40px auto; line-height: 1.8; font-size: 1.1rem;">These lecture notes cover the fundamental aspects of multivariable differential calculus, providing a solid foundation for advanced engineering applications:</p>
+                <ol class="summary-list">
+                        <li class="summary-list-item">
+                            <div class="class-number"><div class="number">1</div><div class="label">Class</div></div>
+                            We defined <span class="topic-highlight">partial derivatives</span> as the rate of change of a multivariable function with respect to one input variable at a time, extending the familiar concept of derivatives to functions of multiple variables.
+                        </li>
+                        <li class="summary-list-item">
+                            <div class="class-number"><div class="number">2</div><div class="label">Class</div></div>
+                            We studied <span class="topic-highlight">planes and surfaces</span>, learning how planes can be seen as graphs of linear functions and how more general surfaces can be understood via level sets and cross-sections. These geometric interpretations help visualize abstract mathematical concepts.
+                        </li>
+                        <li class="summary-list-item">
+                            <div class="class-number"><div class="number">3</div><div class="label">Class</div></div>
+                            We introduced <span class="topic-highlight">tangent planes</span> to surfaces <span class="math">z=f(x,y)</span>, deriving their equation using the partial derivatives. The tangent plane provides the best linear approximation to the surface at a point, similar to how tangent lines approximate curves.
+                        </li>
+                        <li class="summary-list-item">
+                            <div class="class-number"><div class="number">4</div><div class="label">Class</div></div>
+                            The concept of <span class="topic-highlight">total derivative</span> (differentials) was discussed, combining partial derivatives to approximate changes in the function due to multivariate inputs. This allows us to predict how small changes in inputs affect the output.
+                        </li>
+                        <li class="summary-list-item">
+                            <div class="class-number"><div class="number">5</div><div class="label">Class</div></div>
+                            Using the <span class="topic-highlight">Chain Rule</span>, we can differentiate composite functions systematically in multiple dimensions, carefully summing contributions from each path of dependence. This powerful tool enables analysis of complex relationships between variables.
+                        </li>
+                        <li class="summary-list-item">
+                            <div class="class-number"><div class="number">6</div><div class="label">Class</div></div>
+                            We saw how to perform differentiation in alternative coordinate systems like <span class="topic-highlight">polar coordinates</span>, applying the chain rule to relate derivatives in polar to those in Cartesian coordinates, which is especially useful for radially symmetric functions and problems with circular symmetry.
+                        </li>
+                        <li class="summary-list-item">
+                            <div class="class-number"><div class="number">7</div><div class="label">Class</div></div>
+                            We defined what it means for a point to be a <span class="topic-highlight">local extremum</span> (maximum or minimum) of a function of several variables. We saw examples of maxima, minima, and saddle points, and emphasized that at interior extrema (assuming differentiability) the gradient must be zero (critical point).
+                        </li>
+                        <li class="summary-list-item">
+                            <div class="class-number"><div class="number">8</div><div class="label">Class</div></div>
+                            Focusing on <span class="topic-highlight">quadratic functions</span>, we learned how to find their critical points and classify them by examining the quadratic form. This led to understanding how the second partial derivatives determine the nature of a critical point.
+                        </li>
+                        <li class="summary-list-item">
+                            <div class="class-number"><div class="number">9</div><div class="label">Class</div></div>
+                            Through <span class="topic-highlight">Taylor expansion</span> around a critical point, we justified the <span class="topic-highlight">second derivative test</span>. We provided criteria involving the Hessian determinant <span class="math">D</span> and the second partials to classify a critical point as a local min, local max, or saddle.
+                        </li>
+                        <li class="summary-list-item">
+                            <div class="class-number"><div class="number">10</div><div class="label">Class</div></div>
+                            We discussed <span class="topic-highlight">Jacobian matrices</span> as a way to collect partial derivatives of vector-valued functions. The Jacobian gives a linear approximation of a multivariable mapping and its determinant indicates local scaling (particularly important in coordinate transformations and the inverse function theorem).
+                        </li>
+                        <li class="summary-list-item">
+                            <div class="class-number"><div class="number">11</div><div class="label">Class</div></div>
+                            The <span class="topic-highlight">Inverse Function Theorem</span> was stated in essence: a non-zero Jacobian determinant ensures a local inverse exists and how to get its derivative. This result is fundamental to many advanced topics in engineering and mathematics.
+                        </li>
+                        <li class="summary-list-item">
+                            <div class="class-number"><div class="number">12</div><div class="label">Class</div></div>
+                            We covered <span class="topic-highlight">implicit differentiation</span> and the <span class="topic-highlight">Implicit Function Theorem</span>, showing how to find derivatives of a function defined implicitly by an equation (like <span class="math">F(x,y)=0</span>) by using <span class="math">dy/dx = -F<sub>x</sub>/F<sub>y</sub></span>, providing yet another powerful technique for analyzing complex relationships.
+                        </li>
+                    </ol>
+                
+                <div class="section-title">Learning Outcomes</div>
+                <p style="text-align: center; max-width: 800px; margin: 0 auto 40px auto; line-height: 1.8; font-size: 1.1rem;">By the end of this course, students will be able to:</p>
+                <ul class="summary-list">
+                    <li class="summary-list-item">Calculate and interpret <span class="topic-highlight">partial derivatives</span> of multivariable functions</li>
+                    <li class="summary-list-item">Find equations of <span class="topic-highlight">tangent planes</span> to surfaces</li>
+                    <li class="summary-list-item">Apply the <span class="topic-highlight">chain rule</span> to complex compositions of functions</li>
+                    <li class="summary-list-item">Identify and classify critical points using the <span class="topic-highlight">second derivative test</span></li>
+                    <li class="summary-list-item">Work with coordinate transformations using <span class="topic-highlight">Jacobian matrices</span></li>
+                    <li class="summary-list-item">Solve problems involving <span class="topic-highlight">implicit functions</span></li>
+                    <li class="summary-list-item">Apply calculus techniques to solve engineering problems</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <button class="theme-toggle" id="themeToggle">☀️</button>
+
+    <script>
+        // Theme toggle function
+        const themeToggle = document.getElementById('themeToggle');
+        themeToggle.addEventListener('click', () => {
+            document.body.classList.toggle('dark-theme');
+            themeToggle.textContent = document.body.classList.contains('dark-theme') ? '🌙' : '☀️';
+        });
+    </script>
+</body>
+</html>
