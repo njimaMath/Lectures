@@ -1,0 +1,502 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Class 3: Tangent Planes</title>
+    <style>
+        :root {
+            --primary-color: #2c3e50;
+            --secondary-color: #3498db;
+            --accent-color: #e74c3c;
+            --background-color: #f9f9f9;
+            --text-color: #333;
+            --container-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+            --text-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+        }
+
+        body {
+            font-family: 'Georgia', serif;
+            line-height: 1.7;
+            margin: 0;
+            padding: 0;
+            background-color: var(--background-color);
+            color: var(--text-color);
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 20px auto;
+            padding: 30px;
+            background-color: white;
+            box-shadow: var(--container-shadow);
+            border-radius: 15px;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 40px;
+            border-bottom: 2px solid var(--secondary-color);
+            padding-bottom: 20px;
+        }
+
+        h1, h2, h3 {
+            color: var(--primary-color);
+        }
+
+        .section-title {
+            color: var(--primary-color);
+            font-size: 1.8rem;
+            margin-top: 30px;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #eee;
+            text-shadow: var(--text-shadow);
+        }
+
+        .lecture-title {
+            color: var(--secondary-color);
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+            font-weight: normal;
+        }
+
+        .author-info {
+            font-style: italic;
+            color: #777;
+        }
+
+        .math {
+            font-style: italic;
+            padding: 0 3px;
+        }
+
+        .figure {
+            text-align: center;
+            margin: 30px 0;
+            padding: 20px;
+            background-color: #f8f9fa;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+        }
+
+        .figure img {
+            max-width: 100%;
+            border-radius: 5px;
+        }
+
+        .figure-caption {
+            font-style: italic;
+            color: #777;
+            margin-top: 15px;
+        }
+
+        .navigation {
+            margin-top: 40px;
+            text-align: center;
+            display: flex;
+            justify-content: space-between;
+            padding: 15px 0;
+            border-top: 1px solid #eee;
+        }
+
+        .navigation a {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: var(--primary-color);
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .navigation a:hover {
+            background-color: var(--secondary-color);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+        }
+
+        .topic-highlight {
+            display: inline-block;
+            background-color: rgba(52, 152, 219, 0.1);
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-weight: 500;
+            color: var(--primary-color);
+        }
+
+        .formula {
+            margin: 25px 0;
+            padding: 15px;
+            background-color: #f8f9fa;
+            border-left: 4px solid var(--secondary-color);
+            border-radius: 5px;
+            overflow-x: auto;
+            font-size: 1.1em;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+        }
+
+        .example-title {
+            font-weight: bold;
+            font-size: 1.2em;
+            color: var(--secondary-color);
+            margin-top: 30px;
+            margin-bottom: 15px;
+            padding-bottom: 5px;
+            border-bottom: 1px dashed #ccc;
+            display: inline-block;
+        }
+
+        p {
+            margin-bottom: 20px;
+            line-height: 1.8;
+        }
+
+        .content-section {
+            padding-bottom: 30px;
+        }
+        
+        .definition-box {
+            background-color: #f0f7ff;
+            border-left: 4px solid #3498db;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+        }
+        
+        .theorem-box {
+            background-color: #fff4e6;
+            border-left: 4px solid #e67e22;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+        }
+        
+        .proof-box {
+            background-color: #f5f5f5;
+            border-left: 4px solid #7f8c8d;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+        }
+        
+        .example-box {
+            background-color: #f0f9ff;
+            border: 1px solid #d1e6fa;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+        }
+        
+        .section-highlight {
+            background-color: #f8f9fa;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 25px 0;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+        }
+        
+        .graph-container {
+            background-color: #f5f5f5;
+            border-radius: 10px;
+            padding: 15px;
+            margin: 25px 0;
+            text-align: center;
+        }
+        
+        .graph-container h3 {
+            margin-top: 0;
+            margin-bottom: 15px;
+            color: var(--primary-color);
+        }
+        
+        .caption {
+            font-style: italic;
+            color: #777;
+            margin-top: 15px;
+            text-align: center;
+            padding: 0 15px;
+        }
+    </style>
+    <!-- MathJax configuration -->
+    <script>
+      window.MathJax = {
+        tex: {
+          inlineMath: [['$', '$']],
+          displayMath: [['$$', '$$']]
+        },
+        svg: {
+          fontCache: 'global'
+        }
+      };
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js" async></script>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Differential and Integral Calculus I</h1>
+            <div class="lecture-title">Engineering: Electrical & Electronic Group 4</div>
+            <div class="author-info">Lecture Notes</div>
+        </header>
+        
+        <section id="class3" class="content-section">
+            <div class="section-title">Class 3: Tangent Planes</div>
+            
+            <p>In this class, we introduce <span class="topic-highlight">tangent planes</span> to surfaces $z=f(x,y)$, deriving their equation using partial derivatives. The tangent plane provides the best linear approximation to the surface at a point, similar to how tangent lines approximate curves.</p>
+
+            <div class="section-highlight">
+                <h3>Tangent Lines: A Review</h3>
+                
+                <div class="definition-box">
+                    <h3 style="margin-top: 0;">Tangent Line</h3>
+                    <p>Given a function $f(x)$ and $a\in \mathbb{R}$, we define the tangent line to the graph of $f$ at the point $(a,f(a))$ as the line through the point $(a,f(a))$ with slope $f'(a)$:</p>
+                    <div class="formula" style="background: none; border-left: none; box-shadow: none;">
+                        $$y = f'(a)(x-a)+f(a)$$
+                    </div>
+                </div>
+                
+                <p>Interpretation from derivative: around $x=a$, $f(x)$ is approximately $f(a)+f'(a)(x-a)$. More precisely, we have the following theorem:</p>
+                
+                <div class="formula">
+                    $$f(x)-(f(a)+f'(a)(x-a)) = o(|x-a|)$$
+                </div>
+                
+                <p>where $o(|x-a|)$ is a function that goes to 0 faster than $|x-a|$ as $x$ approaches $a$, i.e., $\lim_{x \to a} \frac{o(|x-a|)}{|x-a|} = 0$.</p>
+            </div>
+
+            <div class="section-highlight">
+                <h3>Definition of Tangent Planes</h3>
+                
+                <div class="definition-box">
+                    <h3 style="margin-top: 0;">Tangent Plane</h3>
+                    <p>Consider the surface $z=f(x,y)$. Given a point $(a,b)$, we define the tangent plane to the surface at the point $(a,b,f(a,b))$ as the plane through the point $(a,b,f(a,b))$ with slope $f_x(a,b)$ in the x-direction and $f_y(a,b)$ in the y-direction. The equation of this plane is given by:</p>
+                    <div class="formula" style="background: none; border-left: none; box-shadow: none;">
+                        $$z=f(a,b) + f_x(a,b)(x-a)+f_y(a,b)(y-b)$$
+                    </div>
+                </div>
+                
+                <div class="example-box">
+                    <div class="example-title">Example 3.1</div>
+                    <p>Find the tangent plane to the paraboloid $z = x^2 + y^2$ at the point $(1,2,5)$.</p>
+                    
+                    <p><strong>Solution:</strong></p>
+                    <p>Here $f(x,y) = x^2 + y^2$. First, we compute the partial derivatives:</p> 
+                    <div class="formula" style="background: none; border-left: none; box-shadow: none;">
+                        \begin{align*}
+                        f_x(x,y) &= 2x\\
+                        f_y(x,y) &= 2y
+                        \end{align*}
+                    </div>
+                    
+                    <p>At the point $(a,b)=(1,2)$, we have:</p>
+                    <div class="formula" style="background: none; border-left: none; box-shadow: none;">
+                        \begin{align*}
+                        f_x(1,2) &= 2(1) = 2\\
+                        f_y(1,2) &= 2(2) = 4
+                        \end{align*}
+                    </div>
+                    
+                    <p>The surface passes through $(1,2,f(1,2)) = (1,2,1^2+2^2) = (1,2,5)$ as given.</p>
+                    
+                    <p>Thus, the tangent plane equation is:</p>
+                    <div class="formula" style="background: none; border-left: none; box-shadow: none;">
+                        \begin{align*}
+                        z - 5 &= 2(x-1) + 4(y-2)\\
+                        z - 5 &= 2x - 2 + 4y - 8\\
+                        z &= 2x + 4y - 5
+                        \end{align*}
+                    </div>
+                    
+                    <p>This plane touches the paraboloid $z=x^2+y^2$ at the point $(1,2,5)$ and has the same slopes in the $x$ and $y$ directions as the paraboloid does at that point.</p>
+                </div>
+                
+                <div class="graph-container">
+                    <h3>Visualization of the Tangent Plane</h3>
+                    <div class="figure">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 400" width="500" height="400">
+                            <!-- Coordinate system -->
+                            <defs>
+                                <linearGradient id="paraboloidGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                                    <stop offset="0%" stop-color="#6495ED" />
+                                    <stop offset="100%" stop-color="#4169E1" />
+                                </linearGradient>
+                                <linearGradient id="planeGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                                    <stop offset="0%" stop-color="#FF8C00" stop-opacity="0.7" />
+                                    <stop offset="100%" stop-color="#FFA500" stop-opacity="0.5" />
+                                </linearGradient>
+                            </defs>
+            
+                            <!-- Background -->
+                            <rect width="500" height="400" fill="#f8f8f8" />
+                            
+                            <!-- 3D Coordinate system -->
+                            <!-- z-axis -->
+                            <line x1="250" y1="350" x2="250" y2="50" stroke="#000" stroke-width="1.5" />
+                            <text x="260" y="70" font-family="Arial" font-size="14">z</text>
+                            
+                            <!-- x-axis -->
+                            <line x1="100" y1="300" x2="400" y2="330" stroke="#000" stroke-width="1.5" />
+                            <text x="390" y="345" font-family="Arial" font-size="14">x</text>
+                            
+                            <!-- y-axis -->
+                            <line x1="250" y1="350" x2="100" y2="200" stroke="#000" stroke-width="1.5" />
+                            <text x="90" y="195" font-family="Arial" font-size="14">y</text>
+                            
+                            <!-- Paraboloid z = x² + y² (simplified representation) -->
+                            <path d="M150,280 C200,200 300,180 350,270 C320,300 180,320 150,280 Z" fill="url(#paraboloidGradient)" stroke="#4169E1" stroke-width="1" />
+                            <path d="M150,280 C180,220 330,210 350,270" stroke="#4169E1" stroke-width="1.5" fill="none" />
+                            <path d="M160,250 C200,190 300,190 340,250" stroke="#4169E1" stroke-width="1" fill="none" stroke-dasharray="3,3" />
+                            <path d="M180,230 C210,180 270,180 300,230" stroke="#4169E1" stroke-width="1" fill="none" stroke-dasharray="3,3" />
+                            <path d="M200,210 C220,180 250,180 270,210" stroke="#4169E1" stroke-width="1" fill="none" stroke-dasharray="3,3" />
+                            
+                            <!-- Tangent plane z = 2x + 4y - 5 -->
+                            <path d="M150,230 L340,250 L280,130 L120,160 Z" fill="url(#planeGradient)" stroke="#FF8C00" stroke-width="1.5" />
+                            
+                            <!-- Point (1,2,5) -->
+                            <circle cx="225" cy="170" r="5" fill="red" />
+                            <text x="235" y="165" font-family="Arial" font-size="12">(1,2,5)</text>
+                            
+                            <!-- Labels -->
+                            <text x="310" y="200" font-family="Arial" font-size="12" fill="#4169E1">z = x² + y²</text>
+                            <text x="120" y="185" font-family="Arial" font-size="12" fill="#FF8C00">z = 2x + 4y - 5</text>
+                        </svg>
+                        <div class="caption">
+                            Figure 3.1: The paraboloid z = x² + y² (blue surface) and its tangent plane z = 2x + 4y - 5 (orange plane) meeting at the point (1,2,5).
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section-highlight">
+                <h3>Mean Value Theorem for Partial Derivatives</h3>
+                
+                <p>For a one-parameter function $g$, we have the classical mean value theorem: if $g$ is differentiable on $(a,b)$ and $g'$ is continuous, then there exists $c\in (a,b)$ such that:</p>
+                
+                <div class="formula">
+                    $$g'(c) = \frac{g(x)-g(a)}{x-a} \Leftrightarrow g(x)-g(a) = g'(c)(x-a) = g'(a)(x-a) + o(|x-a|)$$
+                </div>
+                
+                <p>For two-parameter functions $f(x,y)$, we have the following extensions of the mean value theorem:</p>
+                
+                <div class="formula">
+                    $$f(x,b)-f(a,b) = f_x(a,b)(x-a)+o(|x-a|)$$
+                    $$f(a,y)-f(a,b) = f_y(a,b)(y-b)+o(|y-b|)$$
+                </div>
+                
+                <div class="proof-box">
+                    <h3 style="margin-top: 0;">Proof of the Mean Value Theorem for Partial Derivatives</h3>
+                    <p>We'll prove both equations by applying the one-variable mean value theorem.</p>
+                    
+                    <p>For the first equation, fix $y = b$ and define the function $g(x) = f(x,b)$. Then $g'(x) = f_x(x,b)$.</p>
+                    
+                    <p>By the one-variable mean value theorem, there exists $c \in (a,x)$ (or $c \in (x,a)$ if $x < a$) such that:</p>
+                    <div class="formula" style="background: none; border-left: none; box-shadow: none;">
+                        $$g(x) - g(a) = g'(c)(x-a)$$
+                    </div>
+                    
+                    <p>Substituting with our definitions:</p>
+                    <div class="formula" style="background: none; border-left: none; box-shadow: none;">
+                        $$f(x,b) - f(a,b) = f_x(c,b)(x-a)$$
+                    </div>
+                    
+                    <p>Since $f_x$ is continuous at $(a,b)$, we have $f_x(c,b) = f_x(a,b) + o(1)$ as $c \to a$ (which happens as $x \to a$).</p>
+                    
+                    <p>Therefore:</p>
+                    <div class="formula" style="background: none; border-left: none; box-shadow: none;">
+                        $$f(x,b) - f(a,b) = [f_x(a,b) + o(1)](x-a) = f_x(a,b)(x-a) + o(|x-a|)$$
+                    </div>
+                    
+                    <p>The proof for the second equation is similar, fixing $x = a$ and working with $y$.</p>
+                </div>
+            </div>
+
+            <div class="section-highlight">
+                <h3>Justification of Tangent Planes</h3>
+                
+                <div class="theorem-box">
+                    <h3 style="margin-top: 0;">Theorem 3.1</h3>
+                    <p>Let $f(x,y)$ be a function defined on a neighborhood of $(a,b)$. If $f$ is differentiable at $(a,b)$, then:</p>
+                    <div class="formula" style="background: none; border-left: none; box-shadow: none;">
+                        $$f(x,y)-f(a,b) = f_x(a,b)(x-a)+f_y(a,b)(y-b)+ o(|x-a|+|y-b|)$$
+                    </div>
+                </div>
+                
+                <div class="proof-box">
+                    <h3 style="margin-top: 0;">Proof of Theorem 3.1</h3>
+                    <p>We'll use the mean value theorem for partial derivatives that we just proved.</p>
+                    
+                    <p><strong>Step 1:</strong> First, we move from the point $(a,b)$ to the intermediate point $(x,b)$.</p>
+                    <p>By the mean value theorem for partial derivatives:</p>
+                    <div class="formula" style="background: none; border-left: none; box-shadow: none;">
+                        $$f(x,b)-f(a,b) = f_x(a,b)(x-a)+o(|x-a|)$$
+                    </div>
+                    
+                    <p><strong>Step 2:</strong> Next, we move from $(x,b)$ to $(x,y)$.</p>
+                    <p>Applying the mean value theorem with respect to $y$, with the point $(x,b)$ as our base:</p>
+                    <div class="formula" style="background: none; border-left: none; box-shadow: none;">
+                        $$f(x,y)-f(x,b) = f_y(x,b)(y-b)+o(|y-b|)$$
+                    </div>
+                    
+                    <p>Since $f$ is differentiable at $(a,b)$, the partial derivative $f_y$ is continuous near $(a,b)$, so:</p>
+                    <div class="formula" style="background: none; border-left: none; box-shadow: none;">
+                        $$f_y(x,b) = f_y(a,b) + o(1)$$ as $x \to a$
+                    </div>
+                    
+                    <p>Therefore:</p>
+                    <div class="formula" style="background: none; border-left: none; box-shadow: none;">
+                        \begin{align*}
+                        f(x,y)-f(x,b) &= [f_y(a,b) + o(1)](y-b)+o(|y-b|)\\
+                        &= f_y(a,b)(y-b) + o(1)(y-b) + o(|y-b|)\\
+                        &= f_y(a,b)(y-b) + o(|y-b|) + o(|x-a|)|y-b|
+                        \end{align*}
+                    </div>
+                    
+                    <p>The term $o(|x-a|)|y-b|$ can be absorbed into $o(|x-a|+|y-b|)$ since:</p>
+                    <div class="formula" style="background: none; border-left: none; box-shadow: none;">
+                        \begin{align*}
+                        o(|x-a|)|y-b| &\leq o(|x-a|)(|x-a|+|y-b|)\\
+                        &= o((|x-a|+|y-b|)^2)\\
+                        &= o(|x-a|+|y-b|)
+                        \end{align*}
+                    </div>
+                    
+                    <p><strong>Step 3:</strong> Finally, we combine these steps.</p>
+                    <p>Adding the equations from Steps 1 and 2:</p>
+                    <div class="formula" style="background: none; border-left: none; box-shadow: none;">
+                        \begin{align*}
+                        f(x,y) - f(a,b) &= [f(x,b)-f(a,b)] + [f(x,y)-f(x,b)]\\
+                        &= f_x(a,b)(x-a) + o(|x-a|) + f_y(a,b)(y-b) + o(|y-b|)\\
+                        &= f_x(a,b)(x-a) + f_y(a,b)(y-b) + o(|x-a|+|y-b|)
+                        \end{align*}
+                    </div>
+                    
+                    <p>This completes the proof.</p>
+                </div>
+                
+                <div class="figure" style="background-color: #eefaf8; border-left: 4px solid #2ecc71; text-align: left;">
+                    <h3 style="margin-top: 0;">Key Insights about Tangent Planes</h3>
+                    <ul style="padding-left: 20px;">
+                        <li>The tangent plane gives the best linear approximation to a surface at a point.</li>
+                        <li>The equation of the tangent plane depends only on the point of tangency and the partial derivatives at that point.</li>
+                        <li>Geometrically, the tangent plane touches the surface at exactly one point (locally).</li>
+                        <li>The error in the tangent plane approximation goes to zero faster than the distance from the point.</li>
+                        <li>Just as tangent lines are fundamental to single-variable calculus, tangent planes are essential for multivariable calculus, especially for approximation and optimization problems.</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <div class="navigation">
+            <a href="class2.html">← Previous: Class 2</a>
+            <a href="../index.html">Home</a>
+            <a href="class4.html">Next: Class 4 →</a>
+        </div>
+    </div>
+</body>
+</html>

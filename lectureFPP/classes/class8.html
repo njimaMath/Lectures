@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Class 8: Second Derivative Test for Functions of Two Variables</title>
+    <style>
+        :root {
+            --primary-color: #2c3e50;
+            --secondary-color: #3498db;
+            --accent-color: #e74c3c;
+            --background-color: #f9f9f9;
+            --text-color: #333;
+            --container-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+            --text-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+        }
+
+        body {
+            font-family: 'Georgia', serif;
+            line-height: 1.7;
+            margin: 0;
+            padding: 0;
+            background-color: var(--background-color);
+            color: var(--text-color);
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 20px auto;
+            padding: 30px;
+            background-color: white;
+            box-shadow: var(--container-shadow);
+            border-radius: 15px;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 40px;
+            border-bottom: 2px solid var(--secondary-color);
+            padding-bottom: 20px;
+        }
+
+        h1, h2, h3 {
+            color: var(--primary-color);
+        }
+
+        .section-title {
+            color: var(--primary-color);
+            font-size: 1.8rem;
+            margin-top: 30px;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #eee;
+            text-shadow: var(--text-shadow);
+        }
+
+        .lecture-title {
+            color: var(--secondary-color);
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+            font-weight: normal;
+        }
+
+        .author-info {
+            font-style: italic;
+            color: #777;
+        }
+
+        .math {
+            font-style: italic;
+            padding: 0 3px;
+        }
+
+        .figure {
+            text-align: center;
+            margin: 30px 0;
+            padding: 20px;
+            background-color: #f8f9fa;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+        }
+
+        .figure img {
+            max-width: 100%;
+            border-radius: 5px;
+        }
+
+        .figure-caption {
+            font-style: italic;
+            color: #777;
+            margin-top: 15px;
+        }
+
+        .navigation {
+            margin-top: 40px;
+            text-align: center;
+            display: flex;
+            justify-content: space-between;
+            padding: 15px 0;
+            border-top: 1px solid #eee;
+        }
+
+        .navigation a {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: var(--primary-color);
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .navigation a:hover {
+            background-color: var(--secondary-color);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+        }
+
+        .topic-highlight {
+            display: inline-block;
+            background-color: rgba(52, 152, 219, 0.1);
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-weight: 500;
+            color: var(--primary-color);
+        }
+
+        .formula {
+            margin: 25px 0;
+            padding: 15px;
+            background-color: #f8f9fa;
+            border-left: 4px solid var(--secondary-color);
+            border-radius: 5px;
+            overflow-x: auto;
+            font-size: 1.1em;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+        }
+
+        .example-title {
+            font-weight: bold;
+            font-size: 1.2em;
+            color: var(--secondary-color);
+            margin-top: 30px;
+            margin-bottom: 15px;
+            padding-bottom: 5px;
+            border-bottom: 1px dashed #ccc;
+            display: inline-block;
+        }
+
+        p {
+            margin-bottom: 20px;
+            line-height: 1.8;
+        }
+
+        .content-section {
+            padding-bottom: 30px;
+        }
+        
+        .footnote {
+            font-size: 0.9em;
+            color: #777;
+            margin-top: 5px;
+            border-top: 1px solid #eee;
+            padding-top: 10px;
+        }
+        
+        ul {
+            margin-bottom: 20px;
+        }
+        
+        .key-insights {
+            background-color: #eefaf8;
+            border-left: 4px solid #2ecc71;
+            text-align: left;
+            padding: 15px 20px;
+            margin: 25px 0;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+        }
+        
+        .key-insights h3 {
+            margin-top: 0;
+            color: #2ecc71;
+        }
+        
+        .key-insights ul {
+            padding-left: 20px;
+        }
+    </style>
+    <!-- MathJax configuration -->
+    <script>
+      window.MathJax = {
+        tex: {
+          inlineMath: [['$', '$']],
+          displayMath: [['$$', '$$']]
+        },
+        svg: {
+          fontCache: 'global'
+        }
+      };
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js" async></script>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Differential and Integral Calculus I</h1>
+            <div class="lecture-title">Engineering: Electrical & Electronic Group 4</div>
+            <div class="author-info">Lecture Notes</div>
+        </header>
+        
+        <section id="class8" class="content-section">
+            <div class="section-title">Class 8: Second Derivative Test for Functions of Two Variables</div>
+
+            <p>In this class, we will develop the <span class="topic-highlight">second derivative test</span> for functions of two variables, which provides a systematic way to classify critical points as local maxima, local minima, or saddle points.</p>
+
+            <h3>The Hessian Matrix for Functions of Two Variables</h3>
+            <p>For a function <span class="math">$f(x,y)$</span> of two variables, the <span class="topic-highlight">Hessian matrix</span> at a point <span class="math">$(x_0, y_0)$</span> is a <span class="math">$2 \times 2$</span> matrix of all second-order partial derivatives:</p>
+            
+            <div class="formula">
+                $$H(x,y) = \begin{bmatrix}
+                f_{xx}(x,y) & f_{xy}(x,y) \\
+                f_{yx}(x,y) & f_{yy}(x,y)
+                \end{bmatrix}$$
+            </div>
+            
+            <p>Where <span class="math">$f_{xx}$</span> denotes <span class="math">$\frac{\partial^2 f}{\partial x^2}$</span>, <span class="math">$f_{xy}$</span> denotes <span class="math">$\frac{\partial^2 f}{\partial x \partial y}$</span>, and so on.</p>
+            
+            <p>Note that if <span class="math">$f$</span> has continuous second partial derivatives, then <span class="math">$f_{xy} = f_{yx}$</span> (this is known as Clairaut's theorem or Schwarz's theorem). This means the Hessian matrix is symmetric.</p>
+
+            <h3>Second Derivative Test for Functions of Two Variables</h3>
+            <p>Let <span class="math">$f(x,y)$</span> be a function with continuous second partial derivatives, and let <span class="math">$(x_0, y_0)$</span> be a critical point of <span class="math">$f$</span> (i.e., <span class="math">$\nabla f(x_0, y_0) = \mathbf{0}$</span>). Define:</p>
+            
+            <div class="formula">
+                $$D(x_0, y_0) = f_{xx}(x_0, y_0) \cdot f_{yy}(x_0, y_0) - [f_{xy}(x_0, y_0)]^2$$
+            </div>
+            
+            <p>This is the determinant of the Hessian matrix at <span class="math">$(x_0, y_0)$</span>. The second derivative test states:</p>
+            
+            <ol>
+                <li>If <span class="math">$D(x_0, y_0) > 0$</span> and <span class="math">$f_{xx}(x_0, y_0) > 0$</span>, then <span class="math">$(x_0, y_0)$</span> is a <strong>local minimum</strong>.</li>
+                <li>If <span class="math">$D(x_0, y_0) > 0$</span> and <span class="math">$f_{xx}(x_0, y_0) < 0$</span>, then <span class="math">$(x_0, y_0)$</span> is a <strong>local maximum</strong>.</li>
+                <li>If <span class="math">$D(x_0, y_0) < 0$</span>, then <span class="math">$(x_0, y_0)$</span> is a <strong>saddle point</strong>.</li>
+                <li>If <span class="math">$D(x_0, y_0) = 0$</span>, the test is inconclusive and further analysis is needed.</li>
+            </ol>
+            
+            <p>The reasoning behind this test comes from analyzing the behavior of the quadratic approximation of the function near the critical point, which is captured by the Hessian matrix.</p>
+            
+            <div class="figure">
+                <img src="./critical_points.svg" alt="Types of Critical Points">
+                <div class="figure-caption">Figure 8.1: Visual representation of the three types of critical points: local maximum, local minimum, and saddle point.</div>
+            </div>
+
+            <div class="example-title">Example 8.1</div>
+            <div class="formula" style="background-color: #f0f7ff; border-left-color: #3498db; text-align: left;">
+                <p><strong>Question:</strong> Classify the critical point of <span class="math">$f(x,y) = x^2 + y^2 - 2x - 4y + 5$</span>.</p>
+                
+                <p><strong>Solution:</strong></p>
+                <p>In Example 7.1, we found that <span class="math">$(1, 2)$</span> is the only critical point of this function. Now, let's compute the second derivatives:</p>
+                
+                $$f_{xx}(x,y) = \frac{\partial^2 f}{\partial x^2} = \frac{\partial}{\partial x}(2x - 2) = 2$$
+                $$f_{yy}(x,y) = \frac{\partial^2 f}{\partial y^2} = \frac{\partial}{\partial y}(2y - 4) = 2$$
+                $$f_{xy}(x,y) = \frac{\partial^2 f}{\partial x \partial y} = \frac{\partial}{\partial x}(2y - 4) = 0$$
+                
+                <p>Computing the determinant at the critical point $(1, 2)$:</p>
+                
+                $$D(1, 2) = f_{xx}(1, 2) \cdot f_{yy}(1, 2) - [f_{xy}(1, 2)]^2 = 2 \cdot 2 - 0^2 = 4 > 0$$
+                
+                <p>Since $D(1, 2) > 0$ and $f_{xx}(1, 2) = 2 > 0$, the critical point $(1, 2)$ is a <strong>local minimum</strong> according to the second derivative test.</p>
+                
+                <p>We can also verify this by rewriting the function in a more revealing form:</p>
+                
+                $$f(x,y) = x^2 - 2x + y^2 - 4y + 5 = (x - 1)^2 + (y - 2)^2 + 5 - 1 - 4 = (x - 1)^2 + (y - 2)^2 + 0$$
+                
+                <p>This form clearly shows that $f(x,y) \geq 0$ for all $(x,y)$, with equality only at $(1, 2)$, confirming it's a global minimum.</p>
+            </div>
+
+            <div class="example-title">Example 8.2</div>
+            <div class="formula" style="background-color: #f0f7ff; border-left-color: #3498db; text-align: left;">
+                <p><strong>Question:</strong> Classify the critical point of <span class="math">$f(x,y) = x^2 - y^2 + 2x$</span>.</p>
+                
+                <p><strong>Solution:</strong></p>
+                <p>In Example 7.2, we found that <span class="math">$(-1, 0)$</span> is the only critical point of this function. Let's compute the second derivatives:</p>
+                
+                $$f_{xx}(x,y) = \frac{\partial^2 f}{\partial x^2} = \frac{\partial}{\partial x}(2x + 2) = 2$$
+                $$f_{yy}(x,y) = \frac{\partial^2 f}{\partial y^2} = \frac{\partial}{\partial y}(-2y) = -2$$
+                $$f_{xy}(x,y) = \frac{\partial^2 f}{\partial x \partial y} = \frac{\partial}{\partial x}(-2y) = 0$$
+                
+                <p>Computing the determinant at the critical point $(-1, 0)$:</p>
+                
+                $$D(-1, 0) = f_{xx}(-1, 0) \cdot f_{yy}(-1, 0) - [f_{xy}(-1, 0)]^2 = 2 \cdot (-2) - 0^2 = -4 < 0$$
+                
+                <p>Since $D(-1, 0) < 0$, the critical point $(-1, 0)$ is a <strong>saddle point</strong> according to the second derivative test, confirming our conclusion from Example 7.2.</p>
+            </div>
+
+            <h3>Applications in Engineering</h3>
+            <p>The second derivative test is crucial in various engineering applications:</p>
+            
+            <ul>
+                <li><strong>Structural Analysis:</strong> Finding stable and unstable equilibrium configurations of 2D mechanical systems.</li>
+                <li><strong>Optimization:</strong> Identifying optimal designs or operating conditions for 2D engineered systems.</li>
+                <li><strong>Signal Processing:</strong> Detecting local features in 2D signals and images.</li>
+                <li><strong>Machine Learning:</strong> Finding optimal parameters in 2D parameter spaces and understanding the convergence properties of optimization methods.</li>
+            </ul>
+
+            <div class="key-insights">
+                <h3>Key Insights about the Second Derivative Test for Functions of Two Variables</h3>
+                <ul>
+                    <li>The Hessian matrix encapsulates all the second-order behavior of a function near a critical point.</li>
+                    <li>For functions of two variables, the determinant of the Hessian (along with the sign of $f_{xx}$) determines the type of critical point.</li>
+                    <li>The test can be inconclusive in certain cases, requiring further analysis.</li>
+                    <li>Understanding the nature of critical points is essential for optimization problems in engineering, where finding minima, maxima, or saddle points often has practical significance.</li>
+                    <li>The second derivative test provides a systematic approach to classify critical points without having to examine the behavior of the function in all directions.</li>
+                </ul>
+            </div>
+            
+            <p>In the next class, we will explore constrained optimization problems, where we want to find extrema of a function subject to constraints on the variables.</p>
+        </section>
+        
+        <div class="navigation">
+            <a href="class7.html">← Previous: Class 7</a>
+            <a href="../index.html">Home</a>
+            <a href="class9.html">Next: Class 9 →</a>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Class 10: Jacobian Matrices in Two Dimensions</title>
+    <style>
+        :root {
+            --primary-color: #2c3e50;
+            --secondary-color: #3498db;
+            --accent-color: #e74c3c;
+            --background-color: #f9f9f9;
+            --text-color: #333;
+            --container-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+            --text-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+        }
+
+        body {
+            font-family: 'Georgia', serif;
+            line-height: 1.7;
+            margin: 0;
+            padding: 0;
+            background-color: var(--background-color);
+            color: var(--text-color);
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 20px auto;
+            padding: 30px;
+            background-color: white;
+            box-shadow: var(--container-shadow);
+            border-radius: 15px;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 40px;
+            border-bottom: 2px solid var(--secondary-color);
+            padding-bottom: 20px;
+        }
+
+        h1, h2, h3 {
+            color: var(--primary-color);
+        }
+
+        .section-title {
+            color: var(--primary-color);
+            font-size: 1.8rem;
+            margin-top: 30px;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #eee;
+            text-shadow: var(--text-shadow);
+        }
+
+        .lecture-title {
+            color: var(--secondary-color);
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+            font-weight: normal;
+        }
+
+        .author-info {
+            font-style: italic;
+            color: #777;
+        }
+
+        .math {
+            font-style: italic;
+            padding: 0 3px;
+        }
+
+        .figure {
+            text-align: center;
+            margin: 30px 0;
+            padding: 20px;
+            background-color: #f8f9fa;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+        }
+
+        .figure img {
+            max-width: 100%;
+            border-radius: 5px;
+        }
+
+        .figure-caption {
+            font-style: italic;
+            color: #777;
+            margin-top: 15px;
+        }
+
+        .navigation {
+            margin-top: 40px;
+            text-align: center;
+            display: flex;
+            justify-content: space-between;
+            padding: 15px 0;
+            border-top: 1px solid #eee;
+        }
+
+        .navigation a {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: var(--primary-color);
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .navigation a:hover {
+            background-color: var(--secondary-color);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+        }
+
+        .topic-highlight {
+            display: inline-block;
+            background-color: rgba(52, 152, 219, 0.1);
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-weight: 500;
+            color: var(--primary-color);
+        }
+
+        .formula {
+            margin: 25px 0;
+            padding: 15px;
+            background-color: #f8f9fa;
+            border-left: 4px solid var(--secondary-color);
+            border-radius: 5px;
+            overflow-x: auto;
+            font-size: 1.1em;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+        }
+
+        .example-title {
+            font-weight: bold;
+            font-size: 1.2em;
+            color: var(--secondary-color);
+            margin-top: 30px;
+            margin-bottom: 15px;
+            padding-bottom: 5px;
+            border-bottom: 1px dashed #ccc;
+            display: inline-block;
+        }
+
+        p {
+            margin-bottom: 20px;
+            line-height: 1.8;
+        }
+
+        .content-section {
+            padding-bottom: 30px;
+        }
+        
+        .footnote {
+            font-size: 0.9em;
+            color: #777;
+            margin-top: 5px;
+            border-top: 1px solid #eee;
+            padding-top: 10px;
+        }
+    </style>
+    <!-- MathJax configuration -->
+    <script>
+      window.MathJax = {
+        tex: {
+          inlineMath: [['$', '$']],
+          displayMath: [['$$', '$$']]
+        },
+        svg: {
+          fontCache: 'global'
+        }
+      };
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js" async></script>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Differential and Integral Calculus I</h1>
+            <div class="lecture-title">Engineering: Electrical & Electronic Group 4</div>
+            <div class="author-info">Lecture Notes</div>
+        </header>
+        
+        <section id="class10" class="content-section">
+            <div class="section-title">Class 10: Jacobian Matrices in Two Dimensions</div>
+
+            <p>So far, we've focused primarily on scalar-valued functions of two variables. Today, we'll extend our study to <span class="topic-highlight">vector-valued functions</span> in 2D and their derivatives, introducing a powerful tool known as the <span class="topic-highlight">Jacobian matrix</span>.</p>
+
+            <p>Consider a mapping $\mathbf{F}: \mathbb{R}^2 \rightarrow \mathbb{R}^2$, which takes two input variables and produces two output variables. We can express this as:</p>
+            
+            <div class="formula">
+                $$\mathbf{F}(x, y) = 
+                \begin{pmatrix} 
+                F_1(x, y) \\
+                F_2(x, y)
+                \end{pmatrix}$$
+            </div>
+            
+            <p>Here, each $F_i$ is a scalar-valued function of the input variables. The <span class="topic-highlight">Jacobian matrix</span> of $\mathbf{F}$ at a point $(x, y)$ is a $2 \times 2$ matrix containing all the partial derivatives:</p>
+            
+            <div class="formula">
+                $$J_{\mathbf{F}}(x, y) = 
+                \begin{pmatrix} 
+                \frac{\partial F_1}{\partial x} & \frac{\partial F_1}{\partial y} \\
+                \frac{\partial F_2}{\partial x} & \frac{\partial F_2}{\partial y}
+                \end{pmatrix}$$
+            </div>
+            
+            <p>The Jacobian matrix serves as a generalization of the derivative for vector-valued functions. It provides the best linear approximation to the function $\mathbf{F}$ near a point $(x, y)$:</p>
+            
+            <div class="formula">
+                $$\mathbf{F}(x + \Delta x, y + \Delta y) \approx \mathbf{F}(x, y) + J_{\mathbf{F}}(x, y) \cdot 
+                \begin{pmatrix} 
+                \Delta x \\
+                \Delta y
+                \end{pmatrix}$$
+            </div>
+            
+            <p>where $(\Delta x, \Delta y)$ is a small displacement in the input space. This is analogous to the linear approximation $f(x+h) \approx f(x) + f'(x) \cdot h$ in single-variable calculus.</p>
+
+            <div class="example-title">Example 10.1: Jacobian of a Simple Transformation</div>
+            <div class="formula" style="background-color: #f0f7ff; border-left-color: #3498db;">
+                <p><strong>Question:</strong> Find the Jacobian matrix of the transformation $\mathbf{F}(x,y) = (x^2 + y, xy)$.</p>
+                
+                <p><strong>Solution:</strong></p>
+                <p>We have $F_1(x,y) = x^2 + y$ and $F_2(x,y) = xy$. Computing the partial derivatives:</p>
+                
+                $$\frac{\partial F_1}{\partial x} = 2x, \quad \frac{\partial F_1}{\partial y} = 1$$
+                $$\frac{\partial F_2}{\partial x} = y, \quad \frac{\partial F_2}{\partial y} = x$$
+                
+                <p>Thus, the Jacobian matrix is:</p>
+                
+                $$J_{\mathbf{F}}(x,y) = 
+                \begin{pmatrix} 
+                2x & 1 \\
+                y & x
+                \end{pmatrix}$$
+                
+                <p>This $2 \times 2$ matrix tells us how small changes in $(x,y)$ get transformed to changes in the output space $(F_1, F_2)$.</p>
+            </div>
+
+            <p>The Jacobian determinant, which is the determinant of the Jacobian matrix, provides crucial information about the transformation:</p>
+
+            <div class="formula">
+                $$\det(J_{\mathbf{F}}(x,y)) = \det\begin{pmatrix} 
+                \frac{\partial F_1}{\partial x} & \frac{\partial F_1}{\partial y} \\
+                \frac{\partial F_2}{\partial x} & \frac{\partial F_2}{\partial y}
+                \end{pmatrix}$$
+            </div>
+
+            <p>The Jacobian determinant has several important interpretations:</p>
+            
+            <div class="figure" style="background-color: #eefaf8; border-left: 4px solid #2ecc71; text-align: left;">
+                <h3 style="margin-top: 0;">Interpretations of the Jacobian Determinant</h3>
+                <ul style="padding-left: 20px;">
+                    <li><strong>Area Scaling Factor:</strong> The absolute value $|\det(J_{\mathbf{F}}(x,y))|$ represents how areas are scaled locally by the transformation.</li>
+                    <li><strong>Change of Variables in Integration:</strong> When integrating over transformed regions, the Jacobian determinant adjusts for the change in area elements.</li>
+                    <li><strong>Local Invertibility:</strong> If $\det(J_{\mathbf{F}}(x,y)) \neq 0$, then $\mathbf{F}$ is locally invertible near $(x,y)$ (the Inverse Function Theorem).</li>
+                    <li><strong>Sign of Orientation:</strong> The sign of $\det(J_{\mathbf{F}}(x,y))$ indicates whether the transformation preserves or reverses orientation.</li>
+                </ul>
+            </div>
+
+            <p>A common application of Jacobians arises in coordinate transformations. When we change from one coordinate system to another, the Jacobian matrix helps us understand how derivatives transform, and the Jacobian determinant appears in integration formulas.</p>
+
+            <div class="example-title">Example 10.2: Polar Coordinate Transformation</div>
+            <div class="formula" style="background-color: #f0f7ff; border-left-color: #3498db;">
+                <p><strong>Question:</strong> Find the Jacobian matrix and determinant for the transformation from polar coordinates $(r, \theta)$ to Cartesian coordinates $(x, y)$.</p>
+                
+                <p><strong>Solution:</strong></p>
+                <p>The transformation is given by:</p>
+                
+                $$\mathbf{F}(r, \theta) = (r\cos\theta, r\sin\theta) = (x, y)$$
+                
+                <p>Computing the partial derivatives:</p>
+                
+                $$\frac{\partial x}{\partial r} = \cos\theta, \quad \frac{\partial x}{\partial \theta} = -r\sin\theta$$
+                $$\frac{\partial y}{\partial r} = \sin\theta, \quad \frac{\partial y}{\partial \theta} = r\cos\theta$$
+                
+                <p>So the Jacobian matrix is:</p>
+                
+                $$J_{\mathbf{F}}(r, \theta) = 
+                \begin{pmatrix} 
+                \cos\theta & -r\sin\theta \\
+                \sin\theta & r\cos\theta
+                \end{pmatrix}$$
+                
+                <p>The Jacobian determinant is:</p>
+                
+                $$\det(J_{\mathbf{F}}(r, \theta)) = \cos\theta \cdot r\cos\theta - (-r\sin\theta) \cdot \sin\theta = r\cos^2\theta + r\sin^2\theta = r$$
+                
+                <p>This result, $\det(J) = r$, explains why the area element in polar coordinates is $dA = r \, dr \, d\theta$, rather than simply $dr \, d\theta$. The factor of $r$ accounts for the fact that a small change in $\theta$ corresponds to a larger arc length as we move farther from the origin.</p>
+            </div>
+
+            <p>Another important application of the Jacobian matrix is in solving systems of nonlinear equations in two variables. The <span class="topic-highlight">Newton-Raphson method</span> for solving such systems relies on the Jacobian to provide linear approximations during the iterative process.</p>
+
+            <p>Specifically, to solve a system $\mathbf{F}(x,y) = \mathbf{0}$, the Newton-Raphson iteration is:</p>
+            
+            <div class="formula">
+                $$\begin{pmatrix} x_{k+1} \\ y_{k+1} \end{pmatrix} = \begin{pmatrix} x_k \\ y_k \end{pmatrix} - [J_{\mathbf{F}}(x_k, y_k)]^{-1} \cdot \mathbf{F}(x_k, y_k)$$
+            </div>
+            
+            <p>This method is widely used in engineering applications, such as circuit analysis and optimization problems.</p>
+
+            <div class="example-title">Example 10.3: Jacobian in Electrical Engineering</div>
+            <div class="formula" style="background-color: #f0f7ff; border-left-color: #3498db;">
+                <p><strong>Question:</strong> In a nonlinear circuit, the currents $I_1$ and $I_2$ through two components satisfy the equations:</p>
+                
+                $$F_1(I_1, I_2) = I_1^2 + I_1I_2 - 5 = 0$$
+                $$F_2(I_1, I_2) = I_2^2 - I_1 - 3 = 0$$
+                
+                <p>Find the Jacobian matrix of the system at the point $(I_1, I_2) = (1, 2)$.</p>
+                
+                <p><strong>Solution:</strong></p>
+                <p>We compute the partial derivatives:</p>
+                
+                $$\frac{\partial F_1}{\partial I_1} = 2I_1 + I_2, \quad \frac{\partial F_1}{\partial I_2} = I_1$$
+                $$\frac{\partial F_2}{\partial I_1} = -1, \quad \frac{\partial F_2}{\partial I_2} = 2I_2$$
+                
+                <p>Evaluating at $(I_1, I_2) = (1, 2)$:</p>
+                
+                $$J_{\mathbf{F}}(1, 2) = 
+                \begin{pmatrix} 
+                2(1) + 2 & 1 \\
+                -1 & 2(2)
+                \end{pmatrix} = 
+                \begin{pmatrix} 
+                4 & 1 \\
+                -1 & 4
+                \end{pmatrix}$$
+                
+                <p>The determinant is $\det(J) = 4 \cdot 4 - 1 \cdot (-1) = 16 + 1 = 17$. Since this is non-zero, the system is locally invertible at this point, and Newton's method would be effective for further refinement of the solution.</p>
+            </div>
+
+            <p>The Jacobian matrix also plays a central role in the study of transformations between different parameterizations of the same object in 2D space. This is crucial in computer graphics, robotics, and physics, where different coordinate systems might be more convenient for different aspects of a problem.</p>
+
+            <div class="figure">
+                <img src="https://via.placeholder.com/500x300" alt="Jacobian in 2D Coordinate Transformation">
+                <div class="figure-caption">Figure 10.1: The Jacobian matrix describes how a small region in one 2D coordinate system maps to a region in another 2D system.</div>
+            </div>
+
+            <p>In summary, the <span class="topic-highlight">Jacobian matrix</span> is a fundamental tool that extends the concept of derivatives to vector-valued functions in 2D space. It provides a linear approximation to vector functions, enables coordinate transformations, and is essential for many numerical methods. The Jacobian determinant gives valuable information about local scaling, orientation, and invertibility of transformations in the plane, making it indispensable in various engineering applications.</p>
+            
+            <div class="figure" style="background-color: #eefaf8; border-left: 4px solid #2ecc71; text-align: left;">
+                <h3 style="margin-top: 0;">Key Insights about Jacobian Matrices in 2D</h3>
+                <ul style="padding-left: 20px;">
+                    <li>The Jacobian matrix generalizes the derivative to vector-valued functions in 2D space.</li>
+                    <li>For a function $F: \mathbb{R}^2 \to \mathbb{R}^2$, the Jacobian is a $2 \times 2$ matrix of partial derivatives.</li>
+                    <li>The Jacobian provides the best linear approximation to a vector function near a point in the plane.</li>
+                    <li>The Jacobian determinant indicates local area scaling and invertibility.</li>
+                    <li>In 2D coordinate transformations (like polar to Cartesian), the Jacobian determinant gives the correct area element.</li>
+                    <li>The Jacobian is central to numerical methods for solving nonlinear systems in two variables.</li>
+                </ul>
+            </div>
+        </section>
+
+        <div class="navigation">
+            <a href="class9.html">← Previous: Class 9</a>
+            <a href="../index.html">Home</a>
+            <a href="class11.html">Next: Class 11 →</a>
+        </div>
+    </div>
+</body>
+</html>

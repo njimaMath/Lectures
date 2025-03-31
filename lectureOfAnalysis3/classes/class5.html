@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Class 5: Differentiation of Composite Functions (Chain Rule)</title>
+    <style>
+        :root {
+            --primary-color: #2c3e50;
+            --secondary-color: #3498db;
+            --accent-color: #e74c3c;
+            --background-color: #f9f9f9;
+            --text-color: #333;
+            --container-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+            --text-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+        }
+
+        body {
+            font-family: 'Georgia', serif;
+            line-height: 1.7;
+            margin: 0;
+            padding: 0;
+            background-color: var(--background-color);
+            color: var(--text-color);
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 20px auto;
+            padding: 30px;
+            background-color: white;
+            box-shadow: var(--container-shadow);
+            border-radius: 15px;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 40px;
+            border-bottom: 2px solid var(--secondary-color);
+            padding-bottom: 20px;
+        }
+
+        h1, h2, h3 {
+            color: var(--primary-color);
+        }
+
+        .section-title {
+            color: var(--primary-color);
+            font-size: 1.8rem;
+            margin-top: 30px;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #eee;
+            text-shadow: var(--text-shadow);
+        }
+
+        .lecture-title {
+            color: var(--secondary-color);
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+            font-weight: normal;
+        }
+
+        .author-info {
+            font-style: italic;
+            color: #777;
+        }
+
+        .math {
+            font-style: italic;
+            padding: 0 3px;
+        }
+
+        .figure {
+            text-align: center;
+            margin: 30px 0;
+            padding: 20px;
+            background-color: #f8f9fa;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+        }
+
+        .figure img {
+            max-width: 100%;
+            border-radius: 5px;
+        }
+
+        .figure-caption {
+            font-style: italic;
+            color: #777;
+            margin-top: 15px;
+        }
+
+        .navigation {
+            margin-top: 40px;
+            text-align: center;
+            display: flex;
+            justify-content: space-between;
+            padding: 15px 0;
+            border-top: 1px solid #eee;
+        }
+
+        .navigation a {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: var(--primary-color);
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .navigation a:hover {
+            background-color: var(--secondary-color);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+        }
+
+        .topic-highlight {
+            display: inline-block;
+            background-color: rgba(52, 152, 219, 0.1);
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-weight: 500;
+            color: var(--primary-color);
+        }
+
+        .formula {
+            margin: 25px 0;
+            padding: 15px;
+            background-color: #f8f9fa;
+            border-left: 4px solid var(--secondary-color);
+            border-radius: 5px;
+            overflow-x: auto;
+            font-size: 1.1em;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+        }
+
+        .example-title {
+            font-weight: bold;
+            font-size: 1.2em;
+            color: var(--secondary-color);
+            margin-top: 30px;
+            margin-bottom: 15px;
+            padding-bottom: 5px;
+            border-bottom: 1px dashed #ccc;
+            display: inline-block;
+        }
+
+        p {
+            margin-bottom: 20px;
+            line-height: 1.8;
+        }
+
+        .content-section {
+            padding-bottom: 30px;
+        }
+        
+        .footnote {
+            font-size: 0.9em;
+            color: #777;
+            margin-top: 5px;
+            border-top: 1px solid #eee;
+            padding-top: 10px;
+        }
+    </style>
+    <!-- MathJax configuration -->
+    <script>
+      window.MathJax = {
+        tex: {
+          inlineMath: [['$', '$']],
+          displayMath: [['$$', '$$']]
+        },
+        svg: {
+          fontCache: 'global'
+        }
+      };
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js" async></script>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Differential and Integral Calculus I</h1>
+            <div class="lecture-title">Engineering: Electrical & Electronic Group 4</div>
+            <div class="author-info">Lecture Notes</div>
+        </header>
+        
+        <section id="class5" class="content-section">
+            <div class="section-title">Class 5: Differentiation of Composite Functions (Chain Rule)</div>
+
+            <p>Just as in single-variable calculus, we often deal with <span class="topic-highlight">composite functions</span> where one variable depends on another. In multivariable calculus, the Chain Rule generalizes to handle how changes propagate through nested dependencies.</p>
+
+            <p>Suppose <span class="math">$z = f(x,y)$</span> where <span class="math">x</span> and <span class="math">y</span> themselves are functions of another variable <span class="math">t</span> (say <span class="math">x=g(t)</span> and <span class="math">y=h(t)</span>). Then <span class="math">z</span> is ultimately a function of <span class="math">t</span>, and we can compute <span class="math">\frac{dz}{dt}</span> by the Chain Rule:</p>
+            
+            <div class="formula">
+                $$\frac{dz}{dt} = \frac{\partial f}{\partial x}(x,y)\,\frac{dx}{dt} + \frac{\partial f}{\partial y}(x,y)\,\frac{dy}{dt} = f_x(x,y)\,\frac{dx}{dt} + f_y(x,y)\,\frac{dy}{dt}$$
+            </div>
+            
+            <p>This follows because <span class="math">$dz = f_x\,dx + f_y\,dy$</span> and <span class="math">\frac{dx}{dt}</span>, <span class="math">\frac{dy}{dt}</span> describe how <span class="math">x,y</span> change with <span class="math">t</span>. So we accumulate the changes: <span class="math">f_x</span> times <span class="math">\frac{dx}{dt}</span> plus <span class="math">f_y</span> times <span class="math">$\frac{dy}{dt}$</span>.</p>
+
+            <p>More generally, if <span class="math">$z=f(u,v)$</span> is a function of intermediate variables <span class="math">u,v</span> which in turn depend on other variables (say <span class="math">u = u(x,y)</span> and <span class="math">v = v(x,y)</span>), we apply the Chain Rule in partial derivative form. For example, if <span class="math">z=f(u,v)</span> with <span class="math">$u=g(x,y)$</span> and <span class="math">$v=h(x,y)$</span>, then</p>
+            
+            <div class="formula">
+                $$\frac{\partial z}{\partial x} = \frac{\partial f}{\partial u}(u,v)\,\frac{\partial u}{\partial x}(x,y) + \frac{\partial f}{\partial v}(u,v)\,\frac{\partial v}{\partial x}(x,y) = f_u\,\frac{\partial u}{\partial x} + f_v\,\frac{\partial v}{\partial x}$$
+            </div>
+            
+            <p>and similarly</p>
+            
+            <div class="formula">
+                $$\frac{\partial z}{\partial y} = \frac{\partial f}{\partial u}(u,v)\,\frac{\partial u}{\partial y}(x,y) + \frac{\partial f}{\partial v}(u,v)\,\frac{\partial v}{\partial y}(x,y) = f_u\,\frac{\partial u}{\partial y} + f_v\,\frac{\partial v}{\partial y}$$
+            </div>
+            
+            <p>Here <span class="math">$f_u$</span> denotes the partial derivative of <span class="math">$f$</span> with respect to its first argument <span class="math">$u$</span>, and <span class="math">$f_v$</span> is the partial with respect to <span class="math">$v$</span>. Essentially, we multiply along each path of dependence and sum up the contributions. This can be visualized with a <span class="topic-highlight">dependency tree diagram</span>: <span class="math">z</span> depends on <span class="math">u</span> and <span class="math">v</span>, which each depend on <span class="math">x</span> and <span class="math">y</span>. Every path from <span class="math">x</span> to <span class="math">z</span> and from <span class="math">y</span> to <span class="math">z</span> yields a term in the derivative.</p>
+
+            <div class="figure">
+                <img src="https://via.placeholder.com/500x300" alt="Chain Rule Dependency Tree">
+                <div class="figure-caption">Figure 5.1: A dependency tree diagram showing how z depends on intermediate variables u and v, which depend on x and y.</div>
+            </div>
+
+            <p>For instance, consider <span class="math">z(p,q) = p^2q</span> as a function of <span class="math">p,q</span>, and <span class="math">p = x+y</span>, <span class="math">q = x-y</span>. Then <span class="math">z = f(x,y) = (x+y)^2 (x-y)</span>. We can find <span class="math">f_x</span> using the chain rule:</p>
+            
+            <div class="formula">
+                $$\frac{\partial z}{\partial p} = 2pq, \qquad \frac{\partial z}{\partial q} = p^2$$
+            </div>
+            
+            <p>and <span class="math">\frac{\partial p}{\partial x} = 1</span>, <span class="math">\frac{\partial q}{\partial x} = 1</span>. So</p>
+            
+            <div class="formula">
+                $$f_x = \frac{\partial z}{\partial x} = \frac{\partial z}{\partial p} \cdot \frac{\partial p}{\partial x} + \frac{\partial z}{\partial q} \cdot \frac{\partial q}{\partial x} = 2pq \cdot 1 + p^2 \cdot 1 = 2pq + p^2$$
+            </div>
+            
+            <p>Substituting back <span class="math">p=x+y</span>, <span class="math">q=x-y</span> gives</p>
+            
+            <div class="formula">
+                $$f_x = 2(x+y)(x-y) + (x+y)^2$$
+            </div>
+            
+            <p>Alternatively, one could expand <span class="math">z=(x+y)^2(x-y)</span> directly and differentiate, but the chain rule provides a systematic approach without full expansion.</p>
+
+            <p>The Chain Rule can extend to multiple layers of composition and more variables. If <span class="math">w = F(x,y,z)</span> and each of <span class="math">x,y,z</span> are functions of parameters, the structure is similar: differentiate <span class="math">F</span> with respect to each input and multiply by the derivative of that input with respect to your parameter.</p>
+
+            <div class="example-title">Example 5.1</div>
+            <div class="formula" style="background-color: #f0f7ff; border-left-color: #3498db;">
+                <p><strong>Question:</strong> Let <span class="math">z = e^{u} \sin v</span>, where <span class="math">u = x^2 + y</span> and <span class="math">v = x y</span>. Find <span class="math">\frac{\partial z}{\partial x}</span> and <span class="math">\frac{\partial z}{\partial y}</span>.</p>
+                
+                <p><strong>Solution:</strong></p>
+                <p>We have <span class="math">f(u,v) = e^u \sin v</span>. The partial derivatives of <span class="math">f</span> are <span class="math">f_u = e^u \sin v</span> and <span class="math">f_v = e^u \cos v</span>.</p>
+                
+                <p>Now <span class="math">u(x,y)=x^2+y</span> and <span class="math">v(x,y)=xy</span>. Computing the partials:</p>
+                
+                $$\frac{\partial u}{\partial x} = 2x, \quad \frac{\partial u}{\partial y} = 1, \qquad
+                \frac{\partial v}{\partial x} = y, \quad \frac{\partial v}{\partial y} = x$$
+                
+                <p>Applying the chain rule:</p>
+                
+                $$\frac{\partial z}{\partial x} = \frac{\partial f}{\partial u}\frac{\partial u}{\partial x} + \frac{\partial f}{\partial v}\frac{\partial v}{\partial x} = e^u \sin v \cdot (2x) + e^u \cos v \cdot (y) = e^u (2x\sin v + y\cos v)$$
+                
+                $$\frac{\partial z}{\partial y} = \frac{\partial f}{\partial u}\frac{\partial u}{\partial y} + \frac{\partial f}{\partial v}\frac{\partial v}{\partial y} = e^u \sin v \cdot (1) + e^u \cos v \cdot (x) = e^u (\sin v + x\cos v)$$
+                
+                <p>Substituting back <span class="math">u = x^2+y</span> and <span class="math">v = xy</span>:</p>
+                
+                $$\frac{\partial z}{\partial x} = e^{(x^2+y)}\big(2x\sin(xy) + y\cos(xy)\big)$$
+                
+                $$\frac{\partial z}{\partial y} = e^{(x^2+y)}\big(\sin(xy) + x\cos(xy)\big)$$
+            </div>
+
+            <p>The <span class="topic-highlight">Chain Rule</span> is a powerful tool that allows us to handle complex dependency relationships systematically. It's especially useful in engineering contexts, where one quantity often depends on others that themselves depend on different variables (for example, temperature depending on time and position, position depending on time, etc.).</p>
+            
+            <div class="figure" style="background-color: #eefaf8; border-left: 4px solid #2ecc71; text-align: left;">
+                <h3 style="margin-top: 0;">Key Insights about the Chain Rule</h3>
+                <ul style="padding-left: 20px;">
+                    <li>Every path of dependency contributes one term to the derivative.</li>
+                    <li>Each term is a product of derivatives along a single path.</li>
+                    <li>The systematic nature allows for accurate differentiation of complex nested relationships.</li>
+                    <li>The pattern remains consistent regardless of how many layers of composition exist.</li>
+                    <li>This technique is foundational for many engineering and physics applications where quantities depend on multiple variables.</li>
+                </ul>
+            </div>
+        </section>
+
+        <div class="navigation">
+            <a href="class4.html">← Previous: Class 4</a>
+            <a href="../index.html">Home</a>
+            <a href="class6.html">Next: Class 6 →</a>
+        </div>
+    </div>
+</body>
+</html>

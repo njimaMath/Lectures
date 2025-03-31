@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Background and History of First Passage Percolation</title>
+    <style>
+        :root {
+            --primary-color: #2c3e50;
+            --secondary-color: #3498db;
+            --accent-color: #e74c3c;
+            --background-color: #f9f9f9;
+            --text-color: #333;
+            --container-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+            --text-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+        }
+
+        body {
+            font-family: 'Georgia', serif;
+            line-height: 1.7;
+            margin: 0;
+            padding: 0;
+            background-color: var(--background-color);
+            color: var(--text-color);
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 20px auto;
+            padding: 30px;
+            background-color: white;
+            box-shadow: var(--container-shadow);
+            border-radius: 15px;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 40px;
+            border-bottom: 2px solid var(--secondary-color);
+            padding-bottom: 20px;
+        }
+
+        h1, h2, h3 {
+            color: var(--primary-color);
+        }
+
+        .section-title {
+            color: var(--primary-color);
+            font-size: 1.8rem;
+            margin-top: 30px;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #eee;
+            text-shadow: var(--text-shadow);
+        }
+
+        .lecture-title {
+            color: var(--secondary-color);
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+            font-weight: normal;
+        }
+
+        .author-info {
+            font-style: italic;
+            color: #777;
+        }
+
+        .math {
+            font-style: italic;
+            padding: 0 3px;
+        }
+
+        .figure {
+            text-align: center;
+            margin: 30px 0;
+            padding: 20px;
+            background-color: #f8f9fa;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+        }
+
+        .figure img {
+            max-width: 100%;
+            border-radius: 5px;
+        }
+
+        .figure-caption {
+            font-style: italic;
+            color: #777;
+            margin-top: 15px;
+        }
+
+        .navigation {
+            margin-top: 40px;
+            text-align: center;
+            display: flex;
+            justify-content: space-between;
+            padding: 15px 0;
+            border-top: 1px solid #eee;
+        }
+
+        .navigation a {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: var(--primary-color);
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .navigation a:hover {
+            background-color: var(--secondary-color);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+        }
+
+        .topic-highlight {
+            display: inline-block;
+            background-color: rgba(52, 152, 219, 0.1);
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-weight: 500;
+            color: var(--primary-color);
+        }
+
+        .formula {
+            margin: 25px 0;
+            padding: 15px;
+            background-color: #f8f9fa;
+            border-left: 4px solid var(--secondary-color);
+            border-radius: 5px;
+            overflow-x: auto;
+            font-size: 1.1em;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+        }
+
+        p {
+            margin-bottom: 20px;
+            line-height: 1.8;
+        }
+
+        .content-section {
+            padding-bottom: 30px;
+        }
+        
+        .definition-box {
+            background-color: #f0f7ff;
+            border-left: 4px solid #3498db;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+        }
+        
+        .property-box {
+            background-color: #eefaf8;
+            border-left: 4px solid #2ecc71;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+        }
+        
+        ol.styled-list, ul.styled-list {
+            padding-left: 20px;
+        }
+        
+        ol.styled-list li, ul.styled-list li {
+            margin-bottom: 12px;
+            line-height: 1.7;
+        }
+        
+        .section-highlight {
+            background-color: #f8f9fa;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 25px 0;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+        }
+        
+        .reference {
+            font-size: 0.9em;
+            background-color: #f5f5f5;
+            padding: 15px;
+            margin: 20px 0;
+            border-left: 3px solid #ddd;
+            border-radius: 5px;
+        }
+        
+        .reference a {
+            color: var(--secondary-color);
+            text-decoration: none;
+        }
+        
+        .reference a:hover {
+            text-decoration: underline;
+        }
+        
+        .timeline {
+            position: relative;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .timeline::after {
+            content: '';
+            position: absolute;
+            width: 4px;
+            background-color: var(--secondary-color);
+            top: 0;
+            bottom: 0;
+            left: 50%;
+            margin-left: -2px;
+        }
+        
+        .timeline-item {
+            padding: 10px 40px;
+            position: relative;
+            width: 50%;
+            box-sizing: border-box;
+        }
+        
+        .timeline-item::after {
+            content: '';
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            right: -10px;
+            background-color: white;
+            border: 4px solid var(--secondary-color);
+            top: 15px;
+            border-radius: 50%;
+            z-index: 1;
+        }
+        
+        .timeline-left {
+            left: 0;
+        }
+        
+        .timeline-right {
+            left: 50%;
+        }
+        
+        .timeline-left::after {
+            right: -10px;
+        }
+        
+        .timeline-right::after {
+            left: -10px;
+        }
+        
+        .timeline-content {
+            padding: 15px;
+            background-color: white;
+            position: relative;
+            border-radius: 6px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+        
+        .timeline-year {
+            font-weight: bold;
+            color: var(--primary-color);
+            margin-bottom: 5px;
+        }
+    </style>
+    <!-- MathJax configuration -->
+    <script>
+      window.MathJax = {
+        tex: {
+          inlineMath: [['$', '$']],
+          displayMath: [['$$', '$$']]
+        },
+        svg: {
+          fontCache: 'global'
+        }
+      };
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js" async></script>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>First Passage Percolation</h1>
+            <div class="lecture-title">Background and Historical Development</div>
+            <div class="author-info">Lecture Notes</div>
+        </header>
+
+        <section id="class1" class="content-section">
+            <div class="section-title">Mathematical Formulation</div>
+            <p>Let's introduce the formal mathematical framework for First Passage Percolation:</p>
+            
+            <div class="definition-box">
+                <p>Consider a graph $G = (V, E)$ with vertex set $V$ and edge set $E$. For each edge $e \in E$, we assign a non-negative random weight $\tau_e$, where the weights are drawn independently from a common distribution $F$.</p>
+                
+                <p>For a path $P = (v_0, v_1, \ldots, v_n)$ in the graph, the <strong>passage time</strong> $T(P)$ is defined as:</p>
+                <p style="text-align: center;">$T(P) = \sum_{i=1}^{n} \tau_{(v_{i-1},v_i)}$</p>
+                
+                <p>The <strong>first passage time</strong> $T(x,y)$ between vertices $x$ and $y$ is then:</p>
+                <p style="text-align: center;">$T(x,y) = \inf\{T(P) : P \text{ is a path from } x \text{ to } y\}$</p>
+            </div>
+
+            <div class="section-title">Background and History of FPP</div>
+            
+            <p>This lecture explores the origins, development, and historical context of First Passage Percolation (FPP), tracing its evolution from its introduction to its current status as a fundamental area in probability theory.</p>
+
+            <div class="section-highlight">
+                <h3>Origins and Motivation</h3>
+                <p>The formal introduction of first passage percolation as a mathematical model occurred in 1965, attributed to the seminal work of <span class="topic-highlight">John Hammersley and Dominic Welsh</span>. Their initial motivation stemmed from the practical problem of mathematically describing the flow of fluids through inhomogeneous or porous materials. In this context, the random weights assigned to the edges of the lattice can be interpreted as representing the varying degrees of permeability within the medium.</p>
+                
+                <div class="definition-box">
+                    <h3 style="margin-top: 0;">The Original Problem</h3>
+                    <p>Hammersley and Welsh sought to model:</p>
+                    <ul class="styled-list">
+                        <li>How quickly fluid would percolate through a random medium</li>
+                        <li>How the microscopic structure of a medium affects macroscopic flow properties</li>
+                        <li>The relationship between random local travel times and global flow patterns</li>
+                    </ul>
+                </div>
+                
+                <div class="timeline">
+                    <div class="timeline-item timeline-left">
+                        <div class="timeline-content">
+                            <div class="timeline-year">1965</div>
+                            <p>Hammersley and Welsh introduce First Passage Percolation as a mathematical model</p>
+                        </div>
+                    </div>
+                    <div class="timeline-item timeline-right">
+                        <div class="timeline-content">
+                            <div class="timeline-year">1969</div>
+                            <p>Hammersley and Welsh raise questions about the long-term behavior of the set B(t)</p>
+                        </div>
+                    </div>
+                    <div class="timeline-item timeline-left">
+                        <div class="timeline-content">
+                            <div class="timeline-year">1981</div>
+                            <p>Cox and Durrett prove the groundbreaking limit shape theorem</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="section-highlight">
+                <h3>Early Research Focus</h3>
+                <p>Early research efforts in the field primarily concentrated on the model defined on the two-dimensional square lattice, Z<sup>2</sup>, largely due to its relative mathematical simplicity and tractability. However, the fundamental framework of FPP has since been extended and applied to a wider variety of more general graph structures.</p>
+                
+                <p>FPP is now recognized as a cornerstone within probability theory, holding a significant place as one of its most classical and fundamental areas, with close ties to the broader field of percolation theory. In fact, classical Bernoulli percolation, where edges are either open or closed with certain probabilities, can be considered as a specific instance of FPP where the edge weights take only the values 0 or 1.</p>
+                
+                <div class="property-box">
+                    <h3 style="margin-top: 0;">Connection to Classical Percolation</h3>
+                    <p>Bernoulli percolation can be viewed as a special case of FPP:</p>
+                    <ul class="styled-list">
+                        <li>In Bernoulli percolation, each edge is "open" with probability p, and "closed" with probability 1-p</li>
+                        <li>This corresponds to an FPP model where edge weights are either 0 (open) or ∞ (closed)</li>
+                        <li>Questions about connectivity in Bernoulli percolation can be reframed as questions about finite passage times in FPP</li>
+                    </ul>
+                </div>
+            </div>
+        
+            <div class="section-highlight">
+                <h3>Key Developments and Driving Questions</h3>
+                <p>A pivotal question that was raised in the original 1969 paper by Hammersley and Welsh concerned the long-term behavior of the set of points reachable from the origin within a given time t, formally denoted as B(t) = {y ∈ Z<sup>2</sup> : T(0,y) ≤ t}, as t approaches infinity.</p>
+                
+                <div class="formula">
+                    $$B(t) = \{y \in \mathbb{Z}^2 : T(0,y) \leq t\}$$
+                </div>
+                
+                <p>This question has served as a major driving force behind much of the subsequent research conducted in the field of FPP. This initial inquiry eventually led to the groundbreaking Cox-Durrett limit shape theorem in 1981, a result that significantly advanced the understanding of the large-scale geometric properties of FPP.</p>
+                
+                <p>The shape theorem, informally stated, says that as t grows large, the set B(t), when scaled down by t, converges to a deterministic, convex, compact shape. This is analogous to the law of large numbers for random variables, but in a geometric context.</p>
+            </div>
+            
+            <div class="section-highlight">
+                <h3>Mathematical Impact</h3>
+                <p>Interestingly, the investigation of FPP has not only yielded results specific to the model itself but has also contributed to the development of important mathematical tools. Most notably, the <span class="topic-highlight">Subadditive Ergodic Theorem</span>, a fundamental result in ergodic theory, emerged partially from the study of FPP. This highlights the broader impact of FPP beyond its specific applications and demonstrates its role in the advancement of mathematical theory.</p>
+                
+                <p>The connection between a concrete physical problem and the development of an abstract mathematical model illustrates how practical considerations can inspire theoretical advancements. The fact that a question posed in the 1960s led to a major theorem in the 1980s, and that many questions remain unanswered, underscores the enduring challenges and the ongoing nature of research in FPP.</p>
+                
+                <div class="definition-box">
+                    <h3 style="margin-top: 0;">Subadditive Ergodic Theorem</h3>
+                    <p>The Subadditive Ergodic Theorem, which generalizes the usual ergodic theorem, provides a powerful tool for analyzing the asymptotic behavior of subadditive processes. In the context of FPP, it is used to establish the existence of the time constant, a fundamental quantity that characterizes the large-scale behavior of the model.</p>
+                </div>
+            </div>
+            
+            <div class="reference">
+                <h3>References</h3>
+                <p>[1] Mini Course: First Passage Percolation - Riddhipratim Basu | Fields Institute for Research in Mathematical Sciences - University of Toronto</p>
+                <p><a href="https://fields.utoronto.ca/activities/23-24/first-passage" target="_blank">fields.utoronto.ca/activities/23-24/first-passage</a></p>
+                
+                <p>[2] Fluctuations of Passage Time around Time Constant in First Passage Percolation and Its Simulation</p>
+                <p><a href="https://people.math.rochester.edu/faculty/akrish11//Research/student-papers/MATH_391W_FFP.pdf" target="_blank">people.math.rochester.edu/faculty/akrish11//Research/student-papers/MATH_391W_FFP.pdf</a></p>
+                
+                <p>[3] First passage percolation - Wikipedia</p>
+                <p><a href="https://en.wikipedia.org/wiki/First_passage_percolation" target="_blank">en.wikipedia.org/wiki/First_passage_percolation</a></p>
+            </div>
+        </section>
+
+        <div class="navigation">
+            <a href="../index.html">← Home</a>
+            <a href="class2.html">Next: Related Phenomena →</a>
+        </div>
+    </div>
+</body>
+</html>

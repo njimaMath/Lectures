@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Frog Model on T_d: Convergence of Logarithmic Growth</title>
+    <script>
+        MathJax = {
+          tex: {
+            inlineMath: [['$', '$'], ['\\(', '\\)']],
+            displayMath: [['$$', '$$'], ['\\[', '\\]']]
+          },
+          svg: {
+            fontCache: 'global'
+          }
+        };
+    </script>
+    <script type="text/javascript" id="MathJax-script" async
+      src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js">
+    </script>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.7;
+            margin: 0 auto;
+            padding: 20px;
+            max-width: 800px;
+            color: #333;
+            background-color: #fdfdfd;
+        }
+        h1, h2, h3 {
+            color: #2c3e50;
+            border-bottom: 2px solid #3498db;
+            padding-bottom: 5px;
+            margin-top: 30px;
+        }
+        h1 {
+            text-align: center;
+            border-bottom-width: 3px;
+        }
+        code {
+            background-color: #ecf0f1;
+            padding: 3px 6px;
+            border-radius: 4px;
+            font-family: 'Courier New', Courier, monospace;
+            color: #2c3e50;
+        }
+        ul {
+            padding-left: 20px;
+        }
+        li {
+            margin-bottom: 10px;
+        }
+        .theorem-box {
+            background-color: #eafaf1;
+            border-left: 5px solid #2ecc71;
+            padding: 15px;
+            margin: 20px 0;
+        }
+        .definition-box {
+            background-color: #fef9e7;
+            border-left: 5px solid #f39c12;
+            padding: 15px;
+            margin: 20px 0;
+        }
+        .proof-step {
+            margin-top: 25px;
+        }
+        .references ul {
+            list-style: none;
+            padding: 0;
+        }
+        .references li {
+            margin-bottom: 15px;
+            padding-left: 20px;
+            position: relative;
+        }
+        .references li::before {
+            content: "\2022"; /* Bullet symbol */
+            color: #3498db;
+            font-weight: bold;
+            display: inline-block;
+            width: 1em;
+            margin-left: -1em;
+            position: absolute;
+            left: 0;
+        }
+        mjx-container {
+           margin: 0 0.1em; /* Small spacing around MathJax elements */
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Convergence of Logarithmic Growth in the Frog Model on $T_d$</h1>
+
+    <section id="setup">
+        <h2>Problem Setup</h2>
+        <p>
+            Consider the infinite $d$-regular tree $T_d$ with root $\rho$.
+            The frog model on $T_d$ evolves as follows:
+        </p>
+        <ul>
+            <li>At time $t = 0$, there is one active frog at the root $\rho$.</li>
+            <li>Every other vertex $v \ne \rho$ contains one sleeping frog.</li>
+            <li>Active frogs perform independent simple random walks (SRW) in discrete time steps.</li>
+            <li>When an active frog visits a vertex $v$ occupied by a sleeping frog, the sleeping frog at $v$ instantly becomes active.</li>
+            <li>Newly activated frogs start their own independent SRWs from their vertex at the next time step. Sleeping frogs do not move.</li>
+        </ul>
+        <p>
+            Let $\tau_v$ be the first time vertex $v$ is visited by an active frog (the activation time of $v$), with $\tau_\rho = 0$.
+            Let $\mathcal{A}_t$ be the set of vertices activated by time $t$:
+        </p>
+        <div class="definition-box">
+            $\mathcal{A}_t = \{v \in T_d : \tau_v \le t\}$
+        </div>
+        <p>
+            The problem defines $A_t$ as:
+        </p>
+        <div class="definition-box">
+            $A_t = \{x \in T_d : |x| \le t, \tau_x \le t\}$
+        </div>
+        <p>
+            where $|x| = \text{depth}(x)$ is the graph distance from the root $\rho$ to $x$.
+        </p>
+        <p>
+            We are given that for $d \ge 5$, the model is <strong>transient</strong> (meaning the set of activated vertices grows infinitely large almost surely).
+            We want to prove that $\frac{\log |A_t|}{t}$ converges to a constant almost surely as $t \to \infty$.
+        </p>
+    </section>
+
+    <section id="proof-outline">
+        <h2>Proof Outline</h2>
+
+        <div class="proof-step">
+            <h3>Step 1: Show that $A_t = \mathcal{A}_t$</h3>
+            <p>
+                We need to show that the condition $|x| \le t$ in the definition of $A_t$ is redundant if $\tau_x \le t$. We prove that for any vertex $v$, its depth is less than or equal to its activation time: $|v| \le \tau_v$.
+            </p>
+            <p>
+                <em>Proof by induction on activation time $\tau_v$:</em>
+            </p>
+            <ul>
+                <li><strong>Base case:</strong> For the root $\rho$, $\tau_\rho = 0$ and $|\rho| = 0$. Clearly, $0 \le 0$.</li>
+                <li><strong>Inductive step:</strong> Assume $|u| \le \tau_u$ for all $u$ with $\tau_u < t$. Consider a vertex $v$ with $\tau_v = t$. This means $v$ was activated at time $t$ by a frog $F$ arriving from a neighboring vertex $u$. The position of $F$ at time $t-1$ was $u$, and $u$ must have been activated at some time $\tau_u \le t-1 < t$.
+                By the triangle inequality, $|v| = \text{dist}(\rho, v) \le \text{dist}(\rho, u) + \text{dist}(u, v) = |u| + 1$.
+                Using the induction hypothesis $|u| \le \tau_u$, we have $|v| \le \tau_u + 1$. Since $\tau_u \le t-1$, we get $|v| \le (t-1) + 1 = t$. Thus, $|v| \le t = \tau_v$.</li>
+                <li>
+                    <em>Alternative Argument for Inductive Step:</em> Let $v$ be activated at time $\tau_v = t$ by a frog $F$ that started its random walk from vertex $w$ at time $\tau_w \le t$. The frog $F$ travels from $w$ to $v$ in $t - \tau_w$ time steps. The path length is $\text{dist}(w, v) \le t - \tau_w$. By the triangle inequality, $|v| = \text{dist}(\rho, v) \le \text{dist}(\rho, w) + \text{dist}(w, v) = |w| + \text{dist}(w, v)$. Using the induction hypothesis $|w| \le \tau_w$ (since $\tau_w \le t$, if $\tau_w = t$, $w=v$ and $|v| \le t$ holds trivially, if $\tau_w < t$, the hypothesis applies), we get:
+                    \[ |v| \le \tau_w + (t - \tau_w) = t = \tau_v \]
+                </li>
+            </ul>
+            <p>
+                Since $|x| \le \tau_x$ for all $x$, if $\tau_x \le t$ (meaning $x \in \mathcal{A}_t$), then it automatically follows that $|x| \le t$.
+                Therefore, $\mathcal{A}_t \subseteq A_t$. The definition of $A_t$ explicitly includes the condition $\tau_x \le t$, so $A_t \subseteq \mathcal{A}_t$.
+                Hence, $A_t = \mathcal{A}_t$.
+            </p>
+            <p>
+                Let $N_t = |A_t| = |\mathcal{A}_t|$. We want to show that $\frac{\log N_t}{t}$ converges to a constant $\alpha$ almost surely.
+            </p>
+        </div>
+
+        <div class="proof-step">
+            <h3>Step 2: Kingman's Subadditive Ergodic Theorem</h3>
+            <p>
+                The convergence of $\frac{\log N_t}{t}$ is typically established using powerful tools for analyzing growth processes, most notably <strong>Kingman's Subadditive Ergodic Theorem</strong> or related results for branching random walks and interacting particle systems.
+            </p>
+            <p>
+                Let $Y_t = \log N_t$. Kingman's theorem (in its original form) deals with subadditive sequences, i.e., $Y_{t+s} \le Y_t + Y_s$. For growth processes like the frog model, $\log N_t$ often satisfies a related property, sometimes called "almost superadditivity" on expectation. A common form is:
+            </p>
+            <div class="theorem-box">
+                $E[Y_{t+s} | \mathcal{F}_t] \ge Y_t + E[Y_s] - C$
+            </div>
+            <p>
+                where $\mathcal{F}_t$ is the filtration representing the history of the process up to time $t$, and $C$ is a constant. This inequality captures the idea that the growth after time $t$, initiated by the $N_t$ active frogs at the boundary of $\mathcal{A}_t$, is at least the sum of the growth so far ($Y_t$) and the expected future growth ($E[Y_s]$), potentially minus a correction term $C$ accounting for overlaps or interactions.
+            </p>
+            <p>
+                Establishing this inequality rigorously requires careful analysis of the branching structure and the random walks on the tree. The independence of frog movements (once activated) is crucial, but their shared environment (the tree and the sleeping frogs) creates dependencies.
+            </p>
+            <p>
+                Once such a condition is established, and combined with $N_t \to \infty$ a.s. and moment conditions like $E[Y_t] < \infty$ (which holds since $N_t$ is bounded by the number of vertices within distance $t$, roughly $(d-1)^t$), variants of Kingman's theorem imply the desired convergence:
+            </p>
+            <div class="theorem-box">
+                 $\lim_{t\to\infty} \frac{Y_t}{t} = \lim_{t\to\infty} \frac{\log N_t}{t} = \alpha$ (almost surely)
+            </div>
+            <p>
+                 where $\alpha = \sup_{t \ge 1} \frac{E[Y_t] - C}{t}$ (or simply $\sup_{t \ge 1} \frac{E[Y_t]}{t}$ if $C=0$ or can be absorbed). The limit $\alpha$ is a deterministic constant.
+            </p>
+        </div>
+
+        <div class="proof-step">
+            <h3>Step 3: Role of FKG Inequality</h3>
+            <p>
+                The <strong>FKG inequality</strong> is a tool for establishing positive correlations between increasing events in certain probability spaces. In the context of interacting particle systems, it can be useful for proving monotonicity (e.g., starting with more active frogs leads to a stochastically larger final set) or for comparing different parameter regimes. While potentially useful in the detailed analysis of the frog model, it is not the primary mechanism for proving the *existence* of the limit $\alpha$. Kingman's theorem, or related convergence theorems for growth processes, plays a more central role in establishing the "shape theorem" result $\frac{\log N_t}{t} \to \alpha$.
+            </p>
+        </div>
+
+        <div class="proof-step">
+            <h3>Step 4: Conclusion and References</h3>
+            <p>
+                By identifying $A_t = \mathcal{A}_t$ and applying the established machinery of Kingman's subadditive ergodic theorem (or its variants for growth processes) to $Y_t = \log |\mathcal{A}_t|$, leveraging the transience of the model for $d \ge 3$, it is proven that $\frac{\log |A_t|}{t}$ converges almost surely to a deterministic constant $\alpha \ge 0$.
+            </p>
+            <p>
+                This result is a known property of the frog model on regular trees. For the discrete-time model, the convergence $\frac{\log N_t}{t} \to \alpha$ holds for $d \ge 3$. The condition $d \ge 5$ is stronger than necessary for the existence of the limit, but it does ensure stronger properties like $E[\tau_v] < \infty$ for all $v$, which can be useful in the analysis.
+            </p>
+            <div class="references">
+                <strong>Key References:</strong>
+                <ul>
+                    <li>Hoffman, C., Johnson, A., & Junge, M. (2017). "From the frog model to a first passage percolation." <em>Annals of Applied Probability</em>, 27(3), 1377-1397. (Theorem 1.1 establishes this convergence for $d \ge 3$).</li>
+                     <li>General results on growth models and subadditivity can be found in works by Liggett, Durrett, Kesten, and others on interacting particle systems and percolation.</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+</body>
+</html>

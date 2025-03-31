@@ -1,0 +1,560 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lecture Notes: Introduction to Stochastic Calculus</title>
+
+    <!-- MathJax Configuration -->
+    <script>
+        window.MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\\[', '\\]']],
+                tags: 'ams', // Automatic equation numbering
+                macros: {
+                    R: "\\mathbb{R}",
+                    Z: "\\mathbb{Z}",
+                    N: "\\mathbb{N}",
+                    Pbb: "\\mathbb{P}",
+                    E: "\\mathbb{E}",
+                    diff: "\\mathop{}\\!\\mathrm{d}", // Differential 'd'
+                    bm: ["{\\boldsymbol{#1}}", 1] // Bold math using \boldsymbol
+                }
+            },
+            svg: {
+                fontCache: 'global'
+            }
+        };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+    <!-- Embedded CSS for Styling -->
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
+            line-height: 1.7;
+            color: #333;
+            background-color: #fdfdfd;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 2em auto;
+            padding: 2em;
+            background-color: #fff;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            border-radius: 8px;
+            border: 1px solid #eee;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 3em;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 1.5em;
+        }
+
+        header h1 {
+            font-size: 2.2em;
+            color: #2a629c; /* A distinct title color */
+            margin-bottom: 0.2em;
+        }
+
+        header .author, header .date {
+            font-size: 1em;
+            color: #777;
+        }
+
+        h2 { /* Section Titles */
+            font-size: 1.8em;
+            color: #333;
+            border-bottom: 2px solid #2a629c;
+            padding-bottom: 0.3em;
+            margin-top: 2em;
+            margin-bottom: 1em;
+        }
+
+        h3 { /* Subsection Titles */
+            font-size: 1.4em;
+            color: #444;
+            margin-top: 1.8em;
+            margin-bottom: 0.8em;
+            border-left: 4px solid #6aa3d5;
+            padding-left: 0.5em;
+        }
+
+        p {
+            margin-bottom: 1em;
+        }
+
+        ul, ol {
+            margin-left: 1.5em;
+            padding-left: 1em;
+            margin-bottom: 1em;
+        }
+
+        li {
+            margin-bottom: 0.5em;
+        }
+
+        strong { /* Was \textbf */
+            font-weight: 600;
+        }
+
+        /* Theorem Environments Styling */
+        .theorem-env {
+            margin: 1.5em 0;
+            padding: 1em 1.5em;
+            border-left: 5px solid;
+            background-color: #f8f9fa;
+            border-radius: 4px;
+        }
+
+        .theorem-env .env-title {
+            font-weight: bold;
+            margin-bottom: 0.5em;
+            display: block; /* Makes it appear on its own line */
+            font-size: 1.1em;
+        }
+
+        /* Specific colors for different environments */
+        .definition { border-color: #5cb85c; } /* Green */
+        .theorem    { border-color: #f0ad4e; } /* Orange */
+        .proposition{ border-color: #f0ad4e; } /* Orange */
+        .lemma      { border-color: #f0ad4e; } /* Orange */
+        .corollary  { border-color: #f0ad4e; } /* Orange */
+        .remark     { border-color: #5bc0de; } /* Blue */
+        .example    { border-color: #777777; } /* Grey */
+
+        .definition .env-title { color: #3c763d; }
+        .theorem .env-title, .proposition .env-title, .lemma .env-title, .corollary .env-title { color: #8a6d3b; }
+        .remark .env-title { color: #31708f; }
+        .example .env-title { color: #555; }
+
+        /* Math Display Styling */
+        .mjx-chtml { /* Target MathJax output */
+           font-size: 1.05em; /* Slightly larger math */
+        }
+        mjx-display { /* Block math */
+           margin: 1.5em 0;
+           overflow-x: auto; /* Allow scrolling for wide equations */
+           padding: 0.5em 0;
+        }
+
+        /* Links (if any were added) */
+        a {
+            color: #2a629c;
+            text-decoration: none;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+
+    </style>
+</head>
+<body>
+
+    <div class="container">
+
+        <header>
+            <h1>Lecture Notes: Introduction to Stochastic Calculus</h1>
+            <p class="author">Your Name/Institution Here</p> <!-- Replace with actual name -->
+            <p class="date">Generated: <script>document.write(new Date().toLocaleDateString());</script></p> <!-- Dynamic date -->
+        </header>
+
+        <main>
+
+            <!-- Section 1: Simple Random Walk -->
+            <section id="srw">
+                <h2>1. Simple Random Walk (SRW) on \( \mathbb{Z}^d \)</h2>
+
+                <article id="srw-model">
+                    <h3>1.1 Model of Simple Random Walk on \( \mathbb{Z}^d \)</h3>
+                    <p>
+                        A simple random walk (SRW) on the integer lattice \( \mathbb{Z}^d \) is a stochastic process describing a path that consists of a succession of random steps. At each step, the particle moves from its current position to one of its nearest neighbors with equal probability.
+                    </p>
+                    <p>
+                        Specifically, let \( \bm{X}_t \in \mathbb{Z}^d \) denote the position of the particle at time \( t \in \mathbb{N}_0 = \{0, 1, 2, \dots\} \). The particle starts at some initial position \( \bm{X}_0 \). At each time step \( t \ge 1 \), the particle moves from \( \bm{X}_{t-1} \) to \( \bm{X}_t \) by choosing one of the \( 2d \) neighboring lattice points with equal probability \( 1/(2d) \).
+                    </p>
+                    <p>
+                        The transition probability, denoted by \( p(\bm{x}, \bm{y}) \), is the probability of moving from site \( \bm{x} \in \mathbb{Z}^d \) to site \( \bm{y} \in \mathbb{Z}^d \) in one step:
+                    </p>
+                    \[
+                    p(\bm{x}, \bm{y}) = \Pbb(\bm{X}_t = \bm{y} \mid \bm{X}_{t-1} = \bm{x}) =
+                    \begin{cases}
+                    \frac{1}{2d} & \text{if } \|\bm{y} - \bm{x}\|_1 = 1, \\
+                    0 & \text{otherwise},
+                    \end{cases}
+                    \]
+                    <p>
+                        where \( \|\bm{v}\|_1 = \sum_{i=1}^d |v_i| \) is the L1 norm (or Manhattan distance) for a vector \( \bm{v} = (v_1, \dots, v_d) \in \mathbb{Z}^d \). A condition \( \|\bm{y} - \bm{x}\|_1 = 1 \) means that \( \bm{y} \) and \( \bm{x} \) differ by exactly 1 in one coordinate and are identical in all other coordinates; they are nearest neighbors on the lattice \( \mathbb{Z}^d \).
+                    </p>
+                    <p>
+                        This process has the following properties:
+                    </p>
+                    <ul>
+                        <li><strong>Markov Property:</strong> The future position \( \bm{X}_{t+1} \) depends only on the current position \( \bm{X}_t \) and not on the past positions \( \bm{X}_0, \dots, \bm{X}_{t-1} \).</li>
+                        <li><strong>Time Homogeneity:</strong> The transition probabilities \( p(\bm{x}, \bm{y}) \) do not depend on the time \( t \).</li>
+                        <li><strong>Symmetry:</strong> The probability of moving from \( \bm{x} \) to \( \bm{y} \) is the same as moving from \( \bm{y} \) to \( \bm{x} \), i.e., \( p(\bm{x}, \bm{y}) = p(\bm{y}, \bm{x}) \).</li>
+                    </ul>
+                </article>
+
+                <article id="srw-recurrence">
+                    <h3>1.2 Recurrence and Transience of SRW on \( \mathbb{Z}^d \)</h3>
+                    <p>
+                        A fundamental question about random walks is whether the particle, starting from the origin \( \bm{0} \), is certain to return to the origin at some later time.
+                    </p>
+
+                    <div class="theorem-env definition">
+                        <span class="env-title">Definition 1.1: Recurrence and Transience</span>
+                        <p>
+                        Let \( \Pbb_{\bm{x}} \) denote the probability measure for a random walk starting at \( \bm{X}_0 = \bm{x} \).
+                        </p>
+                        <ul>
+                            <li>A random walk is called <strong>recurrent</strong> if, starting from the origin \( \bm{0} \), it returns to the origin with probability 1. Mathematically, \( \Pbb_{\bm{0}}(\bm{X}_n = \bm{0} \text{ for infinitely many } n) = 1 \), or equivalently, \( \Pbb_{\bm{0}}(\exists n \in \mathbb{N}, \bm{X}_n = \bm{0}) = 1 \). (Note: For SRW starting at 0, returning once implies returning infinitely often with probability 1.)</li>
+                            <li>A random walk is called <strong>transient</strong> if, starting from the origin \( \bm{0} \), there is a positive probability that it never returns to the origin. Mathematically, \( \Pbb_{\bm{0}}(\bm{X}_n = \bm{0} \text{ for only finitely many } n) = 1 \), or equivalently, \( \Pbb_{\bm{0}}(\exists n \in \mathbb{N}, \bm{X}_n = \bm{0}) < 1 \).</li>
+                        </ul>
+                    </div>
+
+                    <div class="theorem-env theorem">
+                         <span class="env-title">Theorem 1.2: Pólya's Recurrence Theorem</span>
+                         <p>
+                         The simple random walk on \( \mathbb{Z}^d \) exhibits the following behavior depending on the dimension \( d \):
+                         </p>
+                         <ul>
+                             <li>For \( d=1 \) and \( d=2 \), the SRW is <strong>recurrent</strong>.</li>
+                             <li>For \( d \ge 3 \), the SRW is <strong>transient</strong>.</li>
+                         </ul>
+                    </div>
+
+                    <div class="theorem-env remark">
+                        <span class="env-title">Remark 1.3</span>
+                        <p>
+                        This famous result implies that a random walker in 1D or 2D space will eventually explore the entire space (in a certain sense) and keep returning to its starting point, whereas a walker in 3D or higher dimensions has a significant chance of escaping to infinity and never returning. This has amusing interpretations, like "A drunk man will find his way home, but a drunk bird may be lost forever." (Assuming the man walks in 2D and the bird flies in 3D).
+                        </p>
+                    </div>
+                </article>
+            </section>
+
+            <!-- Section 2: Brownian Motion -->
+            <section id="bm">
+                <h2>2. Brownian Motion (BM)</h2>
+                 <article id="bm-definition">
+                    <h3>2.1 Definition of Brownian Motion</h3>
+                    <p>
+                    Brownian motion (also called the Wiener process) is a central object in probability theory and stochastic calculus. It can be viewed as a continuous-time limit of a scaled random walk.
+                    </p>
+                    <p>
+                    A real-valued stochastic process \( (B_t)_{t \ge 0} \) is called a standard one-dimensional Brownian motion if it satisfies the following axioms:
+                    </p>
+                    <ol>
+                        <li><strong>Starting Point:</strong> \( B_0 = 0 \) almost surely (with probability 1).</li>
+                        <li><strong>Gaussian Increments:</strong> For any \( 0 \le s < t \), the increment \( B_t - B_s \) follows a normal distribution with mean 0 and variance \( t-s \). We write this as \( B_t - B_s \sim N(0, t-s) \).</li>
+                        <li><strong>Independent Increments:</strong> For any sequence of times \( 0 \le t_0 < t_1 < t_2 < \dots < t_k \), the increments \( (B_{t_1} - B_{t_0}), (B_{t_2} - B_{t_1}), \dots, (B_{t_k} - B_{t_{k-1}}) \) are mutually independent random variables.</li>
+                        <li><strong>Continuous Paths:</strong> The function \( t \mapsto B_t \) is continuous almost surely.</li>
+                    </ol>
+                </article>
+
+                <article id="bm-properties">
+                     <h3>2.2 Properties of Brownian Motion</h3>
+                     <p>
+                     Brownian motion has several remarkable properties:
+                     </p>
+                    <ol>
+                        <li><strong>Continuity:</strong> As stated in the definition, the paths \( t \mapsto B_t \) are continuous everywhere (almost surely).</li>
+                        <li><strong>Nowhere Differentiability:</strong> Although the paths are continuous, they are almost surely nowhere differentiable. This means they are extremely "wiggly" or "fractal-like".</li>
+                        <li><strong>Markov Property:</strong> The future evolution of the process after time \( t \) depends only on the value \( B_t \) and is independent of the past \( (B_s)_{0 \le s < t} \). Specifically, \( \Pbb(B_{t+h} \in A \mid (B_s)_{0 \le s \le t}) = \Pbb(B_{t+h} \in A \mid B_t) \) for any \( h > 0 \) and suitable set \( A \).</li>
+                        <li><strong>Martingale Property:</strong> A standard Brownian motion \( (B_t)_{t \ge 0} \) is a martingale. Intuitively, this means that the expected future value, given the present and past, is equal to the current value: \( \E[B_t \mid (B_s)_{0 \le s \le u}] = B_u \) for \( u \le t \). More generally, processes related to BM are often martingales, like \( (B_t^2 - t)_{t \ge 0} \).</li>
+                        <li><strong>Scaling Property:</strong> If \( (B_t)_{t \ge 0} \) is a BM, then for any constant \( c > 0 \), the process \( (X_t)_{t \ge 0} \) defined by \( X_t = \frac{1}{\sqrt{c}} B_{ct} \) is also a standard BM.</li>
+                    </ol>
+                 </article>
+
+                 <article id="bm-transition">
+                    <h3>2.3 Transition from Simple Random Walk to Brownian Motion</h3>
+                    <p>
+                    Brownian motion arises as a scaling limit of simple random walks. This is a manifestation of the Functional Central Limit Theorem (also known as Donsker's Theorem).
+                    </p>
+                    <p>
+                    Consider a 1D SRW \( (S_n)_{n=0}^\infty \) starting at \( S_0 = 0 \), where \( S_n = \sum_{i=1}^n \xi_i \) and \( \xi_i \) are independent random variables with \( \Pbb(\xi_i = +1) = \Pbb(\xi_i = -1) = 1/2 \). We want to construct a continuous-time process from this discrete walk.
+                    </p>
+                    <p>
+                    Let's speed up time by a factor of \( n \) and scale down space by a factor of \( \sqrt{n} \). Define a continuous-time process \( (W_t^{(n)})_{t \ge 0} \) by piecewise constant interpolation:
+                    </p>
+                    \[
+                    W_t^{(n)} = \frac{1}{\sqrt{n}} S_{\lfloor nt \rfloor}.
+                    \]
+                    <p>
+                    Then, as \( n \to \infty \), the process \( (W_t^{(n)})_{t \ge 0} \) converges in distribution to a standard Brownian motion \( (B_t)_{t \ge 0} \). We write this convergence formally as:
+                    </p>
+                    \[
+                    \left( \frac{1}{\sqrt{n}} S_{\lfloor nt \rfloor} \right)_{t \ge 0} \xrightarrow{d} (B_t)_{t \ge 0} \quad \text{as } n \to \infty.
+                    \]
+                    <p>
+                    Here, \( \lfloor x \rfloor \) denotes the greatest integer less than or equal to \( x \). The convergence \( \xrightarrow{d} \) means convergence in distribution in the space of continuous functions \( C([0, \infty), \R) \) equipped with the topology of uniform convergence on compact intervals.
+                    </p>
+                    <p>
+                    The scaling factors are crucial: time is scaled by \( n \) (we look at time \( nt \)) and space is scaled by \( \sqrt{n} \). The \( \sqrt{n} \) scaling comes from the Central Limit Theorem, as the variance of \( S_k \) is \( k \), so the standard deviation is \( \sqrt{k} \). For \( k \approx nt \), the standard deviation is \( \approx \sqrt{nt} \), and scaling by \( 1/\sqrt{n} \) gives a standard deviation of \( \approx \sqrt{t} \), matching the variance \( t \) of \( B_t \).
+                    </p>
+                 </article>
+            </section>
+
+            <!-- Section 3: Stochastic Integrals -->
+            <section id="ito-integral">
+                <h2>3. Stochastic Integrals (Ito Integral)</h2>
+                 <article id="ito-definition">
+                     <h3>3.1 Definition of the Ito Integral</h3>
+                     <p>
+                     Since Brownian paths are nowhere differentiable, standard Riemann or even Riemann-Stieltjes integration theory does not allow us to define an integral like " \( \int f(t) \diff B_t \) " in the usual way. The Ito integral provides a way to define integrals with respect to Brownian motion.
+                     </p>
+                    <p>
+                        Let \( (B_t)_{t \ge 0} \) be a standard Brownian motion. We want to define the integral of a stochastic process \( (H_s)_{s \ge 0} \) with respect to \( B_t \), denoted \( \int_0^t H_s \diff B_s \). The process \( H_s \) is called the integrand. For the Ito integral to be well-defined, \( H_s \) typically needs to be "adapted" (meaning \( H_s \) only depends on the history of \( B_u \) for \( u \le s \)) and satisfy some integrability conditions (e.g., \( \E[\int_0^t H_s^2 \diff s] < \infty \)).
+                    </p>
+                    <p>
+                        Consider a partition of the interval \( [0, t] \) into \( n \) subintervals: \( 0 = t_0 < t_1 < \dots < t_n = t \). A common choice is \( t_i = it/n \). The Ito integral is defined as a limit in probability (or in the mean-square sense) of approximating sums:
+                    </p>
+                    \[
+                    \int_{0}^{t} H_s \diff B_s = \lim_{\|\mathcal{P}\| \to 0} \sum_{i=0}^{n-1} H_{t_i} (B_{t_{i+1}} - B_{t_i}).
+                    \]
+                    <p>
+                        where the limit is taken as the mesh of the partition \( \|\mathcal{P}\| = \max_i |t_{i+1} - t_i| \to 0 \).
+                    </p>
+
+                    <div class="theorem-env remark">
+                        <span class="env-title">Remark 3.1: Key feature of Ito integral</span>
+                        <p>
+                        Crucially, the integrand \( H_{t_i} \) is evaluated at the <strong>left endpoint</strong> of the interval \( [t_i, t_{i+1}] \). This choice is essential and distinguishes the Ito integral from other types of stochastic integrals (like the Stratonovich integral, which uses the midpoint). This choice ensures that the resulting integral process is a martingale under suitable conditions on \( H \).
+                        </p>
+                    </div>
+
+                    <p>
+                    The specific definition provided in the prompt, using \( f(t, B_t) \) as the integrand \( H_t \), corresponds to this general definition with \( H_s = f(s, B_s) \) and a specific sequence of partitions:
+                    </p>
+                    \[
+                    \int_{0}^{t} f(s, B_s) \diff B_s = \lim_{n \to \infty} \sum_{i=1}^{\lfloor nt \rfloor / \delta t_n} f\left(t_{i-1}^{(n)}, B_{t_{i-1}^{(n)}}\right) \left(B_{t_i^{(n)}} - B_{t_{i-1}^{(n)}}\right),
+                    \]
+                    <p>
+                    where \( t_i^{(n)} = i/n \). This is:
+                    </p>
+                    \[
+                    \int_{0}^{t} f(s, B_s) \diff B_s = \lim_{n \to \infty} \sum_{i=1}^{\lfloor nt \rfloor} f\left(\frac{i-1}{n}, B_{\frac{i-1}{n}}\right) \left(B_{\frac{i}{n}} - B_{\frac{i-1}{n}}\right).
+                    \]
+                </article>
+
+                <article id="ito-examples">
+                    <h3>3.2 Examples of Ito Integrals</h3>
+                    <ol>
+                        <li>
+                        <strong>Integral of \( B_s \):</strong>
+                        \[ \int_0^t B_s \diff B_s = \frac{1}{2} B_t^2 - \frac{1}{2} t \]
+                        <p>This famous result differs from the standard calculus rule \( \int x \diff x = x^2/2 \). The extra \( -t/2 \) term is characteristic of Ito calculus and arises because \( (\diff B_t)^2 \approx \diff t \).</p>
+                        </li>
+                        <li>
+                        <strong>Integral of a deterministic function:</strong> Let \( g(s) \) be a deterministic function satisfying \( \int_0^t g(s)^2 \diff s < \infty \).
+                        \[ I_t = \int_0^t g(s) \diff B_s \]
+                        <p>This integral is a Gaussian process with mean \( \E[I_t] = 0 \). Its variance is given by the Ito isometry property:</p>
+                        \[ \text{Var}(I_t) = \E[I_t^2] = \E\left[ \left( \int_0^t g(s) \diff B_s \right)^2 \right] = \int_0^t \E[g(s)^2] \diff s = \int_0^t g(s)^2 \diff s. \]
+                        <p>For the specific example \( g(s) = s \):</p>
+                        \[ \int_0^t s \diff B_s \sim N\left(0, \int_0^t s^2 \diff s\right) = N\left(0, \frac{t^3}{3}\right). \]
+                        </li>
+                        <li>
+                        <strong>Integral related to Exponential Martingale:</strong> Let \( M_t = e^{B_t - t/2} \).
+                        \[ \int_0^t e^{B_s - s/2} \diff B_s = \int_0^t M_s \diff B_s = M_t - M_0 = e^{B_t - t/2} - 1 \]
+                        <p>The process \( M_t \) is known as the exponential martingale (or Doléans-Dade exponential for \( \lambda=1 \)). This result can be derived using Ito's formula (see below).</p>
+                        </li>
+                    </ol>
+                </article>
+            </section>
+
+            <!-- Section 4: SDEs -->
+            <section id="sde">
+                <h2>4. Stochastic Differential Equations (SDEs)</h2>
+                <article id="sde-definition">
+                    <h3>4.1 Definition via Stochastic Integrals</h3>
+                    <p>
+                        Stochastic Differential Equations (SDEs) are differential equations that involve random noise terms, typically modeled using Brownian motion. They are used to model systems that evolve randomly over time.
+                    </p>
+                    <p>
+                        An SDE describes the evolution of a stochastic process \( (X_t)_{t \ge 0} \). A general form of a one-dimensional SDE is written in differential notation as:
+                    </p>
+                    \[
+                    \diff X_t = a(t, X_t) \diff t + b(t, X_t) \diff B_t
+                    \]
+                    <p>
+                        where \( (B_t)_{t \ge 0} \) is a standard Brownian motion, and \( a(t, x) \) and \( b(t, x) \) are functions called the <strong>drift coefficient</strong> and <strong>diffusion coefficient</strong>, respectively. They determine the deterministic and random parts of the change in \( X_t \) over a small time interval \( \diff t \).
+                    </p>
+                    <p>
+                        This differential notation is a shorthand for the corresponding integral equation:
+                    </p>
+                    \[
+                    X_t = X_0 + \int_0^t a(s, X_s) \diff s + \int_0^t b(s, X_s) \diff B_s
+                    \]
+                    <p>
+                        Here, \( X_0 \) is the initial condition (which might be random but independent of \( (B_s)_{s>0} \) and measurable with respect to the information at time 0). The first integral \( \int_0^t a(s, X_s) \diff s \) is a standard pathwise Riemann integral (once the path \( X_s \) is known), while the second integral \( \int_0^t b(s, X_s) \diff B_s \) is an Ito integral.
+                    </p>
+                    <p>
+                        A process \( (X_t)_{t \ge 0} \) is called a <strong>solution</strong> to the SDE if it satisfies this integral equation (and is adapted). Under certain conditions on the coefficients \( a \) and \( b \) (typically Lipschitz continuity and linear growth conditions), there exists a unique strong solution \( X_t \).
+                    </p>
+
+                    <div class="theorem-env example">
+                        <span class="env-title">Example 4.1: Geometric Brownian Motion</span>
+                        <p>
+                        A common SDE used in finance is Geometric Brownian Motion (GBM), which models stock prices:
+                        </p>
+                        \[ \diff X_t = \mu X_t \diff t + \sigma X_t \diff B_t \]
+                        <p>
+                        Here, \( a(t, x) = \mu x \) (constant expected growth rate \( \mu \)) and \( b(t, x) = \sigma x \) (volatility \( \sigma \) proportional to the current level \( x \)). The integral form is:
+                        </p>
+                        \[ X_t = X_0 + \int_0^t \mu X_s \diff s + \int_0^t \sigma X_s \diff B_s \]
+                        <p>
+                        The solution to this SDE is \( X_t = X_0 \exp\left( (\mu - \sigma^2/2)t + \sigma B_t \right) \), which can be verified using Ito's formula.
+                        </p>
+                    </div>
+                </article>
+            </section>
+
+            <!-- Section 5: Ito's Formula -->
+            <section id="ito-formula">
+                <h2>5. Ito's Formula</h2>
+                 <article id="ito-comparison">
+                    <h3>5.1 Comparison with Fundamental Theorem of Calculus</h3>
+                     <p>
+                         Ito's formula is the fundamental theorem of stochastic calculus. It is the chain rule for functions of stochastic processes that follow an SDE involving an Ito integral. It differs from the standard chain rule in calculus due to the non-zero quadratic variation of Brownian motion.
+                     </p>
+                    <p>
+                        Recall the fundamental theorem of calculus and the chain rule. If \( x(t) \) is a continuously differentiable function and \( f(x) \) is a continuously differentiable function, then \( y(t) = f(x(t)) \) is also differentiable, and its derivative is given by the chain rule:
+                    </p>
+                    \[ \frac{\diff y}{\diff t} = f'(x(t)) \frac{\diff x}{\diff t} \]
+                    <p>
+                    In differential form: \( \diff y = f'(x) \diff x \).
+                    Integrating this gives the change-of-variable formula for integrals:
+                    </p>
+                    \[ f(x(t)) - f(x(0)) = \int_0^t f'(x(s)) \diff x(s) = \int_0^t f'(x(s)) x'(s) \diff s \]
+                    <p>
+                    This relies on \( x(t) \) being smooth enough (having finite variation). However, processes like \( X_t \) driven by \( B_t \) have paths of infinite variation and are not differentiable, so the standard rules do not apply.
+                    </p>
+                </article>
+
+                <article id="ito-statement">
+                    <h3>5.2 Statement of Ito's Formula</h3>
+                    <p>
+                        Let \( (X_t)_{t \ge 0} \) be an Ito process, meaning it solves an SDE of the form:
+                    </p>
+                    \[ \diff X_t = a_t \diff t + b_t \diff B_t \]
+                    <p>
+                        where \( a_t = a(t, X_t) \) and \( b_t = b(t, X_t) \) are adapted processes satisfying appropriate integrability conditions. Let \( f(t, x) \) be a function that is continuously differentiable in \( t \) and twice continuously differentiable in \( x \) (i.e., \( f \in C^{1,2}([0, \infty) \times \R) \)). Then the process \( Y_t = f(t, X_t) \) is also an Ito process, and its differential is given by <strong>Ito's formula</strong>:
+                    </p>
+                    \[
+                    \diff Y_t = \diff f(t, X_t) = \frac{\partial f}{\partial t}(t, X_t) \diff t + \frac{\partial f}{\partial x}(t, X_t) \diff X_t + \frac{1}{2} \frac{\partial^2 f}{\partial x^2}(t, X_t) (\diff X_t)^2
+                    \]
+                    <p>
+                        Here, \( (\diff X_t)^2 \) needs to be interpreted using the "rules" of stochastic differentials (often called Ito's multiplication rules or heuristic rules):
+                    </p>
+                    <ul>
+                        <li>\( (\diff t)^2 = 0 \)</li>
+                        <li>\( \diff t \diff B_t = 0 \)</li>
+                        <li>\( (\diff B_t)^2 = \diff t \)</li>
+                    </ul>
+                    <p>
+                    These rules arise from the limiting behavior of sums of squares and cross-products of increments. Using these rules, we find the quadratic variation term:
+                    </p>
+                    \[ (\diff X_t)^2 = (a_t \diff t + b_t \diff B_t)^2 = a_t^2 (\diff t)^2 + 2 a_t b_t \diff t \diff B_t + b_t^2 (\diff B_t)^2 = 0 + 0 + b_t^2 \diff t = b_t^2 \diff t. \]
+                    <p>
+                    Substituting \( \diff X_t = a_t \diff t + b_t \diff B_t \) and \( (\diff X_t)^2 = b_t^2 \diff t \) into the formula for \( \diff Y_t \), we get the standard form of Ito's formula:
+                    </p>
+                    \[
+                    \diff f(t, X_t) = \left( \frac{\partial f}{\partial t} + a_t \frac{\partial f}{\partial x} + \frac{1}{2} b_t^2 \frac{\partial^2 f}{\partial x^2} \right) \diff t + b_t \frac{\partial f}{\partial x} \diff B_t
+                    \]
+                    <p>
+                    where all partial derivatives are evaluated at \( (t, X_t) \).
+                    </p>
+                    <p>
+                    The integral form is:
+                    </p>
+                    \[
+                    f(t, X_t) - f(0, X_0) = \int_0^t \left( \frac{\partial f}{\partial s}(s, X_s) + a_s \frac{\partial f}{\partial x}(s, X_s) + \frac{1}{2} b_s^2 \frac{\partial^2 f}{\partial x^2}(s, X_s) \right) \diff s + \int_0^t b_s \frac{\partial f}{\partial x}(s, X_s) \diff B_s
+                    \]
+
+                    <div class="theorem-env remark">
+                         <span class="env-title">Remark 5.1: The Ito Correction Term</span>
+                         <p>
+                         Compare this to the standard chain rule \( \diff f = \frac{\partial f}{\partial t} \diff t + \frac{\partial f}{\partial x} \diff X_t \). Ito's formula includes an additional term: \( \frac{1}{2} \frac{\partial^2 f}{\partial x^2} (\diff X_t)^2 \rightarrow \frac{1}{2} b_t^2 \frac{\partial^2 f}{\partial x^2} \diff t \). This is often called the "Ito correction term" and arises because the quadratic variation of the process \( X_t \) (due to the \( \diff B_t \) term) is non-zero and proportional to \( \diff t \). Specifically, \( (\diff B_t)^2 \) behaves like \( \diff t \), not like \( (\diff t)^2 \) which is negligible in standard calculus.
+                         </p>
+                    </div>
+
+                    <div class="theorem-env example">
+                         <span class="env-title">Example 5.2: Deriving \( \int B_s \diff B_s \)</span>
+                         <p>
+                         Let \( X_t = B_t \). Then \( a_t = 0 \) and \( b_t = 1 \). Let \( f(t, x) = f(x) = x^2/2 \). We have \( \frac{\partial f}{\partial t} = 0 \), \( \frac{\partial f}{\partial x} = x \), \( \frac{\partial^2 f}{\partial x^2} = 1 \).
+                         Applying Ito's formula to \( Y_t = f(B_t) = B_t^2/2 \):
+                         </p>
+                         \[
+                         \diff (B_t^2/2) = \left( \frac{\partial f}{\partial t} + a_t \frac{\partial f}{\partial x} + \frac{1}{2} b_t^2 \frac{\partial^2 f}{\partial x^2} \right) \diff t + b_t \frac{\partial f}{\partial x} \diff B_t
+                         \]
+                         \[
+                         \diff (B_t^2/2) = \left( 0 + 0 \cdot B_t + \frac{1}{2} \cdot 1^2 \cdot 1 \right) \diff t + (1 \cdot B_t) \diff B_t
+                         \]
+                         \[
+                         \diff (B_t^2/2) = \frac{1}{2} \diff t + B_t \diff B_t
+                         \]
+                         <p>Rearranging gives \( B_t \diff B_t = \diff (B_t^2/2) - \frac{1}{2} \diff t \). Integrating from 0 to \( t \) yields:</p>
+                         \[
+                         \int_0^t B_s \diff B_s = \int_0^t \diff (B_s^2/2) - \int_0^t \frac{1}{2} \diff s = \left[ \frac{B_s^2}{2} \right]_0^t - \frac{1}{2} [s]_0^t = \frac{B_t^2}{2} - \frac{t}{2}
+                         \]
+                         <p>(since \( B_0 = 0 \)). This confirms the earlier example.</p>
+                    </div>
+                </article>
+
+                 <article id="ito-proof-sketch">
+                     <h3>5.3 Sketch of the Proof of Ito's Formula</h3>
+                     <p>
+                        The rigorous proof involves careful analysis of the convergence of approximating sums for the stochastic integral, often using properties of quadratic variation. Here's a heuristic sketch based on Taylor expansion:
+                    </p>
+                    <p>
+                        Consider the change in \( Y_t = f(t, X_t) \) over a small interval \( [t, t+\Delta t] \):
+                        \( \Delta Y = f(t+\Delta t, X_{t+\Delta t}) - f(t, X_t) \).
+                        Use Taylor expansion for \( f \) around \( (t, X_t) \) up to second order in \( x \) and first order in \( t \):
+                    </p>
+                    \[
+                    \Delta Y \approx \frac{\partial f}{\partial t} \Delta t + \frac{\partial f}{\partial x} \Delta X + \frac{1}{2} \frac{\partial^2 f}{\partial x^2} (\Delta X)^2 + \frac{\partial^2 f}{\partial t \partial x} \Delta t \Delta X + \dots
+                    \]
+                    <p>(where partial derivatives are evaluated at \( (t, X_t) \)).</p>
+                    <p>Now, approximate the increment \( \Delta X = X_{t+\Delta t} - X_t \) using the SDE:</p>
+                    \[ \Delta X \approx a_t \Delta t + b_t \Delta B_t, \]
+                    <p>where \( \Delta B_t = B_{t+\Delta t} - B_t \).</p>
+                    <p>Next, consider the quadratic terms involving \( \Delta X \):</p>
+                    \[ (\Delta X)^2 \approx (a_t \Delta t + b_t \Delta B_t)^2 = a_t^2 (\Delta t)^2 + 2 a_t b_t \Delta t \Delta B_t + b_t^2 (\Delta B_t)^2 \]
+                    \[ \Delta t \Delta X \approx a_t (\Delta t)^2 + b_t \Delta t \Delta B_t \]
+                    <p>The key insight from stochastic calculus is about the orders of magnitude for small \( \Delta t \):</p>
+                    <ul>
+                        <li>\( \E[\Delta B_t] = 0 \), \( \text{Var}(\Delta B_t) = \E[(\Delta B_t)^2] = \Delta t \).</li>
+                        <li>In a summation over many small intervals, \( \sum (\Delta B_t)^2 \) converges to \( t \). Heuristically, \( (\Delta B_t)^2 \approx \Delta t \).</li>
+                        <li>Terms like \( (\Delta t)^2 \), \( \Delta t \Delta B_t \) are of smaller order than \( \Delta t \). Specifically, \( \sum (\Delta t)^2 \to 0 \), \( \sum \Delta t \Delta B_t \to 0 \).</li>
+                    </ul>
+                    <p>So, keeping terms that are of order \( \Delta t \) or \( \Delta B_t \):</p>
+                    \[ (\Delta X)^2 \approx b_t^2 (\Delta B_t)^2 \approx b_t^2 \Delta t \]
+                    \[ \Delta t \Delta X \approx 0 \]
+                    <p>Substitute these approximations back into the Taylor expansion for \( \Delta Y \):</p>
+                    \[
+                    \Delta Y \approx \frac{\partial f}{\partial t} \Delta t + \frac{\partial f}{\partial x} (a_t \Delta t + b_t \Delta B_t) + \frac{1}{2} \frac{\partial^2 f}{\partial x^2} (b_t^2 \Delta t)
+                    \]
+                    <p>Rearranging gives:</p>
+                    \[
+                    \Delta Y \approx \left( \frac{\partial f}{\partial t} + a_t \frac{\partial f}{\partial x} + \frac{1}{2} b_t^2 \frac{\partial^2 f}{\partial x^2} \right) \Delta t + b_t \frac{\partial f}{\partial x} \Delta B_t
+                    \]
+                    <p>Summing these increments over a partition \( 0 = t_0 < t_1 < \dots < t_n = t \) and taking the limit as the mesh size goes to zero, the sum of \( \Delta Y_i \) becomes \( f(t, X_t) - f(0, X_0) \). The sum of the \( \Delta t \) terms converges to a Riemann integral, and the sum of the \( \Delta B_t \) terms converges (by definition) to the Ito integral:</p>
+                    \[
+                    f(t, X_t) - f(0, X_0) = \int_0^t \left( \frac{\partial f}{\partial s} + a_s \frac{\partial f}{\partial x} + \frac{1}{2} b_s^2 \frac{\partial^2 f}{\partial x^2} \right) \diff s + \int_0^t b_s \frac{\partial f}{\partial x} \diff B_s
+                    \]
+                    <p>This yields the integral form of Ito's formula. The differential form \( \diff Y_t = \dots \) is a convenient shorthand for this integral equation.</p>
+                </article>
+            </section>
+
+        </main>
+
+    </div> <!-- /container -->
+
+</body>
+</html>

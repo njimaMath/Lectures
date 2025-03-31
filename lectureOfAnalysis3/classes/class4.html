@@ -1,0 +1,466 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Class 4: Total Derivative</title>
+    <style>
+        :root {
+            --primary-color: #2c3e50;
+            --secondary-color: #3498db;
+            --accent-color: #e74c3c;
+            --background-color: #f9f9f9;
+            --text-color: #333;
+            --container-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+            --text-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+        }
+
+        body {
+            font-family: 'Georgia', serif;
+            line-height: 1.7;
+            margin: 0;
+            padding: 0;
+            background-color: var(--background-color);
+            color: var(--text-color);
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 20px auto;
+            padding: 30px;
+            background-color: white;
+            box-shadow: var(--container-shadow);
+            border-radius: 15px;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 40px;
+            border-bottom: 2px solid var(--secondary-color);
+            padding-bottom: 20px;
+        }
+
+        h1, h2, h3 {
+            color: var(--primary-color);
+        }
+
+        .section-title {
+            color: var(--primary-color);
+            font-size: 1.8rem;
+            margin-top: 30px;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #eee;
+            text-shadow: var(--text-shadow);
+        }
+
+        .lecture-title {
+            color: var(--secondary-color);
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+            font-weight: normal;
+        }
+
+        .author-info {
+            font-style: italic;
+            color: #777;
+        }
+
+        .math {
+            font-style: italic;
+            padding: 0 3px;
+        }
+
+        .figure {
+            text-align: center;
+            margin: 30px 0;
+            padding: 20px;
+            background-color: #f8f9fa;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+        }
+
+        .figure img {
+            max-width: 100%;
+            border-radius: 5px;
+        }
+
+        .figure-caption {
+            font-style: italic;
+            color: #777;
+            margin-top: 15px;
+        }
+
+        .navigation {
+            margin-top: 40px;
+            text-align: center;
+            display: flex;
+            justify-content: space-between;
+            padding: 15px 0;
+            border-top: 1px solid #eee;
+        }
+
+        .navigation a {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: var(--primary-color);
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .navigation a:hover {
+            background-color: var(--secondary-color);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+        }
+
+        .topic-highlight {
+            display: inline-block;
+            background-color: rgba(52, 152, 219, 0.1);
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-weight: 500;
+            color: var(--primary-color);
+        }
+
+        .formula {
+            margin: 25px 0;
+            padding: 15px;
+            background-color: #f8f9fa;
+            border-left: 4px solid var(--secondary-color);
+            border-radius: 5px;
+            overflow-x: auto;
+            font-size: 1.1em;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+        }
+
+        .example-title {
+            font-weight: bold;
+            font-size: 1.2em;
+            color: var(--secondary-color);
+            margin-top: 30px;
+            margin-bottom: 15px;
+            padding-bottom: 5px;
+            border-bottom: 1px dashed #ccc;
+            display: inline-block;
+        }
+
+        p {
+            margin-bottom: 20px;
+            line-height: 1.8;
+        }
+
+        .content-section {
+            padding-bottom: 30px;
+        }
+        
+        .definition-box {
+            background-color: #f0f7ff;
+            border-left: 4px solid #3498db;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+        }
+        
+        .property-box {
+            background-color: #eefaf8;
+            border-left: 4px solid #2ecc71;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+        }
+        
+        .example-box {
+            background-color: #f0f9ff;
+            border: 1px solid #d1e6fa;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+        }
+        
+        .section-highlight {
+            background-color: #f8f9fa;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 25px 0;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+        }
+        
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 25px 0;
+            font-size: 0.9em;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+            border-radius: 5px;
+            overflow: hidden;
+        }
+        
+        .comparison-table thead tr {
+            background-color: var(--secondary-color);
+            color: white;
+            text-align: left;
+        }
+        
+        .comparison-table th,
+        .comparison-table td {
+            padding: 12px 15px;
+        }
+        
+        .comparison-table tbody tr {
+            border-bottom: 1px solid #dddddd;
+        }
+        
+        .comparison-table tbody tr:nth-of-type(even) {
+            background-color: #f3f3f3;
+        }
+        
+        .comparison-table tbody tr:last-of-type {
+            border-bottom: 2px solid var(--secondary-color);
+        }
+        
+        .visual-box {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: #f5f5f5;
+            border-radius: 8px;
+            padding: 15px;
+            margin: 25px 0;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+        }
+    </style>
+    <!-- MathJax configuration -->
+    <script>
+      window.MathJax = {
+        tex: {
+          inlineMath: [['$', '$']],
+          displayMath: [['$$', '$$']]
+        },
+        svg: {
+          fontCache: 'global'
+        }
+      };
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js" async></script>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Differential and Integral Calculus I</h1>
+            <div class="lecture-title">Engineering: Electrical & Electronic Group 4</div>
+            <div class="author-info">Lecture Notes</div>
+        </header>
+        
+        <section id="class4" class="content-section">
+            <div class="section-title">Class 4: Total Derivative (Differentials)</div>
+            
+            <p>In this class, we explore the concept of <span class="topic-highlight">total derivative</span> (differentials), combining partial derivatives to approximate changes in a function due to multivariate inputs. This allows us to predict how small changes in inputs affect the output.</p>
+
+            <div class="section-highlight">
+                <h3>From Partial Derivatives to Total Derivative</h3>
+                
+                <p>The partial derivatives $f_x$ and $f_y$ capture how $f$ changes when moving purely in the $x$ or $y$ direction. However, if both $x$ and $y$ change simultaneously, the overall change in $f$ is described by the <span class="topic-highlight">total derivative</span>.</p>
+                
+                <div class="definition-box">
+                    <h3 style="margin-top: 0;">Total Differential</h3>
+                    <p>For a differentiable function $z=f(x,y)$, the total differential $dz$ combines the effects of changes in both variables:</p>
+                    <div class="formula" style="background: none; border-left: none; box-shadow: none;">
+                        $$dz = \frac{\partial f}{\partial x}(x,y)\,dx + \frac{\partial f}{\partial y}(x,y)\,dy = f_x(x,y)\,dx + f_y(x,y)\,dy$$
+                    </div>
+                </div>
+                
+                <p>This formula originates from the linear approximation (tangent plane) we studied in Class 3. It indicates that for small changes $dx, dy$, we have:</p>
+                
+                <div class="formula">
+                    $$\Delta z \approx f_x(x,y)\,\Delta x + f_y(x,y)\,\Delta y$$
+                </div>
+                
+                <div class="visual-box">
+                    <svg width="400" height="300" viewBox="0 0 400 300">
+                        <!-- Coordinate system -->
+                        <line x1="50" y1="250" x2="350" y2="250" stroke="#333" stroke-width="2" />
+                        <line x1="50" y1="250" x2="50" y2="50" stroke="#333" stroke-width="2" />
+                        <line x1="50" y1="250" x2="150" y2="200" stroke="#333" stroke-width="1.5" stroke-dasharray="5,5" />
+                        
+                        <!-- Labels -->
+                        <text x="360" y="255" font-family="Arial" font-size="16">x</text>
+                        <text x="40" y="40" font-family="Arial" font-size="16">z</text>
+                        <text x="140" y="210" font-family="Arial" font-size="16">y</text>
+                        
+                        <!-- Surface and tangent plane -->
+                        <path d="M50,250 Q150,100 350,150" fill="none" stroke="#3498db" stroke-width="3" />
+                        <line x1="150" y1="180" x2="250" y2="160" stroke="#e74c3c" stroke-width="3" />
+                        
+                        <!-- Point of tangency -->
+                        <circle cx="150" cy="180" r="5" fill="#2ecc71" />
+                        <text x="150" y="165" font-family="Arial" font-size="12">(x,y,f(x,y))</text>
+                        
+                        <!-- Delta x and Delta z -->
+                        <line x1="150" y1="180" x2="250" y2="180" stroke="#333" stroke-width="1.5" stroke-dasharray="5,5" />
+                        <line x1="250" y1="180" x2="250" y2="160" stroke="#333" stroke-width="1.5" stroke-dasharray="5,5" />
+                        <text x="190" y="195" font-family="Arial" font-size="14">Δx</text>
+                        <text x="260" y="170" font-family="Arial" font-size="14">Δz ≈ dz</text>
+                    </svg>
+                </div>
+            </div>
+
+            <div class="section-highlight">
+                <h3>Geometric Interpretation</h3>
+                
+                <p>In interpretation, $dz$ is the height change one would predict by "following the tangent plane." If $(dx,dy)$ is a small step in the $xy$-plane, then $dz$ is the corresponding change in $z$ along the tangent plane.</p>
+                
+                <p>The <span class="topic-highlight">total derivative</span> at a point $(a,b)$ can be understood as the linear map $(dx,dy) \mapsto f_x(a,b)\,dx + f_y(a,b)\,dy$.</p>
+                
+                <p>In vector form, if $\mathbf{u} = \langle dx, dy\rangle$, then:</p>
+                
+                <div class="formula">
+                    $$dz = \nabla f(a,b)\cdot \mathbf{u}$$
+                </div>
+                
+                <p>where $\nabla f = \langle f_x,\;f_y\rangle$ is the gradient vector.</p>
+                
+                <div class="property-box">
+                    <h3 style="margin-top: 0;">Conditions for Total Differentiability</h3>
+                    <p>It is important to note that a function $f(x,y)$ may have partial derivatives without being fully differentiable (meaning the linear approximation might not perfectly describe small changes from that point).</p>
+                    <p>However, if $f_x$ and $f_y$ exist and are continuous in a neighborhood of $(a,b)$, then $f$ is differentiable at $(a,b)$, and the total derivative exists. In such cases, the linear approximation is accurate for infinitesimal changes.</p>
+                </div>
+            </div>
+
+            <div class="example-box">
+                <div class="example-title">Example 4.1</div>
+                <p>Use differentials to approximate the change in $z$ for $z=\sqrt{x^2+y^2}$ when $(x,y)$ moves from $(3,4)$ to $(3.1, 4.2)$.</p>
+                
+                <p><strong>Solution:</strong></p>
+                <p>Here $f(x,y) = \sqrt{x^2+y^2}$ represents the distance from the origin to the point $(x,y)$.</p>
+                
+                <p>First, we compute the partial derivatives:</p>
+                
+                <div class="formula" style="background: none; border-left: none; box-shadow: none;">
+                    \begin{align*}
+                    f_x &= \frac{\partial}{\partial x}\sqrt{x^2+y^2} = \frac{x}{\sqrt{x^2+y^2}}\\
+                    f_y &= \frac{\partial}{\partial y}\sqrt{x^2+y^2} = \frac{y}{\sqrt{x^2+y^2}}
+                    \end{align*}
+                </div>
+                
+                <p>At the point $(3,4)$, these evaluate to:</p>
+                
+                <div class="formula" style="background: none; border-left: none; box-shadow: none;">
+                    \begin{align*}
+                    f_x(3,4) &= \frac{3}{\sqrt{3^2+4^2}} = \frac{3}{5}\\
+                    f_y(3,4) &= \frac{4}{\sqrt{3^2+4^2}} = \frac{4}{5}
+                    \end{align*}
+                </div>
+                
+                <p>Note that $\sqrt{3^2+4^2} = 5$, which is the distance from the origin to the point $(3,4)$.</p>
+                
+                <p>The differentials are:</p>
+                <div class="formula" style="background: none; border-left: none; box-shadow: none;">
+                    \begin{align*}
+                    dx &= 3.1 - 3 = 0.1\\
+                    dy &= 4.2 - 4 = 0.2
+                    \end{align*}
+                </div>
+                
+                <p>Using the formula for the total differential:</p>
+                <div class="formula" style="background: none; border-left: none; box-shadow: none;">
+                    \begin{align*}
+                    dz &\approx f_x(3,4)\,dx + f_y(3,4)\,dy\\
+                    &= \frac{3}{5}(0.1) + \frac{4}{5}(0.2)\\
+                    &= 0.03 + 0.16\\
+                    &= 0.19
+                    \end{align*}
+                </div>
+                
+                <p>We predict $z$ will increase by approximately $0.19$ units.</p>
+                
+                <p>To verify our approximation, we calculate the actual change:</p>
+                <div class="formula" style="background: none; border-left: none; box-shadow: none;">
+                    \begin{align*}
+                    z \text{ at } (3.1,4.2) &= \sqrt{3.1^2+4.2^2}\\
+                    &= \sqrt{9.61 + 17.64}\\
+                    &= \sqrt{27.25}\\
+                    &\approx 5.22
+                    \end{align*}
+                </div>
+                
+                <p>The original value was $z = \sqrt{3^2+4^2} = 5$</p>
+                
+                <p>Therefore, the actual change is:</p>
+                <div class="formula" style="background: none; border-left: none; box-shadow: none;">
+                    \begin{align*}
+                    \Delta z &= 5.22 - 5\\
+                    &= 0.22
+                    \end{align*}
+                </div>
+                
+                <p>Our differential approximation of $0.19$ is very close to the actual change of $0.22$, with an error of only $0.03$. This demonstrates the effectiveness of the differential approach for small changes in the input variables.</p>
+            </div>
+
+            <div class="section-highlight">
+                <h3>Comparison: Partial vs. Total Derivatives</h3>
+                
+                <table class="comparison-table">
+                    <thead>
+                        <tr>
+                            <th>Aspect</th>
+                            <th>Partial Derivatives</th>
+                            <th>Total Derivative</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Definition</td>
+                            <td>Rate of change in one variable direction</td>
+                            <td>Combined effect of changes in all variables</td>
+                        </tr>
+                        <tr>
+                            <td>Variables</td>
+                            <td>All other variables held constant</td>
+                            <td>All variables allowed to vary</td>
+                        </tr>
+                        <tr>
+                            <td>Notation</td>
+                            <td>$\frac{\partial f}{\partial x}$ or $f_x$</td>
+                            <td>$df$ or $\frac{df}{dt}$ (if variables depend on $t$)</td>
+                        </tr>
+                        <tr>
+                            <td>Geometric</td>
+                            <td>Slope in coordinate directions</td>
+                            <td>Linear approximation in any direction</td>
+                        </tr>
+                        <tr>
+                            <td>Application</td>
+                            <td>Finding tangent planes</td>
+                            <td>Approximating function changes</td>
+                        </tr>
+                    </tbody>
+                </table>
+                
+                <div class="figure" style="background-color: #eefaf8; border-left: 4px solid #2ecc71; text-align: left;">
+                    <h3 style="margin-top: 0;">Key Insights about Total Derivatives</h3>
+                    <ul style="padding-left: 20px;">
+                        <li>The total derivative combines partial derivatives to predict changes when multiple variables change simultaneously.</li>
+                        <li>The formula for the total differential, $dz = f_x\,dx + f_y\,dy$, emerges naturally from the tangent plane approximation.</li>
+                        <li>For a function to be totally differentiable, the partial derivatives must exist and be continuous in a neighborhood of the point.</li>
+                        <li>The gradient vector $\nabla f = \langle f_x, f_y \rangle$ encapsulates the total derivative's behavior in a coordinate-free way.</li>
+                        <li>In engineering applications, differentials provide a powerful tool for estimating how small changes in inputs affect outputs, essential for sensitivity analysis and error propagation studies.</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <div class="navigation">
+            <a href="class3.html">← Previous: Class 3</a>
+            <a href="../index.html">Home</a>
+            <a href="class5.html">Next: Class 5 →</a>
+        </div>
+    </div>
+</body>
+</html>

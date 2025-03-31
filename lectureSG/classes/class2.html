@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Class 2: Basic Properties of First Passage Percolation</title>
+    <style>
+        :root {
+            --primary-color: #2c3e50;
+            --secondary-color: #3498db;
+            --accent-color: #e74c3c;
+            --background-color: #f9f9f9;
+            --text-color: #333;
+            --container-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+            --text-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+        }
+
+        body {
+            font-family: 'Georgia', serif;
+            line-height: 1.7;
+            margin: 0;
+            padding: 0;
+            background-color: var(--background-color);
+            color: var(--text-color);
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 20px auto;
+            padding: 30px;
+            background-color: white;
+            box-shadow: var(--container-shadow);
+            border-radius: 15px;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 40px;
+            border-bottom: 2px solid var(--secondary-color);
+            padding-bottom: 20px;
+        }
+
+        h1, h2, h3 {
+            color: var(--primary-color);
+        }
+
+        .section-title {
+            color: var(--primary-color);
+            font-size: 1.8rem;
+            margin-top: 30px;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #eee;
+            text-shadow: var(--text-shadow);
+        }
+
+        .lecture-title {
+            color: var(--secondary-color);
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+            font-weight: normal;
+        }
+
+        .author-info {
+            font-style: italic;
+            color: #777;
+        }
+
+        .math {
+            font-style: italic;
+            padding: 0 3px;
+        }
+
+        .figure {
+            text-align: center;
+            margin: 30px 0;
+            padding: 20px;
+            background-color: #f8f9fa;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+        }
+
+        .figure img {
+            max-width: 100%;
+            border-radius: 5px;
+        }
+
+        .figure-caption {
+            font-style: italic;
+            color: #777;
+            margin-top: 15px;
+        }
+
+        .navigation {
+            margin-top: 40px;
+            text-align: center;
+            display: flex;
+            justify-content: space-between;
+            padding: 15px 0;
+            border-top: 1px solid #eee;
+        }
+
+        .navigation a {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: var(--primary-color);
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .navigation a:hover {
+            background-color: var(--secondary-color);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+        }
+
+        .topic-highlight {
+            display: inline-block;
+            background-color: rgba(52, 152, 219, 0.1);
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-weight: 500;
+            color: var(--primary-color);
+        }
+
+        .formula {
+            margin: 25px 0;
+            padding: 15px;
+            background-color: #f8f9fa;
+            border-left: 4px solid var(--secondary-color);
+            border-radius: 5px;
+            overflow-x: auto;
+            font-size: 1.1em;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+        }
+
+        .example-title {
+            font-weight: bold;
+            font-size: 1.2em;
+            color: var(--secondary-color);
+            margin-top: 30px;
+            margin-bottom: 15px;
+            padding-bottom: 5px;
+            border-bottom: 1px dashed #ccc;
+            display: inline-block;
+        }
+
+        p {
+            margin-bottom: 20px;
+            line-height: 1.8;
+        }
+
+        .content-section {
+            padding-bottom: 30px;
+        }
+        
+        .definition-box {
+            background-color: #f0f7ff;
+            border-left: 4px solid #3498db;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+        }
+        
+        .property-box {
+            background-color: #eefaf8;
+            border-left: 4px solid #2ecc71;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+        }
+        
+        ol.styled-list, ul.styled-list {
+            padding-left: 20px;
+        }
+        
+        ol.styled-list li, ul.styled-list li {
+            margin-bottom: 12px;
+            line-height: 1.7;
+        }
+        
+        .section-highlight {
+            background-color: #f8f9fa;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 25px 0;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+        }
+        
+        .animation-link {
+            display: inline-block;
+            margin-left: 10px;
+            color: var(--accent-color);
+            text-decoration: none;
+            font-weight: bold;
+            transition: all 0.2s ease;
+        }
+        
+        .animation-link:hover {
+            color: #c0392b;
+            transform: translateY(-2px);
+        }
+        
+        .table-container {
+            overflow-x: auto;
+            margin: 25px 0;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+        }
+        
+        th, td {
+            padding: 12px 15px;
+            border: 1px solid #ddd;
+            text-align: left;
+        }
+        
+        th {
+            background-color: var(--primary-color);
+            color: white;
+        }
+        
+        tr:nth-child(even) {
+            background-color: #f8f9fa;
+        }
+        
+        tr:hover {
+            background-color: #f1f1f1;
+        }
+    </style>
+    <!-- MathJax configuration -->
+    <script>
+      window.MathJax = {
+        tex: {
+          inlineMath: [['$', '$']],
+          displayMath: [['$$', '$$']]
+        },
+        svg: {
+          fontCache: 'global'
+        }
+      };
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js" async></script>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>First Passage Percolation</h1>
+            <div class="lecture-title">A Comprehensive Overview</div>
+            <div class="author-info">Lecture Notes</div>
+        </header>
+
+        <section id="class2" class="content-section">
+            <div class="section-title">Class 2: Basic Properties of First Passage Percolation</div>
+            
+            <p>In this class, we explore the fundamental properties that govern the behavior of First Passage Percolation (FPP). We'll study how <span class="topic-highlight">subadditivity</span> leads to the law of large numbers, examine the <span class="topic-highlight">existence of geodesics</span>, and understand <span class="topic-highlight">concentration and fluctuations</span> of passage times.</p>
+
+            <div class="section-highlight">
+                <h3>Basic Concepts from Percolation Theory</h3>
+                
+                <div class="definition-box">
+                    <h3 style="margin-top: 0;">Percolation Threshold</h3>
+                    <p>In standard Bernoulli percolation, the <strong>percolation threshold</strong> (denoted by $p_c$) marks a transition in the behavior of the system:</p>
+                    <ul class="styled-list">
+                        <li>For $p < p_c$: The probability of finding an infinitely large connected cluster is zero.</li>
+                        <li>For $p > p_c$: This probability becomes positive.</li>
+                        <li>At $p = p_c$: A phase transition occurs in the system's connectivity properties.</li>
+                    </ul>
+                    <p>While FPP assigns continuous weights rather than binary states, analogous threshold concepts can be considered when studying the existence of paths with total passage time below a certain value.</p>
+                </div>
+                
+                <p>In percolation theory, we distinguish between <span class="topic-highlight">bond percolation</span> (randomness associated with edges) and <span class="topic-highlight">site percolation</span> (randomness associated with vertices). In the context of FPP on a lattice, random passage times are typically assigned to the edges, aligning the structure more closely with bond percolation.</p>
+                
+                <div class="property-box">
+                    <h3 style="margin-top: 0;">The Notion of Infinite Clusters</h3>
+                    <p>An <strong>infinite cluster</strong> in percolation theory refers to a connected component of open elements that extends infinitely. In FPP, the analog can be conceptualized through the asymptotic behavior of the set $B(t)$, which represents all points reachable from the origin within time $t$.</p>
+                    <p>The shape theorem demonstrates that as $t$ approaches infinity, the rescaled set $B(t)/t$ converges almost surely to a deterministic shape $R$. This non-empty limit shape implies that it's possible to reach arbitrarily far in any direction within a time that grows linearly with distance.</p>
+                </div>
+            </div>
+
+            <div class="section-highlight">
+                <h3>Subadditivity and Its Implications</h3>
+                
+                <div class="definition-box">
+                    <h3 style="margin-top: 0;">Subadditivity Property</h3>
+                    <p>A key property of the first passage time $T(x, y)$ is its <strong>subadditivity</strong>. For any three vertices $x$, $y$, and $z$ in the graph, the following inequality holds:</p>
+                    <div class="formula" style="background: none; border-left: none; box-shadow: none;">
+                        $$T(x, z) \leq T(x, y) + T(y, z)$$
+                    </div>
+                    <p>This property arises directly from the definition of $T(x, z)$ as the minimum passage time over all possible paths connecting $x$ and $z$.</p>
+                </div>
+                
+                <p>The subadditivity property has profound implications for understanding the asymptotic behavior of FPP, as it allows for the application of powerful mathematical tools designed for analyzing subadditive processes.</p>
+                
+                <div class="property-box">
+                    <h3 style="margin-top: 0;">Law of Large Numbers and the Time Constant</h3>
+                    <p>The subadditivity property allows for the application of Kingman's Subadditive Ergodic Theorem. This theorem implies that for any direction vector $v$ in the $d$-dimensional lattice $\mathbb{Z}^d$, the expected passage time per unit distance converges to a deterministic constant known as the <strong>time constant</strong>, denoted by $\mu(v)$:</p>
+                    <div class="formula">
+                        $$\lim_{n\to\infty} \frac{T(0, nv)}{n} = \mu(v)$$
+                    </div>
+                    <p>This convergence occurs almost surely (with probability one) and also in the $L^1$ sense under certain conditions on the moments of the edge weight distribution.</p>
+                    <p>The time constant $\mu(v)$ represents the asymptotic speed of propagation or the effective cost per unit distance in the direction specified by $v$. Despite the stochasticity in the assignment of weights to individual edges, the average passage time over sufficiently large distances becomes predictable.</p>
+                </div>
+                
+                <div class="example-title">Example 2.1: Anisotropy in Time Constants</div>
+                <div class="formula" style="background-color: #f0f7ff; border-left-color: #3498db;">
+                    <p>Consider an FPP model where horizontal edges have passage times that are generally smaller than vertical edges. In this case:</p>
+                    <ul style="list-style-type: none; padding-left: 0; margin: 0;">
+                        <li>• $\mu((1,0))$ (eastward direction) might be smaller than</li>
+                        <li>• $\mu((0,1))$ (northward direction)</li>
+                    </ul>
+                    <p>This directional dependence of the time constant is reflected in the shape of the limit shape $R$, which would be elongated in the horizontal direction.</p>
+                </div>
+            </div>
+
+            <div class="section-highlight">
+                <h3>Existence of Geodesics</h3>
+                
+                <p>A <span class="topic-highlight">geodesic</span> between two vertices $x$ and $y$ in the context of FPP is defined as a path that connects these two vertices and whose total passage time is exactly equal to the first passage time $T(x, y)$. In simpler terms, it represents a path of shortest time between the two points.</p>
+                
+                <div class="property-box">
+                    <h3 style="margin-top: 0;">Existence Theorem</h3>
+                    <p>Under fairly general conditions on the probability distribution of the edge weights, such as:</p>
+                    <ul class="styled-list">
+                        <li>The weights being non-negative</li>
+                        <li>The probability of an edge having a weight of exactly zero being sufficiently small</li>
+                    </ul>
+                    <p>It has been rigorously proven that geodesics between any two points in the lattice $\mathbb{Z}^d$ exist with a probability of one.</p>
+                </div>
+                
+                <p>The existence of geodesics ensures that the concept of a "shortest time path" is well-defined within the framework of FPP. This allows for the meaningful study of the properties and characteristics of these optimal paths within the random metric space.</p>
+                
+                <div class="figure">
+                    <img src="https://via.placeholder.com/500x300" alt="Geodesics in FPP">
+                    <div class="figure-caption">Figure 2.1: Illustration of geodesics (shortest time paths) connecting various points in a First Passage Percolation model.</div>
+                </div>
+            </div>
+
+            <div class="section-highlight">
+                <h3>Concentration and Fluctuations of Passage Times</h3>
+                
+                <p>Beyond the average behavior described by the time constant and the asymptotic shape, understanding the concentration and fluctuations of the passage times is crucial for a complete picture of first passage percolation.</p>
+                
+                <div class="definition-box">
+                    <h3 style="margin-top: 0;">Kesten's Variance Bound</h3>
+                    <p>Harry Kesten proved that the variance of the passage time $T(0, nv)$ is bounded above by a constant multiplied by $n$:</p>
+                    <div class="formula" style="background: none; border-left: none; box-shadow: none;">
+                        $$\text{Var}(T(0, nv)) \leq C \cdot n$$
+                    </div>
+                    <p>Here, $C$ is a constant that depends on the distribution of the edge weights. This linear growth of the variance with distance $n$ indicates that the fluctuations of the passage time around its mean value do not grow faster than linearly with the distance traveled.</p>
+                </div>
+                
+                <p>Other important methods for studying fluctuations in FPP include:</p>
+                
+                <div class="property-box">
+                    <h3 style="margin-top: 0;">Advanced Methods for Studying Fluctuations</h3>
+                    <ol class="styled-list">
+                        <li><span class="topic-highlight">Alexander's Method</span>: A technique that analyzes how small perturbations in the random environment affect global quantities like passage times or geodesic structure.</li>
+                        <li><span class="topic-highlight">BKS Inequality</span>: The Benjamini-Kalai-Schramm inequality provides an upper bound on the probability of the union of a collection of "local" events, useful for studying concentration phenomena.</li>
+                        <li><span class="topic-highlight">Newman-Piza Lower Bound</span>: Derived from the Aizenman-Wahr inequality, this provides a lower bound on the variance of passage time, suggesting that fluctuations grow at least linearly with distance.</li>
+                    </ol>
+                </div>
+                
+                <div class="example-title">Example 2.2: Implications of Variance Bounds</div>
+                <div class="formula" style="background-color: #f0f7ff; border-left-color: #3498db;">
+                    <p>The combination of upper and lower bounds on variance has important implications:</p>
+                    <p>If $c \cdot n \leq \text{Var}(T(0, nv)) \leq C \cdot n$ for constants $c, C > 0$, then the standard deviation of passage time grows as $\Theta(\sqrt{n})$.</p>
+                    <p>This means that the typical fluctuations around the mean are on the order of $\sqrt{n}$, which is significantly smaller than the mean itself (which grows as $\Theta(n)$).</p>
+                    <p>This explains why the law of large numbers works: as $n$ increases, the relative size of the fluctuations compared to the mean diminishes, leading to concentration around the expected value.</p>
+                </div>
+            </div>
+
+            <div class="section-highlight">
+                <h3>Transversal Bounds for Geodesics</h3>
+                
+                <p>Understanding the behavior of geodesics involves quantifying how much they deviate from a straight line connecting their endpoints. These deviations are known as <span class="topic-highlight">transversal fluctuations</span>.</p>
+                
+                <div class="property-box">
+                    <h3 style="margin-top: 0;">Results by Newman and Licea</h3>
+                    <p>Charles Newman and Cristian Licea have made significant contributions to understanding geodesics in FPP, focusing on characterizing their transversal fluctuations.</p>
+                    <p>Their work provides probabilistic bounds showing that transversal fluctuations grow sublinearly with the distance between the endpoints of the geodesic.</p>
+                    <p>For two-dimensional FPP, it's conjectured that transversal fluctuations should scale as $n^{\xi}$, where $n$ is the distance and the exponent $\xi$ is equal to $2/3$. Proving this specific scaling rigorously remains a major open problem.</p>
+                </div>
+                
+                <div class="figure">
+                    <img src="https://via.placeholder.com/500x300" alt="Transversal fluctuations of geodesics">
+                    <div class="figure-caption">Figure 2.2: Illustration of transversal fluctuations of geodesics in a 2D lattice, showing how optimal paths deviate from straight-line paths.</div>
+                </div>
+            </div>
+
+            <div class="table-container">
+                <h3>Table 2.1: Key Concepts in Basic Properties of FPP</h3>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Property</th>
+                            <th>Description</th>
+                            <th>Mathematical Formulation</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Subadditivity</td>
+                            <td>First passage time satisfies triangle inequality</td>
+                            <td>$T(x, z) \leq T(x, y) + T(y, z)$</td>
+                        </tr>
+                        <tr>
+                            <td>Time Constant</td>
+                            <td>Asymptotic speed of propagation in a given direction</td>
+                            <td>$\mu(v) = \lim_{n\to\infty} \frac{T(0, nv)}{n}$</td>
+                        </tr>
+                        <tr>
+                            <td>Variance Bound</td>
+                            <td>Upper bound on fluctuations of passage time</td>
+                            <td>$\text{Var}(T(0, nv)) \leq C \cdot n$</td>
+                        </tr>
+                        <tr>
+                            <td>Geodesic</td>
+                            <td>Path with minimal passage time between two points</td>
+                            <td>$\gamma$ is a geodesic if $\sum_{e \in \gamma} \tau_e = T(x,y)$</td>
+                        </tr>
+                        <tr>
+                            <td>Transversal Fluctuations</td>
+                            <td>Deviations of geodesics from straight-line paths</td>
+                            <td>Conjectured to scale as $n^{2/3}$ in 2D</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <div class="navigation">
+            <a href="class1.html">← Previous: Introduction to FPP</a>
+            <a href="../index.html">Home</a>
+            <a href="class3.html">Next: The Shape Theorem →</a>
+        </div>
+    </div>
+</body>
+</html>

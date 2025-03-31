@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Introduction to First Passage Percolation (FPP)</title>
+    <style>
+        :root {
+            --primary-color: #2c3e50;
+            --secondary-color: #3498db;
+            --accent-color: #e74c3c;
+            --background-color: #f9f9f9;
+            --text-color: #333;
+            --container-shadow: 0 4px 6px rgba(0, 0, 0, 0.1), 0 1px 3px rgba(0, 0, 0, 0.08);
+        }
+
+        body {
+            font-family: 'Georgia', serif;
+            line-height: 1.7;
+            margin: 0;
+            padding: 0;
+            background-color: var(--background-color);
+            color: var(--text-color);
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 20px auto;
+            padding: 30px;
+            background-color: white;
+            box-shadow: var(--container-shadow);
+            border-radius: 10px;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 40px;
+            border-bottom: 2px solid var(--secondary-color);
+            padding-bottom: 20px;
+        }
+
+        h1 {
+            color: var(--primary-color);
+            margin-bottom: 10px;
+            font-size: 2.5rem;
+        }
+
+        .lecture-title {
+            color: var(--secondary-color);
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+            font-weight: normal;
+        }
+
+        .author-info {
+            font-style: italic;
+            color: #777;
+        }
+
+        /* Navigation Styles */
+        .navigation {
+            position: sticky;
+            top: 20px;
+            margin-bottom: 40px;
+            z-index: 100;
+        }
+
+        .nav-container {
+            background-color: var(--primary-color);
+            border-radius: 8px;
+            padding: 10px;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 5px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .nav-button {
+            padding: 8px 12px;
+            background-color: transparent;
+            color: white;
+            border: 1px solid rgba(255,255,255,0.2);
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.3s;
+            text-decoration: none;
+        }
+
+        .nav-button:hover {
+            background-color: rgba(255,255,255,0.1);
+            transform: translateY(-2px);
+        }
+
+        .nav-button.active {
+            background-color: var(--secondary-color);
+            border-color: var(--secondary-color);
+            transform: translateY(-2px);
+        }
+
+        /* Content Section Styles */
+        .content-section {
+            display: block;
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .section-title {
+            color: var(--primary-color);
+            font-size: 1.8rem;
+            margin-top: 30px;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .math {
+            font-style: italic;
+            padding: 0 3px;
+        }
+
+        .figure {
+            text-align: center;
+            margin: 30px 0;
+            padding: 10px;
+            background-color: #f8f9fa;
+            border-radius: 5px;
+        }
+
+        .figure img {
+            max-width: 100%;
+            border-radius: 5px;
+        }
+
+        .figure-caption {
+            font-style: italic;
+            color: #777;
+            margin-top: 10px;
+        }
+
+        .definition-box {
+            background-color: #f0f7ff;
+            border-left: 4px solid #3498db;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 5px;
+        }
+
+        .topic-highlight {
+            display: inline-block;
+            background-color: rgba(52, 152, 219, 0.1);
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-weight: 500;
+            color: var(--primary-color);
+        }
+
+        .summary-list {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+            margin-top: 20px;
+            margin-bottom: 20px;
+        }
+
+        .summary-list-item {
+            margin-bottom: 25px;
+            padding: 20px 25px;
+            position: relative;
+            background-color: white;
+            border-radius: 12px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            transition: all 0.3s ease;
+            border-left: 4px solid var(--secondary-color);
+        }
+
+        .summary-list-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        }
+    </style>
+    
+    <!-- MathJax configuration -->
+    <script>
+      window.MathJax = {
+        tex: {
+          inlineMath: [['$', '$']],
+          displayMath: [['$$', '$$']]
+        },
+        svg: {
+          fontCache: 'global'
+        }
+      };
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js" async></script>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Introduction to First Passage Percolation</h1>
+            <div class="lecture-title">Mathematical Department</div>
+            <div class="author-info">Lecture Notes</div>
+        </header>
+
+        <div class="navigation">
+            <div class="nav-container">
+                <a href="index.html" class="nav-button active">Home</a>
+                <a href="classes/class1.html" class="nav-button">Background & History</a>
+                <a href="classes/class2.html" class="nav-button">Related Phenomena</a>
+                <a href="classes/class3.html" class="nav-button">Limit Shape Theorem</a>
+                <a href="#" class="nav-button">Class 4</a>
+                <a href="#" class="nav-button">Class 5</a>
+                <a href="#" class="nav-button">Class 6</a>
+                <a href="#" class="nav-button">Class 7</a>
+            </div>
+        </div>
+
+        <div class="content-section">
+            <div class="section-title">Introduction to First Passage Percolation (FPP)</div>
+            
+            <div class="definition-box">
+                <p><strong>Definition:</strong> First passage percolation (FPP) is a model of a random metric on a graph where each edge is assigned a non-negative random weight (passage time) from an i.i.d. distribution.</p>
+            </div>
+            
+            <p>First passage percolation (FPP) constitutes a model of a random metric, typically defined on an infinite graph, which introduces stochasticity into the notion of distance within the graph structure. This is achieved by assigning independent and identically distributed (i.i.d.) non-negative lengths, often referred to as passage times, to each edge of the graph. The most common underlying structure for this model is the d-dimensional Euclidean lattice, denoted as Z<sup>d</sup>, where edges connect vertices that are nearest neighbors. The non-negativity constraint on the passage times ensures that traversal always progresses forward in time or remains stationary, while the i.i.d. assumption simplifies the initial mathematical analysis of the model.</p>
+
+            <p>For any given path within the graph, its passage time is quantified as the sum of the passage times of all the individual edges that constitute the path. This summation aggregates the inherent randomness associated with each edge along the entirety of the path. Subsequently, the first passage time between any two vertices, say x and y, is formally defined as the infimum (or minimum, in the context of finite graphs) of the passage times calculated over all possible paths that connect x and y. This value represents the random "shortest distance" between the two points within the defined random metric space. The function that assigns this first passage time between any pair of vertices effectively induces a random pseudo-metric on the graph. This pseudo-metric satisfies the properties of non-negativity and the triangle inequality. If the edge weights are strictly positive, then this becomes a true random metric.</p>
+
+            <p>The inherent simplicity of the FPP model, characterized by its definition on a lattice structure with i.i.d. weights, is noteworthy as it allows for the formulation of numerous intriguing conjectures without necessitating overly complex definitions. This balance between a straightforward setup and the emergence of complex behaviors is a central aspect that makes FPP a compelling model for investigating fundamental questions in probability theory. Furthermore, the focus on the infimum over all possible paths underscores the intrinsic connection of FPP to optimization problems within a stochastic environment. This perspective links the study of FPP to broader areas such as network optimization and the analysis of shortest path algorithms.</p>
+            
+            <div class="figure">
+                <img src="./first-passage-percolation.svg" alt="First Passage Percolation illustration" onerror="this.onerror=null; this.src='https://via.placeholder.com/600x400?text=First+Passage+Percolation';">
+                <div class="figure-caption">Illustration of First Passage Percolation on a lattice, with random weights assigned to edges and optimal paths highlighted.</div>
+            </div>
+            
+            <div class="section-title">Course Overview</div>
+            <p>Throughout this lecture series, we will explore the mathematical foundations, historical context, and current research directions in the fascinating field of First Passage Percolation. Below is an outline of the key topics we'll cover:</p>
+            
+            <ul class="summary-list">
+                <li class="summary-list-item">
+                    <strong>Background and History:</strong> The formal introduction of FPP by Hammersley and Welsh in 1965, its initial motivations from fluid flow through porous media, and its evolution into a cornerstone of probability theory.
+                </li>
+                <li class="summary-list-item">
+                    <strong>Related Phenomena:</strong> Connections to directed polymers in random media, last passage percolation, the Eden growth model, and other related models in probability and statistical physics.
+                </li>
+                <li class="summary-list-item">
+                    <strong>The Shape Theorem:</strong> The groundbreaking Cox-Durrett limit shape theorem describing the asymptotic behavior of the set of points reachable within time t.
+                </li>
+                <li class="summary-list-item">
+                    <strong>Fluctuations and Variance:</strong> Analysis of deviations from the asymptotic shape and connections to the KPZ universality class.
+                </li>
+                <li class="summary-list-item">
+                    <strong>Geodesics:</strong> Properties of shortest paths in FPP, including the existence and behavior of infinite geodesics.
+                </li>
+                <li class="summary-list-item">
+                    <strong>Current Research Directions:</strong> Open problems and recent advances in the study of First Passage Percolation.
+                </li>
+            </ul>
+            
+
+        </div>
+    </div>
+</body>
+</html>

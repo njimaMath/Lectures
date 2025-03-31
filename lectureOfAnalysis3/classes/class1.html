@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Class 1: Partial Derivatives</title>
+    <style>
+        :root {
+            --primary-color: #2c3e50;
+            --secondary-color: #3498db;
+            --accent-color: #e74c3c;
+            --background-color: #f9f9f9;
+            --text-color: #333;
+            --container-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+            --text-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+        }
+
+        body {
+            font-family: 'Georgia', serif;
+            line-height: 1.7;
+            margin: 0;
+            padding: 0;
+            background-color: var(--background-color);
+            color: var(--text-color);
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 20px auto;
+            padding: 30px;
+            background-color: white;
+            box-shadow: var(--container-shadow);
+            border-radius: 15px;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 40px;
+            border-bottom: 2px solid var(--secondary-color);
+            padding-bottom: 20px;
+        }
+
+        h1, h2, h3 {
+            color: var(--primary-color);
+        }
+
+        .section-title {
+            color: var(--primary-color);
+            font-size: 1.8rem;
+            margin-top: 30px;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #eee;
+            text-shadow: var(--text-shadow);
+        }
+
+        .lecture-title {
+            color: var(--secondary-color);
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+            font-weight: normal;
+        }
+
+        .author-info {
+            font-style: italic;
+            color: #777;
+        }
+
+        .math {
+            font-style: italic;
+            padding: 0 3px;
+        }
+
+        .figure {
+            text-align: center;
+            margin: 30px 0;
+            padding: 20px;
+            background-color: #f8f9fa;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+        }
+
+        .figure img {
+            max-width: 100%;
+            border-radius: 5px;
+        }
+
+        .figure-caption {
+            font-style: italic;
+            color: #777;
+            margin-top: 15px;
+        }
+
+        .navigation {
+            margin-top: 40px;
+            text-align: center;
+            display: flex;
+            justify-content: space-between;
+            padding: 15px 0;
+            border-top: 1px solid #eee;
+        }
+
+        .navigation a {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: var(--primary-color);
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .navigation a:hover {
+            background-color: var(--secondary-color);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+        }
+
+        .topic-highlight {
+            display: inline-block;
+            background-color: rgba(52, 152, 219, 0.1);
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-weight: 500;
+            color: var(--primary-color);
+        }
+
+        .formula {
+            margin: 25px 0;
+            padding: 15px;
+            background-color: #f8f9fa;
+            border-left: 4px solid var(--secondary-color);
+            border-radius: 5px;
+            overflow-x: auto;
+            font-size: 1.1em;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+        }
+
+        .example-title {
+            font-weight: bold;
+            font-size: 1.2em;
+            color: var(--secondary-color);
+            margin-top: 30px;
+            margin-bottom: 15px;
+            padding-bottom: 5px;
+            border-bottom: 1px dashed #ccc;
+            display: inline-block;
+        }
+
+        p {
+            margin-bottom: 20px;
+            line-height: 1.8;
+        }
+
+        .content-section {
+            padding-bottom: 30px;
+        }
+        
+        .definition-box {
+            background-color: #f0f7ff;
+            border-left: 4px solid #3498db;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+        }
+        
+        .property-box {
+            background-color: #eefaf8;
+            border-left: 4px solid #2ecc71;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+        }
+        
+        ol.styled-list, ul.styled-list {
+            padding-left: 20px;
+        }
+        
+        ol.styled-list li, ul.styled-list li {
+            margin-bottom: 12px;
+            line-height: 1.7;
+        }
+        
+        .section-highlight {
+            background-color: #f8f9fa;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 25px 0;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+        }
+    </style>
+    <!-- MathJax configuration -->
+    <script>
+      window.MathJax = {
+        tex: {
+          inlineMath: [['$', '$']],
+          displayMath: [['$$', '$$']]
+        },
+        svg: {
+          fontCache: 'global'
+        }
+      };
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js" async></script>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Differential and Integral Calculus I</h1>
+            <div class="lecture-title">Engineering: Electrical & Electronic Group 4</div>
+            <div class="author-info">Lecture Notes</div>
+        </header>
+
+        <section id="class1" class="content-section">
+            <div class="section-title">Class 1: Partial Derivatives</div>
+            
+            <p>In this first class, we extend our knowledge of single-variable calculus to functions of multiple variables, and introduce the fundamental concept of <span class="topic-highlight">partial derivatives</span>.</p>
+
+            <div class="section-highlight">
+                <h3>Section 1: Functions and Their Properties</h3>
+                <p>Let's begin by reviewing the basic properties of functions. For a function $f: A \rightarrow B$ where $A \subseteq \mathbb{R}$ and $B \subseteq \mathbb{R}$:</p>
+                
+                <div class="property-box">
+                    <h3 style="margin-top: 0;">Basic Function Properties</h3>
+                    <p>If $f: A \rightarrow B$ and $g: A \rightarrow B$ are functions, then:</p>
+                    <ol class="styled-list">
+                        <li>$(f + g)(x) = f(x) + g(x)$ - <span class="topic-highlight">Addition</span></li>
+                        <li>$(f \cdot g)(x) = f(x) \cdot g(x)$ - <span class="topic-highlight">Multiplication</span></li>
+                        <li>$(f \circ g)(x) = f(g(x))$ - <span class="topic-highlight">Composition</span></li>
+                    </ol>
+                    <p>For any $x \in A$ where these operations are defined.</p>
+                </div>
+                
+                <p>Some examples of functions derived from these operations:</p>
+                <ul class="styled-list">
+                    <li>$f + g: A \rightarrow \mathbb{R}$ - Sum function</li>
+                    <li>$(f - g): A \rightarrow \mathbb{R}$ - Difference function</li>
+                    <li>$f \circ g: A \rightarrow \mathbb{R}$ - Composite function, provided $g(A) \subseteq \text{Domain}(f)$</li>
+                </ul>
+            </div>
+        
+            <div class="section-highlight">
+                <h3>Section 2: Derivatives of Single-Variable Functions</h3>
+                <p>Before moving to multiple variables, let's recall the definition of a derivative for a single-variable function $f: \mathbb{R} \rightarrow \mathbb{R}$:</p>
+                
+                <div class="definition-box">
+                    <h3 style="margin-top: 0;">Derivative Definition</h3>
+                    <p>The derivative of $f$ at a point $a$ is defined as:</p>
+                    <div class="formula" style="background: none; border-left: none; box-shadow: none;">
+                        $$f'(a) = \lim_{h \to 0} \frac{f(a + h) - f(a)}{h}$$
+                    </div>
+                    <p>provided this limit exists.</p>
+                </div>
+                
+                <p>Some common derivatives we should remember:</p>
+                <div class="formula">
+                    <ul style="list-style-type: none; padding-left: 0; margin: 0;">
+                        <li>• If $f(x) = x^n$ for $n \in \mathbb{N}$, then $f'(x) = nx^{n-1}$</li>
+                        <li>• If $f(x) = \sin x$, then $f'(x) = \cos x$</li>
+                        <li>• If $f(x) = e^x$, then $f'(x) = e^x$</li>
+                        <li>• If $f(x) = \ln x$, then $f'(x) = \frac{1}{x}$ for $x > 0$</li>
+                    </ul>
+                </div>
+                
+                <div class="property-box">
+                    <h3 style="margin-top: 0;">Properties of Derivatives</h3>
+                    <ol class="styled-list">
+                        <li><span class="topic-highlight">Sum Rule</span>: $(f + g)'(x) = f'(x) + g'(x)$</li>
+                        <li><span class="topic-highlight">Product Rule</span>: $(f \cdot g)'(x) = f'(x)g(x) + f(x)g'(x)$</li>
+                        <li><span class="topic-highlight">Chain Rule</span>: $(f \circ g)'(x) = f'(g(x)) \cdot g'(x)$</li>
+                    </ol>
+                </div>
+            </div>
+        
+            <div class="section-highlight">
+                <h3>Section 3: Functions of Multiple Variables</h3>
+                <p>Now we extend to functions of multiple variables, where $f: \mathbb{R}^n \rightarrow \mathbb{R}$ assigns a real number to each point in $n$-dimensional space.</p>
+                
+                <p>For example, if $f: \mathbb{R}^2 \rightarrow \mathbb{R}$, then $f$ associates a real value with each point $(x, y) \in \mathbb{R}^2$. These functions can be visualized as surfaces in three-dimensional space.</p>
+                
+                <div class="figure">
+                    <img src="./paraboid.gif" alt="Graph of a function of two variables">
+                    <div class="figure-caption">Figure 1.1: Visualization of $f(x, y) = x^2 + y^2$, a paraboloid surface in 3D space.</div>
+                </div>
+                
+                <p>Some common examples of functions of two variables:</p>
+                <ul class="styled-list">
+                    <li>$f(x, y) = x^2 + y^2$ - A <span class="topic-highlight">paraboloid</span></li>
+                    <li>$f(x, y) = \sin(xy) + y$ - A more complex surface with wave-like features</li>
+                    <li>$f(x, y) = e^{-(x^2+y^2)}$ - A <span class="topic-highlight">Gaussian bell</span> surface</li>
+                </ul>
+            </div>
+        
+            <div class="section-highlight">
+                <h3>Section 4: Partial Derivatives</h3>
+                <p>The key concept we introduce today is the <span class="topic-highlight">partial derivative</span>, which measures the rate of change of a multivariate function with respect to one variable while holding the others constant.</p>
+                
+                <div class="definition-box">
+                    <h3 style="margin-top: 0;">Partial Derivative Definition</h3>
+                    <p>For a function $f: \mathbb{R}^n \rightarrow \mathbb{R}$, the partial derivative of $f$ with respect to the $i$-th variable at a point $\mathbf{x} = (x_1, x_2, \ldots, x_n)$ is defined as:</p>
+                    <div class="formula" style="background: none; border-left: none; box-shadow: none;">
+                        $$\frac{\partial f}{\partial x_i}(\mathbf{x}) = \lim_{h \to 0} \frac{f(x_1, \ldots, x_{i-1}, x_i + h, x_{i+1}, \ldots, x_n) - f(x_1, \ldots, x_n)}{h}$$
+                    </div>
+                    <p>provided this limit exists.</p>
+                </div>
+                
+                <p>For a function $f: \mathbb{R}^2 \rightarrow \mathbb{R}$ of two variables, we have two partial derivatives:</p>
+                
+                <div class="formula">
+                    $$\frac{\partial f}{\partial x}(x, y) = \lim_{h \to 0} \frac{f(x+h, y) - f(x, y)}{h}$$
+                </div>
+                
+                <div class="formula">
+                    $$\frac{\partial f}{\partial y}(x, y) = \lim_{h \to 0} \frac{f(x, y+h) - f(x, y)}{h}$$
+                </div>
+                
+                <p>These are often denoted as $f_x(x, y)$ and $f_y(x, y)$, respectively. Geometrically, $f_x(x, y)$ represents the slope of the tangent line to the surface in the $x$-direction at the point $(x, y, f(x, y))$, and similarly for $f_y(x, y)$ in the $y$-direction.</p>
+                
+                <div class="example-title">Example 1.1</div>
+                <div class="formula" style="background-color: #f0f7ff; border-left-color: #3498db;">
+                    <p><strong>Question:</strong> Find the partial derivatives of $f(x, y) = x^2y + 3xy^2 - 2y^3$.</p>
+                    
+                    <p><strong>Solution:</strong></p>
+                    <p>To find $\frac{\partial f}{\partial x}$, we treat $y$ as a constant and differentiate with respect to $x$:</p>
+                    $$\frac{\partial f}{\partial x} = \frac{\partial}{\partial x}(x^2y + 3xy^2 - 2y^3) = 2xy + 3y^2$$
+                    
+                    <p>To find $\frac{\partial f}{\partial y}$, we treat $x$ as a constant and differentiate with respect to $y$:</p>
+                    $$\frac{\partial f}{\partial y} = \frac{\partial}{\partial y}(x^2y + 3xy^2 - 2y^3) = x^2 + 6xy - 6y^2$$
+                </div>
+                
+                <div class="figure" style="background-color: #eefaf8; border-left: 4px solid #2ecc71; text-align: left;">
+                    <h3 style="margin-top: 0;">Key Insights about Partial Derivatives</h3>
+                    <ul style="padding-left: 20px;">
+                        <li>Partial derivatives measure the rate of change in one direction while keeping all other variables constant.</li>
+                        <li>The notation $\frac{\partial f}{\partial x}$ or $f_x$ indicates a partial derivative with respect to $x$.</li>
+                        <li>Geometrically, partial derivatives give the slopes of tangent lines to the surface in the respective coordinate directions.</li>
+                        <li>To compute partial derivatives, we use the familiar rules of single-variable calculus while treating other variables as constants.</li>
+                        <li>Unlike single-variable calculus, the existence of partial derivatives does not guarantee that a function is continuous or differentiable.</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <div class="navigation">
+            <a href="../index.html">← Home</a>
+            <a href="class2.html">Next: Class 2 →</a>
+        </div>
+    </div>
+</body>
+</html>

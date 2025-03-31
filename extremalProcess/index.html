@@ -1,0 +1,818 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Extremal Problems in Probability Theory</title>
+  <style>
+    /* Base styles */
+    :root {
+      --primary-color: #3498db;
+      --secondary-color: #2c3e50;
+      --accent-color: #e74c3c;
+      --text-color: #333;
+      --bg-color: #f8f9fa;
+      --slide-bg: #fff;
+      --code-bg: #f1f1f1;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+      line-height: 1.6;
+      color: var(--text-color);
+      background-color: var(--bg-color);
+      overflow: hidden; /* Prevent body scroll */
+    }
+
+    /* MathJax styling */
+    mjx-container[jax="CHTML"] {
+        display: inline-block;
+        margin: 0 0.2em;
+        line-height: 0; /* Prevent extra spacing */
+        text-align: left; /* Ensure formulas align left */
+    }
+    .MJXc-display, /* MathJax v2 */
+    mjx-display {    /* MathJax v3 */
+        display: block;
+        margin: 1em 0;
+        text-align: center;
+    }
+
+
+    /* Slide container */
+    .slide-container {
+      position: relative;
+      width: 100vw;
+      height: 100vh;
+      overflow: hidden;
+      background-color: var(--bg-color);
+    }
+
+    /* Individual slides */
+    .slide {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      padding: 2rem 4rem;
+      background-color: var(--slide-bg);
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+      opacity: 0;
+      transition: opacity 0.5s ease;
+      overflow-y: auto; /* Allow content scroll within slide */
+      display: flex;
+      flex-direction: column;
+      visibility: hidden; /* Hide inactive slides completely */
+    }
+
+    .slide.active {
+      opacity: 1;
+      z-index: 10;
+      visibility: visible; /* Show active slide */
+    }
+
+    /* Title slide special styling */
+    .title-slide {
+      text-align: center;
+      justify-content: center;
+      background: linear-gradient(135deg, #3498db, #8e44ad);
+      color: white;
+    }
+
+    .title-slide h1 {
+      font-size: 3.5rem;
+      margin-bottom: 1rem;
+      animation: fadeInDown 1s ease-in-out;
+      color: white; /* Override default h1 color */
+    }
+
+    .title-slide p {
+      font-size: 1.8rem;
+      margin-bottom: 2rem;
+      font-weight: 300;
+      animation: fadeInUp 1s ease-in-out 0.5s forwards;
+      opacity: 0;
+    }
+
+    @keyframes fadeInDown {
+      from {
+        opacity: 0;
+        transform: translateY(-30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    /* Headings */
+    h1, h2, h3 {
+      color: var(--secondary-color);
+      margin-bottom: 1rem;
+      line-height: 1.2;
+    }
+
+    h1 {
+      font-size: 2.8rem;
+    }
+
+    h2 {
+      font-size: 2.2rem;
+      padding-bottom: 0.5rem;
+      border-bottom: 2px solid var(--primary-color);
+      margin-bottom: 1.5rem;
+    }
+
+    h3 {
+      font-size: 1.7rem;
+      color: var(--primary-color);
+      margin-top: 1rem;
+    }
+
+    /* Content styling */
+    p {
+      margin-bottom: 1rem;
+      font-size: 1.15rem;
+    }
+
+    strong {
+      color: var(--accent-color);
+      font-weight: 600;
+    }
+
+    ul, ol {
+      margin-left: 2rem;
+      margin-bottom: 1.5rem;
+    }
+
+    li {
+      margin-bottom: 0.5rem;
+      font-size: 1.1rem;
+    }
+
+    li li {
+      font-size: 1rem;
+    }
+
+    /* Code blocks */
+    code {
+      font-family: 'Courier New', Courier, monospace;
+      background-color: var(--code-bg);
+      padding: 0.2em 0.4em;
+      border-radius: 3px;
+      font-size: 0.9em;
+    }
+    pre code {
+        display: block;
+        padding: 1em;
+        overflow-x: auto;
+    }
+
+    /* Navigation controls */
+    .controls {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      z-index: 100;
+      display: flex;
+      gap: 10px;
+    }
+
+    .controls button {
+      padding: 10px 20px;
+      background-color: var(--primary-color);
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background-color 0.3s ease, opacity 0.3s ease;
+      font-weight: 500;
+    }
+
+    .controls button:hover:not(:disabled) {
+      background-color: #2980b9;
+    }
+
+    .controls button:focus {
+      outline: none;
+      box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.5);
+    }
+
+    .controls button:disabled {
+      background-color: #bdc3c7;
+      cursor: not-allowed;
+      opacity: 0.7;
+    }
+
+    /* Slide number */
+    .slide-number {
+      position: absolute;
+      bottom: 20px;
+      left: 20px;
+      font-size: 0.9rem;
+      color: #777;
+      z-index: 20; /* Ensure it's above slide content */
+    }
+
+    /* Progress bar */
+    .progress-bar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      height: 5px;
+      background-color: var(--primary-color);
+      z-index: 1000;
+      transition: width 0.3s ease;
+    }
+
+    /* Responsive adjustments */
+    @media (max-width: 1024px) {
+      .slide {
+        padding: 1.5rem 2.5rem;
+      }
+      h1 { font-size: 2.4rem; }
+      h2 { font-size: 1.8rem; }
+      h3 { font-size: 1.4rem; }
+      .title-slide h1 { font-size: 3rem; }
+      .title-slide p { font-size: 1.5rem; }
+    }
+
+    @media (max-width: 768px) {
+      .slide {
+        padding: 1rem 1.5rem;
+        padding-bottom: 4rem; /* Space for controls/number */
+      }
+      .title-slide h1 { font-size: 2.5rem; }
+      .title-slide p { font-size: 1.3rem; }
+      h1 { font-size: 2rem; }
+      h2 { font-size: 1.5rem; }
+      h3 { font-size: 1.2rem; }
+      p, li { font-size: 1rem; }
+      .controls {
+          bottom: 10px;
+          right: 10px;
+      }
+      .slide-number {
+          bottom: 10px;
+          left: 10px;
+      }
+    }
+  </style>
+  <!-- MathJax Configuration -->
+  <script>
+    MathJax = {
+      tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']],
+        displayMath: [['$$', '$$'], ['\\[', '\\]']],
+        processEscapes: true,
+        processEnvironments: true
+      },
+      options: {
+        skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre']
+      }
+    };
+  </script>
+  <!-- MathJax library -->
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js" id="MathJax-script" async></script>
+</head>
+<body>
+  <div class="progress-bar" id="progress-bar"></div>
+  <div class="slide-container">
+    <!-- Slides reordered and refined for logical flow -->
+
+    <!-- Slide 1: Title -->
+    <div class="slide title-slide active" id="slide-1">
+      <h1>Extremal Problems in Probability Theory</h1>
+      <p>Understanding the Tails of Distributions</p>
+      <div class="slide-number">1/<span class="total-slides"></span></div>
+    </div>
+
+    <!-- Slide 2: Introduction -->
+    <div class="slide" id="slide-2">
+      <h2>Introduction: What are Extreme Events?</h2>
+      <p>Extremal problems in probability theory deal with the behavior of <strong>extreme values</strong> within a collection of random variables or a stochastic process.</p>
+      <p>Examples include:</p>
+      <ul>
+          <li>The maximum value among $n$ random variables: $M_n = \max\{X_1, \ldots, X_n\}$.</li>
+          <li>The minimum value: $m_n = \min\{X_1, \ldots, X_n\}$.</li>
+          <li>The supremum of a stochastic process over time: $\sup_{t \in T} X_t$.</li>
+      </ul>
+      <p>This talk primarily focuses on the maximum $M_n$ for independent and identically distributed (i.i.d.) random variables $X_i$.</p>
+      <div class="slide-number">2/<span class="total-slides"></span></div>
+    </div>
+
+    <!-- Slide 3: Motivation -->
+    <div class="slide" id="slide-3">
+       <h2>Motivation: Why Study Maxima?</h2>
+      <p>Understanding the behavior of maximum (or minimum) values is crucial in many fields:</p>
+      <ul>
+        <li><strong>Risk Management (Finance & Insurance):</strong> Assessing the probability of extreme market crashes, largest insurance claims, or worst-case portfolio losses.</li>
+        <li><strong>Engineering (Civil, Mechanical):</strong> Designing structures to withstand maximum expected loads (wind speed, earthquake intensity, river flood levels).</li>
+        <li><strong>Environmental Science:</strong> Analyzing maximum temperatures, rainfall, or pollutant concentrations.</li>
+        <li><strong>Telecommunications & Computing:</strong> Understanding peak network traffic or maximum server loads.</li>
+        <li><strong>Physics:</strong> Analyzing maximum energy states or particle displacements.</li>
+      </ul>
+       <div class="slide-number">3/<span class="total-slides"></span></div>
+    </div>
+
+    <!-- Slide 4: Application Example: Financial Portfolio -->
+    <div class="slide" id="slide-4">
+      <h2>Application Example: Financial Risk</h2>
+      <p>Consider a financial portfolio's daily returns. While the average return might be small and positive, the risk is often dominated by rare, large negative returns (extreme losses).</p>
+      <p>For instance, even if average annual S&P 500 returns are around 7-10%, occasional crashes (like 1987, 2008) with daily losses exceeding -10% or annual losses exceeding -30% have profound impacts on:</p>
+      <ul>
+          <li>Investment strategies (diversification, hedging).</li>
+          <li>Regulatory capital requirements for financial institutions.</li>
+          <li>Risk models like Value-at-Risk (VaR) and Expected Shortfall (ES).</li>
+      </ul>
+      <p>Extreme value theory helps model the probability and magnitude of such events, often indicating heavier tails than a normal distribution would suggest.</p>
+       <div class="slide-number">4/<span class="total-slides"></span></div>
+    </div>
+
+    <!-- Slide 5: Basic Probability Theory Recap -->
+    <div class="slide" id="slide-5">
+      <h2>Recap: Basic Probability Concepts</h2>
+      <h3>Key Definitions Used Today</h3>
+      <ul>
+        <li>
+          <strong>Independent and Identically Distributed (i.i.d.) Random Variables:</strong>
+          A sequence $X_1, X_2, \dots$ where each $X_i$ has the same probability distribution (CDF) $F$, and the value of any $X_i$ is independent of the others. This is a common assumption in introductory Extreme Value Theory (EVT).
+        </li>
+        <li>
+          <strong>Union Bound (Boole's Inequality):</strong>
+          For any countable collection of events $A_1, A_2, \dots,$ the probability of their union satisfies:
+          $$ \mathbb{P}\Bigl(\bigcup_{i} A_i\Bigr) \le \sum_{i} \mathbb{P}(A_i) $$
+          Useful for bounding probabilities of rare events occurring.
+        </li>
+        <li>
+          <strong>Common Distributions (Examples):</strong>
+          <ul>
+            <li><strong>Normal $\mathcal{N}(\mu, \sigma^2)$:</strong> Density $\frac{1}{\sqrt{2\pi\sigma^2}} \exp\bigl(-\frac{(x-\mu)^2}{2\sigma^2}\bigr)$. Light-tailed.</li>
+            <li><strong>Exponential $\mathrm{Exp}(\lambda)$:</strong> PDF $f(x) = \lambda e^{-\lambda x}$ for $x \ge 0$. Light-tailed. CDF $F(x) = 1 - e^{-\lambda x}$.</li>
+          </ul>
+        </li>
+      </ul>
+       <div class="slide-number">5/<span class="total-slides"></span></div>
+    </div>
+
+    <!-- Slide 6: Deterministic Maxima Introduction -->
+    <div class="slide" id="slide-6">
+      <h2>Starting Simple: Maximum of Deterministic Sets</h2>
+      <p>Before random variables, let's consider the maximum of a deterministic sequence of numbers $\{a_1, a_2, \dots, a_n\}$.</p>
+      <p>The maximum is simply $M_n = \max\{a_1, a_2, \dots, a_n\}$.</p>
+      <p>A key question is understanding the <strong>growth rate</strong> of $M_n$ as $n \to \infty$. This provides intuition for the random case.</p>
+       <div class="slide-number">6/<span class="total-slides"></span></div>
+    </div>
+
+    <!-- Slide 7: Deterministic Maxima Examples -->
+    <div class="slide" id="slide-7">
+      <h3>Deterministic Maximum Examples</h3>
+      <p>How does $M_n = \max\{a_1, \dots, a_n\}$ behave?</p>
+      <ul>
+        <li>If $a_n = c$ (constant), then $M_n = c$.</li>
+        <li>If $a_n = \log n$, then $M_n = \log n$.</li>
+        <li>If $a_n = n$, then $M_n = n$.</li>
+        <li>If $a_n$ are the Fibonacci numbers $F_n$ ($1, 1, 2, 3, 5, \dots$), where $F_{n+2} = F_{n+1} + F_n$.
+            Since $F_n$ grows exponentially ($F_n \sim \phi^n / \sqrt{5}$, where $\phi = (1+\sqrt{5})/2 \approx 1.618$), the maximum is simply the last term:
+            $$ M_n = F_n \approx \frac{\phi^n}{\sqrt{5}} $$
+        </li>
+      </ul>
+      <p>The focus is often on the <strong>asymptotic behavior</strong> or scaling of $M_n$.</p>
+       <div class="slide-number">7/<span class="total-slides"></span></div>
+    </div>
+
+    <!-- Slide 8: Maxima of i.i.d. RVs - The Core Problem -->
+    <div class="slide" id="slide-8">
+      <h2>Maxima of i.i.d. Random Variables</h2>
+      <p>Now, let $X_1, X_2, \dots, X_n$ be i.i.d. random variables with a common cumulative distribution function (CDF) $F(x) = \mathbb{P}(X_i \le x)$.</p>
+      <p>We are interested in the distribution and asymptotic behavior of the maximum:
+        $$ M_n = \max\{X_1, X_2, \dots, X_n\} $$
+      </p>
+      <p>The exact distribution of $M_n$ is easy to find (in principle):
+        $$ \mathbb{P}(M_n \le x) = \mathbb{P}(X_1 \le x, \dots, X_n \le x) $$
+        Because of independence and identical distribution:
+        $$ \mathbb{P}(M_n \le x) = [\mathbb{P}(X_1 \le x)]^n = [F(x)]^n $$
+      </p>
+      <p>However, as $n \to \infty$, $F(x)^n \to 0$ for any $x$ where $F(x) < 1$. This means $M_n \to x_F = \sup\{x : F(x) < 1\}$ (the right endpoint of the distribution's support) in probability. This limit isn't very informative about the *fluctuations* around the endpoint.</p>
+      <div class="slide-number">8/<span class="total-slides"></span></div>
+    </div>
+
+    <!-- Slide 9: Fisher–Tippett–Gnedenko Theorem -->
+    <div class="slide" id="slide-9">
+      <h2>The Central Limit Theorem for Maxima: Fisher–Tippett–Gnedenko</h2>
+      <p>Question: Can we find normalizing sequences $a_n > 0$ and $b_n \in \mathbb{R}$ such that the normalized maximum converges to a non-degenerate distribution?</p>
+      $$ \mathbb{P}\left( \frac{M_n - b_n}{a_n} \le z \right) \xrightarrow[n\to\infty]{} G(z) $$
+      Where $G(z)$ is a non-degenerate CDF (i.e., not concentrated at a single point).
+
+      <p><strong>Theorem (Fisher–Tippett–Gnedenko):</strong> If such sequences $a_n, b_n$ exist, then the limit distribution $G(z)$ must belong to one of only three possible types (up to location and scale changes):</p>
+      <ul>
+           <li><strong>Type I: Gumbel</strong></li>
+           <li><strong>Type II: Fréchet</strong></li>
+           <li><strong>Type III: Weibull</strong></li>
+      </ul>
+      <p>These are known as the Extreme Value Distributions (EVDs).</p>
+      <div class="slide-number">9/<span class="total-slides"></span></div>
+    </div>
+
+    <!-- Slide 10: Type II: Fréchet Distribution -->
+    <div class="slide" id="slide-10">
+      <h2>Extreme Value Distributions: Type II - Fréchet</h2>
+      <p><strong>Fréchet Distribution ($\alpha > 0$)</strong></p>
+      <p>CDF: $ \Phi_\alpha(z) = \begin{cases} \exp(-z^{-\alpha}) & z > 0 \\ 0 & z \le 0 \end{cases} $</p>
+      <p>Arises when the underlying distribution $F(x)$ has a "heavy tail", specifically, a power-law tail:</p>
+      $$ 1 - F(x) = \mathbb{P}(X > x) \sim c x^{-\alpha} \quad \text{as } x \to \infty $$
+      for some constant $c>0$ and tail index $\alpha > 0$.
+      <p>Examples: Pareto distribution, Cauchy distribution, stable distributions with index $< 2$.</p>
+      <p>Characterized by tails that decay slower than any exponential function. Moments $\mathbb{E}[X^k]$ are infinite for $k \ge \alpha$.</p>
+      <div class="slide-number">10/<span class="total-slides"></span></div>
+    </div>
+
+    <!-- Slide 11: Type I: Gumbel Distribution -->
+    <div class="slide" id="slide-11">
+       <h2>Extreme Value Distributions: Type I - Gumbel</h2>
+      <p><strong>Gumbel Distribution</strong></p>
+      <p>CDF: $ \Lambda(z) = \exp(-e^{-z}), \quad z \in \mathbb{R} $</p>
+      <p>Arises from distributions $F(x)$ with "lighter" tails, typically decaying roughly exponentially or faster, but with infinite right endpoint.</p>
+       <p>Examples: Normal distribution, Exponential distribution, Gamma distribution, Logistic distribution.</p>
+       <p>This is arguably the most common type encountered in many natural phenomena where tails are not extremely heavy.</p>
+      <div class="slide-number">11/<span class="total-slides"></span></div>
+    </div>
+
+    <!-- Slide 12: Type III: Weibull Distribution -->
+    <div class="slide" id="slide-12">
+      <h2>Extreme Value Distributions: Type III - Weibull</h2>
+      <p><strong>Weibull Distribution ($\alpha > 0$)</strong></p>
+       <p>CDF: $ \Psi_\alpha(z) = \begin{cases} \exp(-(-z)^{\alpha}) & z < 0 \\ 1 & z \ge 0 \end{cases} $</p>
+       <p>(Note: This is the standard form for maxima, sometimes called the reversed Weibull. The standard Weibull used in reliability is for minima).</p>
+      <p>Arises when the underlying distribution $F(x)$ has a <strong>finite right endpoint</strong> $x_F = \sup\{x : F(x) < 1\} < \infty$.</p>
+       <p>The tail near the endpoint behaves like a power law: $1 - F(x_F - \epsilon) \sim c \epsilon^{\alpha}$ as $\epsilon \to 0^+$ for some $c>0, \alpha>0$.</p>
+       <p>Examples: Uniform distribution $U(0, 1)$ (endpoint $x_F=1, \alpha=1$), Beta distribution.</p>
+       <div class="slide-number">12/<span class="total-slides"></span></div>
+    </div>
+
+    <!-- Slide 13: Heavy-Tailed Distributions Definition -->
+    <div class="slide" id="slide-13">
+      <h2>Focus on Tail Behavior: Heavy vs. Light Tails</h2>
+      <p>The type of EVD (Fréchet, Gumbel, Weibull) depends critically on the tail behavior of the underlying distribution $F(x)$.</p>
+      <p>A distribution is considered <strong>heavy-tailed</strong> if its tail probability $\bar{F}(x) = 1-F(x) = \mathbb{P}(X > x)$ decays more slowly than any exponential function $e^{-cx}$ (for $c > 0$).</p>
+      <p>Formally, often defined by the non-existence of the moment generating function $\mathbb{E}[e^{tX}]$ for some $t > 0$.</p>
+      <p>
+        $$ \lim_{x \to \infty} e^{tx} \mathbb{P}(X > x) = \infty \quad \text{for all } t > 0 $$
+      </p>
+      <p>Heavy tails (specifically power-law decay $\sim x^{-\alpha}$) lead to the <strong>Fréchet</strong> distribution for maxima.</p>
+      <p>Light tails (e.g., exponential, normal) typically lead to the <strong>Gumbel</strong> distribution (if endpoint is infinite).</p>
+      <p>Distributions with a finite endpoint lead to the <strong>Weibull</strong> distribution.</p>
+      <div class="slide-number">13/<span class="total-slides"></span></div>
+    </div>
+
+    <!-- Slide 14: Pareto Example -->
+    <div class="slide" id="slide-14">
+      <h2>Example: Pareto Distribution (Heavy-Tailed)</h2>
+      <p>The Pareto distribution is a classic example of a heavy-tailed distribution, often used to model wealth, income, city sizes, etc.</p>
+      <p>Tail probability:
+      $$ \mathbb{P}(X > x) = \left(\frac{x_m}{x}\right)^\alpha \quad \text{for } x \ge x_m, \; \alpha > 0 $$
+      </p>
+      <p>Here, $x_m$ is the minimum possible value, and $\alpha$ is the tail index.</p>
+      <ul>
+          <li>Smaller $\alpha$ means a heavier tail (slower decay, more extreme events).</li>
+          <li>If $X_i$ are i.i.d. Pareto($x_m, \alpha$), then the normalized maximum converges to a Fréchet distribution with shape parameter $\alpha$.</li>
+          <li>The normalizing constants can be chosen as $b_n=0$ and $a_n = x_m n^{1/\alpha}$. Specifically:
+            $$ \mathbb{P}\left( \frac{M_n}{x_m n^{1/\alpha}} \le z \right) \xrightarrow[n\to\infty]{} \exp(-z^{-\alpha}) = \Phi_\alpha(z) $$
+          </li>
+      </ul>
+      <div class="slide-number">14/<span class="total-slides"></span></div>
+    </div>
+
+    <!-- Slide 15: Max of Normals Introduction -->
+    <div class="slide" id="slide-15">
+      <h2>Case Study: Maximum of i.i.d. Normal Random Variables</h2>
+      <p>Let's analyze a specific, important case: the maximum of $N$ i.i.d. standard normal random variables $X_i \sim \mathcal{N}(0, 1)$.</p>
+      <p>Define $M_N = \max\{X_1, X_2, \dots, X_N\}$.</p>
+      <p>The normal distribution has an infinite right endpoint $x_F = \infty$. Its tail decays faster than any power law but slower than a pure exponential (due to the $x^2$ term in the exponent).</p>
+      <p>Based on the criteria for the domains of attraction, we expect the <strong>Gumbel</strong> distribution to appear as the limit for normalized maxima.</p>
+      <div class="slide-number">15/<span class="total-slides"></span></div>
+    </div>
+
+    <!-- Slide 16: Normal Tail Behavior -->
+    <div class="slide" id="slide-16">
+      <h3>Normal Distribution Tail Behavior</h3>
+      <p>Let $\Phi(x)$ be the CDF and $\phi(x)$ be the PDF of a standard normal variable.</p>
+      <p>The tail probability $\mathbb{P}(X > x) = 1 - \Phi(x)$ has a well-known asymptotic behavior (often derived using integration by parts or L'Hôpital's rule on the ratio, known as Mill's Ratio):</p>
+      $$ \mathbb{P}(X > x) = \int_x^\infty \frac{1}{\sqrt{2\pi}} e^{-t^2/2} dt \sim \frac{\phi(x)}{x} = \frac{1}{x\sqrt{2\pi}} e^{-x^2/2} \quad \text{as } x \to \infty $$
+      <p>This tail decay is faster than any power law ($x^{-\alpha}$) but slower than a pure exponential ($e^{-\lambda x}$). It falls into the domain of attraction of the Gumbel distribution.</p>
+      <div class="slide-number">16/<span class="total-slides"></span></div>
+    </div>
+
+    <!-- Slide 17: Limit Theorem for Normals -->
+    <div class="slide" id="slide-17">
+       <h3>Limit Theorem for Maxima of Normals</h3>
+      <p>For $M_N = \max\{X_1, \dots, X_N\}$ with $X_i \sim \mathcal{N}(0,1)$, there exist centering ($b_N$) and scaling ($a_N$) sequences such that:</p>
+      $$ \frac{M_N - b_N}{a_N} \xrightarrow{d} Y $$
+      where $Y$ follows the standard Gumbel distribution $\Lambda(y) = \exp(-e^{-y})$.
+
+      <p>The standard choices for the normalizing constants are:</p>
+      $$ a_N = \frac{1}{\sqrt{2\log N}} $$
+      $$ b_N = \sqrt{2\log N} - \frac{\log(4\pi) + \log(\log N)}{2\sqrt{2\log N}} $$
+      <p>Often, for intuition, one uses the approximations:</p>
+      $$ a_N \approx \frac{1}{\sqrt{2\log N}}, \quad b_N \approx \sqrt{2\log N} $$
+      <p>Interpretation: The maximum $M_N$ typically grows like $\sqrt{2\log N}$, with fluctuations around this value of order $1/\sqrt{2\log N}$. The location $b_N$ must be chosen carefully to ensure convergence.</p>
+       <div class="slide-number">17/<span class="total-slides"></span></div>
+    </div>
+
+    <!-- Slide 18: Sketch of Proof for Normals -->
+    <div class="slide" id="slide-18">
+      <h3>Sketch of the Proof (Normal Case)</h3>
+      <ol>
+        <li>
+          Start with the exact CDF of the maximum:
+          $ \mathbb{P}(M_N \le x) = [\Phi(x)]^N = \left[1 - (1 - \Phi(x))\right]^N $.
+        </li>
+        <li>
+          Use the approximation $(1 - z)^N \approx e^{-Nz}$ for small $z = 1 - \Phi(x)$. This holds if $N z \to \tau$ as $N \to \infty$. We aim for $\tau = e^{-y}$. So, $\mathbb{P}(M_N \le x) \approx e^{-N(1 - \Phi(x))}$.
+        </li>
+        <li>
+          Substitute the normalization: $x = b_N + y a_N$. We want to show $\mathbb{P}(M_N \le b_N + y a_N) \to \exp(-e^{-y})$.
+          This requires showing that $N(1 - \Phi(b_N + y a_N)) \to e^{-y}$ as $N \to \infty$.
+        </li>
+        <li>
+          Use the tail approximation $1 - \Phi(x) \sim \frac{1}{x\sqrt{2\pi}} e^{-x^2/2}$. Substitute $x = b_N + y a_N$ with the specific $a_N = 1/\sqrt{2\log N}$ and $b_N = \sqrt{2\log N} - \frac{\log(4\pi \log N)}{2\sqrt{2\log N}}$. This requires careful asymptotic expansion of the exponent $-x^2/2$ and the prefactor $1/(x\sqrt{2\pi})$.
+          $$ -\frac{x^2}{2} = -\frac{1}{2} \left( b_N^2 + 2y a_N b_N + y^2 a_N^2 \right) $$
+          After substituting $a_N, b_N$ and simplifying using $\log N$ terms, the expression $N(1 - \Phi(x))$ carefully converges to $e^{-y}$.
+        </li>
+      </ol>
+      <p>(Detailed calculations are non-trivial and involve careful handling of asymptotic terms).</p>
+       <div class="slide-number">18/<span class="total-slides"></span></div>
+    </div>
+    <!-- Slide 19: Comparison with Exponentials -->
+    <div class="slide" id="slide-19">
+      <h3>Comparison: Maxima of Exponential vs. Normal</h3>
+      <p>Let $Y_i \sim \mathrm{Exp}(1)$ (standard exponential). Then $\mathbb{P}(Y > y) = e^{-y}$ for $y \ge 0$. CDF $F_Y(y) = 1 - e^{-y}$.</p>
+      <p>Let $M'_N = \max\{Y_1, \dots, Y_N\}$.</p>
+      <p>The exact CDF is $\mathbb{P}(M'_N \le y) = (1 - e^{-y})^N$. Let $y = \log N + z$.
+       $$ (1 - e^{-(\log N + z)})^N = \left(1 - \frac{e^{-z}}{N}\right)^N \xrightarrow[N\to\infty]{} \exp(-e^{-z}) $$
+       </p>
+       <p>So, the appropriate normalization leads to a Gumbel limit with $b_N = \log N$ and $a_N = 1$:
+      $$ M'_N - \log N \xrightarrow{d} Z \quad (\text{Z is standard Gumbel}) $$
+
+      <p><strong>Key Difference in Growth and Fluctuations:</strong></p>
+      <ul>
+        <li>Exponential Maxima: $M'_N \approx \log N$. Grows logarithmically, fluctuations are $O(1)$.</li>
+        <li>Normal Maxima ($M_N$): $M_N \approx \sqrt{2\log N}$. Grows slower ($\sqrt{\log N}$ vs $\log N$), fluctuations decay ($O(1/\sqrt{\log N})$).</li>
+      </ul>
+      <p>The faster decay of the exponential tail compared to the normal tail means the maximum of exponentials grows faster ($\log N$) to reach the region where $\mathbb{P}(X>x) \approx 1/N$.</p>
+      <div class="slide-number">19/<span class="total-slides"></span></div>
+    </div>
+
+    <!-- Slide 20: Order Statistics for Normals -->
+    <div class="slide" id="slide-20">
+      <h3>Beyond the Maximum: Order Statistics</h3>
+      <p>Let $X_{(1)} \le X_{(2)} \le \dots \le X_{(n)}$ be the ordered sample.
+      We studied $M_n = X_{(n)}$. We can also study the $k$-th largest value, $X_{(n-k+1)}$, for fixed $k$. Let's denote these top order statistics as $M_n^k = X_{(n-k+1)}$. So $M_n^1 = M_n$.
+      </p>
+      <p>For i.i.d. standard normals, the behavior of the top $k$ order statistics is linked via a point process limit.</p>
+      <p><strong>Result (informal):</strong> The points $(X_i)$ exceeding a high threshold $u_N$ (like $b_N$) behave approximately like points from a Poisson process on the real line with intensity measure $\mu( (x, \infty) ) = e^{-x}$ when viewed relative to $b_N$. That is, consider the point process $\sum_{i=1}^N \delta_{a_N^{-1}(X_i - b_N)}$. This converges weakly to a Poisson process on $\mathbb{R}$ with intensity $e^{-y} dy$.</p>
+      <p><strong>Result (formal):</strong> For fixed $k$, the vector of normalized top $k$ order statistics converges:
+      $$ \left( \frac{M_n^1 - b_n}{a_n}, \dots, \frac{M_n^k - b_n}{a_n} \right) \xrightarrow{d} (Y_1, \dots, Y_k) $$
+      where $(Y_1, \dots, Y_k)$ are the $k$ largest points of a Poisson process with intensity $e^{-y}dy$.
+      The joint distribution can be expressed as:
+      $$ \mathbb{P}(Y_1 \le y_1, \dots, Y_k \le y_k) = \Lambda(y_k) \sum_{j=0}^{k-1} \frac{1}{j!} \left( \sum_{i=1}^k (e^{-y_i} - e^{-y_k}) \right)^j $$
+      for $y_1 \ge \dots \ge y_k$.
+      Crucially, the gaps $Y_j - Y_{j+1}$ (for $j=1, \dots, k-1$) are asymptotically independent exponential random variables.</p>
+      <div class="slide-number">20/<span class="total-slides"></span></div>
+    </div>
+
+    <!-- Slide 21: Connection to Stochastic Processes -->
+    <div class="slide" id="slide-21">
+      <h2>Connection with Stochastic Processes</h2>
+      <p>The study of $\max(X_1, \dots, X_n)$ is the discrete-time version of studying the supremum of a stochastic process.</p>
+      <p>For a continuous-time process $(X_t)_{t \ge 0}$, we might be interested in:</p>
+      $$ M(T) = \sup_{0 \le t \le T} X_t \quad \text{or} \quad M(\infty) = \sup_{t \ge 0} X_t $$
+      <p>Similar extreme value theory applies, but the analysis is often more complex due to the <strong>dependence structure</strong> of the process.</p>
+      <ul>
+          <li>For processes like Brownian motion $(B_t)$, the maximum $\sup_{0 \le t \le T} B_t$ has the same distribution as $|B_T|$ (Reflection Principle). Its asymptotic behavior is different from i.i.d. cases.</li>
+          <li>For stationary Gaussian processes, under certain conditions on the correlation function, the normalized maximum $\sup_{0 \le t \le T} X_t$ often converges to a Gumbel distribution, similar to the i.i.d. normal case, but the normalization constants $a_T, b_T$ depend on the correlation structure (e.g., Pickands-Berman theorem).</li>
+      </ul>
+       <div class="slide-number">21/<span class="total-slides"></span></div>
+    </div>
+
+    <!-- Slide 22: Application: Wealth Distribution -->
+    <div class="slide" id="slide-22">
+      <h2>Application: Wealth and Income Distribution</h2>
+      <p>Empirical studies consistently find that the upper tails of wealth and income distributions are well-described by heavy-tailed distributions, often the Pareto distribution.</p>
+      $$ \mathbb{P}(\text{Wealth} > x) \sim c x^{-\alpha} $$
+      <p>This "power law" tail is a hallmark of heavy-tailed phenomena.</p>
+      <p>This is often linked to the Pareto Principle (or "80/20 rule"), suggesting a small percentage of the population holds a large percentage of the total wealth.</p>
+      <p>Extreme value theory (specifically the Fréchet case, Type II) provides a framework for modeling the maximum wealth observed in a population and understanding wealth concentration dynamics.</p>
+      <div class="slide-number">22/<span class="total-slides"></span></div>
+    </div>
+
+    <!-- Slide 23: Empirical Observations on Wealth -->
+    <div class="slide" id="slide-23">
+      <h2>Empirical Observations: Wealth Tails</h2>
+      <p>Studies analyzing wealth data (e.g., Forbes lists, tax records) often estimate the Pareto tail exponent $\alpha$.</p>
+      <p>Common findings:</p>
+      <ul>
+          <li>$\alpha$ typically lies between 1.5 and 3 for broad income/wealth in developed economies.</li>
+          <li>For the very wealthiest segment (top 0.1% or 0.01%), $\alpha$ can be smaller, often closer to 1.5 or even lower.</li>
+          <li>An $\alpha \le 1$ would imply infinite mean wealth (not observed empirically for total wealth, but can appear in theoretical models or specific asset classes).</li>
+          <li>An $\alpha \le 2$ implies infinite variance, indicating extreme inequality and sensitivity to outliers (the mean exists but is dominated by the extremes).</li>
+      </ul>
+      <p>Smaller $\alpha$ signifies greater wealth concentration at the top and heavier tails, meaning extreme fortunes are relatively more probable than predicted by lighter-tailed models (like log-normal).</p>
+       <div class="slide-number">23/<span class="total-slides"></span></div>
+    </div>
+
+    <!-- Slide 24: Application: Queueing Theory -->
+    <div class="slide" id="slide-24">
+      <h2>Application: Queueing Theory</h2>
+      <p>Consider waiting times in a queueing system (e.g., customers in a call center, jobs in a processor).</p>
+      <p>In simple models like the M/M/1 queue (Poisson arrivals $\lambda$, exponential service $\mu$, 1 server, with traffic intensity $\rho = \lambda/\mu < 1$), the stationary waiting time $W$ follows an exponential distribution (plus a point mass at 0): $\mathbb{P}(W > t) = \rho e^{-(\mu-\lambda)t}$ for $t > 0$.</p>
+      <p>If we consider the maximum waiting time $W_{\max}^{(n)} = \max\{W_1, \dots, W_n\}$ over $n$ independent busy periods or $n$ arriving customers (under suitable assumptions), its behavior relates to the maximum of exponentials:</p>
+      $$ \frac{W_{\max}^{(n)} - c_n}{d_n} \xrightarrow{d} \text{Gumbel} $$
+      where $c_n \approx \frac{\log(n\rho)}{\mu-\lambda}$ and $d_n = \frac{1}{\mu-\lambda}$.
+
+      <p>However, if service times are <strong>heavy-tailed</strong> (e.g., Pareto file sizes in web servers), the waiting times can also become heavy-tailed. The maximum waiting times can then be much larger and potentially follow a <strong>Fréchet</strong> distribution, significantly impacting system performance guarantees and requiring different capacity planning approaches.</p>
+      <div class="slide-number">24/<span class="total-slides"></span></div>
+    </div>
+
+    <!-- Slide 25: Application: Random Matrix Theory -->
+    <div class="slide" id="slide-25">
+      <h2>Application: Random Matrix Theory (RMT)</h2>
+      <p>RMT studies matrices whose entries are random variables. It has applications in nuclear physics, quantum chaos, multivariate statistics (PCA), wireless communication, number theory, etc.</p>
+      <p>Consider a large $N \times N$ symmetric matrix $H$ with i.i.d. entries (e.g., standard Gaussian off-diagonal, scaled Gaussian diagonal - the Gaussian Orthogonal Ensemble or GOE). The eigenvalues $\{\lambda_i\}$ are random and correlated.</p>
+      <p>A fundamental result concerns the largest eigenvalue $\lambda_{\max}$. For the GOE, properly normalized:</p>
+      $$ \frac{\lambda_{\max} - 2\sqrt{N}}{ N^{-1/6} } \xrightarrow[N\to\infty]{d} \mathrm{TW}_1 $$
+      where $\mathrm{TW}_1$ is the Tracy–Widom distribution of type 1.
+      (Note: The constants $2\sqrt{N}$ and $N^{-1/6}$ depend on the specific normalization of matrix entries; e.g., variance $1/N$ leads to limits near $\pm 2$).
+
+      <p>The Tracy-Widom distribution is <strong>not</strong> one of the classical Gumbel/Fréchet/Weibull types. It arises due to the strong dependencies (repulsion) between eigenvalues near the edge of the spectrum. This highlights that extremes in highly correlated systems can exhibit different universal behaviors beyond the i.i.d. framework.</p>
+      <div class="slide-number">25/<span class="total-slides"></span></div>
+    </div>
+
+     <!-- Slide 26: Summary: Key Insights -->
+    <div class="slide" id="slide-26">
+      <h2>Summary: Key Insights</h2>
+      <ul>
+        <li>The asymptotic behavior of maxima of <strong>i.i.d.</strong> random variables is universally described by one of three distribution families (Gumbel, Fréchet, Weibull), determined solely by the tail behavior of the underlying distribution $F(x)$.</li>
+        <li><strong>Heavy tails</strong> (power-law decay, leading to Fréchet) are crucial for modeling phenomena with potentially unbounded extreme events, common in finance, economics, network science, and some physical systems.</li>
+        <li><strong>Light tails</strong> (e.g., exponential, normal, leading to Gumbel) or <strong>finite support</strong> (leading to Weibull) appear in contexts where extremes are more constrained.</li>
+        <li>Normalization constants ($a_n, b_n$) reveal the characteristic growth rate and fluctuation scale of the maximum.</li>
+        <li><strong>Dependencies</strong> between variables (as in time series, spatial data, or RMT) significantly alter the behavior of extremes, potentially leading to different limiting distributions (e.g., Tracy-Widom) or requiring more complex analysis.</li>
+      </ul>
+      <div class="slide-number">26/<span class="total-slides"></span></div>
+    </div>
+
+    <!-- Slide 27: Further Directions & Open Questions -->
+    <div class="slide" id="slide-27">
+      <h2>Further Directions & Open Questions</h2>
+       <ul>
+        <li><strong>Dependent Structures:</strong> Developing comprehensive EVT for various dependence types (long-range dependence, network structures, dynamic systems, spatial extremes). How does clustering of extremes affect results?</li>
+        <li><strong>Multivariate Extremes:</strong> Characterizing the joint behavior of extremes in multiple dimensions (e.g., simultaneous peaks in temperature and humidity). Copula theory and max-stable processes are key tools.</li>
+        <li><strong>Statistical Inference:</strong> Improving methods for estimating tail indices ($\alpha$), extreme quantiles (VaR, ES), and choosing appropriate thresholds ($u$) from finite, possibly dependent, data. Robustness and uncertainty quantification are critical.</li>
+        <li><strong>Non-Stationary Extremes:</strong> How do extremes behave when the underlying distribution or dependence structure changes over time (e.g., due to climate change, evolving financial markets)?</li>
+        <li><strong>Understanding Mechanisms:</strong> What underlying physical, economic, or social mechanisms generate the observed heavy tails or specific dependence structures in various systems? Linking microscopic models to macroscopic extreme behavior.</li>
+      </ul>
+       <div class="slide-number">27/<span class="total-slides"></span></div>
+    </div>
+
+    <!-- Slide 28, 29: Placeholders -->
+    <div class="slide" id="slide-28">
+      <h2>Placeholder Slide 1</h2>
+      <p>This slide can be used for additional examples, deeper dives into applications (e.g., Environmental Science - flood levels, maximum temperatures), or more advanced theoretical concepts (e.g., Peaks Over Threshold method, Max-Stable Processes).</p>
+      <div class="slide-number">28/<span class="total-slides"></span></div>
+    </div>
+    <div class="slide" id="slide-29">
+      <h2>Placeholder Slide 2</h2>
+      <p>This slide can be used for further examples, visualizations of the EVDs, discussion of software packages for EVT, or specific mathematical details omitted earlier.</p>
+       <div class="slide-number">29/<span class="total-slides"></span></div>
+    </div>
+
+
+    <!-- Slide 30: Final Slide / Navigation -->
+    <div class="slide" id="slide-30">
+      <h2>Conclusion</h2>
+      <p>Extreme Value Theory provides a powerful and elegant mathematical framework for understanding the probabilistic behavior of the largest (or smallest) outcomes in random systems.</p>
+      <p>From the fundamental classification of limit laws for i.i.d. variables (Fisher-Tippett-Gnedenko) to the challenges posed by dependencies and non-stationarity, the study of extremes offers critical insights and practical tools across science, engineering, finance, and beyond.</p>
+      <p>Understanding the tail is often more important than understanding the average when dealing with risk and resilience.</p>
+      <p><strong>Thank you!</strong> Use the <strong>Previous</strong> and <strong>Next</strong> buttons (or Left/Right arrow keys) to navigate.</p>
+      <div class="slide-number">30/<span class="total-slides"></span></div>
+    </div>
+
+    <!-- Navigation Controls -->
+    <div class="controls">
+      <button id="prev" aria-label="Previous Slide">Previous</button>
+      <button id="next" aria-label="Next Slide">Next</button>
+    </div>
+  </div>
+
+  <script>
+    // JavaScript for slide navigation, progress bar, and slide numbers
+    const slides = document.querySelectorAll('.slide');
+    const prevButton = document.getElementById('prev');
+    const nextButton = document.getElementById('next');
+    const progressBar = document.getElementById('progress-bar');
+    const totalSlidesSpans = document.querySelectorAll('.total-slides'); // Should be inside slide numbers
+
+    let currentSlide = 0;
+    const totalSlides = slides.length;
+
+    function updateSlideNumbers() {
+        // Update the total count in all slide number divs
+        document.querySelectorAll('.slide-number').forEach((span, index) => {
+            const currentNum = index + 1;
+            span.innerHTML = `${currentNum}/<span class="total-slides">${totalSlides}</span>`;
+        });
+    }
+
+    function showSlide(index) {
+        // Ensure index is within bounds
+        if (index < 0) index = 0;
+        if (index >= totalSlides) index = totalSlides - 1;
+
+        // Update active slide
+        slides.forEach((slide, i) => {
+            if (i === index) {
+                slide.classList.add('active');
+                 // Scroll slide content to top when shown
+                slide.scrollTop = 0;
+            } else {
+                slide.classList.remove('active');
+            }
+        });
+
+        currentSlide = index;
+
+        // Update progress bar
+        const progress = ((currentSlide + 1) / totalSlides) * 100;
+        progressBar.style.width = `${progress}%`;
+
+        // Update button states
+        prevButton.disabled = currentSlide === 0;
+        nextButton.disabled = currentSlide === totalSlides - 1;
+
+        // Optional: Re-render MathJax if needed for dynamically loaded content,
+        // but typically not necessary for just showing/hiding slides.
+        // if (typeof MathJax !== 'undefined' && MathJax.typesetPromise) {
+        //    MathJax.typesetPromise([slides[currentSlide]]);
+        // }
+    }
+
+    // Event listeners for buttons
+    prevButton.addEventListener('click', () => {
+        showSlide(currentSlide - 1);
+    });
+
+    nextButton.addEventListener('click', () => {
+        showSlide(currentSlide + 1);
+    });
+
+    // Event listener for keyboard navigation
+    document.addEventListener('keydown', (event) => {
+        // Ignore keydown events if they originate from input elements
+        if (event.target.tagName === 'INPUT' || event.target.tagName === 'TEXTAREA') {
+            return;
+        }
+
+        if (event.key === 'ArrowRight' || event.key === 'PageDown' || event.key === ' ') { // Next slide
+            // Prevent space bar from scrolling the page if scrolling is possible
+            if (event.key === ' ' && nextButton.disabled === false) event.preventDefault();
+            if (!nextButton.disabled) { // Check if button is enabled
+                 showSlide(currentSlide + 1);
+            }
+        } else if (event.key === 'ArrowLeft' || event.key === 'PageUp') { // Previous slide
+            if (!prevButton.disabled) { // Check if button is enabled
+                showSlide(currentSlide - 1);
+            }
+        } else if (event.key === 'Home') { // Go to first slide
+            event.preventDefault();
+            showSlide(0);
+        } else if (event.key === 'End') { // Go to last slide
+            event.preventDefault();
+            showSlide(totalSlides - 1);
+        }
+    });
+
+    // Initial setup
+    updateSlideNumbers(); // Set up the slide numbers correctly first
+    showSlide(0); // Show the first slide
+
+  </script>
+</body>
+</html>

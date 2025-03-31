@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Class 12: Implicit Differentiation and the Implicit Function Theorem</title>
+    <style>
+        :root {
+            --primary-color: #2c3e50;
+            --secondary-color: #3498db;
+            --accent-color: #e74c3c;
+            --background-color: #f9f9f9;
+            --text-color: #333;
+            --container-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+            --text-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+        }
+
+        body {
+            font-family: 'Georgia', serif;
+            line-height: 1.7;
+            margin: 0;
+            padding: 0;
+            background-color: var(--background-color);
+            color: var(--text-color);
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 20px auto;
+            padding: 30px;
+            background-color: white;
+            box-shadow: var(--container-shadow);
+            border-radius: 15px;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 40px;
+            border-bottom: 2px solid var(--secondary-color);
+            padding-bottom: 20px;
+        }
+
+        h1, h2, h3 {
+            color: var(--primary-color);
+        }
+
+        .section-title {
+            color: var(--primary-color);
+            font-size: 1.8rem;
+            margin-top: 30px;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #eee;
+            text-shadow: var(--text-shadow);
+        }
+
+        .lecture-title {
+            color: var(--secondary-color);
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+            font-weight: normal;
+        }
+
+        .author-info {
+            font-style: italic;
+            color: #777;
+        }
+
+        .math {
+            font-style: italic;
+            padding: 0 3px;
+        }
+
+        .figure {
+            text-align: center;
+            margin: 30px 0;
+            padding: 20px;
+            background-color: #f8f9fa;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+        }
+
+        .figure img {
+            max-width: 100%;
+            border-radius: 5px;
+        }
+
+        .figure-caption {
+            font-style: italic;
+            color: #777;
+            margin-top: 15px;
+        }
+
+        .navigation {
+            margin-top: 40px;
+            text-align: center;
+            display: flex;
+            justify-content: space-between;
+            padding: 15px 0;
+            border-top: 1px solid #eee;
+        }
+
+        .navigation a {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: var(--primary-color);
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .navigation a:hover {
+            background-color: var(--secondary-color);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+        }
+
+        .topic-highlight {
+            display: inline-block;
+            background-color: rgba(52, 152, 219, 0.1);
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-weight: 500;
+            color: var(--primary-color);
+        }
+
+        .formula {
+            margin: 25px 0;
+            padding: 15px;
+            background-color: #f8f9fa;
+            border-left: 4px solid var(--secondary-color);
+            border-radius: 5px;
+            overflow-x: auto;
+            font-size: 1.1em;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+        }
+
+        .example-title {
+            font-weight: bold;
+            font-size: 1.2em;
+            color: var(--secondary-color);
+            margin-top: 30px;
+            margin-bottom: 15px;
+            padding-bottom: 5px;
+            border-bottom: 1px dashed #ccc;
+            display: inline-block;
+        }
+
+        p {
+            margin-bottom: 20px;
+            line-height: 1.8;
+        }
+
+        .content-section {
+            padding-bottom: 30px;
+        }
+        
+        .footnote {
+            font-size: 0.9em;
+            color: #777;
+            margin-top: 5px;
+            border-top: 1px solid #eee;
+            padding-top: 10px;
+        }
+    </style>
+    <!-- MathJax configuration -->
+    <script>
+      window.MathJax = {
+        tex: {
+          inlineMath: [['$', '$']],
+          displayMath: [['$$', '$$']]
+        },
+        svg: {
+          fontCache: 'global'
+        }
+      };
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js" async></script>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Differential and Integral Calculus I</h1>
+            <div class="lecture-title">Engineering: Electrical & Electronic Group 4</div>
+            <div class="author-info">Lecture Notes</div>
+        </header>
+        
+        <section id="class12" class="content-section">
+            <div class="section-title">Class 12: Implicit Differentiation and the Implicit Function Theorem</div>
+
+            <p>In many practical situations, relationships between variables are given implicitly through equations rather than explicit functions. For example, the equation of a circle $x^2 + y^2 = r^2$ defines $y$ as a function of $x$ implicitly, but solving for $y$ explicitly gives two branches: $y = \pm\sqrt{r^2 - x^2}$. Today, we'll explore <span class="topic-highlight">implicit differentiation</span> and the powerful <span class="topic-highlight">Implicit Function Theorem</span>, which allows us to analyze such relationships systematically.</p>
+
+            <p>We begin by recalling implicit differentiation from single-variable calculus. When a curve is defined by an equation $F(x,y) = 0$, we can differentiate both sides with respect to $x$, treating $y$ as a function of $x$. Using the chain rule, we get:</p>
+            
+            <div class="formula">
+                $$\frac{d}{dx}F(x,y) = 0 \Rightarrow \frac{\partial F}{\partial x} + \frac{\partial F}{\partial y}\frac{dy}{dx} = 0$$
+            </div>
+            
+            <p>Solving for $\frac{dy}{dx}$, we obtain the fundamental formula for implicit differentiation:</p>
+            
+            <div class="formula">
+                $$\frac{dy}{dx} = -\frac{\frac{\partial F}{\partial x}}{\frac{\partial F}{\partial y}} = -\frac{F_x}{F_y}$$
+            </div>
+            
+            <p>This formula gives us the slope of the tangent line to the curve $F(x,y) = 0$ at any point where $F_y \neq 0$.</p>
+
+            <div class="example-title">Example 12.1: Circle Equation</div>
+            <div class="formula" style="background-color: #f0f7ff; border-left-color: #3498db;">
+                <p><strong>Question:</strong> Find $\frac{dy}{dx}$ for the circle $x^2 + y^2 = 9$ at the point $(1, -2\sqrt{2})$.</p>
+                
+                <p><strong>Solution:</strong></p>
+                <p>Let $F(x,y) = x^2 + y^2 - 9 = 0$. We compute the partial derivatives:</p>
+                <p>$F_x = \frac{\partial F}{\partial x} = 2x$</p>
+                <p>$F_y = \frac{\partial F}{\partial y} = 2y$</p>
+                
+                <p>Using the implicit differentiation formula:</p>
+                
+                $$\frac{dy}{dx} = -\frac{F_x}{F_y} = -\frac{2x}{2y} = -\frac{x}{y}$$
+                
+                <p>At the point $(1, -2\sqrt{2})$:</p>
+                
+                $$\frac{dy}{dx} = -\frac{1}{-2\sqrt{2}} = \frac{1}{2\sqrt{2}} = \frac{\sqrt{2}}{4}$$
+                
+                <p>This is the slope of the tangent line to the circle at the given point.</p>
+            </div>
+
+            <p>The <span class="topic-highlight">Implicit Function Theorem</span> generalizes this idea, providing conditions under which an equation $F(x,y) = 0$ locally defines $y$ as a differentiable function of $x$. More precisely:</p>
+            
+            <div class="formula">
+                <p>Let $F(x,y)$ be a continuously differentiable function on an open set in $\mathbb{R}^2$ containing the point $(a,b)$ where $F(a,b) = 0$. If $\frac{\partial F}{\partial y}(a,b) \neq 0$, then:</p>
+                <ol style="margin-bottom: 0;">
+                    <li>There exist open intervals $I$ containing $a$ and $J$ containing $b$, and a unique continuously differentiable function $g: I \rightarrow J$ such that:
+                        <ul>
+                            <li>$g(a) = b$</li>
+                            <li>$F(x, g(x)) = 0$ for all $x \in I$</li>
+                        </ul>
+                    </li>
+                    <li>The derivative of $g$ is given by: $g'(x) = -\frac{F_x(x,g(x))}{F_y(x,g(x))}$</li>
+                </ol>
+            </div>
+            
+            <p>In other words, if $F_y(a,b) \neq 0$, then near $(a,b)$, the equation $F(x,y) = 0$ implicitly defines $y$ as a differentiable function of $x$. This function's derivative is given by the same formula we derived earlier.</p>
+
+            <div class="figure">
+                <img src="https://via.placeholder.com/500x300" alt="Implicit Function Visualization">
+                <div class="figure-caption">Figure 12.1: The Implicit Function Theorem guarantees that near a point where $F_y \neq 0$, the level curve $F(x,y) = 0$ can be expressed as a function $y = g(x)$.</div>
+            </div>
+
+            <p>The geometric intuition is that when $F_y(a,b) \neq 0$, the level curve $F(x,y) = 0$ does not have a vertical tangent at $(a,b)$. This allows us to solve for $y$ as a function of $x$ locally. The condition $F_y(a,b) \neq 0$ means the partial derivative with respect to $y$ is non-zero, ensuring we can "isolate" $y$.</p>
+
+            <div class="example-title">Example 12.2: Folium of Descartes</div>
+            <div class="formula" style="background-color: #f0f7ff; border-left-color: #3498db;">
+                <p><strong>Question:</strong> Consider the Folium of Descartes given by the equation $x^3 + y^3 = 3xy$. Determine where the Implicit Function Theorem applies and find $\frac{dy}{dx}$ at the point $(2,1)$.</p>
+                
+                <p><strong>Solution:</strong></p>
+                <p>Let $F(x,y) = x^3 + y^3 - 3xy = 0$. The partial derivatives are:</p>
+                <p>$F_x = 3x^2 - 3y$</p>
+                <p>$F_y = 3y^2 - 3x$</p>
+                
+                <p>The Implicit Function Theorem applies at points where $F_y \neq 0$, that is, where $3y^2 - 3x \neq 0$ or $y^2 \neq x$. At such points, $y$ can be expressed locally as a function of $x$.</p>
+                
+                <p>At $(2,1)$, we check:</p>
+                <p>$F_y(2,1) = 3(1)^2 - 3(2) = 3 - 6 = -3 \neq 0$</p>
+                
+                <p>Therefore, the Implicit Function Theorem applies at $(2,1)$, and we can compute:</p>
+                
+                $$\frac{dy}{dx} = -\frac{F_x}{F_y} = -\frac{3x^2 - 3y}{3y^2 - 3x} = -\frac{x^2 - y}{y^2 - x}$$
+                
+                <p>At the point $(2,1)$:</p>
+                
+                $$\frac{dy}{dx} = -\frac{2^2 - 1}{1^2 - 2} = -\frac{3}{-1} = 3$$
+                
+                <p>This tells us that the tangent line to the Folium at $(2,1)$ has a slope of 3.</p>
+            </div>
+
+            <p>The Implicit Function Theorem extends naturally to higher dimensions. For example, if we have an equation $F(x,y,z) = 0$ where $F$ is a continuously differentiable function, and if $F_z(a,b,c) \neq 0$ at a point $(a,b,c)$ where $F(a,b,c) = 0$, then near this point, $z$ can be expressed as a function of $x$ and $y$: $z = g(x,y)$. The partial derivatives of $g$ are given by:</p>
+            
+            <div class="formula">
+                $$\frac{\partial z}{\partial x} = -\frac{F_x}{F_z}, \quad \frac{\partial z}{\partial y} = -\frac{F_y}{F_z}$$
+            </div>
+            
+            <p>This higher-dimensional version is particularly useful in many engineering applications, where multiple variables are related through constraint equations.</p>
+
+            <div class="example-title">Example 12.3: 3D Surface</div>
+            <div class="formula" style="background-color: #f0f7ff; border-left-color: #3498db;">
+                <p><strong>Question:</strong> Consider the equation $F(x,y,z) = x^2 + y^2 + z^2 - 16 = 0$, which defines a sphere of radius 4 centered at the origin. Compute $\frac{\partial z}{\partial x}$ and $\frac{\partial z}{\partial y}$ at the point $(3,2,3)$.</p>
+                
+                <p><strong>Solution:</strong></p>
+                <p>First, let's verify the point is on the sphere:</p>
+                <p>$3^2 + 2^2 + 3^2 = 9 + 4 + 9 = 22 \neq 16$</p>
+                <p>The point doesn't lie on the sphere. Let's use $(3,2,\sqrt{7})$ instead, which does lie on the sphere.</p>
+                
+                <p>We compute the partial derivatives:</p>
+                <p>$F_x = 2x$</p>
+                <p>$F_y = 2y$</p>
+                <p>$F_z = 2z$</p>
+                
+                <p>At any point where $z \neq 0$, the Implicit Function Theorem applies. At $(3,2,\sqrt{7})$:</p>
+                <p>$F_z(3,2,\sqrt{7}) = 2\sqrt{7} \neq 0$</p>
+                
+                <p>Therefore:</p>
+                
+                $$\frac{\partial z}{\partial x} = -\frac{F_x}{F_z} = -\frac{2x}{2z} = -\frac{x}{z} = -\frac{3}{\sqrt{7}}$$
+                
+                $$\frac{\partial z}{\partial y} = -\frac{F_y}{F_z} = -\frac{2y}{2z} = -\frac{y}{z} = -\frac{2}{\sqrt{7}}$$
+                
+                <p>These derivatives describe how $z$ changes locally with respect to small changes in $x$ and $y$ while staying on the sphere.</p>
+            </div>
+
+            <p>The Implicit Function Theorem has many important applications:</p>
+            
+            <div class="figure" style="background-color: #eefaf8; border-left: 4px solid #2ecc71; text-align: left;">
+                <h3 style="margin-top: 0;">Applications of the Implicit Function Theorem</h3>
+                <ul style="padding-left: 20px;">
+                    <li><strong>Geometry:</strong> Analyzing level sets, surfaces, and curves without explicitly solving for one variable.</li>
+                    <li><strong>Optimization with Constraints:</strong> The method of Lagrange multipliers relies on implicit functions.</li>
+                    <li><strong>Differential Equations:</strong> Proving existence and uniqueness of solutions to certain types of equations.</li>
+                    <li><strong>Economics:</strong> Analyzing equilibrium conditions and comparative statics in economic models.</li>
+                    <li><strong>Engineering Design:</strong> Understanding how changes in design parameters affect performance metrics.</li>
+                </ul>
+            </div>
+
+            <div class="example-title">Example 12.4: Economic Application</div>
+            <div class="formula" style="background-color: #f0f7ff; border-left-color: #3498db;">
+                <p><strong>Question:</strong> In economics, a Cobb-Douglas production function $F(K,L) = AK^{\alpha}L^{1-\alpha}$ relates output to capital ($K$) and labor ($L$). Market equilibrium requires that the marginal product of labor equals the wage rate $w$: $\frac{\partial F}{\partial L} = w$. Express $L$ in terms of $K$ and $w$ implicitly, and find $\frac{dL}{dK}$ at equilibrium.</p>
+                
+                <p><strong>Solution:</strong></p>
+                <p>The marginal product of labor is:</p>
+                
+                $$\frac{\partial F}{\partial L} = (1-\alpha)AK^{\alpha}L^{-\alpha}$$
+                
+                <p>The equilibrium condition $\frac{\partial F}{\partial L} = w$ gives:</p>
+                
+                $$G(K,L,w) = (1-\alpha)AK^{\alpha}L^{-\alpha} - w = 0$$
+                
+                <p>This equation implicitly defines $L$ as a function of $K$ and $w$. We compute the partial derivatives:</p>
+                
+                $$G_K = \alpha(1-\alpha)AK^{\alpha-1}L^{-\alpha}$$
+                $$G_L = -\alpha(1-\alpha)AK^{\alpha}L^{-\alpha-1}$$
+                
+                <p>By the Implicit Function Theorem (assuming $G_L \neq 0$):</p>
+                
+                $$\frac{dL}{dK} = -\frac{G_K}{G_L} = -\frac{\alpha(1-\alpha)AK^{\alpha-1}L^{-\alpha}}{-\alpha(1-\alpha)AK^{\alpha}L^{-\alpha-1}} = \frac{L}{K}$$
+                
+                <p>This tells us that at equilibrium, the percentage change in labor is equal to the percentage change in capital, maintaining the same wage rate. This is a key result in economic growth theory.</p>
+            </div>
+
+            <p>It's important to note some limitations of the Implicit Function Theorem:</p>
+            <ol>
+                <li>It only guarantees local solvability. The function $g$ might only be defined on a small interval around the point of interest.</li>
+                <li>The condition $F_y \neq 0$ is necessary. At points where $F_y = 0$ (corresponding to vertical tangents in the case of curves), the theorem doesn't apply.</li>
+                <li>The theorem provides existence and differentiability, but not always an explicit formula for the function $g$. In practice, we often work with the derivatives directly without solving for $g$.</li>
+            </ol>
+
+            <p>In summary, <span class="topic-highlight">implicit differentiation</span> and the <span class="topic-highlight">Implicit Function Theorem</span> provide powerful tools for analyzing relationships between variables given by equations rather than explicit functions. The key insight is that under appropriate conditions (non-zero partial derivative with respect to the dependent variable), we can treat one variable as a function of the others locally, and compute its derivatives without explicitly solving for the function.</p>
+            
+            <div class="figure" style="background-color: #eefaf8; border-left: 4px solid #2ecc71; text-align: left;">
+                <h3 style="margin-top: 0;">Key Insights about Implicit Differentiation</h3>
+                <ul style="padding-left: 20px;">
+                    <li>Implicit differentiation allows us to find derivatives without solving for one variable explicitly.</li>
+                    <li>The formula $\frac{dy}{dx} = -\frac{F_x}{F_y}$ works when $F_y \neq 0$.</li>
+                    <li>The Implicit Function Theorem guarantees the existence of a local function satisfying the implicit equation.</li>
+                    <li>In higher dimensions, similar formulas apply: $\frac{\partial z}{\partial x} = -\frac{F_x}{F_z}$, $\frac{\partial z}{\partial y} = -\frac{F_y}{F_z}$.</li>
+                    <li>These techniques are essential for analyzing complex relationships in mathematics, physics, engineering, and economics.</li>
+                </ul>
+            </div>
+        </section>
+
+        <div class="navigation">
+            <a href="class11.html">← Previous: Class 11</a>
+            <a href="../index.html">Home</a>
+            <a href="class13.html">Next: Class 13 →</a>
+        </div>
+    </div>
+</body>
+</html>
