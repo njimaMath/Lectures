@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>3D Saddle Surface with Contour Lines</title>
+    <style>
+        body { 
+            margin: 0;
+            overflow: hidden;
+            background-color: #f0f0f0;
+            font-family: Arial, sans-serif;
+        }
+        #info {
+            position: absolute;
+            top: 10px;
+            width: 100%;
+            text-align: center;
+            color: #333;
+            padding: 5px;
+            font-size: 16px;
+            background-color: rgba(255, 255, 255, 0.7);
+            z-index: 100;
+        }
+        canvas {
+            display: block;
+        }
+        #controls {
+            position: absolute;
+            bottom: 20px;
+            left: 20px;
+            background-color: rgba(255, 255, 255, 0.8);
+            padding: 10px;
+            border-radius: 5px;
+            z-index: 100;
+        }
+        button {
+            margin: 5px;
+            padding: 5px 10px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div id="info">3D Saddle Surface with Contour Lines: y = -x² + z²</div>
+    <div id="controls">
+        <button id="toggleRotation">Start Rotation</button>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/dat-gui/0.7.7/dat.gui.min.js"></script>
+    <script>
+        // Initialize Three.js
+        const scene = new THREE.Scene();
+        const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+        const renderer = new THREE.WebGLRenderer({ antialias: true });
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        renderer.setClearColor(0xf0f0f0);
+        document.body.appendChild(renderer.domElement);
+        
+        // Camera position
+        camera.position.set(5, 7, 5);
+        camera.lookAt(0, 0, 0);
+        
+        // Add lights
+        const ambientLight = new THREE.AmbientLight(0x404040);
+        scene.add(ambientLight);
+        
+        const directionalLight = new THREE.DirectionalLight(0xffffff, 0.7);
+        directionalLight.position.set(1, 1, 1);
+        scene.add(directionalLight);
+        
+        const pointLight = new THREE.PointLight(0xffffff, 0.5);
+        pointLight.position.set(-3, 5, 5);
+        scene.add(pointLight);
+        
+        // Add axes for reference with custom size for better z-axis visibility
+        const axesHelper = new THREE.AxesHelper(6);
+        scene.add(axesHelper);
+        
+        // Add axis labels
+        function createTextSprite(message, x, y, z, color) {
+            const canvas = document.createElement('canvas');
+            const context = canvas.getContext('2d');
+            canvas.width = 256;
+            canvas.height = 128;
+            
+            context.font = "Bold 48px Arial";
+            context.fillStyle = color || "#000000";
+            context.textAlign = "center";
+            context.textBaseline = "middle";
+            context.fillText(message, 128, 64);
+            
+            const texture = new THREE.CanvasTexture(canvas);
+            const spriteMaterial = new THREE.SpriteMaterial({ map: texture });
+            const sprite = new THREE.Sprite(spriteMaterial);
+            sprite.position.set(x, y, z);
+            sprite.scale.set(1, 0.5, 1);
+            scene.add(sprite);
+        }
+        
+        // Create axis labels - using standard math orientation with Y pointing up
+        createTextSprite("X", 6.5, 0, 0, "#FF0000");
+        createTextSprite("Y", 0, 6.5, 0, "#00FF00");
+        createTextSprite("Z", 0, 0, 6.5, "#0000FF");
+        
+        // Create paraboloid
+        function createParaboloid() {
+            const resolution = 50;
+            const size = 3;
+            
+            // Create geometry
+            const geometry = new THREE.ParametricBufferGeometry(
+                (u, v, target) => {
+                    const x = (u - 0.5) * 2 * size;
+                    const z = (v - 0.5) * 2 * size;
+                    const y = -x * x + z * z; // Saddle surface equation: y = -x² + z²
+                    target.set(x, y, z);
+                },
+                resolution,
+                resolution
+            );
+            
+            // Create material
+            const material = new THREE.MeshPhongMaterial({
+                color: 0x0066ff,
+                side: THREE.DoubleSide,
+                transparent: true,
+                opacity: 0.7,
+                flatShading: false,
+                shininess: 100
+            });
+            
+            const paraboloid = new THREE.Mesh(geometry, material);
+            scene.add(paraboloid);
+            
+            return { mesh: paraboloid, material: material };
+        }
+        
+        // Create contour lines for saddle surface
+        function createContours() {
+            const contourGroup = new THREE.Group();
+            const contourLevels = [-4, -2, 0, 2, 4]; // Both positive and negative values for saddle surface
+            
+            contourLevels.forEach(level => {
+                if (level === 0) {
+                    // For y=0, the contour is two intersecting lines
+                    // First line (x-axis)
+                    const xAxisGeometry = new THREE.BufferGeometry();
+                    const xAxisPositions = new Float32Array(6);
+                    xAxisPositions[0] = -3; xAxisPositions[1] = 0; xAxisPositions[2] = 0;
+                    xAxisPositions[3] = 3; xAxisPositions[4] = 0; xAxisPositions[5] = 0;
+                    xAxisGeometry.setAttribute('position', new THREE.BufferAttribute(xAxisPositions, 3));
+                    
+                    // Second line (z-axis)
+                    const zAxisGeometry = new THREE.BufferGeometry();
+                    const zAxisPositions = new Float32Array(6);
+                    zAxisPositions[0] = 0; zAxisPositions[1] = 0; zAxisPositions[2] = -3;
+                    zAxisPositions[3] = 0; zAxisPositions[4] = 0; zAxisPositions[5] = 3;
+                    zAxisGeometry.setAttribute('position', new THREE.BufferAttribute(zAxisPositions, 3));
+                    
+                    const lineMaterial = new THREE.LineBasicMaterial({ color: 0xffff00, linewidth: 4 });
+                    const xLine = new THREE.Line(xAxisGeometry, lineMaterial);
+                    const zLine = new THREE.Line(zAxisGeometry, lineMaterial);
+                    
+                    contourGroup.add(xLine);
+                    contourGroup.add(zLine);
+                    
+                    // Add a label for y=0
+                    const labelCanvas = document.createElement('canvas');
+                    const context = labelCanvas.getContext('2d');
+                    labelCanvas.width = 128;
+                    labelCanvas.height = 64;
+                    
+                    context.font = "Bold 40px Arial";
+                    context.fillStyle = "#FFFF00";
+                    context.textAlign = "center";
+                    context.textBaseline = "middle";
+                    context.fillText("y=0", 64, 32);
+                    
+                    const labelTexture = new THREE.CanvasTexture(labelCanvas);
+                    const labelMaterial = new THREE.SpriteMaterial({ map: labelTexture });
+                    const label = new THREE.Sprite(labelMaterial);
+                    label.position.set(0.5, 0.3, 0.5);
+                    label.scale.set(0.8, 0.4, 1);
+                    contourGroup.add(label);
+                } else {
+                    // For other y values, draw hyperbolas
+                    // Parametric equations for the hyperbolas: -x² + z² = level
+                    const segments = 100;
+                    const maxRange = 3;
+                    
+                    // Create the two branches of the hyperbola
+                    for (let branch = 0; branch < 2; branch++) {
+                        const geometry = new THREE.BufferGeometry();
+                        const positions = new Float32Array(segments * 3);
+                        
+                        // Branch 1: z = sqrt(level + x²)
+                        // Branch 2: z = -sqrt(level + x²)
+                        const sign = branch === 0 ? 1 : -1;
+                        
+                        for (let i = 0; i < segments; i++) {
+                            let x;
+                            if (level > 0) {
+                                // For positive levels, start from a minimum x value
+                                x = -maxRange + (i * 2 * maxRange) / (segments - 1);
+                            } else {
+                                // For negative levels, limit x to be outside sqrt(-level) to avoid NaN
+                                const limit = Math.sqrt(-level);
+                                if (branch === 0) {
+                                    // Right branch: x goes from limit to maxRange
+                                    x = limit + (i * (maxRange - limit)) / (segments - 1);
+                                } else {
+                                    // Left branch: x goes from -maxRange to -limit
+                                    x = -maxRange + (i * (maxRange - limit)) / (segments - 1);
+                                    if (x > -limit) x = -limit;
+                                }
+                            }
+                            
+                            // Calculate z based on the equation: -x² + z² = level => z² = x² + level
+                            const zSquared = x * x + level;
+                            
+                            if (zSquared >= 0) {
+                                const z = sign * Math.sqrt(zSquared);
+                                const y = level; // The y-value is constant for the contour
+                                
+                                positions[i * 3] = x;
+                                positions[i * 3 + 1] = y;
+                                positions[i * 3 + 2] = z;
+                            } else {
+                                // If we can't calculate z (would be imaginary), just place the point at the origin
+                                // This shouldn't happen with our parameter choice
+                                positions[i * 3] = 0;
+                                positions[i * 3 + 1] = level;
+                                positions[i * 3 + 2] = 0;
+                            }
+                        }
+                        
+                        geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+                        
+                        const material = new THREE.LineBasicMaterial({
+                            color: 0xffff00,
+                            linewidth: 4
+                        });
+                        
+                        const hyperbola = new THREE.Line(geometry, material);
+                        contourGroup.add(hyperbola);
+                    }
+                    
+                    // Add a label for the y-value
+                    const labelCanvas = document.createElement('canvas');
+                    const context = labelCanvas.getContext('2d');
+                    labelCanvas.width = 128;
+                    labelCanvas.height = 64;
+                    
+                    context.font = "Bold 40px Arial";
+                    context.fillStyle = "#FFFF00";
+                    context.textAlign = "center";
+                    context.textBaseline = "middle";
+                    context.fillText("y=" + level, 64, 32);
+                    
+                    const labelTexture = new THREE.CanvasTexture(labelCanvas);
+                    const labelMaterial = new THREE.SpriteMaterial({ map: labelTexture });
+                    const label = new THREE.Sprite(labelMaterial);
+                    // Position the label appropriately based on the level
+                    const xPos = level > 0 ? 2 : 0.5;
+                    label.position.set(xPos, level, 0.5);
+                    label.scale.set(0.8, 0.4, 1);
+                    contourGroup.add(label);
+                }
+            });
+            
+            scene.add(contourGroup);
+            return contourGroup;
+        }
+        
+        // Create objects
+        const paraboloid = createParaboloid();
+        const contours = createContours();
+        
+        // Create a grid helper for the XZ plane (ground plane)
+        const gridHelper = new THREE.GridHelper(6, 6);
+        scene.add(gridHelper);
+        
+        // Handle window resize and rotation
+        let isRotating = false;
+        let rotationSpeed = 0.5;
+        
+        document.getElementById('toggleRotation').addEventListener('click', function() {
+            isRotating = !isRotating;
+            this.textContent = isRotating ? 'Stop Rotation' : 'Start Rotation';
+            
+            if (isRotating) {
+                animate();
+            }
+        });
+        
+        window.addEventListener('resize', () => {
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+            render();
+        });
+        
+        // Animation function for rotation
+        function animate() {
+            if (!isRotating) return;
+            
+            requestAnimationFrame(animate);
+            
+            // Rotate camera around the scene
+            const time = Date.now() * 0.001;
+            const radius = 8;
+            camera.position.x = Math.cos(time * rotationSpeed) * radius;
+            camera.position.z = Math.sin(time * rotationSpeed) * radius;
+            camera.position.y = 5; // Keep a constant height
+            camera.lookAt(0, 0, 0);
+            
+            render();
+        }
+        
+        // Simple render function
+        function render() {
+            renderer.render(scene, camera);
+        }
+        
+        // Initial render
+        render();
+    </script>
+</body>
+</html>

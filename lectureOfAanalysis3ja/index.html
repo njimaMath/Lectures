@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>微分積分学講義ノート</title>
+    <style>
+        :root {
+            --primary-color: #2c3e50;
+            --secondary-color: #3498db;
+            --accent-color: #e74c3c;
+            --background-color: #f9f9f9;
+            --text-color: #333;
+            --container-shadow: 0 4px 6px rgba(0, 0, 0, 0.1), 0 1px 3px rgba(0, 0, 0, 0.08);
+        }
+
+        body {
+            font-family: 'Georgia', serif;
+            line-height: 1.7;
+            margin: 0;
+            padding: 0;
+            background-color: var(--background-color);
+            color: var(--text-color);
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 20px auto;
+            padding: 30px;
+            background-color: white;
+            box-shadow: var(--container-shadow);
+            border-radius: 10px;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 40px;
+            border-bottom: 2px solid var(--secondary-color);
+            padding-bottom: 20px;
+        }
+
+        h1 {
+            color: var(--primary-color);
+            margin-bottom: 10px;
+            font-size: 2.5rem;
+        }
+
+        .lecture-title {
+            color: var(--secondary-color);
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+            font-weight: normal;
+        }
+
+        .author-info {
+            font-style: italic;
+            color: #777;
+        }
+
+        /* Navigation Styles */
+        .navigation {
+            position: sticky;
+            top: 20px;
+            margin-bottom: 40px;
+            z-index: 100;
+        }
+
+        .nav-container {
+            background-color: var(--primary-color);
+            border-radius: 8px;
+            padding: 10px;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 5px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .nav-button {
+            padding: 8px 12px;
+            background-color: transparent;
+            color: white;
+            border: 1px solid rgba(255,255,255,0.2);
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.3s;
+            text-decoration: none;
+        }
+
+        .nav-button:hover {
+            background-color: rgba(255,255,255,0.1);
+            transform: translateY(-2px);
+        }
+
+        .nav-button.active {
+            background-color: var(--secondary-color);
+            border-color: var(--secondary-color);
+            transform: translateY(-2px);
+        }
+
+        /* Mobile navigation */
+        .mobile-nav-select {
+            display: none;
+            width: 100%;
+            padding: 10px;
+            font-family: 'Georgia', serif;
+            border-radius: 5px;
+            border: 1px solid #ddd;
+            background-color: white;
+            color: var(--primary-color);
+        }
+
+        /* Content Section Styles */
+        .content-section {
+            display: block;
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .home {
+            text-align: center;
+        }
+
+        .section-title {
+            color: var(--primary-color);
+            font-size: 1.8rem;
+            margin-top: 30px;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .math {
+            font-style: italic;
+            padding: 0 3px;
+        }
+
+        .figure {
+            text-align: center;
+            margin: 30px 0;
+            padding: 10px;
+            background-color: #f8f9fa;
+            border-radius: 5px;
+        }
+
+        .figure img {
+            max-width: 100%;
+            border-radius: 5px;
+        }
+
+        .figure-caption {
+            font-style: italic;
+            color: #777;
+            margin-top: 10px;
+        }
+
+        .summary-list {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+            margin-top: 20px;
+            margin-bottom: 20px;
+        }
+
+        .summary-list-item {
+            margin-bottom: 25px;
+            padding: 20px 25px 20px 120px;
+            position: relative;
+            background-color: white;
+            border-radius: 12px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            transition: all 0.3s ease;
+            border-left: 4px solid transparent;
+        }
+
+        .summary-list-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+            border-left: 4px solid var(--secondary-color);
+        }
+
+        .class-number {
+            position: absolute;
+            left: 25px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: linear-gradient(135deg, #3498db, #2980b9);
+            color: white;
+            width: 70px;
+            height: 70px;
+            border-radius: 12px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Georgia', sans-serif;
+            box-shadow: 0 4px 8px rgba(52, 152, 219, 0.4);
+        }
+
+        .class-number .number {
+            font-size: 1.8rem;
+            font-weight: 700;
+            line-height: 1;
+        }
+
+        .class-number .label {
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            opacity: 0.9;
+        }
+
+        .topic-highlight {
+            display: inline-block;
+            background-color: rgba(52, 152, 219, 0.1);
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-weight: 500;
+            color: var(--primary-color);
+        }
+
+        /* Theme toggle */
+        .theme-toggle {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            font-size: 20px;
+            cursor: pointer;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+            transition: transform 0.3s;
+            z-index: 1000;
+        }
+
+        .theme-toggle:hover {
+            transform: rotate(30deg);
+        }
+
+        /* Dark theme */
+        body.dark-theme {
+            --primary-color: #3498db;
+            --secondary-color: #2ecc71;
+            --accent-color: #e74c3c;
+            --background-color: #2c3e50;
+            --text-color: #ecf0f1;
+            --container-shadow: 0 4px 6px rgba(0, 0, 0, 0.3), 0 1px 3px rgba(0, 0, 0, 0.2);
+        }
+
+        body.dark-theme .container {
+            background-color: #34495e;
+        }
+
+        body.dark-theme .formula,
+        body.dark-theme .figure {
+            background-color: #2c3e50;
+        }
+    </style>
+    
+    <!-- MathJax configuration -->
+    <script>
+      window.MathJax = {
+        tex: {
+          inlineMath: [['$', '$']],
+          displayMath: [['$$', '$$']]
+        },
+        svg: {
+          fontCache: 'global'
+        }
+      };
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js" async></script>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>微分積分学I</h1>
+            <div class="lecture-title">工学部：電気電子工学グループ4</div>
+            <div class="author-info">講義ノート</div>
+        </header>
+
+        <div class="navigation">
+            <div class="nav-container">
+                <a href="index.html" class="nav-button active">ホーム</a>
+                <a href="classes/class1.html" class="nav-button">第1回</a>
+                <a href="classes/class2.html" class="nav-button">第2回</a>
+                <a href="classes/class3.html" class="nav-button">第3回</a>
+                <a href="#" class="nav-button">まとめ</a>
+            </div>
+        </div>
+
+        <div class="content-section">
+            <div class="home">
+                <div class="section-title">微分積分学Iへようこそ</div>
+                <p>この対話型ドキュメントには、工学部電気電子工学グループ4向けの微分積分学Iコースの包括的な講義ノートが含まれる。</p>
+                <p>上部のナビゲーションメニューを使用して、コース教材のさまざまな授業を閲覧すること。各セクションには例題、インタラクティブなデモ、練習問題が含まれる。</p>
+        
+                <div class="figure">
+                    <img src="analysisImage.webp" alt="微分積分学の概念図" style="width: 70%;">
+                    <div class="figure-caption">微分積分学の概念図</div>
+                </div>
+                
+                <div class="section-title">コース概要</div>
+                <p style="text-align: center; max-width: 800px; margin: 0 auto 40px auto; line-height: 1.8; font-size: 1.1rem;">この講義ノートは多変数微分積分学の基本的な側面をカバーし、高度な工学応用のための堅固な基盤を提供する：</p>
+                <ol class="summary-list">
+                        <li class="summary-list-item">
+                            <div class="class-number"><div class="number">1</div><div class="label">回</div></div>
+                            <span class="topic-highlight">偏微分</span>を、一度に1つの入力変数に関する多変数関数の変化率として定義した。これは微分の概念を複数の変数を持つ関数に拡張したものである。
+                        </li>
+                        <li class="summary-list-item">
+                            <div class="class-number"><div class="number">2</div><div class="label">回</div></div>
+                            <span class="topic-highlight">平面と曲面</span>を学習し、平面が線形関数のグラフとして見なせることや、より一般的な曲面がレベル集合や断面を通じて理解できることを学んだ。これらの幾何学的解釈は抽象的な数学的概念を視覚化するのに役立つ。
+                        </li>
+                        <li class="summary-list-item">
+                            <div class="class-number"><div class="number">3</div><div class="label">回</div></div>
+                            曲面<span class="math">z=f(x,y)</span>に対する<span class="topic-highlight">接平面</span>を導入し、偏微分を用いてその方程式を導出した。接平面は、接線が曲線を近似するのと同様に、ある点での曲面に対する最良の線形近似を提供する。
+                        </li>
+                        <li class="summary-list-item">
+                            <div class="class-number"><div class="number">4</div><div class="label">回</div></div>
+                            <span class="topic-highlight">全微分</span>（微分）の概念について議論し、多変数入力による関数の変化を近似するために偏微分を組み合わせた。これにより、入力の小さな変化が出力にどのように影響するかを予測できる。
+                        </li>
+                        <li class="summary-list-item">
+                            <div class="class-number"><div class="number">5</div><div class="label">回</div></div>
+                            <span class="topic-highlight">連鎖律</span>を使用して、複数の次元で合成関数を体系的に微分し、各依存経路からの寄与を慎重に合計できます。この強力なツールは、変数間の複雑な関係の分析を可能にします。
+                        </li>
+                        <li class="summary-list-item">
+                            <div class="class-number"><div class="number">6</div><div class="label">回</div></div>
+                            <span class="topic-highlight">極座標</span>のような代替座標系での微分を行う方法を見た。連鎖律を適用して極座標での微分をデカルト座標でのそれに関連付けることは、放射状対称関数や円対称の問題に特に有用である。
+                        </li>
+                        <li class="summary-list-item">
+                            <div class="class-number"><div class="number">7</div><div class="label">回</div></div>
+                            ある点が複数変数の関数の<span class="topic-highlight">局所的極値</span>（最大値または最小値）であることの意味を定義した。最大値、最小値、鞍点の例を見て、内部極値では（微分可能性を仮定すると）勾配がゼロ（臨界点）でなければならないことを強調した。
+                        </li>
+                        <li class="summary-list-item">
+                            <div class="class-number"><div class="number">8</div><div class="label">回</div></div>
+                            <span class="topic-highlight">二次関数</span>に焦点を当て、二次形式を調べることでそれらの臨界点を見つけて分類する方法を学んだ。これにより、第二偏導関数が臨界点の性質をどのように決定するかを理解した。
+                        </li>
+                        <li class="summary-list-item">
+                            <div class="class-number"><div class="number">9</div><div class="label">回</div></div>
+                            臨界点周りの<span class="topic-highlight">テイラー展開</span>を通じて、<span class="topic-highlight">第二導関数テスト</span>を正当化した。ヘッセ行列式<span class="math">D</span>と第二偏導関数を含む基準を提供し、臨界点を局所的最小値、局所的最大値、または鞍点として分類した。
+                        </li>
+                        <li class="summary-list-item">
+                            <div class="class-number"><div class="number">10</div><div class="label">回</div></div>
+                            ベクトル値関数の偏導関数を収集する方法として<span class="topic-highlight">ヤコビ行列</span>について議論した。ヤコビアンは多変数マッピングの線形近似を与え、その行列式は局所的なスケーリングを示す（特に座標変換と逆関数定理において重要）。
+                        </li>
+                        <li class="summary-list-item">
+                            <div class="class-number"><div class="number">11</div><div class="label">回</div></div>
+                            <span class="topic-highlight">逆関数定理</span>の本質が述べられました：ゼロでないヤコビ行列式は局所的な逆関数が存在することを保証し、その導関数を得る方法を示します。この結果は工学や数学の多くの高度なトピックの基礎となります。
+                        </li>
+                        <li class="summary-list-item">
+                            <div class="class-number"><div class="number">12</div><div class="label">回</div></div>
+                            <span class="topic-highlight">陰関数微分法</span>と<span class="topic-highlight">陰関数定理</span>をカバーし、方程式（<span class="math">F(x,y)=0</span>のような）で陰的に定義された関数の導関数を<span class="math">dy/dx = -F<sub>x</sub>/F<sub>y</sub></span>を使用して見つける方法を示し、複雑な関係を分析するためのもう一つの強力な手法を提供しました。
+                        </li>
+                    </ol>
+                
+                <div class="section-title">学習成果</div>
+                <p style="text-align: center; max-width: 800px; margin: 0 auto 40px auto; line-height: 1.8; font-size: 1.1rem;">このコースの終了時に、学生は以下のことができるようになります：</p>
+                <ul class="summary-list">
+                    <li class="summary-list-item">多変数関数の<span class="topic-highlight">偏微分</span>を計算し解釈する</li>
+                    <li class="summary-list-item">曲面への<span class="topic-highlight">接平面</span>の方程式を求める</li>
+                    <li class="summary-list-item">複雑な関数の合成に<span class="topic-highlight">連鎖律</span>を適用する</li>
+                    <li class="summary-list-item"><span class="topic-highlight">第二導関数テスト</span>を使用して臨界点を識別し分類する</li>
+                    <li class="summary-list-item"><span class="topic-highlight">ヤコビ行列</span>を使って座標変換を扱う</li>
+                    <li class="summary-list-item"><span class="topic-highlight">陰関数</span>を含む問題を解く</li>
+                    <li class="summary-list-item">微積分の技術を使って工学的問題を解決する</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <button class="theme-toggle" id="themeToggle">☀️</button>
+
+    <script>
+        // Theme toggle function
+        const themeToggle = document.getElementById('themeToggle');
+        themeToggle.addEventListener('click', () => {
+            document.body.classList.toggle('dark-theme');
+            themeToggle.textContent = document.body.classList.contains('dark-theme') ? '🌙' : '☀️';
+        });
+    </script>
+</body>
+</html>
