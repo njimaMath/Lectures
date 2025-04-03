@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>第7回：多変数関数の局所的極値</title>
+    <style>
+        :root {
+            --primary-color: #2c3e50;
+            --secondary-color: #3498db;
+            --accent-color: #e74c3c;
+            --background-color: #f9f9f9;
+            --text-color: #333;
+            --container-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+            --text-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+        }
+
+        body {
+            font-family: 'Georgia', serif;
+            line-height: 1.7;
+            margin: 0;
+            padding: 0;
+            background-color: var(--background-color);
+            color: var(--text-color);
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 20px auto;
+            padding: 30px;
+            background-color: white;
+            box-shadow: var(--container-shadow);
+            border-radius: 15px;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 40px;
+            border-bottom: 2px solid var(--secondary-color);
+            padding-bottom: 20px;
+        }
+
+        h1, h2, h3 {
+            color: var(--primary-color);
+        }
+
+        .section-title {
+            color: var(--primary-color);
+            font-size: 1.8rem;
+            margin-top: 30px;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #eee;
+            text-shadow: var(--text-shadow);
+        }
+
+        .lecture-title {
+            color: var(--secondary-color);
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+            font-weight: normal;
+        }
+
+        .author-info {
+            font-style: italic;
+            color: #777;
+        }
+
+        .math {
+            font-style: italic;
+            padding: 0 3px;
+        }
+        
+        .formula {
+            margin: 25px 0;
+            padding: 15px;
+            background-color: #f8f9fa;
+            border-left: 4px solid var(--secondary-color);
+            border-radius: 5px;
+            overflow-x: auto;
+            font-size: 1.1em;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+            text-align: center;
+        }
+
+        .figure {
+            text-align: center;
+            margin: 30px 0;
+            padding: 20px;
+            background-color: #f8f9fa;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+        }
+
+        .figure img {
+            max-width: 100%;
+            border-radius: 5px;
+        }
+
+        .figure-caption {
+            font-style: italic;
+            color: #777;
+            margin-top: 15px;
+        }
+        
+        .example-title {
+            font-weight: bold;
+            font-size: 1.2em;
+            color: var(--secondary-color);
+            margin-top: 30px;
+            margin-bottom: 15px;
+            padding-bottom: 5px;
+            border-bottom: 1px dashed #ccc;
+            display: inline-block;
+        }
+
+        .navigation {
+            margin-top: 40px;
+            text-align: center;
+            display: flex;
+            justify-content: space-between;
+            padding: 15px 0;
+            border-top: 1px solid #eee;
+        }
+
+        .navigation a {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: var(--primary-color);
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .navigation a:hover {
+            background-color: var(--secondary-color);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+        }
+
+        .topic-highlight {
+            display: inline-block;
+            background-color: rgba(52, 152, 219, 0.1);
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-weight: 500;
+            color: var(--primary-color);
+        }
+
+        p {
+            margin-bottom: 20px;
+            line-height: 1.8;
+        }
+
+        .content-section {
+            padding-bottom: 30px;
+        }
+        
+        .footnote {
+            font-size: 0.9em;
+            color: #777;
+            margin-top: 5px;
+            border-top: 1px solid #eee;
+            padding-top: 10px;
+        }
+        
+        ul {
+            margin-bottom: 20px;
+        }
+        
+        .key-insights {
+            background-color: #eefaf8;
+            border-left: 4px solid #2ecc71;
+            text-align: left;
+            padding: 15px 20px;
+            margin: 25px 0;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+        }
+        
+        .key-insights h3 {
+            margin-top: 0;
+            color: #2ecc71;
+        }
+        
+        .key-insights ul {
+            padding-left: 20px;
+        }
+        
+        .solution {
+            margin-left: 20px;
+            padding: 15px;
+            background-color: #f0f7ff;
+            border-left: 4px solid var(--secondary-color);
+            border-radius: 5px;
+        }
+    </style>
+    <!-- MathJax configuration -->
+    <script>
+      window.MathJax = {
+        tex: {
+          inlineMath: [['$', '$']],
+          displayMath: [['$$', '$$']]
+        },
+        svg: {
+          fontCache: 'global'
+        }
+      };
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js" async></script>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>微分積分学I</h1>
+            <div class="lecture-title">工学部：電気電子工学グループ4</div>
+            <div class="author-info">講義ノート</div>
+        </header>
+
+        <section id="class7" class="content-section">
+            <div class="section-title">第7回：多変数関数の局所的極値</div>
+
+            <p>この講義では、多変数関数の<span class="topic-highlight">局所的極値</span>（最大値と最小値）を見つけ、特徴づける方法を探求し、一変数微分積分学の概念を多次元に拡張する。</p>
+
+            <h3>多変数における局所的極値</h3>
+            <p>関数 <span class="math">$f: \mathbb{R}^n \to \mathbb{R}$</span> において、点 <span class="math">$\mathbf{p} \in \mathbb{R}^n$</span> が以下の場合である：</p>
+            <ul>
+                <li><strong>局所的最大値</strong>：点 <span class="math">$\mathbf{p}$</span> の近傍 <span class="math">$U$</span> が存在し、すべての <span class="math">$\mathbf{x} \in U$</span> について <span class="math">$f(\mathbf{x}) \leq f(\mathbf{p})$</span> が成り立つ場合。</li>
+                <li><strong>局所的最小値</strong>：点 <span class="math">$\mathbf{p}$</span> の近傍 <span class="math">$U$</span> が存在し、すべての <span class="math">$\mathbf{x} \in U$</span> について <span class="math">$f(\mathbf{x}) \geq f(\mathbf{p})$</span> が成り立つ場合。</li>
+                <li><strong>局所的極値</strong>：局所的最大値または局所的最小値のいずれかである場合。</li>
+            </ul>
+
+            <h3>臨界点</h3>
+            <p>極値を見つける上で重要なステップは<span class="topic-highlight">臨界点</span>を特定することである。微分可能な関数 <span class="math">$f: \mathbb{R}^n \to \mathbb{R}$</span> において、点 <span class="math">$\mathbf{p}$</span> が<strong>臨界点</strong>であるのは、点 <span class="math">$\mathbf{p}$</span> における <span class="math">$f$</span> の勾配がゼロである場合である：</p>
+            <div class="formula">
+                $$\nabla f(\mathbf{p}) = \mathbf{0}$$
+            </div>
+            <p>2変数関数 <span class="math">$f(x,y)$</span> の場合、これは臨界点において両方の偏導関数がゼロでなければならないことを意味する：</p>
+            <div class="formula">
+                $$\frac{\partial f}{\partial x}(x_0, y_0) = 0 \quad \text{かつ} \quad \frac{\partial f}{\partial y}(x_0, y_0) = 0$$
+            </div>
+
+            <p>一変数微分積分学と同様に、臨界点は局所的極値の<em>必要</em>条件である（その点で関数が微分可能である場合）が、<em>十分</em>条件ではない。臨界点は局所的最大値、局所的最小値、またはどちらでもない（鞍点）可能性がある。</p>
+
+            <div class="example-title">例 7.1</div>
+            <div class="formula" style="background-color: #f0f7ff; border-left-color: #3498db; text-align: left;">
+                <p><strong>問題：</strong> <span class="math">$f(x,y) = x^2 + y^2 - 2x - 4y + 5$</span> の臨界点を求めよ。</p>
+                
+                <p><strong>解答：</strong></p>
+                <p>偏導関数を計算する：</p>
+                $$\frac{\partial f}{\partial x} = 2x - 2$$
+                $$\frac{\partial f}{\partial y} = 2y - 4$$
+                
+                <p>これらをゼロに設定する：</p>
+                $$2x - 2 = 0 \implies x = 1$$
+                $$2y - 4 = 0 \implies y = 2$$
+                
+                <p>したがって、唯一の臨界点は $(1, 2)$ である。</p>
+            </div>
+
+            <h3>鞍点</h3>
+            <p>一変数微分積分学とは異なり、多変数関数は最大値でも最小値でもない臨界点を持つことがある。これらは<span class="topic-highlight">鞍点</span>と呼ばれる。</p>
+            
+            <p>鞍点とは、関数がある方向では増加し、別の方向では減少するような臨界点である。古典的な例は関数 <span class="math">$f(x,y) = x^2 - y^2$</span> であり、原点 <span class="math">$(0,0)$</span> に鞍点がある。<span class="math">$y=0$</span> に固定して <span class="math">$x$</span> を変化させると、関数は <span class="math">$x^2$</span> のように振る舞う（<span class="math">$x=0$</span> で最小値）。しかし、<span class="math">$x=0$</span> に固定して <span class="math">$y$</span> を変化させると、関数は <span class="math">$-y^2$</span> のように振る舞う（<span class="math">$y=0$</span> で最大値）。</p>
+
+            <div class="figure">
+                <img src="https://via.placeholder.com/500x300" alt="鞍点の可視化">
+                <div class="figure-caption">図7.1：関数 f(x,y) = x² - y² の鞍点の可視化。原点付近で表面はx方向には上昇するが、y方向には下降する。</div>
+            </div>
+
+            <div class="example-title">例 7.2</div>
+            <div class="formula" style="background-color: #f0f7ff; border-left-color: #3498db; text-align: left;">
+                <p><strong>問題：</strong> <span class="math">$f(x,y) = x^2 - y^2 + 2x$</span> の臨界点を求め、その性質を判定せよ。</p>
+                
+                <p><strong>解答：</strong></p>
+                <p>偏導関数を計算する：</p>
+                $$\frac{\partial f}{\partial x} = 2x + 2$$
+                $$\frac{\partial f}{\partial y} = -2y$$
+                
+                <p>これらをゼロに設定する：</p>
+                $$2x + 2 = 0 \implies x = -1$$
+                $$-2y = 0 \implies y = 0$$
+                
+                <p>したがって、唯一の臨界点は $(-1, 0)$ である。</p>
+                
+                <p>この臨界点の性質を判定するには、この点付近の関数の挙動を分析する必要がある。直感的には、$y=0$ に固定して $x$ を変化させると、関数は $f(x,0) = x^2 + 2x$ となり、$x=-1$ で最小値を持つ。しかし、$x=-1$ に固定して $y$ を変化させると、関数は $f(-1,y) = 1 - y^2$ となり、$y=0$ で最大値を持つ。$(-1, 0)$ の周りで関数がある方向では増加し、別の方向では減少するため、これは鞍点である。</p>
+            </div>
+
+            <h3>臨界点の種類</h3>
+            <p>関数 <span class="math">$f: \mathbb{R}^2 \to \mathbb{R}$</span> で臨界点が <span class="math">$(x_0, y_0)$</span> にある場合、この点周りの関数の挙動に基づいて分類できる：</p>
+            <ul>
+                <li><strong>局所的最大値</strong>：関数が臨界点からすべての方向に減少する。</li>
+                <li><strong>局所的最小値</strong>：関数が臨界点からすべての方向に増加する。</li>
+                <li><strong>鞍点</strong>：関数が臨界点からある方向には増加し、別の方向には減少する。</li>
+            </ul>
+            
+            <p>次回の講義では、関数の二次導関数を使用して臨界点を分類する体系的なアプローチを展開し、多変数関数のための<span class="topic-highlight">第二導関数テスト</span>へとつなげる。</p>
+
+            <h3>幾何学的解釈</h3>
+            <p>関数 <span class="math">$f(x,y)$</span> について、グラフ <span class="math">$z = f(x,y)$</span> を3次元空間で見ることで臨界点を視覚化できる：</p>
+            <ul>
+                <li>局所的最大値は表面上の「山頂」に対応する。</li>
+                <li>局所的最小値は表面上の「谷底」に対応する。</li>
+                <li>鞍点は山の峠のようなもので、表面がある方向には上昇し、別の方向には下降する。</li>
+            </ul>
+            
+            <div class="key-insights">
+                <h3>臨界点に関する重要な洞察</h3>
+                <ul>
+                    <li>臨界点はすべての偏導関数がゼロになる点で発生する。</li>
+                    <li>臨界点は最大値、最小値、または鞍点になり得る。</li>
+                    <li>多変数関数はしばしば鞍点を持ち、これは最大値でも最小値でもない。</li>
+                    <li>第二導関数テスト（次回扱う）は臨界点を分類するための体系的な方法を提供する。</li>
+                    <li>臨界点を見つけることは、最適化問題、安定性解析、ポテンシャルエネルギー構成など、多くの工学応用の中心となる。</li>
+                </ul>
+            </div>
+            
+            <p>臨界点の幾何学を理解することは、最適化問題、安定性解析、ポテンシャルエネルギー構成など、多くの工学応用において極めて重要である。</p>
+        </section>
+
+        <div class="navigation">
+            <a href="class6.html">← 前回：第6回</a>
+            <a href="../index.html">ホーム</a>
+            <a href="class8.html">次回：第8回 →</a>
+        </div>
+    </div>
+</body>
+</html>

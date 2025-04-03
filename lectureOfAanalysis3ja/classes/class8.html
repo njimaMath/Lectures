@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>第8回：二変数関数の第二導関数テスト</title>
+    <style>
+        :root {
+            --primary-color: #2c3e50;
+            --secondary-color: #3498db;
+            --accent-color: #e74c3c;
+            --background-color: #f9f9f9;
+            --text-color: #333;
+            --container-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+            --text-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+        }
+
+        body {
+            font-family: 'Georgia', serif;
+            line-height: 1.7;
+            margin: 0;
+            padding: 0;
+            background-color: var(--background-color);
+            color: var(--text-color);
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 20px auto;
+            padding: 30px;
+            background-color: white;
+            box-shadow: var(--container-shadow);
+            border-radius: 15px;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 40px;
+            border-bottom: 2px solid var(--secondary-color);
+            padding-bottom: 20px;
+        }
+
+        h1, h2, h3 {
+            color: var(--primary-color);
+        }
+
+        .section-title {
+            color: var(--primary-color);
+            font-size: 1.8rem;
+            margin-top: 30px;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #eee;
+            text-shadow: var(--text-shadow);
+        }
+
+        .lecture-title {
+            color: var(--secondary-color);
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+            font-weight: normal;
+        }
+
+        .author-info {
+            font-style: italic;
+            color: #777;
+        }
+
+        .math {
+            font-style: italic;
+            padding: 0 3px;
+        }
+
+        .figure {
+            text-align: center;
+            margin: 30px 0;
+            padding: 20px;
+            background-color: #f8f9fa;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+        }
+
+        .figure img {
+            max-width: 100%;
+            border-radius: 5px;
+        }
+
+        .figure-caption {
+            font-style: italic;
+            color: #777;
+            margin-top: 15px;
+        }
+
+        .navigation {
+            margin-top: 40px;
+            text-align: center;
+            display: flex;
+            justify-content: space-between;
+            padding: 15px 0;
+            border-top: 1px solid #eee;
+        }
+
+        .navigation a {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: var(--primary-color);
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .navigation a:hover {
+            background-color: var(--secondary-color);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+        }
+
+        .topic-highlight {
+            display: inline-block;
+            background-color: rgba(52, 152, 219, 0.1);
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-weight: 500;
+            color: var(--primary-color);
+        }
+
+        .formula {
+            margin: 25px 0;
+            padding: 15px;
+            background-color: #f8f9fa;
+            border-left: 4px solid var(--secondary-color);
+            border-radius: 5px;
+            overflow-x: auto;
+            font-size: 1.1em;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+        }
+
+        .example-title {
+            font-weight: bold;
+            font-size: 1.2em;
+            color: var(--secondary-color);
+            margin-top: 30px;
+            margin-bottom: 15px;
+            padding-bottom: 5px;
+            border-bottom: 1px dashed #ccc;
+            display: inline-block;
+        }
+
+        p {
+            margin-bottom: 20px;
+            line-height: 1.8;
+        }
+
+        .content-section {
+            padding-bottom: 30px;
+        }
+        
+        .footnote {
+            font-size: 0.9em;
+            color: #777;
+            margin-top: 5px;
+            border-top: 1px solid #eee;
+            padding-top: 10px;
+        }
+        
+        ul {
+            margin-bottom: 20px;
+        }
+        
+        .key-insights {
+            background-color: #eefaf8;
+            border-left: 4px solid #2ecc71;
+            text-align: left;
+            padding: 15px 20px;
+            margin: 25px 0;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+        }
+        
+        .key-insights h3 {
+            margin-top: 0;
+            color: #2ecc71;
+        }
+        
+        .key-insights ul {
+            padding-left: 20px;
+        }
+    </style>
+    <!-- MathJax configuration -->
+    <script>
+      window.MathJax = {
+        tex: {
+          inlineMath: [['$', '$']],
+          displayMath: [['$$', '$$']]
+        },
+        svg: {
+          fontCache: 'global'
+        }
+      };
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js" async></script>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>微分積分学I</h1>
+            <div class="lecture-title">工学部：電気電子工学グループ4</div>
+            <div class="author-info">講義ノート</div>
+        </header>
+        
+        <section id="class8" class="content-section">
+            <div class="section-title">第8回：二変数関数の第二導関数テスト</div>
+
+            <p>この講義では、二変数関数のための<span class="topic-highlight">第二導関数テスト</span>を展開する。これにより、臨界点を局所的最大値、局所的最小値、または鞍点として分類するための体系的な方法が提供される。</p>
+
+            <h3>二変数関数のヘッセ行列</h3>
+            <p>二変数関数 <span class="math">$f(x,y)$</span> について、点 <span class="math">$(x_0, y_0)$</span> における<span class="topic-highlight">ヘッセ行列</span>は、すべての二階偏導関数から成る <span class="math">$2 \times 2$</span> 行列である：</p>
+            
+            <div class="formula">
+                $$H(x,y) = \begin{bmatrix}
+                f_{xx}(x,y) & f_{xy}(x,y) \\
+                f_{yx}(x,y) & f_{yy}(x,y)
+                \end{bmatrix}$$
+            </div>
+            
+            <p>ここで <span class="math">$f_{xx}$</span> は <span class="math">$\frac{\partial^2 f}{\partial x^2}$</span> を、<span class="math">$f_{xy}$</span> は <span class="math">$\frac{\partial^2 f}{\partial x \partial y}$</span> を表し、以下同様である。</p>
+            
+            <p>なお、<span class="math">$f$</span> が連続な二階偏導関数を持つ場合、<span class="math">$f_{xy} = f_{yx}$</span> となる（これはクレローの定理またはシュワルツの定理として知られている）。これはヘッセ行列が対称であることを意味する。</p>
+
+            <h3>二変数関数の第二導関数テスト</h3>
+            <p>連続な二階偏導関数を持つ関数 <span class="math">$f(x,y)$</span> があり、<span class="math">$(x_0, y_0)$</span> が <span class="math">$f$</span> の臨界点であるとする（つまり、<span class="math">$\nabla f(x_0, y_0) = \mathbf{0}$</span>）。次のように定義する：</p>
+            
+            <div class="formula">
+                $$D(x_0, y_0) = f_{xx}(x_0, y_0) \cdot f_{yy}(x_0, y_0) - [f_{xy}(x_0, y_0)]^2$$
+            </div>
+            
+            <p>これは点 <span class="math">$(x_0, y_0)$</span> におけるヘッセ行列の行列式である。第二導関数テストは以下のように述べられる：</p>
+            
+            <ol>
+                <li><span class="math">$D(x_0, y_0) > 0$</span> かつ <span class="math">$f_{xx}(x_0, y_0) > 0$</span> の場合、<span class="math">$(x_0, y_0)$</span> は<strong>局所的最小値</strong>である。</li>
+                <li><span class="math">$D(x_0, y_0) > 0$</span> かつ <span class="math">$f_{xx}(x_0, y_0) < 0$</span> の場合、<span class="math">$(x_0, y_0)$</span> は<strong>局所的最大値</strong>である。</li>
+                <li><span class="math">$D(x_0, y_0) < 0$</span> の場合、<span class="math">$(x_0, y_0)$</span> は<strong>鞍点</strong>である。</li>
+                <li><span class="math">$D(x_0, y_0) = 0$</span> の場合、テストは決定的ではなく、さらなる分析が必要である。</li>
+            </ol>
+            
+            <p>このテストの背後にある理由は、臨界点付近での関数の二次近似の挙動を分析することから来ており、これはヘッセ行列によって捉えられる。</p>
+            
+            <div class="figure">
+                <img src="./critical_points_ja.svg" alt="臨界点の種類">
+                <div class="figure-caption">図8.1：三種類の臨界点の視覚的表現：局所的最大値、局所的最小値、鞍点。</div>
+            </div>
+
+            <div class="example-title">例 8.1</div>
+            <div class="formula" style="background-color: #f0f7ff; border-left-color: #3498db; text-align: left;">
+                <p><strong>問題：</strong> <span class="math">$f(x,y) = x^2 + y^2 - 2x - 4y + 5$</span> の臨界点を分類せよ。</p>
+                
+                <p><strong>解答：</strong></p>
+                <p>例7.1で、この関数の唯一の臨界点が <span class="math">$(1, 2)$</span> であることを見出した。ここで二階導関数を計算する：</p>
+                
+                $$f_{xx}(x,y) = \frac{\partial^2 f}{\partial x^2} = \frac{\partial}{\partial x}(2x - 2) = 2$$
+                $$f_{yy}(x,y) = \frac{\partial^2 f}{\partial y^2} = \frac{\partial}{\partial y}(2y - 4) = 2$$
+                $$f_{xy}(x,y) = \frac{\partial^2 f}{\partial x \partial y} = \frac{\partial}{\partial x}(2y - 4) = 0$$
+                
+                <p>臨界点 $(1, 2)$ における行列式を計算する：</p>
+                
+                $$D(1, 2) = f_{xx}(1, 2) \cdot f_{yy}(1, 2) - [f_{xy}(1, 2)]^2 = 2 \cdot 2 - 0^2 = 4 > 0$$
+                
+                <p>$D(1, 2) > 0$ かつ $f_{xx}(1, 2) = 2 > 0$ なので、第二導関数テストによれば臨界点 $(1, 2)$ は<strong>局所的最小値</strong>である。</p>
+                
+                <p>また、関数をより分かりやすい形に書き直すことでこれを確認できる：</p>
+                
+                $$f(x,y) = x^2 - 2x + y^2 - 4y + 5 = (x - 1)^2 + (y - 2)^2 + 5 - 1 - 4 = (x - 1)^2 + (y - 2)^2 + 0$$
+                
+                <p>この形は、すべての $(x,y)$ について $f(x,y) \geq 0$ であり、等号は $(1, 2)$ でのみ成立することを明確に示しており、これが大域的最小値であることを確認している。</p>
+            </div>
+
+            <div class="example-title">例 8.2</div>
+            <div class="formula" style="background-color: #f0f7ff; border-left-color: #3498db; text-align: left;">
+                <p><strong>問題：</strong> <span class="math">$f(x,y) = x^2 - y^2 + 2x$</span> の臨界点を分類せよ。</p>
+                
+                <p><strong>解答：</strong></p>
+                <p>例7.2で、この関数の唯一の臨界点が <span class="math">$(-1, 0)$</span> であることを見出した。二階導関数を計算する：</p>
+                
+                $$f_{xx}(x,y) = \frac{\partial^2 f}{\partial x^2} = \frac{\partial}{\partial x}(2x + 2) = 2$$
+                $$f_{yy}(x,y) = \frac{\partial^2 f}{\partial y^2} = \frac{\partial}{\partial y}(-2y) = -2$$
+                $$f_{xy}(x,y) = \frac{\partial^2 f}{\partial x \partial y} = \frac{\partial}{\partial x}(-2y) = 0$$
+                
+                <p>臨界点 $(-1, 0)$ における行列式を計算する：</p>
+                
+                $$D(-1, 0) = f_{xx}(-1, 0) \cdot f_{yy}(-1, 0) - [f_{xy}(-1, 0)]^2 = 2 \cdot (-2) - 0^2 = -4 < 0$$
+                
+                <p>$D(-1, 0) < 0$ なので、第二導関数テストによれば臨界点 $(-1, 0)$ は<strong>鞍点</strong>であり、例7.2の結論を確認している。</p>
+            </div>
+
+            <h3>工学における応用</h3>
+            <p>第二導関数テストはさまざまな工学応用において重要である：</p>
+            
+            <ul>
+                <li><strong>構造解析：</strong> 2次元機械システムの安定および不安定な平衡構成を見つける。</li>
+                <li><strong>最適化：</strong> 2次元工学システムの最適設計や運転条件を特定する。</li>
+                <li><strong>信号処理：</strong> 2次元信号や画像における局所的特徴を検出する。</li>
+                <li><strong>機械学習：</strong> 2次元パラメータ空間における最適パラメータを見つけ、最適化手法の収束特性を理解する。</li>
+            </ul>
+
+            <div class="key-insights">
+                <h3>二変数関数の第二導関数テストに関する重要な洞察</h3>
+                <ul>
+                    <li>ヘッセ行列は、臨界点付近の関数のすべての二階の挙動を要約する。</li>
+                    <li>二変数関数の場合、ヘッセ行列の行列式（$f_{xx}$ の符号と共に）が臨界点の種類を決定する。</li>
+                    <li>テストは特定の場合に決定的でなく、さらなる分析を必要とすることがある。</li>
+                    <li>臨界点の性質を理解することは、工学における最適化問題にとって不可欠であり、最小値、最大値、鞍点を見つけることがしばしば実用的な意義を持つ。</li>
+                    <li>第二導関数テストは、あらゆる方向における関数の挙動を調べることなく、臨界点を分類するための体系的なアプローチを提供する。</li>
+                </ul>
+            </div>
+            
+            <p>次の講義では、変数に制約がある条件下で関数の極値を見つける制約付き最適化問題を探求する。</p>
+        </section>
+        
+        <div class="navigation">
+            <a href="class7.html">← 前回：第7回</a>
+            <a href="../index.html">ホーム</a>
+            <a href="class9.html">次回：第9回 →</a>
+        </div>
+    </div>
+</body>
+</html>

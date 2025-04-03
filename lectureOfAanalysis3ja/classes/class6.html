@@ -1,0 +1,516 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>第6回：極座標における微分</title>
+    <style>
+        :root {
+            --primary-color: #2c3e50;
+            --secondary-color: #3498db;
+            --accent-color: #e74c3c;
+            --background-color: #f9f9f9;
+            --text-color: #333;
+            --container-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+            --text-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+        }
+
+        body {
+            font-family: 'Georgia', serif;
+            line-height: 1.7;
+            margin: 0;
+            padding: 0;
+            background-color: var(--background-color);
+            color: var(--text-color);
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 20px auto;
+            padding: 30px;
+            background-color: white;
+            box-shadow: var(--container-shadow);
+            border-radius: 15px;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 40px;
+            border-bottom: 2px solid var(--secondary-color);
+            padding-bottom: 20px;
+        }
+
+        h1, h2, h3 {
+            color: var(--primary-color);
+        }
+
+        .section-title {
+            color: var(--primary-color);
+            font-size: 1.8rem;
+            margin-top: 30px;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #eee;
+            text-shadow: var(--text-shadow);
+        }
+
+        .lecture-title {
+            color: var(--secondary-color);
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+            font-weight: normal;
+        }
+
+        .author-info {
+            font-style: italic;
+            color: #777;
+        }
+
+        .math {
+            font-style: italic;
+            padding: 0 3px;
+        }
+
+        .figure {
+            text-align: center;
+            margin: 30px 0;
+            padding: 20px;
+            background-color: #f8f9fa;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+        }
+
+        .figure img {
+            max-width: 100%;
+            border-radius: 5px;
+        }
+
+        .figure-caption {
+            font-style: italic;
+            color: #777;
+            margin-top: 15px;
+        }
+
+        .navigation {
+            margin-top: 40px;
+            text-align: center;
+            display: flex;
+            justify-content: space-between;
+            padding: 15px 0;
+            border-top: 1px solid #eee;
+        }
+
+        .navigation a {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: var(--primary-color);
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .navigation a:hover {
+            background-color: var(--secondary-color);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+        }
+
+        .topic-highlight {
+            display: inline-block;
+            background-color: rgba(52, 152, 219, 0.1);
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-weight: 500;
+            color: var(--primary-color);
+        }
+
+        .formula {
+            margin: 25px 0;
+            padding: 15px;
+            background-color: #f8f9fa;
+            border-left: 4px solid var(--secondary-color);
+            border-radius: 5px;
+            overflow-x: auto;
+            font-size: 1.1em;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+        }
+
+        .example-title {
+            font-weight: bold;
+            font-size: 1.2em;
+            color: var(--secondary-color);
+            margin-top: 30px;
+            margin-bottom: 15px;
+            padding-bottom: 5px;
+            border-bottom: 1px dashed #ccc;
+            display: inline-block;
+        }
+
+        p {
+            margin-bottom: 20px;
+            line-height: 1.8;
+        }
+
+        .content-section {
+            padding-bottom: 30px;
+        }
+        
+        .definition-box {
+            background-color: #f0f7ff;
+            border-left: 4px solid #3498db;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+        }
+        
+        .property-box {
+            background-color: #eefaf8;
+            border-left: 4px solid #2ecc71;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+        }
+        
+        .example-box {
+            background-color: #f0f9ff;
+            border: 1px solid #d1e6fa;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+        }
+        
+        .section-highlight {
+            background-color: #f8f9fa;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 25px 0;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+        }
+        
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 25px 0;
+            font-size: 0.9em;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+            border-radius: 5px;
+            overflow: hidden;
+        }
+        
+        .comparison-table thead tr {
+            background-color: var(--secondary-color);
+            color: white;
+            text-align: left;
+        }
+        
+        .comparison-table th,
+        .comparison-table td {
+            padding: 12px 15px;
+        }
+        
+        .comparison-table tbody tr {
+            border-bottom: 1px solid #dddddd;
+        }
+        
+        .comparison-table tbody tr:nth-of-type(even) {
+            background-color: #f3f3f3;
+        }
+        
+        .comparison-table tbody tr:last-of-type {
+            border-bottom: 2px solid var(--secondary-color);
+        }
+        
+        .visual-box {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: #f5f5f5;
+            border-radius: 8px;
+            padding: 15px;
+            margin: 25px 0;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+        }
+
+        .applications-list {
+            list-style-type: none;
+            padding-left: 0;
+        }
+        
+        .applications-list li {
+            background-color: #f8f9fa;
+            margin-bottom: 10px;
+            padding: 12px 15px;
+            border-radius: 5px;
+            box-shadow: 0 2px 3px rgba(0, 0, 0, 0.05);
+            border-left: 3px solid var(--secondary-color);
+        }
+    </style>
+    <!-- MathJax configuration -->
+    <script>
+      window.MathJax = {
+        tex: {
+          inlineMath: [['$', '$']],
+          displayMath: [['$$', '$$']]
+        },
+        svg: {
+          fontCache: 'global'
+        }
+      };
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js" async></script>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>微分積分学I</h1>
+            <div class="lecture-title">工学部：電気電子工学グループ4</div>
+            <div class="author-info">講義ノート</div>
+        </header>
+        
+        <section id="class6" class="content-section">
+            <div class="section-title">第6回：極座標における微分</div>
+            
+            <p>この講義では、<span class="topic-highlight">極座標</span>における微分の方法を探り、連鎖律を適用して極座標での微分をデカルト座標でのそれに関連付ける。これは放射状対称関数や円対称の問題に特に有用である。</p>
+
+            <div class="section-highlight">
+                <h3>極座標の導入</h3>
+                
+                <div class="definition-box">
+                    <h3 style="margin-top: 0;">極座標系</h3>
+                    <p>極座標 $(r, \theta)$ はデカルト座標 $(x, y)$ と次の変換で関連付けられる：</p>
+                    <div class="formula" style="background: none; border-left: none; box-shadow: none;">
+                        \begin{align*}
+                        x &= r\cos\theta\\
+                        y &= r\sin\theta
+                        \end{align*}
+                    </div>
+                    <p>逆に、デカルト座標から極座標を表すと：</p>
+                    <div class="formula" style="background: none; border-left: none; box-shadow: none;">
+                        \begin{align*}
+                        r &= \sqrt{x^2 + y^2}\\
+                        \theta &= \arctan\left(\frac{y}{x}\right)
+                        \end{align*}
+                    </div>
+                </div>
+                
+                <div class="visual-box">
+                    <svg width="300" height="300" viewBox="0 0 300 300">
+                        <!-- Coordinate grid -->
+                        <line x1="0" y1="150" x2="300" y2="150" stroke="#ccc" stroke-width="1" />
+                        <line x1="150" y1="0" x2="150" y2="300" stroke="#ccc" stroke-width="1" />
+                        
+                        <!-- Cartesian coordinate system -->
+                        <line x1="30" y1="150" x2="270" y2="150" stroke="#333" stroke-width="2" />
+                        <line x1="150" y1="30" x2="150" y2="270" stroke="#333" stroke-width="2" />
+                        
+                        <!-- x-axis arrowhead -->
+                        <polygon points="270,150 260,145 260,155" fill="#333" />
+                        
+                        <!-- y-axis arrowhead -->
+                        <polygon points="150,30 145,40 155,40" fill="#333" />
+                        
+                        <!-- Labels -->
+                        <text x="275" y="145" font-family="Arial" font-size="16">x</text>
+                        <text x="155" y="35" font-family="Arial" font-size="16">y</text>
+                        
+                        <!-- Sample point -->
+                        <circle cx="220" cy="100" r="5" fill="#3498db" />
+                        
+                        <!-- Radius line -->
+                        <line x1="150" y1="150" x2="220" y2="100" stroke="#e74c3c" stroke-width="2" />
+                        
+                        <!-- Angle arc -->
+                        <path d="M 170 150 A 20 20 0 0 0 164 134" fill="none" stroke="#2ecc71" stroke-width="2" />
+                        
+                        <!-- Polar coordinate labels -->
+                        <text x="175" y="115" font-family="Arial" font-size="14" fill="#e74c3c">r</text>
+                        <text x="168" y="140" font-family="Arial" font-size="14" fill="#2ecc71">θ</text>
+                        
+                        <!-- Point coordinates -->
+                        <text x="225" y="95" font-family="Arial" font-size="12">(r,θ) または (x,y)</text>
+                        
+                        <!-- Concentric circles -->
+                        <circle cx="150" cy="150" r="50" fill="none" stroke="#ccc" stroke-width="1" stroke-dasharray="3,3" />
+                        <circle cx="150" cy="150" r="100" fill="none" stroke="#ccc" stroke-width="1" stroke-dasharray="3,3" />
+                    </svg>
+                </div>
+                
+                <p>極座標で関数を扱う場合、しばしば $f(r, \theta)$ の形の式に出会う。ここで $r$ は原点からの距離を表し、$\theta$ は正の $x$ 軸からの角度を表す。</p>
+            </div>
+
+            <div class="section-highlight">
+                <h3>極座標のための連鎖律</h3>
+                
+                <p>極座標で表現された関数を微分するために、第5回で学んだ連鎖律を適用する。$z = f(r, \theta)$ で、$x$ と $y$ に関する偏導関数を求めたい場合、次のようにする：</p>
+                
+                <div class="formula">
+                    $$\frac{\partial z}{\partial x} = \frac{\partial z}{\partial r} \cdot \frac{\partial r}{\partial x} + \frac{\partial z}{\partial \theta} \cdot \frac{\partial \theta}{\partial x}$$
+                </div>
+                
+                <div class="formula">
+                    $$\frac{\partial z}{\partial y} = \frac{\partial z}{\partial r} \cdot \frac{\partial r}{\partial y} + \frac{\partial z}{\partial \theta} \cdot \frac{\partial \theta}{\partial y}$$
+                </div>
+                
+                <p>$r$ と $\theta$ の $x$ と $y$ に関する導関数を計算する必要がある：</p>
+                
+                <div class="property-box">
+                    <h3 style="margin-top: 0;">極座標からデカルト座標への変換の導関数</h3>
+                    <p>$r = \sqrt{x^2 + y^2}$ から：</p>
+                    <div class="formula" style="background: none; border-left: none; box-shadow: none;">
+                        \begin{align*}
+                        \frac{\partial r}{\partial x} &= \frac{x}{\sqrt{x^2 + y^2}} = \frac{x}{r} = \cos\theta\\
+                        \frac{\partial r}{\partial y} &= \frac{y}{\sqrt{x^2 + y^2}} = \frac{y}{r} = \sin\theta
+                        \end{align*}
+                    </div>
+                    
+                    <p>$\theta = \arctan\left(\frac{y}{x}\right)$ から：</p>
+                    <div class="formula" style="background: none; border-left: none; box-shadow: none;">
+                        \begin{align*}
+                        \frac{\partial \theta}{\partial x} &= \frac{-y}{x^2 + y^2} = -\frac{y}{r^2} = -\frac{\sin\theta}{r}\\
+                        \frac{\partial \theta}{\partial y} &= \frac{x}{x^2 + y^2} = \frac{x}{r^2} = \frac{\cos\theta}{r}
+                        \end{align*}
+                    </div>
+                </div>
+                
+                <p>これらの結果を連鎖律の公式に代入すると：</p>
+                
+                <div class="formula">
+                    $$\frac{\partial z}{\partial x} = \frac{\partial z}{\partial r} \cdot \cos\theta - \frac{\partial z}{\partial \theta} \cdot \frac{\sin\theta}{r}$$
+                </div>
+                
+                <div class="formula">
+                    $$\frac{\partial z}{\partial y} = \frac{\partial z}{\partial r} \cdot \sin\theta + \frac{\partial z}{\partial \theta} \cdot \frac{\cos\theta}{r}$$
+                </div>
+            </div>
+
+            <div class="example-box">
+                <div class="example-title">例 6.1</div>
+                <p>関数 $f(x,y) = x^2 + y^2$ を考える。この関数を極座標で表し、直接デカルト座標で微分する方法と極座標での連鎖律を使う方法の両方で $\frac{\partial f}{\partial x}$ と $\frac{\partial f}{\partial y}$ を求めよ。</p>
+                
+                <p><strong>解答：</strong></p>
+                <p>極座標では、$f(r,\theta) = r^2$ となる。これは $x^2 + y^2 = r^2$ だからである。</p>
+                
+                <p>直接デカルト座標で微分すると：</p>
+                <div class="formula" style="background: none; border-left: none; box-shadow: none;">
+                    \begin{align*}
+                    \frac{\partial f}{\partial x} &= \frac{\partial}{\partial x}(x^2 + y^2) = 2x\\
+                    \frac{\partial f}{\partial y} &= \frac{\partial}{\partial y}(x^2 + y^2) = 2y
+                    \end{align*}
+                </div>
+                
+                <p>極座標での連鎖律を使うと：</p>
+                <div class="formula" style="background: none; border-left: none; box-shadow: none;">
+                    \begin{align*}
+                    \frac{\partial f}{\partial r} &= \frac{\partial}{\partial r}(r^2) = 2r\\
+                    \frac{\partial f}{\partial \theta} &= \frac{\partial}{\partial \theta}(r^2) = 0
+                    \end{align*}
+                </div>
+                
+                <p>公式を適用すると：</p>
+                <div class="formula" style="background: none; border-left: none; box-shadow: none;">
+                    \begin{align*}
+                    \frac{\partial f}{\partial x} &= \frac{\partial f}{\partial r} \cdot \cos\theta - \frac{\partial f}{\partial \theta} \cdot \frac{\sin\theta}{r}\\
+                    &= 2r \cdot \cos\theta - 0 \cdot \frac{\sin\theta}{r}\\
+                    &= 2r\cos\theta
+                    \end{align*}
+                </div>
+                
+                <p>$r\cos\theta = x$ なので：</p>
+                <div class="formula" style="background: none; border-left: none; box-shadow: none;">
+                    \begin{align*}
+                    \frac{\partial f}{\partial x} = 2r\cos\theta = 2x
+                    \end{align*}
+                </div>
+                
+                <p>同様に：</p>
+                <div class="formula" style="background: none; border-left: none; box-shadow: none;">
+                    \begin{align*}
+                    \frac{\partial f}{\partial y} &= \frac{\partial f}{\partial r} \cdot \sin\theta + \frac{\partial f}{\partial \theta} \cdot \frac{\cos\theta}{r}\\
+                    &= 2r \cdot \sin\theta + 0 \cdot \frac{\cos\theta}{r}\\
+                    &= 2r\sin\theta = 2y
+                    \end{align*}
+                </div>
+                
+                <p>これにより両方の方法が同じ結果をもたらすことが確認できた。</p>
+            </div>
+
+            <div class="example-box">
+                <div class="example-title">例 6.2</div>
+                <p>$f(r,\theta) = r^2\sin(2\theta)$ の $x$ と $y$ に関する偏導関数を求めよ。</p>
+                
+                <p><strong>解答：</strong></p>
+                <p>まず、$r$ と $\theta$ に関する偏導関数を計算する：</p>
+                <div class="formula" style="background: none; border-left: none; box-shadow: none;">
+                    \begin{align*}
+                    \frac{\partial f}{\partial r} &= \frac{\partial}{\partial r}(r^2\sin(2\theta)) = 2r\sin(2\theta)\\
+                    \frac{\partial f}{\partial \theta} &= \frac{\partial}{\partial \theta}(r^2\sin(2\theta)) = r^2 \cdot 2\cos(2\theta) = 2r^2\cos(2\theta)
+                    \end{align*}
+                </div>
+                
+                <p>連鎖律を使うと：</p>
+                <div class="formula" style="background: none; border-left: none; box-shadow: none;">
+                    \begin{align*}
+                    \frac{\partial f}{\partial x} &= \frac{\partial f}{\partial r} \cdot \frac{\partial r}{\partial x} + \frac{\partial f}{\partial \theta} \cdot \frac{\partial \theta}{\partial x}\\
+                    &= 2r\sin(2\theta) \cdot \cos\theta - 2r^2\cos(2\theta) \cdot \frac{\sin\theta}{r}\\
+                    &= 2r\sin(2\theta)\cos\theta - 2r\cos(2\theta)\sin\theta
+                    \end{align*}
+                </div>
+                
+                <p>倍角公式 $\sin(2\theta) = 2\sin\theta\cos\theta$ を使うと：</p>
+                <div class="formula" style="background: none; border-left: none; box-shadow: none;">
+                    \begin{align*}
+                    \frac{\partial f}{\partial x} &= 2r \cdot 2\sin\theta\cos\theta \cdot \cos\theta - 2r\cos(2\theta)\sin\theta\\
+                    &= 4r\sin\theta\cos^2\theta - 2r\cos(2\theta)\sin\theta
+                    \end{align*}
+                </div>
+                
+                <p>同様に $\frac{\partial f}{\partial y}$ について：</p>
+                <div class="formula" style="background: none; border-left: none; box-shadow: none;">
+                    \begin{align*}
+                    \frac{\partial f}{\partial y} &= \frac{\partial f}{\partial r} \cdot \frac{\partial r}{\partial y} + \frac{\partial f}{\partial \theta} \cdot \frac{\partial \theta}{\partial y}\\
+                    &= 2r\sin(2\theta) \cdot \sin\theta + 2r^2\cos(2\theta) \cdot \frac{\cos\theta}{r}\\
+                    &= 2r\sin(2\theta)\sin\theta + 2r\cos(2\theta)\cos\theta
+                    \end{align*}
+                </div>
+                
+                <p>これらの式は三角関数の恒等式を使ってさらに簡略化できるが、極座標での微分のプロセスを示すことができた。</p>
+            </div>
+
+            <div class="section-highlight">
+                <h3>極座標の応用</h3>
+                
+                <p>極座標は特に以下の問題で有用である：</p>
+                
+                <ul class="applications-list">
+                    <li><strong>円対称</strong> - 性質が原点からの距離のみに依存する問題（例：点光源からの波の伝播）</li>
+                    <li><strong>放射状場</strong> - 中心点からの距離によって変化する重力場、電場、磁場</li>
+                    <li><strong>回転不変系</strong> - 原点周りの向きに関係なく同じ挙動を示すシステム</li>
+                    <li><strong>幾何学的問題</strong> - デカルト座標よりも半径と角度の方が自然な変数となる状況</li>
+                </ul>
+                
+                <div class="figure" style="background-color: #eefaf8; border-left: 4px solid #2ecc71; text-align: left;">
+                    <h3 style="margin-top: 0;">極座標に関する重要な洞察</h3>
+                    <ul style="padding-left: 20px;">
+                        <li>極座標は、デカルト座標ではより複雑になる円形または放射状の対称性を持つ問題を単純化することが多い。</li>
+                        <li>連鎖律は座標系間で導関数を変換する上で不可欠である。</li>
+                        <li>ある座標系で単純な形を持つ関数が、別の座標系ではより複雑な表現を持つことがある。</li>
+                        <li>極形式の関数を微分する際には、$r$ と $\theta$ の両方が $x$ と $y$ に依存することを忘れないこと。</li>
+                        <li>工学者は、円運動、波の伝播、場の解析を含む問題によく極座標を使用する。</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <div class="navigation">
+            <a href="class5.html">← 前回：第5回</a>
+            <a href="../index.html">ホーム</a>
+            <a href="class7.html">次回：第7回 →</a>
+        </div>
+    </div>
+</body>
+</html>

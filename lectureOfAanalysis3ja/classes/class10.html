@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>第10回：二次元におけるヤコビ行列</title>
+    <style>
+        :root {
+            --primary-color: #2c3e50;
+            --secondary-color: #3498db;
+            --accent-color: #e74c3c;
+            --background-color: #f9f9f9;
+            --text-color: #333;
+            --container-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+            --text-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+        }
+
+        body {
+            font-family: 'Georgia', serif;
+            line-height: 1.7;
+            margin: 0;
+            padding: 0;
+            background-color: var(--background-color);
+            color: var(--text-color);
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 20px auto;
+            padding: 30px;
+            background-color: white;
+            box-shadow: var(--container-shadow);
+            border-radius: 15px;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 40px;
+            border-bottom: 2px solid var(--secondary-color);
+            padding-bottom: 20px;
+        }
+
+        h1, h2, h3 {
+            color: var(--primary-color);
+        }
+
+        .section-title {
+            color: var(--primary-color);
+            font-size: 1.8rem;
+            margin-top: 30px;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #eee;
+            text-shadow: var(--text-shadow);
+        }
+
+        .lecture-title {
+            color: var(--secondary-color);
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+            font-weight: normal;
+        }
+
+        .author-info {
+            font-style: italic;
+            color: #777;
+        }
+
+        .math {
+            font-style: italic;
+            padding: 0 3px;
+        }
+
+        .figure {
+            text-align: center;
+            margin: 30px 0;
+            padding: 20px;
+            background-color: #f8f9fa;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+        }
+
+        .figure img {
+            max-width: 100%;
+            border-radius: 5px;
+        }
+
+        .figure-caption {
+            font-style: italic;
+            color: #777;
+            margin-top: 15px;
+        }
+
+        .navigation {
+            margin-top: 40px;
+            text-align: center;
+            display: flex;
+            justify-content: space-between;
+            padding: 15px 0;
+            border-top: 1px solid #eee;
+        }
+
+        .navigation a {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: var(--primary-color);
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .navigation a:hover {
+            background-color: var(--secondary-color);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+        }
+
+        .topic-highlight {
+            display: inline-block;
+            background-color: rgba(52, 152, 219, 0.1);
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-weight: 500;
+            color: var(--primary-color);
+        }
+
+        .formula {
+            margin: 25px 0;
+            padding: 15px;
+            background-color: #f8f9fa;
+            border-left: 4px solid var(--secondary-color);
+            border-radius: 5px;
+            overflow-x: auto;
+            font-size: 1.1em;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+        }
+
+        .example-title {
+            font-weight: bold;
+            font-size: 1.2em;
+            color: var(--secondary-color);
+            margin-top: 30px;
+            margin-bottom: 15px;
+            padding-bottom: 5px;
+            border-bottom: 1px dashed #ccc;
+            display: inline-block;
+        }
+
+        p {
+            margin-bottom: 20px;
+            line-height: 1.8;
+        }
+
+        .content-section {
+            padding-bottom: 30px;
+        }
+        
+        .footnote {
+            font-size: 0.9em;
+            color: #777;
+            margin-top: 5px;
+            border-top: 1px solid #eee;
+            padding-top: 10px;
+        }
+    </style>
+    <!-- MathJax configuration -->
+    <script>
+      window.MathJax = {
+        tex: {
+          inlineMath: [['$', '$']],
+          displayMath: [['$$', '$$']]
+        },
+        svg: {
+          fontCache: 'global'
+        }
+      };
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js" async></script>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>微分積分学I</h1>
+            <div class="lecture-title">工学部：電気・電子工学グループ4</div>
+            <div class="author-info">講義ノート</div>
+        </header>
+        
+        <section id="class10" class="content-section">
+            <div class="section-title">第10回：二次元におけるヤコビ行列</div>
+
+            <p>これまで、主に二変数のスカラー値関数に焦点を当ててきた。今回は、2次元における<span class="topic-highlight">ベクトル値関数</span>とその導関数に関する研究を拡張し、<span class="topic-highlight">ヤコビ行列</span>という強力なツールを紹介する。</p>
+
+            <p>写像$\mathbf{F}: \mathbb{R}^2 \rightarrow \mathbb{R}^2$を考えよう。これは2つの入力変数を取り、2つの出力変数を生成する。これを次のように表現できる：</p>
+            
+            <div class="formula">
+                $$\mathbf{F}(x, y) = 
+                \begin{pmatrix} 
+                F_1(x, y) \\
+                F_2(x, y)
+                \end{pmatrix}$$
+            </div>
+            
+            <p>ここで、各$F_i$は入力変数のスカラー値関数である。点$(x, y)$における$\mathbf{F}$の<span class="topic-highlight">ヤコビ行列</span>は、すべての偏導関数を含む$2 \times 2$行列である：</p>
+            
+            <div class="formula">
+                $$J_{\mathbf{F}}(x, y) = 
+                \begin{pmatrix} 
+                \frac{\partial F_1}{\partial x} & \frac{\partial F_1}{\partial y} \\
+                \frac{\partial F_2}{\partial x} & \frac{\partial F_2}{\partial y}
+                \end{pmatrix}$$
+            </div>
+            
+            <p>ヤコビ行列は、ベクトル値関数の導関数の一般化である。点$(x, y)$付近の関数$\mathbf{F}$に対する最良の線形近似を提供する：</p>
+            
+            <div class="formula">
+                $$\mathbf{F}(x + \Delta x, y + \Delta y) \approx \mathbf{F}(x, y) + J_{\mathbf{F}}(x, y) \cdot 
+                \begin{pmatrix} 
+                \Delta x \\
+                \Delta y
+                \end{pmatrix}$$
+            </div>
+            
+            <p>ここで、$(\Delta x, \Delta y)$は入力空間における小さな変位である。これは、一変数微積分における線形近似$f(x+h) \approx f(x) + f'(x) \cdot h$に類似している。</p>
+
+            <div class="example-title">例10.1：単純な変換のヤコビ行列</div>
+            <div class="formula" style="background-color: #f0f7ff; border-left-color: #3498db;">
+                <p><strong>問題：</strong> 変換$\mathbf{F}(x,y) = (x^2 + y, xy)$のヤコビ行列を求めよ。</p>
+                
+                <p><strong>解答：</strong></p>
+                <p>$F_1(x,y) = x^2 + y$および$F_2(x,y) = xy$とする。偏導関数を計算すると：</p>
+                
+                $$\frac{\partial F_1}{\partial x} = 2x, \quad \frac{\partial F_1}{\partial y} = 1$$
+                $$\frac{\partial F_2}{\partial x} = y, \quad \frac{\partial F_2}{\partial y} = x$$
+                
+                <p>したがって、ヤコビ行列は：</p>
+                
+                $$J_{\mathbf{F}}(x,y) = 
+                \begin{pmatrix} 
+                2x & 1 \\
+                y & x
+                \end{pmatrix}$$
+                
+                <p>この$2 \times 2$行列は、$(x,y)$の小さな変化が出力空間$(F_1, F_2)$における変化にどのように変換されるかを示している。</p>
+            </div>
+
+            <p>ヤコビ行列式（ヤコビ行列の行列式）は、変換に関する重要な情報を提供する：</p>
+
+            <div class="formula">
+                $$\det(J_{\mathbf{F}}(x,y)) = \det\begin{pmatrix} 
+                \frac{\partial F_1}{\partial x} & \frac{\partial F_1}{\partial y} \\
+                \frac{\partial F_2}{\partial x} & \frac{\partial F_2}{\partial y}
+                \end{pmatrix}$$
+            </div>
+
+            <p>ヤコビ行列式にはいくつかの重要な解釈がある：</p>
+            
+            <div class="figure" style="background-color: #eefaf8; border-left: 4px solid #2ecc71; text-align: left;">
+                <h3 style="margin-top: 0;">ヤコビ行列式の解釈</h3>
+                <ul style="padding-left: 20px;">
+                    <li><strong>面積のスケーリング係数：</strong> 絶対値$|\det(J_{\mathbf{F}}(x,y))|$は、変換によって面積がローカルにどのようにスケーリングされるかを表す。</li>
+                    <li><strong>積分における変数変換：</strong> 変換された領域上で積分する際、ヤコビ行列式は面積要素の変化を調整する。</li>
+                    <li><strong>局所的可逆性：</strong> $\det(J_{\mathbf{F}}(x,y)) \neq 0$ならば、$\mathbf{F}$は$(x,y)$付近で局所的に可逆である（逆関数定理）。</li>
+                    <li><strong>向きの符号：</strong> $\det(J_{\mathbf{F}}(x,y))$の符号は、変換が向きを保存するか反転するかを示す。</li>
+                </ul>
+            </div>
+
+            <p>ヤコビ行列の一般的な応用は座標変換に現れる。ある座標系から別の座標系に変更する際、ヤコビ行列は導関数がどのように変換されるかを理解するのに役立ち、ヤコビ行列式は積分公式に現れる。</p>
+
+            <div class="example-title">例10.2：極座標変換</div>
+            <div class="formula" style="background-color: #f0f7ff; border-left-color: #3498db;">
+                <p><strong>問題：</strong> 極座標$(r, \theta)$からデカルト座標$(x, y)$への変換に対するヤコビ行列と行列式を求めよ。</p>
+                
+                <p><strong>解答：</strong></p>
+                <p>変換は次のように与えられる：</p>
+                
+                $$\mathbf{F}(r, \theta) = (r\cos\theta, r\sin\theta) = (x, y)$$
+                
+                <p>偏導関数を計算すると：</p>
+                
+                $$\frac{\partial x}{\partial r} = \cos\theta, \quad \frac{\partial x}{\partial \theta} = -r\sin\theta$$
+                $$\frac{\partial y}{\partial r} = \sin\theta, \quad \frac{\partial y}{\partial \theta} = r\cos\theta$$
+                
+                <p>よってヤコビ行列は：</p>
+                
+                $$J_{\mathbf{F}}(r, \theta) = 
+                \begin{pmatrix} 
+                \cos\theta & -r\sin\theta \\
+                \sin\theta & r\cos\theta
+                \end{pmatrix}$$
+                
+                <p>ヤコビ行列式は：</p>
+                
+                $$\det(J_{\mathbf{F}}(r, \theta)) = \cos\theta \cdot r\cos\theta - (-r\sin\theta) \cdot \sin\theta = r\cos^2\theta + r\sin^2\theta = r$$
+                
+                <p>この結果、$\det(J) = r$は、極座標における面積要素が単に$dr \, d\theta$ではなく、$dA = r \, dr \, d\theta$である理由を説明している。係数$r$は、$\theta$の小さな変化が原点から遠ざかるにつれてより大きな弧の長さに対応するという事実を考慮している。</p>
+            </div>
+
+            <p>ヤコビ行列のもう一つの重要な応用は、二変数における非線形方程式系の解法である。そのような系を解くための<span class="topic-highlight">ニュートン・ラフソン法</span>は、反復プロセス中に線形近似を提供するためにヤコビ行列に依存している。</p>
+
+            <p>具体的には、系$\mathbf{F}(x,y) = \mathbf{0}$を解くためのニュートン・ラフソン反復は：</p>
+            
+            <div class="formula">
+                $$\begin{pmatrix} x_{k+1} \\ y_{k+1} \end{pmatrix} = \begin{pmatrix} x_k \\ y_k \end{pmatrix} - [J_{\mathbf{F}}(x_k, y_k)]^{-1} \cdot \mathbf{F}(x_k, y_k)$$
+            </div>
+            
+            <p>この方法は、回路解析や最適化問題など、工学的応用で広く使用されている。</p>
+
+            <div class="example-title">例10.3：電気工学におけるヤコビ行列</div>
+            <div class="formula" style="background-color: #f0f7ff; border-left-color: #3498db;">
+                <p><strong>問題：</strong> 非線形回路において、2つの構成要素を流れる電流$I_1$と$I_2$が次の方程式を満たす：</p>
+                
+                $$F_1(I_1, I_2) = I_1^2 + I_1I_2 - 5 = 0$$
+                $$F_2(I_1, I_2) = I_2^2 - I_1 - 3 = 0$$
+                
+                <p>点$(I_1, I_2) = (1, 2)$におけるこのシステムのヤコビ行列を求めよ。</p>
+                
+                <p><strong>解答：</strong></p>
+                <p>偏導関数を計算する：</p>
+                
+                $$\frac{\partial F_1}{\partial I_1} = 2I_1 + I_2, \quad \frac{\partial F_1}{\partial I_2} = I_1$$
+                $$\frac{\partial F_2}{\partial I_1} = -1, \quad \frac{\partial F_2}{\partial I_2} = 2I_2$$
+                
+                <p>$(I_1, I_2) = (1, 2)$で評価すると：</p>
+                
+                $$J_{\mathbf{F}}(1, 2) = 
+                \begin{pmatrix} 
+                2(1) + 2 & 1 \\
+                -1 & 2(2)
+                \end{pmatrix} = 
+                \begin{pmatrix} 
+                4 & 1 \\
+                -1 & 4
+                \end{pmatrix}$$
+                
+                <p>行列式は$\det(J) = 4 \cdot 4 - 1 \cdot (-1) = 16 + 1 = 17$である。これはゼロでないので、システムはこの点で局所的に可逆であり、ニュートン法はさらなる解の精緻化に効果的である。</p>
+            </div>
+
+            <p>ヤコビ行列はまた、2次元空間における同じオブジェクトの異なるパラメータ化間の変換の研究においても中心的な役割を果たす。これは、異なる座標系が問題の異なる側面にとってより便利である可能性があるコンピュータグラフィックス、ロボット工学、物理学において重要である。</p>
+
+            <div class="figure">
+                <img src="https://via.placeholder.com/500x300" alt="2次元座標変換におけるヤコビ行列">
+                <div class="figure-caption">図10.1：ヤコビ行列は、ある2次元座標系における小さな領域が別の2次元系における領域にどのようにマッピングされるかを記述する。</div>
+            </div>
+
+            <p>要約すると、<span class="topic-highlight">ヤコビ行列</span>は、導関数の概念を2次元空間におけるベクトル値関数に拡張する基本的なツールである。ベクトル関数の線形近似を提供し、座標変換を可能にし、多くの数値的方法に不可欠である。ヤコビ行列式は、平面における変換の局所的なスケーリング、向き、可逆性に関する貴重な情報を提供し、様々な工学的応用において欠かせないものとなっている。</p>
+            
+            <div class="figure" style="background-color: #eefaf8; border-left: 4px solid #2ecc71; text-align: left;">
+                <h3 style="margin-top: 0;">2次元におけるヤコビ行列に関する重要な洞察</h3>
+                <ul style="padding-left: 20px;">
+                    <li>ヤコビ行列は、導関数を2次元空間におけるベクトル値関数に一般化したものである。</li>
+                    <li>関数$F: \mathbb{R}^2 \to \mathbb{R}^2$に対して、ヤコビ行列は偏導関数の$2 \times 2$行列である。</li>
+                    <li>ヤコビ行列は、平面内の点付近のベクトル関数に対する最良の線形近似を提供する。</li>
+                    <li>ヤコビ行列式は、局所的な面積のスケーリングと可逆性を示す。</li>
+                    <li>2次元座標変換（極座標からデカルト座標など）では、ヤコビ行列式が正しい面積要素を与える。</li>
+                    <li>ヤコビ行列は、二変数における非線形系を解くための数値的方法の中心である。</li>
+                </ul>
+            </div>
+        </section>
+
+        <div class="navigation">
+            <a href="class9.html">← 前回：第9回</a>
+            <a href="../index.html">ホーム</a>
+            <a href="class11.html">次回：第11回 →</a>
+        </div>
+    </div>
+</body>
+</html>

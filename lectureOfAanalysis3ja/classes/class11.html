@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>第11回：逆関数定理</title>
+    <style>
+        :root {
+            --primary-color: #2c3e50;
+            --secondary-color: #3498db;
+            --accent-color: #e74c3c;
+            --background-color: #f9f9f9;
+            --text-color: #333;
+            --container-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+            --text-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+        }
+
+        body {
+            font-family: 'Georgia', serif;
+            line-height: 1.7;
+            margin: 0;
+            padding: 0;
+            background-color: var(--background-color);
+            color: var(--text-color);
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 20px auto;
+            padding: 30px;
+            background-color: white;
+            box-shadow: var(--container-shadow);
+            border-radius: 15px;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 40px;
+            border-bottom: 2px solid var(--secondary-color);
+            padding-bottom: 20px;
+        }
+
+        h1, h2, h3 {
+            color: var(--primary-color);
+        }
+
+        .section-title {
+            color: var(--primary-color);
+            font-size: 1.8rem;
+            margin-top: 30px;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #eee;
+            text-shadow: var(--text-shadow);
+        }
+
+        .lecture-title {
+            color: var(--secondary-color);
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+            font-weight: normal;
+        }
+
+        .author-info {
+            font-style: italic;
+            color: #777;
+        }
+
+        .math {
+            font-style: italic;
+            padding: 0 3px;
+        }
+
+        .figure {
+            text-align: center;
+            margin: 30px 0;
+            padding: 20px;
+            background-color: #f8f9fa;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+        }
+
+        .figure img {
+            max-width: 100%;
+            border-radius: 5px;
+        }
+
+        .figure-caption {
+            font-style: italic;
+            color: #777;
+            margin-top: 15px;
+        }
+
+        .navigation {
+            margin-top: 40px;
+            text-align: center;
+            display: flex;
+            justify-content: space-between;
+            padding: 15px 0;
+            border-top: 1px solid #eee;
+        }
+
+        .navigation a {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: var(--primary-color);
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .navigation a:hover {
+            background-color: var(--secondary-color);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+        }
+
+        .topic-highlight {
+            display: inline-block;
+            background-color: rgba(52, 152, 219, 0.1);
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-weight: 500;
+            color: var(--primary-color);
+        }
+
+        .formula {
+            margin: 25px 0;
+            padding: 15px;
+            background-color: #f8f9fa;
+            border-left: 4px solid var(--secondary-color);
+            border-radius: 5px;
+            overflow-x: auto;
+            font-size: 1.1em;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+        }
+
+        .example-title {
+            font-weight: bold;
+            font-size: 1.2em;
+            color: var(--secondary-color);
+            margin-top: 30px;
+            margin-bottom: 15px;
+            padding-bottom: 5px;
+            border-bottom: 1px dashed #ccc;
+            display: inline-block;
+        }
+
+        p {
+            margin-bottom: 20px;
+            line-height: 1.8;
+        }
+
+        .content-section {
+            padding-bottom: 30px;
+        }
+        
+        .footnote {
+            font-size: 0.9em;
+            color: #777;
+            margin-top: 5px;
+            border-top: 1px solid #eee;
+            padding-top: 10px;
+        }
+    </style>
+    <!-- MathJax configuration -->
+    <script>
+      window.MathJax = {
+        tex: {
+          inlineMath: [['$', '$']],
+          displayMath: [['$$', '$$']]
+        },
+        svg: {
+          fontCache: 'global'
+        }
+      };
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js" async></script>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>微分積分学I</h1>
+            <div class="lecture-title">工学部：電気・電子工学グループ4</div>
+            <div class="author-info">講義ノート</div>
+        </header>
+        
+        <section id="class11" class="content-section">
+            <div class="section-title">第11回：逆関数定理</div>
+
+            <p>前回の講義では、ベクトル値関数の微分とヤコビ行列について学んだ。今回は、<span class="topic-highlight">逆関数定理</span>という強力な結果について探求する。この定理は、ベクトル値関数が微分可能な逆関数を持つための条件を提供し、その逆関数の導関数の計算方法を教える。</p>
+
+            <p>まずは一変数の場合を思い出そう。$y = f(x)$が微分可能な関数で、点$a$において$f'(a) \neq 0$ならば、この点の近傍において$f$は微分可能な逆関数$x = g(y)$を持ち、$g(f(x)) = x$となる。さらに、この逆関数の導関数は次のように与えられる：</p>
+            
+            <div class="formula">
+                $$g'(b) = \frac{1}{f'(a)} \quad \text{ただし } b = f(a)$$
+            </div>
+            
+            <p>例えば、$f(x) = x^3 + x$ならば、$f'(x) = 3x^2 + 1 > 0$がすべての$x$に対して成り立つので、$f$は厳密に増加し、逆関数$g$を持つ。任意の点、例えば$x=2$では、$f'(2) = 3 \cdot 2^2 + 1 = 13$となる。したがって、$b = f(2) = 2^3 + 2 = 10$ならば、$g'(10) = \frac{1}{13}$である。これが対応する点での逆関数の傾きである。</p>
+
+            <p><span class="topic-highlight">逆関数定理</span>は、この結果を同じ次元の空間間のベクトル値関数（写像）に一般化したものである。点$\mathbf{a}$の近傍で連続的に微分可能な写像$\mathbf{F}: \mathbb{R}^n \rightarrow \mathbb{R}^n$を考える。$\mathbf{b} = \mathbf{F}(\mathbf{a})$とする。定理の内容は次の通りである：</p>
+            
+            <div class="formula">
+                <p>ヤコビ行列式$\det(J_\mathbf{F}(\mathbf{a})) \neq 0$ならば：</p>
+                <ol style="margin-bottom: 0;">
+                    <li>点$\mathbf{a}$の近傍$U$と点$\mathbf{b}$の近傍$V$が存在し、$\mathbf{F}: U \rightarrow V$は一対一かつ全射（つまり可逆）となる。</li>
+                    <li>$\mathbf{x} \in U$に対して$\mathbf{G}(\mathbf{F}(\mathbf{x})) = \mathbf{x}$によって定義される逆関数$\mathbf{G}: V \rightarrow U$は連続的に微分可能である。</li>
+                    <li>点$\mathbf{b}$におけるGのヤコビ行列は、点$\mathbf{a}$におけるFのヤコビ行列の逆行列に等しい：</li>
+                </ol>
+                $$J_\mathbf{G}(\mathbf{b}) = [J_\mathbf{F}(\mathbf{a})]^{-1}$$
+            </div>
+            
+            <p>つまり、点でのヤコビ行列式がゼロでないことは、その写像が局所的に可逆であることを保証し、逆関数の導関数を計算する公式を提供する。これは、微積分学、微分方程式、数学的モデリングで多くの応用がある強力な結果である。</p>
+
+            <div class="figure">
+                <img src="https://via.placeholder.com/500x300" alt="逆関数定理の可視化">
+                <div class="figure-caption">図11.1：逆関数定理の可視化。ヤコビ行列式が点でゼロでない場合、その写像は局所的に可逆であり、逆写像の導関数は元のヤコビ行列の逆行列によって与えられる。</div>
+            </div>
+
+            <div class="example-title">例11.1：逆写像の導関数を求める</div>
+            <div class="formula" style="background-color: #f0f7ff; border-left-color: #3498db;">
+                <p><strong>問題：</strong> 変換$\mathbf{F}: \mathbb{R}^2 \rightarrow \mathbb{R}^2$を$\mathbf{F}(x,y) = (u,v)$とし、$u = x^2 - y^2$および$v = 2xy$で与えられるとする。この写像が点$(3,2)$で局所的に可逆かどうかを判定し、もしそうなら、対応する点での逆写像の偏導関数を求めよ。</p>
+                
+                <p><strong>解答：</strong></p>
+                <p>まず、点$(3,2)$における$\mathbf{F}$のヤコビ行列を計算する：</p>
+                
+                $$J_\mathbf{F}(x,y) = 
+                \begin{pmatrix} 
+                \frac{\partial u}{\partial x} & \frac{\partial u}{\partial y} \\
+                \frac{\partial v}{\partial x} & \frac{\partial v}{\partial y}
+                \end{pmatrix} =
+                \begin{pmatrix} 
+                2x & -2y \\
+                2y & 2x
+                \end{pmatrix}$$
+                
+                <p>点$(3,2)$では：</p>
+                
+                $$J_\mathbf{F}(3,2) = 
+                \begin{pmatrix} 
+                2 \cdot 3 & -2 \cdot 2 \\
+                2 \cdot 2 & 2 \cdot 3
+                \end{pmatrix} =
+                \begin{pmatrix} 
+                6 & -4 \\
+                4 & 6
+                \end{pmatrix}$$
+                
+                <p>このヤコビ行列の行列式を計算する：</p>
+                
+                $$\det(J_\mathbf{F}(3,2)) = 6 \cdot 6 - (-4) \cdot 4 = 36 + 16 = 52$$
+                
+                <p>行列式はゼロでない（特に$52 \neq 0$）ので、逆関数定理より$\mathbf{F}$は$(3,2)$で局所的に可逆であることがわかる。次に像点を求める：</p>
+                
+                $$\mathbf{F}(3,2) = (3^2 - 2^2, 2 \cdot 3 \cdot 2) = (9 - 4, 12) = (5, 12)$$
+                
+                <p>これで$(5,12)$における逆関数$\mathbf{G}$のヤコビ行列を、$J_\mathbf{F}(3,2)$を逆転させることで求めることができる：</p>
+                
+                $$J_\mathbf{G}(5,12) = [J_\mathbf{F}(3,2)]^{-1} = \frac{1}{\det(J_\mathbf{F}(3,2))}
+                \begin{pmatrix} 
+                6 & 4 \\
+                -4 & 6
+                \end{pmatrix} = \frac{1}{52}
+                \begin{pmatrix} 
+                6 & 4 \\
+                -4 & 6
+                \end{pmatrix}$$
+                
+                <p>これにより、点$(5,12)$における逆写像の偏導関数が得られる：</p>
+                
+                $$\frac{\partial x}{\partial u}(5,12) = \frac{6}{52} = \frac{3}{26}, \quad
+                \frac{\partial x}{\partial v}(5,12) = \frac{4}{52} = \frac{2}{26} = \frac{1}{13}$$
+                
+                $$\frac{\partial y}{\partial u}(5,12) = \frac{-4}{52} = \frac{-2}{26} = \frac{-1}{13}, \quad
+                \frac{\partial y}{\partial v}(5,12) = \frac{6}{52} = \frac{3}{26}$$
+                
+                <p>これらの導関数は、点$(5,12)$付近での$(u,v)$の小さな変化が、逆写像における対応する$(x,y)$の値にどのように影響するかを表している。</p>
+            </div>
+
+            <p>上記の例では、実際に逆関数の明示的な形を見つけることができることに注意が必要である。$u = x^2 - y^2$と$v = 2xy$を設定すると、これはデカルト座標から「修正極座標」への変換であり、$u$と$v$は$r^2$と角度の正弦/余弦に関連していることがわかる。代数的操作により、次のように導出できる：</p>
+            
+            <div class="formula">
+                $$x = \pm\sqrt{\frac{u + \sqrt{u^2 + v^2}}{2}}, \quad y = \pm\frac{v}{2x}$$
+            </div>
+            
+            <p>しかし、逆関数定理の美しさは、逆関数の導関数を計算するために逆関数の明示的な形を知る必要がなく、元の関数のヤコビ行列から直接計算できることにある。</p>
+
+            <div class="example-title">例11.2：局所的可逆性の分析</div>
+            <div class="formula" style="background-color: #f0f7ff; border-left-color: #3498db;">
+                <p><strong>問題：</strong> 写像$\mathbf{F}(x,y) = (e^x \cos y, e^x \sin y)$を考える。この写像がどこで局所的に可逆であるかを判定せよ。</p>
+                
+                <p><strong>解答：</strong></p>
+                <p>ヤコビ行列を計算する：</p>
+                
+                $$J_\mathbf{F}(x,y) = 
+                \begin{pmatrix} 
+                \frac{\partial (e^x \cos y)}{\partial x} & \frac{\partial (e^x \cos y)}{\partial y} \\
+                \frac{\partial (e^x \sin y)}{\partial x} & \frac{\partial (e^x \sin y)}{\partial y}
+                \end{pmatrix} =
+                \begin{pmatrix} 
+                e^x \cos y & -e^x \sin y \\
+                e^x \sin y & e^x \cos y
+                \end{pmatrix}$$
+                
+                <p>この行列の行列式は：</p>
+                
+                $$\det(J_\mathbf{F}(x,y)) = (e^x \cos y)(e^x \cos y) - (-e^x \sin y)(e^x \sin y) = e^{2x}(\cos^2 y + \sin^2 y) = e^{2x}$$
+                
+                <p>すべての$x$の値に対して$e^{2x} > 0$なので、行列式は決してゼロにならない。逆関数定理によれば、写像$\mathbf{F}$はその定義域のすべての点で局所的に可逆である！</p>
+                
+                <p>実際、この写像はデカルト座標$(x,y)$から極座標のような座標への変換を表しており、$u = e^x \cos y$および$v = e^x \sin y$となっている。指数因子$e^x$は半径方向のスケーリングを表し、写像がどこでも局所的に一対一であることを保証している。</p>
+            </div>
+
+            <p>逆関数定理には、数学と工学における多くの応用がある：</p>
+            
+            <div class="figure" style="background-color: #eefaf8; border-left: 4px solid #2ecc71; text-align: left;">
+                <h3 style="margin-top: 0;">逆関数定理の応用</h3>
+                <ul style="padding-left: 20px;">
+                    <li><strong>座標変換：</strong> この定理は、異なる座標系間の変換に対して厳密な基礎を提供する。</li>
+                    <li><strong>方程式系の解法：</strong> この定理は、特定の非線形系が近傍内で一意に解けることを保証する。</li>
+                    <li><strong>陰関数定理：</strong> この重要な結果は、次に学ぶ予定だが、逆関数定理を用いて導出される。</li>
+                    <li><strong>微分幾何学における微分同相写像：</strong> この定理は、多様体間の写像が微分可能な構造をどのように保存するかを特徴づけるのに役立つ。</li>
+                    <li><strong>制御理論：</strong> この定理は、非線形系の制御可能性の分析において現れる。</li>
+                </ul>
+            </div>
+
+            <p>要約すると、<span class="topic-highlight">逆関数定理</span>は、ベクトル値関数がいつ微分可能な逆関数を持つか、そしてその逆関数の導関数を計算するための簡単な公式を提供する。鍵となる条件はヤコビ行列式がゼロでないことであり、これは関数の線形近似が可逆であることを保証する。この強力な結果は、一変数微積分学における逆関数の導関数間の関係を多変数の設定に拡張したものである。</p>
+
+            <div class="example-title">例11.3：実用的な応用</div>
+            <div class="formula" style="background-color: #f0f7ff; border-left-color: #3498db;">
+                <p><strong>問題：</strong> 化学反応において、反応物Aの濃度$c_1$と反応物Bの濃度$c_2$は、温度$T$と圧力$P$によって次の方程式で関連づけられている：</p>
+                
+                $$c_1 = \frac{T^2}{P} + 2P, \quad c_2 = T - \frac{P^2}{T}$$
+                
+                <p>ある点において、温度の変化が濃度$c_1$に対して$\frac{\partial c_1}{\partial T} = 4$の割合で、濃度$c_2$に対して$\frac{\partial c_2}{\partial T} = 2$の割合で影響することがわかっている場合、濃度$c_1$と$c_2$の小さな変化が温度と圧力にどのように影響するか？</p>
+                
+                <p><strong>解答：</strong></p>
+                <p>$\mathbf{F}(T, P) = (c_1, c_2)$とする。与えられた偏導関数は：</p>
+                
+                $$\frac{\partial c_1}{\partial T} = 4, \quad \frac{\partial c_2}{\partial T} = 2$$
+                
+                <p>また、$\frac{\partial c_1}{\partial P}$と$\frac{\partial c_2}{\partial P}$も求める必要がある。与えられた方程式から計算すると：</p>
+                
+                $$\frac{\partial c_1}{\partial P} = \frac{\partial}{\partial P}\left(\frac{T^2}{P} + 2P\right) = -\frac{T^2}{P^2} + 2$$
+                
+                $$\frac{\partial c_2}{\partial P} = \frac{\partial}{\partial P}\left(T - \frac{P^2}{T}\right) = -\frac{2P}{T}$$
+                
+                <p>これでヤコビ行列が得られる：</p>
+                
+                $$J_\mathbf{F}(T,P) = 
+                \begin{pmatrix} 
+                \frac{\partial c_1}{\partial T} & \frac{\partial c_1}{\partial P} \\
+                \frac{\partial c_2}{\partial T} & \frac{\partial c_2}{\partial P}
+                \end{pmatrix} =
+                \begin{pmatrix} 
+                4 & -\frac{T^2}{P^2} + 2 \\
+                2 & -\frac{2P}{T}
+                \end{pmatrix}$$
+                
+                <p>逆関数定理により、逆関数（$c_1$と$c_2$に関する$T$と$P$の変化率）のヤコビ行列はこの行列の逆行列である。これを求めるには：</p>
+                
+                $$\det(J_\mathbf{F}) = 4 \cdot \left(-\frac{2P}{T}\right) - 2 \cdot \left(-\frac{T^2}{P^2} + 2\right) = -\frac{8P}{T} + 2\frac{T^2}{P^2} - 4$$
+                
+                <p>この行列式がゼロでないと仮定すると、逆ヤコビ行列は：</p>
+                
+                $$J_\mathbf{G}(c_1, c_2) = \frac{1}{\det(J_\mathbf{F})}
+                \begin{pmatrix} 
+                -\frac{2P}{T} & \frac{T^2}{P^2} - 2 \\
+                -2 & 4
+                \end{pmatrix}$$
+                
+                <p>この行列は$c_1$と$c_2$に関する$T$と$P$の変化率を与える。$T$と$P$の具体的な値がわからなければ、さらに簡略化することはできないが、これは逆関数定理が複数の相互関連する変数を含む実用的なシナリオにどのように適用されるかを示している。</p>
+            </div>
+
+            <p>逆関数定理は、多変数の設定における可逆性と微分の間の深い関連を示している。ヤコビ行列式がゼロでないという条件は、幾何学的に解釈すると、その写像が局所的に次元を崩壊させない（これが逆を不可能にする）ことを保証する。この洞察は、微積分学と微分幾何学における多くの高度な概念の基礎を形成している。</p>
+        </section>
+
+        <div class="navigation">
+            <a href="class10.html">← 前回：第10回</a>
+            <a href="../index.html">ホーム</a>
+            <a href="class12.html">次回：第12回 →</a>
+        </div>
+    </div>
+</body>
+</html>

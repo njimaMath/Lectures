@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>第9回：テイラーの定理と第二導関数テスト</title>
+    <style>
+        :root {
+            --primary-color: #2c3e50;
+            --secondary-color: #3498db;
+            --accent-color: #e74c3c;
+            --background-color: #f9f9f9;
+            --text-color: #333;
+            --container-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+            --text-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+        }
+
+        body {
+            font-family: 'Georgia', serif;
+            line-height: 1.7;
+            margin: 0;
+            padding: 0;
+            background-color: var(--background-color);
+            color: var(--text-color);
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 20px auto;
+            padding: 30px;
+            background-color: white;
+            box-shadow: var(--container-shadow);
+            border-radius: 15px;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 40px;
+            border-bottom: 2px solid var(--secondary-color);
+            padding-bottom: 20px;
+        }
+
+        h1, h2, h3 {
+            color: var(--primary-color);
+        }
+
+        .section-title {
+            color: var(--primary-color);
+            font-size: 1.8rem;
+            margin-top: 30px;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #eee;
+            text-shadow: var(--text-shadow);
+        }
+
+        .lecture-title {
+            color: var(--secondary-color);
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+            font-weight: normal;
+        }
+
+        .author-info {
+            font-style: italic;
+            color: #777;
+        }
+
+        .math {
+            font-style: italic;
+            padding: 0 3px;
+        }
+
+        .figure {
+            text-align: center;
+            margin: 30px 0;
+            padding: 20px;
+            background-color: #f8f9fa;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+        }
+
+        .figure img {
+            max-width: 100%;
+            border-radius: 5px;
+        }
+
+        .figure-caption {
+            font-style: italic;
+            color: #777;
+            margin-top: 15px;
+        }
+
+        .navigation {
+            margin-top: 40px;
+            text-align: center;
+            display: flex;
+            justify-content: space-between;
+            padding: 15px 0;
+            border-top: 1px solid #eee;
+        }
+
+        .navigation a {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: var(--primary-color);
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .navigation a:hover {
+            background-color: var(--secondary-color);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+        }
+
+        .topic-highlight {
+            display: inline-block;
+            background-color: rgba(52, 152, 219, 0.1);
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-weight: 500;
+            color: var(--primary-color);
+        }
+
+        .formula {
+            margin: 25px 0;
+            padding: 15px;
+            background-color: #f8f9fa;
+            border-left: 4px solid var(--secondary-color);
+            border-radius: 5px;
+            overflow-x: auto;
+            font-size: 1.1em;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+        }
+
+        .example-title {
+            font-weight: bold;
+            font-size: 1.2em;
+            color: var(--secondary-color);
+            margin-top: 30px;
+            margin-bottom: 15px;
+            padding-bottom: 5px;
+            border-bottom: 1px dashed #ccc;
+            display: inline-block;
+        }
+
+        p {
+            margin-bottom: 20px;
+            line-height: 1.8;
+        }
+
+        .content-section {
+            padding-bottom: 30px;
+        }
+        
+        .footnote {
+            font-size: 0.9em;
+            color: #777;
+            margin-top: 5px;
+            border-top: 1px solid #eee;
+            padding-top: 10px;
+        }
+    </style>
+    <!-- MathJax configuration -->
+    <script>
+      window.MathJax = {
+        tex: {
+          inlineMath: [['$', '$']],
+          displayMath: [['$$', '$$']]
+        },
+        svg: {
+          fontCache: 'global'
+        }
+      };
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js" async></script>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>微分積分学I</h1>
+            <div class="lecture-title">工学部：電気・電子工学グループ4</div>
+            <div class="author-info">講義ノート</div>
+        </header>
+        
+        <section id="class9" class="content-section">
+            <div class="section-title">第9回：テイラーの定理と第二導関数テスト</div>
+
+            <p>前回の授業では、勾配がゼロになる点を見つけることで関数の臨界点を特定する方法を学んだ。今回は、<span class="topic-highlight">テイラー展開</span>と<span class="topic-highlight">第二導関数テスト</span>を用いて、これらの臨界点を極大値、極小値、または鞍点として分類する体系的な方法を展開する。</p>
+
+            <p>まず、一次元のテイラー展開を思い出そう。点$a$の周りの関数$f(x)$に対して、次のように表せる：</p>
+            
+            <div class="formula">
+                $$f(x) = f(a) + f'(a)(x-a) + \frac{f''(a)}{2!}(x-a)^2 + \frac{f'''(a)}{3!}(x-a)^3 + \cdots$$
+            </div>
+            
+            <p>この表現は、関数の導関数に依存する係数を持つ多項式によって関数を近似する。多変数関数の場合、この概念は自然に拡張されるが、表記はより複雑になる。</p>
+
+            <p>関数$f(x,y)$と挙動を分析したい点$(a,b)$を考える。$(a,b)$が臨界点であれば、$\nabla f(a,b) = \mathbf{0}$であり、すなわち$f_x(a,b) = f_y(a,b) = 0$となることがわかっている。点$(a,b)$の周りの多変数テイラー展開は次のような形をとる：</p>
+            
+            <div class="formula">
+                \begin{align}
+                f(x,y) &= f(a,b) + \Big[f_x(a,b)(x-a) + f_y(a,b)(y-b)\Big] \\
+                &+ \frac{1}{2!}\Big[f_{xx}(a,b)(x-a)^2 + 2f_{xy}(a,b)(x-a)(y-b) + f_{yy}(a,b)(y-b)^2\Big] \\
+                &+ \text{(高次の項)}
+                \end{align}
+            </div>
+            
+            <p>臨界点では、$f_x(a,b) = f_y(a,b) = 0$であるため、一次の項は消える。したがって、臨界点付近の関数の挙動は主に二次の項によって決まる：</p>
+            
+            <div class="formula">
+                $$f(x,y) \approx f(a,b) + \frac{1}{2}\Big[f_{xx}(a,b)(x-a)^2 + 2f_{xy}(a,b)(x-a)(y-b) + f_{yy}(a,b)(y-b)^2\Big]$$
+            </div>
+
+            <p>この二次形式は、臨界点付近の関数の挙動に関する洞察を与える。これを行列表記で書き直すことができる。次のように定義しよう：</p>
+            
+            <div class="formula">
+                $$H = \begin{pmatrix} f_{xx}(a,b) & f_{xy}(a,b) \\ f_{xy}(a,b) & f_{yy}(a,b) \end{pmatrix}$$
+            </div>
+            
+            <p>この行列$H$は点$(a,b)$における<span class="topic-highlight">ヘッセ行列</span>と呼ばれる。ベクトル表記$\mathbf{v} = (x-a, y-b)^T$を用いると、近似式を次のように書き直せる：</p>
+            
+            <div class="formula">
+                $$f(x,y) \approx f(a,b) + \frac{1}{2}\mathbf{v}^T H \mathbf{v}$$
+            </div>
+            
+            <p>この二次形式の挙動はヘッセ行列$H$の固有値によって決まる。三つの場合が生じる：</p>
+            
+            <div class="figure" style="background-color: #eefaf8; border-left: 4px solid #2ecc71; text-align: left;">
+                <h3 style="margin-top: 0;">臨界点の分類</h3>
+                <ul style="padding-left: 20px;">
+                    <li><strong>局所的最小値：</strong> $H$のすべての固有値が正（Hが正定値）であれば、$(a,b)$は局所的最小値である。</li>
+                    <li><strong>局所的最大値：</strong> $H$のすべての固有値が負（Hが負定値）であれば、$(a,b)$は局所的最大値である。</li>
+                    <li><strong>鞍点：</strong> $H$が正と負の両方の固有値を持つ（Hが不定値）場合、$(a,b)$は鞍点である。</li>
+                    <li><strong>退化した場合：</strong> $H$の固有値のいずれかがゼロの場合、分類には高次の項が必要となる。</li>
+                </ul>
+            </div>
+            
+            <p>実際には、固有値を直接計算するのは面倒である。$2 \times 2$行列に対しては、行列式に基づくより簡単なテストを使用できる。次のように定義する：</p>
+            
+            <div class="formula">
+                $$D = \det(H) = f_{xx}(a,b)f_{yy}(a,b) - [f_{xy}(a,b)]^2$$
+            </div>
+
+            <p>すると<span class="topic-highlight">第二導関数テスト</span>が得られる：</p>
+            
+            <div class="formula">
+                <ul style="list-style-type: none; padding-left: 0;">
+                    <li>$D > 0$かつ$f_{xx}(a,b) > 0$ならば、$(a,b)$は局所的最小値である。</li>
+                    <li>$D > 0$かつ$f_{xx}(a,b) < 0$ならば、$(a,b)$は局所的最大値である。</li>
+                    <li>$D < 0$ならば、$(a,b)$は鞍点である。</li>
+                    <li>$D = 0$ならば、テストは決定的でない（高次の導関数が必要）。</li>
+                </ul>
+            </div>
+
+            <p>このテストの直感的理解は、二次近似を考えるとより明確になる。臨界点付近では、関数は放物面のように振る舞う。行列式テストはこの放物面の形状について教えてくれる：</p>
+            
+            <div class="figure">
+                <img src="https://via.placeholder.com/500x300" alt="臨界点の種類">
+                <div class="figure-caption">図9.1：二変数関数の局所的最小値、局所的最大値、および鞍点の図解。</div>
+            </div>
+
+            <div class="example-title">例9.1</div>
+            <div class="formula" style="background-color: #f0f7ff; border-left-color: #3498db;">
+                <p><strong>問題：</strong> 関数$f(x,y) = 3x^2y - y^3 - 3x^2$の臨界点を分類せよ。</p>
+                
+                <p><strong>解答：</strong></p>
+                <p>まず、勾配をゼロとおいて臨界点を求める：</p>
+                
+                $$\frac{\partial f}{\partial x} = 6xy - 6x = 6x(y - 1) = 0$$
+                $$\frac{\partial f}{\partial y} = 3x^2 - 3y^2 = 3(x^2 - y^2) = 0$$
+                
+                <p>最初の方程式から、$x = 0$または$y = 1$である。それぞれの場合を検討しよう：</p>
+                
+                <p>$x = 0$の場合、二番目の方程式から$-3y^2 = 0$となり、$y = 0$を得る。したがって$(0,0)$は臨界点である。</p>
+                
+                <p>$y = 1$の場合、二番目の方程式から$3(x^2 - 1) = 0$となり、$x = \pm 1$を得る。これにより、さらに二つの臨界点$(1,1)$と$(-1,1)$が得られる。</p>
+                
+                <p>次に、二階偏導関数を計算する：</p>
+                
+                $$f_{xx} = 6y - 6 = 6(y - 1)$$
+                $$f_{xy} = f_{yx} = 6x$$
+                $$f_{yy} = -6y$$
+                
+                <p>臨界点$(0,0)$について：</p>
+                
+                $$f_{xx}(0,0) = 6(0 - 1) = -6$$
+                $$f_{xy}(0,0) = 6 \cdot 0 = 0$$
+                $$f_{yy}(0,0) = -6 \cdot 0 = 0$$
+                
+                <p>行列式は$D = f_{xx}f_{yy} - (f_{xy})^2 = (-6) \cdot 0 - 0^2 = 0$である。</p>
+                
+                <p>$D = 0$なので、第二導関数テストは決定的でない。高次の項を調べるか他の方法を使用する必要がある。</p>
+                
+                <p>臨界点$(1,1)$について：</p>
+                
+                $$f_{xx}(1,1) = 6(1 - 1) = 0$$
+                $$f_{xy}(1,1) = 6 \cdot 1 = 6$$
+                $$f_{yy}(1,1) = -6 \cdot 1 = -6$$
+                
+                <p>行列式は$D = f_{xx}f_{yy} - (f_{xy})^2 = 0 \cdot (-6) - 6^2 = -36 < 0$である。</p>
+                
+                <p>$D < 0$なので、$(1,1)$は鞍点である。</p>
+                
+                <p>臨界点$(-1,1)$について：</p>
+                
+                $$f_{xx}(-1,1) = 6(1 - 1) = 0$$
+                $$f_{xy}(-1,1) = 6 \cdot (-1) = -6$$
+                $$f_{yy}(-1,1) = -6 \cdot 1 = -6$$
+                
+                <p>行列式は$D = f_{xx}f_{yy} - (f_{xy})^2 = 0 \cdot (-6) - (-6)^2 = -36 < 0$である。</p>
+                
+                <p>$D < 0$なので、$(-1,1)$も鞍点である。</p>
+            </div>
+
+            <div class="example-title">例9.2</div>
+            <div class="formula" style="background-color: #f0f7ff; border-left-color: #3498db;">
+                <p><strong>問題：</strong> 関数$f(x,y) = x^2 + y^2 - 4xy + 6x - 2y$の臨界点を分類せよ。</p>
+                
+                <p><strong>解答：</strong></p>
+                <p>勾配をゼロとおいて臨界点を求める：</p>
+                
+                $$\frac{\partial f}{\partial x} = 2x - 4y + 6 = 0$$
+                $$\frac{\partial f}{\partial y} = 2y - 4x - 2 = 0$$
+                
+                <p>二番目の方程式から、$y = 2x + 1$が得られる。これを最初の方程式に代入すると：</p>
+                
+                $$2x - 4(2x + 1) + 6 = 0$$
+                $$2x - 8x - 4 + 6 = 0$$
+                $$-6x + 2 = 0$$
+                $$x = \frac{1}{3}$$
+                
+                <p>よって$y = 2 \cdot \frac{1}{3} + 1 = \frac{5}{3}$である。したがって、$(\frac{1}{3}, \frac{5}{3})$がただ一つの臨界点である。</p>
+                
+                <p>次に二階偏導関数を計算する：</p>
+                
+                $$f_{xx} = 2$$
+                $$f_{xy} = f_{yx} = -4$$
+                $$f_{yy} = 2$$
+                
+                <p>行列式は$D = f_{xx}f_{yy} - (f_{xy})^2 = 2 \cdot 2 - (-4)^2 = 4 - 16 = -12 < 0$である。</p>
+                
+                <p>$D < 0$なので、臨界点$(\frac{1}{3}, \frac{5}{3})$は鞍点である。</p>
+            </div>
+
+            <p>テイラー展開のアプローチは、二変数を超える関数にも拡張できるが、分析はより複雑になる。$n$変数の関数$f(\mathbf{x})$に対して、ヘッセ行列は$n \times n$行列となり、すべての固有値の符号を調べるか、行列式技法を使用する必要がある。</p>
+
+
+            <p><span class="topic-highlight">テイラー展開</span>と<span class="topic-highlight">第二導関数テスト</span>は、工学の様々な分野における最適化問題の基本的なツールである。これらにより、多変数関数の極値を体系的に特定することができ、様々な応用において最適な設計を見つけたり、コストを最小化したり、効率を最大化したりするのに不可欠である。</p>
+            
+            <div class="figure" style="background-color: #eefaf8; border-left: 4px solid #2ecc71; text-align: left;">
+                <h3 style="margin-top: 0;">臨界点分類に関する重要な洞察</h3>
+                <ul style="padding-left: 20px;">
+                    <li>臨界点では、関数の挙動は主にその二次の項によって決定される。</li>
+                    <li>ヘッセ行列は、ある点における関数のすべての二次情報を包含している。</li>
+                    <li>第二導関数テストは、固有値を直接計算せずに臨界点を分類する体系的な方法を提供する。</li>
+                    <li>多変数関数に対しては、ヘッセ行列の固有値を調べることが一般的なアプローチである。</li>
+                    <li>行列式がゼロになる退化した場合では、テイラー展開の高次の項が必要となる。</li>
+                </ul>
+            </div>
+        </section>
+
+        <div class="navigation">
+            <a href="class8.html">← 前回：第8回</a>
+            <a href="../index.html">ホーム</a>
+            <a href="class10.html">次回：第10回 →</a>
+        </div>
+    </div>
+</body>
+</html>
