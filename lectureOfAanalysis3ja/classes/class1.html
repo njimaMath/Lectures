@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>第1回：偏微分</title>
+    <style>
+        :root {
+            --primary-color: #2c3e50;
+            --secondary-color: #3498db;
+            --accent-color: #e74c3c;
+            --background-color: #f9f9f9;
+            --text-color: #333;
+            --container-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+            --text-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+        }
+
+        body {
+            font-family: 'Georgia', serif;
+            line-height: 1.7;
+            margin: 0;
+            padding: 0;
+            background-color: var(--background-color);
+            color: var(--text-color);
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 20px auto;
+            padding: 30px;
+            background-color: white;
+            box-shadow: var(--container-shadow);
+            border-radius: 15px;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 40px;
+            border-bottom: 2px solid var(--secondary-color);
+            padding-bottom: 20px;
+        }
+
+        h1, h2, h3 {
+            color: var(--primary-color);
+        }
+
+        .section-title {
+            color: var(--primary-color);
+            font-size: 1.8rem;
+            margin-top: 30px;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #eee;
+            text-shadow: var(--text-shadow);
+        }
+
+        .lecture-title {
+            color: var(--secondary-color);
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+            font-weight: normal;
+        }
+
+        .author-info {
+            font-style: italic;
+            color: #777;
+        }
+
+        .math {
+            font-style: italic;
+            padding: 0 3px;
+        }
+
+        .figure {
+            text-align: center;
+            margin: 30px 0;
+            padding: 20px;
+            background-color: #f8f9fa;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+        }
+
+        .figure img {
+            max-width: 100%;
+            border-radius: 5px;
+        }
+
+        .figure-caption {
+            font-style: italic;
+            color: #777;
+            margin-top: 15px;
+        }
+
+        .navigation {
+            margin-top: 40px;
+            text-align: center;
+            display: flex;
+            justify-content: space-between;
+            padding: 15px 0;
+            border-top: 1px solid #eee;
+        }
+
+        .navigation a {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: var(--primary-color);
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .navigation a:hover {
+            background-color: var(--secondary-color);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+        }
+
+        .topic-highlight {
+            display: inline-block;
+            background-color: rgba(52, 152, 219, 0.1);
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-weight: 500;
+            color: var(--primary-color);
+        }
+
+        .formula {
+            margin: 25px 0;
+            padding: 15px;
+            background-color: #f8f9fa;
+            border-left: 4px solid var(--secondary-color);
+            border-radius: 5px;
+            overflow-x: auto;
+            font-size: 1.1em;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+        }
+
+        .example-title {
+            font-weight: bold;
+            font-size: 1.2em;
+            color: var(--secondary-color);
+            margin-top: 30px;
+            margin-bottom: 15px;
+            padding-bottom: 5px;
+            border-bottom: 1px dashed #ccc;
+            display: inline-block;
+        }
+
+        p {
+            margin-bottom: 20px;
+            line-height: 1.8;
+        }
+
+        .content-section {
+            padding-bottom: 30px;
+        }
+        
+        .definition-box {
+            background-color: #f0f7ff;
+            border-left: 4px solid #3498db;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+        }
+        
+        .property-box {
+            background-color: #eefaf8;
+            border-left: 4px solid #2ecc71;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+        }
+        
+        ol.styled-list, ul.styled-list {
+            padding-left: 20px;
+        }
+        
+        ol.styled-list li, ul.styled-list li {
+            margin-bottom: 12px;
+            line-height: 1.7;
+        }
+        
+        .section-highlight {
+            background-color: #f8f9fa;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 25px 0;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+        }
+    </style>
+    <!-- MathJax configuration -->
+    <script>
+      window.MathJax = {
+        tex: {
+          inlineMath: [['$', '$']],
+          displayMath: [['$$', '$$']]
+        },
+        svg: {
+          fontCache: 'global'
+        }
+      };
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js" async></script>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>微分積分学I</h1>
+            <div class="lecture-title">工学部：電気電子工学グループ4</div>
+            <div class="author-info">講義ノート</div>
+        </header>
+
+        <section id="class1" class="content-section">
+            <div class="section-title">第1回：偏微分</div>
+            
+            <p>この最初の授業では、一変数微積分の知識を多変数関数に拡張し、<span class="topic-highlight">偏微分</span>の基本的な概念を紹介します。</p>
+
+            <div class="section-highlight">
+                <h3>セクション1：関数とその性質</h3>
+                <p>まず、関数の基本的な性質を復習しましょう。関数 $f: A \rightarrow B$ について、ここで $A \subseteq \mathbb{R}$ かつ $B \subseteq \mathbb{R}$ とします：</p>
+                
+                <div class="property-box">
+                    <h3 style="margin-top: 0;">基本的な関数の性質</h3>
+                    <p>$f: A \rightarrow B$ と $g: A \rightarrow B$ が関数であるとき：</p>
+                    <ol class="styled-list">
+                        <li>$(f + g)(x) = f(x) + g(x)$ - <span class="topic-highlight">加法</span></li>
+                        <li>$(f \cdot g)(x) = f(x) \cdot g(x)$ - <span class="topic-highlight">乗法</span></li>
+                        <li>$(f \circ g)(x) = f(g(x))$ - <span class="topic-highlight">合成</span></li>
+                    </ol>
+                    <p>これらの演算が定義されている任意の $x \in A$ について。</p>
+                </div>
+                
+                <p>これらの演算から派生する関数の例：</p>
+                <ul class="styled-list">
+                    <li>$f + g: A \rightarrow \mathbb{R}$ - 和関数</li>
+                    <li>$(f - g): A \rightarrow \mathbb{R}$ - 差関数</li>
+                    <li>$f \circ g: A \rightarrow \mathbb{R}$ - 合成関数、ただし $g(A) \subseteq \text{Domain}(f)$ であること</li>
+                </ul>
+            </div>
+        
+            <div class="section-highlight">
+                <h3>セクション2：一変数関数の導関数</h3>
+                <p>多変数に移る前に、一変数関数 $f: \mathbb{R} \rightarrow \mathbb{R}$ の導関数の定義を思い出しましょう：</p>
+                
+                <div class="definition-box">
+                    <h3 style="margin-top: 0;">導関数の定義</h3>
+                    <p>点 $a$ における $f$ の導関数は次のように定義されます：</p>
+                    <div class="formula" style="background: none; border-left: none; box-shadow: none;">
+                        $$f'(a) = \lim_{h \to 0} \frac{f(a + h) - f(a)}{h}$$
+                    </div>
+                    <p>ただし、この極限が存在する場合。</p>
+                </div>
+                
+                <p>覚えておくべきいくつかの一般的な導関数：</p>
+                <div class="formula">
+                    <ul style="list-style-type: none; padding-left: 0; margin: 0;">
+                        <li>• $f(x) = x^n$ （$n \in \mathbb{N}$）のとき、$f'(x) = nx^{n-1}$</li>
+                        <li>• $f(x) = \sin x$ のとき、$f'(x) = \cos x$</li>
+                        <li>• $f(x) = e^x$ のとき、$f'(x) = e^x$</li>
+                        <li>• $f(x) = \ln x$ のとき、$f'(x) = \frac{1}{x}$ （$x > 0$）</li>
+                    </ul>
+                </div>
+                
+                <div class="property-box">
+                    <h3 style="margin-top: 0;">導関数の性質</h3>
+                    <ol class="styled-list">
+                        <li><span class="topic-highlight">和の法則</span>：$(f + g)'(x) = f'(x) + g'(x)$</li>
+                        <li><span class="topic-highlight">積の法則</span>：$(f \cdot g)'(x) = f'(x)g(x) + f(x)g'(x)$</li>
+                        <li><span class="topic-highlight">連鎖律</span>：$(f \circ g)'(x) = f'(g(x)) \cdot g'(x)$</li>
+                    </ol>
+                </div>
+            </div>
+        
+            <div class="section-highlight">
+                <h3>セクション3：多変数関数</h3>
+                <p>次に、多変数関数に拡張します。ここで $f: \mathbb{R}^n \rightarrow \mathbb{R}$ は $n$ 次元空間の各点に実数を割り当てます。</p>
+                
+                <p>例えば、$f: \mathbb{R}^2 \rightarrow \mathbb{R}$ の場合、$f$ は各点 $(x, y) \in \mathbb{R}^2$ に実数値を関連付けます。これらの関数は3次元空間の曲面として視覚化できます。</p>
+                
+                <div class="figure">
+                    <img src="./paraboid.gif" alt="2変数関数のグラフ">
+                    <div class="figure-caption">図1.1：$f(x, y) = x^2 + y^2$ の視覚化、3D空間の放物面。</div>
+                </div>
+                
+                <p>2変数関数の一般的な例：</p>
+                <ul class="styled-list">
+                    <li>$f(x, y) = x^2 + y^2$ - <span class="topic-highlight">放物面</span></li>
+                    <li>$f(x, y) = \sin(xy) + y$ - 波のような特徴を持つより複雑な曲面</li>
+                    <li>$f(x, y) = e^{-(x^2+y^2)}$ - <span class="topic-highlight">ガウス分布</span>の曲面</li>
+                </ul>
+            </div>
+        
+            <div class="section-highlight">
+                <h3>セクション4：偏微分</h3>
+                <p>今日紹介する重要な概念は<span class="topic-highlight">偏微分</span>です。これは他の変数を一定に保ちながら、多変数関数の1つの変数に関する変化率を測定します。</p>
+                
+                <div class="definition-box">
+                    <h3 style="margin-top: 0;">偏微分の定義</h3>
+                    <p>関数 $f: \mathbb{R}^n \rightarrow \mathbb{R}$ について、点 $\mathbf{x} = (x_1, x_2, \ldots, x_n)$ における $i$ 番目の変数に関する $f$ の偏微分は次のように定義されます：</p>
+                    <div class="formula" style="background: none; border-left: none; box-shadow: none;">
+                        $$\frac{\partial f}{\partial x_i}(\mathbf{x}) = \lim_{h \to 0} \frac{f(x_1, \ldots, x_{i-1}, x_i + h, x_{i+1}, \ldots, x_n) - f(x_1, \ldots, x_n)}{h}$$
+                    </div>
+                    <p>ただし、この極限が存在する場合。</p>
+                </div>
+                
+                <p>2変数の関数 $f: \mathbb{R}^2 \rightarrow \mathbb{R}$ の場合、2つの偏微分があります：</p>
+                
+                <div class="formula">
+                    $$\frac{\partial f}{\partial x}(x, y) = \lim_{h \to 0} \frac{f(x+h, y) - f(x, y)}{h}$$
+                </div>
+                
+                <div class="formula">
+                    $$\frac{\partial f}{\partial y}(x, y) = \lim_{h \to 0} \frac{f(x, y+h) - f(x, y)}{h}$$
+                </div>
+                
+                <p>これらはそれぞれ $f_x(x, y)$ と $f_y(x, y)$ と表記されることがよくあります。幾何学的には、$f_x(x, y)$ は点 $(x, y, f(x, y))$ における $x$ 方向の曲面への接線の傾きを表し、同様に $f_y(x, y)$ は $y$ 方向の傾きを表します。</p>
+                
+                <div class="example-title">例 1.1</div>
+                <div class="formula" style="background-color: #f0f7ff; border-left-color: #3498db;">
+                    <p><strong>問題：</strong> $f(x, y) = x^2y + 3xy^2 - 2y^3$ の偏微分を求めなさい。</p>
+                    
+                    <p><strong>解答：</strong></p>
+                    <p>$\frac{\partial f}{\partial x}$ を求めるには、$y$ を定数として扱い、$x$ に関して微分します：</p>
+                    $$\frac{\partial f}{\partial x} = \frac{\partial}{\partial x}(x^2y + 3xy^2 - 2y^3) = 2xy + 3y^2$$
+                    
+                    <p>$\frac{\partial f}{\partial y}$ を求めるには、$x$ を定数として扱い、$y$ に関して微分します：</p>
+                    $$\frac{\partial f}{\partial y} = \frac{\partial}{\partial y}(x^2y + 3xy^2 - 2y^3) = x^2 + 6xy - 6y^2$$
+                </div>
+                
+                <div class="figure" style="background-color: #eefaf8; border-left: 4px solid #2ecc71; text-align: left;">
+                    <h3 style="margin-top: 0;">偏微分に関する重要な洞察</h3>
+                    <ul style="padding-left: 20px;">
+                        <li>偏微分は、他のすべての変数を一定に保ちながら、一方向の変化率を測定します。</li>
+                        <li>表記法 $\frac{\partial f}{\partial x}$ または $f_x$ は、$x$ に関する偏微分を示します。</li>
+                        <li>幾何学的には、偏微分はそれぞれの座標方向における曲面への接線の傾きを与えます。</li>
+                        <li>偏微分を計算するには、他の変数を定数として扱いながら、一変数微積分の馴染みのあるルールを使用します。</li>
+                        <li>一変数微積分とは異なり、偏微分の存在は関数が連続または微分可能であることを保証しません。</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <div class="navigation">
+            <a href="../index.html">← ホーム</a>
+            <a href="class2.html">次へ：第2回 →</a>
+        </div>
+    </div>
+</body>
+</html>

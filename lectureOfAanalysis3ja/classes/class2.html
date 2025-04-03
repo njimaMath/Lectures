@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>第2回：平面と曲面</title>
+    <style>
+        :root {
+            --primary-color: #2c3e50;
+            --secondary-color: #3498db;
+            --accent-color: #e74c3c;
+            --background-color: #f9f9f9;
+            --text-color: #333;
+            --container-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+            --text-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+        }
+
+        body {
+            font-family: 'Georgia', serif;
+            line-height: 1.7;
+            margin: 0;
+            padding: 0;
+            background-color: var(--background-color);
+            color: var(--text-color);
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 20px auto;
+            padding: 30px;
+            background-color: white;
+            box-shadow: var(--container-shadow);
+            border-radius: 15px;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 40px;
+            border-bottom: 2px solid var(--secondary-color);
+            padding-bottom: 20px;
+        }
+
+        h1, h2, h3 {
+            color: var(--primary-color);
+        }
+
+        .section-title {
+            color: var(--primary-color);
+            font-size: 1.8rem;
+            margin-top: 30px;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #eee;
+            text-shadow: var(--text-shadow);
+        }
+
+        .lecture-title {
+            color: var(--secondary-color);
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+            font-weight: normal;
+        }
+
+        .author-info {
+            font-style: italic;
+            color: #777;
+        }
+
+        .math {
+            font-style: italic;
+            padding: 0 3px;
+        }
+
+        .figure {
+            text-align: center;
+            margin: 30px 0;
+            padding: 20px;
+            background-color: #f8f9fa;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+        }
+
+        .figure img {
+            max-width: 100%;
+            border-radius: 5px;
+        }
+
+        .figure-caption {
+            font-style: italic;
+            color: #777;
+            margin-top: 15px;
+        }
+
+        .navigation {
+            margin-top: 40px;
+            text-align: center;
+            display: flex;
+            justify-content: space-between;
+            padding: 15px 0;
+            border-top: 1px solid #eee;
+        }
+
+        .navigation a {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: var(--primary-color);
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .navigation a:hover {
+            background-color: var(--secondary-color);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+        }
+
+        .topic-highlight {
+            display: inline-block;
+            background-color: rgba(52, 152, 219, 0.1);
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-weight: 500;
+            color: var(--primary-color);
+        }
+
+        .formula {
+            margin: 25px 0;
+            padding: 15px;
+            background-color: #f8f9fa;
+            border-left: 4px solid var(--secondary-color);
+            border-radius: 5px;
+            overflow-x: auto;
+            font-size: 1.1em;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+        }
+
+        .example-title {
+            font-weight: bold;
+            font-size: 1.2em;
+            color: var(--secondary-color);
+            margin-top: 30px;
+            margin-bottom: 15px;
+            padding-bottom: 5px;
+            border-bottom: 1px dashed #ccc;
+            display: inline-block;
+        }
+
+        p {
+            margin-bottom: 20px;
+            line-height: 1.8;
+        }
+
+        .content-section {
+            padding-bottom: 30px;
+        }
+        
+        .definition-box {
+            background-color: #f0f7ff;
+            border-left: 4px solid #3498db;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+        }
+        
+        .property-box {
+            background-color: #eefaf8;
+            border-left: 4px solid #2ecc71;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+        }
+        
+        ol.styled-list, ul.styled-list {
+            padding-left: 20px;
+        }
+        
+        ol.styled-list li, ul.styled-list li {
+            margin-bottom: 12px;
+            line-height: 1.7;
+        }
+        
+        .section-highlight {
+            background-color: #f8f9fa;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 25px 0;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+        }
+        
+        .animation-link {
+            display: inline-block;
+            margin-left: 10px;
+            color: var(--accent-color);
+            text-decoration: none;
+            font-weight: bold;
+            transition: all 0.2s ease;
+        }
+        
+        .animation-link:hover {
+            color: #c0392b;
+            transform: translateY(-2px);
+        }
+        
+        .contour-image {
+            display: block;
+            margin: 20px auto;
+            max-width: 500px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+    </style>
+    <!-- MathJax configuration -->
+    <script>
+      window.MathJax = {
+        tex: {
+          inlineMath: [['$', '$']],
+          displayMath: [['$$', '$$']]
+        },
+        svg: {
+          fontCache: 'global'
+        }
+      };
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js" async></script>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>微分積分学I</h1>
+            <div class="lecture-title">工学部：電気電子工学グループ4</div>
+            <div class="author-info">講義ノート</div>
+        </header>
+
+        <section id="class2" class="content-section">
+            <div class="section-title">第2回：平面と曲面</div>
+            
+            <p>この授業では、<span class="topic-highlight">平面</span>が線形関数のグラフとして見なせることや、より一般的な<span class="topic-highlight">曲面</span>がレベル集合や断面を通じて理解できることを学びます。これらの幾何学的解釈は抽象的な数学的概念を視覚化するのに役立ちます。</p>
+
+            <div class="section-highlight">
+                <h3>2次元における直線と曲線</h3>
+                
+                <div class="definition-box">
+                    <h3 style="margin-top: 0;">2次元の直線</h3>
+                    <p>点 $P=(x_0,y_0)$ と法線ベクトル $\mathbf{n} = (a,b)$ が与えられたとき、$(a,b)$ に直交し、$P$ を通過する直線は、次の条件を満たす点 $Q=(x,y)$ の集合として定義されます：</p>
+                    <div class="formula" style="background: none; border-left: none; box-shadow: none;">
+                        $$(Q-P)\cdot (a,b) = (x-x_0,y-y_0)\cdot(a,b) = 0$$
+                    </div>
+                    <p>この直線は、$y = -\frac{a}{b}(x-x_0) + y_0$（ただし $b \neq 0$ と仮定）を満たす点 $(x,y)$ の集合と等価です。</p>
+                </div>
+                
+                <p>$XY$平面における<span class="topic-highlight">曲線</span>は、通常、方程式 $y=f(x)$ または陰関数として $F(x,y)=0$ で定義されます。</p>
+                
+                <div class="formula">
+                    <p>曲線の例：</p>
+                    <ul style="list-style-type: none; padding-left: 0; margin: 0;">
+                        <li>• 放物線: $y=x^2$</li>
+                        <li>• 円: $y = \pm\sqrt{1-x^2}$ または $x^2 + y^2 = 1$</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="section-highlight">
+                <h3>3次元空間における平面</h3>
+                
+                <p>3次元空間では、関数 $z=f(x,y)$ のグラフは<span class="topic-highlight">曲面</span>です。曲面の最も単純な例は、線形方程式で与えられる<span class="topic-highlight">平面</span>です。</p>
+                
+                <div class="definition-box">
+                    <h3 style="margin-top: 0;">平面の一般方程式</h3>
+                    <p>一般的な平面の方程式は：</p>
+                    <div class="formula" style="background: none; border-left: none; box-shadow: none;">
+                        $$Ax + By + Cz + D = 0$$
+                    </div>
+                    <p>ここで $(A,B,C)$ は平面に垂直な法線ベクトルです。</p>
+                </div>
+                
+                <p>$C \neq 0$ であれば、$z$ について解いて平面を次の形式で表すことができます：</p>
+                <div class="formula">
+                    $$z = mx + ny + p$$
+                </div>
+                <p>ここで、$m = -A/C$ は $x$ 方向の傾き、$n = -B/C$ は $y$ 方向の傾き、$p = -D/C$ は $z$ 切片を表します。</p>
+                
+                <div class="example-title">例 2.1</div>
+                <div class="formula" style="background-color: #f0f7ff; border-left-color: #3498db;">
+                    <p>平面 $z = 2x - 3y + 5$ を考えてみましょう。</p>
+                    <p>これは $x$ 方向に傾き $2$、$y$ 方向に傾き $-3$ の平面です。$z$ 切片は $5$ です。</p>
+                    <p>対応する一般形は $-2x + 3y + z - 5 = 0$ で、法線ベクトルは $(-2, 3, 1)$ です。</p>
+                </div>
+            </div>
+
+            <div class="section-highlight">
+                <h3>3次元空間における曲面</h3>
+                
+                <p>3次元空間における<span class="topic-highlight">曲面</span>は、関数 $z=f(x,y)$ のグラフです。言い換えれば、曲面は $z=f(x,y)$ を満たす点 $(x,y,z)$ の集合です。</p>
+                
+                <div class="property-box">
+                    <h3 style="margin-top: 0;">一般的な曲面</h3>
+                    <ol class="styled-list">
+                        <li><span class="topic-highlight">放物面</span>: $z = x^2 + y^2$ 
+                            <a href="./paraboloid.html" class="animation-link">[アニメーションを見る]</a>
+                        </li>
+                        <li><span class="topic-highlight">円錐</span>: $z = \sqrt{x^2 + y^2}$ 
+                            <a href="./cone.html" class="animation-link">[アニメーションを見る]</a>
+                        </li>
+                        <li><span class="topic-highlight">鞍点面</span>: $z = y^2 - x^2$ または $y = -x^2 + z^2$ 
+                            <a href="./saddle.html" class="animation-link">[アニメーションを見る]</a>
+                        </li>
+                    </ol>
+                </div>
+                
+                <div class="figure">
+                    <img src="https://via.placeholder.com/500x300" alt="3Dにおける一般的な曲面">
+                    <div class="figure-caption">図2.1: 3次元空間における一般的な曲面の例：放物面、円錐、鞍点面。</div>
+                </div>
+            </div>
+
+            <div class="section-highlight">
+                <h3>曲面の等高線（レベル曲線）</h3>
+                
+                <p>$f(x, y)$ を2変数の実数値関数とします。$f$ の<span class="topic-highlight">グラフ</span>は、$z = f(x, y)$ で与えられる3次元空間の曲面です。この曲面を2次元表現で研究するために、<span class="topic-highlight">等高線</span>（<span class="topic-highlight">レベル曲線</span>とも呼ばれる）をよく使用します。</p>
+                
+                <div class="definition-box">
+                    <h3 style="margin-top: 0;">等高線（レベル曲線）</h3>
+                    <p>値 $c$ に対応する $f(x, y)$ の<strong>等高線</strong>（または<strong>レベル曲線</strong>）は、次の条件を満たすすべての点 $(x, y)$ の集合です：</p>
+                    <div class="formula" style="background: none; border-left: none; box-shadow: none;">
+                        $$f(x, y) = c$$
+                    </div>
+                    <p>これは $xy$ 平面上の曲線です。完全な<strong>等高線図</strong>は、いくつかの $c$ の値に対するこれらの曲線の集まりです。</p>
+                </div>
+                
+                <p>例えば、$f(x, y) = x^2 + y^2$ で $c = 0, 1, 2$ の等高線は、原点を中心とする半径がそれぞれ $0, 1, \sqrt{2}$ の円です。</p>
+                
+                <img src="contour_circles.png" alt="z = x² + y² の等高線円" class="contour-image">
+                
+                <div class="example-title">例 2.2</div>
+                <div class="formula" style="background-color: #f0f7ff; border-left-color: #3498db;">
+                    <p><strong>問題：</strong> 次の関数に対してレベル $f(x, y) = 0$ での等高線を求めなさい：</p>
+                    
+                    <p><strong>a) $f(x, y) = \sqrt{1 - x^2 - y^2}$</strong></p>
+                    <p>$f(x, y) = 0$ とすると：</p>
+                    $$\sqrt{1 - x^2 - y^2} = 0$$
+                    $$1 - x^2 - y^2 = 0$$
+                    $$x^2 + y^2 = 1$$
+                    <p>これは原点を中心とする半径1の円です。</p>
+                    
+                    <p><strong>b) $f(x, y) = 1 - x + 2y$</strong></p>
+                    <p>$f(x, y) = 0$ とすると：</p>
+                    $$1 - x + 2y = 0$$
+                    $$x = 1 + 2y$$
+                    <p>これは傾き2で $x$ 切片が1の直線です。</p>
+                </div>
+                
+                <div class="figure" style="background-color: #eefaf8; border-left: 4px solid #2ecc71; text-align: left;">
+                    <h3 style="margin-top: 0;">等高線に関する重要な洞察</h3>
+                    <ul style="padding-left: 20px;">
+                        <li>等高線は曲面上の等しい高さ（または値）の点を結びます。</li>
+                        <li>密集した等高線は曲面の急な領域を示します。</li>
+                        <li>広く離れた等高線は平坦な領域を示します。</li>
+                        <li>等高線は交差しません（ただし、xy平面に投影された場合の鞍点を除く）。</li>
+                        <li>等高線図は地形学、天気図、工学解析で広く使用されています。</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <div class="navigation">
+            <a href="class1.html">← 前へ：第1回</a>
+            <a href="../index.html">ホーム</a>
+            <a href="class3.html">次へ：第3回 →</a>
+        </div>
+    </div>
+</body>
+</html>

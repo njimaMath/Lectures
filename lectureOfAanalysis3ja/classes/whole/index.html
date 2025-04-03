@@ -1,0 +1,1180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Differential and Integral Calculus Lecture Notes</title>
+    <style>
+        :root {
+            --primary-color: #2c3e50;
+            --secondary-color: #3498db;
+            --accent-color: #e74c3c;
+            --background-color: #f9f9f9;
+            --text-color: #333;
+            --container-shadow: 0 4px 6px rgba(0, 0, 0, 0.1), 0 1px 3px rgba(0, 0, 0, 0.08);
+        }
+
+        body {
+            font-family: 'Georgia', serif;
+            line-height: 1.7;
+            margin: 0;
+            padding: 0;
+            background-color: var(--background-color);
+            color: var(--text-color);
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 20px auto;
+            padding: 30px;
+            background-color: white;
+            box-shadow: var(--container-shadow);
+            border-radius: 10px;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 40px;
+            border-bottom: 2px solid var(--secondary-color);
+            padding-bottom: 20px;
+        }
+
+        h1 {
+            color: var(--primary-color);
+            margin-bottom: 10px;
+            font-size: 2.5rem;
+        }
+
+        .lecture-title {
+            color: var(--secondary-color);
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+            font-weight: normal;
+        }
+
+        .author-info {
+            font-style: italic;
+            color: #777;
+        }
+
+        /* Navigation Styles */
+        .navigation {
+            position: sticky;
+            top: 20px;
+            margin-bottom: 40px;
+            z-index: 100;
+        }
+
+        .nav-container {
+            background-color: var(--primary-color);
+            border-radius: 8px;
+            padding: 10px;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 5px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .nav-button {
+            padding: 8px 12px;
+            background-color: transparent;
+            color: white;
+            border: 1px solid rgba(255,255,255,0.2);
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.3s;
+        }
+
+        .nav-button:hover {
+            background-color: rgba(255,255,255,0.1);
+            transform: translateY(-2px);
+        }
+
+        .nav-button.active {
+            background-color: var(--secondary-color);
+            border-color: var(--secondary-color);
+            transform: translateY(-2px);
+        }
+
+        /* Mobile navigation */
+        .mobile-nav-select {
+            display: none;
+            width: 100%;
+            padding: 10px;
+            font-family: 'Georgia', serif;
+            border-radius: 5px;
+            border: 1px solid #ddd;
+            background-color: white;
+            color: var(--primary-color);
+        }
+
+        /* Content Section Styles */
+        .content-section {
+            display: none;
+            opacity: 0;
+            transform: translateY(10px);
+            transition: opacity 0.5s, transform 0.5s;
+        }
+
+        .content-section.active {
+            display: block;
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .home {
+            text-align: center;
+        }
+
+        .section-title {
+            color: var(--primary-color);
+            font-size: 1.8rem;
+            margin-top: 30px;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .subsection-title {
+            color: var(--secondary-color);
+            font-size: 1.4rem;
+            margin-top: 25px;
+            margin-left: 20px;
+            margin-bottom: 15px;
+        }
+
+        .example-title {
+            font-weight: bold;
+            margin-top: 20px;
+            margin-left: 20px;
+            margin-bottom: 10px;
+            color: var(--accent-color);
+        }
+
+        .math {
+            font-style: italic;
+            padding: 0 3px;
+        }
+
+        .formula {
+            text-align: center;
+            margin: 20px 0;
+            padding: 15px;
+            background-color: #f8f9fa;
+            border-radius: 5px;
+            font-family: 'Georgia', serif;
+            font-size: 1.1em;
+        }
+
+        .enum {
+            margin-left: 40px;
+        }
+
+        .enum-item {
+            margin-bottom: 15px;
+        }
+
+        .figure {
+            text-align: center;
+            margin: 30px 0;
+            padding: 10px;
+            background-color: #f8f9fa;
+            border-radius: 5px;
+        }
+
+        .figure img {
+            max-width: 100%;
+            border-radius: 5px;
+        }
+
+        .figure-caption {
+            font-style: italic;
+            color: #777;
+            margin-top: 10px;
+        }
+
+        .footnote {
+            font-size: 0.9em;
+            color: #777;
+            margin-top: 40px;
+            padding-top: 20px;
+            border-top: 1px solid #eee;
+        }
+
+        table {
+            width: 90%;
+            margin: 25px auto;
+            border-collapse: collapse;
+            box-shadow: 0 2px 3px rgba(0,0,0,0.1);
+        }
+
+        th, td {
+            border: 1px solid #ddd;
+            padding: 12px 15px;
+            text-align: left;
+        }
+
+        th {
+            background-color: var(--primary-color);
+            color: white;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f8f9fa;
+        }
+
+        .summary-list {
+            list-style-type: disc;
+            margin-left: 40px;
+            margin-top: 20px;
+            margin-bottom: 20px;
+        }
+
+        .summary-list-item {
+            margin-bottom: 15px;
+            line-height: 1.6;
+        }
+
+        /* Print styles */
+        @media print {
+            .navigation {
+                display: none;
+            }
+            .content-section {
+                display: block;
+                opacity: 1;
+                transform: none;
+            }
+            body {
+                font-size: 12pt;
+            }
+            .container {
+                max-width: 100%;
+                margin: 0;
+                padding: 20px;
+                box-shadow: none;
+            }
+        }
+
+        /* Responsive styles */
+        @media (max-width: 768px) {
+            .nav-container {
+                display: none;
+            }
+            .mobile-nav-select {
+                display: block;
+            }
+            .container {
+                padding: 15px;
+                margin: 10px;
+            }
+            h1 {
+                font-size: 2rem;
+            }
+            .lecture-title {
+                font-size: 1.3rem;
+            }
+        }
+
+        /* Theme toggle */
+        .theme-toggle {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            font-size: 20px;
+            cursor: pointer;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+            transition: transform 0.3s;
+            z-index: 1000;
+        }
+
+        .theme-toggle:hover {
+            transform: rotate(30deg);
+        }
+
+        /* Dark theme */
+        body.dark-theme {
+            --primary-color: #3498db;
+            --secondary-color: #2ecc71;
+            --accent-color: #e74c3c;
+            --background-color: #2c3e50;
+            --text-color: #ecf0f1;
+            --container-shadow: 0 4px 6px rgba(0, 0, 0, 0.3), 0 1px 3px rgba(0, 0, 0, 0.2);
+        }
+
+        body.dark-theme .container {
+            background-color: #34495e;
+        }
+
+        body.dark-theme th {
+            background-color: #2c3e50;
+        }
+
+        body.dark-theme tr:nth-child(even) {
+            background-color: #3a536b;
+        }
+
+        body.dark-theme .formula,
+        body.dark-theme .figure {
+            background-color: #2c3e50;
+        }
+
+        /* Progress bar */
+        .progress-container {
+            width: 100%;
+            height: 5px;
+            background-color: #f1f1f1;
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 1000;
+        }
+
+        .progress-bar {
+            height: 5px;
+            background-color: var(--accent-color);
+            width: 0%;
+        }
+    </style>
+    <head>
+        <!-- your existing meta, title, style, etc. -->
+    
+        <!-- MathJax configuration -->
+        <script>
+          window.MathJax = {
+            tex: {
+              inlineMath: [['$', '$']],
+              displayMath: [['$$', '$$']]
+            },
+            svg: {
+              fontCache: 'global'
+            }
+          };
+        </script>
+        <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js" async></script>
+    </head>
+    
+</head>
+<body >
+    <div class="progress-container">
+        <div class="progress-bar" id="progressBar"></div>
+    </div>
+
+    <div class="container">
+        <header>
+            <h1>Differential and Integral Calculus I</h1>
+            <div class="lecture-title">Engineering: Electrical & Electronic Group 4</div>
+            <div class="author-info">Lecture Notes</div>
+        </header>
+
+        <div class="navigation">
+            <div class="nav-container">
+                <button class="nav-button active" onclick="showSection('home')">Home</button>
+                <button class="nav-button" onclick="showSection('class4')">Class 1</button>
+                <button class="nav-button" onclick="showSection('class5')">Class 2</button>
+                <button class="nav-button" onclick="showSection('class6')">Class 3</button>
+                <button class="nav-button" onclick="showSection('class7')">Class 4</button>
+                <button class="nav-button" onclick="showSection('class8')">Class 5</button>
+                <button class="nav-button" onclick="showSection('class9')">Class 6</button>
+                <button class="nav-button" onclick="showSection('class10')">Class 7</button>
+                <button class="nav-button" onclick="showSection('class11')">Class 8</button>
+                <button class="nav-button" onclick="showSection('class12')">Class 9</button>
+                <button class="nav-button" onclick="showSection('class13')">Class 10</button>
+                <button class="nav-button" onclick="showSection('class14')">Class 11</button>
+                <button class="nav-button" onclick="showSection('class15')">Class 12</button>
+                <button class="nav-button" onclick="showSection('class16')">Class 13</button>
+                <button class="nav-button" onclick="showSection('class17')">Summary</button>
+            </div>
+
+            <select class="mobile-nav-select" id="mobileNavSelect" onchange="showSection(this.value)">
+                <option value="home">Home</option>
+                <option value="class4">Class 1</option>
+                <option value="class5">Class 2</option>
+                <option value="class6">Class 3</option>
+                <option value="class7">Class 4</option>
+                <option value="class8">Class 5</option>
+                <option value="class9">Class 6</option>
+                <option value="class10">Class 7</option>
+                <option value="class11">Class 8</option>
+                <option value="class12">Class 9</option>
+                <option value="class13">Class 10</option>
+                <option value="class14">Class 11</option>
+                <option value="class15">Class 12</option>
+                <option value="class16">Class 13</option>
+                <option value="class17">Summary</option>
+            </select>
+        </div>
+
+        <!-- Home Class -->
+        <section id="home" class="content-section active">
+            <div class="home">
+                <div class="section-title">Welcome to Differential and Integral Calculus I</div>
+                <p>This interactive document contains comprehensive lecture notes for the Differential and Integral Calculus I course for Engineering students in the Electrical & Electronic Group 4.</p>
+                <p>Use the navigation menu above to browse through different classs of the course material. Each section includes examples, interactive demonstrations, and practice problems.</p>
+        
+                <div class="figure">
+                    <img src="analysisImage.webp" alt="Calculus concept illustration" style="width: 70%;">
+                    <div class="figure-caption">An illustration of calculus concepts</div>
+                </div>
+                
+        
+                <div class="Class-title">Course Overview</div>
+                <p>These lecture notes cover the fundamental aspects of multivariable differential calculus, providing a solid foundation for advanced engineering applications:</p>
+                <ul class="summary-list">
+                    <li class="summary-list-item">We defined <b>partial derivatives</b> as the rate of change of a multivariable function with respect to one input variable at a time, extending the familiar concept of derivatives to functions of multiple variables.</li>
+                    <li class="summary-list-item">We studied <b>planes and surfaces</b>, learning how planes can be seen as graphs of linear functions and how more general surfaces can be understood via level sets and cross-sections. These geometric interpretations help visualize abstract mathematical concepts.</li>
+                    <li class="summary-list-item">We introduced <b>tangent planes</b> to surfaces <span class="math">z=f(x,y)</span>, deriving their equation using the partial derivatives. The tangent plane provides the best linear approximation to the surface at a point, similar to how tangent lines approximate curves.</li>
+                    <li class="summary-list-item">The concept of <b>total derivative</b> (differentials) was discussed, combining partial derivatives to approximate changes in the function due to multivariate inputs. This allows us to predict how small changes in inputs affect the output.</li>
+                    <li class="summary-list-item">Using the <b>Chain Rule</b>, we can differentiate composite functions systematically in multiple dimensions, carefully summing contributions from each path of dependence. This powerful tool enables analysis of complex relationships between variables.</li>
+                    <li class="summary-list-item">We saw how to perform differentiation in alternative coordinate systems like <b>polar coordinates</b>, applying the chain rule to relate derivatives in polar to those in Cartesian coordinates, which is especially useful for radially symmetric functions and problems with circular symmetry.</li>
+                    <li class="summary-list-item">We defined what it means for a point to be a <b>local extremum</b> (maximum or minimum) of a function of several variables. We saw examples of maxima, minima, and saddle points, and emphasized that at interior extrema (assuming differentiability) the gradient must be zero (critical point).</li>
+                    <li class="summary-list-item">Focusing on <b>quadratic functions</b>, we learned how to find their critical points and classify them by examining the quadratic form. This led to understanding how the second partial derivatives determine the nature of a critical point.</li>
+                    <li class="summary-list-item">Through <b>Taylor expansion</b> around a critical point, we justified the <b>second derivative test</b>. We provided criteria involving the Hessian determinant <span class="math">D</span> and the second partials to classify a critical point as a local min, local max, or saddle.</li>
+                    <li class="summary-list-item">We discussed <b>Jacobian matrices</b> as a way to collect partial derivatives of vector-valued functions. The Jacobian gives a linear approximation of a multivariable mapping and its determinant indicates local scaling (particularly important in coordinate transformations and the inverse function theorem).</li>
+                    <li class="summary-list-item">The <b>Inverse Function Theorem</b> was stated in essence: a non-zero Jacobian determinant ensures a local inverse exists and how to get its derivative. This result is fundamental to many advanced topics in engineering and mathematics.</li>
+                    <li class="summary-list-item">We covered <b>implicit differentiation</b> and the <b>Implicit Function Theorem</b>, showing how to find derivatives of a function defined implicitly by an equation (like <span class="math">F(x,y)=0</span>) by using <span class="math">dy/dx = -F<sub>x</sub>/F<sub>y</sub></span>, providing yet another powerful technique for analyzing complex relationships.</li>
+                </ul>
+                
+                <div class="section-title">Learning Outcomes</div>
+                <p>By the end of this course, students will be able to:</p>
+                <ul class="outcomes-list">
+                    <li>Calculate and interpret partial derivatives of multivariable functions</li>
+                    <li>Find equations of tangent planes to surfaces</li>
+                    <li>Apply the chain rule to complex compositions of functions</li>
+                    <li>Identify and classify critical points using the second derivative test</li>
+                    <li>Work with coordinate transformations using Jacobian matrices</li>
+                    <li>Solve problems involving implicit functions</li>
+                    <li>Apply calculus techniques to solve engineering problems</li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- Class 1 -->
+        <section id="class4" class="content-section">
+            <h2>Section 1: Functions and Their Properties</h2>
+            <p>Let $f: A \rightarrow B$ be a function where $A \subseteq \mathbb{R}$ and $B \subseteq \mathbb{R}$.</p>
+            
+            <h3>Basic Properties</h3>
+            <p>If $f: A \rightarrow B$ and $g: A \rightarrow B$ are functions, then:</p>
+            <ol>
+                <li>$(f + g)(x) = f(x) + g(x)$</li>
+                <li>$(f \cdot g)(x) = f(x) \cdot g(x)$</li>
+                <li>$(f \circ g)(x) = f(g(x))$</li>
+            </ol>
+            <p>For any $x \in A$ where these operations are defined.</p>
+            
+            <h3>Examples:</h3>
+            <ol class="example">
+                <li>$f + g: A \rightarrow \mathbb{R}$</li>
+                <li>$(f - g): A \rightarrow \mathbb{R}$</li>
+                <li>$f \circ g: A \rightarrow \mathbb{R}$, provided $g(A) \subseteq \text{Domain}(f)$</li>
+            </ol>
+        
+            <h2>Section 2: Derivatives of Single-Variable Functions</h2>
+            <p>Let $f: \mathbb{R} \rightarrow \mathbb{R}$ be a function. The derivative of $f$ at a point $a$ is defined as:</p>
+            <div class="definition">
+                $$f'(a) = \lim_{h \to 0} \frac{f(a + h) - f(a)}{h}$$
+            </div>
+            <p>provided this limit exists.</p>
+            
+            <h3>Examples:</h3>
+            <ol class="example">
+                <li>If $f(x) = x^n$ for $n \in \mathbb{N}$, then $f'(x) = nx^{n-1}$</li>
+                <li>If $f(x) = \sin x$, then $f'(x) = \cos x$</li>
+            </ol>
+            
+            <h3>Properties of Derivatives:</h3>
+            <ol class="properties">
+                <li>$(f + g)'(x) = f'(x) + g'(x)$</li>
+                <li>$(f \cdot g)'(x) = f'(x)g(x) + f(x)g'(x)$ (Product Rule)</li>
+                <li>$(f \circ g)'(x) = f'(g(x)) \cdot g'(x)$ (Chain Rule)</li>
+            </ol>
+        
+            <h2>Section 3: Functions of Multiple Variables</h2>
+            <p>Let $f: \mathbb{R}^n \rightarrow \mathbb{R}$ be a function.</p>
+            <p>For example, if $f: \mathbb{R}^2 \rightarrow \mathbb{R}$, then $f$ assigns a real number to each point $(x, y) \in \mathbb{R}^2$.</p>
+            
+            <h3>Examples:</h3>
+            <ol class="example">
+                <li>$f(x, y) = x^2 + y^2$ (paraboloid)</li>
+                <li>$f(x, y) = \sin(xy) + y$ (a more complex surface)</li>
+            </ol>
+        
+            <h2>Section 4: Partial Derivatives</h2>
+            <p>For a function $f: \mathbb{R}^n \rightarrow \mathbb{R}$, the partial derivative of $f$ with respect to the $i$-th variable at a point $\mathbf{x} = (x_1, x_2, \ldots, x_n)$ is defined as:</p>
+            <div class="definition">
+                $$\frac{\partial f}{\partial x_i}(\mathbf{x}) = \lim_{h \to 0} \frac{f(x_1, \ldots, x_{i-1}, x_i + h, x_{i+1}, \ldots, x_n) - f(x_1, \ldots, x_n)}{h}$$
+            </div>
+            <p>provided this limit exists.</p>
+            <p>For a function $f: \mathbb{R}^2 \rightarrow \mathbb{R}$, we have two partial derivatives:</p>
+            <div class="definition">
+                $$\frac{\partial f}{\partial x}(x, y) = \lim_{h \to 0} \frac{f(x+h, y) - f(x, y)}{h}$$
+            </div>
+            <div class="definition">
+                $$\frac{\partial f}{\partial y}(x, y) = \lim_{h \to 0} \frac{f(x, y+h) - f(x, y)}{h}$$
+            </div>
+            <p>These are often denoted as $f_x(x, y)$ and $f_y(x, y)$, respectively.</p>
+        </section>
+
+        <!-- Class 2 -->
+        <section id="class5" class="content-section">
+            <div class="section-title">Class 2: Planes and Surfaces</div>
+
+            <p>In three-dimensional space, the graph of a function <span class="math">z=f(x,y)</span> is a surface. Simple examples of surfaces are <b>planes</b> given by linear equations. A general plane has equation <span class="math">Ax + By + Cz + D = 0</span>, where <span class="math">(A,B,C)</span> is a normal vector perpendicular to the plane. If <span class="math">C\neq 0</span>, we can solve for <span class="math">z</span> to write the plane as <span class="math">z = mx + ny + c</span>, which is the graph of a linear function of <span class="math">x,y</span>. For instance, <span class="math">z = 2x - 3y + 5</span> is a plane with slope <span class="math">2</span> in the <span class="math">x</span>-direction and slope <span class="math">-3</span> in the <span class="math">y</span>-direction.</p>
+
+            <p>More generally, any equation <span class="math">F(x,y,z) = 0</span> defines a surface in <span class="math">\mathbb{R}^3</span>. If it can be solved for <span class="math">z</span>, we get <span class="math">z = f(x,y)</span> as an explicit surface. For example, <span class="math">x^2 + y^2 - z^2 = 1</span> defines a two-sheeted hyperboloid surface. When <span class="math">z</span> is given explicitly as <span class="math">f(x,y)</span>, we can visualize the surface as a deformable sheet; for each <span class="math">(x,y)</span> in the domain, the surface has a height <span class="math">z</span> above the <span class="math">(x,y)</span>-plane.</p>
+
+            <p>A <b>level curve</b> (or contour) of a surface <span class="math">z=f(x,y)</span> is the set of points <span class="math">(x,y)</span> in the <span class="math">xy</span>-plane where <span class="math">f(x,y)</span> is a constant value. Drawing level curves in the <span class="math">xy</span>-plane helps visualize the surface. For example, the level curves of <span class="math">z=x^2+y^2</span> are circles <span class="math">x^2+y^2=\text{constant}</span>, which correspond to horizontal slices of the parabolic bowl shape (see Figure 1).</p>
+            <div class="figure">
+                <img src="https://via.placeholder.com/500x300" alt="Paraboloid Level Curves">
+                <p class="figure-caption">Figure 1: Paraboloid Level Curves - Description of Figure from LaTeX</p>
+            </div>
+
+            <p>We can similarly talk about curves in space: setting <span class="math">x</span>, <span class="math">y</span>, and <span class="math">z</span> in terms of a parameter <span class="math">t</span> yields a parametric space curve <span class="math">(x(t),y(t),z(t))</span>. For example, <span class="math">x=\cos t,\;y=\sin t,\;z=3</span> (with <span class="math">t\in[0,2\pi]</span>) is a horizontal circle of radius 1 at height <span class="math">z=3</span>.</p>
+
+            <p>Understanding planes and surfaces is crucial before moving to derivatives, because derivatives (slopes) are defined on surfaces analogously to how slopes of lines are defined on curves.</p>
+        </section>
+
+        <!-- Class 3 -->
+        <section id="class6" class="content-section">
+            <div class="section-title">Class 3: Tangent Planes</div>
+
+            <p>Just as a differentiable curve <span class="math">y=f(x)</span> has a tangent line at a point, a differentiable surface <span class="math">z=f(x,y)</span> has a <b>tangent plane</b> at a given point. Geometrically, the tangent plane "just touches" the surface at that point and has the same slope as the surface in every direction. The tangent plane is the planar surface that best approximates <span class="math">z=f(x,y)</span> near that point.<span class="footnote"><sup>3</sup> This is a footnote describing the approximation property of the tangent plane.</span></p>
+
+            <p>To derive the equation of the tangent plane, consider a point <span class="math">P=(a,b)</span> in the domain and the corresponding point on the surface <span class="math">Q=(a,b,f(a,b))</span>. If <span class="math">f</span> has partial derivatives <span class="math">f_x</span> and <span class="math">f_y</span> at <span class="math">(a,b)</span>, then moving a small amount <span class="math">\Delta x</span> in the <span class="math">x</span>-direction changes <span class="math">z</span> by approximately <span class="math">f_x(a,b)\,\Delta x</span>, and moving <span class="math">\Delta y</span> in the <span class="math">y</span>-direction changes <span class="math">z</span> by about <span class="math">f_y(a,b)\,\Delta y</span>. By superposition (linearity), a small move from <span class="math">(a,b)</span> to <span class="math">(a+\Delta x,\;b+\Delta y)</span> produces a change</p>
+            <div class="formula">
+                <span class="math">\Delta z \approx f_x(a,b)\,\Delta x + f_y(a,b)\,\Delta y</span>
+            </div>
+            <p>So the linear approximation of <span class="math">f</span> near <span class="math">(a,b)</span> is</p>
+            <div class="formula">
+                <span class="math">L(x,y) = f(a,b) + f_x(a,b)\,(x-a) + f_y(a,b)\,(y-b)</span>
+            </div>
+            <p>This linear function <span class="math">L(x,y)</span> is the equation of the tangent plane to <span class="math">z=f(x,y)</span> at the point <span class="math">(a,b,f(a,b))</span>. In standard form, the tangent plane equation is</p>
+            <div class="formula">
+                <span class="math">z - f(a,b) = f_x(a,b)\,(x - a) + f_y(a,b)\,(y - b)</span>
+            </div>
+
+            <p>In summary, the tangent plane at <span class="math">(a,b,f(a,b))</span> has coefficients given by the partial derivatives at that point. The plane contains two special lines: one going in the <span class="math">x</span>-direction with slope <span class="math">f_x(a,b)</span> (keeping <span class="math">y=b</span> constant), and one in the <span class="math">y</span>-direction with slope <span class="math">f_y(a,b)</span> (keeping <span class="math">x=a</span> constant). These lines are the tangents to the surface's cross-sectional curves, and together they define the plane.</p>
+
+            <div class="figure">
+                <img src="https://via.placeholder.com/500x300" alt="Tangent plane approximation">
+                <p class="figure-caption">Figure 2: Tangent plane approximation at a point on a surface. The partial derivatives <span class="math">f_x</span> and <span class="math">f_y</span> give the slopes of the tangent plane in the <span class="math">x</span> and <span class="math">y</span> directions. All lines on the surface through that point lie (to first order) in this tangent plane.</p>
+            </div>
+
+            <div class="example-title">Example 3.1.</div>
+            <p>Find the tangent plane to <span class="math">z = x^2 + y^2</span> at the point <span class="math">(1,2,5)</span>.</p>
+            <p><i>Solution:</i> Here <span class="math">f(x,y) = x^2 + y^2</span>. First compute the partial derivatives: <span class="math">f_x(x,y) = 2x</span> and <span class="math">f_y(x,y) = 2y</span>. At <span class="math">(a,b)=(1,2)</span>, we have <span class="math">f_x(1,2)=2</span> and <span class="math">f_y(1,2)=4</span>. The surface passes through <span class="math">(1,2,f(1,2)) = (1,2,1^2+2^2) = (1,2,5)</span> as given. Thus the tangent plane equation is</p>
+            <div class="formula">
+                <span class="math">z - 5 = 2\,(x-1) + 4\,(y-2)</span>
+            </div>
+            <p>We can rewrite this as <span class="math">z = 2x + 4y - 3</span>. This plane just touches the paraboloid <span class="math">z=x^2+y^2</span> at the point <span class="math">(1,2,5)</span> and has the same slopes in <span class="math">x</span> and <span class="math">y</span> directions as the paraboloid does at that point.</p>
+        </section>
+
+        <!-- Class 4 -->
+        <section id="class7" class="content-section">
+            <div class="section-title">Class 4: Partial and Total Derivatives</div>
+
+            <p>The partial derivatives <span class="math">f_x</span> and <span class="math">f_y</span> capture how <span class="math">f</span> changes when moving purely in the <span class="math">x</span> or <span class="math">y</span> direction. However, if both <span class="math">x</span> and <span class="math">y</span> change simultaneously, the overall change in <span class="math">f</span> is described by the <b>total derivative</b>. For a differentiable function <span class="math">z=f(x,y)</span>, the total differential <span class="math">dz</span> combines the effects of changes in both variables:</p>
+            <div class="formula">
+                <span class="math">dz = \frac{\partial f}{\partial x}(x,y)\,dx + \frac{\partial f}{\partial y}(x,y)\,dy = f_x(x,y)\,dx + f_y(x,y)\,dy</span>
+            </div>
+            <p>This formula originates from the linear approximation (tangent plane) derived above. It indicates that for small changes <span class="math">dx, dy</span>, we have</p>
+            <div class="formula">
+                <span class="math">\Delta z \approx f_x(x,y)\,\Delta x + f_y(x,y)\,\Delta y</span>
+            </div>
+
+            <p>In interpretation, <span class="math">dz</span> is the height change one would predict by "following the tangent plane." If <span class="math">(dx,dy)</span> is a small step in the <span class="math">xy</span>-plane, then <span class="math">dz</span> is the corresponding change in <span class="math">z</span> along the tangent plane. The <b>total derivative</b> at <span class="math">(a,b)</span> can be understood as the linear map <span class="math">(dx,dy) \mapsto f_x(a,b)\,dx + f_y(a,b)\,dy</span>. In vector form, if <span class="math">\mathbf{u} = \langle dx, dy\rangle</span>, then <span class="math">dz = \nabla f(a,b)\cdot \mathbf{u}</span> where <span class="math">\nabla f = \langle f_x,\;f_y\rangle</span> is the gradient vector.</p>
+
+            <p>It is important to note that a function <span class="math">f(x,y)</span> may have partial derivatives without being fully differentiable (meaning the linear approximation might not perfectly describe small changes from that point). However, if <span class="math">f_x</span> and <span class="math">f_y</span> exist and are continuous in a neighborhood of <span class="math">(a,b)</span>, then <span class="math">f</span> is differentiable at <span class="math">(a,b)</span>, and the total derivative exists. In such cases, the linear approximation is accurate for infinitesimal changes.</p>
+
+            <div class="example-title">Example 4.1.</div>
+            <p>Use differentials to approximate the change in <span class="math">z</span> for <span class="math">z=\sqrt{x^2+y^2}</span> when <span class="math">(x,y)</span> moves from <span class="math">(3,4)</span> to <span class="math">(3.1, 4.2)</span>.</p>
+            <p><i>Solution:</i> Here <span class="math">f(x,y) = \sqrt{x^2+y^2}</span> (the distance from the origin). Compute partials:</p>
+            <div class="formula">
+                <span class="math">f_x = \frac{\partial}{\partial x}\sqrt{x^2+y^2} = \frac{x}{\sqrt{x^2+y^2}}, \qquad f_y = \frac{\partial}{\partial y}\sqrt{x^2+y^2} = \frac{y}{\sqrt{x^2+y^2}}</span>
+            </div>
+            <p>At <span class="math">(3,4)</span>, these evaluate to <span class="math">f_x(3,4)=\frac{3}{\sqrt{3^2+4^2}}=\frac{3}{5}}</span> and <span class="math">f_y(3,4)=\frac{4}{\sqrt{3^2+4^2}}=\frac{4}{5}}</span> (since <span class="math">\sqrt{3^2+4^2}=5</span>). The differentials are <span class="math">dx=3.1-3=0.1</span>, <span class="math">dy=4.2-4=0.2</span>. So</p>
+            <div class="formula">
+                <span class="math">dz \approx f_x(3,4)\,dx + f_y(3,4)\,dy = \frac{3}{5}(0.1) + \frac{4}{5}(0.2) = 0.03 + 0.16 = 0.19</span>
+            </div>
+            <p>We predict <span class="math">z</span> will increase by about <span class="math">0.19</span>. The actual change: at <span class="math">(3.1,4.2)</span>, <span class="math">z=\sqrt{3.1^2+4.2^2}\approx 5.190</span>, minus the original <span class="math">5</span> gives <span class="math">\Delta z \approx 0.190</span>, which agrees with the differential approximation.</p>
+
+            <p>In summary, the <b>partial derivatives</b> tell us the slopes in coordinate directions, while the <b>total derivative</b> (or differential) combines them to approximate changes in arbitrary directions. Partial derivatives hold one variable fixed,<span class="footnote"><sup>4</sup> This is a footnote reiterating the concept of holding variables fixed for partial derivatives.</span> whereas the total derivative allows all variables to vary.</p>
+        </section>
+
+        <!-- Class 5 -->
+        <section id="class8" class="content-section">
+            <div class="section-title">Class 5: Differentiation of Composite Functions (Chain Rule)</div>
+
+            <p>Just as in single-variable calculus, we often deal with <b>composite functions</b> where one variable depends on another. In multivariable calculus, the Chain Rule generalizes to handle how changes propagate through nested dependencies.</p>
+
+            <p>Suppose <span class="math">z = f(x,y)</span> where <span class="math">x</span> and <span class="math">y</span> themselves are functions of another variable <span class="math">t</span> (say <span class="math">x=g(t)</span> and <span class="math">y=h(t)</span>). Then <span class="math">z</span> is ultimately a function of <span class="math">t</span>, and we can compute <span class="math">\frac{dz}{dt}</span> by the Chain Rule:</p>
+            <div class="formula">
+                <span class="math">\frac{dz}{dt} = \frac{\partial f}{\partial x}(x,y)\,\frac{dx}{dt} + \frac{\partial f}{\partial y}(x,y)\,\frac{dy}{dt} = f_x(x,y)\,\frac{dx}{dt} + f_y(x,y)\,\frac{dy}{dt}</span>
+            </div>
+            <p>This follows because <span class="math">dz = f_x\,dx + f_y\,dy</span> and <span class="math">\frac{dx}{dt}</span>, <span class="math">\frac{dy}{dt}</span> describe how <span class="math">x,y</span> change with <span class="math">t</span>. So we accumulate the changes: <span class="math">f_x</span> times <span class="math">\frac{dx}{dt}</span> plus <span class="math">f_y</span> times <span class="math">\frac{dy}{dt}</span>.<span class="footnote"><sup>5</sup> This is a footnote explaining the accumulation of changes in the chain rule.</span></p>
+
+            <p>More generally, if <span class="math">z=f(u,v)</span> is a function of intermediate variables <span class="math">u,v</span> which in turn depend on other variables (say <span class="math">u = u(x,y)</span> and <span class="math">v = v(x,y)</span>), we apply the Chain Rule in partial derivative form. For example, if <span class="math">z=f(u,v)</span> with <span class="math">u=g(x,y)</span> and <span class="math">v=h(x,y)</span>, then</p>
+            <div class="formula">
+                <span class="math">\frac{\partial z}{\partial x} = \frac{\partial f}{\partial u}(u,v)\,\frac{\partial u}{\partial x}(x,y) + \frac{\partial f}{\partial v}(u,v)\,\frac{\partial v}{\partial x}(x,y) = f_u\,\frac{\partial u}{\partial x} + f_v\,\frac{\partial v}{\partial x}</span>
+            </div>
+            <p>and similarly</p>
+            <div class="formula">
+                <span class="math">\frac{\partial z}{\partial y} = \frac{\partial f}{\partial u}(u,v)\,\frac{\partial u}{\partial y}(x,y) + \frac{\partial f}{\partial v}(u,v)\,\frac{\partial v}{\partial y}(x,y) = f_u\,\frac{\partial u}{\partial y} + f_v\,\frac{\partial v}{\partial y}</span>
+            </div>
+            <p>Here <span class="math">f_u</span> denotes the partial derivative of <span class="math">f</span> with respect to its first argument <span class="math">u</span>, and <span class="math">f_v</span> is the partial with respect to <span class="math">v</span>. Essentially, we multiply along each path of dependence and sum up the contributions.<span class="footnote"><sup>6</sup> This is a footnote explaining the path dependence and summation in the multivariate chain rule.</span> This can be visualized with a <i>dependency tree diagram</i>: <span class="math">z</span> depends on <span class="math">u</span> and <span class="math">v</span>, which each depend on <span class="math">x</span> and <span class="math">y</span>. Every path from <span class="math">x</span> to <span class="math">z</span> and from <span class="math">y</span> to <span class="math">z</span> yields a term in the derivative.</p>
+
+            <p>For instance, consider <span class="math">z(p,q) = p^2q</span> as a function of <span class="math">p,q</span>, and <span class="math">p = x+y</span>, <span class="math">q = x-y</span>. Then <span class="math">z = f(x,y) = (x+y)^2 (x-y)</span>. We can find <span class="math">f_x</span> using the chain rule:</p>
+            <div class="formula">
+                <span class="math">\frac{\partial z}{\partial p} = 2pq, \qquad \frac{\partial z}{\partial q} = p^2</span>
+            </div>
+            <p>and <span class="math">\frac{\partial p}{\partial x} = 1</span>, <span class="math">\frac{\partial q}{\partial x} = 1</span>. So</p>
+            <div class="formula">
+                <span class="math">f_x = \frac{\partial z}{\partial x} = \frac{\partial z}{\partial p} \cdot \frac{\partial p}{\partial x} + \frac{\partial z}{\partial q} \cdot \frac{\partial q}{\partial x} = 2pq \cdot 1 + p^2 \cdot 1 = 2pq + p^2</span>
+            </div>
+            <p>Substituting back <span class="math">p=x+y</span>, <span class="math">q=x-y</span> gives</p>
+            <div class="formula">
+                <span class="math">f_x = 2(x+y)(x-y) + (x+y)^2</span>
+            </div>
+            <p>Alternatively, one could expand <span class="math">z=(x+y)^2(x-y)</span> directly and differentiate, but the chain rule provides a systematic approach without full expansion.</p>
+
+            <p>The Chain Rule can extend to multiple layers of composition and more variables. If <span class="math">w = F(x,y,z)</span> and each of <span class="math">x,y,z</span> are functions of parameters, the structure is similar: differentiate <span class="math">F</span> with respect to each input and multiply by the derivative of that input with respect to your parameter.</p>
+
+            <div class="example-title">Example 6.1.</div>
+            <p>Let <span class="math">z = e^{u} \sin v</span>, where <span class="math">u = x^2 + y</span> and <span class="math">v = x y</span>. Find <span class="math">\frac{\partial z}{\partial x}</span> and <span class="math">\frac{\partial z}{\partial y}</span>.</p>
+            <p><i>Solution:</i> We have <span class="math">f(u,v) = e^u \sin v</span>. The partial derivatives of <span class="math">f</span> are <span class="math">f_u = e^u \sin v</span> and <span class="math">f_v = e^u \cos v</span>. Now <span class="math">u(x,y)=x^2+y</span> and <span class="math">v(x,y)=xy</span>. Compute <span class="math">u</span>- and <span class="math">v</span>-partials with respect to <span class="math">x</span> and <span class="math">y</span>:</p>
+            <div class="formula">
+                <span class="math">\frac{\partial u}{\partial x} = 2x, \quad \frac{\partial u}{\partial y} = 1, \qquad
+                \frac{\partial v}{\partial x} = y, \quad \frac{\partial v}{\partial y} = x</span>
+            </div>
+            <p>Now apply the chain rule:</p>
+            <div class="formula">
+                <span class="math">\frac{\partial z}{\partial x} = \frac{\partial f}{\partial u}\frac{\partial u}{\partial x} + \frac{\partial f}{\partial v}\frac{\partial v}{\partial x} = e^u \sin v \cdot (2x) + e^u \cos v \cdot (y) = e^u (2x\sin v + y\cos v)</span>
+            </div>
+            <div class="formula">
+                <span class="math">\frac{\partial z}{\partial y} = \frac{\partial f}{\partial u}\frac{\partial u}{\partial y} + \frac{\partial f}{\partial v}\frac{\partial v}{\partial y} = e^u \sin v \cdot (1) + e^u \cos v \cdot (x) = e^u (\sin v + x\cos v)</span>
+            </div>
+            <p>Finally, substitute back <span class="math">u</span> and <span class="math">v</span>:</p>
+            <div class="formula">
+                <span class="math">\frac{\partial z}{\partial x} = e^{(x^2+y)}\big(2x\sin(xy) + y\cos(xy)\big), \qquad
+                \frac{\partial z}{\partial y} = e^{(x^2+y)}\big(\sin(xy) + x\cos(xy)\big)</span>
+            </div>
+
+            <p>The Chain Rule is a powerful tool that allows us to handle complex dependency relationships systematically.<span class="footnote"><sup>7</sup> This is a footnote highlighting the power and systematic nature of the chain rule.</span> It's especially useful in engineering contexts, where one quantity often depends on others that themselves depend on different variables (for example, temperature depending on time and position, position depending on time, etc.).</p>
+        </section>
+
+        <!-- Class 6 -->
+        <section id="class9" class="content-section">
+            <div class="section-title">Class 6: Differentiation Using Polar Coordinates</div>
+
+            <p>Sometimes it is convenient to use a different coordinate system to simplify differentiation. In the plane, <b>polar coordinates</b> <span class="math">(r,\theta)</span> relate to Cartesian <span class="math">(x,y)</span> via</p>
+            <div class="formula">
+                <span class="math">x = r\cos\theta, \qquad y = r\sin\theta</span>
+            </div>
+            <p>Here <span class="math">r \ge 0</span> is the radial distance from the origin, and <span class="math">\theta</span> is the angle from the positive <span class="math">x</span>-axis.<span class="footnote"><sup>8</sup> This is a footnote defining polar coordinates <span class="math">r</span> and <span class="math">\theta</span>.</span> We can express a surface <span class="math">z=f(x,y)</span> as <span class="math">z = f(r\cos\theta,\;r\sin\theta)</span>, effectively viewing <span class="math">z</span> as a function of <span class="math">r</span> and <span class="math">\theta</span>: say <span class="math">g(r,\theta) = f(r\cos\theta,\;r\sin\theta)</span>.</p>
+
+            <p>Differentiating such a function can be done by the chain rule. For example, to find <span class="math">\frac{\partial z}{\partial x}</span> in terms of <span class="math">r,\theta</span>, treat <span class="math">x</span> and <span class="math">y</span> as functions of <span class="math">r,\theta</span>:</p>
+            <div class="formula">
+                <span class="math">\frac{\partial z}{\partial x} = \frac{\partial z}{\partial r}\frac{\partial r}{\partial x} + \frac{\partial z}{\partial \theta}\frac{\partial \theta}{\partial x}</span>
+            </div>
+            <p>From <span class="math">x=r\cos\theta</span> and <span class="math">y=r\sin\theta</span>, one can derive:</p>
+            <div class="formula">
+                <span class="math">r = \sqrt{x^2+y^2}, \qquad \theta = \arctan\frac{y}{x}</span>
+            </div>
+            <p>It can be shown that</p>
+            <div class="formula">
+                <span class="math">\frac{\partial r}{\partial x} = \cos\theta, \qquad \frac{\partial r}{\partial y} = \sin\theta</span>
+            </div>
+            <div class="formula">
+                <span class="math">\frac{\partial \theta}{\partial x} = -\frac{\sin\theta}{r}, \qquad \frac{\partial \theta}{\partial y} = \frac{\cos\theta}{r}</span>
+            </div>
+            <p>Thus, using <span class="math">f(r,\theta) = g(r,\theta)</span> notation for convenience:</p>
+            <div class="formula">
+                <span class="math">f_x = \frac{\partial f}{\partial x} = \frac{\partial f}{\partial r} \cdot \frac{\partial r}{\partial x} + \frac{\partial f}{\partial \theta} \cdot \frac{\partial \theta}{\partial x} = f_r \cdot \cos\theta + f_\theta \cdot \Big(-\frac{\sin\theta}{r}\Big)</span>
+            </div>
+            <div class="formula">
+                <span class="math">f_y = \frac{\partial f}{\partial y} = \frac{\partial f}{\partial r} \cdot \frac{\partial r}{\partial y} + \frac{\partial f}{\partial \theta} \cdot \frac{\partial \theta}{\partial y} = f_r \cdot \sin\theta + f_\theta \cdot \Big(\frac{\cos\theta}{r}\Big)</span>
+            </div>
+            <p>(Here <span class="math">f_r = \frac{\partial f}{\partial r}</span> and <span class="math">f_\theta=\frac{\partial f}{\partial \theta}</span>.) These are the formulas for converting partial derivatives from polar to Cartesian coordinates.</p>
+
+            <p>Alternatively, one can compute partials in polar coordinates by first converting the function: If <span class="math">z = f(x,y) = f(r\cos\theta, \; r\sin\theta)</span>, then one may find <span class="math">f_r</span> and <span class="math">f_\theta</span> directly and then use the above relations.</p>
+
+            <div class="figure">
+                <img src="https://via.placeholder.com/500x300" alt="Polar coordinate system">
+                <p class="figure-caption">Figure 3: Polar coordinate system: a point is described by <span class="math">(r,\theta)</span> giving its distance from the origin and angle from the horizontal. Switching to polar coordinates can simplify differentiation when <span class="math">f(x,y)</span> has circular symmetry or depends naturally on <span class="math">r</span> and <span class="math">\theta</span>.</p>
+            </div>
+
+            <div class="example-title">Example 7.1.</div>
+            <p>Suppose <span class="math">z = x^2 + y^2 = r^2</span> (a function that depends only on <span class="math">r</span>). Compute <span class="math">z_x</span> and <span class="math">z_y</span> directly and via polar derivative formulas.</p>
+            <p><i>Solution:</i> Directly, <span class="math">z_x = \frac{\partial}{\partial x}(x^2+y^2) = 2x</span> and <span class="math">z_y = \frac{\partial}{\partial y}(x^2+y^2) = 2y</span>. In polar coordinates, note that <span class="math">f(r,\theta) = r^2</span> so <span class="math">f_r = \frac{\partial}{\partial r}(r^2) = 2r</span> and <span class="math">f_\theta=\frac{\partial}{\partial \theta}(r^2)=0</span> (since <span class="math">r^2</span> doesn't depend on <span class="math">\theta</span>). Then</p>
+            <div class="formula">
+                <span class="math">f_x = f_r\cos\theta + f_\theta(-\sin\theta/r) = 2r\cos\theta + 0 = 2r\cos\theta</span>
+            </div>
+            <p>But <span class="math">r\cos\theta = x</span>, so <span class="math">f_x = 2x</span>. Similarly <span class="math">f_y = 2r\sin\theta = 2y</span>. This matches the direct result.</p>
+
+            <p>Often, if <span class="math">f</span> is given in terms of <span class="math">r</span> and <span class="math">\theta</span>, using these formulas or the chain rule can be far simpler than converting back to <span class="math">x,y</span> and then differentiating.</p>
+
+            <p>As another example, consider <span class="math">z = \sin\!\big(\sqrt{x^2+y^2}\big)</span>. Here it is natural to set <span class="math">u = \sqrt{x^2+y^2}=r</span>. Then <span class="math">z = \sin r</span>. We have</p>
+            <div class="formula">
+                <span class="math">\frac{\partial z}{\partial x} = \frac{dz}{dr} \cdot \frac{\partial r}{\partial x} = \cos r \cdot \frac{x}{\sqrt{x^2+y^2}} = \cos(\sqrt{x^2+y^2})\cdot \frac{x}{\sqrt{x^2+y^2}}</span>
+            </div>
+            <p>So <span class="math">z_x = \frac{x}{r}\cos r</span> and similarly <span class="math">z_y = \frac{y}{r}\cos r</span>. This can be obtained in one step by recognizing radial symmetry and differentiating with respect to <span class="math">r</span>.</p>
+
+            <p>Polar (as well as cylindrical and spherical in 3D) coordinates are particularly useful when <span class="math">f</span> has some symmetry or when converting to these coordinates simplifies the form of the function.</p>
+        </section>
+
+        <!-- Class 7 -->
+        <section id="class10" class="content-section">
+            <div class="section-title">Class 7: Definition of Extrema</div>
+
+            <p>In single-variable calculus, a point <span class="math">x=a</span> is a local maximum if <span class="math">f(a)</span> is greater than or equal to <span class="math">f(x)</span> for <span class="math">x</span> near <span class="math">a</span>. Similarly, <span class="math">x=a</span> is a local minimum if <span class="math">f(a)</span> is less than or equal to nearby values. For functions of two variables, the idea is analogous: we consider a point <span class="math">(a,b)</span> and compare <span class="math">f(a,b)</span> to values of <span class="math">f(x,y)</span> for <span class="math">(x,y)</span> in a neighborhood of <span class="math">(a,b)</span>.</p>
+
+            <p>A point <span class="math">(a,b)</span> is called a <b>local maximum</b> of <span class="math">f(x,y)</span> if <span class="math">f(a,b) \ge f(x,y)</span> for all <span class="math">(x,y)</span> sufficiently close to <span class="math">(a,b)</span>. Likewise, <span class="math">(a,b)</span> is a <b>local minimum</b> if <span class="math">f(a,b) \le f(x,y)</span> for all points near <span class="math">(a,b)</span>. Collectively, local maxima and minima are called <b>local extrema</b> (extreme values). If one of these inequalities is strict for nearby points (except at the point itself), we say it is a <i>strict</i> max or min. If the inequality holds globally (for all <span class="math">(x,y)</span> in the domain), then <span class="math">(a,b)</span> is a <b>global (absolute) maximum</b> or minimum.</p>
+
+            <p>Geometrically, a local maximum of <span class="math">z=f(x,y)</span> is like a peak or hilltop on the surface, and a local minimum is like a valley or bowl. At a local extremum, the surface is flat in the sense that moving in any small direction does not increase <span class="math">z</span> (for a max) or does not decrease <span class="math">z</span> (for a min). Points that are not extrema can be regular points or <b>saddle points</b>. A saddle point is where <span class="math">f_x=0</span> and <span class="math">f_y=0</span> (so it's flat in tangent) but it is not a max or min -- the surface goes up in one direction and down in another (like a horse saddle shape).</p>
+
+            <p>To find extrema of <span class="math">f(x,y)</span>, one typically looks at <b>critical points</b>: points where the gradient <span class="math">\nabla f = \langle f_x, f_y \rangle = \mathbf{0}</span> or where one of the partials does not exist. This is analogous to <span class="math">f'(x)=0</span> in one variable. It's a necessary condition for differentiable extrema that <span class="math">\nabla f = \mathbf{0}</span> at interior points.<span class="footnote"><sup>9</sup> This is a footnote stating the necessary condition for extrema using gradients.</span> However, not every critical point is an extremum (it could be a saddle or a flat point).</p>
+
+            <div class="example-title">Example 9.1.</div>
+            <p>Consider <span class="math">f(x,y) = x^2 + y^2</span>. This is a paraboloid opening upward. The point <span class="math">(0,0)</span> is clearly the lowest point of this surface. Indeed, <span class="math">f(0,0)=0</span>, and <span class="math">f(x,y)=x^2+y^2 > 0</span> for any <span class="math">(x,y)\neq(0,0)</span>. So <span class="math">(0,0)</span> is a global (and local) minimum. There are no other critical points since <span class="math">\nabla f = \langle 2x, 2y \rangle</span> is zero only at <span class="math">(0,0)</span>. No maximum exists since <span class="math">f</span> can be made arbitrarily large as <span class="math">(x,y)</span> goes far from the origin.</p>
+
+            <div class="example-title">Example 9.2.</div>
+            <p>Let <span class="math">g(x,y) = -x^2 - y^2</span>. This is the upside-down bowl (an inverted paraboloid). By a similar argument, <span class="math">(0,0)</span> is a global maximum of <span class="math">g</span> with value <span class="math">0</span>, and no minimum exists (the function goes to <span class="math">-\infty</span> as <span class="math">(x,y)</span> grows).</p>
+
+            <div class="example-title">Example 9.3.</div>
+            <p>Let <span class="math">h(x,y) = x^2 - y^2</span>. This surface is a saddle (hyperbolic paraboloid). The critical point <span class="math">(0,0)</span> yields <span class="math">h(0,0)=0</span>. If you move along the <span class="math">x</span>-axis (<span class="math">y=0</span>), <span class="math">h(x,0)=x^2\ge0</span>, so <span class="math">(0,0)</span> looks like a minimum in that cross-section. But if you move along the <span class="math">y</span>-axis (<span class="math">x=0</span>), <span class="math">h(0,y)=-y^2\le 0</span>, so <span class="math">(0,0)</span> looks like a maximum along that slice. In fact, <span class="math">(0,0)</span> is neither a max nor a min -- it's a saddle point. Near <span class="math">(0,0)</span>, <span class="math">h</span> takes both positive and negative values. This shows that the condition <span class="math">h_x=0,\,h_y=0</span> (which holds at <span class="math">(0,0)</span>) is not sufficient to guarantee an extremum. We need further tests to classify the critical point.</p>
+
+            <div class="figure">
+                <img src="https://via.placeholder.com/500x300" alt="Saddle point">
+                <p class="figure-caption">Figure 4: Saddle point on the surface <span class="math">z=x^2 - y^2</span>. Along one direction the surface curves upward (like a valley) and along an orthogonal direction it curves downward (like a ridge). Such a point is a critical point but not an extremum.</p>
+            </div>
+
+            <p>From these examples, we see that identifying a critical point is only the first step. We need a method to determine whether a given critical point is a local max, local min, or neither. This is where the second derivative (or <b>Hessian</b>) test comes in, which we will discuss soon.</p>
+        </section>
+
+        <!-- Class 8 -->
+        <section id="class11" class="content-section">
+            <div class="section-title">Class 8: Extrema of Quadratic Functions</div>
+
+            <p>A common and important class of functions are quadratic forms or quadratic functions of two variables. These are functions of the form:</p>
+            <div class="formula">
+                <span class="math">f(x,y) = Ax^2 + Bxy + Cy^2 + Dx + Ey + F</span>
+            </div>
+            <p>where <span class="math">A, B, C, D, E, F</span> are constants (with <span class="math">A,C</span> not both zero). The graph of <span class="math">z=f(x,y)</span> is a quadratic surface (also called a quadric). Examples include ellipsoids, paraboloids, hyperboloids, etc., depending on the coefficients. The shape of the surface and the nature of its extrema can be determined by analyzing the quadratic part <span class="math">Ax^2 + Bxy + Cy^2</span>.</p>
+
+            <p>The critical point(s) of a quadratic function can be found by setting the first partial derivatives to zero:</p>
+            <div class="formula">
+                <span class="math">f_x(x,y) = 2Ax + By + D = 0, \qquad
+                f_y(x,y) = Bx + 2Cy + E = 0</span>
+            </div>
+            <p>This is a linear system for <span class="math">x</span> and <span class="math">y</span>. Solving it (if possible) gives the coordinates of the critical point (there will be exactly one critical point if the <span class="math">2\times2</span> coefficient matrix <span class="math">\begin{pmatrix}2A & B\\ B & 2C\end{pmatrix}</span> is invertible, i.e., if <span class="math">4AC - B^2 \neq 0</span>).</p>
+
+            <p>For example, consider <span class="math">f(x,y) = 3x^2 + 4xy + y^2 - 8x + 2</span>. We find:</p>
+            <div class="formula">
+                <span class="math">f_x = 6x + 4y - 8, \qquad f_y = 4x + 2y</span>
+            </div>
+            <p>Setting <span class="math">f_x=0</span> and <span class="math">f_y=0</span> leads to the linear system:</p>
+            <div class="formula">
+                <span class="math">6x + 4y = 8, \qquad 4x + 2y = 0</span>
+            </div>
+            <p>Solving, from the second equation <span class="math">4x = -2y \implies x = -\frac{y}{2}</span>. Substitute into the first: <span class="math">6(-\frac{y}{2}) + 4y = 8</span>, i.e., <span class="math">-3y + 4y = 8</span>, so <span class="math">y=8</span>. Then <span class="math">x=-4</span>. Thus <span class="math">(x,y)=(-4,8)</span> is the only critical point. To classify it, we would check second derivatives (below).</p>
+
+            <p>The quadratic part <span class="math">Q(x,y)=Ax^2 + Bxy + Cy^2</span> can be analyzed by completing the square or by linear algebra (eigenvalues of the Hessian matrix). The sign of <span class="math">Q(x,y)</span> tells whether the surface opens upward (like a bowl), downward (like an upside bowl), or saddle-shaped. In particular, for the quadratic form <span class="math">Ax^2 + Bxy + Cy^2</span>:</p>
+            <ul class="enum">
+                <li class="enum-item">If <span class="math">A>0</span> and <span class="math">4AC - B^2>0</span> (which implies <span class="math">C>0</span> as well), then <span class="math">Q(x,y)</span> is positive definite (always <span class="math">>0</span> except at the origin). The surface <span class="math">z=Q(x,y)</span> is shaped like an elliptic paraboloid opening upward, so the critical point is a local minimum.</li>
+                <li class="enum-item">If <span class="math">A<0</span> and <span class="math">4AC - B^2>0</span>, (<span class="math">C<0</span> too) then <span class="math">Q(x,y)</span> is negative definite (always <span class="math"><0</span> except at origin). The surface opens downward and the critical point is a local maximum.</li>
+                <li class="enum-item">If <span class="math">4AC - B^2 < 0</span>, then <span class="math">Q</span> is indefinite (takes both positive and negative values) and the surface <span class="math">z=Q(x,y)</span> is a saddle. The critical point is a saddle point.</li>
+                <li class="enum-item">If <span class="math">4AC - B^2 = 0</span>, the test is inconclusive; the quadratic might be a parabolic cylinder or have a flat direction, and we need further analysis.</li>
+            </ul>
+            <p>These conditions come from the second derivative test, which we formally introduce in the next section.<span class="footnote"><sup>10</sup> This is a footnote connecting the quadratic function analysis to the second derivative test.</span> For quadratic functions, the test is exact because the function's behavior is entirely determined by the quadratic part (higher-order terms are zero).</p>
+
+            <div class="figure">
+                <img src="https://via.placeholder.com/500x300" alt="Elliptic paraboloid">
+                <p class="figure-caption">Figure 5: Elliptic paraboloid <span class="math">z=x^2+y^2</span> (minimum at the origin). Quadratic surfaces can be classified by the signs of their second-degree terms.</p>
+            </div>
+
+            <p>As a concrete example, the function <span class="math">f(x,y) = 3x^2 + 4xy + y^2 - 8x + 2</span> we solved above has <span class="math">A=3, B=4, C=1</span>. Compute <span class="math">D = 4AC - B^2 = 4(3)(1) - 4^2 = 12 - 16 = -4</span>. Since <span class="math">D<0</span>, the quadratic part is indefinite, so the critical point <span class="math">(-4,8)</span> is a saddle point. Indeed, if we examine the Hessian matrix</p>
+            <div class="formula">
+                <span class="math">H = \begin{pmatrix}6 & 4\\4 & 2\end{pmatrix}</span>
+            </div>
+            <p>it has eigenvalues of opposite signs (one positive, one negative), confirming a saddle point.</p>
+
+            <p>Quadratic functions are a good testbed for understanding extrema: they are simple enough to solve exactly and illustrate the possibilities of min, max, or saddle. The criteria we used will generalize.</p>
+        </section>
+
+        <!-- Class 9 -->
+        <section id="class12" class="content-section">
+            <div class="section-title">Class 9: Taylor Expansion and Extrema</div>
+
+            <p>To extend the intuition from quadratic functions to general <span class="math">f(x,y)</span>, we can use a <b>Taylor expansion</b> around a critical point. Suppose <span class="math">f</span> is a <span class="math">C^2</span> (twice continuously differentiable) function and <span class="math">(a,b)</span> is a critical point, so <span class="math">f_x(a,b)=0</span> and <span class="math">f_y(a,b)=0</span>. The second-order Taylor polynomial of <span class="math">f</span> around <span class="math">(a,b)</span> is:</p>
+            <div class="formula">
+                <span class="math">f(a+h,b+k) \approx f(a,b) + \frac{1}{2}\Big[f_{xx}(a,b)\,h^2 + 2f_{xy}(a,b)\,hk + f_{yy}(a,b)\,k^2\Big]</span>
+            </div>
+            <p>The linear (first-order) terms vanish because <span class="math">f_x(a,b)=f_y(a,b)=0</span>. So near <span class="math">(a,b)</span>, the behavior of <span class="math">f</span> is dominated by the quadratic form</p>
+            <div class="formula">
+                <span class="math">Q(h,k) = \frac{1}{2}\big[f_{xx}(a,b)h^2 + 2f_{xy}(a,b)hk + f_{yy}(a,b)k^2\big]</span>
+            </div>
+            <p>(We can omit the <span class="math">\frac12</span> for classification purposes and focus on <span class="math">f_{xx}(a,b)h^2 + 2f_{xy}(a,b)hk + f_{yy}(a,b)k^2</span>.)</p>
+
+            <p>Now, if <span class="math">Q(h,k)</span> is positive for all small <span class="math">(h,k)\neq(0,0)</span>, then <span class="math">f(a+h,b+k) \approx f(a,b) + (\text{positive})</span>, meaning <span class="math">f(a+h,b+k) > f(a,b)</span> for nearby points. In that case, <span class="math">(a,b)</span> is a local minimum. If <span class="math">Q(h,k)</span> is negative for all small <span class="math">(h,k)\neq(0,0)</span>, then <span class="math">f(a+h,b+k) < f(a,b)</span> near the point, giving a local maximum. If <span class="math">Q(h,k)</span> takes both positive and negative values in different directions, then <span class="math">(a,b)</span> is a saddle point.</p>
+
+            <p>Therefore, classifying a critical point largely boils down to analyzing the sign of the quadratic form given by the Hessian matrix:</p>
+            <div class="formula">
+                <span class="math">H(a,b) = \begin{pmatrix} f_{xx}(a,b) & f_{xy}(a,b) \\ f_{xy}(a,b) & f_{yy}(a,b) \end{pmatrix}</span>
+            </div>
+            <p>This symmetric matrix encapsulates the second-order behavior of <span class="math">f</span> at <span class="math">(a,b)</span>.</p>
+
+            <p>For convenience, define</p>
+            <div class="formula">
+                <span class="math">D = D(a,b) = f_{xx}(a,b)\,f_{yy}(a,b) - [f_{xy}(a,b)]^2</span>
+            </div>
+            <p>which is the determinant of the Hessian matrix (often denoted <span class="math">D(a,b)</span>). Also let <span class="math">A = f_{xx}(a,b)</span>. Then:</p>
+            <ul class="enum">
+                <li class="enum-item">If <span class="math">D > 0</span> and <span class="math">A = f_{xx}(a,b) > 0</span>, <span class="math">Q(h,k)</span> is positive definite (both eigenvalues of <span class="math">H</span> positive), so <span class="math">(a,b)</span> is a local minimum.</li>
+                <li class="enum-item">If <span class="math">D > 0</span> and <span class="math">A = f_{xx}(a,b) < 0</span>, <span class="math">Q(h,k)</span> is negative definite (both eigenvalues negative), so <span class="math">(a,b)</span> is a local maximum.</li>
+                <li class="enum-item">If <span class="math">D < 0</span>, the eigenvalues of <span class="math">H</span> have opposite signs, so <span class="math">Q(h,k)</span> takes both positive and negative values. Then <span class="math">(a,b)</span> is a saddle point.</li>
+                <li class="enum-item">If <span class="math">D = 0</span>, the test is inconclusive; higher-order terms might determine the behavior.</li>
+            </ul>
+            <p>These conclusions are exactly what we observed for quadratic functions, now generalized by the Taylor expansion reasoning.<span class="footnote"><sup>11</sup> This is a footnote connecting the second derivative test to Taylor expansion.</span> Essentially, near a non-degenerate critical point, a surface looks like a squished paraboloid (either bowl-shaped, dome-shaped, or saddle-shaped), determined by the second-order part of its Taylor series.</p>
+
+            <div class="example-title">Example 10.1.</div>
+            <p>Let <span class="math">f(x,y) = x^2 + 2xy + 2y^2 + \cdots</span> (higher order terms omitted). The quadratic part is <span class="math">x^2 + 2xy + 2y^2</span>. Write it in matrix form to identify the Hessian's determinant: <span class="math">D = (1)(2) - (1)^2 = 2-1 = 1>0</span> and <span class="math">f_{xx}=2>0</span>. So we expect a local min at <span class="math">(0,0)</span>. If the full <span class="math">f</span> is given, we would confirm <span class="math">(0,0)</span> is critical and then these second derivatives indeed predict a minimum.</p>
+
+            <div class="example-title">Example 10.2.</div>
+            <p>If <span class="math">g(x,y) = -3x^2 + 4xy - 2y^2</span>, at <span class="math">(0,0)</span> the quadratic part is <span class="math">-3x^2 + 4xy - 2y^2</span>. Compute <span class="math">D = (-3)(-2) - (2)^2 = 6 - 4 = 2>0</span> and <span class="math">g_{xx}=-6<0</span>, so we predict a local maximum at <span class="math">(0,0)</span>.</p>
+
+            <p>In practice, one does not usually explicitly write the Taylor polynomial; one directly uses the second derivative test criteria above to classify critical points.</p>
+        </section>
+
+        <!-- Class 10 -->
+        <section id="class13" class="content-section">
+            <div class="section-title">Class 10: Criteria for Extrema</div>
+
+            <p>We now summarize the <b>second derivative test</b> for functions of two variables:</p>
+
+            <p>Suppose <span class="math">f(x,y)</span> has continuous second partial derivatives. Let <span class="math">(a,b)</span> be a critical point of <span class="math">f</span> (meaning <span class="math">f_x(a,b)=0</span> and <span class="math">f_y(a,b)=0</span>). Compute</p>
+            <div class="formula">
+                <span class="math">D = D(a,b) = f_{xx}(a,b)\,f_{yy}(a,b) - [f_{xy}(a,b)]^2</span>
+            </div>
+            <p>Then:</p>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>Condition</th>
+                        <th>Conclusion</th>
+                        <th>Hessian</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><span class="math">D > 0</span> and <span class="math">f_{xx}(a,b) > 0</span></td>
+                        <td><span class="math">f(a,b)</span> is a <i>local minimum</i>.<span class="footnote"><sup>12</sup> Condition for local minimum using second derivative test.</span></td>
+                        <td>Positive definite</td>
+                    </tr>
+                    <tr>
+                        <td><span class="math">D > 0</span> and <span class="math">f_{xx}(a,b) < 0</span></td>
+                        <td><span class="math">f(a,b)</span> is a <i>local maximum</i>.<span class="footnote"><sup>13</sup> Condition for local maximum using second derivative test.</span></td>
+                        <td>Negative definite</td>
+                    </tr>
+                    <tr>
+                        <td><span class="math">D < 0</span></td>
+                        <td><span class="math">(a,b)</span> is a <i>saddle point</i>: <span class="math">f</span> has no extremum there.<span class="footnote"><sup>14</sup> Condition for saddle point using second derivative test.</span></td>
+                        <td>Indefinite</td>
+                    </tr>
+                    <tr>
+                        <td><span class="math">D = 0</span></td>
+                        <td>The test is inconclusive. The point could be any of a min, max, saddle, or even a flat higher-order critical point. One would need to investigate further or use higher derivatives.</td>
+                        <td>-</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <p>These criteria align with our earlier discussion. The quantity <span class="math">D</span> is essentially the discriminant of the quadratic form (sometimes denoted <span class="math">AC - B^2</span> or similar in other contexts). The condition <span class="math">D>0</span> ensures both eigenvalues of the Hessian have the same sign; <span class="math">f_{xx}(a,b)</span>'s sign then tells which sign that is (positive for min, negative for max). <span class="math">D<0</span> means one eigenvalue is positive and the other negative, giving a saddle.</p>
+
+            <div class="example-title">Example 11.1.</div>
+            <p><span class="math">f(x,y) = x^3 + y^3 - 3xy + 5</span>. Find and classify critical points.</p>
+            <p>First, <span class="math">f_x = \frac{\partial f}{\partial x} = 3x^2 - 3y</span>, <span class="math">f_y = \frac{\partial f}{\partial y} = 3y^2 - 3x</span>. Setting these equal to 0:</p>
+            <div class="formula">
+                <span class="math">3x^2 - 3y = 0 \implies y = x^2, \qquad
+                3y^2 - 3x = 0 \implies x = y^2</span>
+            </div>
+            <p>Substitute <span class="math">y=x^2</span> into <span class="math">x=y^2</span>: <span class="math">x = (x^2)^2 = x^4</span>. So either <span class="math">x=0</span> or <span class="math">x^4 - x = x(x^3-1) = 0 \implies x^3=1 \implies x=1</span>. Thus <span class="math">x=0</span> or <span class="math">x=1</span>. If <span class="math">x=0</span>, then from <span class="math">y=x^2</span>, <span class="math">y=0</span>. If <span class="math">x=1</span>, then <span class="math">y=1^2=1</span> (and check <span class="math">x=y^2</span> gives <span class="math">1=1</span>, consistent). So two critical points: <span class="math">(0,0)</span> and <span class="math">(1,1)</span>.</p>
+
+            <p>Now the second derivatives:</p>
+            <div class="formula">
+                <span class="math">f_{xx} = \frac{\partial^2 f}{\partial x^2} = 6x, \qquad
+                f_{yy} = \frac{\partial^2 f}{\partial y^2} = 6y, \qquad
+                f_{xy} = \frac{\partial^2 f}{\partial y\,\partial x} = -3</span>
+            </div>
+            <p>At <span class="math">(0,0)</span>: <span class="math">D = D(0,0) = (6\cdot0)(6\cdot0) - (-3)^2 = -9 < 0</span>. Saddle point at <span class="math">(0,0)</span>.<br>
+            At <span class="math">(1,1)</span>: <span class="math">D = D(1,1) = (6)(6) - (-3)^2 = 36 - 9 = 27 > 0</span>, and <span class="math">f_{xx}(1,1)=6>0</span>. So <span class="math">(1,1)</span> is a local <i>minimum</i>.</p>
+
+            <div class="example-title">Example 11.2.</div>
+            <p><span class="math">g(x,y) = 4x^2 + y^4 - 4x + 1</span>. Find and classify critical points.</p>
+            <p>Compute <span class="math">g_x = \frac{\partial g}{\partial x} = 8x - 4</span>, <span class="math">g_y = \frac{\partial g}{\partial y} = 4y^3</span>. Setting <span class="math">0</span>: <span class="math">8x-4=0 \implies x=1/2</span>; <span class="math">4y^3=0 \implies y=0</span>. So <span class="math">(\frac12,\,0)</span> is the only critical point. Second derivatives: <span class="math">g_{xx}=\frac{\partial^2 g}{\partial x^2}=8</span>, <span class="math">g_{yy}=\frac{\partial^2 g}{\partial y^2}=12y^2</span>, <span class="math">g_{xy}=\frac{\partial^2 g}{\partial y\,\partial x}=0</span>. At <span class="math">(1/2,0)</span>: <span class="math">D = D(\frac12,0) = 8 \cdot 12\cdot0^2 - 0^2 = 0</span>. The test is inconclusive. We inspect <span class="math">g(1/2,0)</span> and the function's behavior: <span class="math">g(1/2,0) = 4(1/4) + 0 - 4(1/2) + 1 = 1 - 2 + 1 = 0</span>. If we move in the <span class="math">y</span>-direction with <span class="math">x=1/2</span>, <span class="math">g(1/2,y) = 4(1/4) + y^4 - 2 + 1 = y^4 = \ge 0</span>, and equals 0 only at <span class="math">y=0</span>. If we move in <span class="math">x</span>-direction with <span class="math">y=0</span>, <span class="math">g(x,0) = 4x^2 - 4x + 1 = 4(x-\tfrac12)^2 + 0</span>, which is <span class="math">\ge 0</span> and equals 0 only at <span class="math">x=1/2</span>. In any other direction, both <span class="math">x</span> and <span class="math">y</span> change and the dominant term for small moves might be <span class="math">y^4</span> or <span class="math">4(x-1/2)^2</span>. It appears <span class="math">g(x,y)\ge 0</span> for all <span class="math">x,y</span> and <span class="math">(1/2,0)</span> is actually a global minimum. The Hessian test failed because <span class="math">g_{yy}=0</span> at the point (the surface is very flat in the <span class="math">y</span>-direction up to third order). This example shows why <span class="math">D=0</span> is inconclusive; one needs to examine higher-order terms or other reasoning.</p>
+
+            <p>In summary, to find extrema:</p>
+            <ol class="enum">
+                <li class="enum-item">Find all critical points (solve <span class="math">f_x=0, f_y=0</span>).</li>
+                <li class="enum-item">Apply the second derivative test to classify each critical point as local min, local max, or saddle (or inconclusive).</li>
+                <li class="enum-item">Check boundaries of domain if seeking global extrema (if domain is closed/bounded, check also boundary points).</li>
+            </ol>
+        </section>
+
+        <!-- Class 11 -->
+        <section id="class14" class="content-section">
+            <div class="section-title">Class 11: Differentiation of Mappings and the Jacobian</div>
+
+            <p>Up to now, we focused on scalar-valued functions (from <span class="math">\mathbb{R}^n</span> to <span class="math">\mathbb{R}</span>). We now consider <b>vector-valued functions</b> (mappings) <span class="math">F: \mathbb{R}^n \to \mathbb{R}^m</span>. For example, a planar change of coordinates <span class="math">(u,v) = F(x,y)</span>. The derivative of such a mapping is encapsulated by the <b>Jacobian matrix</b>, which is the matrix of all first-order partial derivatives.<span class="footnote"><sup>15</sup> This is a footnote defining the Jacobian matrix as the matrix of first-order partial derivatives.</span></p>
+
+            <p>If <span class="math">F(x,y) = (u(x,y),\,v(x,y))</span>, then the Jacobian matrix is:</p>
+            <div class="formula">
+                <span class="math">J_F(x,y) =
+                \begin{pmatrix}
+                \frac{\partial u}{\partial x} & \frac{\partial u}{\partial y} \\
+                \frac{\partial v}{\partial x} & \frac{\partial v}{\partial y}
+                \end{pmatrix} =
+                \begin{pmatrix}
+                u_x & u_y \\
+                v_x & v_y
+                \end{pmatrix}</span>
+            </div>
+            <p>This <span class="math">2\times 2</span> matrix linearly approximates <span class="math">F</span> near a point. More precisely, if <span class="math">(x,y)</span> changes by <span class="math">(dx,dy)</span>, then <span class="math">(du,dv) \approx (u_x\,dx + u_y\,dy,\; v_x\,dx + v_y\,dy)</span>, analogous to the total derivative for scalars. In higher dimensions, say <span class="math">F:\mathbb{R}^3\to\mathbb{R}^2</span> with <span class="math">F(x,y,z)=(u,v)</span>, the Jacobian would be <span class="math">2\times 3</span>:</p>
+            <div class="formula">
+                <span class="math">J_F(x,y,z) = \begin{pmatrix} u_x & u_y & u_z \\ v_x & v_y & v_z \end{pmatrix}</span>
+            </div>
+            <p>Each row is the gradient of one component function, and each column represents the partial derivatives with respect to one input variable.</p>
+
+            <p>The Jacobian matrix generalizes the concept of a derivative to multivariate vector functions.<span class="footnote"><sup>16</sup> This is a footnote emphasizing the generalization aspect of the Jacobian matrix.</span> If <span class="math">m=1</span> (one output), the Jacobian matrix is a 1-row matrix – essentially the gradient vector. If <span class="math">n=1</span> (one input, like a parametric curve), the Jacobian matrix is a column of first derivatives (which you might call the velocity vector in that case). So it includes these as special cases.</p>
+
+            <p>One important scalar derived from the Jacobian matrix is the <b>Jacobian determinant</b>. For <span class="math">F:\mathbb{R}^2\to\mathbb{R}^2</span>, <span class="math">\det(J_F)</span> describes how areas scale under the mapping <span class="math">F</span>. For example, in polar coordinates <span class="math">F(r,\theta)=(x,y)=(r\cos\theta,\;r\sin\theta)</span>, the Jacobian matrix is <span class="math">J_F(r,\theta) = \begin{pmatrix}\cos\theta & -r\sin\theta \\ \sin\theta & r\cos\theta\end{pmatrix}</span>. The determinant is <span class="math">\det(J_F) = r\cos^2\theta - (-r\sin^2\theta) = r\cos^2\theta + r\sin^2\theta = r</span>. This tells us, for instance, that a small area <span class="math">dr\,d\theta</span> in <span class="math">r\theta</span>-space is stretched to area <span class="math">r\,dr\,d\theta</span> in <span class="math">xy</span>-space. This factor <span class="math">r</span> is exactly what appears when converting integrals to polar coordinates.</p>
+
+            <p>Another example: consider the mapping <span class="math">T(x,y)=(u,v)=(2x+y,\;x-3y)</span>. Its Jacobian matrix is <span class="math">J_T(x,y) = \begin{pmatrix}2 & 1\\ 1 & -3\end{pmatrix}</span> with determinant <span class="math">\det(J_T) = (2)(-3) - (1)(1) = -6 - 1 = -7</span>. A small shape in the <span class="math">xy</span>-plane will be distorted by <span class="math">T</span> into a shape in the <span class="math">uv</span>-plane with area approximately <span class="math">|-7| = 7</span> times larger (the sign indicates orientation flip but magnitude 7 is the area scale).</p>
+
+            <p>When <span class="math">F:\mathbb{R}^n\to\mathbb{R}^n</span> is invertible near a point, the Jacobian determinant being nonzero is essential. In fact, the <b>Inverse Function Theorem</b> states that if <span class="math">\det J_F(a) \neq 0</span>, then <span class="math">F</span> is locally invertible around <span class="math">a</span>, and the Jacobian matrix of the inverse function is the matrix inverse of <span class="math">J_F</span>.<span class="footnote"><sup>17</sup> This is a footnote introducing the Inverse Function Theorem and its relation to the Jacobian determinant.</span> We will not dive deeply into the theory, but this idea is quite powerful.</p>
+
+            <p>In summary, to differentiate a mapping <span class="math">F(x,y,\dots)</span>, differentiate each component. The collection of partial derivatives forms the Jacobian matrix. This matrix can be used to transform differentials: <span class="math">(du,dv) = J_F(x,y)\cdot(dx,dy)</span> in matrix form. It is also used in change-of-variable for integrals, stability analysis in differential equations (Jacobian eigenvalues), and more.</p>
+        </section>
+
+        <!-- Class 12 -->
+        <section id="class15" class="content-section">
+            <div class="section-title">Class 12: Inverse Functions</div>
+
+            <p>The concept of an inverse function generalizes to multiple dimensions. If <span class="math">y = f(x)</span> (single variable) is invertible, we know <span class="math">x = f^{-1}(y)</span> and <span class="math">\frac{dx}{dy} = \frac{1}{f'(x)}</span> at corresponding points, assuming <span class="math">f'(x)\neq0</span>. In higher dimensions, an invertible mapping <span class="math">F:\mathbb{R}^n\to\mathbb{R}^n</span> locally has an inverse if its Jacobian determinant is nonzero at a point (this ensures the linear approximation is invertible).</p>
+
+            <p>More formally, the <b>Inverse Function Theorem</b> states: If <span class="math">F(\mathbf{a})=\mathbf{b}</span> and the Jacobian matrix <span class="math">J_F(\mathbf{a})</span> is invertible (nonzero determinant), then there exists a neighborhood of <span class="math">\mathbf{a}</span> in which <span class="math">F</span> has a differentiable inverse <span class="math">F^{-1}</span>. Moreover, <span class="math">(J_{F^{-1}}(\mathbf{b})) = (J_F(\mathbf{a}))^{-1}</span>.<span class="footnote"><sup>18</sup> This is a footnote stating the formal relationship between Jacobians of inverse functions.</span> In other words, to get the derivative of the inverse mapping at <span class="math">\mathbf{b}</span>, invert the matrix of the derivative of <span class="math">F</span> at <span class="math">\mathbf{a}</span>.</p>
+
+            <p>For a simple 2D illustration, consider <span class="math">u = 2x + y,\; v = x + 3y</span>. This is a linear mapping <span class="math">F(x,y)=(u,v)</span>. The Jacobian is <span class="math">J_F(x,y) = \begin{pmatrix}2 & 1\\1 & 3\end{pmatrix}</span> with <span class="math">\det(J_F)=5</span>. The mapping is invertible. We can find the inverse mapping explicitly by solving:</p>
+            <div class="formula">
+                <span class="math">\begin{cases}
+                2x+y = u,\\
+                x+3y = v,
+                \end{cases}</span>
+            </div>
+            <p>which gives (solving the linear system) <span class="math">x = \frac{3u - v}{5}</span>, <span class="math">y = \frac{-u + 2v}{5}</span> (using Cramer's rule or matrix inverse). The Jacobian matrix of the inverse <span class="math">F^{-1}(u,v)=(x(u,v),\;y(u,v))</span> is</p>
+            <div class="formula">
+                <span class="math">J_{F^{-1}}(u,v) = \begin{pmatrix} \frac{\partial x}{\partial u} & \frac{\partial x}{\partial v} \\ \frac{\partial y}{\partial u} & \frac{\partial y}{\partial v} \end{pmatrix} = \begin{pmatrix} 3/5 & -1/5 \\ -1/5 & 2/5 \end{pmatrix}</span>
+            </div>
+            <p>This is exactly the inverse of the original Jacobian matrix <span class="math">J_F^{-1} = \begin{pmatrix}2 & 1\\1 & 3\end{pmatrix}^{-1} = \frac{1}{5}\begin{pmatrix}3 & -1\\-1 & 2\end{pmatrix}</span>. This linear example reflects the general rule.</p>
+
+            <p>From a practical perspective, if you have functions <span class="math">u(x,y)</span> and <span class="math">v(x,y)</span> and can solve them for <span class="math">x</span> and <span class="math">y</span> in terms of <span class="math">u</span> and <span class="math">v</span>, you can differentiate implicitly to find the partial derivatives of the inverse. Usually, one sets up linear equations for <span class="math">\frac{\partial x}{\partial u}</span>, etc., or uses matrix inversion of the Jacobian.</p>
+
+            <p>For single-variable invertible functions, this theorem reduces to: if <span class="math">\frac{dy}{dx} = f'(x) \neq 0</span>, then <span class="math">\frac{dx}{dy} = \frac{1}{f'(x)}</span>. For instance, if <span class="math">y=\ln x</span>, then <span class="math">\frac{dy}{dx} = 1/x</span>, so <span class="math">\frac{dx}{dy} = x = e^y</span>, which is the derivative of the inverse function <span class="math">x = e^y</span>.</p>
+
+            <p>One caution: if the Jacobian determinant is zero, the function may not be invertible (think of <span class="math">F(x,y)=(x^2,y)</span> at <span class="math">(0,y)</span>, Jacobian det=0 leads to not one-to-one around that point).</p>
+        </section>
+
+        <!-- Class 13 -->
+        <section id="class16" class="content-section">
+            <div class="section-title">Class 13: Implicit Functions</div>
+
+            <p>Often we have relationships given implicitly, like <span class="math">F(x,y)=0</span>, defining <span class="math">y</span> as a function of <span class="math">x</span> indirectly. The <b>Implicit Function Theorem</b> provides conditions under which we can solve for one variable as a differentiable function of the other variables locally. In essence: if <span class="math">F(x,y)=0</span> and at a point <span class="math">(a,b)</span> on this level set we have <span class="math">\frac{\partial F}{\partial y}(a,b)\neq 0</span>, then in a neighborhood of that point we can solve for <span class="math">y</span> as a function of <span class="math">x</span>, say <span class="math">y = g(x)</span>, and <span class="math">g'(x) = -\frac{F_x}{F_y}</span> at that point.<span class="footnote"><sup>19</sup> This is a footnote introducing the Implicit Function Theorem and the formula for implicit differentiation.</span></p>
+
+            <p>This result is basically an application of the chain rule and inverse function theorem. Differentiating <span class="math">F(x,y(x)) \equiv 0</span> with respect to <span class="math">x</span>:</p>
+            <div class="formula">
+                <span class="math">\frac{d}{dx}F(x,y(x)) = \frac{\partial F}{\partial x} \frac{dx}{dx} + \frac{\partial F}{\partial y} \frac{dy}{dx} = F_x + F_y \frac{dy}{dx} = 0</span>
+            </div>
+            <p>so</p>
+            <div class="formula">
+                <span class="math">\frac{dy}{dx} = -\frac{F_x}{F_y}</span>
+            </div>
+            <p>assuming <span class="math">F_y \neq 0</span>.<span class="footnote"><sup>20</sup> This is a footnote showing the derivation of the implicit differentiation formula.</span> This is the familiar formula from implicit differentiation in calculus. It says the slope of the implicit curve <span class="math">F(x,y)=0</span> is given by the negative ratio of the partial derivatives.</p>
+
+            <p>For example, the circle <span class="math">F(x,y) = x^2 + y^2 - R^2 = 0</span> implicitly defines <span class="math">y</span> as a function of <span class="math">x</span> (except at vertical tangents). We have <span class="math">F_x = \frac{\partial F}{\partial x} = 2x</span>, <span class="math">F_y = \frac{\partial F}{\partial y} = 2y</span>. The formula gives <span class="math">\frac{dy}{dx} = -\frac{F_x}{F_y} = -\frac{2x}{2y} = -\frac{x}{y}</span>. So the slope of the circle at <span class="math">(x,y)</span> is <span class="math">-x/y</span> (which makes sense: it's the negative reciprocal of <span class="math">y/x</span>, the slope of the radius). This matches classical geometry of a circle.</p>
+
+            <p>As another example, suppose we have <span class="math">F(x,y,z) = xyz^2 + \sin x + e^y - 5 = 0</span> defining <span class="math">z</span> implicitly as a function of <span class="math">x</span> and <span class="math">y</span> near a solution. To find <span class="math">\frac{\partial z}{\partial x}</span>, we treat <span class="math">y</span> as independent and <span class="math">z=z(x,y)</span> as dependent. Differentiate implicitly with respect to <span class="math">x</span>:</p>
+            <div class="formula">
+                <span class="math">\frac{\partial}{\partial x}(xyz^2 + \sin x + e^y - 5) = 0</span>
+            </div>
+            <p>Note <span class="math">e^y</span> is constant with respect to <span class="math">x</span>. We get</p>
+            <div class="formula">
+                <span class="math">\left( \frac{\partial}{\partial x}(xy) \cdot z^2 + xy \cdot \frac{\partial}{\partial x}(z^2) \right) + \cos x + 0 - 0 = 0</span>
+            </div>
+            <div class="formula">
+                <span class="math">\left( y \cdot z^2 + xy \cdot 2z \frac{\partial z}{\partial x} \right) + \cos x = 0</span>
+            </div>
+            <div class="formula">
+                <span class="math">yz^2 + 2xyz \frac{\partial z}{\partial x} + \cos x = 0</span>
+            </div>
+            <p>Now solve for <span class="math">\frac{\partial z}{\partial x}</span>:</p>
+            <div class="formula">
+                <span class="math">2xyz\,\frac{\partial z}{\partial x} = -(yz^2 + \cos x) \implies
+                \frac{\partial z}{\partial x} = -\frac{yz^2 + \cos x}{2xyz}</span>
+            </div>
+            <p>We needed <span class="math">F_z = \frac{\partial F}{\partial z} = 2xyz</span> (the partial of <span class="math">xyz^2</span> with respect to <span class="math">z</span>) to be nonzero to isolate <span class="math">\frac{\partial z}{\partial x}</span>. The formula <span class="math">\frac{\partial z}{\partial x} = -\frac{F_x}{F_z}</span> indeed gives the same result here if applied carefully.</p>
+
+            <p>In general, for <span class="math">F(x,y,z)=0</span> defining <span class="math">z</span> as a function of <span class="math">x,y</span>,</p>
+            <div class="formula">
+                <span class="math">\frac{\partial z}{\partial x} = -\frac{F_x}{F_z}, \qquad \frac{\partial z}{\partial y} = -\frac{F_y}{F_z}</span>
+            </div>
+            <p>provided <span class="math">F_z \neq 0</span>. These are the partial derivatives of the implicit function <span class="math">z(x,y)</span>. One must ensure the condition (<span class="math">F_z\neq0</span>) at the point, otherwise we can't solve for <span class="math">z</span> uniquely (vertical tangent in higher dimensions).</p>
+
+            <p>The Implicit Function Theorem assures that if <span class="math">F(x_0,y_0,z_0)=0</span> and <span class="math">F_z(x_0,y_0,z_0)\neq0</span>, there exists a local function <span class="math">z=f(x,y)</span> passing through that point such that <span class="math">F(x,y,f(x,y))=0</span>. The derivatives we computed are part of that theorem's conclusion.</p>
+
+            <div class="example-title">Example 13.1.</div>
+            <p>Find <span class="math">\frac{dy}{dx}</span> for the implicit equation <span class="math">x^2 e^y + y = 1</span>.</p>
+            <p>Differentiate both sides with respect to <span class="math">x</span>:</p>
+            <div class="formula">
+                <span class="math">\frac{d}{dx}(x^2 e^y + y) = \frac{d}{dx}(1)</span>
+            </div>
+            <div class="formula">
+                <span class="math">\frac{d}{dx}(x^2 e^y) + \frac{dy}{dx} = 0</span>
+            </div>
+            <div class="formula">
+                <span class="math">\left( \frac{d}{dx}(x^2) \cdot e^y + x^2 \cdot \frac{d}{dx}(e^y) \right) + \frac{dy}{dx} = 0</span>
+            </div>
+            <div class="formula">
+                <span class="math">\left( 2x e^y + x^2 e^y \frac{dy}{dx} \right) + \frac{dy}{dx} = 0</span>
+            </div>
+            <p>Here <span class="math">F(x,y)=x^2e^y + y - 1</span>. So <span class="math">F_x = \frac{\partial F}{\partial x} = 2xe^y</span>, <span class="math">F_y = \frac{\partial F}{\partial y} = x^2 e^y + 1</span>. Solve for <span class="math">\frac{dy}{dx}</span>:</p>
+            <div class="formula">
+                <span class="math">\frac{dy}{dx}(x^2 e^y + 1) = -2x e^y</span>
+            </div>
+            <p>so</p>
+            <div class="formula">
+                <span class="math">\frac{dy}{dx} = -\frac{2x e^y}{x^2 e^y + 1}</span>
+            </div>
+            <p>That is the slope of the curve defined implicitly, as long as <span class="math">x^2 e^y + 1 \neq 0</span> (which it never is here, so it's fine).</p>
+
+            <p>Implicit differentiation becomes especially handy for complicated equations where solving for one variable explicitly is difficult. It also sets the stage for understanding constrained extrema (using methods like Lagrange multipliers, where one handles constraints implicitly).</p>
+        </section>
+
+        <!-- Class 14 -->
+        <section id="class17" class="content-section">
+            <div class="section-title">Class 14: Summary</div>
+
+            <p>In these notes, we explored the fundamental aspects of multivariable differential calculus:</p>
+
+            <ul class="summary-list">
+                <li class="summary-list-item">We defined <b>partial derivatives</b> as the rate of change of a multivariable function with respect to one input variable at a time.<span class="footnote"><sup>21</sup> Summary point about partial derivatives.</span> Geometrically, partial derivatives correspond to slopes of cross-sectional curves of the surface <span class="math">z=f(x,y)</span>.<span class="footnote"><sup>22</sup> Summary point about geometric interpretation of partial derivatives.</span></li>
+                <li class="summary-list-item">We studied <b>planes and surfaces</b>, learning how planes can be seen as graphs of linear functions and how more general surfaces can be understood via level sets and cross-sections.</li>
+                <li class="summary-list-item">We introduced <b>tangent planes</b> to surfaces <span class="math">z=f(x,y)</span>, deriving their equation using the partial derivatives.<span class="footnote"><sup>23</sup> Summary point about tangent planes.</span> The tangent plane provides the best linear approximation to the surface at a point.</li>
+                <li class="summary-list-item">The concept of <b>total derivative</b> (differentials) was discussed, combining partial derivatives to approximate changes in the function due to multivariate inputs.</li>
+                <li class="summary-list-item">Using the <b>Chain Rule</b>, we can differentiate composite functions systematically in multiple dimensions, carefully summing contributions from each path of dependence.<span class="footnote"><sup>24</sup> Summary point about the Chain Rule.</span></li>
+                <li class="summary-list-item">We saw how to perform differentiation in alternative coordinate systems like <b>polar coordinates</b>, applying the chain rule to relate derivatives in polar to those in Cartesian coordinates, which is especially useful for radially symmetric functions.</li>
+                <li class="summary-list-item">We defined what it means for a point to be a <b>local extremum</b> (maximum or minimum) of a function of several variables. We saw examples of maxima, minima, and saddle points, and emphasized that at interior extrema (assuming differentiability) the gradient must be zero (critical point).</li>
+                <li class="summary-list-item">Focusing on <b>quadratic functions</b>, we learned how to find their critical points and classify them by examining the quadratic form. This led to understanding how the second partial derivatives determine the nature of a critical point.</li>
+                <li class="summary-list-item">Through <b>Taylor expansion</b> around a critical point, we justified the <b>second derivative test</b>. We provided criteria involving the Hessian determinant <span class="math">D</span> and the second partials to classify a critical point as a local min, local max, or saddle.<span class="footnote"><sup>25</sup> Summary point about the second derivative test for extrema.</span></li>
+                <li class="summary-list-item">We discussed <b>Jacobian matrices</b> as a way to collect partial derivatives of vector-valued functions.<span class="footnote"><sup>26</sup> Summary point about Jacobian matrices.</span> The Jacobian gives a linear approximation of a multivariable mapping and its determinant indicates local scaling (particularly important in coordinate transformations and the inverse function theorem).</li>
+                <li class="summary-list-item">The <b>Inverse Function Theorem</b> was stated in essence: a non-zero Jacobian determinant ensures a local inverse exists and how to get its derivative.<span class="footnote"><sup>27</sup> Summary point about the Inverse Function Theorem.</span></li>
+                <li class="summary-list-item">We covered <b>implicit differentiation</b> and the <b>Implicit Function Theorem</b>, showing how to find derivatives of a function defined implicitly by an equation (like <span class="math">F(x,y)=0</span>) by using <span class="math">\frac{dy}{dx} = -F_x/F_y</span>.<span class="footnote"><sup>28</sup> Summary point about implicit differentiation and the Implicit Function Theorem.</span></li>
+            </ul>
+
+            <p>Throughout, our focus has been on developing intuition and tools: partial derivatives generalize single-variable differentiation, gradients and Jacobians generalize slopes, and the interplay of these tools lets us analyze how multivariable functions change and how to optimize them. The friendly yet instructive tone of these notes aimed to emulate Stewart's accessible style, reinforcing concepts with examples and geometric interpretation. With this foundation, one can confidently tackle a variety of engineering and physics problems involving multivariate functions, whether it's finding the optimal design parameters (extrema problems) or analyzing how changes in inputs propagate to changes in outputs (sensitivity via derivatives).</p>
+        </section>
+    </div>
+
+    <button class="theme-toggle" id="themeToggle">☀️</button>
+
+    <script>
+        // Show Class function
+        function showSection(sectionId) {
+            // Hide all sections
+            document.querySelectorAll('.content-section').forEach(section => {
+                section.classList.remove('active');
+            });
+
+            // Show selected section
+            document.getElementById(sectionId).classList.add('active');
+
+            // Update active button
+            document.querySelectorAll('.nav-button').forEach(button => {
+                button.classList.remove('active');
+                if (button.getAttribute('onclick').includes(sectionId)) {
+                    button.classList.add('active');
+                }
+            });
+
+            // Update mobile dropdown
+            document.getElementById('mobileNavSelect').value = sectionId;
+
+            // Update URL hash
+            window.location.hash = sectionId;
+
+            // Scroll to top
+            window.scrollTo(0, 0);
+        }
+
+        // Check URL hash on page load
+        document.addEventListener('DOMContentLoaded', () => {
+            if (window.location.hash) {
+                const sectionId = window.location.hash.substring(1);
+                if (document.getElementById(sectionId)) {
+                    showSection(sectionId);
+                }
+            }
+
+            // Add theme toggle functionality
+            const themeToggle = document.getElementById('themeToggle');
+            themeToggle.addEventListener('click', toggleTheme);
+
+            // Add scroll event listener for progress bar
+            window.addEventListener('scroll', updateProgressBar);
+        });
+
+        // Toggle theme function
+        function toggleTheme() {
+            const body = document.body;
+            const themeToggle = document.getElementById('themeToggle');
+
+            if (body.classList.contains('dark-theme')) {
+                body.classList.remove('dark-theme');
+                themeToggle.textContent = '☀️';
+                localStorage.setItem('theme', 'light');
+            } else {
+                body.classList.add('dark-theme');
+                themeToggle.textContent = '🌙';
+                localStorage.setItem('theme', 'dark');
+            }
+        }
+
+        // Check saved theme preference
+        if (localStorage.getItem('theme') === 'dark') {
+            document.body.classList.add('dark-theme');
+            document.getElementById('themeToggle').textContent = '🌙';
+        }
+
+        // Update progress bar
+        function updateProgressBar() {
+            const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+            const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            const scrolled = (winScroll / height) * 100;
+            document.getElementById("progressBar").style.width = scrolled + "%";
+        }
+
+        // Print function
+        function printNotes() {
+            window.print();
+        }
+    </script>
+</body>
+</html>
