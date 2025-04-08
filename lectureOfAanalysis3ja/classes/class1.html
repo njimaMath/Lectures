@@ -193,7 +193,7 @@
         }
     </style>
     <!-- MathJax configuration -->
-    <script>
+   <script>
       window.MathJax = {
         tex: {
           inlineMath: [['$', '$']],
@@ -276,8 +276,8 @@
             </div>
         
             <div class="section-highlight">
-                <h3>セクション3：多変数関数</h3>
-                <p>次に、多変数関数に拡張します。ここで $f: \mathbb{R}^n \rightarrow \mathbb{R}$ は $n$ 次元空間の各点に実数を割り当てます。</p>
+                <h3>セクション3：二変数関数</h3>
+                <p>次に、多変数関数に拡張します。ここで $f: \mathbb{R}^2 \rightarrow \mathbb{R}$ は $2$ 次元空間の各点に実数を対応させる。</p>
                 
                 <p>例えば、$f: \mathbb{R}^2 \rightarrow \mathbb{R}$ の場合、$f$ は各点 $(x, y) \in \mathbb{R}^2$ に実数値を関連付けます。これらの関数は3次元空間の曲面として視覚化できます。</p>
                 
@@ -300,48 +300,26 @@
                 
                 <div class="definition-box">
                     <h3 style="margin-top: 0;">偏微分の定義</h3>
-                    <p>関数 $f: \mathbb{R}^n \rightarrow \mathbb{R}$ について、点 $\mathbf{x} = (x_1, x_2, \ldots, x_n)$ における $i$ 番目の変数に関する $f$ の偏微分は次のように定義されます：</p>
+                    <p>関数 $f: \mathbb{R}^n \rightarrow \mathbb{R}$ について、点 $\mathbf{x} = (x, y)$ における各変数に関する $f$ の偏微分は次のように定義される：</p>
                     <div class="formula" style="background: none; border-left: none; box-shadow: none;">
-                        $$\frac{\partial f}{\partial x_i}(\mathbf{x}) = \lim_{h \to 0} \frac{f(x_1, \ldots, x_{i-1}, x_i + h, x_{i+1}, \ldots, x_n) - f(x_1, \ldots, x_n)}{h}$$
+                        $$\frac{\partial f}{\partial x}(\mathbf{x}) = \lim_{h \to 0} \frac{f(x+h, y) - f(x,y)}{h},\quad \frac{\partial f}{\partial y}(\mathbf{x}) = \lim_{h \to 0} \frac{f(x, y+h) - f(x,y)}{h},\quad $$
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js" async></script>
                     </div>
                     <p>ただし、この極限が存在する場合。</p>
                 </div>
-                
-                <p>2変数の関数 $f: \mathbb{R}^2 \rightarrow \mathbb{R}$ の場合、2つの偏微分があります：</p>
-                
-                <div class="formula">
-                    $$\frac{\partial f}{\partial x}(x, y) = \lim_{h \to 0} \frac{f(x+h, y) - f(x, y)}{h}$$
-                </div>
-                
-                <div class="formula">
-                    $$\frac{\partial f}{\partial y}(x, y) = \lim_{h \to 0} \frac{f(x, y+h) - f(x, y)}{h}$$
-                </div>
-                
-                <p>これらはそれぞれ $f_x(x, y)$ と $f_y(x, y)$ と表記されることがよくあります。幾何学的には、$f_x(x, y)$ は点 $(x, y, f(x, y))$ における $x$ 方向の曲面への接線の傾きを表し、同様に $f_y(x, y)$ は $y$ 方向の傾きを表します。</p>
+                <p>これらはそれぞれ $f_x(x, y)$ と $f_y(x, y)$ と表記されることがよくある。幾何学的には、$f_x(x, y)$ は点 $(x, y, f(x, y))$ における $x$ 方向の曲面への接線の傾きを表し、同様に $f_y(x, y)$ は $y$ 方向の傾きを表す。</p>
                 
                 <div class="example-title">例 1.1</div>
                 <div class="formula" style="background-color: #f0f7ff; border-left-color: #3498db;">
                     <p><strong>問題：</strong> $f(x, y) = x^2y + 3xy^2 - 2y^3$ の偏微分を求めなさい。</p>
                     
                     <p><strong>解答：</strong></p>
-                    <p>$\frac{\partial f}{\partial x}$ を求めるには、$y$ を定数として扱い、$x$ に関して微分します：</p>
-                    $$\frac{\partial f}{\partial x} = \frac{\partial}{\partial x}(x^2y + 3xy^2 - 2y^3) = 2xy + 3y^2$$
+                    <p>$\frac{\partial f}{\partial x}$ を求めるには、$y$ を定数として扱い、$x$ に関して微分す：</p>
+                    $$\frac{\partial f}{\partial x} = \frac{\partial}{\partial x}(x^2y + 3xy^2 - 2y^3) = 2xy + 3y^2.$$
                     
-                    <p>$\frac{\partial f}{\partial y}$ を求めるには、$x$ を定数として扱い、$y$ に関して微分します：</p>
+                    <p>$\frac{\partial f}{\partial y}$ を求めるには、$x$ を定数として扱い、$y$ に関して微分する：</p>
                     $$\frac{\partial f}{\partial y} = \frac{\partial}{\partial y}(x^2y + 3xy^2 - 2y^3) = x^2 + 6xy - 6y^2$$
                 </div>
-                
-                <div class="figure" style="background-color: #eefaf8; border-left: 4px solid #2ecc71; text-align: left;">
-                    <h3 style="margin-top: 0;">偏微分に関する重要な洞察</h3>
-                    <ul style="padding-left: 20px;">
-                        <li>偏微分は、他のすべての変数を一定に保ちながら、一方向の変化率を測定します。</li>
-                        <li>表記法 $\frac{\partial f}{\partial x}$ または $f_x$ は、$x$ に関する偏微分を示します。</li>
-                        <li>幾何学的には、偏微分はそれぞれの座標方向における曲面への接線の傾きを与えます。</li>
-                        <li>偏微分を計算するには、他の変数を定数として扱いながら、一変数微積分の馴染みのあるルールを使用します。</li>
-                        <li>一変数微積分とは異なり、偏微分の存在は関数が連続または微分可能であることを保証しません。</li>
-                    </ul>
-                </div>
-            </div>
         </section>
 
         <div class="navigation">
