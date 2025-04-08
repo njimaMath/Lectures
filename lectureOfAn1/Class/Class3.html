@@ -1,0 +1,655 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>微分法入門</title>
+    <style>
+        body {
+            font-family: 'Hiragino Sans', 'Meiryo', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f9f9f9;
+        }
+        h1, h2, h3 {
+            color: #1a237e;
+            margin-top: 1.5em;
+        }
+        h1 {
+            text-align: center;
+            border-bottom: 2px solid #1a237e;
+            padding-bottom: 10px;
+            margin-bottom: 30px;
+        }
+        h2 {
+            border-left: 5px solid #1a237e;
+            padding-left: 15px;
+        }
+        .formula {
+            background-color: #f0f0f8;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 15px 0;
+            overflow-x: auto;
+            text-align: center;
+            font-size: 1.1em;
+            /* MathJax 用スタイルを追加 */
+            font-family: 'Latin Modern Math', 'Cambria Math', serif;
+        }
+        .note {
+            background-color: #e8f5e9;
+            border-left: 4px solid #4caf50;
+            padding: 10px 15px;
+            margin: 15px 0;
+        }
+        .example {
+            background-color: #e3f2fd;
+            border-left: 4px solid #2196f3;
+            padding: 10px 15px;
+            margin: 15px 0;
+        }
+        .figure {
+            text-align: center;
+            margin: 25px 0;
+        }
+        .figure img, .figure svg {
+            max-width: 100%;
+            border-radius: 5px;
+            box-shadow: 0 3px 6px rgba(0,0,0,0.16);
+            background-color: #fff; /* SVG background */
+        }
+        .figure figcaption {
+            margin-top: 10px;
+            font-style: italic;
+            color: #666;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px 12px;
+            text-align: center; /* 数式が多いので中央揃えに */
+            vertical-align: middle;
+        }
+        th {
+            background-color: #e8eaf6;
+            font-weight: bold;
+        }
+        tr:nth-child(even) {
+            background-color: #f5f5f5;
+        }
+        .timeline {
+            position: relative;
+            max-width: 800px;
+            margin: 40px auto; /* 上下のマージンを追加 */
+            padding: 20px 0;
+        }
+        .timeline::after {
+            content: '';
+            position: absolute;
+            width: 4px;
+            background-color: #1a237e;
+            top: 0;
+            bottom: 0;
+            left: 50%;
+            margin-left: -2px;
+        }
+        .timeline-container {
+            position: relative;
+            width: 50%;
+            padding: 10px 40px;
+            box-sizing: border-box;
+        }
+        .timeline-container.left {
+            left: 0;
+        }
+        .timeline-container.right {
+            left: 50%;
+        }
+        .timeline-content {
+            padding: 15px;
+            background-color: white;
+            border-radius: 5px;
+            box-shadow: 0 3px 6px rgba(0,0,0,0.1);
+            position: relative; /* Arrow pseudo-element */
+        }
+        .timeline-container::after {
+            content: '';
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            background-color: white;
+            border: 4px solid #1a237e;
+            border-radius: 50%;
+            top: 25px; /* Adjusted top position */
+            z-index: 1;
+        }
+        .timeline-container.left::after {
+            right: -12px; /* Adjusted position */
+        }
+        .timeline-container.right::after {
+            left: -12px; /* Adjusted position */
+        }
+        /* Timeline arrows */
+        .timeline-container.left .timeline-content::before {
+            content: " ";
+            height: 0;
+            position: absolute;
+            top: 28px;
+            width: 0;
+            z-index: 1;
+            right: -10px;
+            border: medium solid white;
+            border-width: 10px 0 10px 10px;
+            border-color: transparent transparent transparent white;
+        }
+        .timeline-container.right .timeline-content::before {
+            content: " ";
+            height: 0;
+            position: absolute;
+            top: 28px;
+            width: 0;
+            z-index: 1;
+            left: -10px;
+            border: medium solid white;
+            border-width: 10px 10px 10px 0;
+            border-color: transparent white transparent transparent;
+        }
+
+        @media screen and (max-width: 600px) {
+            .timeline::after {
+                left: 31px;
+            }
+            .timeline-container {
+                width: 100%;
+                padding-left: 70px;
+                padding-right: 25px;
+            }
+            .timeline-container.right {
+                left: 0%;
+            }
+            .timeline-container.left::after, .timeline-container.right::after {
+                left: 19px; /* Adjusted position */
+            }
+            .timeline-container.left .timeline-content::before,
+            .timeline-container.right .timeline-content::before {
+                left: -10px;
+                border-width: 10px 10px 10px 0;
+                border-color: transparent white transparent transparent;
+            }
+             .timeline-container.left .timeline-content::before {
+                right: auto; /* Reset right property */
+            }
+        }
+        /* MathJax/KaTeX support */
+        .katex-display { overflow-x: auto; overflow-y: hidden; }
+    </style>
+    <!-- KaTeX for rendering math -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.10/dist/katex.min.css" integrity="sha384-wcIxkf4k558fYv3mQPFEpCREUQueRFCZrCXCtiKU8aNVbN9ODdVcN3BwCAJ6pcBb" crossorigin="anonymous">
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.10/dist/katex.min.js" integrity="sha384-hIoBPJpTUs74ddyc4bFZSM1TVlQDA60VBbJS0oA934VSz82sBx1X7kSx2ATBDIyd" crossorigin="anonymous"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.10/dist/contrib/auto-render.min.js" integrity="sha384-43gviWU0YVjaDtb/GhzOouOXtZMP/7XUzwPTstBeZFe/+rCMvRwr4yROQP43s0Xk" crossorigin="anonymous"
+        onload="renderMathInElement(document.body);"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            renderMathInElement(document.body, {
+                // customised options
+                // • auto-render specific keys, e.g.:
+                delimiters: [
+                    {left: '$$', right: '$$', display: true},
+                    {left: '$', right: '$', display: false},
+                    {left: '\\(', right: '\\)', display: false},
+                    {left: '\\[', right: '\\]', display: true}
+                ],
+                // • rendering keys, e.g.:
+                throwOnError : false
+            });
+        });
+    </script>
+</head>
+<body>
+    <h1>微分法入門</h1>
+    <p>本講義は1年生向けに微分法の基礎概念と応用について解説します。</p>
+
+    <h2>1. 関数の演算</h2>
+    <p>関数の基本的な演算方法について説明します。関数 $f(x)$ と $g(x)$ が与えられたとき、次のような演算が定義されます。</p>
+
+    <h3>1.1 加法と減法 ($f \pm g$)</h3>
+    <p>二つの関数の和と差は、各点での関数値の和と差として定義されます。</p>
+    <div class="formula">
+        $(f+g)(x) = f(x) + g(x)$<br>
+        $(f-g)(x) = f(x) - g(x)$
+    </div>
+
+    <div class="example">
+        <strong>例：</strong>$f(x) = x^2$ と $g(x) = \sin(x)$ のとき、<br>
+        $(f+g)(x) = x^2 + \sin(x)$<br>
+        $(f-g)(x) = x^2 - \sin(x)$
+    </div>
+
+    <h3>1.2 乗法 ($f \cdot g$)</h3>
+    <p>二つの関数の積は、各点での関数値の積として定義されます。</p>
+    <div class="formula">
+        $(f \cdot g)(x) = f(x) \cdot g(x)$
+    </div>
+
+    <div class="example">
+        <strong>例：</strong>$f(x) = x$ と $g(x) = e^x$ のとき、<br>
+        $(f \cdot g)(x) = x \cdot e^x$
+    </div>
+
+    <h3>1.3 合成 ($f \circ g$)</h3>
+    <p>関数の合成は、一方の関数の出力を他方の関数の入力として使用することで定義されます。</p>
+    <div class="formula">
+        $(f \circ g)(x) = f(g(x))$
+    </div>
+
+    <div class="example">
+        <strong>例：</strong>$f(x) = x^2$ と $g(x) = x+1$ のとき、<br>
+        $(f \circ g)(x) = f(g(x)) = f(x+1) = (x+1)^2$<br>
+        $(g \circ f)(x) = g(f(x)) = g(x^2) = x^2 + 1$
+    </div>
+
+
+    <h2>2. 導関数の定義と例</h2>
+
+    <h3>2.1 導関数の定義</h3>
+    <p>関数 $f(x)$ の $x = a$ における導関数（微分係数）は、次の極限で定義されます。</p>
+    <div class="formula">
+        $f'(a) = \lim_{h \to 0} \frac{f(a+h) - f(a)}{h}$
+    </div>
+    <p>この極限が存在するとき、関数 $f(x)$ は点 $x = a$ で微分可能であるといいます。導関数は $f'(x)$ または $\frac{df}{dx}$ と表されます。</p>
+
+    <div class="figure">
+        <svg width="400" height="300" viewBox="0 0 400 300">
+            <rect width="400" height="300" fill="#f8f8f8" rx="10" ry="10"/>
+            <!-- 座標軸 -->
+            <line x1="50" y1="250" x2="350" y2="250" stroke="#333" stroke-width="2"/>
+            <text x="355" y="255" font-family="sans-serif" font-size="12">x</text>
+            <line x1="50" y1="50" x2="50" y2="250" stroke="#333" stroke-width="2"/>
+             <text x="40" y="45" font-family="sans-serif" font-size="12">y</text>
+
+            <!-- 関数グラフ -->
+            <path d="M50,200 Q150,100 300,50" fill="none" stroke="#3f51b5" stroke-width="2"/>
+            <text x="305" y="55" font-family="sans-serif" font-size="12">y=f(x)</text>
+
+            <!-- 接線 (参考) -->
+            <line x1="100" y1="195" x2="250" y2="65" stroke="#e91e63" stroke-width="1.5" stroke-dasharray="5,3"/>
+
+             <!-- 割線 -->
+            <line x1="150" y1="100" x2="180" y2="80" stroke="#4caf50" stroke-width="1.5"/>
+
+            <!-- 点A(a,f(a)) -->
+            <circle cx="150" cy="100" r="4" fill="#e91e63"/>
+            <text x="155" y="115" font-family="sans-serif" font-size="12">(a, f(a))</text>
+            <line x1="150" y1="250" x2="150" y2="100" stroke="#ccc" stroke-dasharray="2,2"/>
+            <text x="145" y="265" font-family="sans-serif" font-size="12">a</text>
+
+            <!-- 点B(a+h,f(a+h)) -->
+            <circle cx="180" cy="80" r="4" fill="#4caf50"/>
+            <text x="185" y="75" font-family="sans-serif" font-size="12">(a+h, f(a+h))</text>
+            <line x1="180" y1="250" x2="180" y2="80" stroke="#ccc" stroke-dasharray="2,2"/>
+             <text x="170" y="265" font-family="sans-serif" font-size="12">a+h</text>
+
+            <!-- 増分を示す線 -->
+            <line x1="150" y1="100" x2="180" y2="100" stroke="#333" stroke-width="1" stroke-dasharray="2,2"/>
+            <line x1="180" y1="100" x2="180" y2="80" stroke="#333" stroke-width="1" stroke-dasharray="2,2"/>
+
+            <!-- h と Δy のラベル -->
+            <text x="160" y="112" font-family="sans-serif" font-size="12">h</text>
+            <text x="185" y="95" font-family="sans-serif" font-size="12">Δy</text>
+        </svg>
+        <figcaption>図1: 平均変化率 $\frac{f(a+h) - f(a)}{h}$ （割線の傾き）</figcaption>
+    </div>
+
+    <div class="example">
+        <strong>例1：</strong> $f(x) = x^2$ の導関数を求める<br>
+        定義に従って、
+        <div class="formula">
+            $f'(a) = \lim_{h \to 0} \frac{f(a+h) - f(a)}{h} = \lim_{h \to 0} \frac{(a+h)^2 - a^2}{h} = \lim_{h \to 0} \frac{a^2 + 2ah + h^2 - a^2}{h} = \lim_{h \to 0} \frac{h(2a + h)}{h} = \lim_{h \to 0} (2a + h) = 2a$
+        </div>
+        よって、導関数は $f'(x) = 2x$
+    </div>
+
+    <div class="example">
+        <strong>例2：</strong> $f(x) = \sin(x)$ の導関数を求める<br>
+        定義に従って計算すると、$f'(x) = \cos(x)$ となります。（計算には三角関数の加法定理と極限 $\lim_{h \to 0} \frac{\sin h}{h} = 1$, $\lim_{h \to 0} \frac{\cos h - 1}{h} = 0$ を用います）
+    </div>
+
+    <h2>3. 導関数の解釈</h2>
+
+    <h3>3.1 接線の傾き</h3>
+    <p>点 A$(a, f(a))$ と B$(a+h, f(a+h))$ を考えます。この2点を通る直線（割線）の傾きは次のように表されます。</p>
+    <div class="formula">
+        傾き $= \frac{y\text{の増分}}{x\text{の増分}} = \frac{f(a+h) - f(a)}{h}$
+    </div>
+    <p>この式の $h \to 0$ の極限をとると、割線は点 A における接線に近づき、その傾きは微分係数 $f'(a)$ になります。</p>
+    <div class="formula">
+        $\lim_{h \to 0} \frac{f(a+h) - f(a)}{h} = f'(a)$
+    </div>
+    <p>これは、点 $x = a$ における関数 $y=f(x)$ のグラフの接線の傾きを表します。</p>
+
+    <div class="figure">
+        <svg width="400" height="300" viewBox="0 0 400 300">
+            <rect width="400" height="300" fill="#f8f8f8" rx="10" ry="10"/>
+            <!-- 座標軸 -->
+            <line x1="50" y1="250" x2="350" y2="250" stroke="#333" stroke-width="2"/>
+            <text x="355" y="255" font-family="sans-serif" font-size="12">x</text>
+            <line x1="50" y1="50" x2="50" y2="250" stroke="#333" stroke-width="2"/>
+            <text x="40" y="45" font-family="sans-serif" font-size="12">y</text>
+
+            <!-- 関数グラフ -->
+            <path d="M50,250 Q125,150 200,100 T350,50" fill="none" stroke="#3f51b5" stroke-width="2"/>
+            <text x="355" y="55" font-family="sans-serif" font-size="12">y=f(x)</text>
+
+            <!-- 点P(a,f(a)) -->
+            <circle cx="200" cy="100" r="4" fill="red"/>
+            <text x="205" y="95" font-family="sans-serif" font-size="12">P(a,f(a))</text>
+            <line x1="200" y1="250" x2="200" y2="100" stroke="#ccc" stroke-dasharray="2,2"/>
+            <text x="195" y="265" font-family="sans-serif" font-size="12">a</text>
+
+            <!-- 接線 -->
+            <line x1="100" y1="175" x2="300" y2="25" stroke="#e91e63" stroke-width="1.5"/>
+            <text x="310" y="25" font-family="sans-serif" font-size="12">接線</text>
+
+            <!-- 傾きの視覚化 -->
+            <line x1="200" y1="100" x2="250" y2="100" stroke="#4caf50" stroke-width="1.5" stroke-dasharray="4,2"/>
+            <line x1="250" y1="100" x2="250" y2="62.5" stroke="#4caf50" stroke-width="1.5" stroke-dasharray="4,2"/>
+            <text x="215" y="115" font-family="sans-serif" font-size="10">Δx</text>
+            <text x="255" y="85" font-family="sans-serif" font-size="10">Δy</text>
+            <text x="240" y="45" font-family="sans-serif" font-size="12">傾き = $f'(a) = \frac{Δy}{Δx}$</text>
+        </svg>
+        <figcaption>図2: 接線としての導関数</figcaption>
+    </div>
+
+    <h3>3.2 瞬間速度</h3>
+    <p>$f(t)$ を時刻 $t$ における物体の位置とします。時刻 $t$ から $t+h$ までの時間区間における平均速度は、</p>
+    <div class="formula">
+        平均速度 $= \frac{位置の変化}{時間の変化} = \frac{f(t+h) - f(t)}{h}$
+    </div>
+    <p>$h \to 0$ の極限をとると、平均速度は時刻 $t$ における瞬間速度 $v(t)$ に近づきます。</p>
+    <div class="formula">
+        $v(t) = \lim_{h \to 0} \frac{f(t+h) - f(t)}{h} = f'(t)$
+    </div>
+    <p>これは時刻 $t$ における瞬間速度を意味します。同様に、速度 $v(t)$ の導関数 $v'(t) = f''(t)$ は瞬間加速度を表します。</p>
+
+    <div class="figure">
+        <svg width="400" height="300" viewBox="0 0 400 300">
+            <rect width="400" height="300" fill="#f8f8f8" rx="10" ry="10"/>
+            <!-- 時間軸 -->
+            <line x1="50" y1="250" x2="350" y2="250" stroke="#333" stroke-width="2"/>
+            <text x="340" y="270" font-family="sans-serif" font-size="12">時間 t</text>
+
+            <!-- 位置軸 -->
+            <line x1="50" y1="50" x2="50" y2="250" stroke="#333" stroke-width="2"/>
+            <text x="30" y="60" font-family="sans-serif" font-size="12">位置 f(t)</text>
+
+            <!-- 位置グラフ -->
+            <path d="M50,200 C100,190 150,170 200,150 S250,120 300,80 L350,50" fill="none" stroke="#3f51b5" stroke-width="2"/>
+            <text x="360" y="50" font-family="sans-serif" font-size="12">f(t)</text>
+
+            <!-- 特定時点 t -->
+            <line x1="200" y1="250" x2="200" y2="150" stroke="#e91e63" stroke-width="1" stroke-dasharray="3,2"/>
+            <circle cx="200" cy="150" r="4" fill="#e91e63"/>
+            <text x="190" y="265" font-family="sans-serif" font-size="12">t</text>
+
+            <!-- 特定時点 t+h -->
+            <line x1="240" y1="250" x2="240" y2="125" stroke="#4caf50" stroke-width="1" stroke-dasharray="3,2"/>
+            <circle cx="240" cy="125" r="4" fill="#4caf50"/>
+            <text x="230" y="265" font-family="sans-serif" font-size="12">t+h</text>
+
+            <!-- 平均速度 (割線) -->
+            <line x1="200" y1="150" x2="240" y2="125" stroke="#ffc107" stroke-width="1.5"/>
+            <text x="210" y="135" font-family="sans-serif" font-size="10">平均速度</text>
+
+            <!-- 瞬間速度 (接線) -->
+            <line x1="150" y1="181.25" x2="250" y2="118.75" stroke="#673ab7" stroke-width="1.5"/>
+            <text x="130" y="190" font-family="sans-serif" font-size="10">瞬間速度 f'(t)</text>
+        </svg>
+        <figcaption>図3: 瞬間速度としての導関数</figcaption>
+    </div>
+
+    <h2>4. 微分法の歴史</h2>
+    <div class="timeline">
+        <div class="timeline-container left">
+            <div class="timeline-content">
+                <h3>紀元前3世紀</h3>
+                <p>アルキメデスが求積法（円、球、放物線などの面積や体積を計算する方法）を開発。これは極限の概念を用いたもので、積分法の先駆けとなりました。</p>
+            </div>
+        </div>
+        <div class="timeline-container right">
+            <div class="timeline-content">
+                <h3>17世紀初期</h3>
+                <p>ガリレオ・ガリレイによる物体の運動の研究や、ケプラーによる惑星の運動法則など、変化する量を数学的に扱う必要性が高まりました。</p>
+            </div>
+        </div>
+         <div class="timeline-container left">
+            <div class="timeline-content">
+                <h3>1630年代</h3>
+                <p>フェルマーが極値（関数の最大値・最小値）を求める方法や、曲線に接線を引く方法を考案。これらは微分法の基本的な考え方を含んでいました。</p>
+                <div class="formula">
+                    $f$ が極値を持つ点では $f'(x) = 0$
+                </div>
+            </div>
+        </div>
+        <div class="timeline-container right">
+            <div class="timeline-content">
+                <h3>1660年代</h3>
+                <p>アイザック・ニュートンが「流率法」（Fluxions）として微分積分学を体系化。彼はこれを惑星の運動や重力の法則の研究に応用しました。</p>
+                <div class="formula">
+                  ニュートンの記法: $\dot{y}$ (時間微分)
+                </div>
+            </div>
+        </div>
+        <div class="timeline-container left">
+            <div class="timeline-content">
+                <h3>1670年代</h3>
+                <p>ゴットフリート・ライプニッツも独立に微分積分学を発見。彼は現在広く使われている $\frac{dy}{dx}$ や $\int y dx$ といった優れた記法を導入しました。</p>
+                 <div class="formula">
+                  ライプニッツの記法: $\frac{dy}{dx}$
+                </div>
+            </div>
+        </div>
+        <div class="timeline-container right">
+            <div class="timeline-content">
+                <h3>1684年, 1686年</h3>
+                <p>ライプニッツが微分法 (1684) と積分法 (1686) に関する論文を発表。これが微分積分学に関する最初の出版物となりました。</p>
+            </div>
+        </div>
+        <div class="timeline-container left">
+            <div class="timeline-content">
+                <h3>1687年</h3>
+                <p>ニュートンが「プリンキピア（自然哲学の数学的諸原理）」を出版。流率法を用いて運動の法則（ニュートン力学）を記述しました。</p>
+                <div class="formula">
+                    $F = m \frac{d^2x}{dt^2}$ (運動方程式)
+                </div>
+                <p>微分方程式によって物理現象が統一的に記述されました。</p>
+            </div>
+        </div>
+        <div class="timeline-container right">
+            <div class="timeline-content">
+                <h3>17世紀末〜18世紀</h3>
+                <p>ニュートンとライプニッツの間で微分法の発見の先取権をめぐる論争が勃発。しかし、現在では両者が独立に発見したことが認められています。</p>
+            </div>
+        </div>
+        <div class="timeline-container left">
+            <div class="timeline-content">
+                <h3>18世紀〜19世紀</h3>
+                <p>オイラー、ラグランジュ、コーシー、ワイエルシュトラスなど後世の数学者たちによって、極限の概念が厳密化され、微分積分学の論理的な基礎が確立されました。</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="note">
+        <strong>歴史的意義：</strong> ニュートンとライプニッツによる微分積分学の発見は、科学革命の頂点の一つとされています。これにより、変化する現象を数学的に精密に記述し、予測することが可能になりました。特に微分方程式は、物理学、工学、経済学など、現代科学のあらゆる分野で基本的な道具として用いられています。
+    </div>
+
+    <h2>5. 導関数の基本性質（微分公式）</h2>
+    <p>導関数の計算を効率的に行うための基本的な法則を学びます。</p>
+
+    <h3>5.1 定数倍・和・差の微分</h3>
+    <p>関数 $f(x)$ と $g(x)$ が微分可能で、$k$ を定数とするとき、</p>
+    <div class="formula">
+        $(k f(x))' = k f'(x)$ <br>
+        $(f(x) + g(x))' = f'(x) + g'(x)$<br>
+        $(f(x) - g(x))' = f'(x) - g'(x)$
+    </div>
+
+    <div class="example">
+        <strong>例：</strong> $h(x) = 3x^2 - 5\sin(x)$ の導関数を求める<br>
+        $f(x) = x^2$, $g(x) = \sin(x)$ とすると、$f'(x) = 2x$, $g'(x) = \cos(x)$ なので、<br>
+        $h'(x) = (3x^2)' - (5\sin(x))' = 3(x^2)' - 5(\sin(x))' = 3(2x) - 5\cos(x) = 6x - 5\cos(x)$
+    </div>
+
+    <h3>5.2 積の微分法則 (Product Rule)</h3>
+    <p>関数 $f(x)$ と $g(x)$ が微分可能であるとき、その積 $f(x)g(x)$ の導関数は次のように表されます。</p>
+    <div class="formula">
+        $(f(x) g(x))' = f'(x) g(x) + f(x) g'(x)$
+    </div>
+    <div class="note">覚え方：「前微分・後そのまま、足す、前そのまま・後微分」</div>
+
+    <div class="example">
+        <strong>例：</strong> $h(x) = x e^x$ の導関数を求める<br>
+        $f(x) = x$, $g(x) = e^x$ とすると、$f'(x) = 1$, $g'(x) = e^x$ なので、<br>
+        $h'(x) = f'(x)g(x) + f(x)g'(x) = (1) \cdot e^x + x \cdot (e^x) = e^x + xe^x = e^x(1 + x)$
+    </div>
+
+    <h3>5.3 商の微分法則 (Quotient Rule)</h3>
+    <p>関数 $f(x)$ と $g(x)$ が微分可能で、$g(x) \neq 0$ のとき、その商 $\frac{f(x)}{g(x)}$ の導関数は次のように表されます。</p>
+    <div class="formula">
+        $\left( \frac{f(x)}{g(x)} \right)' = \frac{f'(x)g(x) - f(x)g'(x)}{(g(x))^2}$
+    </div>
+     <div class="note">覚え方：「（分母）二乗 分の、（分子微分・分母そのまま）引く（分子そのまま・分母微分）」</div>
+
+    <div class="example">
+        <strong>例：</strong> $h(x) = \tan(x) = \frac{\sin(x)}{\cos(x)}$ の導関数を求める<br>
+        $f(x) = \sin(x)$, $g(x) = \cos(x)$ とすると、$f'(x) = \cos(x)$, $g'(x) = -\sin(x)$ なので、<br>
+        $h'(x) = \frac{(\cos x)(\cos x) - (\sin x)(-\sin x)}{(\cos x)^2} = \frac{\cos^2 x + \sin^2 x}{\cos^2 x} = \frac{1}{\cos^2 x} = \sec^2 x$
+    </div>
+
+
+    <h3>5.4 合成関数の微分法則（連鎖律, Chain Rule）</h3>
+    <p>関数 $y = f(u)$ と $u = g(x)$ が微分可能であるとき、その合成関数 $y = f(g(x))$ の導関数は次のように表されます。</p>
+    <div class="formula">
+        $\frac{dy}{dx} = \frac{dy}{du} \cdot \frac{du}{dx}$ <br>
+        または <br>
+        $(f(g(x)))' = f'(g(x)) \cdot g'(x)$
+    </div>
+     <div class="note">覚え方：「外側の微分（中身そのまま）掛ける、中身の微分」</div>
+
+    <div class="example">
+        <strong>例：</strong> $h(x) = (x^2+1)^3$ の導関数を求める<br>
+        $y = u^3$, $u = x^2+1$ とおく。 $\frac{dy}{du} = 3u^2$, $\frac{du}{dx} = 2x$ なので、<br>
+        $h'(x) = \frac{dy}{dx} = \frac{dy}{du} \cdot \frac{du}{dx} = (3u^2) \cdot (2x) = 3(x^2+1)^2 \cdot 2x = 6x(x^2+1)^2$ <br>
+        別の考え方：外側の関数 $f(u)=u^3$、内側の関数 $g(x)=x^2+1$ とすると、$f'(u)=3u^2$, $g'(x)=2x$。 <br>
+        $h'(x) = f'(g(x)) \cdot g'(x) = 3(g(x))^2 \cdot g'(x) = 3(x^2+1)^2 \cdot (2x) = 6x(x^2+1)^2$
+    </div>
+
+     <div class="example">
+        <strong>例：</strong> $k(x) = \sin(x^2)$ の導関数を求める<br>
+        外側の関数 $f(u)=\sin(u)$、内側の関数 $g(x)=x^2$ とすると、$f'(u)=\cos(u)$, $g'(x)=2x$。 <br>
+        $k'(x) = f'(g(x)) \cdot g'(x) = \cos(g(x)) \cdot g'(x) = \cos(x^2) \cdot (2x) = 2x \cos(x^2)$
+    </div>
+
+    <h2>6. 基本関数の導関数</h2>
+    <p>微分計算の基礎となる、基本的な関数の導関数をまとめます。これらは定義に基づいて導出されるか、上記の法則を用いて導かれます。</p>
+    <table>
+        <thead>
+            <tr>
+                <th>関数 $f(x)$</th>
+                <th>導関数 $f'(x)$</th>
+                <th>条件</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>$c$ (定数)</td>
+                <td>$0$</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>$x^n$</td>
+                <td>$nx^{n-1}$</td>
+                <td>$n$ は実数</td>
+            </tr>
+            <tr>
+                <td>$e^x$</td>
+                <td>$e^x$</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>$a^x$</td>
+                <td>$a^x \ln(a)$</td>
+                <td>$a > 0, a \neq 1$</td>
+            </tr>
+            <tr>
+                <td>$\ln|x|$</td>
+                <td>$\frac{1}{x}$</td>
+                <td>$x \neq 0$</td>
+            </tr>
+             <tr>
+                <td>$\log_a|x|$</td>
+                <td>$\frac{1}{x \ln(a)}$</td>
+                <td>$x \neq 0, a > 0, a \neq 1$</td>
+            </tr>
+            <tr>
+                <td>$\sin(x)$</td>
+                <td>$\cos(x)$</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>$\cos(x)$</td>
+                <td>$-\sin(x)$</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>$\tan(x)$</td>
+                <td>$\sec^2(x) = \frac{1}{\cos^2(x)}$</td>
+                <td>$x \neq \frac{\pi}{2} + n\pi$ ($n$は整数)</td>
+            </tr>
+             <tr>
+                <td>$\cot(x)$</td>
+                <td>$-\csc^2(x) = -\frac{1}{\sin^2(x)}$</td>
+                <td>$x \neq n\pi$ ($n$は整数)</td>
+            </tr>
+             <tr>
+                <td>$\sec(x)$</td>
+                <td>$\sec(x)\tan(x)$</td>
+                 <td>$x \neq \frac{\pi}{2} + n\pi$ ($n$は整数)</td>
+            </tr>
+             <tr>
+                <td>$\csc(x)$</td>
+                <td>$-\csc(x)\cot(x)$</td>
+                <td>$x \neq n\pi$ ($n$は整数)</td>
+            </tr>
+            <tr>
+                <td>$\arcsin(x)$</td>
+                <td>$\frac{1}{\sqrt{1-x^2}}$</td>
+                <td>$-1 < x < 1$</td>
+            </tr>
+             <tr>
+                <td>$\arccos(x)$</td>
+                <td>$-\frac{1}{\sqrt{1-x^2}}$</td>
+                <td>$-1 < x < 1$</td>
+            </tr>
+             <tr>
+                <td>$\arctan(x)$</td>
+                <td>$\frac{1}{1+x^2}$</td>
+                <td></td>
+            </tr>
+        </tbody>
+    </table>
+    <div class="note">
+        <strong>注意：</strong> $x^n$ の公式（べき乗法則）は、$n$ が任意の実数の場合に成り立ちます。三角関数の逆関数（$\arcsin, \arccos, \arctan$ など）の導関数も重要です。
+    </div>
+
+    <h2>7. まとめ</h2>
+    <p>本講義では、微分法の基本的な概念、導関数の定義、その幾何学的（接線の傾き）および物理的（瞬間速度）な意味、そして基本的な計算規則（定数倍・和・差・積・商・合成関数）について学びました。導関数は、関数の局所的な変化率を捉えるための強力なツールであり、様々な現象の解析に不可欠です。基本的な関数の導関数と微分法則を習得することで、より複雑な関数の導関数も体系的に求めることができます。これらの基礎は、関数の増減や極値、グラフの形状を調べる応用や、積分法、微分方程式、さらには物理学、工学、経済学など多岐にわたる分野での学習に繋がっていきます。</p>
+
+</body>
+</html>

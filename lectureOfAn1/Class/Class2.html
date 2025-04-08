@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>収束と極限の基本</title>
+  <script>
+  MathJax = {
+    tex: {
+      inlineMath: [['$', '$'], ['\\(', '\\)']],
+      displayMath: [['$$', '$$'], ['\\[', '\\]']]
+    }
+  };
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+  <style>
+    :root {
+      --primary-color: #4a86e8;
+      --secondary-color: #6aa84f;
+      --background-color: #f9f9f9;
+      --text-color: #333;
+      --highlight-color: #fff9e6;
+      --border-color: #e0e0e0;
+    }
+    
+    body {
+      font-family: 'Helvetica Neue', Arial, 'Hiragino Kaku Gothic ProN', 'Hiragino Sans', Meiryo, sans-serif;
+      line-height: 1.6;
+      color: var(--text-color);
+      background-color: var(--background-color);
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+    
+    h1 {
+      color: var(--primary-color);
+      border-bottom: 2px solid var(--primary-color);
+      padding-bottom: 10px;
+      margin-top: 20px;
+      font-size: 1.8rem;
+    }
+    
+    h2 {
+      color: var(--secondary-color);
+      border-left: 4px solid var(--secondary-color);
+      padding-left: 10px;
+      margin-top: 30px;
+      font-size: 1.4rem;
+    }
+    
+    ul, ol {
+      padding-left: 30px;
+    }
+    
+    li {
+      margin-bottom: 8px;
+    }
+    
+    p {
+      text-align: justify;
+    }
+    
+    strong {
+      color: #d62c1a;
+    }
+    
+    .definition-box {
+      background-color: #e6f4ea;
+      border: 1px solid var(--border-color);
+      padding: 15px;
+      margin: 15px 0;
+      border-radius: 5px;
+    }
+    
+    .remark-box {
+      background-color: #e3f2fd;
+      border: 1px solid #90caf9;
+      padding: 15px;
+      margin: 15px 0;
+      border-radius: 5px;
+    }
+    
+    .property {
+      margin-left: 20px;
+      margin-bottom: 15px;
+    }
+    
+    .proof-steps {
+      background-color: #e8f0fe;
+      padding: 15px;
+      border-radius: 5px;
+    }
+    
+    .math-display {
+      overflow-x: auto;
+      padding: 10px 0;
+    }
+    
+    @media (max-width: 600px) {
+      body {
+        padding: 10px;
+      }
+      
+      h1 {
+        font-size: 1.5rem;
+      }
+      
+      h2 {
+        font-size: 1.2rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <h1>第1回講義ノート：収束と極限の基本</h1>
+
+  <h2>1. 絶対値の定義</h2>
+  <div class="definition-box">
+    <p>
+      実数 $a \in \mathbb{R}$ に対して、絶対値 $|a|$ を以下で定義する：
+    </p>
+    <ul>
+      <li>$a \geq 0$ のとき、$|a| = a$</li>
+      <li>$a < 0$ のとき、$|a| = -a$</li>
+    </ul>
+  </div>
+
+  <h2>2. 数列の収束の記法</h2>
+  <div class="definition-box">
+    <p>数列 $\{a_n\}$ が実数 $a$ に収束するとき：</p>
+    <div class="math-display">
+      $$\lim_{n \to \infty} a_n = a,\text{ or } a_n\to a$$
+    </div>
+    <p>
+      と表記する。($n$ が十分大きくなると、数列の項 $a_n$ が極限値 $a$ にいくらでも近づくことを意味している)
+    </p>
+  </div>
+
+  <h2>3. 基本的な性質</h2>
+  <div class="property">
+    <p><strong>加法性:</strong> $\lim_{n \to \infty} a_n = a$, $\lim_{n \to \infty} b_n = b$ のとき、$\lim_{n \to \infty} (a_n + b_n) = a + b$</p>
+  </div>
+  <div class="property">
+    <p><strong>乗法性:</strong> $\lim_{n \to \infty} a_n = a$, $\lim_{n \to \infty} b_n = b$ のとき、$\lim_{n \to \infty} (a_n \cdot b_n) = a \cdot b$</p>
+  </div>
+  <div class="property">
+    <p><strong>はさみうちの定理:</strong> $a_n \leq b_n \leq c_n$ かつ $\lim_{n \to \infty} a_n = \lim_{n \to \infty} c_n = L$ ならば、$\lim_{n \to \infty} b_n = L$</p>
+  </div>
+
+  <h2>4. 関数と関数の極限</h2>
+  <div class="definition-box">
+    <p>関数 $f$ とは、定義域の各要素 $x \in \mathbb{R}$ に対して、ちょうど一つの値 $f(x)$ を対応させる規則である。</p>
+  </div>
+    
+  <div class="definition-box">
+    <p>$x \to a$ のとき $f(x) \to b$ であるとき、$\lim_{x\to a}f(x)=b$ あるいは $f(x) \to b$ $(x \to a)$ と表記する。</p>
+  </div>
+  
+  <div class="remark-box">
+    <p>分母が $x \to a$ で $0$ になるときは約分を考える。</p>
+  </div>
+
+  <h2>5. ε-N 定義（形式的定義）</h2>
+  <div class="definition-box">
+    <p>数列$\{a_n\}$が$a$に収束するとは、任意の$\epsilon > 0$ に対し、ある自然数$N$が存在し、全ての$n \geq N$で：</p>
+    <div class="math-display">
+      $$|a_n - a| < \epsilon$$
+    </div>
+    <p>が成り立つことをいう。</p>
+  </div>
+
+  <h2>6. 解釈</h2>
+  <p>極限の概念は、「任意の精度でどこまでも近づける」という考え方である。例えば、$\lim_{n \to \infty} a_n = a$ は、$n$ を十分大きくとれば、数列の項 $a_n$ を極限値 $a$ にいくらでも近づけることができることを意味する。</p>
+
+  <h2>7. 証明のテンプレート</h2>
+  <div class="proof-steps">
+    <ol>
+      <li>$\epsilon > 0$ を任意に取る。</li>
+      <li>条件を満たす自然数 $N$ を求める。</li>
+      <li>$n \geq N$ のとき、$|a_n - a| < \epsilon$ が成り立つことを示す。</li>
+    </ol>
+  </div>
+</body>
+</html>
