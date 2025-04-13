@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lecture 4: Replica Method for the SK Model and Beyond</title>
+    <style>
+        :root {
+            --primary-color: #2c3e50;
+            --secondary-color: #3498db;
+            --accent-color: #e74c3c;
+            --background-color: #f9f9f9;
+            --text-color: #333;
+            --container-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+            --text-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+        }
+
+        body {
+            font-family: 'Georgia', serif;
+            line-height: 1.7;
+            margin: 0;
+            padding: 0;
+            background-color: var(--background-color);
+            color: var(--text-color);
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 20px auto;
+            padding: 30px;
+            background-color: white;
+            box-shadow: var(--container-shadow);
+            border-radius: 15px;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 40px;
+            border-bottom: 2px solid var(--secondary-color);
+            padding-bottom: 20px;
+        }
+
+        h1, h2, h3 {
+            color: var(--primary-color);
+        }
+
+        .section-title {
+            color: var(--primary-color);
+            font-size: 1.8rem;
+            margin-top: 30px;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #eee;
+            text-shadow: var(--text-shadow);
+        }
+
+        .lecture-title {
+            color: var(--secondary-color);
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+            font-weight: normal;
+        }
+
+        .author-info {
+            font-style: italic;
+            color: #777;
+        }
+
+        .math {
+            font-style: italic;
+            padding: 0 3px;
+        }
+
+        .figure {
+            text-align: center;
+            margin: 30px 0;
+            padding: 20px;
+            background-color: #f8f9fa;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+        }
+
+        .figure img {
+            max-width: 100%;
+            border-radius: 5px;
+        }
+
+        .figure-caption {
+            font-style: italic;
+            color: #777;
+            margin-top: 15px;
+        }
+
+        .navigation {
+            margin-top: 40px;
+            text-align: center;
+            display: flex;
+            justify-content: space-between;
+            padding: 15px 0;
+            border-top: 1px solid #eee;
+        }
+
+        .navigation a {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: var(--primary-color);
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .navigation a:hover {
+            background-color: var(--secondary-color);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+        }
+
+        .topic-highlight {
+            display: inline-block;
+            background-color: rgba(52, 152, 219, 0.1);
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-weight: 500;
+            color: var(--primary-color);
+        }
+
+        .formula {
+            margin: 25px 0;
+            padding: 15px;
+            background-color: #f8f9fa;
+            border-left: 4px solid var(--secondary-color);
+            border-radius: 5px;
+            overflow-x: auto;
+            font-size: 1.1em;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+        }
+
+        .example-title {
+            font-weight: bold;
+            font-size: 1.2em;
+            color: var(--secondary-color);
+            margin-top: 30px;
+            margin-bottom: 15px;
+            padding-bottom: 5px;
+            border-bottom: 1px dashed #ccc;
+            display: inline-block;
+        }
+
+        p {
+            margin-bottom: 20px;
+            line-height: 1.8;
+        }
+
+        .content-section {
+            padding-bottom: 30px;
+        }
+        
+        .definition-box {
+            background-color: #f0f7ff;
+            border-left: 4px solid #3498db;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+        }
+        
+        .property-box {
+            background-color: #eefaf8;
+            border-left: 4px solid #2ecc71;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+        }
+        
+        .example-box {
+            background-color: #f0f9ff;
+            border: 1px solid #d1e6fa;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+        }
+        
+        .section-highlight {
+            background-color: #f8f9fa;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 25px 0;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+        }
+        
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 25px 0;
+            font-size: 0.9em;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+            border-radius: 5px;
+            overflow: hidden;
+        }
+        
+        .comparison-table thead tr {
+            background-color: var(--secondary-color);
+            color: white;
+            text-align: left;
+        }
+        
+        .comparison-table th,
+        .comparison-table td {
+            padding: 12px 15px;
+        }
+        
+        .comparison-table tbody tr {
+            border-bottom: 1px solid #dddddd;
+        }
+        
+        .comparison-table tbody tr:nth-of-type(even) {
+            background-color: #f3f3f3;
+        }
+        
+        .comparison-table tbody tr:last-of-type {
+            border-bottom: 2px solid var(--secondary-color);
+        }
+        
+        .visual-box {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: #f5f5f5;
+            border-radius: 8px;
+            padding: 15px;
+            margin: 25px 0;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+        }
+    </style>
+    <!-- MathJax configuration -->
+    <script>
+      window.MathJax = {
+        tex: {
+          inlineMath: [['$', '$']],
+          displayMath: [['$$', '$$']]
+        },
+        svg: {
+          fontCache: 'global'
+        }
+      };
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js" async></script>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Lecture 4: Replica Method for the SK Model and Beyond</h1>
+            <div class="lecture-title">The Replica Method Applied to Complex Models</div>
+            <div class="author-info">Lecture Notes</div>
+        </header>
+
+        <div class="overview">
+        <p><strong>Overview:</strong> Building on the previous lecture, we now apply the replica method to the SK model. We derive the replica symmetric (RS) solution and discuss its instability. We then outline Parisi's replica symmetry breaking (RSB) ansatz that resolved the problems of the RS solution. Finally, we highlight an application of replicas to the perceptron model (a simple neural network), demonstrating the method's use outside physics.</p>
+        </div>
+
+        <h4>Replica Calculation for the SK Model (RS Ansatz)</h4>
+        <p>For the SK model, the partition function is</p>
+        <div class="mathdisplay">$$Z_N(\beta) = \sum_{\sigma} e^{-\beta H_N(\sigma)} = \sum_{\sigma}\exp\Big(\beta \frac{1}{\sqrt{N}}\sum_{i<j} J_{ij}\sigma_i\sigma_j\Big).$$</div>
+        <p>To compute $\mathbb{E}[\ln Z_N]$, we write $\mathbb{E}[Z_N^n]$ for integer $n$:</p>
+        <div class="mathdisplay">$$ \mathbb{E}[Z^n] = \mathbb{E}_{J}\Big[\sum_{\{\sigma^a\}_{a=1}^n} \exp\Big(\beta \frac{1}{\sqrt{N}}\sum_{i<j}\sum_{a=1}^n J_{ij}\,\sigma_i^a \sigma_j^a\Big)\Big]. $$</div>
+        <p>Swap the sum and expectation. The disorder average factorizes using $\mathbb{E}[e^{x J_{ij}}] = \exp(\frac{1}{2} x^2 \mathrm{Var}(J_{ij}))$. Since $J_{ij} \sim \mathcal{N}(0,1)$, the term in the exponent is $\frac{\beta}{\sqrt{N}} \sum_{a} \sigma_i^a \sigma_j^a$. The variance is $1$. So averaging over $J_{ij}$ gives:</p>
+        <div class="mathdisplay">$$ \mathbb{E}[Z^n] = \sum_{\{\sigma^a\}} \exp\Big(\frac{\beta^2}{2N}\sum_{i<j}\Big(\sum_{a=1}^n \sigma_i^a \sigma_j^a\Big)^2\Big). $$</div>
+        <p>We introduce the overlaps</p>
+        <div class="mathdisplay">$$q_{ab} = \frac{1}{N}\sum_{i=1}^N \sigma_i^a \sigma_i^b$$</div>
+        <p>for each replica pair $(a,b)$. Note $q_{aa}=1$. Then one can show (after some algebra):</p>
+        <div class="mathdisplay">$$ \sum_{i<j}\Big(\sum_{a=1}^n \sigma_i^a \sigma_j^a\Big)^2 \approx \frac{N^2}{2}\sum_{a\neq b} q_{ab}^2 + \text{constant terms}. $$</div>
+        <p>So:</p>
+        <div class="mathdisplay">$$ \mathbb{E}[Z^n] \approx \sum_{\{\sigma^a\}} \exp\Big(\frac{\beta^2 N}{4}\sum_{a\neq b} q_{ab}^2 \Big). $$</div>
+        <p>The next step involves a saddle-point method over the configurations, often transformed into an integral over the overlap parameters $q_{ab}$ using delta functions or Hubbard-Stratonovich transformations. This leads to an extremization problem for an effective free energy functional $\Phi(\{q_{ab}\})$:</p>
+        <div class="mathdisplay">$$ \mathbb{E}[Z^n] \approx \int \prod_{a<b} dq_{ab} \,\exp\{-N \Psi(\{q_{ab}\})\} $$</div>
+        <p>where $\Psi$ contains terms involving $\frac{\beta^2}{4} \sum q_{ab}^2$ and entropic contributions derived from counting configurations with given overlaps.</p>
+
+        <p>Under the <strong>replica symmetric (RS) ansatz</strong>, we assume all off-diagonal overlaps are equal: $q_{ab} = q$ for all $a\neq b$. This simplifies the problem dramatically. Carrying out the calculation and taking the $n\to 0$ limit yields the RS free energy per spin $f_{RS}(q)$. Extremizing this with respect to $q$ gives the famous self-consistency equation:</p>
+        <div class="mathdisplay">$$ q = \int_{-\infty}^{\infty} \frac{dz}{\sqrt{2\pi}} e^{-z^2/2} \tanh^2(\beta \sqrt{q}\, z)\,. $$</div>
+        <p>(Note: The exact derivation involves integrating over auxiliary fields and is more complex than sketched here). Solving this equation:</p>
+        <ul>
+            <li>For $\beta < 1$: $q=0$ is the only stable solution (paramagnetic phase).</li>
+            <li>For $\beta > 1$: A non-zero solution $q > 0$ appears, suggesting an ordered (spin glass) phase. However, this RS solution leads to a negative entropy $S = -\partial f_{RS}/\partial T$ as $T\to 0$, which is unphysical.</li>
+        </ul>
+        <p>Thus, the RS ansatz works for $\beta < 1$, but fails for $\beta > 1$. The failure indicates the need for Replica Symmetry Breaking (RSB).</p>
+
+        <h4>Parisi's Replica Symmetry Breaking (RSB) Ansatz</h4>
+        <p>Giorgio Parisi (1979) proposed that below $T_c$, the symmetry between replicas must be broken hierarchically:</p>
+        <ul>
+            <li>Instead of a single $q$, allow a structured matrix $q_{ab}$. The simplest is <strong>one-step RSB (1RSB)</strong>: divide $n$ replicas into $m$ groups of size $n/m$. Set $q_{ab} = q_1$ if $a,b$ are in the same group ($a\neq b$), and $q_{ab} = q_0$ if in different groups. Take $n\to 0$ (making $m$ a parameter in $[0,1]$) and extremize over $q_0, q_1, m$.</li>
+            <li>If 1RSB is unstable, break groups further (2RSB), and so on. For the SK model, an infinite sequence of breakings (<strong>full RSB</strong>) is needed.</li>
+        </ul>
+        <p>Parisi's full RSB ansatz is described by a continuous function $q(x)$ for $x\in[0,1]$, representing overlap distribution. The theory predicts:</p>
+        <ul>
+            <li>A non-trivial overlap distribution $P(q)$ with support on an interval $[q_{\min}, q_{\max}]$.</li>
+            <li>Physically correct results (e.g., positive entropy).</li>
+            <li><strong>Ultrametricity</strong>: The space of pure states has a tree-like structure.</li>
+        </ul>
+        <p>Parisi's scheme yielded a free energy value later proven to be correct for the SK model.</p>
+
+        <h4>Example Application: Replica Method in the Perceptron Model</h4>
+        <p>Spin glass techniques apply to machine learning. Example: the storage capacity of a perceptron. Given $P$ random patterns $\{\xi^\mu\}_{\mu=1}^P \in \{\pm1\}^N$ and labels $y^\mu=\pm1$, find the maximum ratio $\alpha = P/N$ such that a weight vector $w$ exists with $\operatorname{sign}(w\cdot \xi^\mu) = y^\mu$ for all $\mu$.</p>
+        <p>Gardner (1988) used the replica method (often with RS or 1RSB) to calculate this capacity $\alpha_c$. For instance, for spherical weights $\|w\|^2=N$, $\alpha_c = 2$. This demonstrates the broad applicability of replica methods beyond physics.</p>
+
+        <p><strong>Summary (Lecture 4):</strong> We applied the replica method to SK, derived the RS solution $q = \int dz \, \mathcal{N}(z;0,1) \tanh^2(\beta\sqrt{q}z)$, and noted its failure at low $T$. Parisi's RSB provides the correct description via a hierarchical breaking of symmetry, described by $q(x)$ or $P(q)$. The method's power extends to problems like the perceptron capacity.</p>
+
+        <div class="navigation">
+            <a href="class3.html">← Previous</a>
+            <a href="class5.html">Next →</a>
+        </div>
+    </div>
+</body>
+</html>

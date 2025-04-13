@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lecture 8: Applications and Approximate Message Passing</title>
+    <style>
+        :root {
+            --primary-color: #2c3e50;
+            --secondary-color: #3498db;
+            --accent-color: #e74c3c;
+            --background-color: #f9f9f9;
+            --text-color: #333;
+            --container-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+            --text-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+        }
+
+        body {
+            font-family: 'Georgia', serif;
+            line-height: 1.7;
+            margin: 0;
+            padding: 0;
+            background-color: var(--background-color);
+            color: var(--text-color);
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 20px auto;
+            padding: 30px;
+            background-color: white;
+            box-shadow: var(--container-shadow);
+            border-radius: 15px;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 40px;
+            border-bottom: 2px solid var(--secondary-color);
+            padding-bottom: 20px;
+        }
+
+        h1, h2, h3, h4 {
+            color: var(--primary-color);
+        }
+
+        .lecture-title {
+            color: var(--secondary-color);
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+            font-weight: normal;
+        }
+
+        .author-info {
+            font-style: italic;
+            color: #777;
+        }
+
+        .mathdisplay {
+            font-style: italic;
+            padding: 0 3px;
+            display: block;
+            margin: 20px 0;
+            text-align: center;
+        }
+
+        .navigation {
+            margin-top: 40px;
+            text-align: center;
+            display: flex;
+            justify-content: space-between;
+            padding: 15px 0;
+            border-top: 1px solid #eee;
+        }
+
+        .navigation a {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: var(--primary-color);
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .navigation a:hover {
+            background-color: var(--secondary-color);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+        }
+
+        p {
+            margin-bottom: 20px;
+            line-height: 1.8;
+        }
+
+        ul {
+            margin-bottom: 20px;
+        }
+    </style>
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js" async></script>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Lecture 8: Applications and Approximate Message Passing</h1>
+            <div class="lecture-title">Modern Applications of Spin Glass Methods</div>
+            <div class="author-info">Lecture Notes</div>
+        </header>
+
+        <div class="overview">
+            <p><strong>Overview:</strong> In this final lecture, we explore modern applications of spin glass techniques, focusing on approximate message passing (AMP) algorithms. These methods, derived from TAP equations, have found success in compressed sensing, error correction, and machine learning. We discuss how the cavity method's insights translate into practical algorithms.</p>
+        </div>
+
+        <h4>From TAP to AMP</h4>
+        <p>The TAP equations for SK model suggest a general framework:</p>
+        <ul>
+            <li>Local variables receive messages from neighbors</li>
+            <li>Must include "reaction" terms (Onsager)</li>
+            <li>Iteration leads to self-consistent solution</li>
+        </ul>
+        <p>This inspired Approximate Message Passing (AMP):</p>
+        <div class="mathdisplay">$$ x_i^{t+1} = \eta(b_i^t + \sum_{\mu} A_{\mu i}^* y_\mu - \mathcal{B}_t x_i^t) $$</div>
+        <p>where:</p>
+        <ul>
+            <li>$x_i^t$ is estimate of variable $i$ at iteration $t$</li>
+            <li>$\eta$ is a denoising function</li>
+            <li>$\mathcal{B}_t$ is an Onsager-like term</li>
+            <li>$A$ is measurement/coupling matrix</li>
+        </ul>
+
+        <h4>Application: Compressed Sensing</h4>
+        <p>Problem: Recover sparse signal $x$ from measurements $y = Ax + w$ where:</p>
+        <ul>
+            <li>$x \in \mathbb{R}^N$ is $k$-sparse (few nonzero entries)</li>
+            <li>$A \in \mathbb{R}^{M\times N}$ with $M \ll N$</li>
+            <li>$w$ is noise</li>
+        </ul>
+        <p>AMP approach:</p>
+        <div class="mathdisplay">$$ x_i^{t+1} = \eta_\tau(x_i^t + (A^T r^t)_i) $$
+        $$ r_\mu^t = y_\mu - (Ax^t)_\mu + \frac{r^{t-1}}{\delta}\langle \eta'_\tau(x^{t-1} + A^T r^{t-1}) \rangle $$</div>
+        <p>where $\eta_\tau$ is soft thresholding and the last term is Onsager correction.</p>
+
+        <h4>Application: Error Correction</h4>
+        <p>Consider Low-Density Parity Check (LDPC) codes:</p>
+        <ul>
+            <li>Codewords $x$ satisfy $Hx = 0$ (mod 2)</li>
+            <li>$H$ is sparse parity check matrix</li>
+            <li>Receive noisy version $y$ of transmitted $x$</li>
+        </ul>
+        <p>Belief propagation decoding becomes:</p>
+        <div class="mathdisplay">$$ \text{tanh}(\beta h_i) = \prod_a \text{tanh}(\beta u_{a\to i}) $$</div>
+        <p>with messages $u_{a\to i}$ from checks to bits.</p>
+
+        <h4>Application: Neural Networks</h4>
+        <p>Modern neural networks can be analyzed using spin glass tools:</p>
+        <ul>
+            <li><strong>Random features:</strong> Like random couplings in SK</li>
+            <li><strong>Loss landscape:</strong> Similar to free energy landscape</li>
+            <li><strong>Overparameterization:</strong> Like many-body interactions</li>
+        </ul>
+        <p>AMP provides algorithms for:</p>
+        <ul>
+            <li>Network pruning (finding sparse representations)</li>
+            <li>Understanding generalization bounds</li>
+            <li>Training dynamics analysis</li>
+        </ul>
+
+        <h4>Theoretical Guarantees</h4>
+        <p>For many problems, AMP achieves:</p>
+        <ul>
+            <li><strong>Optimal recovery:</strong> Reaches information-theoretic limits</li>
+            <li><strong>Fast convergence:</strong> Often linear or superlinear</li>
+            <li><strong>State evolution:</strong> Precise tracking of performance</li>
+        </ul>
+        <p>Key requirements:</p>
+        <ul>
+            <li>Large system size ($N\to\infty$)</li>
+            <li>Random matrix elements (like SK couplings)</li>
+            <li>Separable prior on variables</li>
+        </ul>
+
+        <h4>Recent Developments</h4>
+        <p>Active research areas include:</p>
+        <ul>
+            <li><strong>Vector AMP:</strong> For structured problems</li>
+            <li><strong>Spatial coupling:</strong> Improving thresholds</li>
+            <li><strong>Non-separable priors:</strong> Handling correlations</li>
+            <li><strong>Deep learning:</strong> Understanding training dynamics</li>
+        </ul>
+
+        <h4>Broader Impact</h4>
+        <p>Spin glass methods have influenced:</p>
+        <ul>
+            <li><strong>Algorithm design:</strong> Message passing variants</li>
+            <li><strong>Statistical physics:</strong> Out-of-equilibrium dynamics</li>
+            <li><strong>Machine learning:</strong> Theory and practice</li>
+            <li><strong>Information theory:</strong> Capacity bounds</li>
+        </ul>
+
+        <p><strong>Summary of Course:</strong></p>
+        <p>We've covered the major themes in spin glass theory:</p>
+        <ol>
+            <li>Basic models (REM, SK) and phase transitions</li>
+            <li>Methods: replicas, cavity, interpolation</li>
+            <li>Physical insights: pure states, complexity</li>
+            <li>Applications: from theory to algorithms</li>
+        </ol>
+        <p>Key message: The mathematical structures discovered in spin glasses (replica symmetry breaking, ultrametricity, message passing) provide powerful tools for modern problems in statistics, learning, and information processing.</p>
+
+        <div class="navigation">
+            <a href="class7.html">← Previous</a>
+            <a href="class9.html">Next →</a>
+        </div>
+    </div>
+</body>
+</html>

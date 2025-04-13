@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Probability Theory and Statistics I - Lecture Notes 3</title>
+    <style>
+        body {
+            font-family: 'Times New Roman', serif;
+            line-height: 1.6;
+            margin: 40px;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        .title {
+            font-size: 32px;
+            font-weight: bold;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .section {
+            margin-top: 30px;
+            margin-bottom: 20px;
+        }
+        .section-title {
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 15px;
+            border-bottom: 1px solid #333;
+            padding-bottom: 5px;
+        }
+        .question {
+            margin-bottom: 10px;
+        }
+        .theorem {
+            margin: 15px 0;
+            padding: 10px;
+            background-color: #f5f5f5;
+            border-left: 4px solid #007bff;
+        }
+        .definition {
+            margin: 15px 0;
+            padding: 10px;
+            background-color: #f5f5f5;
+            border-left: 4px solid #28a745;
+        }
+        .math {
+            font-style: italic;
+        }
+        .report-title {
+            font-size: 32px;
+            font-weight: bold;
+            text-align: center;
+            margin-top: 40px;
+            margin-bottom: 20px;
+        }
+        .student-info {
+            text-align: right;
+            margin-bottom: 30px;
+        }
+        .underline {
+            display: inline-block;
+            border-bottom: 1px solid black;
+            min-width: 100px;
+            height: 1.2em;
+            margin: 0 5px;
+        }
+        .problem {
+            margin-bottom: 30px;
+        }
+        .problem-title {
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+        .pagebreak {
+            page-break-before: always;
+            margin-top: 40px;
+        }
+    </style>
+</head>
+<body>
+    <div class="title">確率論と統計学I　レジュメ3</div>
+    
+    <div class="section">
+        <div class="section-title">1. 質問に対する解答</div>
+        <ul>
+            <li class="question">
+                <strong>Q: P(X=x)という記号は集合論としておかしくないか?</strong><br>
+                A: 確かに集合論の観点からすると, 写像Xと値xが等しいというのは意味がないですが, 記号としてこのように書きます. 厳密には, P(X=x)は「確率変数Xがxという値をとる確率」を表し, P({ω∈Ω | X(ω)=x})という意味です. 記号の簡略化のため, P(X=x)と表記します.
+            </li>
+            <li class="question">
+                <strong>Q: 空間と集合の違いは?</strong><br>
+                A: 空間の定義は特にないですが, 集合に何か新しい情報を加えたとき空間と呼ぶことが多いとおもいます. 確率空間の場合は, 全事象という集合に対して確率という新たな情報を加えています. 具体的には, 確率空間は(Ω,F,P)の3つ組で定義され, Ωは標本空間(全事象の集合), Fはσ-加法族(確率を定義できる事象の集合族), Pは確率測度(各事象に確率を対応させる関数)です.
+            </li>
+            <li class="question">
+                <strong>Q: 離散確率空間と連続確率空間の違いは何ですか?</strong><br>
+                A: 離散確率空間は, 標本空間Ωが有限または可算無限集合である場合の確率空間です. 例えば, サイコロを振る実験やコインを投げる実験などが該当します. 連続確率空間は, 標本空間Ωが非可算無限集合である場合の確率空間です. 例えば, 区間[0,1]上の一様分布や正規分布などが該当します. 離散確率空間では確率質量関数を用いて確率を計算し, 連続確率空間では確率密度関数を用いて確率を計算します.
+            </li>
+        </ul>
+    </div>
+    <div class="section">
+        <div class="section-title">2. 分散と共分散</div>
+        <p>(Ω,ℙ)を離散確率空間とする. X,Y:Ω→ℝを二つの確率変数とする. 二変数関数fに対し, </p>
+        <p style="text-align: center;">𝔼[f(X,Y)] ≡ ∑<sub>ω∈Ω</sub>f(X(ω),Y(ω))ℙ(ω).</p>
+        <p>さらにXの分散とX,Yの共分散を次で定義:</p>
+        <p style="text-align: center;">𝕍ar[X] ≡ 𝔼[(X-𝔼[X])²],　Cov(X,Y) ≡ 𝔼[(X-𝔼X)(Y-𝔼Y)].</p>
+        
+        <h4>2.0 期待値の計算例</h4>
+        <p><strong>例1:</strong> コインを2回投げる実験を考える。Ω = {(H,H), (H,T), (T,H), (T,T)}, 各結果の確率はそれぞれ1/4とする。X(ω), Y(ω)をそれぞれ1回目と2回目の表の回数とする（表なら1, 裏なら0）。f(x,y) = x·yのとき,</p>
+        <p style="text-align: center;">𝔼[f(X,Y)] = 𝔼[X·Y] = ∑<sub>ω∈Ω</sub>X(ω)·Y(ω)·ℙ(ω) = (1·1·1/4 + 1·0·1/4 + 0·1·1/4 + 0·0·1/4) = 1/4</p>
+        
+        <p><strong>例2:</strong> 同じコインの例で, h(x,y) = (x-y)²のとき,</p>
+        <p style="text-align: center;">𝔼[h(X,Y)] = 𝔼[(X-Y)²] = ∑<sub>ω∈Ω</sub>(X(ω)-Y(ω))²·ℙ(ω) = ((1-1)²·1/4 + (1-0)²·1/4 + (0-1)²·1/4 + (0-0)²·1/4) = (0 + 1 + 1 + 0)/4 = 1/2</p>
+        
+        <h4>2.1 分散</h4>
+        <p>分散は確率変数の値がその期待値からどれだけばらついているかを測る指標である。Xの分散を次で定義:</p>
+        <p style="text-align: center;">𝕍ar[X] ≡ 𝔼[(X-𝔼[X])²].</p>
+        
+        <p>分散の性質:</p>
+        <ul>
+            <li>𝕍ar[X] ≥ 0 (非負性)</li>
+            <li>𝕍ar[aX+b] = a²𝕍ar[X] (aとbは定数)</li>
+            <li>𝕍ar[X+Y] = 𝕍ar[X] + 𝕍ar[Y] + 2Cov(X,Y)</li>
+            <li>XとYが独立ならば、𝕍ar[X+Y] = 𝕍ar[X] + 𝕍ar[Y]</li>
+        </ul>
+    </div> 
+        <h4>2.2 共分散</h4>
+        <p>共分散は2つの確率変数の関連性を測る指標である。X,Yの共分散を次で定義:</p>
+        <p style="text-align: center;">Cov(X,Y) ≡ 𝔼[(X-𝔼X)(Y-𝔼Y)].</p>
+        
+        <p>共分散の性質:</p>
+        <ul>
+            <li>Cov(X,X) = 𝕍ar[X]</li>
+            <li>Cov(X,Y) = Cov(Y,X) (対称性)</li>
+            <li>Cov(aX+b, cY+d) = ac·Cov(X,Y) (aとbとcとdは定数)</li>
+            <li>Cov(X+Z,Y) = Cov(X,Y) + Cov(Z,Y) (線形性)</li>
+        </ul>
+        
+        <h4>2.3 相関係数</h4>
+        <p>相関係数は共分散を標準化したもので、-1から1の値をとる。X,Yの相関係数を次で定義:</p>
+        <p style="text-align: center;">ρ(X,Y) ≡ Cov(X,Y) / √(𝕍ar[X]·𝕍ar[Y])</p>
+        
+        <p>相関係数の解釈:</p>
+        <ul>
+            <li>ρ(X,Y) = 1 : 完全な正の相関（一方が増加すれば他方も増加）</li>
+            <li>ρ(X,Y) = -1 : 完全な負の相関（一方が増加すれば他方は減少）</li>
+            <li>ρ(X,Y) = 0 : 無相関（線形関係がない）</li>
+        </ul>
+        
+        <div class="theorem">
+            <strong>定理:</strong> 次が成立:
+            <p style="text-align: center;">
+                𝕍ar[X] = 𝔼[X²]-𝔼[X]²,<br>
+                Cov(X,Y) = 𝔼[XY]-𝔼[X]𝔼[Y].
+            </p>
+            
+            <div class="proof">
+                <strong>証明:</strong>
+                <p>分散の公式の証明:</p>
+                <p>
+                    𝕍ar[X] = 𝔼[(X-𝔼[X])²]<br>
+                    = 𝔼[X² - 2X·𝔼[X] + (𝔼[X])²]<br>
+                    = 𝔼[X²] - 2𝔼[X]·𝔼[X] + (𝔼[X])²<br>
+                    = 𝔼[X²] - 2(𝔼[X])² + (𝔼[X])²<br>
+                    = 𝔼[X²] - (𝔼[X])²
+                </p>
+                
+                <p>共分散の公式の証明:</p>
+                <p>
+                    Cov(X,Y) = 𝔼[(X-𝔼[X])(Y-𝔼[Y])]<br>
+                    = 𝔼[XY - X·𝔼[Y] - Y·𝔼[X] + 𝔼[X]·𝔼[Y]]<br>
+                    = 𝔼[XY] - 𝔼[X·𝔼[Y]] - 𝔼[Y·𝔼[X]] + 𝔼[𝔼[X]·𝔼[Y]]<br>
+                    = 𝔼[XY] - 𝔼[X]·𝔼[Y] - 𝔼[Y]·𝔼[X] + 𝔼[X]·𝔼[Y]<br>
+                    = 𝔼[XY] - 𝔼[X]·𝔼[Y]
+                </p>
+            </div>
+        </div>
+    </div>
+    
+    <div class="section">
+        <div class="section-title">3. 独立性</div>
+        
+        <h4>3.1 事象の独立性</h4>
+        <div class="definition">
+            <strong>定義:</strong>
+            <ul>
+                <li>
+                    A,B⊂Ωについて, 
+                    <p style="text-align: center;">「AとBは独立」 ⟺ ℙ(A∩B)=ℙ(A)ℙ(B).</p>
+                </li>
+            </ul>
+        </div>
+        
+        <p>直感的に言えば、事象AとBが独立であるとは、一方の事象の発生が他方の事象の発生確率に影響を与えないことを意味する。</p>
+        
+        <p><strong>例:</strong> 2つのサイコロを投げる場合を考える。</p>
+        <ul>
+            <li>A = {1つ目のサイコロが3以上} = {3,4,5,6}</li>
+            <li>B = {2つ目のサイコロが偶数} = {2,4,6}</li>
+        </ul>
+        <p>この場合、ℙ(A) = 4/6 = 2/3、ℙ(B) = 3/6 = 1/2、ℙ(A∩B) = (4×3)/36 = 1/3 = ℙ(A)×ℙ(B)となるので、AとBは独立である。</p>
+        
+        <h4>3.2 確率変数の独立性</h4>
+        <div class="definition">
+            <ul>
+                <li>
+                    確率変数X,Y:Ω→ℝについて, 
+                    <p style="text-align: center;">「XとYは独立」 ⟺ ℙ(X∈A,Y∈B)=ℙ(X∈A)ℙ(Y∈B) ∀A,B⊂ℝ.</p>
+                    この時, X⊥⊥Yと書く.
+                </li>
+            </ul>
+        </div>
+        
+        <p>確率変数の独立性とは、一方の確率変数の値が他方の確率変数の確率分布に影響を与えないことを意味する。</p>
+        
+        <p><strong>3つ以上の確率変数の独立性:</strong></p>
+        <p>確率変数X<sub>1</sub>, X<sub>2</sub>, ..., X<sub>n</sub>が互いに独立であるとは、任意のA<sub>1</sub>, A<sub>2</sub>, ..., A<sub>n</sub>⊂ℝに対して、</p>
+        <p style="text-align: center;">ℙ(X<sub>1</sub>∈A<sub>1</sub>, X<sub>2</sub>∈A<sub>2</sub>, ..., X<sub>n</sub>∈A<sub>n</sub>) = ℙ(X<sub>1</sub>∈A<sub>1</sub>)×ℙ(X<sub>2</sub>∈A<sub>2</sub>)×...×ℙ(X<sub>n</sub>∈A<sub>n</sub>)</p>
+        <p>が成り立つことである。</p>
+    </div>
+        
+        <div class="theorem">
+            <strong>定理:</strong> 確率変数X,Y:Ω→ℝについて, 次は同値:
+            <p style="text-align: center;">「XとYは独立」 ⟺ ℙ(X=x,Y=y)=ℙ(X=x)ℙ(Y=y) ∀x,y∈ℝ.</p>
+            
+            <div class="proof">
+                <strong>証明:</strong>
+                <p><strong>(⇒)</strong> XとYが独立だと仮定する。すなわち、任意のA,B⊂ℝに対してℙ(X∈A,Y∈B)=ℙ(X∈A)ℙ(Y∈B)が成り立つ。</p>
+                <p>特に、A={x}とB={y}とすると、
+                   ℙ(X=x,Y=y) = ℙ(X∈{x},Y∈{y}) = ℙ(X∈{x})ℙ(Y∈{y}) = ℙ(X=x)ℙ(Y=y)
+                </p>
+                
+                <p><strong>(⇐)</strong> 逆に、任意のx,y∈ℝに対してℙ(X=x,Y=y)=ℙ(X=x)ℙ(Y=y)が成り立つと仮定する。</p>
+                <p>任意のA,B⊂ℝに対して、
+                <p>
+                    ℙ(X∈A,Y∈B) = ℙ(∪<sub>x∈A,y∈B</sub>{X=x,Y=y})<br>
+                    = ∑<sub>x∈A,y∈B</sub>ℙ(X=x,Y=y)　(事象の排他性より)<br>
+                    = ∑<sub>x∈A,y∈B</sub>ℙ(X=x)ℙ(Y=y)　(仮定より)<br>
+                    = (∑<sub>x∈A</sub>ℙ(X=x))(∑<sub>y∈B</sub>ℙ(Y=y))　(和の分配則より)<br>
+                    = ℙ(X∈A)ℙ(Y∈B)
+                </p>
+                <p>よって、XとYは独立である。</p>
+            </div>
+        </div>
+    </div>
+    
+    <div class="section">
+        <div class="section-title">4. 独立性と期待値</div>
+        
+        <div class="theorem">
+            <strong>定理:</strong> XとYが独立ならば
+            <p style="text-align: center;">𝔼[XY]=𝔼[X]𝔼[Y].</p>
+            特に, 
+            <p style="text-align: center;">Cov(X,Y)=𝔼[XY]-𝔼[X]𝔼[Y]=0.</p>
+            
+            <div class="proof">
+                <strong>証明:</strong>
+                <p>XとYが独立であるとき、定義より、任意のx,y∈ℝに対して:</p>
+                <p>ℙ(X=x,Y=y)=ℙ(X=x)ℙ(Y=y)</p>
+                
+                <p>期待値の定義より：</p>
+                <p>
+                    𝔼[XY] = ∑<sub>x∈I<sub>X</sub>,y∈I<sub>Y</sub></sub> xy·ℙ(X=x,Y=y)<br>
+                    = ∑<sub>x∈I<sub>X</sub>,y∈I<sub>Y</sub></sub> xy·ℙ(X=x)ℙ(Y=y)　(独立性より)<br>
+                    = ∑<sub>x∈I<sub>X</sub></sub> x·ℙ(X=x) · ∑<sub>y∈I<sub>Y</sub></sub> y·ℙ(Y=y)　(和の分配則より)<br>
+                    = 𝔼[X]·𝔼[Y]
+                </p>
+                
+                <p>共分散について:</p>
+                <p>
+                    Cov(X,Y) = 𝔼[XY] - 𝔼[X]𝔼[Y]<br>
+                    = 𝔼[X]𝔼[Y] - 𝔼[X]𝔼[Y]　(独立性より、𝔼[XY]=𝔼[X]𝔼[Y])<br>
+                    = 0
+                </p>
+                
+                <p>したがって、XとYが独立ならばCov(X,Y)=0となる。</p>
+                <p><strong>注意:</strong> ただし、逆は必ずしも成り立たない。つまり、Cov(X,Y)=0であってもXとYが独立であるとは限らない。</p>
+            </div>
+        </div>
+    </div>
+    
+    <hr>
+</body>
+<

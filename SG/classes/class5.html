@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lecture 5: Rigorous Methods - Gaussian Comparison & Guerra's Interpolation</title>
+    <style>
+        :root {
+            --primary-color: #2c3e50;
+            --secondary-color: #3498db;
+            --accent-color: #e74c3c;
+            --background-color: #f9f9f9;
+            --text-color: #333;
+            --container-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+            --text-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+        }
+
+        body {
+            font-family: 'Georgia', serif;
+            line-height: 1.7;
+            margin: 0;
+            padding: 0;
+            background-color: var(--background-color);
+            color: var(--text-color);
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 20px auto;
+            padding: 30px;
+            background-color: white;
+            box-shadow: var(--container-shadow);
+            border-radius: 15px;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 40px;
+            border-bottom: 2px solid var(--secondary-color);
+            padding-bottom: 20px;
+        }
+
+        h1, h2, h3 {
+            color: var(--primary-color);
+        }
+
+        .section-title {
+            color: var(--primary-color);
+            font-size: 1.8rem;
+            margin-top: 30px;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #eee;
+            text-shadow: var(--text-shadow);
+        }
+
+        .lecture-title {
+            color: var(--secondary-color);
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+            font-weight: normal;
+        }
+
+        .author-info {
+            font-style: italic;
+            color: #777;
+        }
+
+        .math {
+            font-style: italic;
+            padding: 0 3px;
+        }
+
+        .figure {
+            text-align: center;
+            margin: 30px 0;
+            padding: 20px;
+            background-color: #f8f9fa;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+        }
+
+        .figure img {
+            max-width: 100%;
+            border-radius: 5px;
+        }
+
+        .figure-caption {
+            font-style: italic;
+            color: #777;
+            margin-top: 15px;
+        }
+
+        .navigation {
+            margin-top: 40px;
+            text-align: center;
+            display: flex;
+            justify-content: space-between;
+            padding: 15px 0;
+            border-top: 1px solid #eee;
+        }
+
+        .navigation a {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: var(--primary-color);
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .navigation a:hover {
+            background-color: var(--secondary-color);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+        }
+
+        .topic-highlight {
+            display: inline-block;
+            background-color: rgba(52, 152, 219, 0.1);
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-weight: 500;
+            color: var(--primary-color);
+        }
+
+        .formula {
+            margin: 25px 0;
+            padding: 15px;
+            background-color: #f8f9fa;
+            border-left: 4px solid var(--secondary-color);
+            border-radius: 5px;
+            overflow-x: auto;
+            font-size: 1.1em;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+        }
+
+        .example-title {
+            font-weight: bold;
+            font-size: 1.2em;
+            color: var(--secondary-color);
+            margin-top: 30px;
+            margin-bottom: 15px;
+            padding-bottom: 5px;
+            border-bottom: 1px dashed #ccc;
+            display: inline-block;
+        }
+
+        p {
+            margin-bottom: 20px;
+            line-height: 1.8;
+        }
+
+        .content-section {
+            padding-bottom: 30px;
+        }
+        
+        .footnote {
+            font-size: 0.9em;
+            color: #777;
+            margin-top: 5px;
+            border-top: 1px solid #eee;
+            padding-top: 10px;
+        }
+
+        .reference {
+            font-size: 0.9em;
+            padding-left: 20px;
+            text-indent: -20px;
+            margin-bottom: 10px;
+            color: #555;
+        }
+
+        .table-container {
+            margin: 30px 0;
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+
+        th, td {
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        th {
+            background-color: var(--primary-color);
+            color: white;
+            font-weight: bold;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f8f9fa;
+        }
+
+        tr:hover {
+            background-color: #eef7ff;
+        }
+    </style>
+    <!-- MathJax configuration -->
+    <script>
+      window.MathJax = {
+        tex: {
+          inlineMath: [['$', '$']],
+          displayMath: [['$$', '$$']]
+        },
+        svg: {
+          fontCache: 'global'
+        }
+      };
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js" async></script>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Lecture 5: Rigorous Methods - Gaussian Comparison & Guerra's Interpolation</h1>
+            <div class="lecture-title">Mathematical Tools for Spin Glass Analysis</div>
+            <div class="author-info">Lecture Notes</div>
+        </header>
+
+        <div class="overview">
+        <p><strong>Overview:</strong> In this lecture, we shift focus to rigorous tools developed for spin glasses. We discuss <strong>Gaussian comparison inequalities</strong> (like Slepian's and Gordon's lemmas) which compare maxima/free energies of Gaussian systems. We then introduce <strong>Guerra's interpolation method</strong>, a technique to derive bounds on the free energy by interpolating between simple and complex models, crucial for proving the validity of the Parisi solution.</p>
+        </div>
+
+        <h4>Existence of the Thermodynamic Limit (Subadditivity)</h4>
+        <p>A fundamental question is whether the free energy per spin $f_N(\beta) = -\frac{1}{\beta N}\mathbb{E}[\ln Z_N]$ converges as $N\to\infty$. This was proven using subadditivity arguments.</p>
+        <ul>
+            <li><strong>Heuristic:</strong> Combining two independent systems of size $N$ and $M$ non-interactively gives $\mathbb{E}[\ln Z_{N+M}] = \mathbb{E}[\ln Z_N] + \mathbb{E}[\ln Z_M]$. Adding interactions between them typically constrains the system, potentially lowering $Z$. This suggests superadditivity for $\mathbb{E}[\ln Z_N]$ (or subadditivity for $-\mathbb{E}[\ln Z_N]$). Fekete's Lemma then implies convergence of the quantity per spin.</li>
+            <li><strong>Guerra–Toninelli (2002):</strong> Provided a rigorous proof for mean-field models like SK, establishing the existence of the limit $f(\beta) = \lim_{N\to\infty} f_N(\beta)$. This was a key step towards rigorously validating the Parisi solution.</li>
+        </ul>
+
+        <h4>Gaussian Comparison Principles</h4>
+        <p>These principles relate the extrema of different Gaussian processes based on their covariance structure.</p>
+        <ul>
+            <li><strong>Slepian's Lemma:</strong> If $(X_i)$ and $(Y_i)$ are centered Gaussian processes with $\mathbb{E}[X_i^2] = \mathbb{E}[Y_i^2]$ and $\mathbb{E}[X_i X_j] \le \mathbb{E}[Y_i Y_j]$ for $i\neq j$, then $\mathbb{E}[\max_i X_i] \le \mathbb{E}[\max_i Y_i]$. More positive correlation tends to increase the maximum.</li>
+            <li><strong>Gordon's Inequality (Gaussian Min-Max Theorem):</strong> Relates the extremum of a Gaussian process to that of a simpler, related process. Useful for comparing complex models to simpler ones.</li>
+        </ul>
+        <p><strong>Application to spin glasses:</strong> The Hamiltonian $H_N(\sigma)$ can be viewed as a Gaussian process indexed by $\sigma$.</p>
+        <ul>
+            <li>SK Model: $\mathbb{E}[H_N(\sigma)H_N(\tau)] \propto (q_{\sigma\tau})^2$.</li>
+            <li>REM: $\mathbb{E}[H_N(\sigma)H_N(\tau)] = 0$ for $\sigma \neq \tau$ (less correlated).</li>
+            <li>Ferromagnet (CW): $\mathbb{E}[H_N(\sigma)H_N(\tau)] \propto q_{\sigma\tau}$ (more correlated).</li>
+        </ul>
+        <p>Slepian's lemma implies relationships between ground state energies (maxima of $-H$) of these models. While direct application gives crude bounds on free energy, refined uses (e.g., comparing SK to spherical models via Gordon's inequality) yield useful rigorous results without assuming replica symmetry.</p>
+
+        <h4>Guerra's Interpolation Method</h4>
+        <p>Introduced by Francesco Guerra (2003), this powerful technique rigorously proves that the Parisi formula gives an upper bound on the true SK free energy.</p>
+        <p><strong>Idea:</strong> Define an interpolating Hamiltonian $H(t)$ between a simple reference model $H^{(0)}$ (e.g., non-interacting spins in random fields) and the SK model $H^{SK}$:</p>
+        <div class="mathdisplay">$$ H(t) = \sqrt{t}\,H^{SK}(\sigma) + \sqrt{1-t}\,H^{(0)}(\sigma)\,. $$</div>
+        <p>Let $F_N(t) = \frac{1}{N}\mathbb{E}[\ln Z(t)]$ be the free energy density at interpolation parameter $t$. We want $F_N(1)$. Using the fundamental theorem of calculus:</p>
+        <div class="mathdisplay">$$ F_N(1) - F_N(0) = \int_0^1 \frac{d}{dt} F_N(t)\, dt\,. $$</div>
+        <p>Guerra calculated the derivative $\frac{d}{dt}F_N(t)$ using Gaussian integration by parts:</p>
+        <div class="mathdisplay">$$ \frac{d}{dt}F_N(t) = \text{Expression involving overlaps } \langle q_{ab}^k \rangle_t \text{ under } H(t). $$</div>
+        <p>For the SK model (interpolating from a simple paramagnet), the derivative takes the form:</p>
+        <div class="mathdisplay">$$ \frac{d}{dt}F_N(t) = -\frac{\beta^2}{4}\Big(1 - \mathbb{E}\langle q_{12}^2 \rangle_t\Big)\,, $$</div>
+        <p>where $\langle q_{12}^2 \rangle_t$ is the expected squared overlap between two replicas drawn from the Gibbs measure defined by $H(t)$.</p>
+        <p><strong>Key Insight:</strong> Guerra showed that this derivative is related to the Parisi functional. By choosing the reference $H^{(0)}$ carefully to match a specific RSB structure (defined by a trial function $q(x)$ or a discrete RSB scheme), $F_N(0)$ becomes exactly the Parisi free energy functional evaluated at that trial structure.</p>
+        <p>Furthermore, under suitable conditions, one can show that $\frac{d}{dt}F_N(t)$ matches the derivative term in the Parisi PDE, or prove bounds on it. A crucial result is that if one chooses $H^{(0)}$ corresponding to the *optimizing* Parisi solution, the interpolation argument leads to:</p>
+        <div class="mathdisplay">$$ F_{SK} \le F_{\text{Parisi}} $$</div>
+        <p>This is **Guerra's bound**: the true SK free energy is bounded above by the value obtained from Parisi's replica calculations. This was a major step in proving the correctness of the Parisi solution.</p>
+        <ul>
+             <li>Later work by Talagrand provided the matching lower bound $F_{SK} \ge F_{\text{Parisi}}$, confirming $F_{SK} = F_{\text{Parisi}}$.</li>
+        </ul>
+
+        <p><strong>Summary (Lecture 5):</strong> Rigorous tools like Gaussian comparison inequalities and Guerra's interpolation method provide ways to analyze spin glasses without relying on the replica heuristic. Subadditivity proves the existence of the thermodynamic limit. Guerra's interpolation established that the Parisi formula gives an upper bound on the true free energy, paving the way for a full proof of the Parisi solution for the SK model.</p>
+
+        <div class="navigation">
+            <a href="class4.html">← Previous</a>
+            <a href="class6.html">Next →</a>
+        </div>
+    </div>
+</body>
+</html>
