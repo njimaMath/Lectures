@@ -1,0 +1,15 @@
+{
+  "name": "LecturesMCP",
+  "description": "A Model Context Protocol configuration for managing lecture-related projects.",
+  "version": "1.0.0",
+  "author": "shuta",
+  "license": "MIT",
+  "dependencies": {
+    "mcp-core": "^1.0.0"
+  },
+  "scripts": {
+    "start": "mcp-core start",
+    "build": "mcp-core build",
+    "test": "mcp-core test"
+  }
+}
