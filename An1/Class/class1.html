@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>集合に関する復習</title>
+    <style>
+        body {
+            font-family: 'Helvetica Neue', Arial, 'Hiragino Kaku Gothic ProN', 'Hiragino Sans', Meiryo, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f9f9f9;
+        }
+        h1 {
+            color: #2c3e50;
+            border-bottom: 2px solid #3498db;
+            padding-bottom: 10px;
+            margin-top: 30px;
+        }
+        h2 {
+            color: #2980b9;
+            border-left: 5px solid #3498db;
+            padding-left: 10px;
+            margin-top: 25px;
+        }
+        h3 {
+            color: #3498db;
+            margin-top: 20px;
+        }
+        .note {
+            font-size: 0.9em;
+            color: #666;
+            font-style: italic;
+        }
+        hr {
+            border: 0;
+            height: 1px;
+            background-image: linear-gradient(to right, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0));
+            margin: 25px 0;
+        }
+        .example {
+            background-color: #eaf2f8;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 15px 0;
+        }
+        .definition {
+            background-color: #eafaf1;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 15px 0;
+            border-left: 3px solid #2ecc71;
+        }
+        .math {
+            font-family: 'Times New Roman', Times, serif;
+        }
+        code {
+            font-family: Consolas, Monaco, 'Courier New', monospace;
+            background-color: #f0f0f0;
+            padding: 2px 4px;
+            border-radius: 3px;
+        }
+    </style>
+    <script>
+    MathJax = {
+      tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']],
+        displayMath: [['$$', '$$'], ['\\[', '\\]']],
+        processEscapes: true,
+        processEnvironments: true
+      },
+      options: {
+        skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre']
+      }
+    };
+    </script>
+    <script type="text/javascript" id="MathJax-script" async
+      src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
+    </script>
+</head>
+<body>
+    <h1>集合に関する復習</h1>
+    <p class="note">（＊ ほぼ厳密でない）</p>
+
+    <h2>§1. 集合と元</h2>
+    <p>集合とは…「もの」の集まり。</p>
+
+    <p><strong>元</strong>：集合を構成する個々の「もの」</p>
+
+    <h3>例</h3>
+    <div class="example">
+        <ul>
+            <li>{猫, 犬, 牛, …}：動物の集合</li>
+            <li>{月, 水, 木, 金, …}：曜日の集合</li>
+        </ul>
+    </div>
+
+    <hr>
+
+    <h3>数学で扱う代表的な集合</h3>
+
+    <ul>
+        <li><strong>自然数</strong>：\((1, 2, 3, 4, \dots)\)<br>
+        記号：\(\mathbb{N}\)（自然数の集合）</li>
+        <br>
+        <li><strong>整数</strong>：\((0, 1, -1, 2, -2, 3, -3, \dots)\)<br>
+        記号：\(\mathbb{Z}\)</li>
+        <br>
+        <li><strong>有理数</strong>：\((0, 1, \frac{1}{3}, 0.25, -\frac{2}{3}, \dots)\)<br>
+        記号：\(\mathbb{Q}\)<br>
+        → 一般に整数 \(a\), \(b\) を用いて \(\frac{a}{b}\) と表せる</li>
+        <br>
+        <li><strong>実数</strong>：\(\{0, 1, \ldots, \pi, e, \pi e, \ldots\}\)<br>
+        記号：\(\mathbb{R}\)</li>
+    </ul>
+
+    <p>→ 数直線上の点全体</p>
+
+    <hr>
+
+    <h3>☆割り切れない数</h3>
+
+    <ul>
+        <li>\(1.234\ldots\) のように、小数展開で表せるもの。</li>
+        <br>
+        <li>\(\frac{1}{3} = 0.333\ldots\)<br>
+        → 無限に続く（循環小数）<br>
+        → \(1 = 0.999\ldots\)
+        
+        <ul>
+            <li>小数展開で異なるけれども、\(1\) と \(0.999\ldots\) を同じとみなす必要がある。</li>
+            <li>同じものとみなすべきか、わかりづらい。</li>
+            <li>よって、<strong>数の構成は2年で行う</strong>（＝本格的な議論は後で）</li>
+        </ul>
+        </li>
+    </ul>
+
+    <hr>
+
+    <h3>定義</h3>
+    <div class="definition">
+        <p>\(a\) が集合 \(A\) の元である時、<br>
+        \(a \in A\) と書く（\(a\) は \(A\) に含まれる）</p>
+
+        <p>そうでない時、\(a \notin A\) と書く。</p>
+    </div>
+
+    <hr>
+
+    <h3>例</h3>
+    <div class="example">
+        <ul>
+            <li>\(1 \in \mathbb{N}\)</li>
+            <li>\(2 \in \mathbb{Z}\)</li>
+            <li>\(-2 \notin \mathbb{N}\)</li>
+        </ul>
+    </div>
+
+    <h2>よく使う記法</h2>
+
+    <p>大学数学では：</p>
+
+    <ul>
+        <li>「\(a\) を自然数とする」→「\(a \in \mathbb{N}\) とする」と書く</li>
+        <li>「\(a\) を整数」→「\(a \in \mathbb{Z}\)」と書く</li>
+        <li>...</li>
+    </ul>
+
+    <hr>
+
+    <h2>§2. 新しい集合を作る</h2>
+
+    <p>集合 \(A\) を固定する。\(A\) の中から「ある性質」をもった元の集合を考えたい。</p>
+
+    <h3>例</h3>
+    <div class="example">
+        <ul>
+            <li>\(2\) で割り切れる自然数の集合</li>
+            <li>有理数でない実数の集合</li>
+        </ul>
+    </div>
+
+    <hr>
+
+    <p><strong>2通りの記述の仕方</strong></p>
+
+    <h3>列挙型</h3>
+
+    <p>当てはまる元を全て列記する。</p>
+
+    <h2>例</h2>
+    <div class="example">
+        <p><strong>Q.</strong> \(\{1, 2, 3, 4, 5, 6\}\) の中で 3 の倍数の集合は？<br>
+        <strong>A.</strong> \(\{3, 6\}\)</p>
+    </div>
+
+    <hr>
+
+    <div class="example">
+        <p><strong>Q.</strong> \(\mathbb{N}\) の中で 2 の倍数の集合は？<br>
+        <strong>A.</strong> \(\{2, 4, 6, 8, \ldots\}\)</p>
+    </div>
+
+    <hr>
+
+    <h2>条件型（内包型）</h2>
+
+    <p>\(\{x \in A \mid x \text{ に関する性質} \}\) の形で書く。<br>
+    （スラッシュ「|」や「:」を使うこともある）</p>
+
+    <hr>
+
+    <h3>例</h3>
+    <div class="example">
+        <p><strong>Q.</strong> \(\mathbb{N}\) の中で 2 の倍数の集合は？<br>
+        <strong>A.</strong> \(\{x \in \mathbb{N} \mid x \text{ は 2 の倍数} \}\)</p>
+    </div>
+
+    <hr>
+
+    <div class="example">
+        <p><strong>Q.</strong> 無理数（実数の中で有理数でないもの）の集合は？</p>
+
+        <p><strong>A.</strong> \(\{a \in \mathbb{R} \mid a \notin \mathbb{Q} \}\)<br>
+        または<br>
+        \(\{a \in \mathbb{R} \mid a \text{ は有理数でない} \}\)</p>
+
+        <p>（※ \(\mathbb{R} \setminus \mathbb{Q}\) と書くこともある）</p>
+    </div>
+
+    <h2>その他の記号</h2>
+
+    <ul>
+        <li>\(A \Rightarrow B\)（A ならば B）<br>
+        <strong>例</strong>：\(x\) が 4 の倍数 \(\Rightarrow\) \(x\) は 2 の倍数</li>
+        <br>
+        <li>\(A \Leftrightarrow B\)（A と B は同値）<br>
+        <strong>例</strong>：\(x\) は奇数 \(\Leftrightarrow\) \(x\) は 2 で割った余りが 1</li>
+        <br>
+        <li>\(A \overset{\text{def}}{=} B\)（A を B と定義する）<br>
+        <strong>例</strong>：\(n\) は 2 の倍数 \(\overset{\text{def}}{\Leftrightarrow}\) \(\dfrac{n}{2} \in \mathbb{Z}\)</li>
+    </ul>
+
+    <h2>数列の導入</h2>
+
+    <h3>数列</h3>
+
+    <ol>
+        <li>\((1, 2, 3, 4, \dots)\)</li>
+        <li>\((0, 0, 0, \dots)\)</li>
+        <li>\((1, -1, 1, -1, \dots)\)</li>
+    </ol>
+
+    <p>などを<strong>数列</strong>とよぶ。</p>
+
+    <hr>
+
+    <p>数列を定式化する際、n 番目の数を \(a_n = \dots\) として考える。</p>
+
+    <h3>例</h3>
+    <div class="example">
+        <ol>
+            <li>数列：\(a_n = n\)</li>
+            <li>数列：\(a_n = 0\)</li>
+            <li>数列：\(a_n = ?\)</li>
+        </ol>
+    </div>
+
+    <hr>
+
+    <p><strong>注</strong>：数列そのものは \((a_n)_{n \in \mathbb{N}}\) と書く。</p>
+
+    <!-- MathJax 3 doesn't need this queue call -->
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            // MathJax should auto-typeset
+        });
+    </script>
+</body>
+</html>
