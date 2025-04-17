@@ -1,0 +1,102 @@
+
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>SDEから伊藤積分へ</title>
+  <script>
+    MathJax = {
+      tex: {
+        inlineMath: [['$', '$']],
+        displayMath: [['$$', '$$']]
+      },
+      options: {
+        enableMenu: false
+      }
+    };
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js" async></script>
+</head>
+<body>
+  <h1>SDEから伊藤積分へ</h1>
+
+  <p>確率微分方程式</p>
+  <p>
+    $$\dot X_t = f(X_t)\,\dot B_t,\qquad X_0 = x_0$$
+  </p>
+  <p>を考える。ただし、$B_t$ は標準ブラウン運動、$f:\mathbb{R}\to\mathbb{R}$ は有界かつボレル可測関数とする。形式的に両辺を積分すると、</p>
+  <p>
+    $$X_t - x_0 = \int_0^t f(X_s)\,dB_s$$
+  </p>
+  <p>となる。この右辺に厳密な意味を与えるため、これから伊藤積分を構成する。</p>
+
+  <h2 id="ito-step">ステップ1：リーマン型の和</h2>
+  <p>二進分割 $\pi_n := \{0,2^{-n},2\cdot2^{-n},\ldots\}$ に対して、</p>
+  <p>
+    $$I_n(f,t) := \sum_{i=0}^{\lfloor t 2^n\rfloor-1} f\bigl(B_{i2^{-n}}\bigr)\bigl(B_{(i+1)2^{-n}}-B_{i2^{-n}}\bigr)$$
+  </p>
+  <p>と定義する。これらは<strong>適合ステップ関数積分</strong>であり、$n \to \infty$ で収束することが期待される。</p>
+
+  <h2 id="ito-cauchy">ステップ2：$\{I_n(f,t)\}$ が $L^2(\Omega)$ でコーシー列</h2>
+
+  <h3>2.1 ブラウン運動の増分の独立性</h3>
+  <p>$m > n$ を固定し、$I_m(f,t)$ をブロックサイズ $2^{-n}$ に分けて書き直す：</p>
+  <p>
+    $$B_{(i+1)2^{-n}} - B_{i2^{-n}} = \sum_{j=1}^{2^{m-n}} \left(B_{i2^{-n}+j2^{-m}} - B_{i2^{-n}+(j-1)2^{-m}}\right)$$
+  </p>
+  <p>ブラウン運動の非重複区間の増分は独立かつ平均0なので、</p>
+  <p>
+    $$\mathbb{E}\bigl[(I_m - I_n)^2\bigr] = \sum_{i=0}^{\lfloor t2^n\rfloor-1}\sum_{j=1}^{2^{m-n}} \mathbb{E}\left[\left(f(B_{i2^{-n}+j2^{-m}}) - f(B_{i2^{-n}})\right)^2\right] 2^{-m}$$
+  </p>
+
+  <h3>2.2 $f(B_t)$ の平均二乗連続性</h3>
+  <p>$f$ が有界連続であり、$B_t$ が連続経路を持つため、$f(B_t)$ は $L^2$ において一様連続：</p>
+  <p>
+    $$\lim_{h\to0} \sup_{|s-t|\le h} \mathbb{E}[(f(B_t) - f(B_s))^2] = 0$$
+  </p>
+  <p>よって、任意の $\varepsilon > 0$ に対して、十分大きな $n_0$ をとれば $m \ge n \ge n_0$ で</p>
+  <p>
+    $$\mathbb{E}[(I_m - I_n)^2] \le \varepsilon \cdot 2^m \cdot 2^{-m} = \varepsilon$$
+  </p>
+  <p>となり、$\{I_n(f,t)\}$ は $L^2$ でコーシー列である。</p>
+
+  <h3>2.3 伊藤積分の定義</h3>
+  <p>$L^2(\Omega)$ の完備性より、$I_n(f,t)$ は平均二乗収束して</p>
+  <p>
+    $$\int_0^t f(B_s)\,dB_s$$
+  </p>
+  <p>という極限を持つ。この構成は、任意の漸進的可測過程 $H$ に対して</p>
+  <p>
+    $$\mathbb{E}\int_0^t H_s^2\,ds < \infty$$
+  </p>
+  <p>が成り立つならば、線形性と完備化により拡張される。特に、$X$ が同様の二乗可積分条件を満たす適合過程であれば、</p>
+  <p>
+    $$\int_0^t X_s\,dB_s := \lim_{n\to\infty} \sum_{i=0}^{\lfloor t2^n\rfloor-1} X_{i2^{-n}}(B_{(i+1)2^{-n}} - B_{i2^{-n}})$$
+  </p>
+  <p>として定義される。</p>
+
+  <h2 id="examples">ステップ3：例</h2>
+  <ul>
+    <li><strong>二乗変分：</strong>
+      $f(x) = 1$ のとき
+      $$\int_0^t dB_s = B_t,\quad \mathbb{E}[B_t^2] = t$$
+    </li>
+    <li><strong>伊藤等長性：</strong>
+      有界な $f$ に対して
+      $$\mathbb{E}\left[\left(\int_0^t f(B_s)\,dB_s\right)^2\right] = \mathbb{E}\left[\int_0^t f^2(B_s)\,ds\right] \le t\|f\|_\infty^2$$
+    </li>
+    <li><strong>ストラトノビッチ補正：</strong>
+      $$\int_0^t B_s\,dB_s = \frac{1}{2}(B_t^2 - t)$$
+      これは伊藤の公式によって得られ、伊藤積分とストラトノビッチ積分の違いを示す。
+    </li>
+  </ul>
+
+  <h2 id="summary">まとめ</h2>
+  <p>伊藤積分は、適合ステップ関数によるリーマン和の $L^2$ 極限として構成され、ブラウン運動の増分の独立性と正規性を用いて収束が証明された。これは確率微分方程式の厳密な解法の基盤を提供する。</p>
+
+  <footer>
+    <p><strong>Q.E.D.</strong></p>
+  </footer>
+</body>
+</html>
+
