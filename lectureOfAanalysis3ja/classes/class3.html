@@ -248,247 +248,112 @@
         <section id="class3" class="content-section">
             <div class="section-title">第3回：接平面</div>
             
-            <p>この授業では、曲面 $z=f(x,y)$ への<span class="topic-highlight">接平面</span>を導入し、偏微分を用いてその方程式を導出します。接平面は、接線が曲線を近似するのと同様に、ある点での曲面に対する最良の線形近似を提供します。</p>
+            <p>この授業では、曲面 $z=f(x,y)$ への<span class="topic-highlight">接平面</span>を導入し、偏微分を用いてその方程式を導出する。接平面は、接線が曲線を近似するのと同様に、ある点での曲面に対する線形近似を与える。</p>
+
+            <p>2変数関数の幾何学的な性質を理解するには、グラフ（曲面）の性質を理解することが重要である。本講義では、特に曲面上の一点における接平面について考える。</p>
 
             <div class="section-highlight">
-                <h3>接線：復習</h3>
+                <h3>接平面の考え方</h3>
                 
-                <div class="definition-box">
-                    <h3 style="margin-top: 0;">接線</h3>
-                    <p>関数 $f(x)$ と $a\in \mathbb{R}$ が与えられたとき、点 $(a,f(a))$ における $f$ のグラフへの接線は、点 $(a,f(a))$ を通り、傾き $f'(a)$ を持つ直線として定義されます：</p>
-                    <div class="formula" style="background: none; border-left: none; box-shadow: none;">
-                        $$y = f'(a)(x-a)+f(a)$$
-                    </div>
-                </div>
+                <p>曲面上の点における接平面とは、その点における曲面の最も良い線形近似である。これは１変数関数における接線の考え方の自然な拡張となる。</p>
                 
-                <p>導関数からの解釈：$x=a$ の周りでは、$f(x)$ はおおよそ $f(a)+f'(a)(x-a)$ です。より正確には、次の定理が成り立ちます：</p>
+                <p>関数 $z = f(x,y)$ のグラフを考える。点 $(a,b,f(a,b))$ における接平面は、以下の式で表される：</p>
                 
                 <div class="formula">
-                    $$f(x)-(f(a)+f'(a)(x-a)) = o(|x-a|)$$
+                    $$z = f(a,b) + f_x(a,b)(x-a) + f_y(a,b)(y-b)$$
                 </div>
                 
-                <p>ここで $o(|x-a|)$ は $x$ が $a$ に近づくにつれて $|x-a|$ よりも速く0に近づく関数です。つまり、$\lim_{x \to a} \frac{o(|x-a|)}{|x-a|} = 0$。</p>
+                <p>ここで、$f_x(a,b)$ と $f_y(a,b)$ は点 $(a,b)$ における偏導関数の値である。この式は、点 $(a,b)$ の近傍で関数を最もよく近似する平面を表す。</p>
+            </div>
+
+            <div class="example-box">
+                <div class="example-title">例 3.1</div>
+                <p>$f(x,y) = x^2 + y^2$ の点 $(1,1)$ における接平面を求めよ。</p>
+                
+                <p><strong>解答：</strong></p>
+                <p>まず、偏導関数を求める：</p>
+                <div class="formula">
+                    \begin{align*}
+                    f_x &= 2x\\
+                    f_y &= 2y
+                    \end{align*}
+                </div>
+                
+                <p>点 $(1,1)$ での値を計算する：</p>
+                <div class="formula">
+                    \begin{align*}
+                    f(1,1) &= 1^2 + 1^2 = 2\\
+                    f_x(1,1) &= 2(1) = 2\\
+                    f_y(1,1) &= 2(1) = 2
+                    \end{align*}
+                </div>
+                
+                <p>接平面の式に代入すると：</p>
+                <div class="formula">
+                    \begin{align*}
+                    z &= 2 + 2(x-1) + 2(y-1)\\
+                    &= 2 + 2x - 2 + 2y - 2\\
+                    &= 2x + 2y - 2
+                    \end{align*}
+                </div>
             </div>
 
             <div class="section-highlight">
-                <h3>接平面の定義</h3>
+                <h3>接平面の意味</h3>
                 
-                <div class="definition-box">
-                    <h3 style="margin-top: 0;">接平面</h3>
-                    <p>曲面 $z=f(x,y)$ を考えます。点 $(a,b)$ が与えられたとき、点 $(a,b,f(a,b))$ における曲面への接平面を、点 $(a,b,f(a,b))$ を通り、x方向に傾き $f_x(a,b)$、y方向に傾き $f_y(a,b)$ を持つ平面として定義します。この平面の方程式は次の通りです：</p>
-                    <div class="formula" style="background: none; border-left: none; box-shadow: none;">
-                        $$z=f(a,b) + f_x(a,b)(x-a)+f_y(a,b)(y-b)$$
-                    </div>
-                </div>
+                <p>接平面は、曲面上の一点における局所的な線形近似を提供する。これにより、その点の近傍での関数の振る舞いを理解することができる。</p>
                 
-                <div class="example-box">
-                    <div class="example-title">例 3.1</div>
-                    <p>放物面 $z = x^2 + y^2$ の点 $(1,2,5)$ における接平面を求めなさい。</p>
-                    
-                    <p><strong>解答：</strong></p>
-                    <p>ここでは $f(x,y) = x^2 + y^2$ です。まず、偏導関数を計算します：</p> 
-                    <div class="formula" style="background: none; border-left: none; box-shadow: none;">
-                        \begin{align*}
-                        f_x(x,y) &= 2x\\
-                        f_y(x,y) &= 2y
-                        \end{align*}
-                    </div>
-                    
-                    <p>点 $(a,b)=(1,2)$ では、次のようになります：</p>
-                    <div class="formula" style="background: none; border-left: none; box-shadow: none;">
-                        \begin{align*}
-                        f_x(1,2) &= 2(1) = 2\\
-                        f_y(1,2) &= 2(2) = 4
-                        \end{align*}
-                    </div>
-                    
-                    <p>曲面は与えられた通り、$(1,2,f(1,2)) = (1,2,1^2+2^2) = (1,2,5)$ を通ります。</p>
-                    
-                    <p>したがって、接平面の方程式は：</p>
-                    <div class="formula" style="background: none; border-left: none; box-shadow: none;">
-                        \begin{align*}
-                        z - 5 &= 2(x-1) + 4(y-2)\\
-                        z - 5 &= 2x - 2 + 4y - 8\\
-                        z &= 2x + 4y - 5
-                        \end{align*}
-                    </div>
-                    
-                    <p>この平面は放物面 $z=x^2+y^2$ と点 $(1,2,5)$ で接し、その点での放物面と同じ $x$ 方向および $y$ 方向の傾きを持ちます。</p>
-                </div>
+                <p>接平面の勾配は、その点における曲面の傾きを表す。具体的には：</p>
+                <ul>
+                    <li>$f_x(a,b)$ は $x$ 方向の傾き</li>
+                    <li>$f_y(a,b)$ は $y$ 方向の傾き</li>
+                </ul>
                 
-                <div class="graph-container">
-                    <h3>接平面の視覚化</h3>
-                    <div class="figure">
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 400" width="500" height="400">
-                            <!-- Coordinate system -->
-                            <defs>
-                                <linearGradient id="paraboloidGradient" x1="0%" y1="0%" x2="100%" y2="0%">
-                                    <stop offset="0%" stop-color="#6495ED" />
-                                    <stop offset="100%" stop-color="#4169E1" />
-                                </linearGradient>
-                                <linearGradient id="planeGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-                                    <stop offset="0%" stop-color="#FF8C00" stop-opacity="0.7" />
-                                    <stop offset="100%" stop-color="#FFA500" stop-opacity="0.5" />
-                                </linearGradient>
-                            </defs>
+                <p>これらの値により、その点で曲面がどの方向にどれだけ傾いているかがわかる。</p>
+            </div>
+
+            <div class="figure">
+                <img src="3d-surfaces.svg" alt="3次元曲面と接平面">
+                <div class="figure-caption">図3.1：曲面上の点とその接平面。接平面は局所的に曲面を最もよく近似する平面となる。</div>
+            </div>
             
-                            <!-- Background -->
-                            <rect width="500" height="400" fill="#f8f8f8" />
-                            
-                            <!-- 3D Coordinate system -->
-                            <!-- z-axis -->
-                            <line x1="250" y1="350" x2="250" y2="50" stroke="#000" stroke-width="1.5" />
-                            <text x="260" y="70" font-family="Arial" font-size="14">z</text>
-                            
-                            <!-- x-axis -->
-                            <line x1="100" y1="300" x2="400" y2="330" stroke="#000" stroke-width="1.5" />
-                            <text x="390" y="345" font-family="Arial" font-size="14">x</text>
-                            
-                            <!-- y-axis -->
-                            <line x1="250" y1="350" x2="100" y2="200" stroke="#000" stroke-width="1.5" />
-                            <text x="90" y="195" font-family="Arial" font-size="14">y</text>
-                            
-                            <!-- Paraboloid z = x² + y² (simplified representation) -->
-                            <path d="M150,280 C200,200 300,180 350,270 C320,300 180,320 150,280 Z" fill="url(#paraboloidGradient)" stroke="#4169E1" stroke-width="1" />
-                            <path d="M150,280 C180,220 330,210 350,270" stroke="#4169E1" stroke-width="1.5" fill="none" />
-                            <path d="M160,250 C200,190 300,190 340,250" stroke="#4169E1" stroke-width="1" fill="none" stroke-dasharray="3,3" />
-                            <path d="M180,230 C210,180 270,180 300,230" stroke="#4169E1" stroke-width="1" fill="none" stroke-dasharray="3,3" />
-                            <path d="M200,210 C220,180 250,180 270,210" stroke="#4169E1" stroke-width="1" fill="none" stroke-dasharray="3,3" />
-                            
-                            <!-- Tangent plane z = 2x + 4y - 5 -->
-                            <path d="M150,230 L340,250 L280,130 L120,160 Z" fill="url(#planeGradient)" stroke="#FF8C00" stroke-width="1.5" />
-                            
-                            <!-- Point (1,2,5) -->
-                            <circle cx="225" cy="170" r="5" fill="red" />
-                            <text x="235" y="165" font-family="Arial" font-size="12">(1,2,5)</text>
-                            
-                            <!-- Labels -->
-                            <text x="310" y="200" font-family="Arial" font-size="12" fill="#4169E1">z = x² + y²</text>
-                            <text x="120" y="185" font-family="Arial" font-size="12" fill="#FF8C00">z = 2x + 4y - 5</text>
-                        </svg>
-                        <div class="caption">
-                            図3.1: 放物面 z = x² + y²（青い曲面）とその接平面 z = 2x + 4y - 5（オレンジ色の平面）が点(1,2,5)で交わっています。
-                        </div>
-                    </div>
-                </div>
-            </div>
-
             <div class="section-highlight">
-                <h3>偏微分に対する平均値の定理</h3>
+                <h3>微分可能性と接平面</h3>
                 
-                <p>1変数関数 $g$ について、古典的な平均値の定理があります：$g$ が $(a,b)$ 上で微分可能で $g'$ が連続ならば、次を満たす $c\in (a,b)$ が存在します：</p>
+                <p>関数が点 $(a,b)$ で微分可能である時、その点における接平面が存在する。これは偏導関数が存在し、連続である時に保証される。</p>
+                
+                <p>微分可能性は、関数が局所的に線形近似可能であることを意味する。つまり：</p>
                 
                 <div class="formula">
-                    $$g'(c) = \frac{g(x)-g(a)}{x-a} \Leftrightarrow g(x)-g(a) = g'(c)(x-a) = g'(a)(x-a) + o(|x-a|)$$
+                    $$f(x,y) \approx f(a,b) + f_x(a,b)(x-a) + f_y(a,b)(y-b)$$
                 </div>
                 
-                <p>2変数関数 $f(x,y)$ については、平均値の定理の次の拡張があります：</p>
-                
-                <div class="formula">
-                    $$f(x,b)-f(a,b) = f_x(a,b)(x-a)+o(|x-a|)$$
-                    $$f(a,y)-f(a,b) = f_y(a,b)(y-b)+o(|y-b|)$$
-                </div>
-                
-                <div class="proof-box">
-                    <h3 style="margin-top: 0;">偏微分に対する平均値の定理の証明</h3>
-                    <p>1変数の平均値の定理を適用して、両方の式を証明します。</p>
-                    
-                    <p>最初の式について、$y = b$ に固定し、関数 $g(x) = f(x,b)$ を定義します。すると $g'(x) = f_x(x,b)$ となります。</p>
-                    
-                    <p>1変数の平均値の定理により、次を満たす $c \in (a,x)$ （または $x < a$ ならば $c \in (x,a)$）が存在します：</p>
-                    <div class="formula" style="background: none; border-left: none; box-shadow: none;">
-                        $$g(x) - g(a) = g'(c)(x-a)$$
-                    </div>
-                    
-                    <p>定義を代入すると：</p>
-                    <div class="formula" style="background: none; border-left: none; box-shadow: none;">
-                        $$f(x,b) - f(a,b) = f_x(c,b)(x-a)$$
-                    </div>
-                    
-                    <p>$f_x$ が点 $(a,b)$ で連続であるため、$c \to a$ のとき（これは $x \to a$ のときに起こります）、$f_x(c,b) = f_x(a,b) + o(1)$ となります。</p>
-                    
-                    <p>したがって：</p>
-                    <div class="formula" style="background: none; border-left: none; box-shadow: none;">
-                        $$f(x,b) - f(a,b) = [f_x(a,b) + o(1)](x-a) = f_x(a,b)(x-a) + o(|x-a|)$$
-                    </div>
-                    
-                    <p>2番目の式の証明も同様で、$x = a$ に固定して $y$ について考えます。</p>
-                </div>
+                <p>この近似の誤差は、点 $(a,b)$ に近づくにつれて相対的に小さくなる。</p>
             </div>
 
-            <div class="section-highlight">
-                <h3>接平面の正当化</h3>
+            <div class="example-box">
+                <div class="example-title">例 3.2</div>
+                <p>$f(x,y) = \sqrt{x^2 + y^2}$ の原点における微分可能性を考える。</p>
                 
-                <div class="theorem-box">
-                    <h3 style="margin-top: 0;">定理 3.1</h3>
-                    <p>関数 $f(x,y)$ が点 $(a,b)$ の近傍で定義されているとします。もし $f$ が点 $(a,b)$ で微分可能ならば：</p>
-                    <div class="formula" style="background: none; border-left: none; box-shadow: none;">
-                        $$f(x,y)-f(a,b) = f_x(a,b)(x-a)+f_y(a,b)(y-b)+ o(|x-a|+|y-b|)$$
-                    </div>
+                <p><strong>解答：</strong></p>
+                <p>原点以外では偏導関数は以下のように計算される：</p>
+                <div class="formula">
+                    \begin{align*}
+                    f_x &= \frac{x}{\sqrt{x^2 + y^2}}\\
+                    f_y &= \frac{y}{\sqrt{x^2 + y^2}}
+                    \end{align*}
                 </div>
                 
-                <div class="proof-box">
-                    <h3 style="margin-top: 0;">定理3.1の証明</h3>
-                    <p>先ほど証明した偏微分に対する平均値の定理を使用します。</p>
-                    
-                    <p><strong>ステップ1：</strong> まず、点 $(a,b)$ から中間点 $(x,b)$ に移動します。</p>
-                    <p>偏微分に対する平均値の定理により：</p>
-                    <div class="formula" style="background: none; border-left: none; box-shadow: none;">
-                        $$f(x,b)-f(a,b) = f_x(a,b)(x-a)+o(|x-a|)$$
-                    </div>
-                    
-                    <p><strong>ステップ2：</strong> 次に、$(x,b)$ から $(x,y)$ に移動します。</p>
-                    <p>点 $(x,b)$ を基準として、$y$ に関する平均値の定理を適用します：</p>
-                    <div class="formula" style="background: none; border-left: none; box-shadow: none;">
-                        $$f(x,y)-f(x,b) = f_y(x,b)(y-b)+o(|y-b|)$$
-                    </div>
-                    
-                    <p>$f$ が点 $(a,b)$ で微分可能であるため、偏導関数 $f_y$ は $(a,b)$ の近くで連続です。したがって：</p>
-                    <div class="formula" style="background: none; border-left: none; box-shadow: none;">
-                        $$f_y(x,b) = f_y(a,b) + o(1)$$ （$x \to a$ のとき）
-                    </div>
-                    
-                    <p>したがって：</p>
-                    <div class="formula" style="background: none; border-left: none; box-shadow: none;">
-                        \begin{align*}
-                        f(x,y)-f(x,b) &= [f_y(a,b) + o(1)](y-b)+o(|y-b|)\\
-                        &= f_y(a,b)(y-b) + o(1)(y-b) + o(|y-b|)\\
-                        &= f_y(a,b)(y-b) + o(|y-b|) + o(|x-a|)|y-b|
-                        \end{align*}
-                    </div>
-                    
-                    <p>項 $o(|x-a|)|y-b|$ は $o(|x-a|+|y-b|)$ に吸収できます。なぜなら：</p>
-                    <div class="formula" style="background: none; border-left: none; box-shadow: none;">
-                        \begin{align*}
-                        o(|x-a|)|y-b| &\leq o(|x-a|)(|x-a|+|y-b|)\\
-                        &= o((|x-a|+|y-b|)^2)\\
-                        &= o(|x-a|+|y-b|)
-                        \end{align*}
-                    </div>
-                    
-                    <p><strong>ステップ3：</strong> 最後に、これらのステップを組み合わせます。</p>
-                    <p>ステップ1と2の式を足すと：</p>
-                    <div class="formula" style="background: none; border-left: none; box-shadow: none;">
-                        \begin{align*}
-                        f(x,y) - f(a,b) &= [f(x,b)-f(a,b)] + [f(x,y)-f(x,b)]\\
-                        &= f_x(a,b)(x-a) + o(|x-a|) + f_y(a,b)(y-b) + o(|y-b|)\\
-                        &= f_x(a,b)(x-a) + f_y(a,b)(y-b) + o(|x-a|+|y-b|)
-                        \end{align*}
-                    </div>
-                    
-                    <p>これで証明が完了しました。</p>
-                </div>
-                
-                <div class="figure" style="background-color: #eefaf8; border-left: 4px solid #2ecc71; text-align: left;">
-                    <h3 style="margin-top: 0;">接平面に関する重要な洞察</h3>
-                    <ul style="padding-left: 20px;">
-                        <li>接平面は、ある点での曲面に対する最良の線形近似を提供します。</li>
-                        <li>接平面の方程式は、接点とその点での偏導関数のみに依存します。</li>
-                        <li>幾何学的には、接平面は（局所的に）曲面とちょうど1点で接します。</li>
-                        <li>接平面近似の誤差は、点からの距離よりも速く0に近づきます。</li>
-                        <li>接線が一変数微積分の基本的要素であるように、接平面は多変数微積分において、特に近似と最適化問題において不可欠です。</li>
-                    </ul>
-                </div>
+                <p>原点では偏導関数は存在するが（方向微分が存在する）、連続ではない。したがって、原点では微分可能でなく、接平面は存在しない。</p>
+            </div>
+
+            <div class="property-box">
+                <h3>接平面の重要性</h3>
+                <ul>
+                    <li>局所的な線形近似を提供する</li>
+                    <li>関数の振る舞いを理解するための重要なツールとなる</li>
+                    <li>最適化問題や物理学の問題で頻繁に利用される</li>
+                </ul>
             </div>
         </section>
 
