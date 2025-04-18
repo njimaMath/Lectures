@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>f(x) の周期性の証明</title>
+  <script>
+    MathJax = {
+      tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']],
+        displayMath: [['$$', '$$'], ['\\[', '\\]']]
+      },
+      options: { enableMenu: false }
+    };
+  </script>
+  
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js" async></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+  <style>
+    :root {
+      --primary-color: #1a365d;
+      --secondary-color: #2b6cb0;
+      --accent-color: #4299e1;
+      --text-color: #2d3748;
+      --background-color: #f8fafc;
+      --section-bg: #ffffff;
+      --border-radius: 8px;
+      --box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+      --section-border-left: 5px solid var(--accent-color);
+      --section-padding: 2rem;
+      --heading-font: 'Palatino', 'Times New Roman', serif;
+      --body-font: 'Segoe UI', 'Helvetica Neue', sans-serif;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: var(--body-font);
+      line-height: 1.8;
+      background: var(--background-color);
+      color: var(--text-color);
+      max-width: 1000px;
+      margin: 0 auto;
+      padding: 2rem;
+      counter-reset: section;
+    }
+
+    .header {
+      text-align: center;
+      margin-bottom: 3rem;
+      padding-bottom: 2rem;
+      border-bottom: 1px solid #e2e8f0;
+    }
+
+    h1 {
+      color: var(--primary-color);
+      font-family: var(--heading-font);
+      font-size: 2.5rem;
+      margin-bottom: 1rem;
+      text-align: center;
+      font-weight: 700;
+    }
+
+    h2 {
+      color: var(--secondary-color);
+      font-family: var(--heading-font);
+      margin-top: 1rem;
+      margin-bottom: 1rem;
+      font-size: 1.5rem;
+      position: relative;
+    }
+
+    h2::before {
+      content: counter(section) ". ";
+      counter-increment: section;
+    }
+
+    p {
+      margin-bottom: 1.2rem;
+      text-align: justify;
+    }
+
+    code {
+      background: #edf2f7;
+      padding: 2px 4px;
+      border-radius: 4px;
+      font-family: Consolas, monospace;
+    }
+
+    .section {
+      background: var(--section-bg);
+      border-left: var(--section-border-left);
+      padding: var(--section-padding);
+      margin-bottom: 2.5rem;
+      box-shadow: var(--box-shadow);
+      border-radius: var(--border-radius);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .section:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 6px 16px rgba(0, 0, 0, 0.12);
+    }
+
+    .section-title {
+      display: flex;
+      align-items: center;
+      margin-bottom: 1.5rem;
+    }
+
+    .section-title i {
+      margin-right: 10px;
+      color: var(--accent-color);
+    }
+
+    .math-display {
+      overflow-x: auto;
+      padding: 1rem 0;
+    }
+
+    ul, ol {
+      margin-left: 2rem;
+      margin-bottom: 1.5rem;
+    }
+
+    li {
+      margin-bottom: 0.5rem;
+    }
+
+    .conclusion {
+      background: linear-gradient(to right, #f0f9ff, #e6f7ff);
+      border-left: 5px solid #3182ce;
+      font-style: italic;
+    }
+
+    .footer {
+      text-align: center;
+      margin-top: 4rem;
+      padding-top: 2rem;
+      border-top: 1px solid #e2e8f0;
+      color: #718096;
+      font-size: 0.9rem;
+    }
+
+    @media (max-width: 768px) {
+      body {
+        padding: 1rem;
+      }
+      
+      .section {
+        padding: 1.5rem 1rem;
+      }
+      
+      h1 {
+        font-size: 2rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="header">
+    <h1>$f''(x)+f(x)=0$ から導かれる $f(x)$ の周期性</h1>
+    <p>調和振動子の微分方程式から周期性を数学的に証明する</p>
+  </div>
+  
+  <div class="section">
+    <div class="section-title">
+      <i class="fas fa-function"></i>
+      <h2>$\sin,\cos,\exp$に関する仮定</h2>
+    </div>
+    <p>本講義では以下の性質のみを仮定する：</p>
+    <div class="math-display">
+      $\begin{align*}
+      (\cos x)' = -\sin x,\quad
+      (\sin x)' = \cos x,\quad
+      (\exp(\alpha x))' &= \alpha\exp(\alpha x),\quad \alpha\in \mathbb{C}
+      \end{align*}$
+    </div>
+    <div class="math-display">
+      $\begin{align*}
+      \cos(0) = 1,\quad 
+      \sin(0) = 0,\quad 
+      \exp(0) = 1
+      \end{align*}$
+    </div>
+  </div>
+  
+  <div class="section">
+    <div class="section-title">
+      <i class="fas fa-square-root-alt"></i>
+      <h2>微分方程式の基本形</h2>
+    </div>
+    <p>
+      微分方程式 $f''(x) = -f(x)$ と初期条件 $f(0)=a$, $f'(0)=b$ を考える。予想解
+    </p>
+    <div class="math-display">
+      $f(x)=a\cos x + b\sin x$
+    </div>
+    <p>
+      を代入すると式を満たすことが確認できる。これは調和振動子の一般解の形式である。
+    </p>
+  </div>
+
+  <div class="section">
+    <div class="section-title">
+      <i class="fas fa-calculator"></i>
+      <h2>基本解の導出: 定数変化法</h2>
+    </div>
+    <p>
+      この二階線形常微分方程式の解は初期値で一意に定まる。特に $a=1,\,b=0$ のとき、以下の関数を考える：
+    </p>
+    <div class="math-display">
+      $S_1(x)=f'(x)\cos x + f(x)\sin x,\quad S_2(x)=f(x)\cos x - f'(x)\sin x$
+    </div>
+    <p>
+      これらの導関数について解析すると、それぞれの導関数が $S_1'(x)=0$, $S_2'(x)=0$ となり $S_1,S_2$ は定数である。
+      初期条件から $S_1(0)=0$, $S_2(0)=1$ がわかり、結果として $f(x)=\cos x$ が得られる。
+    </p>
+  </div>
+
+  <div class="section">
+    <div class="section-title">
+      <i class="fas fa-infinity"></i>
+      <h2>複素解析による三角関数の導出</h2>
+    </div>
+    <p>
+      複素指数関数 $F(x)=e^{ix}$ を考えると $F'(x)=iF(x)$, $F''(x)=-F(x)$ が成り立つ。
+      $F(x)=f(x)+ig(x)$ と実部・虚部に分ければ、$f''(x)=-f(x)$, $g''(x)=-g(x)$ かつ
+    </p>
+    <div class="math-display">
+      $f(0)=1,\;f'(0)=0,\quad g(0)=0,\;g'(0)=1$
+    </div>
+    <p>
+      となる。よって解の一意性より $f(x)=\cos x$, $g(x)=\sin x$ が従う。これは複素数の観点から三角関数の基本的性質を導出する方法を示している。
+    </p>
+  </div>
+
+  <div class="section">
+    <div class="section-title">
+      <i class="fas fa-gavel"></i>
+      <h2>存在と一意性定理</h2>
+    </div>
+    <p>
+      ODE $f''(x) + f(x) = 0$（初期条件 $f(0) = 1$）において、係数 $p(x)=0$, $q(x)=1$ は全域で連続である。
+      二階線形常微分方程式の存在と一意性定理により、任意の $x_0$ に対し $f(x_0)$ と $f'(x_0)$ が与えられれば解は一意に定まる。
+      この一意性が後の議論の基礎となる。
+    </p>
+  </div>
+
+  <div class="section">
+    <div class="section-title">
+      <i class="fas fa-bolt"></i>
+      <h2>エネルギー法による保存量</h2>
+    </div>
+    <p>方程式に $f'(x)$ を掛けると：</p>
+    <div class="math-display">
+      $f''(x)f'(x) + f(x)f'(x) = \dfrac{d}{dx}\Bigl[\tfrac12(f'(x))^2 + \tfrac12(f(x))^2\Bigr] = 0$
+    </div>
+    <p>
+      よって $(f'(x))^2 + (f(x))^2$ は一定であり、エネルギー保存則に相当する量として
+    </p>
+    <div class="math-display">
+      $ (f'(x))^2 + (f(x))^2 = C $
+    </div>
+    <p>
+      と書ける。初期条件から $C = (f'(0))^2 + 1 = c_0^2 + 1$ である。物理的には運動エネルギーとポテンシャルエネルギーの和が保存されることを意味する。
+    </p>
+  </div>
+
+  <div class="section">
+    <div class="section-title">
+      <i class="fas fa-compass"></i>
+      <h2>有界性と位相平面の図解</h2>
+    </div>
+    <p>
+      上式より $f$ と $f'$ は有界である。位相平面 $(y,z)=(f(x),f'(x))$ では軌道は円
+    </p>
+    <div class="math-display">
+      $y^2 + z^2 = c_0^2 + 1$
+    </div>
+    <p>
+      上を動く。この円軌道が解の周期性を視覚的に表現している。
+    </p>
+    <p>
+      速度ベクトルは $(f'(x),f''(x))=(f'(x),-f(x))$ で、その大きさは
+    </p>
+    <div class="math-display">
+      $\sqrt{(f'(x))^2 + (f(x))^2}=\sqrt{C}=R$
+    </div>
+    <p>
+      となり、半径 $R$ の円周を一定速度で巡る運動になる。これは調和振動子の位相空間における重要な特性である。
+    </p>
+  </div>
+
+  <div class="section">
+    <div class="section-title">
+      <i class="fas fa-sync-alt"></i>
+      <h2>周期の存在</h2>
+    </div>
+    <p>
+      円運動であるため、点 $(f(x),f'(x))$ は有限時間 $P=2\pi$（または何らかの正の有限値）で初期位置 $(1,c_0)$ に戻る。
+      したがって以下の関係が成り立つ：
+    </p>
+    <ul>
+      <li>$f(P)=f(0)=1$</li>
+      <li>$f'(P)=f'(0)=c_0$</li>
+    </ul>
+    <p>
+      この周期 $P$ の存在が次のステップでの証明の鍵となる。
+    </p>
+  </div>
+
+  <div class="section">
+    <div class="section-title">
+      <i class="fas fa-fingerprint"></i>
+      <h2>一意性を用いた周期性の証明</h2>
+    </div>
+    <p>
+      $g(x):=f(x+P)$ と定義すると、以下の条件が満たされる：
+    </p>
+    <ul>
+      <li>$g''(x)+g(x)=f''(x+P)+f(x+P)=0$</li>
+      <li>$g(0)=f(P)=1$, $g'(0)=f'(P)=c_0$</li>
+    </ul>
+    <p>
+      $f$ と $g$ は同じ微分方程式と同じ初期条件を満たすので、解の一意性により
+    </p>
+    <div class="math-display">
+      $ f(x)=g(x)=f(x+P) \quad(\forall x) $
+    </div>
+    <p>
+      すなわち $f$ は周期 $P$ をもつ。これにより解の周期性が厳密に証明された。
+    </p>
+  </div>
+
+  <div class="section conclusion">
+    <div class="section-title">
+      <i class="fas fa-star"></i>
+      <h2>結論</h2>
+    </div>
+    <p>
+      微分方程式 $f''(x)+f(x)=0$、エネルギー保存則、そして解の一意性を組み合わせることで、$f$ が必ず周期関数となることを示した。位相平面での円運動は有限時間で初期状態に戻ることを保証し、一意性が周期性を強制する。この結果は単振動の数学的基盤となり、物理学や工学における多くの現象の理解に寄与する。
+    </p>
+  </div>
+
+  <div class="footer">
+    <p>© 2025 数学的証明集 | 調和振動子の周期性</p>
+  </div>
+</body>
+</html>
