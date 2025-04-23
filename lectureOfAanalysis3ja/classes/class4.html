@@ -6,64 +6,64 @@
     <title>第4回：全微分</title>
     <style>
         :root {
-            --primary-color: #2c3e50;
-            --secondary-color: #3498db;
-            --accent-color: #e74c3c;
-            --background-color: #f9f9f9;
-            --text-color: #333;
-            --container-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
-            --text-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+            --primary-color: #2c3e50; /* 深い青灰色 */
+            --secondary-color: #3498db; /* 明るい青 */
+            --accent-color: #e74c3c; /* 赤 */
+            --background-color: #f9f9f9; /* 淡いグレー */
+            --text-color: #333; /* 濃いグレー */
+            --container-shadow: 0 10px 30px rgba(0, 0, 0, 0.08); /* コンテナの影 */
+            --text-shadow: 0 2px 4px rgba(0, 0, 0, 0.05); /* テキストの影 */
         }
 
         body {
-            font-family: 'Georgia', serif;
-            line-height: 1.7;
+            font-family: 'Georgia', serif; /* フォント設定 */
+            line-height: 1.7; /* 行間 */
             margin: 0;
             padding: 0;
-            background-color: var(--background-color);
-            color: var(--text-color);
+            background-color: var(--background-color); /* 背景色 */
+            color: var(--text-color); /* テキスト色 */
         }
 
         .container {
-            max-width: 900px;
-            margin: 20px auto;
+            max-width: 900px; /* コンテナ最大幅 */
+            margin: 20px auto; /* 中央寄せ */
             padding: 30px;
-            background-color: white;
-            box-shadow: var(--container-shadow);
-            border-radius: 15px;
+            background-color: white; /* コンテナ背景色 */
+            box-shadow: var(--container-shadow); /* コンテナの影 */
+            border-radius: 15px; /* 角丸 */
         }
 
         header {
-            text-align: center;
+            text-align: center; /* 中央揃え */
             margin-bottom: 40px;
-            border-bottom: 2px solid var(--secondary-color);
+            border-bottom: 2px solid var(--secondary-color); /* 下線 */
             padding-bottom: 20px;
         }
 
         h1, h2, h3 {
-            color: var(--primary-color);
+            color: var(--primary-color); /* 見出し色 */
         }
 
         .section-title {
             color: var(--primary-color);
-            font-size: 1.8rem;
+            font-size: 1.8rem; /* フォントサイズ */
             margin-top: 30px;
             margin-bottom: 20px;
             padding-bottom: 10px;
-            border-bottom: 1px solid #eee;
-            text-shadow: var(--text-shadow);
+            border-bottom: 1px solid #eee; /* 下線 */
+            text-shadow: var(--text-shadow); /* テキストの影 */
         }
 
         .lecture-title {
             color: var(--secondary-color);
             font-size: 1.5rem;
             margin-bottom: 15px;
-            font-weight: normal;
+            font-weight: normal; /* 通常の太さ */
         }
 
         .author-info {
-            font-style: italic;
-            color: #777;
+            font-style: italic; /* イタリック体 */
+            color: #777; /* グレー */
         }
 
         .math {
@@ -75,13 +75,13 @@
             text-align: center;
             margin: 30px 0;
             padding: 20px;
-            background-color: #f8f9fa;
+            background-color: #f8f9fa; /* 淡い背景色 */
             border-radius: 10px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05); /* 影 */
         }
 
         .figure img {
-            max-width: 100%;
+            max-width: 100%; /* 画像最大幅 */
             border-radius: 5px;
         }
 
@@ -94,10 +94,10 @@
         .navigation {
             margin-top: 40px;
             text-align: center;
-            display: flex;
-            justify-content: space-between;
+            display: flex; /* Flexbox使用 */
+            justify-content: space-between; /* 両端揃え */
             padding: 15px 0;
-            border-top: 1px solid #eee;
+            border-top: 1px solid #eee; /* 上線 */
         }
 
         .navigation a {
@@ -105,24 +105,24 @@
             padding: 10px 20px;
             background-color: var(--primary-color);
             color: white;
-            text-decoration: none;
+            text-decoration: none; /* 下線なし */
             border-radius: 8px;
-            transition: all 0.3s ease;
+            transition: all 0.3s ease; /* アニメーション */
             box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
         }
 
         .navigation a:hover {
-            background-color: var(--secondary-color);
-            transform: translateY(-2px);
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+            background-color: var(--secondary-color); /* ホバー時の色 */
+            transform: translateY(-2px); /* 少し上に移動 */
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15); /* 影を濃く */
         }
 
         .topic-highlight {
             display: inline-block;
-            background-color: rgba(52, 152, 219, 0.1);
+            background-color: rgba(52, 152, 219, 0.1); /* 青の半透明背景 */
             padding: 2px 8px;
             border-radius: 4px;
-            font-weight: 500;
+            font-weight: 500; /* 少し太字 */
             color: var(--primary-color);
         }
 
@@ -130,124 +130,141 @@
             margin: 25px 0;
             padding: 15px;
             background-color: #f8f9fa;
-            border-left: 4px solid var(--secondary-color);
+            border-left: 4px solid var(--secondary-color); /* 左側のボーダー */
             border-radius: 5px;
-            overflow-x: auto;
-            font-size: 1.1em;
+            overflow-x: auto; /* 横スクロール可能に */
+            font-size: 1.1em; /* フォントサイズ少し大きく */
             box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
         }
 
         .example-title {
-            font-weight: bold;
+            font-weight: bold; /* 太字 */
             font-size: 1.2em;
             color: var(--secondary-color);
             margin-top: 30px;
             margin-bottom: 15px;
             padding-bottom: 5px;
-            border-bottom: 1px dashed #ccc;
-            display: inline-block;
+            border-bottom: 1px dashed #ccc; /* 点線の下線 */
+            display: inline-block; /* 幅を内容に合わせる */
         }
 
         p {
             margin-bottom: 20px;
-            line-height: 1.8;
+            line-height: 1.8; /* 行間広め */
         }
 
         .content-section {
             padding-bottom: 30px;
         }
-        
+
+        /* 定義ボックス */
         .definition-box {
-            background-color: #f0f7ff;
-            border-left: 4px solid #3498db;
+            background-color: #f0f7ff; /* 淡い青 */
+            border-left: 4px solid #3498db; /* 青のボーダー */
             padding: 15px;
             margin: 20px 0;
             border-radius: 5px;
             box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
         }
-        
+
+        /* 定理ボックス */
+        .theorem-box {
+            background-color: #fff7e6; /* 淡いオレンジ */
+            border-left: 4px solid #f39c12; /* オレンジのボーダー */
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+        }
+
+        /* 性質ボックス */
         .property-box {
-            background-color: #eefaf8;
-            border-left: 4px solid #2ecc71;
+            background-color: #eefaf8; /* 淡い緑 */
+            border-left: 4px solid #2ecc71; /* 緑のボーダー */
             padding: 15px;
             margin: 20px 0;
             border-radius: 5px;
             box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
         }
-        
+
+        /* 例題ボックス */
         .example-box {
-            background-color: #f0f9ff;
-            border: 1px solid #d1e6fa;
+            background-color: #f0f9ff; /* さらに淡い青 */
+            border: 1px solid #d1e6fa; /* 青系のボーダー */
             padding: 20px;
             margin: 20px 0;
             border-radius: 8px;
             box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
         }
-        
+
+        /* セクションハイライト */
         .section-highlight {
-            background-color: #f8f9fa;
+            background-color: #f8f9fa; /* 淡いグレー */
             border-radius: 10px;
             padding: 20px;
             margin: 25px 0;
             box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
         }
-        
+
+        /* 比較表 */
         .comparison-table {
             width: 100%;
-            border-collapse: collapse;
+            border-collapse: collapse; /* ボーダー結合 */
             margin: 25px 0;
-            font-size: 0.9em;
+            font-size: 0.9em; /* フォントサイズ少し小さく */
             box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
             border-radius: 5px;
-            overflow: hidden;
+            overflow: hidden; /* 角丸適用のために */
         }
-        
+
         .comparison-table thead tr {
-            background-color: var(--secondary-color);
-            color: white;
+            background-color: var(--secondary-color); /* ヘッダー背景色 */
+            color: white; /* ヘッダー文字色 */
             text-align: left;
         }
-        
+
         .comparison-table th,
         .comparison-table td {
-            padding: 12px 15px;
+            padding: 12px 15px; /* セルのパディング */
         }
-        
+
         .comparison-table tbody tr {
-            border-bottom: 1px solid #dddddd;
+            border-bottom: 1px solid #dddddd; /* 行の下線 */
         }
-        
+
         .comparison-table tbody tr:nth-of-type(even) {
-            background-color: #f3f3f3;
+            background-color: #f3f3f3; /* 偶数行の背景色 */
         }
-        
+
         .comparison-table tbody tr:last-of-type {
-            border-bottom: 2px solid var(--secondary-color);
+            border-bottom: 2px solid var(--secondary-color); /* 最終行の下線 */
         }
-        
+
+        /* 視覚化ボックス (SVG用) */
         .visual-box {
             display: flex;
             justify-content: center;
             align-items: center;
-            background-color: #f5f5f5;
+            background-color: #f5f5f5; /* 薄いグレー背景 */
             border-radius: 8px;
             padding: 15px;
             margin: 25px 0;
             box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
         }
     </style>
-    <!-- MathJax configuration -->
+    <!-- MathJax設定 -->
     <script>
       window.MathJax = {
         tex: {
-          inlineMath: [['$', '$']],
-          displayMath: [['$$', '$$']]
+          inlineMath: [['$', '$']], // インライン数式は$...$
+          displayMath: [['$$', '$$']] // ディスプレイ数式は$$...$$
         },
         svg: {
-          fontCache: 'global'
+          fontCache: 'global' // フォントキャッシュ設定
         }
       };
     </script>
+    <!-- MathJaxライブラリの読み込み -->
     <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js" async></script>
 </head>
 <body>
@@ -257,209 +274,317 @@
             <div class="lecture-title">工学部：電気電子工学グループ4</div>
             <div class="author-info">講義ノート</div>
         </header>
-        
+
         <section id="class4" class="content-section">
             <div class="section-title">第4回：全微分</div>
-            
+
             <p>この講義では、<span class="topic-highlight">全微分</span>の概念について学び、多変数入力による関数の変化を近似するために偏微分を組み合わせる方法を探る。これにより、入力の小さな変化が出力にどう影響するかを予測できる。</p>
 
+            <!-- 全微分可能性の定義 -->
+            <div class="definition-box">
+                <h3 style="margin-top: 0;">全微分可能性の定義</h3>
+                <p>関数 $f(x,y)$ が点 $(a,b)$ で<span class="topic-highlight">全微分可能</span>であるとは、以下の条件を満たすことである：</p>
+                <!-- 数式表示 (ディスプレイモード) -->
+                <div class="formula" style="background: none; border-left: none; box-shadow: none;">
+                    $$f(a+h,b+k) - f(a,b) = \frac{\partial f}{\partial x}(a,b)h + \frac{\partial f}{\partial y}(a,b)k + o(\sqrt{h^2+k^2})$$
+                </div>
+                <p>ここで、$o(\sqrt{h^2+k^2})$ は $(h,k) \to (0,0)$ のとき $\frac{o(\sqrt{h^2+k^2})}{\sqrt{h^2+k^2}} \to 0$ となる項（ランダウの記号）を表す。</p>
+            </div>
+
+            <!-- 全微分可能性の十分条件に関する定理 -->
+            <div class="theorem-box">
+                <h3 style="margin-top: 0;">定理 (全微分可能性の十分条件)</h3>
+                <p>関数 $f(x,y)$ が点 $(a,b)$ の近傍で C¹級である（すなわち、偏導関数 $f_x, f_y$ が存在し、かつ連続である）ならば、$f$ は点 $(a,b)$ で全微分可能である。</p>
+            </div>
+
+            <!-- 偏微分から全微分へ -->
             <div class="section-highlight">
                 <h3>偏微分から全微分へ</h3>
-                
-                <p>偏微分 $f_x$ と $f_y$ は、純粋に $x$ 方向または $y$ 方向に移動する際の $f$ の変化を捉える。$x$ と $y$ が同時に変化する場合、$f$ の全体的な変化は<span class="topic-highlight">全微分</span>によって記述される。</p>
-                
+
+                <p>偏微分 $f_x$ と $f_y$ は、それぞれ $x$ 方向または $y$ 方向のみに微小変化した場合の関数 $f$ の変化率を捉える。しかし、実際には $x$ と $y$ が同時に変化することが多い。このような場合、$f$ の全体的な変化は<span class="topic-highlight">全微分</span>によって近似される。</p>
+
+                <!-- 全微分の定義 -->
                 <div class="definition-box">
                     <h3 style="margin-top: 0;">全微分</h3>
-                    <p>微分可能な関数 $z=f(x,y)$ において、全微分 $dz$ は両方の変数の変化の効果を組み合わせる：</p>
+                    <p>全微分可能な関数 $z=f(x,y)$ において、点 $(x,y)$ における全微分 $dz$ は、独立変数 $x, y$ の微小変化 $dx, dy$ に対する $z$ の変化の主要線形部分として、次のように定義される：</p>
+                    <!-- 数式表示 -->
                     <div class="formula" style="background: none; border-left: none; box-shadow: none;">
                         $$dz = \frac{\partial f}{\partial x}(x,y)\,dx + \frac{\partial f}{\partial y}(x,y)\,dy = f_x(x,y)\,dx + f_y(x,y)\,dy$$
                     </div>
                 </div>
-                
-                <p>この公式は、第3回で学んだ線形近似（接平面）から得られる。小さな変化 $dx, dy$ に対して、以下のように近似できる：</p>
-                
+
+                <p>この公式は、第3回で学んだ接平面を用いた線形近似から自然に導かれる。$(x,y)$ から $(x+\Delta x, y+\Delta y)$ への変化に対する $z$ の実際の変化 $\Delta z = f(x+\Delta x, y+\Delta y) - f(x,y)$ は、$\Delta x, \Delta y$ が小さいとき、全微分 $dz$（ここで $dx = \Delta x, dy = \Delta y$ とみなす）によって良く近似される：</p>
+
+                <!-- 線形近似の式 -->
                 <div class="formula">
-                    $$\Delta z \approx f_x(x,y)\,\Delta x + f_y(x,y)\,\Delta y$$
+                    $$\Delta z \approx dz = f_x(x,y)\,\Delta x + f_y(x,y)\,\Delta y$$
                 </div>
-                
+
+                <!-- 図による視覚的説明 -->
                 <div class="visual-box">
                     <svg width="400" height="300" viewBox="0 0 400 300">
-                        <!-- Coordinate system -->
-                        <line x1="50" y1="250" x2="350" y2="250" stroke="#333" stroke-width="2" />
-                        <line x1="50" y1="250" x2="50" y2="50" stroke="#333" stroke-width="2" />
-                        <line x1="50" y1="250" x2="150" y2="200" stroke="#333" stroke-width="1.5" stroke-dasharray="5,5" />
+                        <!-- 座標軸 -->
+                        <line x1="50" y1="250" x2="350" y2="250" stroke="#333" stroke-width="2" marker-end="url(#arrowhead)"/> <!-- x軸 -->
+                        <line x1="50" y1="250" x2="50" y2="50" stroke="#333" stroke-width="2" marker-end="url(#arrowhead)"/> <!-- z軸 -->
+                        <line x1="50" y1="250" x2="150" y2="300" stroke="#333" stroke-width="1.5" stroke-dasharray="4,4" marker-end="url(#arrowhead)"/> <!-- y軸 (奥行き) -->
+                        <defs>
+                            <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="0" refY="3.5" orient="auto">
+                                <polygon points="0 0, 10 3.5, 0 7" fill="#333" />
+                            </marker>
+                        </defs>
+                        <!-- 軸ラベル -->
+                        <text x="355" y="255" font-family="Arial" font-size="16">x</text>
+                        <text x="40" y="45" font-family="Arial" font-size="16">z</text>
+                        <text x="155" y="305" font-family="Arial" font-size="16">y</text>
                         
-                        <!-- Labels -->
-                        <text x="360" y="255" font-family="Arial" font-size="16">x</text>
-                        <text x="40" y="40" font-family="Arial" font-size="16">z</text>
-                        <text x="140" y="210" font-family="Arial" font-size="16">y</text>
+                        <!-- 曲面 (青線) -->
+                        <path d="M70,230 Q180,100 350,150" fill="none" stroke="#3498db" stroke-width="3" stroke-linecap="round"/>
+                        <!-- 接平面 (赤線) -->
+                        <path d="M100,210 L300,150" fill="none" stroke="#e74c3c" stroke-width="3" stroke-linecap="round"/>
                         
-                        <!-- Surface and tangent plane -->
-                        <path d="M50,250 Q150,100 350,150" fill="none" stroke="#3498db" stroke-width="3" />
-                        <line x1="150" y1="180" x2="250" y2="160" stroke="#e74c3c" stroke-width="3" />
+                        <!-- 接点 (緑丸) -->
+                        <circle cx="180" cy="180" r="5" fill="#2ecc71" />
+                        <text x="185" y="175" font-family="Arial" font-size="12">(x,y,f(x,y))</text>
                         
-                        <!-- Point of tangency -->
-                        <circle cx="150" cy="180" r="5" fill="#2ecc71" />
-                        <text x="150" y="165" font-family="Arial" font-size="12">(x,y,f(x,y))</text>
-                        
-                        <!-- Delta x and Delta z -->
-                        <line x1="150" y1="180" x2="250" y2="180" stroke="#333" stroke-width="1.5" stroke-dasharray="5,5" />
-                        <line x1="250" y1="180" x2="250" y2="160" stroke="#333" stroke-width="1.5" stroke-dasharray="5,5" />
-                        <text x="190" y="195" font-family="Arial" font-size="14">Δx</text>
-                        <text x="260" y="170" font-family="Arial" font-size="14">Δz ≈ dz</text>
+                        <!-- 微小変化 dx, dy, dz -->
+                        <line x1="180" y1="180" x2="250" y2="180" stroke="#333" stroke-width="1.5" stroke-dasharray="4,4" /> <!-- dx方向の移動 (接平面上) -->
+                        <line x1="250" y1="180" x2="270" y2="190" stroke="#333" stroke-width="1.5" stroke-dasharray="4,4" /> <!-- dy方向の移動 (接平面上) -->
+                        <line x1="270" y1="190" x2="270" y2="165" stroke="#e74c3c" stroke-width="1.5" marker-end="url(#arrowhead_red)"/> <!-- dz (接平面上の変化) -->
+                         <defs>
+                            <marker id="arrowhead_red" markerWidth="10" markerHeight="7" refX="0" refY="3.5" orient="auto">
+                                <polygon points="0 0, 10 3.5, 0 7" fill="#e74c3c" />
+                            </marker>
+                        </defs>
+                        <text x="210" y="195" font-family="Arial" font-size="14">Δx</text>
+                        <text x="275" y="180" font-family="Arial" font-size="14">Δy</text>
+                        <text x="275" y="155" font-family="Arial" font-size="14">Δz ≈ dz</text>
                     </svg>
                 </div>
+                 <p class="figure-caption">図：曲面上の点 $(x,y,f(x,y))$ における接平面と、微小変化 $\Delta x, \Delta y$ に対する $z$ の変化 $\Delta z$ とその線形近似 $dz$ の関係。</p>
             </div>
 
+            <!-- 幾何学的解釈 -->
             <div class="section-highlight">
                 <h3>幾何学的解釈</h3>
-                
-                <p>解釈上、$dz$ は「接平面に沿って」予測される高さの変化である。$(dx,dy)$ が $xy$ 平面での小さなステップであれば、$dz$ は接平面に沿った $z$ の対応する変化である。</p>
-                
-                <p>点 $(a,b)$ における<span class="topic-highlight">全微分</span>は、線形写像 $(dx,dy) \mapsto f_x(a,b)\,dx + f_y(a,b)\,dy$ として理解できる。</p>
-                
-                <p>ベクトル形式では、$\mathbf{u} = \langle dx, dy\rangle$ とすると：</p>
-                
+
+                <p>幾何学的には、$dz$ は、点 $(x,y,f(x,y))$ における接平面上での高さの変化量を表す。つまり、$xy$ 平面上で $(x,y)$ から $(x+dx, y+dy)$ へ微小移動したときに、接平面に沿って移動した場合の $z$ 座標の変化が $dz$ である。</p>
+
+                <p>点 $(a,b)$ における<span class="topic-highlight">全微分</span>は、$\mathbb{R}^2$ から $\mathbb{R}$ への線形写像 $(dx, dy) \mapsto f_x(a,b)\,dx + f_y(a,b)\,dy$ と見なすことができる。この線形写像は、点 $(a,b)$ における関数 $f$ の局所的な変化を最もよく近似する線形変換である。</p>
+
+                <p>ベクトル形式を用いると、微小変位ベクトルを $\mathbf{u} = \langle dx, dy\rangle$ とすれば、全微分 $dz$ は勾配ベクトル $\nabla f = \langle f_x, f_y \rangle$ との内積で表される：</p>
+
+                <!-- 全微分と勾配ベクトルの関係式 -->
                 <div class="formula">
-                    $$dz = \nabla f(a,b)\cdot \mathbf{u}$$
+                    $$dz = \nabla f(a,b) \cdot \mathbf{u} = \langle f_x(a,b), f_y(a,b) \rangle \cdot \langle dx, dy \rangle$$
                 </div>
-                
-                <p>ここで $\nabla f = \langle f_x,\;f_y\rangle$ は勾配ベクトルである。</p>
-                
+                <p>ここで $\nabla f(a,b)$ は点 $(a,b)$ における $f$ の勾配ベクトルである。</p>
+
+                <!-- 全微分可能性の条件に関する注意 -->
                 <div class="property-box">
-                    <h3 style="margin-top: 0;">全微分可能性の条件</h3>
-                    <p>関数 $f(x,y)$ は、完全に微分可能でなくても偏微分を持つことがある（つまり、線形近似がその点からの小さな変化を完全に記述できない可能性がある）ことに注意が必要だ。</p>
-                    <p>しかし、$f_x$ と $f_y$ が点 $(a,b)$ の近傍で存在し連続なら、$f$ は $(a,b)$ で微分可能であり、全微分が存在する。このような場合、無限小の変化に対して線形近似は正確となる。</p>
+                    <h3 style="margin-top: 0;">全微分可能性に関する注意</h3>
+                    <p>関数 $f(x,y)$ は、偏微分 $f_x(a,b)$ と $f_y(a,b)$ が存在しても、点 $(a,b)$ で全微分可能であるとは限らない。全微分可能性は、単に偏微分が存在するよりも強い条件である。（例：原点で偏微分可能だが全微分可能でない関数が存在する）</p>
+                    <p>しかし、前述の定理のように、$f_x$ と $f_y$ が点 $(a,b)$ の近傍で存在し、かつ点 $(a,b)$ で<span class="topic-highlight">連続</span>であれば、$f$ は $(a,b)$ で全微分可能である。この条件は、多くの場合で全微分可能性を保証するために用いられる。</p>
                 </div>
             </div>
 
+            <!-- 計算例 -->
             <div class="example-box">
-                <div class="example-title">例 4.1</div>
-                <p>微分を用いて、$z=\sqrt{x^2+y^2}$ において点 $(x,y)$ が $(3,4)$ から $(3.1, 4.2)$ に移動したときの $z$ の変化を近似せよ。</p>
-                
+                <div class="example-title">例 4.1：全微分を用いた近似計算</div>
+                <p>全微分を用いて、$z=f(x,y)=\sqrt{x^2+y^2}$ において、点 $(x,y)$ が $(3,4)$ から $(3.1, 3.8)$ に変化したときの $z$ の変化量 $\Delta z$ を近似せよ。</p>
+
                 <p><strong>解答：</strong></p>
-                <p>ここで $f(x,y) = \sqrt{x^2+y^2}$ は原点から点 $(x,y)$ までの距離を表す。</p>
-                
-                <p>まず、偏微分を計算する：</p>
-                
+                <p>関数 $f(x,y) = \sqrt{x^2+y^2}$ は、原点から点 $(x,y)$ までの距離を表す。</p>
+                <p>まず、偏導関数を計算する：</p>
+                <!-- 偏導関数の計算 -->
                 <div class="formula" style="background: none; border-left: none; box-shadow: none;">
                     \begin{align*}
-                    f_x &= \frac{\partial}{\partial x}\sqrt{x^2+y^2} = \frac{x}{\sqrt{x^2+y^2}}\\
-                    f_y &= \frac{\partial}{\partial y}\sqrt{x^2+y^2} = \frac{y}{\sqrt{x^2+y^2}}
+                    f_x(x,y) &= \frac{\partial}{\partial x}(x^2+y^2)^{1/2} = \frac{1}{2}(x^2+y^2)^{-1/2} \cdot 2x = \frac{x}{\sqrt{x^2+y^2}}\\
+                    f_y(x,y) &= \frac{\partial}{\partial y}(x^2+y^2)^{1/2} = \frac{1}{2}(x^2+y^2)^{-1/2} \cdot 2y = \frac{y}{\sqrt{x^2+y^2}}
                     \end{align*}
                 </div>
-                
-                <p>点 $(3,4)$ では、これらは次のように評価される：</p>
-                
+
+                <p>次に、始点 $(a,b) = (3,4)$ における偏導関数の値を評価する：</p>
+                <p>$\sqrt{a^2+b^2} = \sqrt{3^2+4^2} = \sqrt{9+16} = \sqrt{25} = 5$.</p>
+                <!-- 点(3,4)での偏導関数の値 -->
                 <div class="formula" style="background: none; border-left: none; box-shadow: none;">
                     \begin{align*}
-                    f_x(3,4) &= \frac{3}{\sqrt{3^2+4^2}} = \frac{3}{5}\\
-                    f_y(3,4) &= \frac{4}{\sqrt{3^2+4^2}} = \frac{4}{5}
+                    f_x(3,4) &= \frac{3}{5} = 0.6\\
+                    f_y(3,4) &= \frac{4}{5} = 0.8
                     \end{align*}
                 </div>
-                
-                <p>なお、$\sqrt{3^2+4^2} = 5$ は原点から点 $(3,4)$ までの距離である。</p>
-                
-                <p>微分は次のようになる：</p>
+
+                <p>$x$ と $y$ の変化量はそれぞれ：</p>
+                <!-- dx, dy の計算 -->
                 <div class="formula" style="background: none; border-left: none; box-shadow: none;">
                     \begin{align*}
-                    dx &= 3.1 - 3 = 0.1\\
-                    dy &= 4.2 - 4 = 0.2
+                    \Delta x &= 3.1 - 3 = 0.1 \\
+                    \Delta y &= 3.8 - 4 = -0.2
                     \end{align*}
                 </div>
-                
-                <p>全微分の公式を用いると：</p>
+
+                <p>全微分 $dz$ を用いて $\Delta z$ を近似する ($dx = \Delta x, dy = \Delta y$ とおく)：</p>
+                <!-- dz の計算 -->
                 <div class="formula" style="background: none; border-left: none; box-shadow: none;">
                     \begin{align*}
-                    dz &\approx f_x(3,4)\,dx + f_y(3,4)\,dy\\
-                    &= \frac{3}{5}(0.1) + \frac{4}{5}(0.2)\\
-                    &= 0.03 + 0.16\\
-                    &= 0.19
+                    \Delta z \approx dz &= f_x(3,4)\,dx + f_y(3,4)\,dy\\
+                    &= (0.6)(0.1) + (0.8)(-0.2)\\
+                    &= 0.06 - 0.16\\
+                    &= -0.10
                     \end{align*}
                 </div>
-                
-                <p>$z$ は約 $0.19$ 単位増加すると予測される。</p>
-                
-                <p>近似を検証するために、実際の変化を計算する：</p>
+
+                <p>したがって、$z$ は約 $0.10$ 減少すると予測される。</p>
+
+                <p>比較のために、実際の変化量 $\Delta z$ を計算する：</p>
+                <!-- 実際の値の計算 -->
                 <div class="formula" style="background: none; border-left: none; box-shadow: none;">
                     \begin{align*}
-                    z \text{ at } (3.1,4.2) &= \sqrt{3.1^2+4.2^2}\\
-                    &= \sqrt{9.61 + 17.64}\\
-                    &= \sqrt{27.25}\\
-                    &\approx 5.22
+                    f(3,4) &= \sqrt{3^2+4^2} = 5 \\
+                    f(3.1, 3.8) &= \sqrt{(3.1)^2 + (3.8)^2} = \sqrt{9.61 + 14.44} = \sqrt{24.05} \\
+                    &\approx 4.90408
                     \end{align*}
                 </div>
-                
-                <p>元の値は $z = \sqrt{3^2+4^2} = 5$ であった。</p>
-                
-                <p>したがって、実際の変化は：</p>
-                <div class="formula" style="background: none; border-left: none; box-shadow: none;">
+                <p>実際の変化量 $\Delta z$ は：</p>
+                <!-- Delta z の計算 -->
+                 <div class="formula" style="background: none; border-left: none; box-shadow: none;">
                     \begin{align*}
-                    \Delta z &= 5.22 - 5\\
-                    &= 0.22
+                    \Delta z &= f(3.1, 3.8) - f(3,4) \\
+                    &\approx 4.90408 - 5 \\
+                    &= -0.09592
                     \end{align*}
-                </div>
-                
-                <p>微分による近似値 $0.19$ は実際の変化 $0.22$ に非常に近く、誤差はわずか $0.03$ である。これは、入力変数の小さな変化に対する微分アプローチの有効性を示している。</p>
+                 </div>
+
+                <p>全微分による近似値 $-0.10$ は、実際の変化量 $\approx -0.09592$ に非常に近く、この近似が有効であることを示している。</p>
             </div>
 
+            <!-- 方向微分 -->
             <div class="section-highlight">
-                <h3>比較：偏微分 vs 全微分</h3>
-                
+                <h2>方向微分</h2>
+
+                <p>全微分が任意の方向への微小変化に対する関数の変化を捉えるのに対し、<span class="topic-highlight">方向微分</span>は特定の<span class="topic-highlight">方向</span>における関数の変化率を与える。これは偏微分（座標軸方向の変化率）を一般化した概念である。</p>
+
+                <p>点 $(a,b)$ における、単位ベクトル $\mathbf{v} = \langle v_1, v_2 \rangle$ 方向への関数 $f(x,y)$ の方向微分 $D_{\mathbf{v}}f(a,b)$ は、以下のように定義される：</p>
+                <!-- 方向微分の定義式 -->
+                <div class="formula">
+                    $$D_{\mathbf{v}}f(a,b) = \lim_{h \to 0} \frac{f(a+hv_1, b+hv_2) - f(a,b)}{h}$$
+                </div>
+                <p>これは、点 $(a,b)$ から $\mathbf{v}$ 方向に進んだときの $f$ の瞬間的な変化率を表す。</p>
+
+                <!-- 方向微分の性質 -->
+                <div class="property-box">
+                    <h3 style="margin-top: 0;">方向微分と勾配ベクトル</h3>
+                    <p>関数 $f$ が点 $(a,b)$ で全微分可能であれば、方向微分は勾配ベクトル $\nabla f(a,b) = \langle f_x(a,b), f_y(a,b) \rangle$ と方向ベクトル $\mathbf{v}$ の内積として簡単に計算できる：</p>
+                    <!-- 方向微分の計算式 -->
+                    <div class="formula" style="background: none; border-left: none; box-shadow: none;">
+                        $$D_{\mathbf{v}}f(a,b) = \nabla f(a,b) \cdot \mathbf{v} = f_x(a,b)v_1 + f_y(a,b)v_2$$
+                    </div>
+                    <p>この関係から以下の重要な性質が導かれる：</p>
+                    <ul style="padding-left: 20px;">
+                        <li>方向微分 $D_{\mathbf{v}}f(a,b)$ は、方向 $\mathbf{v}$ が勾配ベクトル $\nabla f(a,b)$ と同じ方向を向くときに最大値 $|\nabla f(a,b)|$ をとる。</li>
+                        <li>方向 $\mathbf{v}$ が勾配ベクトルと逆の方向を向くときに最小値 $-|\nabla f(a,b)|$ をとる。</li>
+                        <li>方向 $\mathbf{v}$ が勾配ベクトルに直交するとき、$D_{\mathbf{v}}f(a,b) = 0$ となる。（勾配ベクトルに直交する方向、すなわち等高線に沿った方向には関数値は変化しない）</li>
+                    </ul>
+                    <p>つまり、<span class="topic-highlight">勾配ベクトルはその点において関数が最も急激に増加する方向</span>を示し、その大きさ $|\nabla f|$ はその最大変化率を表す。</p>
+                </div>
+
+                <!-- 方向微分の計算例 -->
+                <div class="example-box">
+                    <div class="example-title">例 4.2：方向微分の計算</div>
+                    <p>関数 $f(x,y) = x^2 e^y$ の点 $P(2,0)$ における、ベクトル $\mathbf{w} = \langle 1, 1 \rangle$ 方向の方向微分を求めよ。</p>
+
+                    <p><strong>解答：</strong></p>
+                    <p>まず、方向ベクトルを単位ベクトルにする必要がある。$\mathbf{w}$ の大きさは $|\mathbf{w}| = \sqrt{1^2+1^2} = \sqrt{2}$ であるから、単位ベクトル $\mathbf{v}$ は：</p>
+                    <div class="formula" style="background: none; border-left: none; box-shadow: none;">
+                        $$\mathbf{v} = \frac{\mathbf{w}}{|\mathbf{w}|} = \left\langle \frac{1}{\sqrt{2}}, \frac{1}{\sqrt{2}} \right\rangle$$
+                    </div>
+
+                    <p>次に、偏導関数を計算し、点 $P(2,0)$ での勾配ベクトルを求める：</p>
+                    <div class="formula" style="background: none; border-left: none; box-shadow: none;">
+                        \begin{align*}
+                        f_x(x,y) &= \frac{\partial}{\partial x}(x^2 e^y) = 2x e^y \\
+                        f_y(x,y) &= \frac{\partial}{\partial y}(x^2 e^y) = x^2 e^y
+                        \end{align*}
+                    </div>
+                    <p>点 $(2,0)$ における勾配ベクトルは ($e^0=1$ に注意)：</p>
+                     <div class="formula" style="background: none; border-left: none; box-shadow: none;">
+                        \begin{align*}
+                        f_x(2,0) &= 2(2)e^0 = 4 \\
+                        f_y(2,0) &= (2^2)e^0 = 4 \\
+                        \nabla f(2,0) &= \langle 4, 4 \rangle
+                        \end{align*}
+                     </div>
+
+                    <p>最後に、勾配ベクトルと単位方向ベクトルの内積を計算する：</p>
+                    <div class="formula" style="background: none; border-left: none; box-shadow: none;">
+                        \begin{align*}
+                        D_{\mathbf{v}}f(2,0) &= \nabla f(2,0) \cdot \mathbf{v} \\
+                        &= \langle 4, 4 \rangle \cdot \left\langle \frac{1}{\sqrt{2}}, \frac{1}{\sqrt{2}} \right\rangle \\
+                        &= 4 \cdot \frac{1}{\sqrt{2}} + 4 \cdot \frac{1}{\sqrt{2}} \\
+                        &= \frac{8}{\sqrt{2}} = \frac{8\sqrt{2}}{2} = 4\sqrt{2}
+                        \end{align*}
+                    </div>
+                    <p>したがって、点 $(2,0)$ における $\langle 1, 1 \rangle$ 方向の方向微分は $4\sqrt{2}$ である。</p>
+                </div>
+            </div>
+
+            <!-- 比較表 -->
+            <div class="section-highlight">
+                <h3>比較：偏微分 vs 全微分 vs 方向微分</h3>
+
                 <table class="comparison-table">
                     <thead>
                         <tr>
-                            <th>側面</th>
-                            <th>偏微分</th>
-                            <th>全微分</th>
+                            <th>概念</th>
+                            <th>意味</th>
+                            <th>入力</th>
+                            <th>出力</th>
+                            <th>主な用途</th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr>
-                            <td>定義</td>
-                            <td>1つの変数方向での変化率</td>
-                            <td>すべての変数の変化の複合効果</td>
+                            <td>偏微分 ($\frac{\partial f}{\partial x}, \frac{\partial f}{\partial y}$)</td>
+                            <td>座標軸方向の変化率</td>
+                            <td>点 $(a,b)$</td>
+                            <td>スカラー値 (変化率)</td>
+                            <td>勾配ベクトルの計算、接平面の法線ベクトル</td>
                         </tr>
                         <tr>
-                            <td>変数</td>
-                            <td>他のすべての変数は一定に保たれる</td>
-                            <td>すべての変数が変化可能</td>
+                            <td>全微分 ($df$)</td>
+                            <td>微小変化に対する線形近似</td>
+                            <td>点 $(a,b)$ と微小変位 $\langle dx, dy \rangle$</td>
+                            <td>スカラー値 (変化の近似値)</td>
+                            <td>関数の値の変化の近似、誤差伝播</td>
                         </tr>
                         <tr>
-                            <td>表記</td>
-                            <td>$\frac{\partial f}{\partial x}$ または $f_x$</td>
-                            <td>$df$ または $\frac{df}{dt}$ （変数が $t$ に依存する場合）</td>
-                        </tr>
-                        <tr>
-                            <td>幾何学的</td>
-                            <td>座標方向の傾き</td>
-                            <td>任意の方向での線形近似</td>
-                        </tr>
-                        <tr>
-                            <td>応用</td>
-                            <td>接平面の発見</td>
-                            <td>関数の変化の近似</td>
+                            <td>方向微分 ($D_{\mathbf{v}}f$)</td>
+                            <td>指定した方向への変化率</td>
+                            <td>点 $(a,b)$ と単位方向ベクトル $\mathbf{v}$</td>
+                            <td>スカラー値 (指定方向の変化率)</td>
+                            <td>特定の方向での変化の解析、最大変化率の方向（勾配）の理解</td>
                         </tr>
                     </tbody>
                 </table>
-                
-                <div class="figure" style="background-color: #eefaf8; border-left: 4px solid #2ecc71; text-align: left;">
+
+                <!-- 全微分に関するまとめ -->
+                <div class="property-box" style="background-color: #eefaf8; border-left: 4px solid #2ecc71;">
                     <h3 style="margin-top: 0;">全微分に関する重要な洞察</h3>
                     <ul style="padding-left: 20px;">
-                        <li>全微分は、複数の変数が同時に変化する場合の変化を予測するために偏微分を組み合わせる</li>
-                        <li>全微分の公式 $dz = f_x\,dx + f_y\,dy$ は、接平面近似から自然に生じる</li>
-                        <li>関数が全微分可能であるためには、偏微分がその点の近傍で存在し連続である必要がある</li>
-                        <li>勾配ベクトル $\nabla f = \langle f_x, f_y \rangle$ は、座標に依存しない方法で全微分の挙動を要約する</li>
-                        <li>工学的応用では、微分は入力の小さな変化が出力にどのように影響するかを推定するための強力なツールであり、感度分析やエラー伝播研究に不可欠である</li>
+                        <li>全微分は、複数の独立変数が同時に変化する場合の従属変数の変化を線形に近似する基本的なツールである。</li>
+                        <li>全微分の公式 $dz = f_x\,dx + f_y\,dy$ は、接平面を用いた線形近似の考え方に基づいている。</li>
+                        <li>関数が点 $(a,b)$ で全微分可能であるためには、単に偏微分が存在するだけでなく、より強い条件（例：偏導関数の連続性）が必要となる場合がある。</li>
+                        <li>勾配ベクトル $\nabla f = \langle f_x, f_y \rangle$ は、全微分や方向微分の計算において中心的な役割を果たし、関数が最も増加する方向とその変化率を表す。</li>
+                        <li>工学や物理学において、全微分は測定誤差の影響評価（誤差伝播）や、系のパラメータ変化に対する応答（感度分析）を解析するために不可欠である。</li>
                     </ul>
                 </div>
             </div>
         </section>
 
+        <!-- ナビゲーションリンク -->
         <div class="navigation">
-            <a href="class3.html">← 前回：第3回</a>
-            <a href="../index.html">ホーム</a>
-            <a href="class5.html">次回：第5回 →</a>
+            <a href="class3.html">← 前回：第3回 偏微分</a> <!-- 実際のリンク先に修正する必要あり -->
+            <a href="../index.html">講義一覧へ</a> <!-- 実際のリンク先に修正する必要あり -->
+            <a href="class5.html">次回：第5回 合成関数の微分法 →</a> <!-- 実際のリンク先に修正する必要あり -->
         </div>
     </div>
 </body>

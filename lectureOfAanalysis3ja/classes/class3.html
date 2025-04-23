@@ -320,7 +320,16 @@
                 <p>微分可能性は、関数が局所的に線形近似可能であることを意味する。つまり：</p>
                 
                 <div class="formula">
-                    $$f(x,y) \approx f(a,b) + f_x(a,b)(x-a) + f_y(a,b)(y-b)$$
+                    $$f(x,y) = f(a,b) + f_x(a,b)(x-a) + f_y(a,b)(y-b)+ o(\sqrt{(x-a)^2 + (y-b)^2}).$$
+                </div>
+
+                <div class="definition-box">
+                    <h4>定義：o(x)（小さいオーダー）</h4>
+                    <p>関数 $g(x)$ が $x \to 0$ のとき $o(x)$ であるとは、</p>
+                    <div class="formula">
+                        $$\lim_{x \to 0} \frac{g(x)}{x} = 0$$
+                    </div>
+                    <p>を満たすことをいう。つまり、$g(x)$ は $x$ よりも速く 0 に近づく関数であることを表す。</p>
                 </div>
                 
                 <p>この近似の誤差は、点 $(a,b)$ に近づくにつれて相対的に小さくなる。</p>
@@ -339,6 +348,7 @@
         <div class="navigation">
             <a href="class2.html">← 前へ：第2回</a>
             <a href="../index.html">ホーム</a>
+            <a href="class4.html">次へ：第4回 →</a>
         </div>
     </div>
 </body>
