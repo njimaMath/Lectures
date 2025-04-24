@@ -1,43 +1,256 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>確率論：条件付き確率</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>様々な分布と連続確率空間</title>
+
+    <!-- Base Styles -->
     <style>
-        /* Add your CSS styles here */
+        :root {
+            --primary: #1a237e;
+            --light-bg: #fafafa;
+        }
+
+        html {
+            box-sizing: border-box;
+        }
+        *, *::before, *::after {
+            box-sizing: inherit;
+        }
+
+        body {
+            margin: 0;
+            font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+            line-height: 1.7;
+            color: #212121;
+            background: var(--light-bg);
+        }
+
+        .container {
+            max-width: 960px;
+            margin: 0 auto;
+            padding: 2rem 1rem 4rem;
+            background: #fff;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+        }
+
+        header h1 {
+            margin: 0 0 1rem;
+            font-size: 1.9rem;
+            text-align: center;
+            color: var(--primary);
+        }
+
+        h2 {
+            font-size: 1.45rem;
+            margin-top: 2.2rem;
+            margin-bottom: 0.8rem;
+            padding-left: 0.55rem;
+            border-left: 6px solid var(--primary);
+            color: var(--primary);
+        }
+
+        h3 {
+            font-size: 1.2rem;
+            margin: 1.6rem 0 0.6rem;
+            color: var(--primary);
+        }
+
+        .formula {
+            background: #f3f4ff;
+            border-left: 4px solid #5c6bc0;
+            padding: 0.8rem 1.2rem;
+            margin: 1.2rem 0;
+            border-radius: 8px;
+            overflow-x: auto;
+        }
+
+        nav.navigation {
+            display: flex;
+            justify-content: center;
+            gap: 0.8rem;
+            margin: 2.2rem 0;
+            padding-top: 1.5rem;
+            border-top: 1px solid #e0e0e0;
+            flex-wrap: wrap;
+        }
+        nav.navigation a {
+            padding: 0.65rem 1.5rem;
+            background: var(--primary);
+            color: #fff;
+            text-decoration: none;
+            border-radius: 6px;
+            transition: opacity 0.2s;
+        }
+        nav.navigation a:hover {
+            opacity: 0.85;
+        }
+
+        footer {
+            margin-top: 3rem;
+            font-size: 0.9rem;
+            color: #777;
+            text-align: center;
+        }
+
+        code {
+            background: #eceff1;
+            padding: 2px 4px;
+            border-radius: 4px;
+        }
     </style>
+
+    <!-- MathJax -->
+    <script>
+        MathJax = {
+            tex: {
+                inlineMath: [
+                    ["$", "$"],
+                    ["\\(", "\\)"]
+                ],
+                displayMath: [
+                    ["$$", "$$"],
+                    ["\\[", "\\]"]
+                ]
+            },
+            chtml: { matchFontHeight: false }
+        };
+    </script>
+    <script
+        id="MathJax-script"
+        async
+        src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"
+    ></script>
 </head>
 <body>
     <div class="container">
-        <h1>条件付き確率とベイズの定理</h1>
+        <header>
+            <h1>様々な分布と連続確率空間</h1>
+        </header>
 
-        <section>
-            <h2>1. 条件付き確率の基礎</h2>
-            <div class="definition">
-                <h3>条件付き確率の定義</h3>
-                <div class="formula">
-                    <p>P(A|B) = P(A∩B) / P(B)</p>
-                </div>
-            </div>
-        </section>
+        <main>
+            <!-- 離散分布 -->
+            <section id="discrete">
+                <h2>離散型確率分布</h2>
 
-        <section>
-            <h2>2. ベイズの定理</h2>
-            <div class="example">
-                <h3>ベイズの定理の公式</h3>
+                <!-- 二項分布 -->
+                <article id="binomial">
+                    <h3>二項分布</h3>
+                    <p>
+                        試行回数を $n$、成功確率を $p$ とするとき、二項分布
+                        $X\sim\mathrm{Bin}(n,p)$ の確率質量関数は次の通り。
+                    </p>
+                    <div class="formula">
+                        $$
+                        P(X = k) = \binom{n}{k} p^{\,k} (1 - p)^{\,n-k},\quad
+                        \binom{n}{k} = \frac{n!}{k!(n-k)!}.
+                        $$
+                    </div>
+                    <p>期待値と分散:</p>
+                    <div class="formula">
+                        $$
+                        \mathbb E[X] = np,\qquad
+                        \mathrm{Var}(X) = np(1 - p).
+                        $$
+                    </div>
+                </article>
+
+                <!-- ポアソン分布 -->
+                <article id="poisson">
+                    <h3>ポアソン分布</h3>
+                    <p>
+                        平均パラメータ $\lambda > 0$ のポアソン分布
+                        $X\sim\mathrm{Poi}(\lambda)$ の確率質量関数は
+                    </p>
+                    <div class="formula">
+                        $$
+                        P(X = k) = \frac{e^{-\lambda}\,\lambda^{k}}{k!},\qquad k\in\mathbb{N}.
+                        $$
+                    </div>
+                    <p>期待値と分散はいずれも $\lambda$ である。</p>
+                </article>
+            </section>
+
+            <!-- 一様分布 -->
+            <section id="uniform">
+                <h2>一様分布 (連続型)</h2>
+                <article>
+                    <h3>$[0,1]$ 上の一様分布</h3>
+                    <p>
+                        標本空間を $\Omega = [0,1]$、確率測度を Lebesgue
+                        測度で正規化したものとする。すなわち、可測集合
+                        $A \subset \Omega$ に対し
+                    </p>
+                    <div class="formula">
+                        $$
+                        \mathbb P(A) = \int_{A} \mathrm d x = |A|.
+                        $$
+                    </div>
+                    <p>
+                        確率変数 $X(\omega) = \omega$ の分布関数は次の通り。
+                    </p>
+                    <div class="formula">
+                        $$
+                        F_X(x) = \mathbb P(X \le x) =
+                        \begin{cases}
+                            0 & (x < 0), \\
+                            x & (0 \le x \le 1), \\
+                            1 & (x > 1).
+                        \end{cases}
+                        $$
+                    </div>
+                    <p>期待値は</p>
+                    <div class="formula">
+                        $$
+                        \mathbb E[X] = \int_{0}^{1} \omega\,\mathrm d\omega = \frac12.
+                        $$
+                    </div>
+                </article>
+            </section>
+
+            <!-- 連続確率空間の一般形 -->
+            <section id="continuous-space">
+                <h2>連続確率空間の一般形</h2>
+                <p>
+                    $\Omega \subset \mathbb R^{d}$ を可測集合とし、確率密度関数
+                    $p : \Omega \to \mathbb R$ を
+                    $$
+                    \int_{\Omega} p(x)\,\mathrm d x = 1
+                    $$
+                    を満たす関数とする。
+                </p>
+                <p>
+                    可測集合 $A \subset \Omega$ の確率は
+                </p>
                 <div class="formula">
-                    <p>P(A|B) = P(B|A)P(A) / P(B)</p>
+                    $$
+                    \mathbb P(A) = \int_{A} p(x)\,\mathrm d x.
+                    $$
                 </div>
-            </div>
-        </section>
-        <div class="navigation" style="display: flex; justify-content: center; margin: 20px 0; padding: 15px 0; border-top: 1px solid #eee;">
-            <a href="class4.html" style="padding: 10px 20px; background-color: #1a237e; color: white; text-decoration: none; border-radius: 5px; margin-right: 10px;">← 前のレッスン</a>
-            <a href="../index.html" style="padding: 10px 20px; background-color: #1a237e; color: white; text-decoration: none; border-radius: 5px; margin-right: 10px;">ホーム</a>
-            <a href="class6.html" style="padding: 10px 20px; background-color: #1a237e; color: white; text-decoration: none; border-radius: 5px;">次のレッスン →</a>
-        </div>
+                <p>
+                    したがって $(\Omega, \mathcal B(\Omega), \mathbb P)$ を
+                    <strong>連続確率空間</strong> と呼ぶ。可測写像
+                    $X : \Omega \to \mathbb R$ を確率変数とし、分布関数を
+                </p>
+                <div class="formula">
+                    $$
+                    F_X(x) = \mathbb P(X \le x).
+                    $$
+                </div>
+            </section>
+        </main>
+
+        <!-- Navigation -->
+        <nav class="navigation">
+            <a href="class4.html">← 前のレッスン</a>
+            <a href="../index.html">ホーム</a>
+            <a href="class6.html">次のレッスン →</a>
+        </nav>
+
         <footer>
-            <p style="text-align: center; margin-top: 40px; color: #666;">© 2025 確率論講義 - すべての権利を留保します</p>
+            <p>© 2025 確率論講義 — All rights reserved.</p>
         </footer>
     </div>
 </body>

@@ -1,0 +1,517 @@
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>微分方程式の講義ノート</title>
+  
+    <!-- MathJax の設定。必ず window.MathJax に -->
+    <script type="text/javascript">
+      window.MathJax = {
+        tex: {
+          inlineMath: [['$', '$'], ['\\(', '\\)']],
+          displayMath: [['$$', '$$'], ['\\[', '\\]']],
+          processEscapes: true
+        }
+      };
+    </script>
+  
+    <!-- MathJax v3 本体の読み込み（設定の後） -->
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    
+    <!-- Chart.js for visualization -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  
+    <style>
+        body {
+            font-family: "Helvetica Neue", Arial, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 20px;
+            background-color: #f5f5f5;
+            color: #333;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background-color: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        h1, h2, h3 {
+            font-weight: 700;
+            color: #2c3e50;
+        }
+        h1 {
+            border-bottom: 2px solid #2c3e50;
+            padding-bottom: 10px;
+            margin-bottom: 30px;
+        }
+        h2 {
+            margin-top: 30px;
+            border-left: 5px solid #2c3e50;
+            padding-left: 15px;
+        }
+        .math {
+            font-family: "Times New Roman", serif;
+            background-color: #f9f9f9;
+            padding: 10px 15px;
+            border-radius: 4px;
+            overflow-x: auto;
+            line-height: 1.5;
+        }
+        .board {
+            background-color: #333;
+            color: white;
+            padding: 15px;
+            border-radius: 4px;
+            margin: 20px 0;
+        }
+        .highlight {
+            background-color: #ffffcc;
+            padding: 2px 4px;
+            border-radius: 2px;
+        }
+        .timeline {
+            border-left: 3px solid #2c3e50;
+            margin-left: 20px;
+            padding-left: 20px;
+        }
+        .timeline-item {
+            margin-bottom: 15px;
+            position: relative;
+        }
+        .timeline-item::before {
+            content: "";
+            position: absolute;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: #2c3e50;
+            left: -26px;
+            top: 5px;
+        }
+        .note {
+            border-left: 4px solid #3498db;
+            padding-left: 15px;
+            font-style: italic;
+            color: #666;
+            margin: 15px 0;
+        }
+        .figure {
+            margin: 25px 0;
+            text-align: center;
+        }
+        .figure img {
+            max-width: 100%;
+            border-radius: 4px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+        }
+        .figure-caption {
+            margin-top: 8px;
+            font-size: 0.9em;
+            color: #666;
+            font-style: italic;
+        }
+        .graph-container {
+            width: 100%;
+            height: 300px;
+            margin: 20px 0;
+            background-color: #f9f9f9;
+            border-radius: 4px;
+            overflow: hidden;
+        }
+        /* New timeline styles for the history figure */
+        .history-timeline {
+            position: relative;
+            max-width: 740px;
+            margin: 30px auto;
+            padding: 20px 0;
+        }
+        .history-timeline::before {
+            content: '';
+            position: absolute;
+            width: 6px;
+            background-color: #2c3e50;
+            top: 0;
+            bottom: 0;
+            left: 50%;
+            margin-left: -3px;
+        }
+        .history-container {
+            padding: 10px 40px;
+            position: relative;
+            background-color: inherit;
+            width: 50%;
+            box-sizing: border-box;
+        }
+        .history-container::after {
+            content: '';
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            background-color: white;
+            border: 4px solid #3498db;
+            top: 15px;
+            border-radius: 50%;
+            z-index: 1;
+        }
+        .left {
+            left: 0;
+        }
+        .right {
+            left: 50%;
+        }
+        .left::after {
+            right: -10px;
+        }
+        .right::after {
+            left: -10px;
+        }
+        .history-content {
+            padding: 15px;
+            background-color: white;
+            position: relative;
+            border-radius: 6px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        .history-content h3 {
+            margin-top: 0;
+            color: #3498db;
+            font-size: 1.2em;
+        }
+        .history-year {
+            font-weight: bold;
+            color: #2c3e50;
+            margin-bottom: 5px;
+        }
+        .history-content p {
+            margin: 0.5em 0;
+        }
+        @media screen and (max-width: 600px) {
+            .history-timeline::before {
+                left: 31px;
+            }
+            .history-container {
+                width: 100%;
+                padding-left: 70px;
+                padding-right: 25px;
+            }
+            .history-container::after {
+                left: 21px;
+            }
+            .right {
+                left: 0%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>微分方程式の講義ノート</h1>
+        
+        <div class="figure">
+            <svg width="600" height="200" viewBox="0 0 600 200">
+                <rect x="0" y="0" width="600" height="200" fill="#2c3e50"/>
+                <text x="300" y="60" text-anchor="middle" font-family="Arial" font-size="32" fill="white" font-weight="bold">微分方程式入門</text>
+                <text x="300" y="110" text-anchor="middle" font-family="Arial" font-size="18" fill="white">指数関数と一階微分方程式</text>
+                <text x="300" y="160" text-anchor="middle" font-family="Arial" font-size="16" fill="#ecf0f1">数学科講義ノート</text>
+            </svg>
+        </div>
+        
+        <h2>微分方程式とは何か？</h2>
+        <p>微分方程式は、関数とその導関数の間の関係を表す方程式です。数学的には、未知関数 $y(x)$ とその導関数 $\frac{dy}{dx}$, $\frac{d^2y}{dx^2}$, ... などを含む方程式として表現されます。</p>
+        
+        <!-- New History Timeline Figure -->
+        <h2>微分方程式の歴史</h2>
+        <div class="history-timeline">
+            <div class="history-container left">
+                <div class="history-content">
+                    <div class="history-year">1671年</div>
+                    <h3>アイザック・ニュートン</h3>
+                    <p>微積分を発明し、「流率法」を開発。彼の運動方程式 $\frac{d^2x}{dt^2} = F$ は初期の微分方程式の例となった。</p>
+                </div>
+            </div>
+            
+            <div class="history-container right">
+                <div class="history-content">
+                    <div class="history-year">1676年</div>
+                    <h3>ゴットフリート・ライプニッツ</h3>
+                    <p>ニュートンとは独立に微積分を発見し、現代の微分記号 $\frac{dy}{dx}$ を導入。</p>
+                </div>
+            </div>
+            
+            <div class="history-container left">
+                <div class="history-content">
+                    <div class="history-year">1740年代</div>
+                    <h3>レオンハルト・オイラー</h3>
+                    <p>常微分方程式の解法を体系化し、多くの技術を開発。特に線形微分方程式の解法において重要な貢献をした。</p>
+                </div>
+            </div>
+            
+            <div class="history-container right">
+                <div class="history-content">
+                    <div class="history-year">1800年代前半</div>
+                    <h3>コーシーとポアソン</h3>
+                    <p>偏微分方程式の理論を発展させ、特に波動方程式と熱方程式の研究で重要な進歩を遂げた。</p>
+                </div>
+            </div>
+            
+            <div class="history-container left">
+                <div class="history-content">
+                    <div class="history-year">1890年代</div>
+                    <h3>アンリ・ポアンカレ</h3>
+                    <p>定性的アプローチを導入し、力学系と非線形微分方程式の研究の基礎を築いた。カオス理論の先駆者。</p>
+                </div>
+            </div>
+            
+            <div class="history-container right">
+                <div class="history-content">
+                    <div class="history-year">20世紀</div>
+                    <h3>現代の発展</h3>
+                    <p>数値計算法の発展、カオス理論、非線形ダイナミクス、確率微分方程式など、様々な分野へと拡大。</p>
+                </div>
+            </div>
+        </div>
+        
+        <h2>微分の発見</h2>
+        <p>微分の概念は17世紀に発見されました。</p>
+        
+        <h3>ニュートンの発見（17世紀）</h3>
+        <div class="math">
+            <p>$$\frac{d^2x(t)}{dt^2} = F$$</p>
+            <p>$x(t)$: 時刻$t$での位置</p>
+            <p>$F$: 力（それによって）</p>
+        </div>
+        
+        <h2>微分方程式の基本</h2>
+        <div class="note">
+            <p>全ての現象は微分方程式で書ける！</p>
+            <p>自然現象 = 微分方程式</p>
+        </div>
+        
+        <p>この授業では<span class="highlight">1変数微分方程式</span>を扱い、基本的に常微分方程式（ODE）についてです。</p>
+        
+        <h3>現在の主なODEの研究分野</h3>
+        <ul>
+            <li>カオス</li>
+            <li>分岐法（力学系）</li>
+            <li>確率ODE</li>
+        </ul>
+        
+        <h2>今日のテーマ</h2>
+        <p>指数関数と一階微分方程式</p>
+        
+        <h3>§1. 指数関数</h3>
+        <div class="math">
+            <p>$$\operatorname{Exp}(x) \stackrel{\mathrm{def}}{=} \sum_{n=0}^{\infty}\frac{x^n}{n!} = 1 + x + \frac{x^2}{2!} + \frac{x^3}{3!} + \cdots$$</p>
+            <p>（$n! := 1\cdot 2\cdot 3\cdot \ldots \cdot n$）</p>
+        </div>
+        
+        <h3>Expの性質</h3>
+        <ol>
+            <li>$\operatorname{Exp}(0) = 1$</li>
+            <li>$\operatorname{Exp}'(x) = \operatorname{Exp}(x)$</li>
+            <li>$\operatorname{Exp}(x+y)=\operatorname{Exp}(x)*\operatorname{Exp}(y) $</li>
+        </ol>
+        
+        <div class="figure">
+            <svg width="600" height="300" viewBox="0 0 600 300">
+                <!-- Coordinate axes -->
+                <line x1="50" y1="150" x2="550" y2="150" stroke="#333" stroke-width="2"/>
+                <line x1="300" y1="20" x2="300" y2="280" stroke="#333" stroke-width="2"/>
+                
+                <!-- Axis labels -->
+                <text x="560" y="150" dominant-baseline="middle" font-family="Arial" font-size="16">x</text>
+                <text x="300" y="10" text-anchor="middle" font-family="Arial" font-size="16">y</text>
+                
+                <!-- Ticks on x-axis -->
+                <line x1="100" y1="145" x2="100" y2="155" stroke="#333" stroke-width="2"/>
+                <line x1="200" y1="145" x2="200" y2="155" stroke="#333" stroke-width="2"/>
+                <line x1="400" y1="145" x2="400" y2="155" stroke="#333" stroke-width="2"/>
+                <line x1="500" y1="145" x2="500" y2="155" stroke="#333" stroke-width="2"/>
+                
+                <!-- Tick labels -->
+                <text x="100" y="170" text-anchor="middle" font-family="Arial" font-size="12">-2</text>
+                <text x="200" y="170" text-anchor="middle" font-family="Arial" font-size="12">-1</text>
+                <text x="300" y="170" text-anchor="middle" font-family="Arial" font-size="12">0</text>
+                <text x="400" y="170" text-anchor="middle" font-family="Arial" font-size="12">1</text>
+                <text x="500" y="170" text-anchor="middle" font-family="Arial" font-size="12">2</text>
+                
+                <!-- Exponential function curve -->
+                <path d="M 50,280 Q 150,280 200,250 T 250,220 T 300,150 T 350,80 T 400,50 T 550,20" fill="none" stroke="#e74c3c" stroke-width="3"/>
+                
+                <!-- Function label -->
+                <text x="500" y="50" font-family="Arial" font-size="16" fill="#e74c3c">y = Exp(x)</text>
+                
+                <!-- Point at (0,1) -->
+                <circle cx="300" cy="150" r="4" fill="#e74c3c"/>
+                <text x="310" y="135" font-family="Arial" font-size="12">(0,1)</text>
+            </svg>
+            <div class="figure-caption">図1: 指数関数 Exp(x) のグラフ</div>
+        </div>
+        
+        <div class="math">
+            <p>$$\operatorname{Exp}(x+y) = \operatorname{Exp}(x) \cdot \operatorname{Exp}(y)$$</p>
+        </div>
+        
+        <h3>§2. 1階微分方程式</h3>
+        <p>$a, b \in \mathbb{R}$とし、次を満たす関数$f$を求む。</p>
+        
+        <div class="math">
+            <p>$$f'(x) = a f(x), \quad f(0) = b$$</p>
+        </div>
+        
+        <p>1階線形微分方程式</p>
+        
+        <div class="figure">
+            <div style="width: 100%;">
+                <canvas id="diffEqChart"></canvas>
+            </div>
+            <div class="figure-caption">図2: 異なるaの値（-5, -3, -1, 0, 1, 3, 5）に対するf'(x) = af(x), f(0) = 1の解曲線 （x = n/10, n = -10, -9, ..., 9, 10）</div>
+        </div>
+        
+        <h4>解</h4>
+        <div class="math">
+            <p>$$f(x) = b \cdot \operatorname{Exp}(ax)$$</p>
+            <p>$$f'(x) = b (\operatorname{Exp}(ax))' = a b \operatorname{Exp}(ax) = a f(x)$$</p>
+        </div>
+        
+        <h4>解の一意性</h4>
+        <p>微分方程式 $f'(x) = af(x)$ と初期条件 $f(0) = b$ が与えられたとき、その解は一意であることを証明する。</p>
+        
+        <div class="math">
+            <p>証明：まず微分方程式 $f'(x) = af(x)$ と初期条件 $f(0) = b$ を満たす任意の解 $f(x)$ に対して、$h(x) = \frac{f(x)}{\operatorname{Exp}(ax)}$ と定義する。</p>
+            <p>$h(x)$ の導関数を計算すると：</p>
+            <p>$h'(x) = \frac{f'(x)\operatorname{Exp}(ax) - f(x)(\operatorname{Exp}(ax))'}{(\operatorname{Exp}(ax))^2}$</p>
+            <p>$= \frac{af(x)\operatorname{Exp}(ax) - f(x) \cdot a\operatorname{Exp}(ax)}{(\operatorname{Exp}(ax))^2}$</p>
+            <p>$= \frac{af(x)\operatorname{Exp}(ax) - af(x)\operatorname{Exp}(ax)}{(\operatorname{Exp}(ax))^2} = 0$</p>
+            <p>つまり $h'(x) = 0$ である。これは $h(x)$ が定数関数であることを意味する。</p>
+            <p>初期条件から $h(0) = \frac{f(0)}{\operatorname{Exp}(a \cdot 0)} = \frac{b}{\operatorname{Exp}(0)} = \frac{b}{1} = b$</p>
+            <p>よって、すべての $x$ に対して $h(x) = b$ となる。</p>
+            <p>これより $f(x) = b \cdot \operatorname{Exp}(ax)$ が導かれる。</p>
+            <p>したがって、微分方程式 $f'(x) = af(x)$ と初期条件 $f(0) = b$ を満たす解は $f(x) = b \cdot \operatorname{Exp}(ax)$ のみであり、一意である。</p>
+        </div>
+        
+        <h3>§3. Exp(x+y) = Exp(x)・Exp(y)の証明</h3>
+        <p>$y \in \mathbb{R}$を1つ固定。$f(x) = \operatorname{Exp}(x+y)$とする。</p>
+        <p>このとき $f'(x) = \operatorname{Exp}(x+y) = f(x)$</p>
+        <p>また、$g(x) = \operatorname{Exp}(x) \cdot \operatorname{Exp}(y)$とすると</p>
+        
+        <div class="math">
+            <p>$$g'(x) = (\operatorname{Exp}(x))' \cdot \operatorname{Exp}(y) = \operatorname{Exp}(x) \cdot \operatorname{Exp}(y) = g(x)$$</p>
+            <p>$$g(0) = \operatorname{Exp}(0) \cdot \operatorname{Exp}(y) = 1 \cdot \operatorname{Exp}(y) = \operatorname{Exp}(y)$$</p>
+            <p>$$f(0) = \operatorname{Exp}(0+y) = \operatorname{Exp}(y)$$</p>
+        </div>
+        
+        <p>§2の一意性から $f(x) = g(x) \Rightarrow \operatorname{Exp}(x+y) = \operatorname{Exp}(x) \cdot \operatorname{Exp}(y)$</p>
+        
+    </div>
+    
+    <!-- JavaScript for the differential equation visualization -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Solution function f(t) = e^(at) with f(0) = 1
+            const computeSolution = (a, tValues) => {
+                return tValues.map(t => Math.exp(a * t));
+            };
+
+            // Generate discrete x points at n/10 for n=-10 to 10
+            const tValues = [];
+            for (let n = -10; n <= 10; n++) {
+                tValues.push(n/10);
+            }
+
+            // Values of a to plot
+            const aValues = [-5, -3, -1, 0, 1, 3, 5];
+            
+            // Colors for each line
+            const colors = [
+                'rgb(228, 26, 28)',     // Red
+                'rgb(55, 126, 184)',    // Blue
+                'rgb(77, 175, 74)',     // Green
+                'rgb(152, 78, 163)',    // Purple
+                'rgb(255, 127, 0)',     // Orange
+                'rgb(166, 86, 40)',     // Brown
+                'rgb(247, 129, 191)'    // Pink
+            ];
+            
+            // Generate datasets for Chart.js
+            const datasets = aValues.map((a, index) => ({
+                label: `a = ${a}`,
+                data: computeSolution(a, tValues),
+                borderColor: colors[index % colors.length],
+                backgroundColor: 'transparent',
+                borderWidth: 2,
+                pointRadius: 3,  // Show points at each discrete value
+                pointBackgroundColor: colors[index % colors.length]
+            }));
+            
+            // Get the chart canvas
+            const ctx = document.getElementById('diffEqChart').getContext('2d');
+            
+            // Create the chart
+            const chart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: tValues,
+                    datasets: datasets
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: true,
+                    aspectRatio: 2,
+                    scales: {
+                        x: {
+                            title: {
+                                display: true,
+                                text: 'x値'
+                            },
+                            min: -1,
+                            max: 1,
+                            ticks: {
+                                callback: function(value) {
+                                    return value.toFixed(1);
+                                },
+                                stepSize: 0.1
+                            }
+                        },
+                        y: {
+                            title: {
+                                display: true,
+                                text: 'f(x)値'
+                            },
+                            min: 0,
+                            max: 150
+                        }
+                    },
+                    plugins: {
+                        title: {
+                            display: true,
+                            text: '微分方程式 f\'(x) = af(x), f(0) = 1 の解曲線',
+                            font: {
+                                size: 16
+                            }
+                        },
+                        legend: {
+                            position: 'top',
+                            labels: {
+                                usePointStyle: true,
+                                font: {
+                                    size: 12
+                                }
+                            }
+                        },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    return `a = ${aValues[context.datasetIndex]}: ${parseFloat(context.formattedValue).toLocaleString()}`;
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+        });
+    </script>
+</body>
+</html>
