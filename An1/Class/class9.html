@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>実数の講義ノート</title>
+  <script>
+    MathJax = {
+      tex: {
+        inlineMath: [['$', '$']],
+        displayMath: [['$$', '$$']]
+      }
+    };
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js" async></script>
+  <style>
+    body {
+      font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+      background: #f5f5f5;
+      color: #222;
+      line-height: 1.7;
+      margin: 0;
+      padding: 2rem;
+    }
+    .container {
+      background: white;
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 2rem;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+    h1, h2, h3 {
+      color: #003366;
+    }
+    h1 {
+      text-align: center;
+      margin-bottom: 2rem;
+    }
+    h2 {
+      border-left: 6px solid #003366;
+      padding-left: 0.5rem;
+      margin-top: 2rem;
+    }
+    p {
+      margin-top: 1em;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>第9回 実数の性質</h1>
+
+    <h2>9.1 実数の公理</h2>
+    <h3>Ax 1: 加法と乗法の公理</h3>
+    <ul>
+      <li>交換法則: $a + b = b + a$, $a \cdot b = b \cdot a$</li>
+      <li>結合法則: $(a + b) + c = a + (b + c)$</li>
+      <li>分配法則: $a \cdot (b + c) = a \cdot b + a \cdot c$</li>
+      <li>単位元: $0$ は加法単位元, $1$ は乗法単位元</li>
+      <li>逆元: $-a$, $a^{-1}$（$a \ne 0$）が存在</li>
+    </ul>
+
+    <h3>Ax 2: 順序の公理</h3>
+    <ul>
+      <li>任意の $a,b \in \mathbb{R}$ に対して、$a \leq b$ または $b \leq a$</li>
+      <li>$a \leq b$ かつ $b \leq a$ ならば $a = b$</li>
+      <li>$a \leq b$ かつ $b \leq c$ ならば $a \leq c$</li>
+      <li>$a \leq b$ ならば $a + c \leq b + c$</li>
+      <li>$0 \leq a$, $0 \leq b$ ならば $0 \leq a \cdot b$</li>
+    </ul>
+
+    <h3>Ax 3: 完備性の公理（上限性質）</h3>
+    <p>上に有界な集合は常に最小の上界（上限）を持つ。</p>
+
+    <h2>9.2 上限と下限</h2>
+    <p>
+      上限（supremum）と下限（infimum）は実数の完備性に基づき定義される。上に有界な集合 $A$ に対して、$\sup A$ が存在する。
+    </p>
+
+    <h2>9.3 応用</h2>
+    <h3>9.3.1 アルキメデスの性質</h3>
+    <p>
+      任意の実数 $a > 0$ に対して、ある自然数 $n \in \mathbb{N}$ が存在して $n > a$ となる。
+    </p>
+
+    <h3>9.3.2 有理数の稠密性</h3>
+    <p>
+      任意の実数 $a < b$ に対して、有理数 $q \in \mathbb{Q}$ が存在して
+      $$
+      a < q < b
+      $$
+      を満たす。この性質を<strong>稠密性</strong>と呼び、連続性の一つのあらわれでもある。
+    </p>
+
+    <h3>9.3.3 単調有界列の収束</h3>
+    <p>
+      実数列 $\{a_n\}$ が単調増加かつ上に有界であるとき、極限が存在して
+      $$
+      \lim_{n \to \infty} a_n = \sup\{a_n\}
+      $$
+      が成り立つ。同様に、単調減少かつ下に有界な列も収束する。
+    </p>
+  </div>
+</body>
+</html>
