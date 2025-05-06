@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>微分方程式講義ノート</title>
+    <style>
+        body {
+            font-family: 'Noto Sans JP', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f9f9f9;
+        }
+        h1 {
+            color: #1a5276;
+            text-align: center;
+            border-bottom: 2px solid #1a5276;
+            padding-bottom: 10px;
+            margin-bottom: 30px;
+        }
+        h2 {
+            color: #2874a6;
+            border-left: 5px solid #2874a6;
+            padding-left: 10px;
+            margin-top: 30px;
+        }
+        h3 {
+            color: #3498db;
+            margin-top: 25px;
+        }
+        .formula-box {
+            background-color: #e8f4fc;
+            border-radius: 5px;
+            padding: 15px;
+            margin: 15px 0;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        .steps {
+            background-color: #f2f9f1;
+            border-left: 3px solid #27ae60;
+            padding: 10px 15px;
+            margin: 15px 0;
+        }
+        .note {
+            background-color: #fff3e0;
+            border-radius: 5px;
+            padding: 10px;
+            margin: 15px 0;
+            border-left: 3px solid #ff9800;
+        }
+        .important {
+            font-weight: bold;
+            color: #c0392b;
+        }
+        .mathblock {
+            font-family: 'Times New Roman', serif;
+            font-size: 1.1em;
+            text-align: center;
+            margin: 15px 0;
+        }
+        .conclusion {
+            background-color: #e8f8f5;
+            border-radius: 5px;
+            padding: 10px;
+            margin: 15px 0;
+            border-left: 3px solid #1abc9c;
+        }
+    </style>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+</head>
+<body>
+
+<h1>微分方程式講義ノート</h1>
+
+<h2>第1節：微分方程式の解法</h2>
+<div class="note">
+    <p>微分方程式の主な解法：</p>
+    <table style="width: 100%; border-collapse: collapse; margin: 15px 0;">
+        <tr style="background-color: #f2f2f2;">
+            <th style="padding: 8px; text-align: center;">解法</th>
+            <th style="padding: 8px; text-align: center;">簡単</th>
+            <th style="padding: 8px; text-align: center;">難しい</th>
+        </tr>
+        <tr>
+            <td style="padding: 8px; border-bottom: 1px solid #ddd;">1) 変数分離法</td>
+            <td style="padding: 8px; border-bottom: 1px solid #ddd; text-align: center;">○</td>
+            <td style="padding: 8px; border-bottom: 1px solid #ddd; text-align: center;">×</td>
+        </tr>
+        <tr>
+            <td style="padding: 8px; border-bottom: 1px solid #ddd;">2) 定数変化法</td>
+            <td style="padding: 8px; border-bottom: 1px solid #ddd; text-align: center;">×</td>
+            <td style="padding: 8px; border-bottom: 1px solid #ddd; text-align: center;">○</td>
+        </tr>
+        <tr>
+            <td style="padding: 8px; border-bottom: 1px solid #ddd;">3) 級数法</td>
+            <td style="padding: 8px; border-bottom: 1px solid #ddd; text-align: center;">×</td>
+            <td style="padding: 8px; border-bottom: 1px solid #ddd; text-align: center;">○</td>
+        </tr>
+        <tr>
+            <td style="padding: 8px; border-bottom: 1px solid #ddd;">4) 微分演算子法</td>
+            <td style="padding: 8px; border-bottom: 1px solid #ddd; text-align: center;">×</td>
+            <td style="padding: 8px; border-bottom: 1px solid #ddd; text-align: center;">○</td>
+        </tr>
+    </table>
+</div>
+
+<h2>第2節：変数分離法</h2>
+<div class="formula-box">
+    <p class="important">変数分離形の微分方程式：</p>
+    <div class="mathblock">
+        $P(y) y' = Q(x)$
+    </div>
+    <p>この形式では、yに関する関数と微分がすべて左辺に、xに関する関数がすべて右辺にあります。</p>
+</div>
+
+<div class="steps">
+    <p><strong>解法手順：</strong></p>
+    <ol>
+        <li>方程式を \(P(y) \frac{dy}{dx} = Q(x)\) の形に書き換える</li>
+        <li>両辺を変数ごとに分離する： \(P(y) dy = Q(x) dx\)</li>
+        <li>両辺を積分する： \(\int P(y) dy = \int Q(x) dx + C\)</li>
+        <li>積分を実行し、可能であればyについて解く</li>
+    </ol>
+</div>
+
+<h2>第3節：定数変化法</h2>
+<div class="formula-box">
+    <p class="important">一階線形微分方程式：</p>
+    <div class="mathblock">
+        $y' + P(x)y = Q(x)$
+    </div>
+    <p>この形式は積分因子を用いて解くことができます。</p>
+</div>
+
+<div class="steps">
+    <p><strong>解法手順：</strong></p>
+    <ol>
+        <li>積分因子を求める： \(\mu(x) = e^{\int P(x) \, dx}\)</li>
+        <li>両辺に \(\mu(x)\) をかける： \(\mu(x)y' + \mu(x)P(x)y = \mu(x)Q(x)\)</li>
+        <li>左辺は次のように変形できる： \(\frac{d}{dx}(\mu(x)y) = \mu(x)Q(x)\)</li>
+        <li>両辺を積分する： \(\mu(x)y = \int \mu(x)Q(x) \, dx + C\)</li>
+        <li>yについて解く： \(y = \frac{1}{\mu(x)}(\int \mu(x)Q(x) \, dx + C)\)</li>
+    </ol>
+</div>
+
+<h2>例題と応用</h2>
+
+<h3>例題1</h3>
+<div class="formula-box">
+    <div class="mathblock">
+        $$\log y = \int \cos x \, dx - \frac{x^2}{2} + C$$
+    </div>
+</div>
+
+<h3>例題2</h3>
+<div class="formula-box">
+    <div class="mathblock">
+        $$\int f(y) \, dy = \int g(x) \, dx$$
+    </div>
+</div>
+
+<h3>例題1：変数分離法の例</h3>
+<div class="formula-box">
+    <div class="mathblock">
+        $y' = \frac{x}{y}$
+    </div>
+</div>
+
+<div class="steps">
+    <p><strong>解法：</strong></p>
+    <ol>
+        <li>変数を分離する形に書き換える： \(y \cdot y' = x\)</li>
+        <li>両辺を積分変数の形に： \(y \, dy = x \, dx\)</li>
+        <li>両辺を積分： \(\int y \, dy = \int x \, dx\)</li>
+        <li>\(\frac{y^2}{2} = \frac{x^2}{2} + C\)</li>
+        <li>最終解： \(y^2 = x^2 + 2C\) または \(y = \pm\sqrt{x^2 + C'}\) （ここで \(C' = 2C\)）</li>
+    </ol>
+</div>
+
+<h3>例題2：定数変化法の例</h3>
+<div class="formula-box">
+    <div class="mathblock">
+        $$y' + xy = x$$
+    </div>
+</div>
+
+<div class="steps">
+    <p><strong>解法手順：</strong></p>
+    <ol>
+        <li>積分因子を求める： \(e^{\int x \, dx} = e^{\frac{x^2}{2}}\)</li>
+        <li>両辺に積分因子をかける： \(e^{\frac{x^2}{2}}y' + xe^{\frac{x^2}{2}}y = xe^{\frac{x^2}{2}}\)</li>
+        <li>これは次のように変形できる： \(\frac{d}{dx}(e^{\frac{x^2}{2}}y) = xe^{\frac{x^2}{2}}\)</li>
+        <li>両辺を積分する： \(e^{\frac{x^2}{2}}y = \int xe^{\frac{x^2}{2}} \, dx = e^{\frac{x^2}{2}} + C\)</li>
+        <li>最終解： \(y = 1 + Ce^{-\frac{x^2}{2}}\)</li>
+    </ol>
+</div>
+
+<h3>例題5</h3>
+<div class="formula-box">
+    <div class="mathblock">
+        $$y' - y = e^x$$
+    </div>
+</div>
+
+<div class="steps">
+    <p><strong>解法手順：</strong></p>
+    <ol>
+        <li>積分因子： \(e^{\int -1 \, dx} = e^{-x}\)</li>
+        <li>両辺をかける： \(e^{-x}y' - e^{-x}y = 1\)</li>
+        <li>これは簡略化して： \(\frac{d}{dx}(e^{-x}y) = 1\)</li>
+        <li>積分： \(e^{-x}y = x + C\)</li>
+        <li>最終解： \(y = (x + C)e^x\)</li>
+    </ol>
+</div>
+
+<h3>例題6</h3>
+<div class="formula-box">
+    <div class="mathblock">
+        $$y' + xy = 0$$
+    </div>
+</div>
+
+<div class="steps">
+    <p><strong>解法手順：</strong></p>
+    <ol>
+        <li>積分因子： \(e^{\int x \, dx} = e^{\frac{x^2}{2}}\)</li>
+        <li>両辺をかける： \(e^{\frac{x^2}{2}}y' + xe^{\frac{x^2}{2}}y = 0\)</li>
+        <li>これは次のようになる： \(\frac{d}{dx}(e^{\frac{x^2}{2}}y) = 0\)</li>
+        <li>積分： \(e^{\frac{x^2}{2}}y = C\)</li>
+        <li>最終解： \(y = Ce^{-\frac{x^2}{2}}\)</li>
+    </ol>
+</div>
+</body>
+</html>

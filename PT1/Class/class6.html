@@ -3,42 +3,111 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>確率論：独立性と相関</title>
+    <title>確率論：条件付き確率と条件付き期待値</title>
     <style>
-        /* Add your CSS styles here */
+        body{font-family:"Helvetica Neue",Helvetica,Arial,sans-serif;line-height:1.7;color:#212121;margin:0;background:#fafafa;}
+        .container{max-width:960px;margin:0 auto;padding:2rem 1rem 4rem;background:#fff;box-shadow:0 4px 12px rgba(0,0,0,.05);border-radius:12px;}
+        h1,h2,h3{color:#1a237e;margin-top:1.2em;margin-bottom:.6em;}
+        h1{font-size:1.9rem;text-align:center;}
+        h2{font-size:1.45rem;border-left:6px solid #1a237e;padding-left:.55rem;}
+        h3{font-size:1.2rem;}
+        .formula{background:#f3f4ff;border-left:4px solid #5c6bc0;padding:.8rem 1.2rem;margin:1.2rem 0;border-radius:8px;overflow-x:auto;}
+        .proof{background:#e8f5e9;border-left:4px solid #43a047;padding:.8rem 1.2rem;margin:1.2rem 0;border-radius:8px;overflow-x:auto;}
+        details{margin-bottom:1rem;}
+        details summary{cursor:pointer;font-weight:600;}
+        ul{margin:0 0 1rem 1.2rem;}
+        .navigation{display:flex;justify-content:center;gap:.8rem;margin:2.2rem 0;border-top:1px solid #e0e0e0;padding-top:1.5rem;flex-wrap:wrap;}
+        .navigation a{padding:.65rem 1.5rem;background:#1a237e;color:#fff;text-decoration:none;border-radius:6px;transition:opacity .2s;}
+        .navigation a:hover{opacity:.85;}
+        footer{margin-top:3rem;color:#777;text-align:center;font-size:.9rem;}
+        code{background:#eceff1;padding:2px 4px;border-radius:4px;}
     </style>
+    <!-- MathJax configuration -->
+    <script>
+        MathJax = {
+          tex: {
+            inlineMath: [['$', '$'], ['\\(', '\\)']],
+            displayMath: [['$$','$$'], ['\\[','\\]']]
+          }
+        };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
 </head>
 <body>
     <div class="container">
-        <h1>確率的独立性と相関係数</h1>
+        <h1>連続確率空間の例</h1>
+        <p>本節では連続確率分布の代表例として<strong>正規分布</strong>、<strong>ガンマ分布</strong>、<strong>指数分布</strong>を取り上げ、それぞれの密度関数・主な統計量・典型的な応用を整理する。以降 $X$ は確率変数、$\mu$ は期待値、$\sigma^2$ は分散を表す。</p>
 
-        <section>
-            <h2>1. 確率的独立性</h2>
-            <div class="definition">
-                <h3>独立性の定義</h3>
-                <div class="formula">
-                    <p>事象AとBが独立 ⟺ P(A∩B) = P(A)P(B)</p>
-                </div>
+   
+
+        <!-- -------------------------------------------------------------- -->
+        <section id="normal">
+            <h2>2. 正規分布（Normal Distribution）</h2>
+            <p>$X\sim \mathcal{N}(\mu,\sigma^2)$ の確率密度関数（pdf）は</p>
+            <div class="formula">
+                $$f_{X}(x)= \frac{1}{\sqrt{2\pi\sigma^{2}}}\exp\bigl(-\tfrac{(x-\mu)^{2}}{2\sigma^{2}}\bigr), \qquad x\in \mathbb{R}.$$
             </div>
+            <ul>
+                <li>平均：$\mathbb{E}[X]=\mu$</li>
+                <li>分散：$\mathrm{Var}(X)=\sigma^{2}$</li>
+                <li>モーメント母関数：$M_{X}(t)=\exp\bigl(\mu t+\tfrac{1}{2}\sigma^{2}t^{2}\bigr)$</li>
+                <li>標準化：$Z=\dfrac{X-\mu}{\sigma}\sim \mathcal{N}(0,1)$</li>
+            </ul>
+            <details>
+                <summary>平均と分散の導出</summary>
+                <div class="proof">
+                    $Z=\dfrac{X-\mu}{\sigma}$ は標準正規分布に従うので $\mathbb{E}[Z]=0$, $\mathrm{Var}(Z)=1$。よって
+                    $$\mathbb{E}[X]=\mathbb{E}[\mu+\sigma Z]=\mu,\quad \mathrm{Var}(X)=\sigma^{2}\mathrm{Var}(Z)=\sigma^{2}. $$
+                </div>
+            </details>
         </section>
 
-        <section>
-            <h2>2. 相関係数</h2>
-            <div class="example">
-                <h3>相関係数の定義と性質</h3>
-                <div class="formula">
-                    <p>ρ(X,Y) = Cov(X,Y) / (σ_X * σ_Y)</p>
-                </div>
+        <!-- -------------------------------------------------------------- -->
+        <section id="gamma">
+            <h2>3. ガンマ分布（Gamma Distribution）</h2>
+            <p>形状母数 $k>0$、尺度母数 $\theta>0$ のとき $X\sim \mathrm{Gamma}(k,\theta)$ の pdf は</p>
+            <div class="formula">
+                $$f_{X}(x)=\frac{1}{\Gamma(k)\theta^{k}} x^{k-1} e^{-x/\theta}, \qquad x>0.$$
             </div>
+            <ul>
+                <li>平均：$\mathbb{E}[X]=k\theta$</li>
+                <li>分散：$\mathrm{Var}(X)=k\theta^{2}$</li>
+                <li>加法性：独立な $X_{1}\sim \mathrm{Gamma}(k_{1},\theta)$, $X_{2}\sim \mathrm{Gamma}(k_{2},\theta)$ に対し $X_{1}+X_{2}\sim \mathrm{Gamma}(k_{1}+k_{2},\theta)$</li>
+            </ul>
+            <details>
+                <summary>平均の導出</summary>
+                <div class="proof">
+                    $$\mathbb{E}[X]=\int_{0}^{\infty} x f_{X}(x)\,dx = \frac{1}{\Gamma(k)\theta^{k}}\int_{0}^{\infty} x^{k} e^{-x/\theta}\,dx
+                    = \theta \frac{\Gamma(k+1)}{\Gamma(k)} = k\theta.$$
+                </div>
+            </details>
         </section>
-        <div class="navigation" style="display: flex; justify-content: center; margin: 20px 0; padding: 15px 0; border-top: 1px solid #eee;">
-            <a href="class5.html" style="padding: 10px 20px; background-color: #1a237e; color: white; text-decoration: none; border-radius: 5px; margin-right: 10px;">← 前のレッスン</a>
-            <a href="../index.html" style="padding: 10px 20px; background-color: #1a237e; color: white; text-decoration: none; border-radius: 5px; margin-right: 10px;">ホーム</a>
-            <a href="class7.html" style="padding: 10px 20px; background-color: #1a237e; color: white; text-decoration: none; border-radius: 5px;">次のレッスン →</a>
+
+        <!-- -------------------------------------------------------------- -->
+        <section id="exponential">
+            <h2>4. 指数分布（Exponential Distribution）</h2>
+            <p>$\lambda>0$ のとき $X\sim \mathrm{Exp}(\lambda)$ の pdf は</p>
+            <div class="formula">
+                $$f_{X}(x)=\lambda e^{-\lambda x}, \qquad x>0.$$
+            </div>
+            <ul>
+                <li>平均：$\mathbb{E}[X]=1/\lambda$</li>
+                <li>分散：$\mathrm{Var}(X)=1/\lambda^{2}$</li>
+                <li>無記憶性：$\mathbb{P}(X>s+t \mid X>t)=\mathbb{P}(X>s)$</li>
+                <li>$\mathrm{Exp}(\lambda)$ は $\mathrm{Gamma}(1,1/\lambda)$ に一致</li>
+            </ul>
+        </section>
+
+
+
+        <!-- -------------------------------------------------------------- -->
+        <div class="navigation">
+            <a href="class5.html">&larr; 前のレッスン</a>
+            <a href="../index.html">ホーム</a>
+            <a href="class7.html">次のレッスン &rarr;</a>
         </div>
-        <footer>
-            <p style="text-align: center; margin-top: 40px; color: #666;">© 2025 確率論講義 - すべての権利を留保します</p>
-        </footer>
+
+        <footer>&copy; 2025 確率論講義 - すべての権利を留保します</footer>
     </div>
 </body>
 </html>

@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SDEから伊藤積分へ</title>
+    <script>
+    MathJax = {
+      tex: {
+        inlineMath: [['$', '$']],
+        displayMath: [['$$', '$$']]
+      },
+      options: {
+        enableMenu: false
+      }
+    };
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js" async></script>
+    <style>
+      :root {
+        --main-bg-color: #f8f9fa;
+        --text-color: #333;
+        --header-color: #1a3e72;
+        --accent-color: #3273dc;
+        --box-bg-color: #f1f8ff;
+        --box-border-color: #c8e1ff;
+        --code-bg-color: #f6f8fa;
+      }
+      * { box-sizing: border-box; margin: 0; padding: 0; }
+      body {
+        font-family: 'Helvetica Neue', Arial, 'Hiragino Kaku Gothic ProN', 'Hiragino Sans', Meiryo, sans-serif;
+        line-height: 1.6;
+        color: var(--text-color);
+        background-color: var(--main-bg-color);
+      }
+      .container { max-width: 900px; margin: 0 auto; padding: 20px; }
+      header {
+        background-color: var(--header-color);
+        color: #fff;
+        padding: 30px 0;
+        text-align: center;
+        box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+      }
+      h1 { font-size: 2.2em; margin-bottom: 15px; }
+      h2 {
+        font-size: 1.8em;
+        color: var(--header-color);
+        margin: 30px 0 15px 0;
+        padding-bottom: 8px;
+        border-bottom: 2px solid var(--accent-color);
+      }
+      h3 { font-size: 1.4em; color: var(--header-color); margin: 25px 0 10px 0; }
+      p { margin: 15px 0; }
+      .MathJax { overflow-x: auto; overflow-y: hidden; }
+      .section-highlight {
+        background-color: var(--box-bg-color);
+        border: 1px solid var(--box-border-color);
+        border-radius: 5px;
+        padding: 15px;
+        margin: 20px 0;
+      }
+      .section-highlight strong { color: var(--accent-color); }
+      ul, ol { margin: 15px 0 15px 30px; }
+      li { margin-bottom: 8px; }
+      footer {
+        text-align: center;
+        margin-top: 50px;
+        padding: 20px;
+        border-top: 1px solid #ddd;
+        font-size: 0.9em;
+        color: #666;
+      }
+      .example-box {
+        background-color: var(--code-bg-color);
+        border-left: 4px solid var(--accent-color);
+        padding: 15px;
+        margin: 20px 0;
+      }
+      @media (max-width:768px){
+        .container{padding:15px;}
+        h1{font-size:1.8em;}
+        h2{font-size:1.5em;}
+        h3{font-size:1.3em;}
+      }
+    </style>
+</head>
+<body>
+  <header>
+    <div class="container">
+      <h1>SDEから伊藤積分へ</h1>
+      <p>確率微分方程式と確率積分理論の数学的基礎</p>
+    </div>
+  </header>
+
+  <div class="container">
+    <!-- Introduction -->
+    <section id="introduction">
+      <h2>はじめに</h2>
+      <p>確率微分方程式 (Stochastic Differential Equation; SDE) は、
+        
+        $$ X_t = x_0 + \int_0^t f(X_s)\,dB_s $$
+        
+        のように記述される。右辺の確率積分を厳密に定義すること、そしてその解を構成することが本ページの主目的である。</p>
+    </section>
+
+    <!-- L2 Section already provided earlier (omitted for brevity) -->
+
+    <!-- Picard Iteration Theorem -->
+    <section id="picard">
+      <h2>Picard 近似定理</h2>
+      <div class="section-highlight">
+        <h3>定理 (存在と一意性のアイデア)</h3>
+        <p>関数 $f:\mathbb{R}\to\mathbb{R}$ が</p>
+        <ul>
+          <li><strong>Lipschitz 条件</strong>: $|f(x)-f(y)| \le L|x-y|$</li>
+          <li><strong>線形成長条件</strong>: $|f(x)| \le A + B|x|$</li>
+        </ul>
+        <p>を満たすとき、
+          
+          $$ X^{(0)}_t := x_0, \quad X^{(k+1)}_t := x_0 + \int_0^t f\bigl(X^{(k)}_s\bigr)\,dB_s $$
+          
+          と定めると、$\{X^{(k)}\}_{k\ge0}$ は $L^2(\Omega;C[0,T])$ でコーシー列となり、極限 $X$ は元の SDE の<strong>唯一の強解</strong>となる。</p>
+      </div>
+      <div class="section-highlight">
+        <h3>証明のスケッチ</h3>
+        <ol>
+          <li><strong>等質ノルムの設定:</strong> $\|Y\|_T^2 := \mathbb{E}\Big[\sup_{0\le t\le T} |Y_t|^2\Big]$。</li>
+          <li><strong>収束の鍵計算:</strong> ブラウン運動の等時性と伊藤等式より
+            $$ \|X^{(k+1)}-X^{(k)}\|_T^2 \le C L^2 T \|X^{(k)}-X^{(k-1)}\|_T^2. $$
+            ここで $C$ は定数。</li>
+          <li><strong>収束因子:</strong> $T$ を十分小さく取れば $CL^2T<1$ となり、Banach の不動点定理で収束が従う。</li>
+          <li><strong>大区間への拡張:</strong> 区間 $[0,T]$ をいくつかのサブ区間に分割して同じ議論を貼り合わせる。</li>
+        </ol>
+        <p>これにより $X^{(k)} \to X$ が示され、一意性も同様のコントラクト性で従う。</p>
+      </div>
+    </section>
+
+    <!-- Ito Formula -->
+    <section id="ito-formula">
+      <h2>伊藤の公式</h2>
+      <div class="section-highlight">
+        <h3>公式 (一次元版)</h3>
+        <p>$C^{1,2}$ 級関数 $g(t,x)$ と連続過程 $X_t$ が
+          $$ dX_t = a_t\,dt + b_t\,dB_t $$
+          を満たすとき、
+          $$ dg(t,X_t) = \partial_t g\,dt + \partial_x g\,dX_t + \tfrac{1}{2}\,\partial_{xx} g\,b_t^2\,dt. $$
+        </p>
+      </div>
+      <div class="example-box">
+        <strong>例: 株価モデル (幾何ブラウン運動)</strong>
+        <p>株価 $S_t$ が
+          $$ dS_t = \mu S_t\,dt + \sigma S_t\,dB_t $$
+          に従うとする。$g(x)=\log x$ に伊藤の公式を適用すると
+          $$ d\log S_t = \Big(\mu - \tfrac{1}{2}\sigma^2\Big)\,dt + \sigma\,dB_t. $$
+        </p>
+        <p>積分して
+          $$ S_t = S_0\,\exp\Bigl\{\Big(\mu-\tfrac{1}{2}\sigma^2\Bigr)t + \sigma B_t\Bigr\}. $$
+          これは Black–Scholes モデルの基本形である。</p>
+      </div>
+    </section>
+    <footer>
+      &copy; 2025 確率解析研究会
+    </footer>
+  </div>
+</body>
+</html>
