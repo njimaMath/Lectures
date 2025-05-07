@@ -181,110 +181,129 @@
 </head>
 <body>
     <div class="container">
+
+        <!-- ===== ヘッダー ===== -->
         <header>
-            <h1>微分積分学I</h1>
-            <div class="lecture-title">工学部：電気電子工学グループ4</div>
+            <h1>微分積分学 I</h1>
+            <div class="lecture-title">工学部 電気電子工学グループ 4</div>
             <div class="author-info">講義ノート</div>
         </header>
-        
+
+        <!-- ===== 第5回 ===== -->
         <section id="class5" class="content-section">
-            <div class="section-title">第5回：合成関数の微分（連鎖律）</div>
+            <h2 class="section-title">第5回：合成関数の微分（連鎖律）</h2>
 
-            <p>一変数微分積分学と同様に、多変数微分積分学でも、ある変数が別の変数に依存する<span class="topic-highlight">合成関数</span>を扱うことが多い。多変数微分積分学では、連鎖律が一般化され、入れ子になった依存関係を通じて変化がどのように伝播するかを扱う。</p>
+            <p>
+                一変数の場合と同様に，多変数でも<strong class="topic-highlight">合成関数</strong>が頻出します。
+                変数どうしの依存関係をたどり，変化がどのように伝わるかを定量化する公式が<strong>連鎖律</strong>です。
+            </p>
 
-            <p><span class="math">$z = f(x,y)$</span>とし、<span class="math">x</span>と<span class="math">y</span>自体が別の変数<span class="math">t</span>の関数（例えば<span class="math">x=g(t)</span>および<span class="math">y=h(t)</span>）であるとする。すると<span class="math">z</span>は最終的に<span class="math">t</span>の関数となり、連鎖律によって<span class="math">\frac{dz}{dt}</span>を計算できる：</p>
-            
+            <p>
+                $f$ を二変数関数，$x(t),\,y(t)$ を一変数関数として
+                $z(t)=f\!\bigl(x(t),\,y(t)\bigr)$ と置くと，
+                $z$ は $t$ のみの関数になります。連鎖律は
+            </p>
+
             <div class="formula">
-                $$\frac{dz}{dt} = \frac{\partial f}{\partial x}(x,y)\,\frac{dx}{dt} + \frac{\partial f}{\partial y}(x,y)\,\frac{dy}{dt} = f_x(x,y)\,\frac{dx}{dt} + f_y(x,y)\,\frac{dy}{dt}$$
-            </div>
-            
-            <p>これは<span class="math">$dz = f_x\,dx + f_y\,dy$</span>であり、<span class="math">\frac{dx}{dt}</span>、<span class="math">\frac{dy}{dt}</span>は<span class="math">x,y</span>が<span class="math">t</span>によってどのように変化するかを表すためである。したがって、変化を蓄積する：<span class="math">f_x</span>と<span class="math">\frac{dx}{dt}</span>の積に<span class="math">f_y</span>と<span class="math">$\frac{dy}{dt}$</span>の積を加える。</p>
-
-            <p>より一般的には、<span class="math">$z=f(u,v)$</span>が中間変数<span class="math">u,v</span>の関数であり、これらがさらに他の変数に依存する場合（例えば<span class="math">u = u(x,y)</span>および<span class="math">v = v(x,y)</span>）、偏導関数の形で連鎖律を適用する。例えば、<span class="math">z=f(u,v)</span>で<span class="math">$u=g(x,y)$</span>および<span class="math">$v=h(x,y)$</span>の場合：</p>
-            
-            <div class="formula">
-                $$\frac{\partial z}{\partial x} = \frac{\partial f}{\partial u}(u,v)\,\frac{\partial u}{\partial x}(x,y) + \frac{\partial f}{\partial v}(u,v)\,\frac{\partial v}{\partial x}(x,y) = f_u\,\frac{\partial u}{\partial x} + f_v\,\frac{\partial v}{\partial x}$$
-            </div>
-            
-            <p>同様に</p>
-            
-            <div class="formula">
-                $$\frac{\partial z}{\partial y} = \frac{\partial f}{\partial u}(u,v)\,\frac{\partial u}{\partial y}(x,y) + \frac{\partial f}{\partial v}(u,v)\,\frac{\partial v}{\partial y}(x,y) = f_u\,\frac{\partial u}{\partial y} + f_v\,\frac{\partial v}{\partial y}$$
-            </div>
-            
-            <p>ここで<span class="math">$f_u$</span>は<span class="math">$f$</span>の第一引数<span class="math">$u$</span>に関する偏導関数を表し、<span class="math">$f_v$</span>は<span class="math">$v$</span>に関する偏導関数である。本質的には、各依存経路に沿って導関数を掛け合わせ、すべての寄与を合計する。これは<span class="topic-highlight">依存関係ツリー図</span>で視覚化できる：<span class="math">z</span>は<span class="math">u</span>と<span class="math">v</span>に依存し、それぞれが<span class="math">x</span>と<span class="math">y</span>に依存する。<span class="math">x</span>から<span class="math">z</span>へ、<span class="math">y</span>から<span class="math">z</span>へのすべての経路が、導関数の項を生成する。</p>
-
-            <div class="figure">
-                <img src="https://via.placeholder.com/500x300" alt="連鎖律の依存関係ツリー">
-                <div class="figure-caption">図5.1：zが中間変数uとvにどのように依存し、それらがxとyに依存するかを示す依存関係ツリー図。</div>
+                $$\frac{dz}{dt}
+                  = \frac{\partial f}{\partial x}(x,y)\,\frac{dx}{dt}
+                  + \frac{\partial f}{\partial y}(x,y)\,\frac{dy}{dt}
+                  = f_x(x,y)\,\dot x(t) + f_y(x,y)\,\dot y(t)$$
             </div>
 
-            <p>例えば、<span class="math">z(p,q) = p^2q</span>が<span class="math">p,q</span>の関数で、<span class="math">p = x+y</span>、<span class="math">q = x-y</span>の場合を考える。すると<span class="math">z = f(x,y) = (x+y)^2 (x-y)</span>となる。連鎖律を使用して<span class="math">f_x</span>を求めることができる：</p>
-            
-            <div class="formula">
-                $$\frac{\partial z}{\partial p} = 2pq, \qquad \frac{\partial z}{\partial q} = p^2$$
-            </div>
-            
-            <p>また<span class="math">\frac{\partial p}{\partial x} = 1</span>、<span class="math">\frac{\partial q}{\partial x} = 1</span>である。したがって</p>
-            
-            <div class="formula">
-                $$f_x = \frac{\partial z}{\partial x} = \frac{\partial z}{\partial p} \cdot \frac{\partial p}{\partial x} + \frac{\partial z}{\partial q} \cdot \frac{\partial q}{\partial x} = 2pq \cdot 1 + p^2 \cdot 1 = 2pq + p^2$$
-            </div>
-            
-            <p><span class="math">p=x+y</span>、<span class="math">q=x-y</span>を代入すると</p>
-            
-            <div class="formula">
-                $$f_x = 2(x+y)(x-y) + (x+y)^2$$
-            </div>
-            
-            <p>代わりに<span class="math">z=(x+y)^2(x-y)</span>を直接展開して微分することもできるが、連鎖律は完全な展開なしに体系的なアプローチを提供する。</p>
+            <p>
+                ここで $\dot x(t)=dx/dt$，$\dot y(t)=dy/dt$ です。
+                $dz = f_x\,dx + f_y\,dy$ が
+                $t$ 方向の変化に沿って積み上がるイメージになります。
+            </p>
 
-            <p>連鎖律は複数の合成層とより多くの変数に拡張できる。<span class="math">w = F(x,y,z)</span>で、<span class="math">x,y,z</span>がそれぞれパラメータの関数である場合、構造は同様である：<span class="math">F</span>を各入力に関して微分し、その入力のパラメータに関する導関数を掛ける。</p>
+            <!-- === 例題 5.1 === -->
+            <div class="example">
+                <h3 class="example-title">例 5.1</h3>
+                <p><strong>問題：</strong>
+                    $f(x,y)=e^{x}\sin y$，
+                    $x(t)=t^{2}+1$，
+                    $y(t)=2t+1$ とする。
+                    $\displaystyle\frac{dz}{dt}$ を求めよ。
+                </p>
 
-            <div class="example-title">例 5.1</div>
-            <div class="formula" style="background-color: #f0f7ff; border-left-color: #3498db;">
-                <p><strong>問題：</strong> <span class="math">z = e^{u} \sin v</span>とし、<span class="math">u = x^2 + y</span>および<span class="math">v = x y</span>とする。<span class="math">\frac{\partial z}{\partial x}</span>と<span class="math">\frac{\partial z}{\partial y}</span>を求めよ。</p>
-                
                 <p><strong>解答：</strong></p>
-                <p><span class="math">f(u,v) = e^u \sin v</span>である。<span class="math">f</span>の偏導関数は<span class="math">f_u = e^u \sin v</span>および<span class="math">f_v = e^u \cos v</span>である。</p>
-                
-                <p>次に<span class="math">u(x,y)=x^2+y</span>および<span class="math">v(x,y)=xy</span>である。偏導関数を計算する：</p>
-                
-                $$\frac{\partial u}{\partial x} = 2x, \quad \frac{\partial u}{\partial y} = 1, \qquad
-                \frac{\partial v}{\partial x} = y, \quad \frac{\partial v}{\partial y} = x$$
-                
-                <p>連鎖律を適用する：</p>
-                
-                $$\frac{\partial z}{\partial x} = \frac{\partial f}{\partial u}\frac{\partial u}{\partial x} + \frac{\partial f}{\partial v}\frac{\partial v}{\partial x} = e^u \sin v \cdot (2x) + e^u \cos v \cdot (y) = e^u (2x\sin v + y\cos v)$$
-                
-                $$\frac{\partial z}{\partial y} = \frac{\partial f}{\partial u}\frac{\partial u}{\partial y} + \frac{\partial f}{\partial v}\frac{\partial v}{\partial y} = e^u \sin v \cdot (1) + e^u \cos v \cdot (x) = e^u (\sin v + x\cos v)$$
-                
-                <p><span class="math">u = x^2+y</span>および<span class="math">v = xy</span>を代入する：</p>
-                
-                $$\frac{\partial z}{\partial x} = e^{(x^2+y)}\big(2x\sin(xy) + y\cos(xy)\big)$$
-                
-                $$\frac{\partial z}{\partial y} = e^{(x^2+y)}\big(\sin(xy) + x\cos(xy)\big)$$
+                <ol>
+                    <li>
+                        偏微分：
+                        $f_x=e^{x}\sin y$，$f_y=e^{x}\cos y$。
+                    </li>
+                    <li>
+                        自由変数の導関数：
+                        $\dot x(t)=2t$，$\dot y(t)=2$。
+                    </li>
+                    <li>
+                        連鎖律より
+                        $$\frac{dz}{dt}
+                          = e^{x}\sin y\,(2t) + e^{x}\cos y\,(2)
+                          = 2e^{x}\bigl(t\sin y + \cos y\bigr).$$
+                    </li>
+                    <li>
+                        $x=t^{2}+1$, $y=2t+1$ を代入して
+                        $$\boxed{\displaystyle
+                          \frac{dz}{dt}
+                          = 2e^{\,t^{2}+1}\Bigl(t\sin(2t+1)+\cos(2t+1)\Bigr)}.$$
+                    </li>
+                </ol>
             </div>
 
-            <p><span class="topic-highlight">連鎖律</span>は、複雑な依存関係を体系的に扱うことができる強力なツールである。特に工学的な文脈で役立ち、ある量が他の量に依存し、それ自体が異なる変数に依存する場合（例えば、温度が時間と位置に依存し、位置が時間に依存するなど）によく使用される。</p>
-            
-            <div class="figure" style="background-color: #eefaf8; border-left: 4px solid #2ecc71; text-align: left;">
-                <h3 style="margin-top: 0;">連鎖律に関する重要な洞察</h3>
-                <ul style="padding-left: 20px;">
-                    <li>依存関係の各経路が導関数に一つの項を寄与する。</li>
-                    <li>各項は単一経路に沿った導関数の積である。</li>
-                    <li>この体系的な性質により、複雑な入れ子関係の正確な微分が可能になる。</li>
-                    <li>合成の層がいくつあっても、パターンは一貫している。</li>
-                    <li>この技術は、量が複数の変数に依存する多くの工学および物理学の応用において基礎となる。</li>
+            <!-- === 例題 5.2 === -->
+            <div class="example">
+                <h3 class="example-title">例 5.2</h3>
+                <p><strong>問題：</strong>
+                    $f(x,y)=x^{y}$，
+                    $x(t)=t$，$y(t)=t$ とする。
+                    $\displaystyle\frac{dz}{dt}$ を求めよ。
+                </p>
+
+                <p><strong>解答：</strong></p>
+                <ol>
+                    <li>
+                        $f(x,y)=e^{\,y\log x}$ と書くと
+                        $f_x = y\,x^{\,y-1}$，
+                        $f_y = x^{y}\log x$。
+                    </li>
+                    <li>
+                        $\dot x(t)=1$，$\dot y(t)=1$。
+                    </li>
+                    <li>
+                        連鎖律：
+                        $$\frac{dz}{dt}
+                          = y\,x^{\,y-1}\cdot1 + x^{y}\log x\cdot1.$$
+                    </li>
+                    <li>
+                        $x=y=t$ を代入して
+                        $$\boxed{\displaystyle
+                          \frac{dz}{dt}=t^{\,t}\bigl(1+\log t\bigr)}
+                          \qquad(t>0).$$
+                    </li>
+                </ol>
+            </div>
+
+            <!-- ===== 連鎖律のポイント ===== -->
+            <div class="figure" style="background-color:#eefaf8;border-left:4px solid #2ecc71;">
+                <h3 style="margin-top:0;">連鎖律のポイント</h3>
+                <ul>
+                    <li>依存経路ごとに一つの項が現れる。</li>
+                    <li>各項は「沿った経路の導関数の積」。</li>
+                    <li>層が増えてもパターンは変わらない。</li>
+                    <li>時間依存の座標変換など工学的応用で基本。</li>
                 </ul>
             </div>
         </section>
 
-        <div class="navigation">
-            <a href="class4.html">← 前回：第4回</a>
+        <!-- ===== ナビゲーション ===== -->
+        <nav class="navigation">
+            <a href="class4.html">← 第4回</a>
             <a href="../index.html">ホーム</a>
-            <a href="class6.html">次回：第6回 →</a>
-        </div>
+            <a href="class6.html">第6回 →</a>
+        </nav>
     </div>
 </body>
+
 </html>
