@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>実数の講義ノート</title>
+  <script>
+    MathJax = {
+      tex: {
+        inlineMath: [['$', '$']],
+        displayMath: [['$$', '$$']]
+      }
+    };
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js" async></script>
+  <style>
+    body {
+      font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+      background: #f5f5f5;
+      color: #222;
+      line-height: 1.7;
+      margin: 0;
+      padding: 2rem;
+    }
+    .container {
+      background: white;
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 2rem;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+    h1, h2, h3 {
+      color: #003366;
+    }
+    h1 {
+      text-align: center;
+      margin-bottom: 2rem;
+    }
+    h2 {
+      border-left: 6px solid #003366;
+      padding-left: 0.5rem;
+      margin-top: 2rem;
+    }
+    p {
+      margin-top: 1em;
+    }
+  </style>
+</head>
+<body>
+    <div class="container">
+      <h1>第10回：$\varepsilon$-$N$論法による極限の証明</h1>
+  
+      <section>
+        <h2>1. $\varepsilon$-$N$論法の定義</h2>
+        <p>
+          数列 $(a_n)$ が実数 $a$ に収束するとは、任意の $\varepsilon > 0$ に対して、
+          ある自然数 $N$ が存在して
+          $$n \ge N \;\Rightarrow\; |a_n - a| < \varepsilon$$
+          が成り立つことを意味します。このとき、$\lim_{n \to \infty} a_n = a$ と書きます。
+        </p>
+      </section>
+  
+      <section>
+        <h2>2. 極限が既知の場合の証明の書き方</h2>
+  
+        <article>
+          <h3>例1：$\displaystyle\lim_{n \to \infty}2a_n = 2a$ の証明</h3>
+          <p>
+            任意の $\varepsilon > 0$ に対して、$\lim a_n = a$ よりある $N$ が存在し、
+            $$n \ge N \;\Rightarrow\; |a_n - a| < \frac{\varepsilon}{2}$$
+            となります。よって
+            $$|2a_n - 2a| = 2|a_n - a| < 2 \cdot \frac{\varepsilon}{2} = \varepsilon$$
+            したがって、$\lim 2a_n = 2a$ が示されました。
+          </p>
+        </article>
+  
+        <article>
+          <h3>例2：$\displaystyle\lim_{n \to \infty}(a_n + 1) = a + 1$ の証明</h3>
+          <p>
+            任意の $\varepsilon > 0$ に対して、$\lim a_n = a$ よりある $N$ が存在し、
+            $$n \ge N \;\Rightarrow\; |a_n - a| < \varepsilon$$
+            となります。よって
+            $$|(a_n + 1) - (a + 1)| = |a_n - a| < \varepsilon$$
+            したがって、$\lim (a_n + 1) = a + 1$ が成り立ちます。
+          </p>
+        </article>
+      </section>
+  
+      <section>
+        <h2>3. 極限が二つある場合の和・積の極限</h2>
+        <p>命題：$\displaystyle\lim a_n = a,\;\lim b_n = b$ のとき、</p>
+        <ul>
+          <li>和：$\displaystyle\lim (a_n + b_n) = a + b$</li>
+          <li>積：$\displaystyle\lim (a_n b_n) = ab$</li>
+        </ul>
+  
+        <article>
+          <h3>和の場合</h3>
+          <p>
+            任意の $\varepsilon > 0$ に対し、$\lim a_n = a$ より $N_1$、$\lim b_n = b$ より $N_2$ が存在して
+            $$n \ge N_1 \Rightarrow |a_n - a| < \tfrac{\varepsilon}{2},\quad
+              n \ge N_2 \Rightarrow |b_n - b| < \tfrac{\varepsilon}{2}.$$
+            ここで $N = \max(N_1, N_2)$ とすると
+            $$
+              |(a_n + b_n) - (a + b)|
+              \le |a_n - a| + |b_n - b|
+              < \tfrac{\varepsilon}{2} + \tfrac{\varepsilon}{2}
+              = \varepsilon,
+            $$
+            したがって $\lim (a_n + b_n) = a + b$ です。
+          </p>
+        </article>
+  
+        <article>
+          <h3>積の場合</h3>
+          <p>
+            収束する数列は有界なので、例えば $|a_n|\le M$ を満たす定数 $M>0$ が取れます。
+            任意の $\varepsilon>0$ について
+            $\displaystyle\delta = \min\Bigl(1,\frac{\varepsilon}{2(|b|+1)}\Bigr)$ とし、
+            $n \ge N$ で
+            $|a_n - a| < \delta,\;|b_n - b| < \delta$ とすると
+          </p>
+          <p>
+            $$
+              |a_n b_n - ab|
+              \le |a_n - a|\,|b_n| + |a|\,|b_n - b|
+              < \delta(|b|+1) + |a|\delta
+              \le \varepsilon.
+            $$
+            よって $\lim (a_n b_n) = ab$ が成立します。
+          </p>
+        </article>
+      </section>
+    </div>
+  </body>
+</html>

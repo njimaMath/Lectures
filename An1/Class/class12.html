@@ -1,0 +1,123 @@
+<body>
+    <div class="container">
+      <h1>第12回：関数の極限</h1>
+  
+      <!-- 1. 基本性質 -->
+      <h2>1. 関数の極限の基本性質</h2>
+      <div class="theorem">
+        <h3>定理&nbsp;1&nbsp;(線形性と積の極限)</h3>
+        <p>
+          実数列について $\displaystyle\lim_{x\to a}f(x)=L,\;
+          \lim_{x\to a}g(x)=M$ が存在し，定数 $c\in\mathbb{R}$ を取ると
+          次が成り立つ。
+        </p>
+        <ul>
+          <li>$\displaystyle\lim_{x\to a}c f(x) = cL$</li>
+          <li>$\displaystyle\lim_{x\to a}[f(x)+g(x)] = L+M$</li>
+          <li>$\displaystyle\lim_{x\to a}f(x)g(x) = LM$</li>
+        </ul>
+      </div>
+      <div class="proof">
+        <h3>証明の概略</h3>
+        <p>
+          $\varepsilon$–$\delta$ 定義を用い，$|f(x)-L|<\varepsilon$ と
+          $|g(x)-M|<\varepsilon$ を同時に満たす $\delta$ を構成すれば十分。
+        </p>
+      </div>
+  
+      <!-- 2. 数列による特徴付け -->
+      <h2>2. 関数の極限と数列の極限</h2>
+      <div class="theorem">
+        <h3>定理&nbsp;2&nbsp;(数列による特徴付け)</h3>
+        <p>
+          $f$ を $a$ の近傍で定義された関数とする。次は同値。
+        </p>
+        <ul>
+          <li>$\displaystyle\lim_{x\to a}f(x)=L$</li>
+          <li>
+            任意の数列 $(x_n)$ で $x_n\neq a,\; x_n\to a$ が成り立つとき，
+            $\displaystyle f(x_n)\to L$
+          </li>
+        </ul>
+      </div>
+      <div class="proof">
+        <h3>証明の概略</h3>
+        <p>
+          1&nbsp;$\Rightarrow$&nbsp;2: $\varepsilon$–$\delta$ 条件を
+          数列に適用すれば直ちに従う。<br>
+          2&nbsp;$\Rightarrow$&nbsp;1: 反証法を用いる。極限が存在しないなら
+          ある $\varepsilon_0$ について
+          $|f(x)-L|\ge\varepsilon_0$ を満たす点列を取れることに矛盾。
+        </p>
+      </div>
+  
+      <!-- 3. 片側極限 -->
+      <h2>3. 片側極限</h2>
+      <div class="definition">
+        <h3>定義&nbsp;3&nbsp;(右極限と左極限)</h3>
+        <p>
+          $f$ が点 $a$ の右側・左側で定義されているとき，それぞれ
+          右極限・左極限を
+        </p>
+        <ul>
+          <li>
+            $\displaystyle\lim_{x\to a+}f(x)=L\iff
+            \forall\varepsilon>0\,\exists\delta>0\;
+            (0<x-a<\delta\Rightarrow|f(x)-L|<\varepsilon)$
+          </li>
+          <li>
+            $\displaystyle\lim_{x\to a-}f(x)=L\iff
+            \forall\varepsilon>0\,\exists\delta>0\;
+            (0<a-x<\delta\Rightarrow|f(x)-L|<\varepsilon)$
+          </li>
+        </ul>
+      </div>
+  
+      <div class="theorem">
+        <h3>定理&nbsp;4&nbsp;(両側極限の存在条件)</h3>
+        <p>
+          $\displaystyle\lim_{x\to a}f(x)$ が存在するとき，右極限と左極限は
+          ともに存在し，互いに等しい。
+        </p>
+      </div>
+      <div class="proof">
+        <h3>証明の概略</h3>
+        <p>
+          両側極限の定義から直接従う。逆は一般には成り立たないが，
+          右極限と左極限が一致するとき
+          関数は点 $a$ で極限をもつ。
+        </p>
+      </div>
+  
+      <!-- 4. 例題 -->
+      <h2>4. 例題</h2>
+      <div class="definition">
+        <p>
+          恒等関数 $x\mapsto x$ について
+          $\displaystyle\lim_{x\to a}x = a$。
+        </p>
+        <p>
+          絶対値関数 $x\mapsto|x|$ について
+          $\displaystyle\lim_{x\to 0+}|x| = 0$，
+          $\displaystyle\lim_{x\to 0-}|x| = 0$。
+        </p>
+        <p>
+          階段関数
+          $$
+            f(x)=\begin{cases}
+              0 & (x<0)\\
+              1 & (x\ge 0)
+            \end{cases}
+          $$
+          について
+          $\displaystyle\lim_{x\to 0+}f(x)=1,\;
+          \lim_{x\to 0-}f(x)=0$。
+          従って $\displaystyle\lim_{x\to 0}f(x)$ は存在しない。
+        </p>
+      </div>
+  
+      <p class="qed">□</p>
+    </div>
+  </body>
+  </html>
+  
