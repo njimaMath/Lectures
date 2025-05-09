@@ -1,36 +1,114 @@
-<!DOCTYPE html>
+<!DOCTYPE html> 
 <html lang="ja">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>確率論：マルコフ連鎖</title>
-    <style>
-        /* Add your CSS styles here */
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>大数の法則</title>
+  <style>
+    body {
+      font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+      line-height: 1.7;
+      color: #212121;
+      margin: 0;
+      background: #fafafa;
+    }
+    .container {
+      max-width: 960px;
+      margin: 0 auto;
+      padding: 2rem 1rem 4rem;
+      background: #fff;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, .05);
+      border-radius: 12px;
+    }
+    h1, h2, h3, h4 {
+      color: #1a237e;
+      margin-top: 1.2em;
+      margin-bottom: .6em;
+    }
+    h1 { font-size: 1.9rem; text-align: center; }
+    h2 { font-size: 1.5rem; border-left: 6px solid #1a237e; padding-left: .55rem; }
+    h3 { font-size: 1.25rem; }
+    .formula {
+      background: #f3f4ff;
+      border-left: 4px solid #5c6bc0;
+      padding: .8rem 1.2rem;
+      margin: 1.2rem 0;
+      border-radius: 8px;
+      overflow-x: auto;
+      text-align: center;
+    }
+    .proof {
+      background: #e8f5e9;
+      border-left: 4px solid #43a047;
+      padding: .8rem 1.2rem;
+      margin: 1.2rem 0;
+      border-radius: 8px;
+      overflow-x: auto;
+    }
+    footer {
+      margin-top: 3rem;
+      color: #777;
+      text-align: center;
+      font-size: .9rem;
+    }
+  </style>
+  <script>
+    MathJax = {
+      tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']],
+        displayMath: [['$$','$$'], ['\\[','\\]']]
+      }
+    };
+  </script>
+  <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
 </head>
 <body>
-    <div class="container">
-        <h1>マルコフ連鎖の基礎</h1>
+  <div class="container">
+    <h1>大数の法則</h1>
 
-        <section>
-            <h2>1. マルコフ性</h2>
-            <div class="definition">
-                <h3>マルコフ性の定義</h3>
-                <p>次の状態は現在の状態のみに依存し、過去の履歴には依存しない性質</p>
-            </div>
-        </section>
-
-        <section>
-            <h2>2. 推移確率行列</h2>
-            <div class="example">
-                <h3>推移確率と定常分布</h3>
-                <p>状態間の遷移を表す確率行列と、その長期的な振る舞い</p>
-            </div>
-        </section>
-
-        <footer>
-            <p style="text-align: center; margin-top: 40px; color: #666;">© 2025 確率論講義 - すべての権利を留保します</p>
-        </footer>
+    <h2>1. コイントスによる導入</h2>
+    <p>コインを $n$ 回投げる。表を $1$, 裏を $0$ とし、$X_i$ を $i$ 回目の表の指示関数とする：</p>
+    <div class="formula">
+      $$ S_n(\omega) = \sum_{i=1}^n X_i(\omega) $$
     </div>
+    <p>これは表の総数。確率空間は $\Omega = \{0,1\}^n$, 各 $\omega$ に対して $\mathbb{P}(\omega) = 2^{-n}$ とする。</p>
+
+    <h2>2. 厳密な主張（大数の法則）</h2>
+    <p>独立同分布な確率変数列 $(X_i)_{i \in \mathbb{N}}$ を考える。$\mathbb{E}[X_i] = \mu$, $\mathrm{Var}(X_i) = \sigma^2 < \infty$ と仮定する。</p>
+    <p>そのとき：</p>
+    <div class="formula">
+      $$ \frac{1}{n} \sum_{i=1}^n X_i \xrightarrow{\mathbb{P}} \mu \quad (n \to \infty) $$
+    </div>
+    <p>（平均への収束）</p>
+
+    <h2>3. 証明の構成</h2>
+    <h3>ステップ1: マルコフの不等式</h3>
+    <p>非負の確率変数 $Y$ に対して：</p>
+    <div class="formula">
+      $$ \mathbb{P}(Y \geq a) \leq \frac{\mathbb{E}[Y]}{a} $$
+    </div>
+
+    <h3>ステップ2: チェビシェフの不等式</h3>
+    <p>$X$ の平均を $\mu$, 分散を $\sigma^2$ として：</p>
+    <div class="formula">
+      $$ \mathbb{P}(|X - \mu| \geq \varepsilon) \leq \frac{\sigma^2}{\varepsilon^2} $$
+    </div>
+    <p>これはマルコフの不等式に $Y = (X - \mu)^2$ を適用することで導かれる。</p>
+
+    <h3>ステップ3: 大数の法則の証明</h3>
+    <p>確率変数 $X_1, \dots, X_n$ は独立で同分布、$\mathbb{E}[X_i] = \mu$、$\mathrm{Var}(X_i) = \sigma^2$ とすると、平均の分布の分散は：</p>
+    <div class="formula">
+      $$ \mathrm{Var}\left(\frac{1}{n} \sum_{i=1}^n X_i\right) = \frac{\sigma^2}{n} $$
+    </div>
+    <p>チェビシェフの不等式により：</p>
+    <div class="formula">
+      $$ \mathbb{P}\left(\left|\frac{1}{n} \sum_{i=1}^n X_i - \mu\right| \geq \varepsilon\right) \leq \frac{\sigma^2}{n \varepsilon^2} \to 0 $$
+    </div>
+    <p>したがって、$\frac{1}{n} \sum_{i=1}^n X_i$ は確率収束で $\mu$ に収束する。</p>
+
+    <footer>
+      <p style="text-align: center; margin-top: 40px; color: #666;">© 2025 確率論講義 - すべての権利を留保します</p>
+    </footer>
+  </div>
 </body>
 </html>

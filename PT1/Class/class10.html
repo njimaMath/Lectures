@@ -3,35 +3,134 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>確率論：確率過程入門</title>
+    <title>中心極限定理</title>
     <style>
-        /* Add your CSS styles here */
+        body{font-family:"Helvetica Neue",Helvetica,Arial,sans-serif;line-height:1.7;color:#212121;margin:0;background:#fafafa;}
+        .container{max-width:960px;margin:0 auto;padding:2rem 1rem 4rem;background:#fff;box-shadow:0 4px 12px rgba(0,0,0,.05);border-radius:12px;}
+        h1,h2,h3,h4{color:#1a237e;margin-top:1.2em;margin-bottom:.6em;}
+        h1{font-size:1.9rem;text-align:center;}
+        h2{font-size:1.5rem;border-left:6px solid #1a237e;padding-left:.55rem;}
+        h3{font-size:1.25rem;}
+        h4{font-size:1.1rem;color:#3949ab;margin-top:1.2em;}
+        .formula{background:#f3f4ff;border-left:4px solid #5c6bc0;padding:.8rem 1.2rem;margin:1.2rem 0;border-radius:8px;overflow-x:auto;text-align:center;}
+        details{margin-bottom:1rem;}
+        details summary{cursor:pointer;font-weight:600;}
+        .proof{background:#e8f5e9;border-left:4px solid #43a047;padding:.8rem 1.2rem;margin:1.2rem 0;border-radius:8px;overflow-x:auto;}
+        ul{margin:0 0 1rem 1.2rem;}
+        .navigation{display:flex;justify-content:center;gap:.8rem;margin:2.2rem 0;border-top:1px solid #e0e0e0;padding-top:1.5rem;flex-wrap:wrap;}
+        .navigation a{padding:.65rem 1.5rem;background:#1a237e;color:#fff;text-decoration:none;border-radius:6px;transition:opacity .2s;}
+        .navigation a:hover{opacity:.85;}
+        footer{margin-top:3rem;color:#777;text-align:center;font-size:.9rem;}
     </style>
+    <!-- MathJax configuration -->
+    <script>
+        MathJax = {
+          tex: {
+            inlineMath: [['$', '$'], ['\\(', '\\)']],
+            displayMath: [['$$','$$'], ['\\[','\\]']]
+          }
+        };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
 </head>
 <body>
     <div class="container">
-        <h1>確率過程の基礎理論</h1>
+        <h1>中心極限定理</h1>
 
         <section>
-            <h2>1. 確率過程の定義</h2>
-            <div class="definition">
-                <h3>確率過程とは</h3>
-                <p>時間とともに確率的に変化する現象を記述する数学的モデル</p>
+            <h2>1. コイントスモデルの再考</h2>
+            <p>
+                公平なコインを $n$ 回投げ，各回の表を $X_i=1$，裏を $X_i=0$ と符号化する．
+                \(X_1,\dots,X_n\) は独立同分布であり，確率は
+                $\mathbb{P}(X_i=1)=\mathbb{P}(X_i=0)=\tfrac12$ です．
+            </p>
+            <h3>1.1 期待値と分散</h3>
+            <div class="formula">
+                $\displaystyle \mathbb{E}[X_i]=\frac12,\qquad \operatorname{Var}(X_i)=\mathbb{E}[X_i^2]-\mathbb{E}[X_i]^2=\frac12-\bigl(\frac12\bigr)^2=\frac14.$
             </div>
-        </section>
-
-        <section>
-            <h2>2. 主要な確率過程</h2>
-            <div class="example">
-                <h3>代表的な確率過程</h3>
-                <ul>
-                    <li>ブラウン運動</li>
-                    <li>ポアソン過程</li>
-                    <li>ランダムウォーク</li>
-                </ul>
+            <p>
+                表の総数を $H_n:=\sum_{i=1}^n X_i$ とすると，線形性と独立性から
+            </p>
+            <div class="formula">
+                $\displaystyle \mathbb{E}[H_n]=n\,\mathbb{E}[X_1]=\frac{n}{2},\qquad \operatorname{Var}(H_n)=n\operatorname{Var}(X_1)=\frac{n}{4}. $
             </div>
-        </section>
+            <p>
+                標本平均を $\overline{X}_n:=\frac1n\sum_{i=1}^n X_i$ とすると，
+            </p>
+            <div class="formula">
+                $\displaystyle \mathbb{E}[\overline{X}_n]=\frac12,\qquad \operatorname{Var}(\overline{X}_n)=\frac{1}{n^2}\operatorname{Var}(H_n)=\frac{1}{4n}. $
+            </div>
+            <h4>補足：分散計算を 1 行ずつ確認</h4>
+            <details>
+                <summary>クリックして展開</summary>
+                <ol>
+                    <li>$\operatorname{Var}(H_n)=\operatorname{Var}\Bigl(\sum_{i=1}^n X_i\Bigr)=\sum_{i=1}^n\operatorname{Var}(X_i)$ （独立性）</li>
+                    <li>$=n\,\operatorname{Var}(X_1)$ （同分布）</li>
+                    <li>$=n\bigl(\mathbb{E}[X_1^2]-\mathbb{E}[X_1]^2\bigr)=n\bigl(\tfrac12-\tfrac14\bigr)=\tfrac{n}{4}.$</li>
+                </ol>
+            </details>
 
+            <h2>2. 特性関数</h2>
+            <h3>2.1 定義</h3>
+            <p>
+                実確率変数 $X$ の <strong>特性関数</strong> は
+            </p>
+            <div class="formula">
+                $\displaystyle \varphi_X(t):=\mathbb{E}\bigl[e^{itX}\bigr]\quad (t\in\mathbb{R}).$
+            </div>
+            <p>
+                この関数は分布を一意に決定し，積率母関数の複素版とみなせます．収束定理の証明で強力な道具になります．
+            </p>
+            <h3>2.2 具体例</h3>
+            <ul>
+                <li><strong>正規分布 $N(\mu,\sigma^2)$</strong>：
+                <div class="formula">$\displaystyle \varphi_{N(\mu,\sigma^2)}(t)=\exp\bigl(i\mu t-\tfrac12\sigma^2 t^2\bigr).$</div></li>
+                <li><strong>二項分布 $\operatorname{Bin}(n,p)$</strong>：
+                <div class="formula">$\displaystyle \varphi_{\operatorname{Bin}(n,p)}(t)=\bigl((1-p)+p e^{it}\bigr)^n.$</div>
+                Bernoulli$(p)$ は $n=1$ の場合で，公平コインなら
+                $\varphi_{\text{Bern}(1/2)}(t)=\tfrac12(1+e^{it})$ です．</li>
+            </ul>
+
+            <h2>3. 中心極限定理（CLT）の主張とコイントスへの適用</h2>
+            <h3>3.1 一般形</h3>
+            <div class="formula">
+                $\displaystyle Z_n:=\frac{\sum_{i=1}^n (X_i-\mu)}{\sigma\sqrt{n}}\;\xrightarrow{d}\;N(0,1)$ \quad $(n\to\infty)$.
+            </div>
+            <p>
+                ここで $\mu=\mathbb{E}[X_1],\;\sigma^2=\operatorname{Var}(X_1)\in(0,\infty)$ とします．
+            </p>
+            <h3>3.2 公平コインの場合</h3>
+            <p>
+                $X_i\sim\text{Bern}(1/2)$ では $\mu=1/2,\;\sigma^2=1/4$ なので
+            </p>
+            <div class="formula">
+                $\displaystyle \frac{H_n-\tfrac{n}{2}}{\tfrac{\sqrt{n}}{2}}=2\sqrt{n}\Bigl(\overline{X}_n-\tfrac12\Bigr)\;\xrightarrow{d}\;N(0,1).$
+            </div>
+
+            <h2>4. 特性関数を用いた証明の概略</h2>
+            <div class="proof">
+                <p><strong>ステップ 1：</strong> 標準化変量 $Y_i:=(X_i-\mu)/\sigma$ を考えると $\mathbb{E}[Y_i]=0,\;\operatorname{Var}(Y_i)=1$．
+                特性関数を $\psi(t):=\varphi_{Y_1}(t)=\mathbb{E}[e^{itY_1}]$ と置く．</p>
+
+                <p><strong>ステップ 2：</strong> 中心極限定理で示したい量は $S_n:=\frac1{\sqrt{n}}\sum_{i=1}^n Y_i$．独立性より
+                $$\varphi_{S_n}(t)=\bigl\{\psi\bigl(t/\sqrt{n}\bigr)\bigr\}^n.$$
+                
+                <strong>テイラー展開</strong> を $t/\sqrt{n}$ について行うと
+                $$\psi\bigl(t/\sqrt{n}\bigr)=1-\frac{t^2}{2n}+o\bigl(\tfrac1n\bigr)\quad(n\to\infty).$$
+                よって
+                $$\varphi_{S_n}(t)=\Bigl(1-\frac{t^2}{2n}+o\bigl(\tfrac1n\bigr)\Bigr)^n\longrightarrow e^{-t^2/2}$$
+                となり，極限は標準正規分布の特性関数に一致する．</p>
+
+                <p><strong>ステップ 3：</strong> レヴィ連続性定理（特性関数の収束が分布の弱収束に同値）により，
+                $S_n \xrightarrow{d} N(0,1)$ が従う．
+                これを元の変数に戻せば中心極限定理が完成する．</p>
+            </div>
+      <!-- -------------------------------------------------------------- -->
+        <div class="navigation">
+            <a href="class9.html">前のクラス</a>
+            <a href="../index.html">ホーム</a>
+            <a href="class11.html">次のクラス &rarr;</a>
+        </div>
         <footer>
             <p style="text-align: center; margin-top: 40px; color: #666;">© 2025 確率論講義 - すべての権利を留保します</p>
         </footer>

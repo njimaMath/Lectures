@@ -1,39 +1,154 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>確率論：マルチンゲール</title>
-    <style>
-        /* Add your CSS styles here */
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>確率論の収束</title>
+  <style>
+    body {
+      font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+      line-height: 1.7;
+      color: #212121;
+      margin: 0;
+      background: #fafafa;
+    }
+    .container {
+      max-width: 960px;
+      margin: 0 auto;
+      padding: 2rem 1rem 4rem;
+      background: #fff;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+      border-radius: 12px;
+    }
+    h1, h2, h3, h4 {
+      color: #1a237e;
+      margin-top: 1.2em;
+      margin-bottom: .6em;
+    }
+    h1 {
+      font-size: 1.9rem;
+      text-align: center;
+    }
+    h2 {
+      font-size: 1.5rem;
+      border-left: 6px solid #1a237e;
+      padding-left: .55rem;
+    }
+    h3 {
+      font-size: 1.25rem;
+    }
+    h4 {
+      font-size: 1.1rem;
+      color: #3949ab;
+    }
+    .formula {
+      background: #f3f4ff;
+      border-left: 4px solid #5c6bc0;
+      padding: .8rem 1.2rem;
+      margin: 1.2rem 0;
+      border-radius: 8px;
+      overflow-x: auto;
+      text-align: center;
+    }
+    .proof {
+      background: #e8f5e9;
+      border-left: 4px solid #43a047;
+      padding: .8rem 1.2rem;
+      margin: 1.2rem 0;
+      border-radius: 8px;
+      overflow-x: auto;
+    }
+    details {
+      margin-bottom: 1rem;
+    }
+    details summary {
+      cursor: pointer;
+      font-weight: 600;
+    }
+    .navigation {
+      display: flex;
+      justify-content: center;
+      gap: .8rem;
+      margin: 2.2rem 0;
+      border-top: 1px solid #e0e0e0;
+      padding-top: 1.5rem;
+      flex-wrap: wrap;
+    }
+    .navigation a {
+      padding: .65rem 1.5rem;
+      background: #1a237e;
+      color: #fff;
+      text-decoration: none;
+      border-radius: 6px;
+      transition: opacity .2s;
+    }
+    .navigation a:hover {
+      opacity: .85;
+    }
+    footer {
+      margin-top: 3rem;
+      color: #777;
+      text-align: center;
+      font-size: .9rem;
+    }
+  </style>
+  <script>
+    MathJax = {
+      tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']],
+        displayMath: [['$$','$$'], ['\\[','\\]']]
+      }
+    };
+  </script>
+  <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
 </head>
 <body>
-    <div class="container">
-        <h1>マルチンゲールの理論</h1>
+  <div class="container">
+    <header>
+      <h1>確率論における収束の概念</h1>
+    </header>
 
-        <section>
-            <h2>1. マルチンゲールの定義</h2>
-            <div class="definition">
-                <h3>マルチンゲール性</h3>
-                <p>条件付き期待値が現在値に等しい確率過程</p>
-                <div class="formula">
-                    <p>E[X_{n+1}|X_1,...,X_n] = X_n</p>
-                </div>
-            </div>
-        </section>
+    <main>
+      <section>
+        <h2>1. 各点収束・確率収束・分布収束</h2>
+        <div class="formula">
+          \[ X_n(\omega) \to X(\omega) \Rightarrow X_n \xrightarrow{P} X \Rightarrow X_n \xrightarrow{d} X \]
+        </div>
+        <p>このセクションでは、確率変数シーケンスの収束に関する基本的な3つの概念、各点収束、確率収束、分布収束の関係性を示す。</p>
+      </section>
 
-        <section>
-            <h2>2. 停止時刻</h2>
-            <div class="example">
-                <h3>任意停止定理</h3>
-                <p>マルチンゲールの停止時刻での性質</p>
-            </div>
-        </section>
+      <section>
+        <h2>2. 確率収束の定義と例</h2>
+        <p>確率空間 $(\Omega, \mathcal{F}, \mathbb{P}) = ([0,1], \mathcal{B}, \lambda)$ において、次のような確率変数の列を考える：</p>
+        <div class="formula">
+          $$
+          X_n(\omega) = \begin{cases}
+            1 & \omega \ge \frac{1}{n} + \frac{1}{n^2} \\
+            0 & \omega < \frac{1}{n} + \frac{1}{n^2}
+          \end{cases}
+          $$
+        </div>
+        <p>このとき、極限関数は $X(\omega) \equiv 1_{\{\omega \ge 0\}} = 1$ （ただし $\omega \in [0,1]$）となる。この例を通じて確率収束の具体的な振る舞いを確認する。</p>
+      </section>
 
-        <footer>
-            <p style="text-align: center; margin-top: 40px; color: #666;">© 2025 確率論講義 - すべての権利を留保します</p>
-        </footer>
-    </div>
+      <section>
+        <h2>3. 分布収束の定義と例</h2>
+        <p>分布収束は、確率変数の分布関数が極限分布関数に各連続点で収束することを意味する。すなわち、$F_n(x) \to F(x)$ (for all $x$ where $F$ is continuous) ならば、$X_n \xrightarrow{d} X$ となる。</p>
+        <p>重要な点として、分布収束は必ずしも各点収束や確率収束を意味しない。例えば、次の例を考える：</p>
+        <div class="formula">
+          $$X_n(\omega) = 1_{\{\omega \ge \frac{1}{2} + \frac{1}{n}\}}, \quad X(\omega) = 1_{\{\omega \ge \frac{1}{2}\}}$$
+        </div>
+        <p>この場合、確率変数 $X_n$ の分布関数 $F_{X_n}$ は $X$ の分布関数 $F_X$ に収束するが、$X_n(\omega) \to X(\omega)$ という各点収束は、例えば $\omega = \frac{1}{2}$ では成り立たない。</p>
+      </section>
+    </main>
+          <!-- -------------------------------------------------------------- -->
+<div class="navigation" style="display: flex; justify-content: space-between; margin: 20px 0; padding: 15px 0; border-top: 1px solid #eee;">
+            <a href="class10.html" style="padding: 10px 20px; background-color: #1a237e; color: white; text-decoration: none; border-radius: 5px;">← ホーム</a>
+            <a href="../index.html" style="padding: 10px 20px; background-color: #1a237e; color: white; text-decoration: none; border-radius: 5px;">次のレッスン →</a>
+        </div>
+    <footer>
+      <p style="text-align: center; margin-top: 40px; color: #666;">© 2025 確率論講義 - すべての権利を留保します</p>
+    </footer>
+  </div>
 </body>
 </html>

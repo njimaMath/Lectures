@@ -3,60 +3,119 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>確率論：極限定理</title>
+    <title>積率母関数</title>
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            line-height: 1.6;
-            margin: 0;
-            padding: 0;
-            background-color: #f9f9f9;
-        }
-
-        .container {
-            max-width: 800px;
-            margin: 0 auto;
-            padding: 20px;
-            background: #fff;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        }
-
-        h1, h2, h3 {
-            color: #333;
-        }
-
-        p {
-            color: #555;
-        }
-
-        footer {
-            font-size: 0.9em;
-            color: #666;
-        }
+        body{font-family:"Helvetica Neue",Helvetica,Arial,sans-serif;line-height:1.7;color:#212121;margin:0;background:#fafafa;}
+        .container{max-width:960px;margin:0 auto;padding:2rem 1rem 4rem;background:#fff;box-shadow:0 4px 12px rgba(0,0,0,.05);border-radius:12px;}
+        h1,h2,h3,h4{color:#1a237e;margin-top:1.2em;margin-bottom:.6em;}
+        h1{font-size:1.9rem;text-align:center;}
+        h2{font-size:1.5rem;border-left:6px solid #1a237e;padding-left:.55rem;}
+        h3{font-size:1.25rem;}
+        h4{font-size:1.1rem;color:#3949ab;margin-top:1.2em;}
+        .formula{background:#f3f4ff;border-left:4px solid #5c6bc0;padding:.8rem 1.2rem;margin:1.2rem 0;border-radius:8px;overflow-x:auto;text-align:center;}
+        details{margin-bottom:1rem;}
+        details summary{cursor:pointer;font-weight:600;}
+        .proof{background:#e8f5e9;border-left:4px solid #43a047;padding:.8rem 1.2rem;margin:1.2rem 0;border-radius:8px;overflow-x:auto;}
+        ul{margin:0 0 1rem 1.2rem;}
+        .navigation{display:flex;justify-content:center;gap:.8rem;margin:2.2rem 0;border-top:1px solid #e0e0e0;padding-top:1.5rem;flex-wrap:wrap;}
+        .navigation a{padding:.65rem 1.5rem;background:#1a237e;color:#fff;text-decoration:none;border-radius:6px;transition:opacity .2s;}
+        .navigation a:hover{opacity:.85;}
+        footer{margin-top:3rem;color:#777;text-align:center;font-size:.9rem;}
     </style>
+    <!-- MathJax configuration -->
+    <script>
+        MathJax = {
+          tex: {
+            inlineMath: [['$', '$'], ['\\(', '\\)']],
+            displayMath: [['$$','$$'], ['\\[','\\]']]
+          }
+        };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
 </head>
 <body>
     <div class="container">
-        <h1>確率論における極限定理</h1>
+        <h1>積率母関数</h1>
 
-        <section>
-            <h2>1. 大数の法則</h2>
-            <div class="definition">
-                <h3>大数の弱法則と強法則</h3>
-                <p>試行回数を増やすと標本平均が期待値に近づく現象</p>
-            </div>
+
+        <section id="def">
+            <h2>1. 母関数の定義</h2>
+            <p>
+                確率変数 $X$ の <em>母関数</em>（Moment Generating Function, 以下 MGF）$M_X(t)$ は、$t$ が原点周りの近傍において次式で定義される：
+            </p>
+            <div class="formula">$$ M_X(t) = \mathbb{E}[e^{tX}] \quad (t \in \mathbb{R},\; \text{存在する範囲で}) $$</div>
+            <p>
+                $\mathbb{E}$ は期待値を表す。指数関数のテイラー展開により MGF は $X$ のモーメントを集約した関数となる。一般に $M_X(0)=1$ であり、$t$ が小さい範囲で解析関数となることが知られている。
+            </p>
         </section>
 
-        <section>
-            <h2>2. 中心極限定理</h2>
-            <div class="example">
-                <h3>中心極限定理の意味と応用</h3>
-                <p>独立な確率変数の和が正規分布に従う性質</p>
-            </div>
+        <section id="moment">
+            <h2>2. モーメントとの関係</h2>
+            <p>
+                $M_X$ を $t=0$ で微分すると、$X$ の各階モーメントが得られる：
+            </p>
+            <div class="formula">$$ \frac{d^k}{dt^k}M_X(t)\Big|_{t=0} = \mathbb{E}[X^k] \quad (k\in\mathbb{N}). $$</div>
+            <p>
+                例えば平均（一次モーメント）と分散（二次中心モーメント）は
+            </p>
+            <div class="formula">$$ \mathbb{E}[X] = M'_X(0), \quad \mathrm{Var}(X) = M''_X(0) - (M'_X(0))^2. $$</div>
         </section>
+
+        <section id="unique">
+            <h2>3. 一意性定理</h2>
+            <p>
+                <strong>母関数が原点近傍で一致すれば分布が一致する</strong> という一意性定理がある。
+            </p>
+            <p>
+                証明は<strong>フーリエ変換（特性関数）の一意性</strong>に基づく。MGF の複素拡張が特性関数の解析接続とみなせるため、MGF の一致は分布の一致を導く。
+            </p>
+        </section>
+
+        <section id="examples">
+            <h2>4. 代表的な分布の母関数</h2>
+
+            <h3>4.1 ベルヌーイ分布 $\operatorname{Bernoulli}(p)$</h3>
+            <div class="formula">$$ M(t) = (1-p) + p e^{t}. $$</div>
+
+            <h3>4.2 二項分布 $\operatorname{Binomial}(n,p)$</h3>
+            <div class="formula">$$ M(t) = (1-p + p e^{t})^{n}. $$</div>
+
+            <h3>4.3 ポアソン分布 $\operatorname{Poisson}(\lambda)$</h3>
+            <div class="formula">$$ M(t) = \exp\{\lambda(e^{t}-1)\}. $$</div>
+
+            <h3>4.4 正規分布 $\mathcal{N}(\mu,\sigma^2)$</h3>
+            <div class="formula">$$ M(t) = \exp\big( \mu t + \tfrac{1}{2}\sigma^2 t^2 \big). $$</div>
+
+            <h3>4.5 指数分布 $\operatorname{Exp}(\lambda)$</h3>
+            <div class="formula">$$ M(t) = \frac{\lambda}{\lambda - t}\quad (t<\lambda). $$</div>
+
+            <h3>4.6 ガンマ分布 $\operatorname{Gamma}(k,\theta)$</h3>
+            <div class="formula">$$ M(t) = (1-\theta t)^{-k}\quad (t<1/\theta). $$</div>
+        </section>
+
+        <section id="clt">
+            <h2>5. 中心極限定理への応用（概略）</h2>
+            <p>
+                独立同分布（i.i.d.）な確率変数 $\{X_i\}_{i=1}^{n}$（平均 $\mu$, 分散 $\sigma^2>0$）について、中心化・標準化和 $S_n := \frac{1}{\sqrt{n}}\sum_{i=1}^{n}(X_i-\mu)$ の MGF は
+            </p>
+            <div class="formula">$$ M_{S_n}(t) = \big(M_{X_1-\mu}(t/\sqrt{n})\big)^n. $$</div>
+            <p>
+                $n\to\infty$ とすると
+            </p>
+            <div class="formula">$$ \log M_{S_n}(t) = \tfrac{n}{2}\sigma^2 \tfrac{t^2}{n} + o(1) \longrightarrow \tfrac{1}{2}\sigma^2 t^2. $$</div>
+            <p>
+                右辺は正規分布 $\mathcal{N}(0,\sigma^2)$ の MGF の対数に一致するため、中心極限定理が導かれる。
+            </p>
+        </section>
+                <nav class="navigation">
+            <a href="class4.html">← 前のクラス</a>
+            <a href="../index.html">ホーム</a>
+            <a href="class6.html">次のクラス →</a>
+        </nav>
+
 
         <footer>
-            <p style="text-align: center; margin-top: 40px; color: #666;">© 2025 確率論講義 - すべての権利を留保します</p>
+            © 2025 確率論講義 ― すべての権利を留保します
         </footer>
     </div>
 </body>
