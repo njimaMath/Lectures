@@ -1,0 +1,549 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wignerの半円則 - 高度なランダム行列理論</title>
+    <!-- math.js: 行列計算用 (ファイル1より) -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjs/11.8.0/math.min.js"></script>
+
+    <!-- MathJax for better math rendering (ファイル1より) -->
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <!-- numeric.js for eigen‑decomposition (ファイル2より) -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/numeric/1.2.6/numeric.min.js"></script>
+    <!-- Plotly for plotting (ファイル2より) -->
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+    <!-- Font Awesome (ファイル1より) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts (ファイル1より) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700&family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --primary-color: #303f9f;
+            --secondary-color: #3949ab;
+            --accent-color: #2196f3;
+            --background-color: #f5f5f5;
+            --card-color: #ffffff;
+            --text-color: #333;
+            --text-secondary: #6c757d;
+            --success-color: #4caf50;
+            --border-radius: 8px;
+            --box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+        
+        body {
+            font-family: 'Noto Sans JP', 'Roboto', sans-serif;
+            background-color: var(--background-color);
+            color: var(--text-color);
+            line-height: 1.7;
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #fff;
+            box-shadow: var(--box-shadow);
+        }
+        
+        header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding: 2rem 0;
+            background: var(--primary-color);
+            color: white;
+        }
+        
+        header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            color: white;
+        }
+
+        h1, h2, h3 {
+            color: var(--primary-color);
+        }
+        
+        h2 {
+            margin-top: 30px;
+            border-left: 5px solid var(--primary-color);
+            padding-left: 10px;
+            font-size: 1.8rem;
+            margin-bottom: 1.2rem;
+        }
+        
+        h3 {
+            color: var(--secondary-color);
+            font-size: 1.4rem;
+            margin-top: 1.5rem;
+        }
+        
+        p {
+            margin-bottom: 1.2rem;
+            font-size: 1.1rem;
+        }
+        
+        strong {
+            color: var(--accent-color);
+            font-weight: 600;
+        }
+        
+        .formula {
+            background-color: #f1f8e9;
+            padding: 15px;
+            border-radius: var(--border-radius);
+            border-left: 4px solid var(--accent-color);
+            margin: 1.2rem 0;
+            overflow-x: auto;
+        }
+
+        .section {
+            background-color: var(--card-color);
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+            padding: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        #simulation-wrapper {
+            background-color: var(--card-color);
+            border-radius: var(--border-radius);
+            padding: 1.5rem;
+            margin: 2rem 0;
+            box-shadow: var(--box-shadow);
+        }
+
+        .controls {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1.2rem;
+            margin-bottom: 1.5rem;
+            align-items: center;
+        }
+
+        .control-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .control-group label {
+            font-weight: 500;
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        input[type="number"],
+        select {
+            padding: 0.6rem 0.8rem;
+            border: 2px solid #e0e0e0;
+            border-radius: var(--border-radius);
+            font-size: 1rem;
+            background-color: white;
+            color: var(--text-color);
+            transition: border-color 0.3s;
+        }
+
+        input[type="number"]:focus,
+        select:focus {
+            border-color: var(--accent-color);
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(33, 150, 243, 0.1);
+        }
+
+        button {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: var(--border-radius);
+            padding: 0.8rem 1.5rem;
+            font-size: 1rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        button:hover {
+            background-color: var(--secondary-color);
+        }
+
+        #status {
+            margin-top: 1rem;
+            padding: 0.8rem;
+            border-radius: var(--border-radius);
+            background-color: #f8f9fa;
+            color: var(--text-secondary);
+        }
+
+        #status.running {
+            background-color: rgba(33, 150, 243, 0.1);
+            color: var(--accent-color);
+            border-left: 3px solid var(--accent-color);
+        }
+
+        #status.completed {
+            background-color: rgba(76, 175, 80, 0.1);
+            color: var(--success-color);
+            border-left: 3px solid var(--success-color);
+        }
+
+        #plotContainer {
+            padding: 1.5rem;
+            background-color: white;
+            border-radius: var(--border-radius);
+            margin: 2rem 0;
+            box-shadow: var(--box-shadow);
+        }
+
+        details {
+            background-color: white;
+            border-radius: var(--border-radius);
+            margin-bottom: 1.5rem;
+            overflow: hidden;
+        }
+
+        summary {
+            padding: 1rem;
+            cursor: pointer;
+            font-weight: 600;
+            background-color: #f8f9fa;
+            color: var(--primary-color);
+        }
+
+        details .details-content {
+            padding: 1.5rem;
+        }
+
+        ol {
+            padding-left: 1.2rem;
+        }
+
+        ol li {
+            margin-bottom: 1.2rem;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 15px;
+                margin: 10px;
+            }
+
+            header h1 {
+                font-size: 2rem;
+            }
+
+            .controls {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            button {
+                width: 100%;
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+<body>    <header>
+        <h1>Wignerの半円則</h1>
+    </header>
+
+    <div class="main-container">
+        <section class="section">
+            <h2>ランダム行列とは？</h2>
+            <p>
+              ランダム行列とは、その行列の各要素（成分）が何らかの確率分布に従う<strong>確率変数</strong>であるような行列である。
+              簡単に言えば、行列の中身がランダム（無作為）に選ばれた数値で構成されている行列である。
+              例えば、各要素がコイン投げで表なら1、裏なら0になるような $2\times2$ 行列を考えると、それは一種のランダム行列となる。
+              ランダム行列は元々、物理学者ユージン・ウィグナーによって大型原子核中のエネルギー準位をモデル化するために導入された。
+              現在では物理や金融など様々な分野で、複雑な系の挙動を確率的に記述するための強力なツールとして活用されている。
+            </p>
+        </section>
+
+        <section class="section">
+            <h2>固有値とは何か？</h2>
+            <p>
+              行列には<strong>固有値</strong>と呼ばれる特別な数が存在することがある。
+              固有値とは、その行列をあるベクトルに作用させたとき、結果が元のベクトルのスカラー倍（伸び縮み）になるときのそのスカラー値を指す。
+              言い換えると、行列 $A$ に対して固有ベクトル $\boldsymbol{v}$ が存在し、
+              $$A\boldsymbol{v} = \lambda\,\boldsymbol{v}$$
+              を満たすとき、この $\lambda$ が固有値である。固有値は行列の持つ「変形の強さ」を表すものと見ることができ、行列の性質を理解する上で重要な役割を果たす。
+            </p>
+            <div class="formula">
+              \[
+                A = \begin{pmatrix}2 & 1 \\ 1 & 2\end{pmatrix},
+                \quad \lambda_1 = 3,\;\lambda_2 = 1
+              \]
+            </div>
+            <p>
+              （例：行列 $A$ の固有値は $\lambda_1=3,\;\lambda_2=1$、対応する固有ベクトルはそれぞれ $(1,1)^T$, $(1,-1)^T$ である。）
+            </p>
+        </section>
+
+        <section class="section">
+            <h2>ウィグナー行列の例</h2>
+            <p>
+              数あるランダム行列の中でも、<strong>ウィグナー行列</strong>と呼ばれるものは最も基本的なモデルの一つである。
+              ウィグナー行列とは、対称なランダム行列で各要素が独立同分布（i.i.d.）であるようなものを指す。
+              典型的には、対角成分と非対角成分は平均0・分散一定の分布から生成され、非対角成分同士、および対角成分同士が互いに独立となる。
+              例えば、各非対角要素が確率 $1/2$ で $+1$ か $-1$ をとるベルヌーイ分布の場合もウィグナー行列の一種である。
+            </p>
+            <p>
+              ウィグナー行列では分布の種類を問わないが、必ず「平均$0$」「分散$1$」という条件を満たす。
+              行列サイズが大きくなると、これらの条件だけで固有値分布に普遍的な性質が現れる。
+            </p>
+        </section>
+
+        <section class="section">
+            <h2>ウィグナーの半円則と半円分布</h2>
+            <p>
+              ウィグナー行列の固有値を並べたとき、大きな行列ほどそのヒストグラムは半円形に近づく。
+              この現象を<strong>ウィグナーの半円則</strong>（Wigner's semicircle law）と呼ぶ。
+            </p>
+            <div class="formula">
+              \[
+                f(x) = \frac{1}{\pi 2}\,\sqrt{4 - x^2}, \quad -2 \le x \le 2,
+                \quad f(x)=0\;\text{(それ以外)}
+              \]
+            </div>
+            <p>
+              下図は、固有値のヒストグラム（棒グラフ）が大きな行列では半円形の理論曲線（赤線）に近づく様子を示している。横軸は固有値、縦軸は出現頻度（確率密度）である。棒グラフはサイズ $N=500$ の対称ランダム行列（ウィグナー行列）の固有値分布をシミュレーションで得たものであり、赤い滑らかな曲線は理論上の半円分布を描いたものである。固有値は概ね $-2$ から $+2$ の範囲に収まり、その中で半円形の分布に従うことが視覚的に確認できる。
+            </p>
+            
+            <!-- ここからファイル2のシミュレーション部分を挿入 -->
+            <div id="simulation-wrapper" style="margin-top: 2rem; margin-bottom: 2rem;">
+                <h3>Wignerの半円則 シミュレーション</h3>
+                <div class="controls">
+                    <div class="control-group">
+                        <label for="size">Matrix size n:</label>
+                        <input id="size" type="number" value="10" min="10" max="1000">
+                    </div>
+                    <div class="control-group">
+                        <label for="dist">Distribution:</label>
+                        <select id="dist">
+                            <option value="gauss">Gaussian N(0,1)</option>
+                            <option value="bernoulli">Bernoulli ±1</option>
+                        </select>
+                    </div>
+                    <button id="run"><i class="fas fa-cogs"></i> Run Simulation</button>
+                </div>
+                <div id="status"></div>
+                <div id="plotContainer">
+                    <div id="plot"></div>
+                </div>
+                <script>
+                    // Box‑Muller transform for standard Gaussian
+                    function randomGaussian() {
+                      let u1 = 0, u2 = 0;
+                      while (u1 === 0) u1 = Math.random();
+                      while (u2 === 0) u2 = Math.random();
+                      return Math.sqrt(-2.0 * Math.log(u1)) * Math.cos(2.0 * Math.PI * u2);
+                    }
+
+                    function randomBernoulli() {
+                      return Math.random() < 0.5 ? -1 : 1;
+                    }
+
+                    // Build a symmetric n×n matrix with entries scaled by 1/√n
+                    function generateMatrix(n, dist) {
+                      const A = Array.from({ length: n }, () => Array(n).fill(0));
+                      for (let i = 0; i < n; i++) {
+                        for (let j = i; j < n; j++) {
+                          const r = dist === 'gauss' ? randomGaussian() : randomBernoulli();
+                          const val = r / Math.sqrt(n); // Scale by 1/√n for Wigner matrix
+                          A[i][j] = val;
+                          if (i !== j) A[j][i] = val; // symmetry for off-diagonal
+                          else A[i][j] = r * Math.sqrt(2) / Math.sqrt(n); // Diagonal elements often scaled differently, or simply r / sqrt(n) if variance is 2/n. For standard Wigner, variance of diagonal is same as off-diagonal.
+                                                                        // Let's stick to the common definition where all entries (scaled) have variance 1/n.
+                                                                        // If original entries have variance sigma^2, then scaled entries have variance sigma^2/n.
+                                                                        // For semicircle law with radius 2*sigma, we need variance of entries to be sigma^2.
+                                                                        // If original entries are N(0,1) or Bernoulli(+/-1) (variance 1), then scaling by 1/sqrt(n) gives entries with variance 1/n.
+                                                                        // The resulting eigenvalues will be in range [-2*sqrt(variance_of_original_entries), 2*sqrt(variance_of_original_entries)].
+                                                                        // So if original variance is 1, range is [-2, 2]. This is what the semicircleDensity function assumes.
+                                                                        // The provided code for generateMatrix seems correct for this.
+                        }
+                      }
+                      return A;
+                    }
+
+                    // Semicircle density f(x) = (1/(2πσ²)) √(4σ² − x²) on [−2σ,2σ]
+                    // If σ=1 (variance of original unscaled entries), then f(x) = (1/2π) √(4 − x²) on [−2,2]
+                    function semicircleDensity(x) {
+                      const sigma_sq = 1; // Variance of the original (unscaled) matrix entries.
+                                          // The plot range is [-2*sqrt(sigma_sq), 2*sqrt(sigma_sq)]
+                      const R_sq = 4 * sigma_sq;
+                      const inside = R_sq - x * x;
+                      return inside > 0 ? (1 / (2 * Math.PI * sigma_sq)) * Math.sqrt(inside) : 0;
+                    }
+
+                    function runSimulation() {
+                      const n = parseInt(document.getElementById('size').value, 10);
+                      const dist = document.getElementById('dist').value;
+                      const statusDiv = document.getElementById('status');
+
+                      if (n <= 0) {
+                          statusDiv.textContent = 'Error: Matrix size must be positive.';
+                          statusDiv.className = 'error';
+                          return;
+                      }
+                      if (n > 800 && dist === 'gauss') { // Numeric.eig can be slow for large dense matrices
+                        if (!confirm('Matrix size n > 800 with Gaussian distribution might be very slow or unresponsive in the browser. Continue?')) return;
+                      } else if (n > 1000) {
+                        if (!confirm('Matrix size n > 1000 might be very slow or unresponsive in the browser. Continue?')) return;
+                      }
+
+
+                      statusDiv.textContent = 'Generating matrix and computing eigenvalues…';
+                      statusDiv.className = 'running'; // Use class for styling
+
+                      // Non‑blocking so the status message appears
+                      setTimeout(() => {
+                        try {
+                            const M = generateMatrix(n, dist);
+                            const eig = numeric.eig(M);
+                            if (!eig || !eig.lambda || !eig.lambda.x) {
+                                throw new Error("Eigenvalue computation failed.");
+                            }
+                            const eigvals = eig.lambda.x; 
+
+                            const traceHist = {
+                              x: eigvals,
+                              type: 'histogram',
+                              histnorm: 'probability density',
+                              nbinsx: Math.max(30, Math.min(100, Math.floor(n/5))), // Dynamic bin count
+                              name: 'Empirical Density (Simulation)',
+                              marker: {
+                                color: 'rgba(58, 134, 255, 0.7)', // var(--primary-color) with alpha
+                                line: {
+                                    color: 'rgba(58, 134, 255, 1)',
+                                    width: 1
+                                }
+                              }
+                            };
+
+                            const xs = [];
+                            const ys = [];
+                            const rangeMax = 2.0; // Corresponds to sigma=1 for original entries
+                            for (let x_val = -rangeMax; x_val <= rangeMax; x_val += 0.02) {
+                              xs.push(x_val);
+                              ys.push(semicircleDensity(x_val));
+                            }
+                            const traceSemi = {
+                              x: xs,
+                              y: ys,
+                              mode: 'lines',
+                              name: 'Theoretical Semicircle Law',
+                              line: {
+                                color: 'rgba(255, 0, 110, 1)', // var(--secondary-color)
+                                width: 2
+                              }
+                            };
+
+                            const layout = {
+                              title: `Eigenvalue Distribution (N = ${n}, ${dist === 'gauss' ? 'Gaussian' : 'Bernoulli'})`,
+                              xaxis: { title: 'Eigenvalue (λ)' },
+                              yaxis: { title: 'Probability Density' },
+                              bargap: 0.05,
+                              legend: {
+                                  x: 0.05,
+                                  y: 0.95,
+                                  bgcolor: 'rgba(255,255,255,0.8)',
+                                  bordercolor: '#ccc',
+                                  borderwidth: 1
+                              }
+                            };
+Plotly.newPlot('plot', [traceHist, traceSemi], layout).then(() => {
+  if (window.MathJax) {
+    MathJax.typesetPromise();
+  }
+});
+
+                            statusDiv.textContent = `Simulation completed for N=${n}.`;
+                            statusDiv.className = 'completed';
+                        } catch (e) {
+                            console.error("Simulation error:", e);
+                            statusDiv.textContent = 'Error during simulation: ' + e.message;
+                            statusDiv.className = 'error';
+                        }
+                      }, 100);
+                    }
+
+                    document.getElementById('run').onclick = runSimulation;
+                    // Run once on load for default values
+                    // runSimulation(); // Optional: run on page load
+                </script>
+            </div>
+            <!-- /ファイル2のシミュレーション部分終了 -->
+            
+            <p>
+              なぜこのような半円形になるのか。厳密な証明には大学院レベルの高度な確率論が必要であるが、直感的な説明を述べる。行列サイズが大きい場合、各固有値は多数のランダムな要素の影響を受けて決まる。そのため、各固有値は中心（平均0）に集まる傾向と、分散して広がる傾向のバランスによって分布が決まる。このバランスの結果、半円形の分布が現れる。これは**中心極限定理**の行列版とも言える。個々の行列要素の分布に依存せず（例えば要素が二項分布でも正規分布でも）、固有値全体の分布が同じ半円形に収束するという普遍性が存在する。すなわち、多くの乱数の和が正規分布に収束する現象と類似している。
+            </p>
+        </section>
+
+        <section class="section">
+            <h2>演習問題</h2>
+            <details>
+              <summary>以下の問題に取り組んでみよう</summary>
+              <div class="details-content">
+                  <ol>
+                    <li>
+                      <strong>小さなウィグナー行列の固有値の確認</strong><br>
+                      次の対称ランダム行列を考える（各要素は平均0・分散1の分布とする）。
+                      <div class="formula">
+                        \[
+                          B = \begin{pmatrix}X & Y \\ Y & Z\end{pmatrix}
+                        \]
+                      </div>
+                      $\lambda_1,\lambda_2$ を固有値とするとき、
+                      <ul>
+                        <li>
+                          (a) $\mathbb{E}[\lambda_1 + \lambda_2]$ を行列のトレースと照らし合わせて求めよ。
+                        </li>
+                        <li>
+                          (b) $\mathbb{E}[\lambda_1\lambda_2]$（行列式の期待値）を計算せよ。（ヒント：$\mathbb{E}[XZ - Y^2]$）
+                        </li>
+                      </ul>
+                    </li>
+                    <li>
+                      <strong>固有値分布の対称性</strong><br>
+                      なぜ平均0・対称分布の要素からなる行列の固有値分布も0を中心に左右対称になるのか、直感的に説明せよ。
+                    </li>
+                    <li>
+                      <strong>スケーリングと固有値の範囲</strong><br>
+                      行列要素をすべて2倍すると固有値はどう変化するか？
+                      また、要素の分散が$\sigma^2$の場合、半円分布の半径$R$はどのようになるか考察せよ。
+                    </li>
+                  </ol>
+              </div>
+            </details>
+        </section>
+    
+       <div class="navigation" style="display: flex; justify-content: space-between; margin: 20px 0; padding: 15px 0; border-top: 1px solid #eee;">
+            <a href="class10.html" style="padding: 10px 20px; background-color: #1a237e; color: white; text-decoration: none; border-radius: 5px;">← 前のクラス</a>
+            <a href="../index.html" style="padding: 10px 20px; background-color: #1a237e; color: white; text-decoration: none; border-radius: 5px;">ホーム →</a>
+        </div>
+
+    </div>
+
+        <footer>
+            <p style="text-align: center; margin-top: 40px; color: #666;">© 2025 確率論講義 - すべての権利を留保します</p>
+        </footer>
+</body>
+</html>
