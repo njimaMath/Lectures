@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>微分法入門</title>
+    <style>
+        body {
+            font-family: 'Hiragino Sans', 'Meiryo', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f9f9f9;
+        }
+        h1, h2, h3 {
+            color: #1a237e;
+            margin-top: 1.5em;
+        }
+        h1 {
+            text-align: center;
+            border-bottom: 2px solid #1a237e;
+            padding-bottom: 10px;
+            margin-bottom: 30px;
+        }
+        h2 {
+            border-left: 5px solid #1a237e;
+            padding-left: 15px;
+        }
+        .formula {
+            background-color: #f0f0f8;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 15px 0;
+            overflow-x: auto;
+            text-align: center;
+            font-size: 1.1em;
+            /* MathJax 用スタイルを追加 */
+            font-family: 'Latin Modern Math', 'Cambria Math', serif;
+        }
+        .note {
+            background-color: #e8f5e9;
+            border-left: 4px solid #4caf50;
+            padding: 10px 15px;
+            margin: 15px 0;
+        }
+        .example {
+            background-color: #e3f2fd;
+            border-left: 4px solid #2196f3;
+            padding: 10px 15px;
+            margin: 15px 0;
+        }
+        .figure {
+            text-align: center;
+            margin: 25px 0;
+        }
+        .figure img, .figure svg {
+            max-width: 100%;
+            border-radius: 5px;
+            box-shadow: 0 3px 6px rgba(0,0,0,0.16);
+            background-color: #fff; /* SVG background */
+        }
+        .figure figcaption {
+            margin-top: 10px;
+            font-style: italic;
+            color: #666;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px 12px;
+            text-align: center; /* 数式が多いので中央揃えに */
+            vertical-align: middle;
+        }
+        th {
+            background-color: #e8eaf6;
+            font-weight: bold;
+        }
+        tr:nth-child(even) {
+            background-color: #f5f5f5;
+        }
+        .timeline {
+            position: relative;
+            max-width: 800px;
+            margin: 40px auto; /* 上下のマージンを追加 */
+            padding: 20px 0;
+        }
+        .timeline::after {
+            content: '';
+            position: absolute;
+            width: 4px;
+            background-color: #1a237e;
+            top: 0;
+            bottom: 0;
+            left: 50%;
+            margin-left: -2px;
+        }
+        .timeline-container {
+            position: relative;
+            width: 50%;
+            padding: 10px 40px;
+            box-sizing: border-box;
+        }
+        .timeline-container.left {
+            left: 0;
+        }
+        .timeline-container.right {
+            left: 50%;
+        }
+        .timeline-content {
+            padding: 15px;
+            background-color: white;
+            border-radius: 5px;
+            box-shadow: 0 3px 6px rgba(0,0,0,0.1);
+            position: relative; /* Arrow pseudo-element */
+        }
+        .timeline-container::after {
+            content: '';
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            background-color: white;
+            border: 4px solid #1a237e;
+            border-radius: 50%;
+            top: 25px; /* Adjusted top position */
+            z-index: 1;
+        }
+        .timeline-container.left::after {
+            right: -12px; /* Adjusted position */
+        }
+        .timeline-container.right::after {
+            left: -12px; /* Adjusted position */
+        }
+        /* Timeline arrows */
+        .timeline-container.left .timeline-content::before {
+            content: " ";
+            height: 0;
+            position: absolute;
+            top: 28px;
+            width: 0;
+            z-index: 1;
+            right: -10px;
+            border: medium solid white;
+            border-width: 10px 0 10px 10px;
+            border-color: transparent transparent transparent white;
+        }
+        .timeline-container.right .timeline-content::before {
+            content: " ";
+            height: 0;
+            position: absolute;
+            top: 28px;
+            width: 0;
+            z-index: 1;
+            left: -10px;
+            border: medium solid white;
+            border-width: 10px 10px 10px 0;
+            border-color: transparent white transparent transparent;
+        }
+
+        @media screen and (max-width: 600px) {
+            .timeline::after {
+                left: 31px;
+            }
+            .timeline-container {
+                width: 100%;
+                padding-left: 70px;
+                padding-right: 25px;
+            }
+            .timeline-container.right {
+                left: 0%;
+            }
+            .timeline-container.left::after, .timeline-container.right::after {
+                left: 19px; /* Adjusted position */
+            }
+            .timeline-container.left .timeline-content::before,
+            .timeline-container.right .timeline-content::before {
+                left: -10px;
+                border-width: 10px 10px 10px 0;
+                border-color: transparent white transparent transparent;
+            }
+             .timeline-container.left .timeline-content::before {
+                right: auto; /* Reset right property */
+            }
+        }
+        /* MathJax/KaTeX support */
+        .katex-display { overflow-x: auto; overflow-y: hidden; }
+        
+        /* 元のスタイルとの互換性のためのクラス */
+        .theorem {
+            background-color: #e8f4f8;
+            padding: 15px;
+            border-left: 5px solid #3498db;
+            margin: 20px 0;
+        }
+        .proof {
+            background-color: #f8f9fa;
+            padding: 15px;
+            border-left: 5px solid #7f8c8d;
+            margin: 20px 0;
+        }
+        .definition {
+            background-color: #e8f8f5;
+            padding: 15px;
+            border-left: 5px solid #16a085;
+            margin: 20px 0;
+        }
+        .graph {
+            text-align: center;
+            margin: 20px 0;
+        }
+        code {
+            font-family: 'Courier New', Courier, monospace;
+            background-color: #f1f1f1;
+            padding: 2px 5px;
+            border-radius: 3px;
+        }
+    </style>
+    <!-- KaTeX for rendering math -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.10/dist/katex.min.css" integrity="sha384-wcIxkf4k558fYv3mQPFEpCREUQueRFCZrCXCtiKU8aNVbN9ODdVcN3BwCAJ6pcBb" crossorigin="anonymous">
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.10/dist/katex.min.js" integrity="sha384-hIoBPJpTUs74ddyc4bFZSM1TVlQDA60VBbJS0oA934VSz82sBx1X7kSx2ATBDIyd" crossorigin="anonymous"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.10/dist/contrib/auto-render.min.js" integrity="sha384-43gviWU0YVjaDtb/GhzOouOXtZMP/7XUzwPTstBeZFe/+rCMvRwr4yROQP43s0Xk" crossorigin="anonymous"
+        onload="renderMathInElement(document.body);"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            renderMathInElement(document.body, {
+                // customised options
+                delimiters: [
+                    {left: '$$', right: '$$', display: true},
+                    {left: '$', right: '$', display: false}
+                ]
+            });
+        });
+    </script>
+</head>
+<body>
+    <h1>微分法入門</h1>
+
+    <h2>2. 三角関数の基本性質</h2>
+
+    <div class="theorem">
+        <strong>三角関数の重要な恒等式</strong>:
+        <div style="text-align: center; margin: 10px 0;">
+            $\sin^2\theta + \cos^2\theta = 1$
+        </div>
+    </div>
+
+    <div class="theorem">
+        <strong>三角関数の導関数</strong>:
+        <div style="text-align: center; margin: 10px 0;">
+            $(\sin x)' = \cos x$<br>
+            $(\cos x)' = -\sin x$
+        </div>
+    </div>
+
+    <div class="note">
+        これらの性質の証明は省略するが、三角関数の微積分学においては基本的かつ重要な関係である。
+    </div>
+
+    <h2>7. 逆三角関数</h2>
+
+    <div class="definition">
+        <strong>逆三角関数の定義</strong>:
+        <ul>
+            <li>$\arcsin x$: $\sin y = x$ を満たす $y \in [-\pi/2, \pi/2]$ （定義域: $[-1, 1]$）</li>
+            <li>$\arccos x$: $\cos y = x$ を満たす $y \in [0, \pi]$ （定義域: $[-1, 1]$）</li>
+            <li>$\arctan x$: $\tan y = x$ を満たす $y \in (-\pi/2, \pi/2)$ （定義域: $\mathbb{R}$）</li>
+        </ul>
+    </div>
+
+    <div class="graph">
+        <svg width="400" height="300" viewBox="-50 -50 400 300">
+            <!-- 座標軸 -->
+            <line x1="0" y1="150" x2="350" y2="150" stroke="black" />
+            <line x1="175" y1="0" x2="175" y2="250" stroke="black" />
+            
+            <!-- 目盛り -->
+            <text x="345" y="170">x</text>
+            <text x="155" y="10">y</text>
+            
+            <!-- 関数の描画 -->
+            <path d="M 25 250 C 75 230, 125 180, 175 150 C 225 120, 275 70, 325 50" stroke="blue" fill="none" stroke-width="2" />
+            <path d="M 25 50 C 75 70, 125 120, 175 150 C 225 180, 275 230, 325 250" stroke="red" fill="none" stroke-width="2" />
+            <path d="M 25 230 C 75 210, 150 170, 175 150 C 200 130, 275 90, 325 70" stroke="green" fill="none" stroke-width="2" />
+            
+            <!-- 関数名 -->
+            <text x="300" y="60" fill="blue">y = arcsin(x)</text>
+            <text x="300" y="240" fill="red">y = arccos(x)</text>
+            <text x="300" y="80" fill="green">y = arctan(x)</text>
+        </svg>
+    </div>
+
+    <div class="theorem">
+        <strong>逆三角関数の導関数</strong>:
+        <div style="text-align: center; margin: 10px 0;">
+            $(\arcsin x)' = \frac{1}{\sqrt{1-x^2}}$<br>
+            $(\arccos x)' = -\frac{1}{\sqrt{1-x^2}}$<br>
+            $(\arctan x)' = \frac{1}{1+x^2}$
+        </div>
+    </div>
+
+    <h2>無限級数とテイラー展開に関するノート</h2>
+    <!-- 無限級数とテイラー展開のコンテンツはここに追加 -->
+</body>
+</html>

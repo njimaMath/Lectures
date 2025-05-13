@@ -1,9 +1,21 @@
-<!DOCTYPE html>
-<html lang="ja">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>微分方程式講義ノート</title>
+  
+    <script>
+        MathJax = {
+          tex: {
+            inlineMath: [['$', '$'], ['\\(', '\\)']],
+            displayMath: [['$$', '$$'], ['\\[', '\\]']]
+          },
+          svg: {
+            fontCache: 'global'
+          }
+        };
+      </script>
+      <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js" defer></script>
+   
     <style>
         body {
             font-family: 'Noto Sans JP', sans-serif;
@@ -69,7 +81,6 @@
             border-left: 3px solid #1abc9c;
         }
     </style>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/MathJax.js?config=TeX-MML-AM_CHTML"></script>
 </head>
 <body>
 
@@ -108,43 +119,41 @@
 </div>
 
 <h2>第2節：変数分離法</h2>
+
 <div class="formula-box">
-    <p class="important">変数分離形の微分方程式：</p>
-    <div class="mathblock">
-        $P(y) y' = Q(x)$
-    </div>
-    <p>この形式では、yに関する関数と微分がすべて左辺に、xに関する関数がすべて右辺にあります。</p>
+  <p class="important">変数分離形の微分方程式：</p>
+  <div class="mathblock">
+    $$P(y)\, y' = Q(x) \tag{★}$$
+  </div>
+  <p>この形式では、<span class="math-inline">$y$</span>に関する関数とその微分がすべて左辺に、<span class="math-inline">$x$</span>に関する関数がすべて右辺にあります。</p>
 </div>
 
 <div class="steps">
-    <p><strong>解法手順：</strong></p>
-    <ol>
-        <li>方程式を \(P(y) \frac{dy}{dx} = Q(x)\) の形に書き換える</li>
-        <li>両辺を変数ごとに分離する： \(P(y) dy = Q(x) dx\)</li>
-        <li>両辺を積分する： \(\int P(y) dy = \int Q(x) dx + C\)</li>
-        <li>積分を実行し、可能であればyについて解く</li>
-    </ol>
-</div>
-
-<h2>第3節：定数変化法</h2>
-<div class="formula-box">
-    <p class="important">一階線形微分方程式：</p>
-    <div class="mathblock">
-        $y' + P(x)y = Q(x)$
-    </div>
-    <p>この形式は積分因子を用いて解くことができます。</p>
+  <p><strong>解法手順：</strong></p>
+  <ol>
+    <li>両辺を積分して、$$\int P(y)\,dy = \int Q(x)\,dx$$ を計算する。</li>
+    <li>可能であれば、\(y\)について解く。</li>
+  </ol>
 </div>
 
 <div class="steps">
-    <p><strong>解法手順：</strong></p>
-    <ol>
-        <li>積分因子を求める： \(\mu(x) = e^{\int P(x) \, dx}\)</li>
-        <li>両辺に \(\mu(x)\) をかける： \(\mu(x)y' + \mu(x)P(x)y = \mu(x)Q(x)\)</li>
-        <li>左辺は次のように変形できる： \(\frac{d}{dx}(\mu(x)y) = \mu(x)Q(x)\)</li>
-        <li>両辺を積分する： \(\mu(x)y = \int \mu(x)Q(x) \, dx + C\)</li>
-        <li>yについて解く： \(y = \frac{1}{\mu(x)}(\int \mu(x)Q(x) \, dx + C)\)</li>
-    </ol>
+  <p><strong>方程式から $\int P(y)\,dy = \int Q(x)\,dx$ の導出：</strong></p>
+  <ol>
+    <li>$a \in \mathbb{R}$ を固定する。</li>
+    <li>
+      $y = f(x)$ とおくと、
+      $$
+      \begin{aligned}
+      \int Q(x)\,dx &= \int_a^x Q(s)\,ds + C \\
+      &\overset{\text{★}}{=} \int_a^x P(f(s)) f'(s)\,ds + C \\
+      &\overset{\text{変数変換}}{=} \int_{f(a)}^{f(x)} P(t)\,dt + C \\
+      &= \int_{f(a)}^y P(t)\,dt = \int P(y)\,dy.
+      \end{aligned}
+      $$
+    </li>
+  </ol>
 </div>
+
 
 <h2>例題と応用</h2>
 
@@ -156,31 +165,37 @@
 </div>
 
 <h3>例題2</h3>
-<div class="formula-box">
-    <div class="mathblock">
-        $$\int f(y) \, dy = \int g(x) \, dx$$
-    </div>
-</div>
-
-<h3>例題1：変数分離法の例</h3>
-<div class="formula-box">
     <div class="mathblock">
         $y' = \frac{x}{y}$
     </div>
 </div>
 
-<div class="steps">
-    <p><strong>解法：</strong></p>
-    <ol>
-        <li>変数を分離する形に書き換える： \(y \cdot y' = x\)</li>
-        <li>両辺を積分変数の形に： \(y \, dy = x \, dx\)</li>
-        <li>両辺を積分： \(\int y \, dy = \int x \, dx\)</li>
-        <li>\(\frac{y^2}{2} = \frac{x^2}{2} + C\)</li>
-        <li>最終解： \(y^2 = x^2 + 2C\) または \(y = \pm\sqrt{x^2 + C'}\) （ここで \(C' = 2C\)）</li>
-    </ol>
+<h3>例題3</h3>
+    <div class="mathblock">
+        $y' = x (y^2+1),\,y(0)=1$
+    </div>
 </div>
 
-<h3>例題2：定数変化法の例</h3>
+<h2>第3節：定数変化法</h2>
+<div class="formula-box">
+    <p class="important">一階線形微分方程式：</p>
+    <div class="mathblock">
+        $y' + P(x)y = Q(x)$
+    </div>
+</div>
+
+<div class="steps">
+    <p><strong>解法手順：</strong></p>
+    <ol>
+        <li>Step 1:$y' + P(x) y=0$の一般解を求める.</li>
+        <li>Step 1で求めた解の未知定数を$f(x)$に変えて, $y'+P(x) y =Q(x)$が成り立つように$f$を決める.
+        </li>
+     </ol>
+</div>
+
+<h2>例題と応用</h2>
+<h3>例題1</h3>
+    
 <div class="formula-box">
     <div class="mathblock">
         $$y' + xy = x$$
@@ -190,48 +205,38 @@
 <div class="steps">
     <p><strong>解法手順：</strong></p>
     <ol>
-        <li>積分因子を求める： \(e^{\int x \, dx} = e^{\frac{x^2}{2}}\)</li>
-        <li>両辺に積分因子をかける： \(e^{\frac{x^2}{2}}y' + xe^{\frac{x^2}{2}}y = xe^{\frac{x^2}{2}}\)</li>
-        <li>これは次のように変形できる： \(\frac{d}{dx}(e^{\frac{x^2}{2}}y) = xe^{\frac{x^2}{2}}\)</li>
-        <li>両辺を積分する： \(e^{\frac{x^2}{2}}y = \int xe^{\frac{x^2}{2}} \, dx = e^{\frac{x^2}{2}} + C\)</li>
-        <li>最終解： \(y = 1 + Ce^{-\frac{x^2}{2}}\)</li>
+        <li>$y' + xy=0$を解くと, $y = C e^{-x^2/2}\,$.</li>
+        <li>$y= f(x)\,C e^{-x^2/2}$とおいて，$y' + xy = x$に代入すると，
+            $$x = y' + xy = f'(x)\,e^{-x^2/2}\,.$$ 
+        </li>
+        <li>これを解くと，
+            $$f'(x)= x e^{x^2/2},$$
+            よって
+            $$f(x)=\int x e^{x^2/2}\,dx
+                   = e^{x^2/2}+C\,.$$
+        </li>
+        <li>従って一般解は
+            $$y=C\,f(x)\,e^{-x^2/2}
+               =(e^{x^2/2}+C)e^{-x^2/2}
+               =1+C\,e^{-x^2/2}.$$
+            となる。
+        </li>
     </ol>
 </div>
 
-<h3>例題5</h3>
+
+<h3>例題2</h3>
 <div class="formula-box">
     <div class="mathblock">
         $$y' - y = e^x$$
     </div>
 </div>
 
-<div class="steps">
-    <p><strong>解法手順：</strong></p>
-    <ol>
-        <li>積分因子： \(e^{\int -1 \, dx} = e^{-x}\)</li>
-        <li>両辺をかける： \(e^{-x}y' - e^{-x}y = 1\)</li>
-        <li>これは簡略化して： \(\frac{d}{dx}(e^{-x}y) = 1\)</li>
-        <li>積分： \(e^{-x}y = x + C\)</li>
-        <li>最終解： \(y = (x + C)e^x\)</li>
-    </ol>
-</div>
-
-<h3>例題6</h3>
+<h3>例題3</h3>
 <div class="formula-box">
     <div class="mathblock">
-        $$y' + xy = 0$$
+        $$y' + 3 x^2 y = 3x^3 + 3x^2+ 1.$$
     </div>
-</div>
-
-<div class="steps">
-    <p><strong>解法手順：</strong></p>
-    <ol>
-        <li>積分因子： \(e^{\int x \, dx} = e^{\frac{x^2}{2}}\)</li>
-        <li>両辺をかける： \(e^{\frac{x^2}{2}}y' + xe^{\frac{x^2}{2}}y = 0\)</li>
-        <li>これは次のようになる： \(\frac{d}{dx}(e^{\frac{x^2}{2}}y) = 0\)</li>
-        <li>積分： \(e^{\frac{x^2}{2}}y = C\)</li>
-        <li>最終解： \(y = Ce^{-\frac{x^2}{2}}\)</li>
-    </ol>
-</div>
+</div> 
 </body>
 </html>

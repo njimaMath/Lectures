@@ -1,0 +1,1026 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+        <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>微分法入門</title>
+    <style>
+        body {
+            font-family: 'Hiragino Sans', 'Meiryo', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f9f9f9;
+        }
+        h1, h2, h3 {
+            color: #1a237e;
+            margin-top: 1.5em;
+        }
+        h1 {
+            text-align: center;
+            border-bottom: 2px solid #1a237e;
+            padding-bottom: 10px;
+            margin-bottom: 30px;
+        }
+        h2 {
+            border-left: 5px solid #1a237e;
+            padding-left: 15px;
+        }
+        .formula {
+            background-color: #f0f0f8;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 15px 0;
+            overflow-x: auto;
+            text-align: center;
+            font-size: 1.1em;
+            /* MathJax 用スタイルを追加 */
+            font-family: 'Latin Modern Math', 'Cambria Math', serif;
+        }
+        .note {
+            background-color: #e8f5e9;
+            border-left: 4px solid #4caf50;
+            padding: 10px 15px;
+            margin: 15px 0;
+        }
+        .example {
+            background-color: #e3f2fd;
+            border-left: 4px solid #2196f3;
+            padding: 10px 15px;
+            margin: 15px 0;
+        }
+        .figure {
+            text-align: center;
+            margin: 25px 0;
+        }
+        .figure img, .figure svg {
+            max-width: 100%;
+            border-radius: 5px;
+            box-shadow: 0 3px 6px rgba(0,0,0,0.16);
+            background-color: #fff; /* SVG background */
+        }
+        .figure figcaption {
+            margin-top: 10px;
+            font-style: italic;
+            color: #666;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px 12px;
+            text-align: center; /* 数式が多いので中央揃えに */
+            vertical-align: middle;
+        }
+        th {
+            background-color: #e8eaf6;
+            font-weight: bold;
+        }
+        tr:nth-child(even) {
+            background-color: #f5f5f5;
+        }
+        .timeline {
+            position: relative;
+            max-width: 800px;
+            margin: 40px auto; /* 上下のマージンを追加 */
+            padding: 20px 0;
+        }
+        .timeline::after {
+            content: '';
+            position: absolute;
+            width: 4px;
+            background-color: #1a237e;
+            top: 0;
+            bottom: 0;
+            left: 50%;
+            margin-left: -2px;
+        }
+        .timeline-container {
+            position: relative;
+            width: 50%;
+            padding: 10px 40px;
+            box-sizing: border-box;
+        }
+        .timeline-container.left {
+            left: 0;
+        }
+        .timeline-container.right {
+            left: 50%;
+        }
+        .timeline-content {
+            padding: 15px;
+            background-color: white;
+            border-radius: 5px;
+            box-shadow: 0 3px 6px rgba(0,0,0,0.1);
+            position: relative; /* Arrow pseudo-element */
+        }
+        .timeline-container::after {
+            content: '';
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            background-color: white;
+            border: 4px solid #1a237e;
+            border-radius: 50%;
+            top: 25px; /* Adjusted top position */
+            z-index: 1;
+        }
+        .timeline-container.left::after {
+            right: -12px; /* Adjusted position */
+        }
+        .timeline-container.right::after {
+            left: -12px; /* Adjusted position */
+        }
+        /* Timeline arrows */
+        .timeline-container.left .timeline-content::before {
+            content: " ";
+            height: 0;
+            position: absolute;
+            top: 28px;
+            width: 0;
+            z-index: 1;
+            right: -10px;
+            border: medium solid white;
+            border-width: 10px 0 10px 10px;
+            border-color: transparent transparent transparent white;
+        }
+        .timeline-container.right .timeline-content::before {
+            content: " ";
+            height: 0;
+            position: absolute;
+            top: 28px;
+            width: 0;
+            z-index: 1;
+            left: -10px;
+            border: medium solid white;
+            border-width: 10px 10px 10px 0;
+            border-color: transparent white transparent transparent;
+        }
+
+        @media screen and (max-width: 600px) {
+            .timeline::after {
+                left: 31px;
+            }
+            .timeline-container {
+                width: 100%;
+                padding-left: 70px;
+                padding-right: 25px;
+            }
+            .timeline-container.right {
+                left: 0%;
+            }
+            .timeline-container.left::after, .timeline-container.right::after {
+                left: 19px; /* Adjusted position */
+            }
+            .timeline-container.left .timeline-content::before,
+            .timeline-container.right .timeline-content::before {
+                left: -10px;
+                border-width: 10px 10px 10px 0;
+                border-color: transparent white transparent transparent;
+            }
+             .timeline-container.left .timeline-content::before {
+                right: auto; /* Reset right property */
+            }
+        }
+        /* MathJax/KaTeX support */
+        .katex-display { overflow-x: auto; overflow-y: hidden; }
+        
+        /* 元のスタイルとの互換性のためのクラス */
+        .theorem {
+            background-color: #e8f4f8;
+            padding: 15px;
+            border-left: 5px solid #3498db;
+            margin: 20px 0;
+        }
+        .proof {
+            background-color: #f8f9fa;
+            padding: 15px;
+            border-left: 5px solid #7f8c8d;
+            margin: 20px 0;
+        }
+        .definition {
+            background-color: #e8f8f5;
+            padding: 15px;
+            border-left: 5px solid #16a085;
+            margin: 20px 0;
+        }
+        .graph {
+            text-align: center;
+            margin: 20px 0;
+        }
+        code {
+            font-family: 'Courier New', Courier, monospace;
+            background-color: #f1f1f1;
+            padding: 2px 5px;
+            border-radius: 3px;
+        }
+    </style>
+    <!-- KaTeX for rendering math -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.10/dist/katex.min.css" integrity="sha384-wcIxkf4k558fYv3mQPFEpCREUQueRFCZrCXCtiKU8aNVbN9ODdVcN3BwCAJ6pcBb" crossorigin="anonymous">
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.10/dist/katex.min.js" integrity="sha384-hIoBPJpTUs74ddyc4bFZSM1TVlQDA60VBbJS0oA934VSz82sBx1X7kSx2ATBDIyd" crossorigin="anonymous"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.10/dist/contrib/auto-render.min.js" integrity="sha384-43gviWU0YVjaDtb/GhzOouOXtZMP/7XUzwPTstBeZFe/+rCMvRwr4yROQP43s0Xk" crossorigin="anonymous"
+        onload="renderMathInElement(document.body);"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            renderMathInElement(document.body, {
+                // customised options
+                // • auto-render specific keys, e.g.:
+                delimiters: [
+                    {left: '$', right: '$', display: true},
+                    {left: '
+        <h1>微分法と基本関数の性質</h1>
+
+        <h2>1. 中間値の定理, 平均値の定理と単調増加関数</h2>
+
+        <div class="theorem">
+            <strong>平均値の定理</strong>: 関数 f(x) が区間 [a, b] で連続かつ (a, b) で微分可能であるとき、ある点 c ∈ (a, b) が存在して、
+            <div class="formula">
+                $f'(c) = \frac{f(b) - f(a)}{b - a}$
+            </div>
+        </div>
+
+        <div class="note">
+            この定理の証明は省略するが、直感的には、関数のグラフ上の2点 (a, f(a)) と (b, f(b)) を結ぶ直線の傾きと、関数上のある点での接線の傾きが一致することを意味する。
+        </div>
+
+        <div class="theorem">
+            <strong>単調増加関数の特徴づけ</strong>: 関数 f(x) が区間 I で微分可能であるとき、任意の x ∈ I に対して f'(x) > 0 ならば、f(x) は区間 I で単調増加である。
+        </div>
+
+        <div class="proof">
+            <strong>証明</strong>: 区間 I 上の任意の x₁ と x₂ について、x₁ < x₂ とする。平均値の定理により、ある c ∈ (x₁, x₂) が存在して、
+            <div style="text-align: center; margin: 10px 0;">
+                f'(c) = (f(x₂) - f(x₁))/(x₂ - x₁)
+            </div>
+
+            仮定より f'(c) > 0 であり、x₂ - x₁ > 0 なので、
+            <div style="text-align: center; margin: 10px 0;">
+                (f(x₂) - f(x₁))/(x₂ - x₁) > 0
+            </div>
+
+            したがって、f(x₂) - f(x₁) > 0、つまり f(x₂) > f(x₁) となる。
+            
+            よって、x₁ < x₂ ならば f(x₁) < f(x₂) が成り立つので、f(x) は単調増加関数である。
+        </div>
+
+        <h2>2. 三角関数の基本性質</h2>
+
+        <div class="theorem">
+            <strong>三角関数の重要な恒等式</strong>:
+            <div style="text-align: center; margin: 10px 0;">
+                sin²θ + cos²θ = 1
+            </div>
+        </div>
+
+        <div class="theorem">
+            <strong>三角関数の導関数</strong>:
+            <div style="text-align: center; margin: 10px 0;">
+                (sin x)' = cos x<br>
+                (cos x)' = -sin x
+            </div>
+        </div>
+
+        <div class="note">
+            これらの性質の証明は省略するが、三角関数の微積分学においては基本的かつ重要な関係である。
+        </div>
+
+        <h2>3. 指数関数</h2>
+
+        <div class="theorem">
+            <strong>指数関数の性質</strong>:
+            <ul>
+                <li>e^0 = 1</li>
+                <li>e ≈ 2.71828...</li>
+                <li>e^(x+y) = e^x · e^y</li>
+                <li>(e^x)' = e^x</li>
+            </ul>
+        </div>
+
+        <div class="theorem">
+            <strong>指数関数の正値性</strong>: 任意の実数 x に対して、e^x > 0 である。
+        </div>
+
+        <div class="proof">
+            <strong>証明</strong>: 指数関数の導関数 (e^x)' = e^x であるため、任意の x に対して (e^x)' > 0 となる。つまり、指数関数は全ての実数上で単調増加である。
+            
+            e^0 = 1 > 0 であるから、x < 0 のとき、単調増加性により 0 < e^x < 1 となる。
+            
+            また、任意の x, y ∈ ℝ に対して e^x · e^(-x) = e^(x-x) = e^0 = 1 が成り立つ。e^(-x) = 0 と仮定すると、e^x · e^(-x) = 0 となり矛盾する。したがって任意の x に対して e^x ≠ 0 であり、e^x は連続関数なので、常に e^x > 0 である。
+        </div>
+
+        <div class="theorem">
+            <strong>指数関数の極限</strong>: 
+            <div style="text-align: center; margin: 10px 0;">
+                lim<sub>x→∞</sub> e^x = ∞
+            </div>
+        </div>
+
+        <div class="proof">
+            <strong>証明</strong>: 指数関数は単調増加であることを利用する。任意の正の整数 n に対して、x > n ならば e^x > e^n となる。
+            
+            e^1 = e > 1 であり、e^(x+y) = e^x · e^y より、帰納的に e^n > n となることが示せる。したがって、任意の正の数 M に対して、n > M を満たす整数 n をとれば、x > n のとき e^x > e^n > n > M となる。
+            
+            以上より、lim<sub>x→∞</sub> e^x = ∞ が証明された。
+        </div>
+
+        <div class="theorem">
+            <strong>負の指数関数の極限</strong>: 
+            <div style="text-align: center; margin: 10px 0;">
+                lim<sub>x→∞</sub> e^(-x) = lim<sub>x→∞</sub> 1/e^x = 0
+            </div>
+        </div>
+
+        <div class="proof">
+            <strong>証明</strong>: 任意の ε > 0 に対して、M = 1/ε とする。前述の証明により、ある N が存在して、x > N ならば e^x > M = 1/ε となる。
+
+            したがって、x > N のとき、
+            <div style="text-align: center; margin: 10px 0;">
+                0 < e^(-x) = 1/e^x < 1/M = ε
+            </div>
+            
+            これにより、lim<sub>x→∞</sub> e^(-x) = 0 が証明された。
+        </div>
+
+        <h2>4. 逆関数</h2>
+
+        <div class="definition">
+            <strong>逆関数の定義</strong>: 関数 f: X → Y が全単射（単射かつ全射）であるとき、逆関数 f^(-1): Y → X が存在し、任意の y ∈ Y に対して f(f^(-1)(y)) = y かつ任意の x ∈ X に対して f^(-1)(f(x)) = x となる。
+        </div>
+
+        <div class="example">
+            <strong>例 1</strong>: f(x) = x の場合
+            <p>
+                恒等関数 f(x) = x は自分自身が逆関数となる。つまり、f^(-1)(x) = x である。
+            </p>
+        </div>
+
+        <div class="example">
+            <strong>例 2</strong>: f(x) = x² (x > 0) の場合
+            <p>
+                定義域を正の実数に制限すると、f(x) = x² は単調増加かつ全単射となるため、逆関数 f^(-1)(y) = √y が存在する。
+            </p>
+        </div>
+
+        <div class="example">
+            <strong>例 3</strong>: f(x) = x² (x ∈ ℝ) の場合
+            <p>
+                定義域が全実数の場合、f(x) = x² は単射ではない（例: f(-2) = f(2) = 4）。よって逆関数は存在しない。
+            </p>
+        </div>
+
+        <h2>5. 逆関数の微分</h2>
+
+        <div class="theorem">
+            <strong>逆関数の導関数</strong>: 関数 f(x) が点 x₀ の近傍で微分可能で f'(x₀) ≠ 0 とする。このとき、逆関数 g = f^(-1) は点 y₀ = f(x₀) の近傍で微分可能であり、次の関係が成り立つ。
+            <div style="text-align: center; margin: 10px 0;">
+                g'(y₀) = 1/f'(x₀)
+            </div>
+        </div>
+
+        <div class="proof">
+            <strong>導出</strong>: 関数 f と その逆関数 g = f^(-1) について、
+            <div style="text-align: center; margin: 10px 0;">
+                f(g(y)) = y
+            </div>
+            
+            が成り立つ。両辺を y で微分すると、連鎖律より、
+            <div style="text-align: center; margin: 10px 0;">
+                f'(g(y)) · g'(y) = 1
+            </div>
+            
+            よって、f'(g(y)) ≠ 0 のとき、
+            <div style="text-align: center; margin: 10px 0;">
+                g'(y) = 1/f'(g(y))
+            </div>
+            
+            特に y = y₀ = f(x₀) のとき、g(y₀) = g(f(x₀)) = x₀ なので、
+            <div style="text-align: center; margin: 10px 0;">
+                g'(y₀) = 1/f'(x₀)
+            </div>
+        </div>
+
+        <div class="example">
+            <strong>例</strong>: f(x) = x² (x > 0) の逆関数 g(y) = √y の微分
+            <p>
+                f(x) = x² より f'(x) = 2x である。
+                よって逆関数 g(y) = √y の導関数は、
+            </p>
+            <div style="text-align: center; margin: 10px 0;">
+                g'(y) = 1/f'(g(y)) = 1/f'(√y) = 1/(2·√y) = 1/(2√y)
+            </div>
+            
+            つまり、(√y)' = 1/(2√y) である。
+        </div>
+
+        <h2>6. 対数関数</h2>
+
+        <div class="theorem">
+            <strong>対数関数の存在</strong>: 任意の x > 0 に対して、e^(log x) = x を満たす log(x) が一意に定義できる。
+        </div>
+
+        <div class="graph">
+            <svg width="400" height="300" viewBox="-50 -50 400 300">
+                <!-- 座標軸 -->
+                <line x1="0" y1="200" x2="350" y2="200" stroke="black" />
+                <line x1="50" y1="0" x2="50" y2="250" stroke="black" />
+                
+                <!-- 目盛り -->
+                <text x="345" y="220">x</text>
+                <text x="30" y="10">y</text>
+                
+                <!-- 関数の描画 -->
+                <path d="M 60 190 C 75 170, 100 150, 150 120 C 200 90, 250 70, 350 30" stroke="blue" fill="none" stroke-width="2" />
+                
+                <!-- 関数名 -->
+                <text x="300" y="50" fill="blue">y = log(x)</text>
+                
+                <!-- 特殊点 -->
+                <circle cx="150" cy="120" r="3" fill="red" />
+                <text x="155" y="115">(e, 1)</text>
+                
+                <circle cx="50" cy="200" r="3" fill="red" />
+                <text x="40" y="220">(1, 0)</text>
+            </svg>
+        </div>
+
+        <div class="theorem">
+            <strong>対数関数の導関数</strong>:
+            <div style="text-align: center; margin: 10px 0;">
+                (log x)' = 1/x
+            </div>
+        </div>
+
+        <div class="definition">
+            <strong>一般の底の指数関数</strong>: a > 0 のとき、
+            <div style="text-align: center; margin: 10px 0;">
+                a^x = e^(x·log a)
+            </div>
+        </div>
+
+        <div class="theorem">
+            <strong>一般の底の指数関数の導関数</strong>:
+            <div style="text-align: center; margin: 10px 0;">
+                (a^x)' = log a · a^x
+            </div>
+        </div>
+    </div>
+</body>
+</html>
+, right: '
+        <h1>数学講義ノート: 平均値の定理と基本関数</h1>
+
+        <h2>1. 平均値の定理と単調増加関数</h2>
+
+        <div class="theorem">
+            <strong>平均値の定理</strong>: 関数 f(x) が区間 [a, b] で連続かつ (a, b) で微分可能であるとき、ある点 c ∈ (a, b) が存在して、
+            <div style="text-align: center; margin: 10px 0;">
+                f'(c) = (f(b) - f(a))/(b - a)
+            </div>
+        </div>
+
+        <div class="note">
+            この定理の証明は省略するが、直感的には、関数のグラフ上の2点 (a, f(a)) と (b, f(b)) を結ぶ直線の傾きと、関数上のある点での接線の傾きが一致することを意味する。
+        </div>
+
+        <div class="theorem">
+            <strong>単調増加関数の特徴づけ</strong>: 関数 f(x) が区間 I で微分可能であるとき、任意の x ∈ I に対して f'(x) > 0 ならば、f(x) は区間 I で単調増加である。
+        </div>
+
+        <div class="proof">
+            <strong>証明</strong>: 区間 I 上の任意の x₁ と x₂ について、x₁ < x₂ とする。平均値の定理により、ある c ∈ (x₁, x₂) が存在して、
+            <div style="text-align: center; margin: 10px 0;">
+                f'(c) = (f(x₂) - f(x₁))/(x₂ - x₁)
+            </div>
+
+            仮定より f'(c) > 0 であり、x₂ - x₁ > 0 なので、
+            <div style="text-align: center; margin: 10px 0;">
+                (f(x₂) - f(x₁))/(x₂ - x₁) > 0
+            </div>
+
+            したがって、f(x₂) - f(x₁) > 0、つまり f(x₂) > f(x₁) となる。
+            
+            よって、x₁ < x₂ ならば f(x₁) < f(x₂) が成り立つので、f(x) は単調増加関数である。
+        </div>
+        <h2>3. 指数関数</h2>
+
+        <div class="theorem">
+            <strong>指数関数の性質</strong>:
+            <ul>
+                <li>e^0 = 1</li>
+                <li>e ≈ 2.71828...</li>
+                <li>e^(x+y) = e^x · e^y</li>
+                <li>(e^x)' = e^x</li>
+            </ul>
+        </div>
+
+        <div class="theorem">
+            <strong>指数関数の正値性</strong>: 任意の実数 x に対して、e^x > 0 である。
+        </div>
+
+        <div class="proof">
+            <strong>証明</strong>: 指数関数の導関数 (e^x)' = e^x であるため、任意の x に対して (e^x)' > 0 となる。つまり、指数関数は全ての実数上で単調増加である。
+            
+            e^0 = 1 > 0 であるから、x < 0 のとき、単調増加性により 0 < e^x < 1 となる。
+            
+            また、任意の x, y ∈ ℝ に対して e^x · e^(-x) = e^(x-x) = e^0 = 1 が成り立つ。e^(-x) = 0 と仮定すると、e^x · e^(-x) = 0 となり矛盾する。したがって任意の x に対して e^x ≠ 0 であり、e^x は連続関数なので、常に e^x > 0 である。
+        </div>
+
+        <div class="theorem">
+            <strong>指数関数の極限</strong>: 
+            <div style="text-align: center; margin: 10px 0;">
+                lim<sub>x→∞</sub> e^x = ∞
+            </div>
+        </div>
+
+        <div class="proof">
+            <strong>証明</strong>: 指数関数は単調増加であることを利用する。任意の正の整数 n に対して、x > n ならば e^x > e^n となる。
+            
+            e^1 = e > 1 であり、e^(x+y) = e^x · e^y より、帰納的に e^n > n となることが示せる。したがって、任意の正の数 M に対して、n > M を満たす整数 n をとれば、x > n のとき e^x > e^n > n > M となる。
+            
+            以上より、lim<sub>x→∞</sub> e^x = ∞ が証明された。
+        </div>
+
+        <div class="theorem">
+            <strong>負の指数関数の極限</strong>: 
+            <div style="text-align: center; margin: 10px 0;">
+                lim<sub>x→∞</sub> e^(-x) = lim<sub>x→∞</sub> 1/e^x = 0
+            </div>
+        </div>
+
+        <div class="proof">
+            <strong>証明</strong>: 任意の ε > 0 に対して、M = 1/ε とする。前述の証明により、ある N が存在して、x > N ならば e^x > M = 1/ε となる。
+
+            したがって、x > N のとき、
+            <div style="text-align: center; margin: 10px 0;">
+                0 < e^(-x) = 1/e^x < 1/M = ε
+            </div>
+            
+            これにより、lim<sub>x→∞</sub> e^(-x) = 0 が証明された。
+        </div>
+
+        <h2>4. 逆関数</h2>
+
+        <div class="definition">
+            <strong>逆関数の定義</strong>: 関数 f: X → Y が全単射（単射かつ全射）であるとき、逆関数 f^(-1): Y → X が存在し、任意の y ∈ Y に対して f(f^(-1)(y)) = y かつ任意の x ∈ X に対して f^(-1)(f(x)) = x となる。
+        </div>
+
+        <div class="example">
+            <strong>例 1</strong>: f(x) = x の場合
+            <p>
+                恒等関数 f(x) = x は自分自身が逆関数となる。つまり、f^(-1)(x) = x である。
+            </p>
+        </div>
+
+        <div class="example">
+            <strong>例 2</strong>: f(x) = x² (x > 0) の場合
+            <p>
+                定義域を正の実数に制限すると、f(x) = x² は単調増加かつ全単射となるため、逆関数 f^(-1)(y) = √y が存在する。
+            </p>
+        </div>
+
+        <div class="example">
+            <strong>例 3</strong>: f(x) = x² (x ∈ ℝ) の場合
+            <p>
+                定義域が全実数の場合、f(x) = x² は単射ではない（例: f(-2) = f(2) = 4）。よって逆関数は存在しない。
+            </p>
+        </div>
+
+        <h2>5. 逆関数の微分</h2>
+
+        <div class="theorem">
+            <strong>逆関数の導関数</strong>: 関数 f(x) が点 x₀ の近傍で微分可能で f'(x₀) ≠ 0 とする。このとき、逆関数 g = f^(-1) は点 y₀ = f(x₀) の近傍で微分可能であり、次の関係が成り立つ。
+            <div style="text-align: center; margin: 10px 0;">
+                g'(y₀) = 1/f'(x₀)
+            </div>
+        </div>
+
+        <div class="proof">
+            <strong>導出</strong>: 関数 f と その逆関数 g = f^(-1) について、
+            <div style="text-align: center; margin: 10px 0;">
+                f(g(y)) = y
+            </div>
+            
+            が成り立つ。両辺を y で微分すると、連鎖律より、
+            <div style="text-align: center; margin: 10px 0;">
+                f'(g(y)) · g'(y) = 1
+            </div>
+            
+            よって、f'(g(y)) ≠ 0 のとき、
+            <div style="text-align: center; margin: 10px 0;">
+                g'(y) = 1/f'(g(y))
+            </div>
+            
+            特に y = y₀ = f(x₀) のとき、g(y₀) = g(f(x₀)) = x₀ なので、
+            <div style="text-align: center; margin: 10px 0;">
+                g'(y₀) = 1/f'(x₀)
+            </div>
+        </div>
+
+        <div class="example">
+            <strong>例</strong>: f(x) = x² (x > 0) の逆関数 g(y) = √y の微分
+            <p>
+                f(x) = x² より f'(x) = 2x である。
+                よって逆関数 g(y) = √y の導関数は、
+            </p>
+            <div style="text-align: center; margin: 10px 0;">
+                g'(y) = 1/f'(g(y)) = 1/f'(√y) = 1/(2·√y) = 1/(2√y)
+            </div>
+            
+            つまり、(√y)' = 1/(2√y) である。
+        </div>
+
+        <h2>6. 対数関数</h2>
+
+        <div class="theorem">
+            <strong>対数関数の存在</strong>: 任意の x > 0 に対して、e^(log x) = x を満たす log(x) が一意に定義できる。
+        </div>
+
+        <div class="graph">
+            <svg width="400" height="300" viewBox="-50 -50 400 300">
+                <!-- 座標軸 -->
+                <line x1="0" y1="200" x2="350" y2="200" stroke="black" />
+                <line x1="50" y1="0" x2="50" y2="250" stroke="black" />
+                
+                <!-- 目盛り -->
+                <text x="345" y="220">x</text>
+                <text x="30" y="10">y</text>
+                
+                <!-- 関数の描画 -->
+                <path d="M 60 190 C 75 170, 100 150, 150 120 C 200 90, 250 70, 350 30" stroke="blue" fill="none" stroke-width="2" />
+                
+                <!-- 関数名 -->
+                <text x="300" y="50" fill="blue">y = log(x)</text>
+                
+                <!-- 特殊点 -->
+                <circle cx="150" cy="120" r="3" fill="red" />
+                <text x="155" y="115">(e, 1)</text>
+                
+                <circle cx="50" cy="200" r="3" fill="red" />
+                <text x="40" y="220">(1, 0)</text>
+            </svg>
+        </div>
+
+        <div class="theorem">
+            <strong>対数関数の導関数</strong>:
+            <div style="text-align: center; margin: 10px 0;">
+                (log x)' = 1/x
+            </div>
+        </div>
+
+        <div class="definition">
+            <strong>一般の底の指数関数</strong>: a > 0 のとき、
+            <div style="text-align: center; margin: 10px 0;">
+                a^x = e^(x·log a)
+            </div>
+        </div>
+
+        <div class="theorem">
+            <strong>一般の底の指数関数の導関数</strong>:
+            <div style="text-align: center; margin: 10px 0;">
+                (a^x)' = log a · a^x
+            </div>
+        </div>
+
+        <h2>7. 逆三角関数</h2>
+
+        <div class="definition">
+            <strong>逆三角関数の定義</strong>:
+            <ul>
+                <li>arcsin x: sin y = x を満たす y ∈ [-π/2, π/2] （定義域: [-1, 1]）</li>
+                <li>arccos x: cos y = x を満たす y ∈ [0, π] （定義域: [-1, 1]）</li>
+                <li>arctan x: tan y = x を満たす y ∈ (-π/2, π/2) （定義域: ℝ）</li>
+            </ul>
+        </div>
+
+        <div class="graph">
+            <svg width="400" height="300" viewBox="-50 -50 400 300">
+                <!-- 座標軸 -->
+                <line x1="0" y1="150" x2="350" y2="150" stroke="black" />
+                <line x1="175" y1="0" x2="175" y2="250" stroke="black" />
+                
+                <!-- 目盛り -->
+                <text x="345" y="170">x</text>
+                <text x="155" y="10">y</text>
+                
+                <!-- 関数の描画 -->
+                <path d="M 25 250 C 75 230, 125 180, 175 150 C 225 120, 275 70, 325 50" stroke="blue" fill="none" stroke-width="2" />
+                <path d="M 25 50 C 75 70, 125 120, 175 150 C 225 180, 275 230, 325 250" stroke="red" fill="none" stroke-width="2" />
+                <path d="M 25 230 C 75 210, 150 170, 175 150 C 200 130, 275 90, 325 70" stroke="green" fill="none" stroke-width="2" />
+                
+                <!-- 関数名 -->
+                <text x="300" y="60" fill="blue">y = arcsin(x)</text>
+                <text x="300" y="240" fill="red">y = arccos(x)</text>
+                <text x="300" y="80" fill="green">y = arctan(x)</text>
+            </svg>
+        </div>
+
+        <div class="theorem">
+            <strong>逆三角関数の導関数</strong>:
+            <div style="text-align: center; margin: 10px 0;">
+                (arcsin x)' = 1/√(1-x²)<br>
+                (arccos x)' = -1/√(1-x²)<br>
+                (arctan x)' = 1/(1+x²)
+            </div>
+        </div>
+
+    </div>
+</body>
+</html>
+, display: false},
+                    {left: '\\(', right: '\\)', display: false},
+                    {left: '\\[', right: '\\]', display: true}
+                ],
+                // • rendering keys, e.g.:
+                throwOnError : false
+            });
+        });
+    </script>
+</head>
+<body>
+    <div class="container">
+        <h1>数学講義ノート: 平均値の定理と基本関数</h1>
+
+        <h2>1. 平均値の定理と単調増加関数</h2>
+
+        <div class="theorem">
+            <strong>平均値の定理</strong>: 関数 f(x) が区間 [a, b] で連続かつ (a, b) で微分可能であるとき、ある点 c ∈ (a, b) が存在して、
+            <div style="text-align: center; margin: 10px 0;">
+                f'(c) = (f(b) - f(a))/(b - a)
+            </div>
+        </div>
+
+        <div class="note">
+            この定理の証明は省略するが、直感的には、関数のグラフ上の2点 (a, f(a)) と (b, f(b)) を結ぶ直線の傾きと、関数上のある点での接線の傾きが一致することを意味する。
+        </div>
+
+        <div class="theorem">
+            <strong>単調増加関数の特徴づけ</strong>: 関数 f(x) が区間 I で微分可能であるとき、任意の x ∈ I に対して f'(x) > 0 ならば、f(x) は区間 I で単調増加である。
+        </div>
+
+        <div class="proof">
+            <strong>証明</strong>: 区間 I 上の任意の x₁ と x₂ について、x₁ < x₂ とする。平均値の定理により、ある c ∈ (x₁, x₂) が存在して、
+            <div style="text-align: center; margin: 10px 0;">
+                f'(c) = (f(x₂) - f(x₁))/(x₂ - x₁)
+            </div>
+
+            仮定より f'(c) > 0 であり、x₂ - x₁ > 0 なので、
+            <div style="text-align: center; margin: 10px 0;">
+                (f(x₂) - f(x₁))/(x₂ - x₁) > 0
+            </div>
+
+            したがって、f(x₂) - f(x₁) > 0、つまり f(x₂) > f(x₁) となる。
+            
+            よって、x₁ < x₂ ならば f(x₁) < f(x₂) が成り立つので、f(x) は単調増加関数である。
+        </div>
+
+        <h2>2. 三角関数の基本性質</h2>
+
+        <div class="theorem">
+            <strong>三角関数の重要な恒等式</strong>:
+            <div style="text-align: center; margin: 10px 0;">
+                sin²θ + cos²θ = 1
+            </div>
+        </div>
+
+        <div class="theorem">
+            <strong>三角関数の導関数</strong>:
+            <div style="text-align: center; margin: 10px 0;">
+                (sin x)' = cos x<br>
+                (cos x)' = -sin x
+            </div>
+        </div>
+
+        <div class="note">
+            これらの性質の証明は省略するが、三角関数の微積分学においては基本的かつ重要な関係である。
+        </div>
+
+        <h2>3. 指数関数</h2>
+
+        <div class="theorem">
+            <strong>指数関数の性質</strong>:
+            <ul>
+                <li>e^0 = 1</li>
+                <li>e ≈ 2.71828...</li>
+                <li>e^(x+y) = e^x · e^y</li>
+                <li>(e^x)' = e^x</li>
+            </ul>
+        </div>
+
+        <div class="theorem">
+            <strong>指数関数の正値性</strong>: 任意の実数 x に対して、e^x > 0 である。
+        </div>
+
+        <div class="proof">
+            <strong>証明</strong>: 指数関数の導関数 (e^x)' = e^x であるため、任意の x に対して (e^x)' > 0 となる。つまり、指数関数は全ての実数上で単調増加である。
+            
+            e^0 = 1 > 0 であるから、x < 0 のとき、単調増加性により 0 < e^x < 1 となる。
+            
+            また、任意の x, y ∈ ℝ に対して e^x · e^(-x) = e^(x-x) = e^0 = 1 が成り立つ。e^(-x) = 0 と仮定すると、e^x · e^(-x) = 0 となり矛盾する。したがって任意の x に対して e^x ≠ 0 であり、e^x は連続関数なので、常に e^x > 0 である。
+        </div>
+
+        <div class="theorem">
+            <strong>指数関数の極限</strong>: 
+            <div style="text-align: center; margin: 10px 0;">
+                lim<sub>x→∞</sub> e^x = ∞
+            </div>
+        </div>
+
+        <div class="proof">
+            <strong>証明</strong>: 指数関数は単調増加であることを利用する。任意の正の整数 n に対して、x > n ならば e^x > e^n となる。
+            
+            e^1 = e > 1 であり、e^(x+y) = e^x · e^y より、帰納的に e^n > n となることが示せる。したがって、任意の正の数 M に対して、n > M を満たす整数 n をとれば、x > n のとき e^x > e^n > n > M となる。
+            
+            以上より、lim<sub>x→∞</sub> e^x = ∞ が証明された。
+        </div>
+
+        <div class="theorem">
+            <strong>負の指数関数の極限</strong>: 
+            <div style="text-align: center; margin: 10px 0;">
+                lim<sub>x→∞</sub> e^(-x) = lim<sub>x→∞</sub> 1/e^x = 0
+            </div>
+        </div>
+
+        <div class="proof">
+            <strong>証明</strong>: 任意の ε > 0 に対して、M = 1/ε とする。前述の証明により、ある N が存在して、x > N ならば e^x > M = 1/ε となる。
+
+            したがって、x > N のとき、
+            <div style="text-align: center; margin: 10px 0;">
+                0 < e^(-x) = 1/e^x < 1/M = ε
+            </div>
+            
+            これにより、lim<sub>x→∞</sub> e^(-x) = 0 が証明された。
+        </div>
+
+        <h2>4. 逆関数</h2>
+
+        <div class="definition">
+            <strong>逆関数の定義</strong>: 関数 f: X → Y が全単射（単射かつ全射）であるとき、逆関数 f^(-1): Y → X が存在し、任意の y ∈ Y に対して f(f^(-1)(y)) = y かつ任意の x ∈ X に対して f^(-1)(f(x)) = x となる。
+        </div>
+
+        <div class="example">
+            <strong>例 1</strong>: f(x) = x の場合
+            <p>
+                恒等関数 f(x) = x は自分自身が逆関数となる。つまり、f^(-1)(x) = x である。
+            </p>
+        </div>
+
+        <div class="example">
+            <strong>例 2</strong>: f(x) = x² (x > 0) の場合
+            <p>
+                定義域を正の実数に制限すると、f(x) = x² は単調増加かつ全単射となるため、逆関数 f^(-1)(y) = √y が存在する。
+            </p>
+        </div>
+
+        <div class="example">
+            <strong>例 3</strong>: f(x) = x² (x ∈ ℝ) の場合
+            <p>
+                定義域が全実数の場合、f(x) = x² は単射ではない（例: f(-2) = f(2) = 4）。よって逆関数は存在しない。
+            </p>
+        </div>
+
+        <h2>5. 逆関数の微分</h2>
+
+        <div class="theorem">
+            <strong>逆関数の導関数</strong>: 関数 f(x) が点 x₀ の近傍で微分可能で f'(x₀) ≠ 0 とする。このとき、逆関数 g = f^(-1) は点 y₀ = f(x₀) の近傍で微分可能であり、次の関係が成り立つ。
+            <div style="text-align: center; margin: 10px 0;">
+                g'(y₀) = 1/f'(x₀)
+            </div>
+        </div>
+
+        <div class="proof">
+            <strong>導出</strong>: 関数 f と その逆関数 g = f^(-1) について、
+            <div style="text-align: center; margin: 10px 0;">
+                f(g(y)) = y
+            </div>
+            
+            が成り立つ。両辺を y で微分すると、連鎖律より、
+            <div style="text-align: center; margin: 10px 0;">
+                f'(g(y)) · g'(y) = 1
+            </div>
+            
+            よって、f'(g(y)) ≠ 0 のとき、
+            <div style="text-align: center; margin: 10px 0;">
+                g'(y) = 1/f'(g(y))
+            </div>
+            
+            特に y = y₀ = f(x₀) のとき、g(y₀) = g(f(x₀)) = x₀ なので、
+            <div style="text-align: center; margin: 10px 0;">
+                g'(y₀) = 1/f'(x₀)
+            </div>
+        </div>
+
+        <div class="example">
+            <strong>例</strong>: f(x) = x² (x > 0) の逆関数 g(y) = √y の微分
+            <p>
+                f(x) = x² より f'(x) = 2x である。
+                よって逆関数 g(y) = √y の導関数は、
+            </p>
+            <div style="text-align: center; margin: 10px 0;">
+                g'(y) = 1/f'(g(y)) = 1/f'(√y) = 1/(2·√y) = 1/(2√y)
+            </div>
+            
+            つまり、(√y)' = 1/(2√y) である。
+        </div>
+
+        <h2>6. 対数関数</h2>
+
+        <div class="theorem">
+            <strong>対数関数の存在</strong>: 任意の x > 0 に対して、e^(log x) = x を満たす log(x) が一意に定義できる。
+        </div>
+
+        <div class="graph">
+            <svg width="400" height="300" viewBox="-50 -50 400 300">
+                <!-- 座標軸 -->
+                <line x1="0" y1="200" x2="350" y2="200" stroke="black" />
+                <line x1="50" y1="0" x2="50" y2="250" stroke="black" />
+                
+                <!-- 目盛り -->
+                <text x="345" y="220">x</text>
+                <text x="30" y="10">y</text>
+                
+                <!-- 関数の描画 -->
+                <path d="M 60 190 C 75 170, 100 150, 150 120 C 200 90, 250 70, 350 30" stroke="blue" fill="none" stroke-width="2" />
+                
+                <!-- 関数名 -->
+                <text x="300" y="50" fill="blue">y = log(x)</text>
+                
+                <!-- 特殊点 -->
+                <circle cx="150" cy="120" r="3" fill="red" />
+                <text x="155" y="115">(e, 1)</text>
+                
+                <circle cx="50" cy="200" r="3" fill="red" />
+                <text x="40" y="220">(1, 0)</text>
+            </svg>
+        </div>
+
+        <div class="theorem">
+            <strong>対数関数の導関数</strong>:
+            <div style="text-align: center; margin: 10px 0;">
+                (log x)' = 1/x
+            </div>
+        </div>
+
+        <div class="definition">
+            <strong>一般の底の指数関数</strong>: a > 0 のとき、
+            <div style="text-align: center; margin: 10px 0;">
+                a^x = e^(x·log a)
+            </div>
+        </div>
+
+        <div class="theorem">
+            <strong>一般の底の指数関数の導関数</strong>:
+            <div style="text-align: center; margin: 10px 0;">
+                (a^x)' = log a · a^x
+            </div>
+        </div>
+
+        <h2>7. 逆三角関数</h2>
+
+        <div class="definition">
+            <strong>逆三角関数の定義</strong>:
+            <ul>
+                <li>arcsin x: sin y = x を満たす y ∈ [-π/2, π/2] （定義域: [-1, 1]）</li>
+                <li>arccos x: cos y = x を満たす y ∈ [0, π] （定義域: [-1, 1]）</li>
+                <li>arctan x: tan y = x を満たす y ∈ (-π/2, π/2) （定義域: ℝ）</li>
+            </ul>
+        </div>
+
+        <div class="graph">
+            <svg width="400" height="300" viewBox="-50 -50 400 300">
+                <!-- 座標軸 -->
+                <line x1="0" y1="150" x2="350" y2="150" stroke="black" />
+                <line x1="175" y1="0" x2="175" y2="250" stroke="black" />
+                
+                <!-- 目盛り -->
+                <text x="345" y="170">x</text>
+                <text x="155" y="10">y</text>
+                
+                <!-- 関数の描画 -->
+                <path d="M 25 250 C 75 230, 125 180, 175 150 C 225 120, 275 70, 325 50" stroke="blue" fill="none" stroke-width="2" />
+                <path d="M 25 50 C 75 70, 125 120, 175 150 C 225 180, 275 230, 325 250" stroke="red" fill="none" stroke-width="2" />
+                <path d="M 25 230 C 75 210, 150 170, 175 150 C 200 130, 275 90, 325 70" stroke="green" fill="none" stroke-width="2" />
+                
+                <!-- 関数名 -->
+                <text x="300" y="60" fill="blue">y = arcsin(x)</text>
+                <text x="300" y="240" fill="red">y = arccos(x)</text>
+                <text x="300" y="80" fill="green">y = arctan(x)</text>
+            </svg>
+        </div>
+
+        <div class="theorem">
+            <strong>逆三角関数の導関数</strong>:
+            <div style="text-align: center; margin: 10px 0;">
+                (arcsin x)' = 1/√(1-x²)<br>
+                (arccos x)' = -1/√(1-x²)<br>
+                (arctan x)' = 1/(1+x²)
+            </div>
+        </div>
+
+    </div>
+</body>
+</html>
