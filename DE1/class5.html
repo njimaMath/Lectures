@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>微分方程式講義ノート</title>
+  <script>
+    MathJax = {
+      tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']],
+        displayMath: [['$$', '$$'], ['\\[', '\\]']]
+      },
+      svg: { fontCache: 'global' }
+    };
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js" defer></script>
+  <style>
+    body {
+      font-family: 'Noto Sans JP', sans-serif;
+      background: #f9f9f9;
+      color: #333;
+      max-width: 800px;
+      margin: auto;
+      padding: 20px;
+      line-height: 1.6;
+    }
+    h1, h2, h3, h4 {
+      margin-top: 30px;
+    }
+    h1 {
+      text-align: center;
+      color: #1a5276;
+      border-bottom: 2px solid #1a5276;
+      padding-bottom: 10px;
+    }
+    h2 {
+      color: #2874a6;
+      border-left: 5px solid #2874a6;
+      padding-left: 10px;
+    }
+    h3 {
+      color: #3498db;
+    }
+    .formula-box, .steps, .note, .conclusion {
+      margin: 15px 0;
+      padding: 15px;
+      border-radius: 5px;
+    }
+    .formula-box {
+      background: #e8f4fc;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+    .steps {
+      background: #f2f9f1;
+      border-left: 3px solid #27ae60;
+    }
+    .note {
+      background: #fff3e0;
+      border-left: 3px solid #ff9800;
+    }
+    .conclusion {
+      background: #e8f8f5;
+      border-left: 3px solid #1abc9c;
+    }
+    .mathblock {
+      font-family: 'Times New Roman', serif;
+      text-align: center;
+      margin: 15px 0;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 10px;
+    }
+    th, td {
+      padding: 8px;
+      text-align: center;
+      border-bottom: 1px solid #ccc;
+    }
+    th {
+      background: #f0f0f0;
+    }
+  </style>
+</head>
+<body>
+
+<h1>微分方程式講義ノート</h1>
+
+<h2>第1節：解法の基本</h2>
+<div class="note">
+  <p>主な解法一覧：</p>
+  <table>
+    <tr><th>手法</th><th>特徴</th></tr>
+    <tr><td>変数分離法</td><td>初等的で直接的</td></tr>
+    <tr><td>定数変化法</td><td>非斉次方程式に有効</td></tr>
+    <tr><td>級数展開法</td><td>解が初等関数で表せない場合に使用</td></tr>
+    <tr><td>演算子法</td><td>定係数線形方程式に有効</td></tr>
+  </table>
+</div>
+
+<h2>第2節：2階線形同次微分方程式</h2>
+
+<h3>一般形と特性方程式</h3>
+<div class="formula-box">
+  <div class="mathblock">$$y'' + ay' + by = 0$$</div>
+  <p>対応する特性方程式：</p>
+  <div class="mathblock">$$r^2 + ar + b = 0$$</div>
+</div>
+
+<h3>判別式による分類と解</h3>
+
+<h4>実数重解 $D = 0$</h4>
+<div class="steps">
+  $$y = (C_1 + C_2x)e^{rx}$$
+</div>
+
+<h4>異なる実数解 $D > 0$</h4>
+<div class="steps">
+  $$y = C_1e^{r_1x} + C_2e^{r_2x}$$
+</div>
+
+<h4>複素共役解 $D < 0$</h4>
+<div class="steps">
+  $$y = e^{\alpha x}(C_1\cos(\beta x) + C_2\sin(\beta x))$$
+</div>
+
+<h2>第3節：微分演算子法</h2>
+
+<h3>定義と表現</h3>
+<div class="formula-box">
+  <p>$D = \frac{d}{dx}$ とすると、$y'' + ay' + by = 0$ は：</p>
+  <div class="mathblock">$$(D^2 + aD + b)y = 0$$</div>
+</div>
+
+<h3>手順</h3>
+<div class="steps">
+  <ol>
+    <li>演算子形式に変換</li>
+    <li>演算子多項式の因数分解</li>
+    <li>順に作用させて解を得る</li>
+  </ol>
+</div>
+
+<h3>例：$y'' - 3y' + 2y = 0$</h3>
+<div class="formula-box">
+  <p>演算子形式：$(D - 1)(D - 2)y = 0$</p>
+  <p>解：</p>
+  <div class="mathblock">$$y = C_1e^x + C_2e^{2x}$$</div>
+</div>
+
+<h3>非同次方程式への応用：$y'' + ay' + by = f(x)$</h3>
+<div class="formula-box">
+  <p>演算子形式：$(D^2 + aD + b)y = f(x)$</p>
+  <p>解の構成：</p>
+  <ul>
+    <li>同次方程式の一般解 $y_h$ を求める</li>
+    <li>特解 $y_p$ を適当な方法（未定係数法など）で求める</li>
+    <li>一般解は $y = y_h + y_p$</li>
+  </ul>
+  <p>例：$y'' - 3y' + 2y = e^x$</p>
+  <p>演算子形式：$(D - 1)(D - 2)y = e^x$</p>
+  <p>右辺 $e^x$ は $D = 1$ に対応するので、$(D - 2)y = Ae^x$ と仮定し：</p>
+  <div class="mathblock">$$y_p = \frac{Ae^x}{D - 2} = \frac{e^x}{-1} = -e^x$$</div>
+  <p>同次解 $y_h = C_1e^x + C_2e^{2x}$ と合わせて：</p>
+  <div class="mathblock">$$y = C_1e^x + C_2e^{2x} - e^x$$</div>
+</div>
+
+<h3>利点</h3>
+<div class="conclusion">
+  <ul>
+    <li>代数的操作が可能</li>
+    <li>高次方程式にも応用可</li>
+    <li>体系的な解法</li>
+  </ul>
+</div>
+
+<h2>第4節：応用例</h2>
+
+<h3>バネ-質量系</h3>
+<div class="formula-box">
+  $$m\frac{d^2x}{dt^2} + c\frac{dx}{dt} + kx = 0$$
+  <p>$m$: 質量, $c$: 減衰係数, $k$: バネ定数</p>
+</div>
+
+<h3>LRC回路</h3>
+<div class="formula-box">
+  $$L\frac{d^2i}{dt^2} + R\frac{di}{dt} + \frac{1}{C}i = 0$$
+  <p>$L$: インダクタンス, $R$: 抵抗, $C$: 静電容量</p>
+</div>
+
+<h2>第5節：まとめ</h2>
+<div class="conclusion">
+  <p>判別式 $D = a^2 - 4b$ により解の型が決定：</p>
+  <ul>
+    <li>$D > 0$: $y = C_1e^{r_1x} + C_2e^{r_2x}$</li>
+    <li>$D = 0$: $y = (C_1 + C_2x)e^{rx}$</li>
+    <li>$D < 0$: $y = e^{\alpha x}(C_1\cos(\beta x) + C_2\sin(\beta x))$</li>
+  </ul>
+</div>
+
+</body>
+</html>
