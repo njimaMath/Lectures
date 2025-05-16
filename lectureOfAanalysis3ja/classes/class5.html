@@ -14,7 +14,6 @@
             --container-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
             --text-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
         }
-
         body {
             font-family: 'Georgia', serif;
             line-height: 1.7;
@@ -23,7 +22,6 @@
             background-color: var(--background-color);
             color: var(--text-color);
         }
-
         .container {
             max-width: 900px;
             margin: 20px auto;
@@ -32,18 +30,15 @@
             box-shadow: var(--container-shadow);
             border-radius: 15px;
         }
-
         header {
             text-align: center;
             margin-bottom: 40px;
             border-bottom: 2px solid var(--secondary-color);
             padding-bottom: 20px;
         }
-
         h1, h2, h3 {
             color: var(--primary-color);
         }
-
         .section-title {
             color: var(--primary-color);
             font-size: 1.8rem;
@@ -53,24 +48,20 @@
             border-bottom: 1px solid #eee;
             text-shadow: var(--text-shadow);
         }
-
         .lecture-title {
             color: var(--secondary-color);
             font-size: 1.5rem;
             margin-bottom: 15px;
             font-weight: normal;
         }
-
         .author-info {
             font-style: italic;
             color: #777;
         }
-
         .math {
             font-style: italic;
             padding: 0 3px;
         }
-
         .figure {
             text-align: center;
             margin: 30px 0;
@@ -79,18 +70,15 @@
             border-radius: 10px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
         }
-
         .figure img {
             max-width: 100%;
             border-radius: 5px;
         }
-
         .figure-caption {
             font-style: italic;
             color: #777;
             margin-top: 15px;
         }
-
         .navigation {
             margin-top: 40px;
             text-align: center;
@@ -99,7 +87,6 @@
             padding: 15px 0;
             border-top: 1px solid #eee;
         }
-
         .navigation a {
             display: inline-block;
             padding: 10px 20px;
@@ -110,13 +97,11 @@
             transition: all 0.3s ease;
             box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
         }
-
         .navigation a:hover {
             background-color: var(--secondary-color);
             transform: translateY(-2px);
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
         }
-
         .topic-highlight {
             display: inline-block;
             background-color: rgba(52, 152, 219, 0.1);
@@ -125,7 +110,6 @@
             font-weight: 500;
             color: var(--primary-color);
         }
-
         .formula {
             margin: 25px 0;
             padding: 15px;
@@ -136,7 +120,6 @@
             font-size: 1.1em;
             box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
         }
-
         .example-title {
             font-weight: bold;
             font-size: 1.2em;
@@ -147,16 +130,13 @@
             border-bottom: 1px dashed #ccc;
             display: inline-block;
         }
-
         p {
             margin-bottom: 20px;
             line-height: 1.8;
         }
-
         .content-section {
             padding-bottom: 30px;
         }
-        
         .footnote {
             font-size: 0.9em;
             color: #777;
@@ -208,11 +188,48 @@
                 $$\frac{dz}{dt}
                   = \frac{\partial f}{\partial x}(x,y)\,\frac{dx}{dt}
                   + \frac{\partial f}{\partial y}(x,y)\,\frac{dy}{dt}
-                  = f_x(x,y)\,\dot x(t) + f_y(x,y)\,\dot y(t)$$
+                  = f_x(x,y)\,x'(t) + f_y(x,y)\,y'(t)$$
+            </div>
+
+            <!-- === 証明 === -->
+            <div class="example">
+                <h3 class="example-title">証明（全微分可能性を用いる方法）</h3>
+                <p>
+                    $t=a$ での連鎖律を示す。簡潔のため $(x(a),y(a))$ における偏微分係数を
+                    $f_x$，$f_y$ と書く。
+                </p>
+                <p>
+                    $t$ を $a$ から微小量 $\Delta t$ だけ動かし，
+                    $$\Delta x := x(t)-x(a),\quad \Delta y := y(t)-y(a)$$
+                    とおく。$x,\,y$ が $t=a$ で微分可能であることから
+                    $$\Delta x = x'(a)\,\Delta t + o(\Delta t),\qquad
+                      \Delta y = y'(a)\,\Delta t + o(\Delta t).$$
+                </p>
+                <p>
+                    いま $f$ は $(x(a),y(a))$ で<strong>全微分可能</strong>と仮定する。したがって
+                    $$
+                    \Delta z := f\bigl(x(t),y(t)\bigr) - f\bigl(x(a),y(a)\bigr)
+                    = f_x\,\Delta x + f_y\,\Delta y + o\!\bigl(\Delta x^2 + \Delta y^2\bigr).
+                    $$
+                </p>
+                <p>
+                    ここで $\Delta x,\,\Delta y$ はともに $\mathcal{O}(\Delta t)$ であり，
+                    $o\!\bigl(\Delta x^2 + \Delta y^2\bigr)=o(\Delta t)$ となる。
+                    よって
+                    $$
+                    \Delta z = \bigl(f_x x'(a) + f_y y'(a)\bigr)\,\Delta t + o(\Delta t).
+                    $$
+                </p>
+                <p>
+                    両辺を $\Delta t$ で割り $\Delta t \to 0$ とすると，極限によって
+                    $$
+                    \boxed{\displaystyle\frac{dz}{dt}(a) = f_x\,x'(a) + f_y\,y'(a)}.
+                    $$
+                    これは任意の $a$ について成り立つので，連鎖律が得られる。
+                </p>
             </div>
 
             <p>
-                ここで $\dot x(t)=dx/dt$，$\dot y(t)=dy/dt$ である。
                 $dz = f_x\,dx + f_y\,dy$ が
                 $t$ 方向の変化に沿って積み上がるイメージとなる。
             </p>
@@ -235,7 +252,7 @@
                     </li>
                     <li>
                         自由変数の導関数：
-                        $\dot x(t)=2t$，$\dot y(t)=2$。
+                        $x'(t)=2t$，$y'(t)=2$。
                     </li>
                     <li>
                         連鎖律より
@@ -269,7 +286,7 @@
                         $f_y = x^{y}\log x$。
                     </li>
                     <li>
-                        $\dot x(t)=1$，$\dot y(t)=1$。
+                        $x'(t)=1$，$y'(t)=1$。
                     </li>
                     <li>
                         連鎖律：
@@ -283,17 +300,6 @@
                           \qquad(t>0).$$
                     </li>
                 </ol>
-            </div>
-
-            <!-- ===== 連鎖律のポイント ===== -->
-            <div class="figure" style="background-color:#eefaf8;border-left:4px solid #2ecc71;">
-                <h3 style="margin-top:0;">連鎖律のポイント</h3>
-                <ul>
-                    <li>依存経路ごとに一つの項が現れる。</li>
-                    <li>各項は「沿った経路の導関数の積」である。</li>
-                    <li>層が増えてもパターンは変わらない。</li>
-                    <li>時間依存の座標変換など工学的応用で基本である。</li>
-                </ul>
             </div>
         </section>
 
