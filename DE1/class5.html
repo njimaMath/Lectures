@@ -124,79 +124,88 @@
   $$y = e^{\alpha x}(C_1\cos(\beta x) + C_2\sin(\beta x))$$
 </div>
 
+
 <h2>第3節：微分演算子法</h2>
 
-<h3>定義と表現</h3>
+<h3>定義と基本性質</h3>
 <div class="formula-box">
-  <p>$D = \frac{d}{dx}$ とすると、$y'' + ay' + by = 0$ は：</p>
-  <div class="mathblock">$$(D^2 + aD + b)y = 0$$</div>
+  <p>微分演算子 $D := \frac{d}{dx}$ を導入する。</p>
+  <div class="mathblock">
+    $$
+    D y = \frac{dy}{dx} = y',\quad D^2 y = \frac{d^2 y}{dx^2} = y''\,,\quad D^n y = y^{(n)}
+    $$
+  </div>
 </div>
 
-<h3>手順</h3>
+<h3>演算子としての利用と書き換え</h3>
+<div class="formula-box">
+  <p>例：</p>
+  <div class="mathblock">
+    $$
+    y'' + a y' + b y = D^2 y + a D y + b y = (D^2 + a D + b)y
+    $$
+  </div>
+</div>
+
+<div class="note">
+  <p>ポイント：$D$ を数のように扱い、因数分解できる場合はそれを利用する。</p>
+</div>
+
+<div class="formula-box">
+  <p>例題：</p>
+  <div class="mathblock">
+    $$
+    y'' + 2y + 1 = (D^2 + 2D + 1)y = (D+1)^2 y
+    $$
+  </div>
+</div>
+
+<div class="formula-box">
+  <p>一般形：</p>
+  <div class="mathblock">
+    $$
+    y'' + a y' + b y = f(x) \Rightarrow (D^2 + a D + b)y = f(x)
+    $$
+  </div>
+  <p>特性方程式 $r^2 + a r + b = 0$ の解を $\alpha, \beta$ とすると：</p>
+  <div class="mathblock">
+    $$
+    (D^2 + a D + b) = (D - \alpha)(D - \beta)
+    $$
+  </div>
+</div>
+
+<h3>解法手順</h3>
 <div class="steps">
-  <ol>
-    <li>演算子形式に変換</li>
-    <li>演算子多項式の因数分解</li>
-    <li>順に作用させて解を得る</li>
-  </ol>
+  <p>Step 1: $z = (D - \beta)y$ とおくと：</p>
+  <div class="mathblock">
+    $$
+    f(x) = (D - \alpha)z = z' - \alpha z
+    $$
+  </div>
+  <p>これは一次線形常微分方程式である。</p>
+
+  <p>Step 2: $z = (D - \beta)y$ を使って $y$ を求める。</p>
 </div>
 
-<h3>例：$y'' - 3y' + 2y = 0$</h3>
+<h3>例題</h3>
 <div class="formula-box">
-  <p>演算子形式：$(D - 1)(D - 2)y = 0$</p>
-  <p>解：</p>
-  <div class="mathblock">$$y = C_1e^x + C_2e^{2x}$$</div>
+  <p>方程式：</p>
+  <div class="mathblock">
+    $$
+    y'' - y' - 2y = 1
+    $$
+  </div>
+  <p>演算子形式：$(D - 2)(D + 1)y = 1$</p>
+  <p>Step 1: $z = (D + 1)y$ とおくと：</p>
+  <div class="mathblock">
+    $$
+    (D - 2)z = 1 \Rightarrow z' - 2z = 1
+    $$
+  </div>
+  <p>Step 2: $z = (D + 1)y = y' + y \Rightarrow y' + y = g(x)$ の形</p>
 </div>
 
-<h3>非同次方程式への応用：$y'' + ay' + by = f(x)$</h3>
-<div class="formula-box">
-  <p>演算子形式：$(D^2 + aD + b)y = f(x)$</p>
-  <p>解の構成：</p>
-  <ul>
-    <li>同次方程式の一般解 $y_h$ を求める</li>
-    <li>特解 $y_p$ を適当な方法（未定係数法など）で求める</li>
-    <li>一般解は $y = y_h + y_p$</li>
-  </ul>
-  <p>例：$y'' - 3y' + 2y = e^x$</p>
-  <p>演算子形式：$(D - 1)(D - 2)y = e^x$</p>
-  <p>右辺 $e^x$ は $D = 1$ に対応するので、$(D - 2)y = Ae^x$ と仮定し：</p>
-  <div class="mathblock">$$y_p = \frac{Ae^x}{D - 2} = \frac{e^x}{-1} = -e^x$$</div>
-  <p>同次解 $y_h = C_1e^x + C_2e^{2x}$ と合わせて：</p>
-  <div class="mathblock">$$y = C_1e^x + C_2e^{2x} - e^x$$</div>
-</div>
-
-<h3>利点</h3>
-<div class="conclusion">
-  <ul>
-    <li>代数的操作が可能</li>
-    <li>高次方程式にも応用可</li>
-    <li>体系的な解法</li>
-  </ul>
-</div>
-
-<h2>第4節：応用例</h2>
-
-<h3>バネ-質量系</h3>
-<div class="formula-box">
-  $$m\frac{d^2x}{dt^2} + c\frac{dx}{dt} + kx = 0$$
-  <p>$m$: 質量, $c$: 減衰係数, $k$: バネ定数</p>
-</div>
-
-<h3>LRC回路</h3>
-<div class="formula-box">
-  $$L\frac{d^2i}{dt^2} + R\frac{di}{dt} + \frac{1}{C}i = 0$$
-  <p>$L$: インダクタンス, $R$: 抵抗, $C$: 静電容量</p>
-</div>
-
-<h2>第5節：まとめ</h2>
-<div class="conclusion">
-  <p>判別式 $D = a^2 - 4b$ により解の型が決定：</p>
-  <ul>
-    <li>$D > 0$: $y = C_1e^{r_1x} + C_2e^{r_2x}$</li>
-    <li>$D = 0$: $y = (C_1 + C_2x)e^{rx}$</li>
-    <li>$D < 0$: $y = e^{\alpha x}(C_1\cos(\beta x) + C_2\sin(\beta x))$</li>
-  </ul>
-</div>
 
 </body>
 </html>
