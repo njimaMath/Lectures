@@ -1,244 +1,261 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>様々な分布と連続確率空間 — 発展版</title>
-
-    <!-- Base Styles -->
-    <style>
-        :root {
-            --primary: #1a237e;
-            --light-bg: #fafafa;
-        }
-
-        html {
-            box-sizing: border-box;
-        }
-        *, *::before, *::after {
-            box-sizing: inherit;
-        }
-
-        body {
-            margin: 0;
-            font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-            line-height: 1.7;
-            color: #212121;
-            background: var(--light-bg);
-        }
-
-        .container {
-            max-width: 960px;
-            margin: 0 auto;
-            padding: 2rem 1rem 4rem;
-            background: #fff;
-            border-radius: 12px;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
-        }
-
-        header h1 {
-            margin: 0 0 1rem;
-            font-size: 1.9rem;
-            text-align: center;
-            color: var(--primary);
-        }
-
-        h2 {
-            font-size: 1.45rem;
-            margin-top: 2.2rem;
-            margin-bottom: 0.8rem;
-            padding-left: 0.55rem;
-            border-left: 6px solid var(--primary);
-            color: var(--primary);
-        }
-
-        h3 {
-            font-size: 1.2rem;
-            margin: 1.6rem 0 0.6rem;
-            color: var(--primary);
-        }
-
-        .formula {
-            background: #f3f4ff;
-            border-left: 4px solid #5c6bc0;
-            padding: 0.8rem 1.2rem;
-            margin: 1.2rem 0;
-            border-radius: 8px;
-            overflow-x: auto;
-        }
-
-        nav.navigation {
-            display: flex;
-            justify-content: center;
-            gap: 0.8rem;
-            margin: 2.2rem 0;
-            padding-top: 1.5rem;
-            border-top: 1px solid #e0e0e0;
-            flex-wrap: wrap;
-        }
-        nav.navigation a {
-            padding: 0.65rem 1.5rem;
-            background: var(--primary);
-            color: #fff;
-            text-decoration: none;
-            border-radius: 6px;
-            transition: opacity 0.2s;
-        }
-        nav.navigation a:hover {
-            opacity: 0.85;
-        }
-
-        footer {
-            margin-top: 3rem;
-            font-size: 0.9rem;
-            color: #777;
-            text-align: center;
-        }
-
-        code {
-            background: #eceff1;
-            padding: 2px 4px;
-            border-radius: 4px;
-        }
-    </style>
-
-    <!-- MathJax -->
-    <script>
-        MathJax = {
-            tex: {
-                inlineMath: [["$", "$"]],
-                displayMath: [["$$", "$$"]]
-            },
-            chtml: { matchFontHeight: false }
-        };
-    </script>
-    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>様々な分布と連続確率空間</title>
+  <!-- Base Styles -->
+  <style>
+    :root {
+      --primary: #1a237e;
+      --light-bg: #fafafa;
+    }
+    html {
+      box-sizing: border-box;
+    }
+    *, *::before, *::after {
+      box-sizing: inherit;
+    }
+    body {
+      margin: 0;
+      font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+      line-height: 1.7;
+      color: #212121;
+      background: var(--light-bg);
+    }
+    .container {
+      max-width: 960px;
+      margin: 0 auto;
+      padding: 2rem 1rem 4rem;
+      background: #fff;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    }
+    header h1 {
+      margin: 0 0 1rem;
+      font-size: 1.9rem;
+      text-align: center;
+      color: var(--primary);
+    }
+    h2 {
+      font-size: 1.45rem;
+      margin-top: 2.2rem;
+      margin-bottom: 0.8rem;
+      padding-left: 0.55rem;
+      border-left: 6px solid var(--primary);
+      color: var(--primary);
+    }
+    h3 {
+      font-size: 1.2rem;
+      margin: 1.6rem 0 0.6rem;
+      color: var(--primary);
+    }
+    .formula {
+      background: #f3f4ff;
+      border-left: 4px solid #5c6bc0;
+      padding: 0.8rem 1.2rem;
+      margin: 1.2rem 0;
+      border-radius: 8px;
+      overflow-x: auto;
+    }
+    nav.navigation {
+      display: flex;
+      justify-content: center;
+      gap: 0.8rem;
+      margin: 2.2rem 0;
+      padding-top: 1.5rem;
+      border-top: 1px solid #e0e0e0;
+      flex-wrap: wrap;
+    }
+    nav.navigation a {
+      padding: 0.65rem 1.5rem;
+      background: var(--primary);
+      color: #fff;
+      text-decoration: none;
+      border-radius: 6px;
+      transition: opacity 0.2s;
+    }
+    nav.navigation a:hover {
+      opacity: 0.85;
+    }
+    footer {
+      margin-top: 3rem;
+      font-size: 0.9rem;
+      color: #777;
+      text-align: center;
+    }
+    code {
+      background: #eceff1;
+      padding: 2px 4px;
+      border-radius: 4px;
+    }
+  </style>
+  <!-- MathJax -->
+  <script>
+    MathJax = {
+      tex: {
+        inlineMath: [['$', '$']],
+        displayMath: [['$$', '$$']]
+      },
+      chtml: { matchFontHeight: false }
+    };
+  </script>
+  <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
 </head>
 <body>
-    <div class="container">
-        <header>
-            <h1>様々な分布と連続確率空間 — 発展版</h1>
-        </header>
+  <div class="container">
+    <header>
+      <h1>様々な分布と連続確率空間</h1>
+    </header>
 
-        <main>
-            <!-- **** 離散分布 **** -->
-            <section id="discrete">
-                <h2>離散型確率分布</h2>
 
-                <!-- 二項分布 -->
-                <article id="binomial">
-                    <h3>二項分布</h3>
-                    <p>
-                        試行回数を $n$、成功確率を $p$ とするとき、二項分布 $X\sim\mathrm{Bin}(n,p)$ の確率質量関数は
-                        $$P(X = k) = \binom{n}{k} p^{k} (1 - p)^{n-k}, \quad k = 0,1,\dots,n.$$
-                    </p>
-                    <p>期待値と分散:</p>
-                    <div class="formula">
-                        $$\mathbb E[X] = np, \qquad \mathrm{Var}(X) = np(1 - p).$$
-                    </div>
-                    <p>
-                        極限定理として、$n \to \infty$、$p \to 0$、かつ $\lambda = np$ を一定に保つと
-                        $$\mathrm{Bin}(n,p) \xrightarrow{\mathcal D} \mathrm{Poi}(\lambda).$$
-                    </p>
-                </article>
+    <!-- ********** 二項分布 ********** -->
+    <section id="binomial">
+      <h2>二項分布</h2>
+      <article>
+        <h3>n回コイン投げ</h3>
+        <p>
+          $\Omega = \{(x_1, \ldots, x_n) \mid x_i \in \{\text{表},\text{裏}\}\}$ とし、$P(\omega) = 2^{-n}$ と定める。
+        </p>
+        <p>
+          $X_i(\omega) = \begin{cases}1 & (x_i = \text{表}) \\ 0 & (x_i = \text{裏}) \end{cases}$ と置く。
+        </p>
+        <p><strong>定理</strong>： $X_i \perp X_j$（$i \ne j$）.</p>
+        <div class="formula">
+          $$P(X_i = 1, X_j = 1) = \frac{2^{n-2}}{2^{n}} = \frac14 = P(X_i = 1) P(X_j = 1).$$
+        </div>
+        <p>同様に他の場合も独立性が成り立つ。</p>
+        <p>
+          $S_n(\omega) = \sum_{i=1}^n X_i(\omega)$ は表が出た回数を表す。
+        </p>
+        <div class="formula">
+          $$P(S_n = k) = \binom{n}{k} 2^{-n}.$$
+        </div>
+      </article>
 
-                <!-- 幾何分布 -->
-                <article id="geometric">
-                    <h3>幾何分布</h3>
-                    <p>
-                        失敗が続いたのち最初の成功が現れる試行回数 $X$ は幾何分布 $\mathrm{Geo}(p)$ に従う。
-                        $$P(X = k) = (1 - p)^{k-1} p, \quad k = 1,2,\dots.$$
-                    </p>
-                    <p>
-                        期待値と分散:
-                    </p>
-                    <div class="formula">
-                        $$\mathbb E[X] = \frac{1}{p}, \qquad \mathrm{Var}(X) = \frac{1-p}{p^{2}}.$$
-                    </div>
-                    <p>
-                        幾何分布は<strong>記憶なし性質</strong>を持ち、$P(X>m+n \mid X>m)=P(X>n)$ が成り立つ。
-                    </p>
-                </article>
+      <article>
+        <h3>偏りのあるコイン投げ</h3>
+        <p>
+          表が出る確率を $p \in (0,1)$ とするとき、$P(\omega) = p^{\sharp\{i : x_i = \text{表}\}} (1 - p)^{\sharp\{i : x_i = \text{裏}\}}$ と定義する。
+        </p>
+        <div class="formula">
+          $$P(S_n = k) = \binom{n}{k} p^{k} (1 - p)^{n - k}.$$
+        </div>
+      </article>
 
-                <article id="poisson">
-                    <h3>ポアソン分布</h3>
-                    <p>
-                        平均パラメータ $\lambda > 0$ のポアソン分布 $X\sim\mathrm{Poi}(\lambda)$ の確率質量関数は
-                    </p>
-                    <div class="formula">
-                        $$P(X = k) = \frac{e^{-\lambda}\,\lambda^{k}}{k!}, \quad k \in \mathbb{N}.$$
-                    </div>
-                    <p>期待値と分散はいずれも $\lambda$ である。</p>
-                    <p>
-                        ポアソン分布は、$n$ 回の独立なベルヌーイ試行において成功確率 $p$ の事象が $k$ 回起こる確率を近似し、
-                        $$\mathrm{Poi}(\lambda) \approx \mathrm{Bin}(n,p) \quad (\lambda = np)$$
-                        として得られる（$n\to\infty, p\to0$ で $np$ を一定に保つ極限分布）。
-                    </p>
-                    <p><strong>身近に現れるポアソン分布の例：</strong></p>
-                    <ul>
-                        <li>一定時間内の電話着信件数</li>
-                        <li>道路上の交通事故発生件数</li>
-                        <li>ウェブサイトへのアクセス数（短時間スパン）</li>
-                        <li>製造ラインでの不良品発生数</li>
-                    </ul>
-                    <p><strong>なぜポアソン分布が現れるか：</strong><br>
-                        独立で稀な事象が多数集まる状況では、二項分布のパラメータ $n$ が大きく、成功確率 $p$ が小さい場合に
-                        二項分布の極限として自然に現れるためである。さらに、定常的に一定の平均発生率 $\lambda$ を持つ
-                        プロセス（いわゆるポアソン過程）の事象発生回数の分布としても導出できる。
-                    </p>
-                </article>
-            
-                <!-- 一様分布 -->
-                <article id="uniform">
-                    <h3>一様分布</h3>
-                    <p>
-                        区間 $[a,b]$ 上の連続一様分布 $X\sim U(a,b)$ は、\(a< b\) の下で確率密度関数が一定となる分布である。
-                    </p>
-                    <div class="formula">
-                        $$f(x)=
-                        \begin{cases}
-                            \displaystyle \frac{1}{b-a}, & a \le x \le b,\\[6pt]
-                            0, & \text{それ以外}.
-                        \end{cases}
-                        $$
-                    </div>
-                    <p>期待値と分散はそれぞれ</p>
-                    <div class="formula">
-                        $$\mathbb{E}[X]=\frac{a+b}{2}, \qquad
-                        \mathrm{Var}(X)=\frac{(b-a)^2}{12}.$$
-                    </div>
-                </article>
+      <article>
+        <h3>二項分布 $\mathrm{Bin}(n,p)$</h3>
+        <p>
+          確率変数 $X$ が
+          $$P(X = k) = \binom{n}{k} p^{k} (1 - p)^{n - k}, \quad k = 0,1,\dots,n$$
+          を満たすとき、$X$ は母数 $(n,p)$ の二項分布に従うという。
+        </p>
+        <div class="formula">
+          $$\mathbb{E}[X] = np, \qquad \mathrm{Var}(X) = np(1 - p).$$
+        </div>
+      </article>
+    </section>
 
-            <!-- **** 連続確率空間の一般形 **** -->
-            <section id="continuous-space">
-                <h2>連続確率空間の一般形</h2>
-                <p>
-                    $\Omega \subset \mathbb R^{d}$ を可測集合、確率密度関数 $p: \Omega \to \mathbb R$ を $$\int_{\Omega} p(x)\,\mathrm d x = 1$$ を満たす関数とする。
-                </p>
-                <p>
-                    可測集合 $A \subset \Omega$ の確率は
-                </p>
-                <div class="formula">
-                    $$\mathbb P(A) = \int_{A} p(x)\,\mathrm d x.$$
-                </div>
-                <p>
-                    従って $(\Omega, \mathcal B(\Omega), \mathbb P)$ を<strong>連続確率空間</strong>と呼ぶ。可測写像 $X: \Omega \to \mathbb R$ を確率変数とし、分布関数を
-                </p>
-                <div class="formula">
-                    $$F_X(x) = \mathbb P(X \le x).$$
-                </div>
-            </section>
+    <!-- ********** 幾何分布 ********** -->
+    <section id="geometric">
+      <h2>幾何分布</h2>
+      <p>
+        失敗が続いたのち最初の成功が現れる試行回数 $X$ は幾何分布 $\mathrm{Geo}(p)$ に従う：
+      </p>
+      <div class="formula">
+        $$P(X = k) = (1 - p)^{k - 1} p, \quad k = 1,2,\dots.$$
+      </div>
+      <div class="formula">
+        $$\mathbb{E}[X] = \frac{1}{p}, \qquad \mathrm{Var}(X) = \frac{1 - p}{p^{2}}.$$
+      </div>
+      <p>
+        幾何分布は<strong>記憶なし性質</strong>を持ち、$P(X > m + n \mid X > m) = P(X > n)$ が成り立つ。
+      </p>
+    </section>
 
-        <!-- Navigation -->
-        <nav class="navigation">
-            <a href="class4.html">← 前のクラス</a>
-            <a href="../index.html">ホーム</a>
-            <a href="class6.html">次のクラス →</a>
-        </nav>
+    <!-- ********** ポアソン分布 ********** -->
+    <section id="poisson">
+      <h2>ポアソン分布</h2>
+      <p>$\lambda > 0$ を取る。確率変数 $X$ が次を満たすとき、$X \sim \mathrm{Poi}(\lambda)$ と書く：</p>
+      <div class="formula">
+        $$P(X = k) = \frac{e^{-\lambda} \lambda^{k}}{k!}, \quad k \in \mathbb{N}.$$
+      </div>
+      <div class="formula">
+        $$\mathbb{E}[X] = \lambda, \qquad \mathrm{Var}(X) = \lambda.$$
+      </div>
+      <h3>ポアソン近似</h3>
+      <p>二項分布 $\mathrm{Bin}(n, \lambda / n)$ の極限として現れる：</p>
+      <div class="formula">
+        $$\lim_{n \to \infty} P(\mathrm{Bin}(n, \tfrac{\lambda}{n}) = k) = \frac{e^{-\lambda} \lambda^{k}}{k!}.$$
+      </div>
+      <h3>身近な例</h3>
+      <ul>
+        <li>一定時間内の電話着信件数</li>
+        <li>道路上の交通事故発生件数</li>
+        <li>ウェブサイトへのアクセス数（短時間スパン）</li>
+        <li>製造ラインでの不良品発生数</li>
+        <li>一定期間内の地震発生回数</li>
+      </ul>
+      <p><strong>なぜポアソン分布が現れるか（地震の例）：</strong><br>
+        1年間の地震の発生回数を表す確率変数を $S$ とする。<br>
+        $$X_n = \begin{cases}1 & n\text{日目に地震が起きる} \\\\ 0 & n\text{日目に地震が起きない} \end{cases}$$
+        とすれば、<br>
+        $$S = \sum_{n=1}^{365} X_n.$$ 
+        ここで $X_n$ は独立な $\mathrm{Ber}(\lambda/365)$ に従うと仮定すると、
+        ポアソンの少数の法則より
+        $$P(S = k) = P\left(\sum X_n = k\right) \approx e^{-\lambda} \frac{\lambda^k}{k!}.$$
+      </p>
+    </section>
 
-        <footer>
-            <p>© 2025 確率論講義 — All rights reserved.</p>
-        </footer>
-    </div>
+    <!-- ********** 一様分布 ********** -->
+    <section id="uniform">
+      <h2>一様分布</h2>
+      <p>$\Omega = [0,1]$ とし、可測集合 $A \subset [0,1]$ に対して $P(A) = \int_{A} 1 \, d\omega$ と定める。</p>
+      <p>確率変数 $X(\omega) = \omega$ とすると、区間 $[s,t] \subset [0,1]$ に対して</p>
+      <div class="formula">
+        $$P(s \le X \le t) = t - s.$$
+      </div>
+      <p>期待値と二乗期待値はそれぞれ</p>
+      <div class="formula">
+        $$\mathbb{E}[X] = \frac{1}{2}, \qquad \mathbb{E}[X^{2}] = \frac{1}{3}.$$
+      </div>
+      <h3>区間 $[a,b]$ 上の一様分布</h3>
+      <p>$b > a$ に対し、$P(s \le X \le t) = \dfrac{t - s}{b - a}$ となる分布を一様分布 $\mathrm U(a,b)$ という。</p>
+      <div class="formula">
+        $$\mathbb{E}[X] = \frac{a + b}{2}, \qquad \mathrm{Var}(X) = \frac{(b - a)^{2}}{12}.$$
+      </div>
+    </section>
+
+    <!-- ********** 連続確率空間の一般形 ********** -->
+    <section id="continuous-space">
+      <h2>連続確率空間の一般形</h2>
+      <p>$\Omega \subset \mathbb R^{d}$ を可測集合、確率密度関数 $p : \Omega \to \mathbb R$ を</p>
+      <div class="formula">
+        $$\int_{\Omega} p(x)\, \mathrm d x = 1$$
+      </div>
+      <p>を満たす関数とする。</p>
+      <p>可測集合 $A \subset \Omega$ の確率は</p>
+      <div class="formula">
+        $$\mathbb P(A) = \int_{A} p(x)\, \mathrm d x.$$
+      </div>
+      <p>
+        よって $(\Omega, \mathcal B(\Omega), \mathbb P)$ を<strong>連続確率空間</strong>と呼ぶ。可測写像 $X : \Omega \to \mathbb R$ を確率変数とし、分布関数を
+      </p>
+      <div class="formula">
+        $$F_X(x) = \mathbb P(X \le x).$$
+      </div>
+    </section>
+
+    <!-- Navigation -->
+    <nav class="navigation">
+      <a href="class4.html">← 前のクラス</a>
+      <a href="../index.html">ホーム</a>
+      <a href="class6.html">次のクラス →</a>
+    </nav>
+
+    <footer>
+      <p>© 2025 確率論講義 — All rights reserved.</p>
+    </footer>
+  </div>
 </body>
 </html>
