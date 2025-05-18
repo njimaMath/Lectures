@@ -80,12 +80,29 @@
     th {
       background: #f0f0f0;
     }
+    .example-figure {
+      display: flex;
+      justify-content: space-around;
+      flex-wrap: wrap;
+      margin: 20px 0;
+    }
+    .figure-item {
+      text-align: center;
+      margin: 10px;
+      width: 30%;
+    }
+    .figure-item img {
+      max-width: 100%;
+      height: auto;
+    }
+    .figure-caption {
+      font-size: 0.9em;
+      margin-top: 5px;
+    }
   </style>
 </head>
 <body>
-
 <h1>微分方程式講義ノート</h1>
-
 <h2>第1節：解法の基本</h2>
 <div class="note">
   <p>主な解法一覧：</p>
@@ -97,36 +114,91 @@
     <tr><td>演算子法</td><td>定係数線形方程式に有効</td></tr>
   </table>
 </div>
-
+<h2>線形微分方程式と非線形微分方程式</h2>
+<div class="formula-box">
+  <p><strong>線形微分方程式</strong>: $y_1, y_2$が解ならば$ay_1+by_2$も解となる方程式</p>
+  <div class="mathblock">$$y'' + ay' + by = 0$$</div>
+  <p>特徴: 未知関数とその導関数が1次式で表されている</p>
+  
+  <p><strong>非線形微分方程式</strong>: 未知関数やその導関数が非線形に現れる方程式</p>
+  <div class="mathblock">$$y' = y^2$$</div>
+  <p>特徴: 解の重ね合わせが成り立たない</p>
+</div>
 <h2>第2節：2階線形同次微分方程式</h2>
-
 <h3>一般形と特性方程式</h3>
 <div class="formula-box">
   <div class="mathblock">$$y'' + ay' + by = 0$$</div>
-  <p>対応する特性方程式：</p>
+  <p>現象の例:</p>
+  <div class="example-figure">
+    <div class="figure-item">
+      <svg width="100" height="100" viewBox="0 0 100 100">
+        <circle cx="50" cy="50" r="40" stroke="#3498db" stroke-width="2" fill="none" />
+        <circle cx="50" cy="50" r="5" fill="#e74c3c" />
+        <line x1="50" y1="50" x2="80" y2="30" stroke="#2c3e50" stroke-width="2" />
+        <path d="M 70 15 Q 85 25 75 40" stroke="#27ae60" stroke-width="2" fill="none" stroke-dasharray="4" />
+      </svg>
+      <div class="figure-caption">空気抵抗を受ける運動<br>$mx'' = -\rho x'$</div>
+    </div>
+    <div class="figure-item">
+      <svg width="100" height="100" viewBox="0 0 100 100">
+        <line x1="10" y1="50" x2="90" y2="50" stroke="#3498db" stroke-width="2" />
+        <rect x="40" y="40" width="20" height="20" fill="#e74c3c" />
+        <line x1="50" y1="40" x2="50" y2="20" stroke="#2c3e50" stroke-width="2" />
+        <path d="M 50 20 L 50 10 L 60 10 L 60 20" fill="none" stroke="#2c3e50" stroke-width="2" />
+        <path d="M 50 10 Q 70 10 70 30" stroke="#27ae60" stroke-width="2" fill="none" stroke-dasharray="4" />
+      </svg>
+      <div class="figure-caption">単振動<br>$mx'' = -kx$</div>
+    </div>
+    <div class="figure-item">
+      <svg width="100" height="100" viewBox="0 0 100 100">
+        <rect x="10" y="40" width="20" height="20" fill="#3498db" />
+        <rect x="70" y="40" width="20" height="20" fill="#3498db" />
+        <path d="M 30 50 L 40 50 C 45 30 55 70 60 50 L 70 50" stroke="#2c3e50" stroke-width="2" fill="none" />
+        <path d="M 40 30 L 60 30" stroke="#e74c3c" stroke-width="2" />
+        <path d="M 50 30 L 50 20" stroke="#e74c3c" stroke-width="2" />
+        <circle cx="50" cy="15" r="5" fill="#e74c3c" />
+      </svg>
+      <div class="figure-caption">電気回路<br>$LI'' + RI' + \frac{1}{C}I = 0$</div>
+    </div>
+  </div>
+  
+  <p>解法: $y = e^{\alpha x}$ を代入すると:</p>
+  <div class="mathblock">$$y'' + ay' + by = (\alpha^2 + a\alpha + b)e^{\alpha x} = 0 \Rightarrow \alpha^2 + a\alpha + b = 0$$</div>
+  <p>特性方程式：</p>
   <div class="mathblock">$$r^2 + ar + b = 0$$</div>
 </div>
-
 <h3>判別式による分類と解</h3>
-
+<div class="note">
+  <p>判別式 $D = a^2 - 4b$ により解の形が決まる</p>
+</div>
 <h4>実数重解 $D = 0$</h4>
 <div class="steps">
-  $$y = (C_1 + C_2x)e^{rx}$$
+  <p>特性方程式の解が重解 $r = -\frac{a}{2}$ の場合：</p>
+  <div class="mathblock">$$y = (C_1 + C_2x)e^{rx}$$</div>
+  <p>例: $y'' + 4y' + 4y = 0$ の場合、$r = -2$ が重解となり、解は $y = (C_1 + C_2x)e^{-2x}$</p>
 </div>
-
 <h4>異なる実数解 $D > 0$</h4>
 <div class="steps">
-  $$y = C_1e^{r_1x} + C_2e^{r_2x}$$
+  <p>特性方程式の解が $r_1 \neq r_2$ の場合：</p>
+  <div class="mathblock">$$y = C_1e^{r_1x} + C_2e^{r_2x}$$</div>
+  <p>例: $y'' - y' - 6y = 0$ の場合、$r_1 = 3, r_2 = -2$ となり、解は $y = C_1e^{3x} + C_2e^{-2x}$</p>
 </div>
-
 <h4>複素共役解 $D < 0$</h4>
 <div class="steps">
-  $$y = e^{\alpha x}(C_1\cos(\beta x) + C_2\sin(\beta x))$$
+  <p>特性方程式の解が $\alpha \pm \beta i$ の場合：</p>
+  <p>まず $e^{(\alpha \pm \beta i)x} = e^{\alpha x}(\cos(\beta x) \pm i\sin(\beta x))$ となる。実数解を求めるには複素数解の線形結合を考える：</p>
+  <div class="mathblock">
+    \begin{align}
+    y &= A e^{(\alpha + \beta i)x} + B e^{(\alpha - \beta i)x} \\
+    &= A e^{\alpha x}(\cos(\beta x) + i\sin(\beta x)) + B e^{\alpha x}(\cos(\beta x) - i\sin(\beta x)) \\
+    &= e^{\alpha x}[(A+B)\cos(\beta x) + i(A-B)\sin(\beta x)]
+    \end{align}
+  </div>
+  <p>$A+B = C_1$, $i(A-B) = C_2$ とおくと：</p>
+  <div class="mathblock">$$y = e^{\alpha x}(C_1\cos(\beta x) + C_2\sin(\beta x))$$</div>
+  <p>例: $y'' + 2y' + 5y = 0$ の場合、$\alpha = -1, \beta = 2$ となり、解は $y = e^{-x}(C_1\cos(2x) + C_2\sin(2x))$</p>
 </div>
-
-
 <h2>第3節：微分演算子法</h2>
-
 <h3>定義と基本性質</h3>
 <div class="formula-box">
   <p>微分演算子 $D := \frac{d}{dx}$ を導入する。</p>
@@ -136,7 +208,6 @@
     $$
   </div>
 </div>
-
 <h3>演算子としての利用と書き換え</h3>
 <div class="formula-box">
   <p>例：</p>
@@ -146,20 +217,17 @@
     $$
   </div>
 </div>
-
 <div class="note">
   <p>ポイント：$D$ を数のように扱い、因数分解できる場合はそれを利用する。</p>
 </div>
-
 <div class="formula-box">
   <p>例題：</p>
   <div class="mathblock">
     $$
-    y'' + 2y + 1 = (D^2 + 2D + 1)y = (D+1)^2 y
+    y'' + 2y' + y = (D^2 + 2D + 1)y = (D+1)^2 y
     $$
   </div>
 </div>
-
 <div class="formula-box">
   <p>一般形：</p>
   <div class="mathblock">
@@ -174,7 +242,6 @@
     $$
   </div>
 </div>
-
 <h3>解法手順</h3>
 <div class="steps">
   <p>Step 1: $z = (D - \beta)y$ とおくと：</p>
@@ -184,10 +251,8 @@
     $$
   </div>
   <p>これは一次線形常微分方程式である。</p>
-
   <p>Step 2: $z = (D - \beta)y$ を使って $y$ を求める。</p>
 </div>
-
 <h3>例題</h3>
 <div class="formula-box">
   <p>方程式：</p>
@@ -196,16 +261,56 @@
     y'' - y' - 2y = 1
     $$
   </div>
-  <p>演算子形式：$(D - 2)(D + 1)y = 1$</p>
+  <p>演算子形式：$(D^2 - D - 2)y = 1$</p>
+  <p>特性方程式：$r^2 - r - 2 = 0 \Rightarrow (r-2)(r+1) = 0 \Rightarrow r = 2, -1$</p>
+  <p>よって $(D^2 - D - 2) = (D - 2)(D + 1)$</p>
   <p>Step 1: $z = (D + 1)y$ とおくと：</p>
   <div class="mathblock">
     $$
     (D - 2)z = 1 \Rightarrow z' - 2z = 1
     $$
   </div>
-  <p>Step 2: $z = (D + 1)y = y' + y \Rightarrow y' + y = g(x)$ の形</p>
+  <p>これは一次線形微分方程式で、積分因子は $e^{-2x}$ となる：</p>
+  <div class="mathblock">
+    \begin{align}
+    e^{-2x}z' - 2e^{-2x}z &= e^{-2x} \\
+    \frac{d}{dx}(e^{-2x}z) &= e^{-2x} \\
+    e^{-2x}z &= -\frac{1}{2}e^{-2x} + C_1 \\
+    z &= -\frac{1}{2} + C_1e^{2x}
+    \end{align}
+  </div>
+  <p>Step 2: $z = (D + 1)y = y' + y$ なので：</p>
+  <div class="mathblock">
+    \begin{align}
+    y' + y &= -\frac{1}{2} + C_1e^{2x} \\
+    \end{align}
+  </div>
+  <p>これも一次線形微分方程式で、積分因子は $e^{x}$ となる：</p>
+  <div class="mathblock">
+    \begin{align}
+    e^{x}y' + e^{x}y &= -\frac{1}{2}e^{x} + C_1e^{3x} \\
+    \frac{d}{dx}(e^{x}y) &= -\frac{1}{2}e^{x} + C_1e^{3x} \\
+    e^{x}y &= -\frac{1}{2}e^{x} + \frac{C_1}{3}e^{3x} + C_2 \\
+    y &= -\frac{1}{2} + \frac{C_1}{3}e^{2x} + C_2e^{-x}
+    \end{align}
+  </div>
+  <p>よって非斉次方程式 $y'' - y' - 2y = 1$ の一般解は：</p>
+  <div class="mathblock">
+    $$
+    y = -\frac{1}{2} + C_1e^{2x} + C_2e^{-x}
+    $$
+  </div>
+  <p>ここで $-\frac{1}{2}$ は特殊解、$C_1e^{2x} + C_2e^{-x}$ は同次方程式の一般解である。</p>
 </div>
-
-
+<div class="conclusion">
+  <p>微分演算子法のまとめ：</p>
+  <ol>
+    <li>微分方程式を演算子形式 $(D^2 + aD + b)y = f(x)$ に書き換える</li>
+    <li>演算子多項式を因数分解 $(D - \alpha)(D - \beta)$ の形にする</li>
+    <li>置換 $z = (D - \beta)y$ を行い、一次方程式に帰着させる</li>
+    <li>段階的に解いていく</li>
+  </ol>
+  <p>この方法は特に定係数線形微分方程式に有効である。</p>
+</div>
 </body>
 </html>
