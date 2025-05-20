@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>微分法入門</title>
+    <style>
+        body {
+            font-family: 'Hiragino Sans', 'Meiryo', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f9f9f9;
+        }
+        h1, h2, h3 {
+            color: #1a237e;
+            margin-top: 1.5em;
+        }
+        h1 {
+            text-align: center;
+            border-bottom: 2px solid #1a237e;
+            padding-bottom: 10px;
+            margin-bottom: 30px;
+        }
+        h2 {
+            border-left: 5px solid #1a237e;
+            padding-left: 15px;
+        }
+        .formula {
+            background-color: #f0f0f8;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 15px 0;
+            overflow-x: auto;
+            text-align: center;
+            font-size: 1.1em;
+            font-family: 'Latin Modern Math', 'Cambria Math', serif;
+        }
+        .note {
+            background-color: #e8f5e9;
+            border-left: 4px solid #4caf50;
+            padding: 10px 15px;
+            margin: 15px 0;
+        }
+        .example {
+            background-color: #e3f2fd;
+            border-left: 4px solid #2196f3;
+            padding: 10px 15px;
+            margin: 15px 0;
+        }
+        .theorem {
+            background-color: #e8f4f8;
+            padding: 15px;
+            border-left: 5px solid #3498db;
+            margin: 20px 0;
+        }
+        .proof {
+            background-color: #f8f9fa;
+            padding: 15px;
+            border-left: 5px solid #7f8c8d;
+            margin: 20px 0;
+        }
+        code {
+            font-family: 'Courier New', Courier, monospace;
+            background-color: #f1f1f1;
+            padding: 2px 5px;
+            border-radius: 3px;
+        }
+    </style>
+    <!-- KaTeX for rendering math -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.10/dist/katex.min.css" integrity="sha384-wcIxkf4k558fYv3mQPFEpCREUQueRFCZrCXCtiKU8aNVbN9ODdVcN3BwCAJ6pcBb" crossorigin="anonymous">
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.10/dist/katex.min.js" integrity="sha384-hIoBPJpTUs74ddyc4bFZSM1TVlQDA60VBbJS0oA934VSz82sBx1X7kSx2ATBDIyd" crossorigin="anonymous"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.10/dist/contrib/auto-render.min.js" integrity="sha384-43gviWU0YVjaDtb/GhzOouOXtZMP/7XUzwPTstBeZFe/+rCMvRwr4yROQP43s0Xk" crossorigin="anonymous"
+        onload="renderMathInElement(document.body);"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            renderMathInElement(document.body, {
+                delimiters: [
+                    {left: '$$', right: '$$', display: true},
+                    {left: '$', right: '$', display: false}
+                ]
+            });
+        });
+    </script>
+</head>
+<body>
+    <h1>平均値の定理とテイラーの定理</h1>
+
+    <h2>テイラー多項式</h2>
+    <p>点 $x=a$ の周りの $n$ 次テイラー多項式を次で定義します。</p>
+    <div class="formula">$$T_n(x)=\sum_{k=0}^{n}\frac{f^{(k)}(a)}{k!}(x-a)^k$$</div>
+
+    <div class="example">
+        <p><strong>例&nbsp;1.</strong> $f(x)=e^x$，$a=0$ の場合：</p>
+        <div class="formula">$$T_3(x)=1+x+\frac{x^{2}}{2}+\frac{x^{3}}{6}$$</div>
+    </div>
+    <div class="example">
+        <p><strong>例&nbsp;2.</strong> $f(x)=\ln(1+x)$，$a=0$ の場合：</p>
+        <div class="formula">$$T_3(x)=x-\frac{x^{2}}{2}+\frac{x^{3}}{3}$$</div>
+    </div>
+    <div class="example">
+        <p><strong>例&nbsp;3.</strong> $f(x)=\cos x$，$a=0$ の場合：</p>
+        <div class="formula">$$T_4(x)=1-\frac{x^{2}}{2}+\frac{x^{4}}{24}$$</div>
+    </div>
+
+    <div class="note">
+        <p><strong>目標：</strong> テイラーの定理を用いて $|f(x)-T_n(x)|$ の誤差を評価します。</p>
+    </div>
+
+    <h2>コーシーの平均値の定理</h2>
+    <div class="theorem">
+        <p><strong>補題（ロルの定理）</strong> &nbsp;証明は省略します。</p>
+    </div>
+    <div class="theorem">
+        <p><strong>定理（コーシーの平均値の定理）</strong></p>
+        <p>$f,g$ を $[a,b]$ で連続，$(a,b)$ で微分可能とし，$g'(x)\neq 0$ が成り立つとします。このとき，ある $c\in(a,b)$ が存在して</p>
+        <div class="formula">$$\frac{f(b)-f(a)}{g(b)-g(a)}=\frac{f'(c)}{g'(c)}$$</div>
+    </div>
+    <div class="proof">
+        <p>証明：$\displaystyle \varphi(x)=\frac{f(b)-f(a)}{g(b)-g(a)}\bigl(g(x)-g(a)\bigr)-\bigl(f(x)-f(a)\bigr)$ と置くと $\varphi(a)=\varphi(b)=0$ となります。ロルの定理を適用すれば $\varphi'(c)=0$ を与え，整理して上式が得られます。</p>
+    </div>
+
+    <div class="theorem">
+        <p><strong>ロピタルの定理</strong></p>
+        <p>$f,g\in C^{1}$ で $g'(a)\neq 0$ とします。$\displaystyle\lim_{x\to a}\frac{f(x)}{g(x)}$ が不定形 $\tfrac{0}{0}$ または $\tfrac{\infty}{\infty}$ ならば，</p>
+        <div class="formula">$$\lim_{x\to a}\frac{f(x)}{g(x)}=\lim_{x\to a}\frac{f'(x)}{g'(x)},$$</div>
+        <p>ただし右辺の極限が存在する場合に限ります。</p>
+    </div>
+
+    <h2>テイラーの定理とその応用</h2>
+    <div class="theorem">
+        <p><strong>テイラーの定理</strong></p>
+        <p>$f$ が $I$ 上で $(n+1)$ 回微分可能とし，$a\in I$ とします。任意の $x\in I$ に対して，ある $\xi$ が $a$ と $x$ の間に存在し</p>
+        <div class="formula">$$f(x)=T_n(x)+\frac{f^{(n+1)}(\xi)}{(n+1)!}(x-a)^{n+1}$$</div>
+        <p>が成り立ちます。</p>
+    </div>
+
+    <div class="example">
+        <p><strong>応用&nbsp;1.</strong> 自然対数の底 $e$ の近似誤差：</p>
+        <p>点 $a=1$ で $n=3$ とし，$f(x)=e^{x}$ にテイラーの定理を適用すると</p>
+        <div class="formula">$$|e-T_3(1)|\le\frac{e}{4!}<\frac{3}{4!}\approx 0.125$$</div>
+    </div>
+
+    <div class="example">
+        <p><strong>応用&nbsp;2.</strong> $\cos(0.01)-1$ の評価：</p>
+        <p>$a=0$，$n=4$ とし，$f(x)=\cos x$ について</p>
+        <div class="formula">$$|\cos(0.01)-T_4(0.01)|\le \frac{|f^{(5)}(\xi)|}{5!}|0.01|^{5}\le \frac{1}{120}\times 10^{-10}\approx 8.3\times10^{-13},$$</div>
+        <p>従って $\displaystyle\cos(0.01)-1\approx -\frac{0.01^{2}}{2}+\frac{0.01^{4}}{24}\approx -4.999\times10^{-5}$ となります。</p>
+    </div>
+
+    <h2>テイラーの定理の証明</h2>
+    <p>$f_n(x)=f(x)-T_n(x)$ とおきます。$T_n^{(k)}(a)=f^{(k)}(a)$ が $k\le n$ で成立していることから，$f_n^{(k)}(a)=0$ が $k\le n$ で分かります。</p>
+    <p>$g(x)=(x-a)^{n+1}$ とし，コーシーの平均値の定理を $n$ 回適用すると，ある $\xi$ が $a$ と $x$ の間に存在して</p>
+    <div class="formula">$$\frac{f_n^{(n)}(\xi)}{g^{(n)}(\xi)}=\frac{f_n^{(n+1)}(\xi)}{g^{(n+1)}(\xi)}.$$
+    </div>
+    <p>これを整理すればテイラーの定理の剰余項表現を得ます。</p>
+
+</body>
+</html>
