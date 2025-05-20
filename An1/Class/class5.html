@@ -219,23 +219,17 @@
             padding: 2px 5px;
             border-radius: 3px;
         }
-    </style>
-    <!-- KaTeX for rendering math -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.10/dist/katex.min.css" integrity="sha384-wcIxkf4k558fYv3mQPFEpCREUQueRFCZrCXCtiKU8aNVbN9ODdVcN3BwCAJ6pcBb" crossorigin="anonymous">
-    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.10/dist/katex.min.js" integrity="sha384-hIoBPJpTUs74ddyc4bFZSM1TVlQDA60VBbJS0oA934VSz82sBx1X7kSx2ATBDIyd" crossorigin="anonymous"></script>
-    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.10/dist/contrib/auto-render.min.js" integrity="sha384-43gviWU0YVjaDtb/GhzOouOXtZMP/7XUzwPTstBeZFe/+rCMvRwr4yROQP43s0Xk" crossorigin="anonymous"
-        onload="renderMathInElement(document.body);"></script>
-    <script>
-        document.addEventListener("DOMContentLoaded", function() {
-            renderMathInElement(document.body, {
-                // customised options
-                delimiters: [
-                    {left: '$$', right: '$$', display: true},
-                    {left: '$', right: '$', display: false}
-                ]
-            });
-        });
-    </script>
+    </style><!-- MathJax v3 -->
+<script>
+  MathJax = {
+    tex: {
+      inlineMath: [['$', '$'], ['\\(', '\\)']],
+      displayMath: [['$$', '$$'], ['\\[', '\\]']]
+    }
+  };
+</script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js" async></script>
+
 </head>
 <body>
     <h1>微分法入門</h1>
@@ -244,17 +238,50 @@
     <div class="formula">
       $\frac{d}{dx}\cos(x) = -\sin(x),\quad \frac{d}{dx}\sin(x) = \cos(x)$
     </div>
-    <p>三角関数の導関数は非常に基本的で、周期関数の微分の直観的理解に役立ちます。</p>
+    <p>三角関数の導関数は非常に基本的で、周期関数の微分の直観的理解に役立つ。</p>
+    
+    <div class="figure">
+        <img src="figures/unit_circle_cos_sin.svg" alt="単位円上の cos と sin">
+        <figcaption>単位円上での cos と sin の幾何学的解釈</figcaption>
+    </div>
+    
+    <div class="figure">
+        <img src="figures/sin_graph.svg" alt="sin(x) のグラフ">
+        <figcaption>sin(x) のグラフと導関数 cos(x)</figcaption>
+    </div>
+    
+    <div class="figure">
+        <img src="figures/cos_graph.svg" alt="cos(x) のグラフ">
+        <figcaption>cos(x) のグラフと導関数 -sin(x)</figcaption>
+    </div>
+
+     <div class="definition">
+     定義: $\tan(x) :=  \frac{\sin(x)}{\cos(x)}$.
+    </div>
     <div class="theorem">
-      <strong>定理:</strong> $\displaystyle \frac{d}{dx}\tan(x) = \frac{1}{\cos^2(x)}$
+      <strong>定理:</strong> $\displaystyle \frac{d}{dx}\tan(x) = \frac{1}{\cos^2(x)}$.
     </div>
     <div class="proof">
       <strong>証明:</strong> $\tan(x) = \frac{\sin(x)}{\cos(x)}$ の商の微分公式を用いれば、<br>
       $\displaystyle \frac{d}{dx} \tan(x) = \frac{\cos(x)\cos(x) + \sin(x)\sin(x)}{\cos^2(x)} = \frac{1}{\cos^2(x)}$
     </div>
-  
+
+    <div class="figure">
+        <img src="figures/tan_graph.svg" alt="tan(x) のグラフ">
+        <figcaption>tan(x) のグラフ</figcaption>
+    </div>  
     <h2>2. 逆三角関数</h2>
   
+    <div class="figure">
+        <img src="figures/relation.png" alt="sin と arcsin の関係">
+        <figcaption>sin(x) と arcsin(x) の関係（逆関数）</figcaption>
+    </div>
+
+    <div class="figure">
+        <img src="figures/arcsin_graph.svg" alt="arcsin のグラフ">
+        <figcaption>arcsin(x) のグラフと定義域 [-1,1]</figcaption>
+    </div>
+
     <h3>arcsin</h3>
     <div class="theorem">
       任意の $a \in [-1,1]$ について、ある $b \in [-\pi/2, \pi/2]$ がただ一つ存在して $\sin(b) = a$ となる。これを $\arcsin(a)$ と定義する。
@@ -282,13 +309,23 @@
   
     <h3>arccos</h3>
     <p>同様に、$\cos(x)$ の定義域を $[0,\pi]$ に制限すれば、逆関数 $\arccos(x)$ が定義される。</p>
+    
+    <div class="figure">
+        <img src="figures/arccos_graph.svg" alt="arccos のグラフ">
+        <figcaption>arccos(x) のグラフと定義域 [-1,1]</figcaption>
+    </div>
+
     <div class="theorem">
       $\displaystyle \frac{d}{dx} \arccos(x) = -\frac{1}{\sqrt{1 - x^2}}$
     </div>
   
     <h3>arctan</h3>
     <p>$\tan(x)$ の定義域 $(-\pi/2, \pi/2)$ 上で単調増加なので逆関数 $\arctan(x)$ が定義される。</p>
-    <p>導関数の計算は演習とする。</p>
+
+    <div class="figure">
+        <img src="figures/arctan_graph.svg" alt="arctan のグラフ">
+        <figcaption>arctan(x) のグラフ（全実数で定義される）</figcaption>
+    </div>
   
     <h2>3. 双曲線関数</h2>
   
@@ -296,7 +333,22 @@
     <div class="formula">
       $\sinh(x) := \frac{e^x - e^{-x}}{2},\quad \cosh(x) := \frac{e^x + e^{-x}}{2},\quad \tanh(x) := \frac{\sinh(x)}{\cosh(x)}$
     </div>
-  
+
+    <div class="figure">
+        <img src="figures/sinh_graph.svg" alt="sinh のグラフ">
+        <figcaption>sinh(x) のグラフ</figcaption>
+    </div>
+
+    <div class="figure">
+        <img src="figures/cosh_graph.svg" alt="cosh のグラフ">
+        <figcaption>cosh(x) のグラフ（x=0 で最小値 1）</figcaption>
+    </div>
+
+    <div class="figure">
+        <img src="figures/tanh_graph.svg" alt="tanh のグラフ">
+        <figcaption>tanh(x) のグラフ（±1 に漸近）</figcaption>
+    </div>
+
     <h3>三角関数との関係</h3>
     <div class="formula">
       $\frac{d}{dx} \sinh(x) = \cosh(x),\quad \frac{d}{dx} \cosh(x) = \sinh(x)$
@@ -304,7 +356,9 @@
     <div class="theorem">
       $\cosh^2(x) - \sinh^2(x) = 1$
     </div>
-  
+  <div class ="definition">
+  定義: $\tanh(x) : = \frac{\sinh(x)}{\cosh(x)}$
+  </div>
     <h2>4. 高階微分</h2>
     <h3>定義</h3>
     <p>1回以上の導関数：</p>
