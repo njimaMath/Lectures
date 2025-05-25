@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>微分方程式講義ノート</title>
+  <script>
+    MathJax = {
+      tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']],
+        displayMath: [['$$', '$$'], ['\\[', '\\]']]
+      },
+      svg: { fontCache: 'global' }
+    };
+  </script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-svg.js" defer></script>
+  <style>
+    body {
+      font-family: 'Noto Sans JP', sans-serif;
+      background: #f9f9f9;
+      color: #333;
+      max-width: 900px;
+      margin: auto;
+      padding: 20px;
+      line-height: 1.6;
+    }
+    h1, h2, h3, h4 {
+      margin-top: 30px;
+    }
+    h1 {
+      text-align: center;
+      color: #1a5276;
+      border-bottom: 2px solid #1a5276;
+      padding-bottom: 10px;
+    }
+    h2 {
+      color: #2874a6;
+      border-left: 5px solid #2874a6;
+      padding-left: 10px;
+    }
+    h3 {
+      color: #3498db;
+    }
+    .formula-box, .steps, .note, .conclusion {
+      margin: 15px 0;
+      padding: 15px;
+      border-radius: 5px;
+    }
+    .formula-box {
+      background: #e8f4fc;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+    .steps {
+      background: #f2f9f1;
+      border-left: 3px solid #27ae60;
+    }
+    .note {
+      background: #fff3e0;
+      border-left: 3px solid #ff9800;
+    }
+    .conclusion {
+      background: #e8f8f5;
+      border-left: 3px solid #1abc9c;
+    }
+    .mathblock {
+      font-family: 'Times New Roman', serif;
+      text-align: center;
+      margin: 15px 0;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 10px;
+    }
+    th, td {
+      padding: 8px;
+      text-align: center;
+      border-bottom: 1px solid #ccc;
+    }
+    th {
+      background: #f0f0f0;
+    }
+    .example-figure {
+      display: flex;
+      justify-content: space-around;
+      flex-wrap: wrap;
+      margin: 20px 0;
+    }
+    .figure-item {
+      text-align: center;
+      margin: 10px;
+      width: 30%;
+    }
+    .figure-item img {
+      max-width: 100%;
+      height: auto;
+    }
+    .figure-caption {
+      font-size: 0.9em;
+      margin-top: 5px;
+    }
+    .example {
+      background: #f8f9fa;
+      border: 1px solid #dee2e6;
+      border-radius: 5px;
+      padding: 15px;
+      margin: 15px 0;
+    }
+    .theorem {
+      background: #fff8dc;
+      border: 2px solid #daa520;
+      border-radius: 5px;
+      padding: 15px;
+      margin: 15px 0;
+    }
+    .definition {
+      background: #f0f8ff;
+      border: 2px solid #4682b4;
+      border-radius: 5px;
+      padding: 15px;
+      margin: 15px 0;
+    }
+  </style>
+</head>
+<body>
+<h1>微分方程式講義ノート</h1>
+
+<h2>第1節：微分演算子法</h2>
+
+<h3>定義と基本性質</h3>
+<div class="definition">
+  <p><strong>微分演算子</strong> $D := \frac{d}{dx}$ を導入する。</p>
+  <div class="mathblock">
+    $$
+    D y = \frac{dy}{dx} = y',\quad D^2 y = \frac{d^2 y}{dx^2} = y'',\quad D^n y = y^{(n)}
+    $$
+  </div>
+</div>
+
+<h3>演算子としての利用と書き換え</h3>
+<div class="formula-box">
+  <p><strong>例：</strong></p>
+  <div class="mathblock">
+    $$
+    y'' + a y' + b y = D^2 y + a D y + b y = (D^2 + a D + b)y
+    $$
+  </div>
+  
+  <p><strong>微分演算子法の手順：</strong></p>
+  <ol>
+    <li>微分方程式を演算子形式 $(D^2 + aD + b)y = f(x)$ に書き換える</li>
+    <li>演算子多項式を因数分解 $(D - \alpha)(D - \beta)$ の形にする</li>
+    <li>置換 $z = (D - \beta)y$ を行い、一次方程式に帰着させる</li>
+    <li>段階的に解いていく</li>
+  </ol>
+</div>
+
+<div class="note">
+  <p><strong>ポイント：</strong>$D$ を代数的な量として扱い、因数分解できる場合はそれを利用する。</p>
+</div>
+
+<div class="theorem">
+  <p><strong>一般形：</strong></p>
+  <div class="mathblock">
+    $$
+    y'' + a y' + b y = f(x) \Rightarrow (D^2 + a D + b)y = f(x)
+    $$
+  </div>
+  <p>特性方程式 $r^2 + a r + b = 0$ の解を $\alpha, \beta$ とすると：</p>
+  <div class="mathblock">
+    $$
+    (D^2 + a D + b) = (D - \alpha)(D - \beta)
+    $$
+  </div>
+</div>
+
+<h3>解法手順</h3>
+<div class="steps">
+  <p><strong>Step 1:</strong> $z = (D - \beta)y$ とおくと：</p>
+  <div class="mathblock">
+    $$
+    f(x) = (D - \alpha)z = z' - \alpha z
+    $$
+  </div>
+  <p>これは一次線形常微分方程式である。</p>
+  
+  <p><strong>Step 2:</strong> $z = (D - \beta)y$ を使って $y$ を求める。</p>
+</div>
+
+<h3>具体例</h3>
+<div class="example">
+  <p><strong>方程式：</strong></p>
+  <div class="mathblock">
+    $$
+    y'' - y' - 2y = 1
+    $$
+  </div>
+  
+  <p><strong>解法：</strong></p>
+  <p>演算子形式：$(D^2 - D - 2)y = 1$</p>
+  <p>特性方程式：$r^2 - r - 2 = 0 \Rightarrow (r-2)(r+1) = 0 \Rightarrow r = 2, -1$</p>
+  <p>よって $(D^2 - D - 2) = (D - 2)(D + 1)$</p>
+  
+  <p><strong>Step 1:</strong> $z = (D + 1)y$ とおくと：</p>
+  <div class="mathblock">
+    $$
+    (D - 2)z = 1 \Rightarrow z' - 2z = 1
+    $$
+  </div>
+  
+  <p>これは一次線形微分方程式で、積分因子は $e^{-2x}$ となる：</p>
+  <div class="mathblock">
+    \begin{align}
+    e^{-2x}z' - 2e^{-2x}z &= e^{-2x} \\
+    \frac{d}{dx}(e^{-2x}z) &= e^{-2x} \\
+    e^{-2x}z &= -\frac{1}{2}e^{-2x} + C_1 \\
+    z &= -\frac{1}{2} + C_1e^{2x}
+    \end{align}
+  </div>
+  
+  <p><strong>Step 2:</strong> $z = (D + 1)y = y' + y$ なので：</p>
+  <div class="mathblock">
+    $$
+    y' + y = -\frac{1}{2} + C_1e^{2x}
+    $$
+  </div>
+  
+  <p>これも一次線形微分方程式で、積分因子は $e^{x}$ となる：</p>
+  <div class="mathblock">
+    \begin{align}
+    e^{x}y' + e^{x}y &= -\frac{1}{2}e^{x} + C_1e^{3x} \\
+    \frac{d}{dx}(e^{x}y) &= -\frac{1}{2}e^{x} + C_1e^{3x} \\
+    e^{x}y &= -\frac{1}{2}e^{x} + \frac{C_1}{3}e^{3x} + C_2 \\
+    y &= -\frac{1}{2} + \frac{C_1}{3}e^{2x} + C_2e^{-x}
+    \end{align}
+  </div>
+</div>
+
+<div class="conclusion">
+  <p><strong>結論：</strong>非斉次方程式 $y'' - y' - 2y = 1$ の一般解は：</p>
+  <div class="mathblock">
+    $$
+    y = -\frac{1}{2} + C_1e^{2x} + C_2e^{-x}
+    $$
+  </div>
+  <p>ここで $-\frac{1}{2}$ は特殊解、$C_1e^{2x} + C_2e^{-x}$ は同次方程式の一般解である。</p>
+</div>
+
+<h2>第2節：連立微分方程式</h2>
+
+<h3>基本形</h3>
+<div class="definition">
+  <p><strong>連立微分方程式：</strong></p>
+  <div class="mathblock">
+    $$\begin{cases}
+    x'(t) = a x(t) + b y(t) \\
+    y'(t) = c x(t) + d y(t)
+    \end{cases}$$
+  </div>
+  
+  <p><strong>行列表記：</strong></p>
+  <div class="mathblock">
+    $$\frac{d}{dt} \begin{pmatrix} x(t) \\ y(t) \end{pmatrix} = 
+    A \begin{pmatrix} x(t) \\ y(t) \end{pmatrix},\quad A = \begin{pmatrix} a & b \\ c & d \end{pmatrix}$$
+  </div>
+</div>
+
+<h3>解の公式</h3>
+<div class="theorem">
+  <p>初期値 $x(0)=x_0$, $y(0)=y_0$ のもとでの解は：</p>
+  <div class="mathblock">
+    $$\begin{pmatrix} x(t) \\ y(t) \end{pmatrix} = e^{tA} \begin{pmatrix} x_0 \\ y_0 \end{pmatrix}$$
+  </div>
+</div>
+
+<h3>行列指数関数</h3>
+<div class="definition">
+  <div class="mathblock">
+    $$e^{tA} = \sum_{n=0}^{\infty} \frac{(tA)^n}{n!}$$
+  </div>
+</div>
+
+<h3>対角化可能な場合の解法</h3>
+<div class="formula-box">
+  <p>$A$ が対角化可能であれば $A = P D P^{-1}$（ただし $D$ は対角行列）として：</p>
+  <div class="mathblock">
+    $$e^{tA} = P e^{tD} P^{-1}$$
+  </div>
+  <p>ここで：</p>
+  <div class="mathblock">
+    $$e^{tD} = \begin{pmatrix} e^{\lambda_1 t} & 0 \\ 0 & e^{\lambda_2 t} \end{pmatrix}$$
+  </div>
+</div>
+
+<h3>具体例</h3>
+<div class="example">
+  <p><strong>例：</strong>$A = \begin{pmatrix} 0 & 1 \\ 1 & 0 \end{pmatrix}$</p>
+  
+  <p>固有値を求めると：$\det(A - \lambda I) = -\lambda^2 + 1 = 0$ より $\lambda = \pm 1$</p>
+  
+  <p>固有ベクトルを求めると：</p>
+  <ul>
+    <li>$\lambda = 1$: $\begin{pmatrix} 1 \\ 1 \end{pmatrix}$</li>
+    <li>$\lambda = -1$: $\begin{pmatrix} 1 \\ -1 \end{pmatrix}$</li>
+  </ul>
+  
+  <p>よって：$P = \begin{pmatrix} 1 & 1 \\ 1 & -1 \end{pmatrix}$, $P^{-1} = \frac{1}{2}\begin{pmatrix} 1 & 1 \\ 1 & -1 \end{pmatrix}$</p>
+  
+  <div class="mathblock">
+    $$e^{tA} = P \begin{pmatrix} e^t & 0 \\ 0 & e^{-t} \end{pmatrix} P^{-1} = \begin{pmatrix} \cosh t & \sinh t \\ \sinh t & \cosh t \end{pmatrix}$$
+  </div>
+</div>
+
+<h3>導関数との関係</h3>
+<div class="note">
+  <p><strong>重要な性質：</strong></p>
+  <div class="mathblock">
+    $$\frac{d}{dt} e^{tA} = A e^{tA}$$
+  </div>
+  <p>従って、$\mathbf{x}(t) = e^{tA} \mathbf{x}_0$ を代入すれば：</p>
+  <div class="mathblock">
+    $$\frac{d}{dt} \mathbf{x}(t) = A \mathbf{x}(t)$$
+  </div>
+  <p>が成り立つことが確認できる。</p>
+</div>
+
+<h2>第3節：行列指数関数 $e^A$ の計算方法</h2>
+
+<h3>対角行列の場合</h3>
+<div class="formula-box">
+  <p>対角行列 $A = \begin{pmatrix} \alpha & 0 \\ 0 & \beta \end{pmatrix}$ に対して：</p>
+  
+  <div class="mathblock">
+    $$A^n = \begin{pmatrix} \alpha^n & 0 \\ 0 & \beta^n \end{pmatrix}$$
+  </div>
+  
+  <p>よって、テイラー展開により：</p>
+  <div class="mathblock">
+    $$e^A = \sum_{n=0}^{\infty} \frac{A^n}{n!}
+    = \sum_{n=0}^{\infty} \frac{1}{n!}
+    \begin{pmatrix} \alpha^n & 0 \\ 0 & \beta^n \end{pmatrix}
+    = \begin{pmatrix} e^{\alpha} & 0 \\ 0 & e^{\beta} \end{pmatrix}$$
+  </div>
+</div>
+
+<h3>対角化可能な一般行列の場合</h3>
+<div class="theorem">
+  <p>対角化可能な行列 $A$ に対して、$A = P D P^{-1}$（$D$ は対角行列）とおけるなら：</p>
+  
+  <div class="mathblock">
+    $$A^n = (PDP^{-1})^n = P D^n P^{-1}$$
+  </div>
+  
+  <p>したがって：</p>
+  <div class="mathblock">
+    $$e^A = \sum_{n=0}^{\infty} \frac{A^n}{n!}
+    = \sum_{n=0}^{\infty} \frac{1}{n!} P D^n P^{-1}
+    = P \left(\sum_{n=0}^{\infty} \frac{D^n}{n!} \right) P^{-1}
+    = P e^D P^{-1}$$
+  </div>
+  
+  <p>例として、$D = \begin{pmatrix} \alpha & 0 \\ 0 & \beta \end{pmatrix}$ のとき：</p>
+  <div class="mathblock">
+    $$e^A = P \begin{pmatrix} e^{\alpha} & 0 \\ 0 & e^{\beta} \end{pmatrix} P^{-1}$$
+  </div>
+</div>
+
+<div class="conclusion">
+  <p><strong>まとめ：</strong>微分演算子法と連立微分方程式の解法は、代数的な操作と行列の理論を巧妙に組み合わせることで、複雑な微分方程式を系統的に解くことができる強力な手法である。</p>
+</div>
+
+</body>
+</html>
