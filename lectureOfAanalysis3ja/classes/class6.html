@@ -1,109 +1,195 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>第6回：座標変換</title>
-
   <style>
-    :root {
-      --primary-color: #2c3e50;
-      --secondary-color: #3498db;
-      --accent-color: #e74c3c;
-      --background-color: #f9f9f9;
-      --text-color: #333;
-      --container-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
-      --text-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
-    }
     body {
-      font-family: 'Georgia', serif;
-      line-height: 1.7;
-      margin: 0;
-      padding: 0;
-      background-color: var(--background-color);
-      color: var(--text-color);
-    }
-    .container {
+      font-family: 'Hiragino Sans', 'Meiryo', sans-serif;
+      line-height: 1.6;
+      color: #333;
       max-width: 900px;
-      margin: 20px auto;
-      padding: 30px;
-      background-color: white;
-      box-shadow: var(--container-shadow);
-      border-radius: 15px;
+      margin: 0 auto;
+      padding: 20px;
+      background-color: #f9f9f9;
     }
-    header {
-      text-align: center;
-      margin-bottom: 40px;
-      border-bottom: 2px solid var(--secondary-color);
-      padding-bottom: 20px;
-    }
+
     h1, h2, h3 {
-      color: var(--primary-color);
+      color: #1a237e;
+      margin-top: 1.5em;
     }
-    .section-title {
-      color: var(--primary-color);
-      font-size: 1.8rem;
-      margin-top: 30px;
-      margin-bottom: 20px;
+
+    h1 {
+      text-align: center;
+      border-bottom: 2px solid #1a237e;
       padding-bottom: 10px;
-      border-bottom: 1px solid #eee;
-      text-shadow: var(--text-shadow);
+      margin-bottom: 30px;
     }
-    .lecture-title {
-      color: var(--secondary-color);
-      font-size: 1.5rem;
-      margin-bottom: 15px;
-      font-weight: normal;
+
+    h2 {
+      border-left: 5px solid #1a237e;
+      padding-left: 15px;
     }
+
+    .section-title {
+      margin-top: 2em;
+      font-size: 1.5em;
+      border-bottom: 2px solid #1a237e;
+      padding-bottom: 0.3em;
+    }
+
     .author-info {
-      font-style: italic;
-      color: #777;
+      text-align: center;
+      color: #555;
+      font-size: 0.9em;
+      margin-top: -20px;
+      margin-bottom: 30px;
     }
-    .math {
-      font-style: italic;
-      padding: 0 3px;
-    }
+
     .formula {
-      margin: 25px 0;
+      background-color: #f0f0f8;
       padding: 15px;
-      background-color: #f8f9fa;
-      border-left: 4px solid var(--secondary-color);
       border-radius: 5px;
+      margin: 15px 0;
       overflow-x: auto;
+      text-align: center;
       font-size: 1.1em;
-      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+      font-family: 'Latin Modern Math', 'Cambria Math', serif;
     }
+
+    .note {
+      background-color: #e8f5e9;
+      border-left: 4px solid #4caf50;
+      padding: 10px 15px;
+      margin: 15px 0;
+    }
+
+    .example {
+      background-color: #e3f2fd;
+      border-left: 4px solid #2196f3;
+      padding: 10px 15px;
+      margin: 15px 0;
+    }
+
+    .figure {
+      text-align: center;
+      margin: 25px 0;
+    }
+
+    .figure img, .figure svg {
+      max-width: 100%;
+      border-radius: 5px;
+      box-shadow: 0 3px 6px rgba(0,0,0,0.16);
+      background-color: #fff;
+    }
+
+    .figure figcaption {
+      margin-top: 10px;
+      font-style: italic;
+      color: #666;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 20px 0;
+    }
+
+    th, td {
+      border: 1px solid #ddd;
+      padding: 8px 12px;
+      text-align: center;
+      vertical-align: middle;
+    }
+
+    th {
+      background-color: #e8eaf6;
+      font-weight: bold;
+    }
+
+    tr:nth-child(even) {
+      background-color: #f5f5f5;
+    }
+
+    .theorem {
+      background-color: #e8f4f8;
+      padding: 15px;
+      border-left: 5px solid #3498db;
+      margin: 20px 0;
+    }
+
+    .proof {
+      background-color: #f8f9fa;
+      padding: 15px;
+      border-left: 5px solid #7f8c8d;
+      margin: 20px 0;
+    }
+
+    .definition {
+      background-color: #e8f8f5;
+      padding: 15px;
+      border-left: 5px solid #16a085;
+      margin: 20px 0;
+    }
+
     .example-title {
       font-weight: bold;
       font-size: 1.2em;
-      color: var(--secondary-color);
+      color: #2196f3;
       margin-top: 30px;
       margin-bottom: 15px;
       padding-bottom: 5px;
       border-bottom: 1px dashed #ccc;
       display: inline-block;
     }
-    p {
-      margin-bottom: 20px;
-      line-height: 1.8;
+
+    .navigation {
+      margin-top: 40px;
+      text-align: center;
+      display: flex;
+      justify-content: space-between;
+      padding: 15px 0;
+      border-top: 1px solid #eee;
+    }
+
+    .navigation a {
+      display: inline-block;
+      padding: 10px 20px;
+      background-color: #1a237e;
+      color: white;
+      text-decoration: none;
+      border-radius: 8px;
+      transition: all 0.3s ease;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    }
+
+    .navigation a:hover {
+      background-color: #3f51b5;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
     }
   </style>
+<script>
+  window.MathJax = {
+    tex: {
+      inlineMath: [['$', '$']],
+      displayMath: [['$$', '$$']],
+      // Remove "macros" section entirely
+    },
+    svg: {
+      fontCache: 'global'
+    }
+  };
+</script>
 
-  <script>
-    MathJax = {
-      tex: {
-        inlineMath: [['$', '$']],
-        displayMath: [['$$', '$$']]
-      }
-    };
-  </script>
   <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js" async></script>
 </head>
+
 <body>
   <div class="container">
-
     <header>
-      <h1>合成関数の微分と座標変換</h1>
+      <h1>座標変換</h1>
       <p class="author-info">第６回講義ノート</p>
     </header>
 
@@ -135,6 +221,9 @@
     </p>
 
     <h3>問</h3>
+    <p>
+      次の関数 $f(x,y)$ に対して，座標変換によって $g(u,v)$ をできるだけ簡単な形で表せ。
+    </p>
     <ul>
       <li>$f(x,y) = (x-y) e^{x+y}$</li>
       <li>$f(x,y) = (2x+y) \cos(x-y)$</li>
@@ -146,12 +235,12 @@
       $g(u,v) = f(x(u,v), y(u,v))$ のとき，
     </p>
     <div class="formula">
-    $$
-    \begin{aligned}
-    \partial_u g &= \partial_x f \cdot \partial_u x + \partial_y f \cdot \partial_u y, \\
-    \partial_v g &= \partial_x f \cdot \partial_v x + \partial_y f \cdot \partial_v y.
-    \end{aligned}
-    $$
+$$
+\begin{aligned}
+\partial_u g &= \partial_x f \cdot \partial_u x + \partial_y f \cdot \partial_u y, \\
+\partial_v g &= \partial_x f \cdot \partial_v x + \partial_y f \cdot \partial_v y.
+\end{aligned}
+$$
     </div>
 
     <h3>証明</h3>
@@ -171,12 +260,12 @@
       上の定理を逆に使うと次の式が得られる：
     </p>
     <div class="formula">
-    $$
-    \begin{aligned}
-    \partial_x f &= \partial_u g \cdot \partial_x u + \partial_v g \cdot \partial_x v, \\
-    \partial_y f &= \partial_u g \cdot \partial_y u + \partial_v g \cdot \partial_y v.
-    \end{aligned}
-    $$
+$$
+\begin{aligned}
+\partial_x f &= \partial_u g \cdot \partial_x u + \partial_v g \cdot \partial_x v, \\
+\partial_y f &= \partial_u g \cdot \partial_y u + \partial_v g \cdot \partial_y v.
+\end{aligned}
+$$
     </div>
     <p>
       したがって，$x = x(u,v),\, y = y(u,v)$ を $u = u(x,y),\, v = v(x,y)$ に直せれば，
@@ -194,18 +283,18 @@
       $x = r \cos\theta$, $y = r \sin\theta$ を極座標表示と呼ぶ。
     </p>
     <div class="formula">
-    $$
-    g(r,\theta) = f(r\cos\theta, r\sin\theta).
-    $$
+$$
+g(r,\theta) = f(r\cos\theta, r\sin\theta).
+$$
     </div>
 
     <div class="formula">
-    $$
-    \begin{aligned}
-    \partial_r g &= \partial_x f \cdot \cos\theta + \partial_y f \cdot \sin\theta, \\
-    \partial_\theta g &= -r \partial_x f \cdot \sin\theta + r \partial_y f \cdot \cos\theta.
-    \end{aligned}
-    $$
+$$
+\begin{aligned}
+\partial_r g &= \partial_x f \cdot \cos\theta + \partial_y f \cdot \sin\theta, \\
+\partial_\theta g &= -r \partial_x f \cdot \sin\theta + r \partial_y f \cdot \cos\theta.
+\end{aligned}
+$$
     </div>
 
     <p>
@@ -213,19 +302,19 @@
     </p>
 
     <div class="formula">
-    $$
-    \begin{aligned}
-    \partial_x f &= \partial_r g \cdot \cos\theta - \frac{1}{r} \partial_\theta g \cdot \sin\theta, \\
-    \partial_y f &= \partial_r g \cdot \sin\theta + \frac{1}{r} \partial_\theta g \cdot \cos\theta.
-    \end{aligned}
-    $$
+$$
+\begin{aligned}
+\partial_x f &= \partial_r g \cdot \cos\theta - \frac{1}{r} \partial_\theta g \cdot \sin\theta, \\
+\partial_y f &= \partial_r g \cdot \sin\theta + \frac{1}{r} \partial_\theta g \cdot \cos\theta.
+\end{aligned}
+$$
     </div>
-       <!-- ===== ナビゲーション ===== -->
-        <nav class="navigation">
-            <a href="class4.html">← 第4回</a>
-            <a href="../index.html">ホーム</a>
-            <a href="class6.html">第6回 →</a>
-        </nav>
+
+    <nav class="navigation">
+      <a href="class5.html">← 第5回</a>
+      <a href="../index.html">ホーム</a>
+      <a href="class7.html">第7回 →</a>
+    </nav>
   </div>
 </body>
 </html>
