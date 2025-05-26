@@ -1,0 +1,469 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Taylor Polynomial Simulation</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 30px;
+            font-size: 2.5rem;
+            font-weight: 300;
+        }
+
+        .controls {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+        }
+
+        .control-group {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+        }
+
+        label {
+            font-weight: 600;
+            color: #555;
+            font-size: 1.1rem;
+        }
+
+        select, input[type="range"] {
+            padding: 10px 15px;
+            border: 2px solid #ddd;
+            border-radius: 10px;
+            font-size: 1rem;
+            background: white;
+            transition: all 0.3s ease;
+        }
+
+        select:hover, select:focus {
+            border-color: #667eea;
+            outline: none;
+            box-shadow: 0 0 10px rgba(102, 126, 234, 0.3);
+        }
+
+        input[type="range"] {
+            width: 200px;
+            height: 8px;
+            -webkit-appearance: none;
+            background: linear-gradient(to right, #667eea, #764ba2);
+            border-radius: 5px;
+        }
+
+        input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: white;
+            border: 3px solid #667eea;
+            cursor: pointer;
+        }
+
+        .degree-display {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: #667eea;
+            min-width: 30px;
+            text-align: center;
+        }
+
+        #canvas {
+            border: 2px solid #ddd;
+            border-radius: 15px;
+            display: block;
+            margin: 0 auto;
+            background: white;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .info {
+            margin-top: 20px;
+            padding: 20px;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            border-radius: 15px;
+            text-align: center;
+        }
+
+        .formula {
+            font-family: 'Courier New', monospace;
+            font-size: 1.1rem;
+            color: #333;
+            margin-top: 10px;
+            padding: 10px;
+            background: rgba(255, 255, 255, 0.7);
+            border-radius: 8px;
+            word-break: break-all;
+        }
+
+        .legend {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin-top: 15px;
+            flex-wrap: wrap;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-weight: 500;
+        }
+
+        .legend-color {
+            width: 20px;
+            height: 3px;
+            border-radius: 2px;
+        }
+
+        @media (max-width: 768px) {
+            .controls {
+                flex-direction: column;
+                gap: 20px;
+            }
+            
+            h1 {
+                font-size: 2rem;
+            }
+            
+            #canvas {
+                width: 100%;
+                height: 300px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Taylor Polynomial Simulation</h1>
+        
+        <div class="controls">
+            <div class="control-group">
+                <label for="functionSelect">Choose Function:</label>
+                <select id="functionSelect">
+                    <option value="exp">e^x</option>
+                    <option value="cos">cos(x)</option>
+                    <option value="sin">sin(x)</option>
+                    <option value="log">log(1+x)</option>
+                    <option value="sqrt">√(1+x)</option>
+                </select>
+            </div>
+            
+            <div class="control-group">
+                <label for="degreeSlider">Taylor Polynomial Degree:</label>
+                <input type="range" id="degreeSlider" min="0" max="10" value="3">
+                <div class="degree-display" id="degreeDisplay">3</div>
+            </div>
+        </div>
+
+        <canvas id="canvas" width="800" height="500"></canvas>
+        
+        <div class="info">
+            <div class="legend">
+                <div class="legend-item">
+                    <div class="legend-color" style="background: #e74c3c;"></div>
+                    <span>Original Function</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-color" style="background: #3498db;"></div>
+                    <span>Taylor Polynomial</span>
+                </div>
+            </div>
+            <div class="formula" id="formulaDisplay"></div>
+        </div>
+    </div>
+
+    <script>
+        const canvas = document.getElementById('canvas');
+        const ctx = canvas.getContext('2d');
+        const functionSelect = document.getElementById('functionSelect');
+        const degreeSlider = document.getElementById('degreeSlider');
+        const degreeDisplay = document.getElementById('degreeDisplay');
+        const formulaDisplay = document.getElementById('formulaDisplay');
+
+        // Function definitions
+        const functions = {
+            exp: {
+                f: x => Math.exp(x),
+                name: 'e^x',
+                range: [-2, 2],
+                center: 0,
+                coefficients: n => 1 / factorial(n) // e^x series
+            },
+            cos: {
+                f: x => Math.cos(x),
+                name: 'cos(x)',
+                range: [-2*Math.PI, 2*Math.PI],
+                center: 0,
+                coefficients: n => n % 4 === 0 ? 1/factorial(n) : n % 4 === 2 ? -1/factorial(n) : 0
+            },
+            sin: {
+                f: x => Math.sin(x),
+                name: 'sin(x)',
+                range: [-2*Math.PI, 2*Math.PI],
+                center: 0,
+                coefficients: n => n % 4 === 1 ? 1/factorial(n) : n % 4 === 3 ? -1/factorial(n) : 0
+            },
+            log: {
+                f: x => Math.log(1 + x),
+                name: 'log(1+x)',
+                range: [-0.9, 3],
+                center: 0,
+                coefficients: n => n === 0 ? 0 : Math.pow(-1, n+1) / n
+            },
+            sqrt: {
+                f: x => Math.sqrt(1 + x),
+                name: '√(1+x)',
+                range: [-0.9, 3],
+                center: 0,
+                coefficients: n => {
+                    if (n === 0) return 1;
+                    let coeff = 1;
+                    for (let i = 1; i <= n; i++) {
+                        coeff *= (0.5 - i + 1) / i;
+                    }
+                    return coeff;
+                }
+            }
+        };
+
+        function factorial(n) {
+            if (n <= 1) return 1;
+            return n * factorial(n - 1);
+        }
+
+        function taylorPolynomial(x, func, degree) {
+            let result = 0;
+            for (let n = 0; n <= degree; n++) {
+                const coeff = func.coefficients(n);
+                result += coeff * Math.pow(x - func.center, n);
+            }
+            return result;
+        }
+
+        function drawGraph() {
+            const selectedFunc = functions[functionSelect.value];
+            const degree = parseInt(degreeSlider.value);
+            
+            // Clear canvas
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            
+            // Set up coordinate system
+            const [xMin, xMax] = selectedFunc.range;
+            const padding = 50;
+            const graphWidth = canvas.width - 2 * padding;
+            const graphHeight = canvas.height - 2 * padding;
+            
+            // Calculate y range based on function values
+            let yMin = Infinity, yMax = -Infinity;
+            for (let x = xMin; x <= xMax; x += (xMax - xMin) / 200) {
+                try {
+                    const y1 = selectedFunc.f(x);
+                    const y2 = taylorPolynomial(x, selectedFunc, degree);
+                    if (isFinite(y1)) {
+                        yMin = Math.min(yMin, y1);
+                        yMax = Math.max(yMax, y1);
+                    }
+                    if (isFinite(y2)) {
+                        yMin = Math.min(yMin, y2);
+                        yMax = Math.max(yMax, y2);
+                    }
+                } catch (e) {}
+            }
+            
+            // Add some padding to y range
+            const yRange = yMax - yMin;
+            yMin -= yRange * 0.1;
+            yMax += yRange * 0.1;
+
+            function toCanvasX(x) {
+                return padding + (x - xMin) / (xMax - xMin) * graphWidth;
+            }
+
+            function toCanvasY(y) {
+                return padding + (yMax - y) / (yMax - yMin) * graphHeight;
+            }
+
+            // Draw grid
+            ctx.strokeStyle = '#f0f0f0';
+            ctx.lineWidth = 1;
+            
+            // Vertical grid lines
+            for (let x = Math.ceil(xMin); x <= Math.floor(xMax); x++) {
+                const canvasX = toCanvasX(x);
+                ctx.beginPath();
+                ctx.moveTo(canvasX, padding);
+                ctx.lineTo(canvasX, canvas.height - padding);
+                ctx.stroke();
+            }
+            
+            // Horizontal grid lines
+            for (let y = Math.ceil(yMin); y <= Math.floor(yMax); y++) {
+                const canvasY = toCanvasY(y);
+                ctx.beginPath();
+                ctx.moveTo(padding, canvasY);
+                ctx.lineTo(canvas.width - padding, canvasY);
+                ctx.stroke();
+            }
+
+            // Draw axes
+            ctx.strokeStyle = '#333';
+            ctx.lineWidth = 2;
+            
+            // X-axis
+            if (yMin <= 0 && yMax >= 0) {
+                const y0 = toCanvasY(0);
+                ctx.beginPath();
+                ctx.moveTo(padding, y0);
+                ctx.lineTo(canvas.width - padding, y0);
+                ctx.stroke();
+            }
+            
+            // Y-axis
+            if (xMin <= 0 && xMax >= 0) {
+                const x0 = toCanvasX(0);
+                ctx.beginPath();
+                ctx.moveTo(x0, padding);
+                ctx.lineTo(x0, canvas.height - padding);
+                ctx.stroke();
+            }
+
+            // Draw original function
+            ctx.strokeStyle = '#e74c3c';
+            ctx.lineWidth = 3;
+            ctx.beginPath();
+            let firstPoint = true;
+            
+            for (let x = xMin; x <= xMax; x += (xMax - xMin) / 400) {
+                try {
+                    const y = selectedFunc.f(x);
+                    if (isFinite(y) && y >= yMin && y <= yMax) {
+                        const canvasX = toCanvasX(x);
+                        const canvasY = toCanvasY(y);
+                        
+                        if (firstPoint) {
+                            ctx.moveTo(canvasX, canvasY);
+                            firstPoint = false;
+                        } else {
+                            ctx.lineTo(canvasX, canvasY);
+                        }
+                    } else {
+                        firstPoint = true;
+                    }
+                } catch (e) {
+                    firstPoint = true;
+                }
+            }
+            ctx.stroke();
+
+            // Draw Taylor polynomial
+            ctx.strokeStyle = '#3498db';
+            ctx.lineWidth = 3;
+            ctx.beginPath();
+            firstPoint = true;
+            
+            for (let x = xMin; x <= xMax; x += (xMax - xMin) / 400) {
+                try {
+                    const y = taylorPolynomial(x, selectedFunc, degree);
+                    if (isFinite(y) && y >= yMin && y <= yMax) {
+                        const canvasX = toCanvasX(x);
+                        const canvasY = toCanvasY(y);
+                        
+                        if (firstPoint) {
+                            ctx.moveTo(canvasX, canvasY);
+                            firstPoint = false;
+                        } else {
+                            ctx.lineTo(canvasX, canvasY);
+                        }
+                    } else {
+                        firstPoint = true;
+                    }
+                } catch (e) {
+                    firstPoint = true;
+                }
+            }
+            ctx.stroke();
+
+            // Update formula display
+            updateFormula();
+        }
+
+        function updateFormula() {
+            const selectedFunc = functions[functionSelect.value];
+            const degree = parseInt(degreeSlider.value);
+            
+            let formula = `P${degree}(x) = `;
+            let terms = [];
+            
+            for (let n = 0; n <= degree; n++) {
+                const coeff = selectedFunc.coefficients(n);
+                if (Math.abs(coeff) < 1e-10) continue;
+                
+                let term = '';
+                if (n === 0) {
+                    term = coeff.toFixed(4);
+                } else if (n === 1) {
+                    term = `${coeff.toFixed(4)}x`;
+                } else {
+                    term = `${coeff.toFixed(4)}x^${n}`;
+                }
+                
+                if (coeff > 0 && terms.length > 0) {
+                    term = '+' + term;
+                }
+                
+                terms.push(term);
+            }
+            
+            formula += terms.join(' ');
+            formulaDisplay.textContent = formula;
+        }
+
+        // Event listeners
+        functionSelect.addEventListener('change', drawGraph);
+        degreeSlider.addEventListener('input', () => {
+            degreeDisplay.textContent = degreeSlider.value;
+            drawGraph();
+        });
+
+        // Initial draw
+        degreeDisplay.textContent = degreeSlider.value;
+        drawGraph();
+
+        // Handle canvas resize on window resize
+        window.addEventListener('resize', () => {
+            setTimeout(drawGraph, 100);
+        });
+    </script>
+</body>
+</html>
