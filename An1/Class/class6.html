@@ -162,7 +162,11 @@
         <h2>テイラー多項式</h2>
         <p>点 $x=a$ の周りの $n$ 次テイラー多項式を次で定義する。</p>
         <div class="formula">$$T_n(x)=\sum_{k=0}^{n}\frac{f^{(k)}(a)}{k!}(x-a)^k=f(a)+f'(a)(x-a)+\frac{f''(a)}{2!}(x-a)^2+\cdots+\frac{f^{(n)}(a)}{n!}(x-a)^n$$</div>
-  
+
+        <p>テイラー多項式は次の性質を持つ：点 $x=a$ において，$k\le n$ なる任意の $k$ に対して</p>
+        <div class="formula">$$T_n^{(k)}(a)=f^{(k)}(a)$$</div>
+        <p>が成り立つ。すなわち，$T_n(x)$ は点 $x=a$ において，$f(x)$ と $n$ 階微分まで一致する。</p>
+
         <div class="example">
             <p><strong>例&nbsp;1.</strong> $f(x)=e^x$，$a=0$ の場合：</p>
             <div class="formula">$$T_3(x)=1+x+\frac{x^{2}}{2}+\frac{x^{3}}{6}$$</div>
