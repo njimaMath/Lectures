@@ -3,52 +3,127 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>微分法入門</title>
-    <style>
+    <title>微分法入門</title>    <style>
+        :root {
+            --primary-color: #2c3e50;
+            --secondary-color: #3498db;
+            --accent-color: #e74c3c;
+            --background-color: #f9f9f9;
+            --text-color: #333;
+            --container-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+            --text-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+        }
         body {
-            font-family: 'Hiragino Sans', 'Meiryo', sans-serif;
-            line-height: 1.6;
-            color: #333;
+            font-family: 'Georgia', serif;
+            line-height: 1.7;
+            margin: 0;
+            padding: 0;
+            background-color: var(--background-color);
+            color: var(--text-color);
+        }
+        .container {
             max-width: 900px;
-            margin: 0 auto;
-            padding: 20px;
-            background-color: #f9f9f9;
+            margin: 20px auto;
+            padding: 30px;
+            background-color: white;
+            box-shadow: var(--container-shadow);
+            border-radius: 15px;
+        }
+        header {
+            text-align: center;
+            margin-bottom: 40px;
+            border-bottom: 2px solid var(--secondary-color);
+            padding-bottom: 20px;
         }
         h1, h2, h3 {
-            color: #1a237e;
-            margin-top: 1.5em;
+            color: var(--primary-color);
         }
-        h1 {
-            text-align: center;
-            border-bottom: 2px solid #1a237e;
+        .section-title {
+            color: var(--primary-color);
+            font-size: 1.8rem;
+            margin-top: 30px;
+            margin-bottom: 20px;
             padding-bottom: 10px;
-            margin-bottom: 30px;
+            border-bottom: 1px solid #eee;
+            text-shadow: var(--text-shadow);
         }
-        h2 {
-            border-left: 5px solid #1a237e;
-            padding-left: 15px;
+        .lecture-title {
+            color: var(--secondary-color);
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+            font-weight: normal;
+        }
+        .author-info {
+            font-style: italic;
+            color: #777;
+        }
+        .math {
+            font-style: italic;
+            padding: 0 3px;
         }
         .formula {
-            background-color: #f0f0f8;
+            margin: 25px 0;
             padding: 15px;
+            background-color: #f8f9fa;
+            border-left: 4px solid var(--secondary-color);
             border-radius: 5px;
-            margin: 15px 0;
             overflow-x: auto;
-            text-align: center;
             font-size: 1.1em;
-            font-family: 'Latin Modern Math', 'Cambria Math', serif;
-        }
-        .note {
-            background-color: #e8f5e9;
-            border-left: 4px solid #4caf50;
-            padding: 10px 15px;
-            margin: 15px 0;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
         }
         .example {
             background-color: #e3f2fd;
             border-left: 4px solid #2196f3;
             padding: 10px 15px;
             margin: 15px 0;
+        }
+        .figure {
+            text-align: center;
+            margin: 30px 0;
+            padding: 20px;
+            background-color: #f8f9fa;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+        }
+        .figure img {
+            max-width: 100%;
+            border-radius: 5px;
+        }
+        .figure-caption {
+            font-style: italic;
+            color: #777;
+            margin-top: 15px;
+        }
+        .navigation {
+            margin-top: 40px;
+            text-align: center;
+            display: flex;
+            justify-content: space-between;
+            padding: 15px 0;
+            border-top: 1px solid #eee;
+        }
+        .navigation a {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: var(--primary-color);
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+        .navigation a:hover {
+            background-color: var(--secondary-color);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+        }
+        .topic-highlight {
+            display: inline-block;
+            background-color: rgba(52, 152, 219, 0.1);
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-weight: 500;
+            color: var(--primary-color);
         }
         .theorem {
             background-color: #e8f4f8;
@@ -62,105 +137,101 @@
             border-left: 5px solid #7f8c8d;
             margin: 20px 0;
         }
-        code {
-            font-family: 'Courier New', Courier, monospace;
-            background-color: #f1f1f1;
-            padding: 2px 5px;
-            border-radius: 3px;
-        }
-    </style>
-    <!-- KaTeX for rendering math -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.10/dist/katex.min.css" integrity="sha384-wcIxkf4k558fYv3mQPFEpCREUQueRFCZrCXCtiKU8aNVbN9ODdVcN3BwCAJ6pcBb" crossorigin="anonymous">
-    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.10/dist/katex.min.js" integrity="sha384-hIoBPJpTUs74ddyc4bFZSM1TVlQDA60VBbJS0oA934VSz82sBx1X7kSx2ATBDIyd" crossorigin="anonymous"></script>
-    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.10/dist/contrib/auto-render.min.js" integrity="sha384-43gviWU0YVjaDtb/GhzOouOXtZMP/7XUzwPTstBeZFe/+rCMvRwr4yROQP43s0Xk" crossorigin="anonymous"
-        onload="renderMathInElement(document.body);"></script>
+    </style>    <!-- MathJax configuration -->
     <script>
-        document.addEventListener("DOMContentLoaded", function() {
-            renderMathInElement(document.body, {
-                delimiters: [
-                    {left: '$$', right: '$$', display: true},
-                    {left: '$', right: '$', display: false}
-                ]
-            });
-        });
+      window.MathJax = {
+        tex: {
+          inlineMath: [['$', '$']],
+          displayMath: [['$$', '$$']]
+        },
+        svg: {
+          fontCache: 'global'
+        }
+      };
     </script>
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js" async></script>
 </head>
 <body>
-    <h1>平均値の定理とテイラーの定理</h1>
+    <div class="container">
+        <header>
+            <h1>平均値の定理とテイラーの定理</h1>
+            <div class="lecture-title">微分積分学特論</div>
+            <div class="author-info">講義ノート</div>
+        </header>
 
-    <h2>テイラー多項式</h2>
-    <p>点 $x=a$ の周りの $n$ 次テイラー多項式を次で定義します。</p>
-    <div class="formula">$$T_n(x)=\sum_{k=0}^{n}\frac{f^{(k)}(a)}{k!}(x-a)^k$$</div>
+        <h2>テイラー多項式</h2>
+        <p>点 $x=a$ の周りの $n$ 次テイラー多項式を次で定義する。</p>
+        <div class="formula">$$T_n(x)=\sum_{k=0}^{n}\frac{f^{(k)}(a)}{k!}(x-a)^k$$</div>
 
-    <div class="example">
-        <p><strong>例&nbsp;1.</strong> $f(x)=e^x$，$a=0$ の場合：</p>
-        <div class="formula">$$T_3(x)=1+x+\frac{x^{2}}{2}+\frac{x^{3}}{6}$$</div>
-    </div>
-    <div class="example">
-        <p><strong>例&nbsp;2.</strong> $f(x)=\ln(1+x)$，$a=0$ の場合：</p>
-        <div class="formula">$$T_3(x)=x-\frac{x^{2}}{2}+\frac{x^{3}}{3}$$</div>
-    </div>
-    <div class="example">
-        <p><strong>例&nbsp;3.</strong> $f(x)=\cos x$，$a=0$ の場合：</p>
-        <div class="formula">$$T_4(x)=1-\frac{x^{2}}{2}+\frac{x^{4}}{24}$$</div>
-    </div>
+        <div class="example">
+            <p><strong>例&nbsp;1.</strong> $f(x)=e^x$，$a=0$ の場合：</p>
+            <div class="formula">$$T_3(x)=1+x+\frac{x^{2}}{2}+\frac{x^{3}}{6}$$</div>
+        </div>
+        <div class="example">
+            <p><strong>例&nbsp;2.</strong> $f(x)=\ln(1+x)$，$a=0$ の場合：</p>
+            <div class="formula">$$T_3(x)=x-\frac{x^{2}}{2}+\frac{x^{3}}{3}$$</div>
+        </div>
+        <div class="example">
+            <p><strong>例&nbsp;3.</strong> $f(x)=\cos x$，$a=0$ の場合：</p>
+            <div class="formula">$$T_4(x)=1-\frac{x^{2}}{2}+\frac{x^{4}}{24}$$</div>
+        </div>
 
-    <div class="note">
-        <p><strong>目標：</strong> テイラーの定理を用いて $|f(x)-T_n(x)|$ の誤差を評価します。</p>
-    </div>
+        <div class="note">
+            <p><strong>目標：</strong> テイラーの定理を用いて $|f(x)-T_n(x)|$ の誤差を評価する。</p>
+        </div>
 
-    <h2>コーシーの平均値の定理</h2>
-    <div class="theorem">
-        <p><strong>補題（ロルの定理）</strong> &nbsp;証明は省略します。</p>
-    </div>
-    <div class="figure">
-        <img src="figures/rolle-theorem-cases.png" alt="ロルの定理">
-        <figcaption>イメージ図</figcaption>
-    </div>
+        <h2>コーシーの平均値の定理</h2>
+        <div class="theorem">
+            <p><strong>補題（ロルの定理）</strong> &nbsp;証明は省略する。</p>
+        </div>
+        <div class="figure">
+            <img src="figures/rolle-theorem-cases.png" alt="ロルの定理">
+            <figcaption>イメージ図</figcaption>
+        </div>
 
-    <div class="theorem">
-        <p><strong>定理（コーシーの平均値の定理）</strong></p>
-        <p>$f,g$ を $[a,b]$ で連続，$(a,b)$ で微分可能とし，$g'(x)\neq 0$ が成り立つとします。このとき，ある $c\in(a,b)$ が存在して</p>
-        <div class="formula">$$\frac{f(b)-f(a)}{g(b)-g(a)}=\frac{f'(c)}{g'(c)}$$</div>
-    </div>
-    <div class="proof">
-        <p>証明：$\displaystyle \varphi(x)=\frac{f(b)-f(a)}{g(b)-g(a)}\bigl(g(x)-g(a)\bigr)-\bigl(f(x)-f(a)\bigr)$ と置くと $\varphi(a)=\varphi(b)=0$ となります。ロルの定理を適用すれば $\varphi'(c)=0$ を与え，整理して上式が得られます。</p>
-    </div>
+        <div class="theorem">
+            <p><strong>定理（コーシーの平均値の定理）</strong></p>
+            <p>$f,g$ を $[a,b]$ で連続，$(a,b)$ で微分可能とし，$g'(x)\neq 0$ が成り立つとする。このとき，ある $c\in(a,b)$ が存在して</p>
+            <div class="formula">$$\frac{f(b)-f(a)}{g(b)-g(a)}=\frac{f'(c)}{g'(c)}$$</div>
+        </div>
+        <div class="proof">
+            <p>証明：$\displaystyle \varphi(x)=\frac{f(b)-f(a)}{g(b)-g(a)}\bigl(g(x)-g(a)\bigr)-\bigl(f(x)-f(a)\bigr)$ と置くと $\varphi(a)=\varphi(b)=0$ となる。ロルの定理を適用すれば $\varphi'(c)=0$ を与え，整理して上式が得られる。</p>
+        </div>
 
-    <div class="theorem">
-        <p><strong>ロピタルの定理</strong></p>
-        <p>$f,g\in C^{1}$ で $g'(a)\neq 0$ とします。$\displaystyle\lim_{x\to a}\frac{f(x)}{g(x)}$ が不定形 $\tfrac{0}{0}$ または $\tfrac{\infty}{\infty}$ ならば，</p>
-        <div class="formula">$$\lim_{x\to a}\frac{f(x)}{g(x)}=\lim_{x\to a}\frac{f'(x)}{g'(x)},$$</div>
-        <p>ただし右辺の極限が存在する場合に限ります。</p>
-    </div>
+        <div class="theorem">
+            <p><strong>ロピタルの定理</strong></p>
+            <p>$f,g\in C^{1}$ で $g'(a)\neq 0$ とする。$\displaystyle\lim_{x\to a}\frac{f(x)}{g(x)}$ が不定形 $\tfrac{0}{0}$ または $\tfrac{\infty}{\infty}$ ならば，</p>
+            <div class="formula">$$\lim_{x\to a}\frac{f(x)}{g(x)}=\lim_{x\to a}\frac{f'(x)}{g'(x)}$$</div>
+            <p>ただし右辺の極限が存在する場合に限る。</p>
+        </div>
 
-    <h2>テイラーの定理とその応用</h2>
-    <div class="theorem">
-        <p><strong>テイラーの定理</strong></p>
-        <p>$f$ が $I$ 上で $(n+1)$ 回微分可能とし，$a\in I$ とします。任意の $x\in I$ に対して，ある $\xi$ が $a$ と $x$ の間に存在し</p>
-        <div class="formula">$$f(x)=T_n(x)+\frac{f^{(n+1)}(\xi)}{(n+1)!}(x-a)^{n+1}$$</div>
-        <p>が成り立ちます。</p>
-    </div>
+        <h2>テイラーの定理とその応用</h2>
+        <div class="theorem">
+            <p><strong>テイラーの定理</strong></p>
+            <p>$f$ が $I$ 上で $(n+1)$ 回微分可能とし，$a\in I$ とする。任意の $x\in I$ に対して，ある $\xi$ が $a$ と $x$ の間に存在し</p>
+            <div class="formula">$$f(x)=T_n(x)+\frac{f^{(n+1)}(\xi)}{(n+1)!}(x-a)^{n+1}$$</div>
+            <p>が成り立つ。</p>
+        </div>
 
-    <div class="example">
-        <p><strong>応用&nbsp;1.</strong> 自然対数の底 $e$ の近似誤差：</p>
-        <p>点 $a=1$ で $n=3$ とし，$f(x)=e^{x}$ にテイラーの定理を適用すると</p>
-        <div class="formula">$$|e-T_3(1)|\le\frac{e}{4!}<\frac{3}{4!}\approx 0.125$$</div>
-    </div>
+        <div class="example">
+            <p><strong>応用&nbsp;1.</strong> 自然対数の底 $e$ の近似誤差：</p>
+            <p>点 $a=1$ で $n=3$ とし，$f(x)=e^{x}$ にテイラーの定理を適用すると</p>
+            <div class="formula">$$|e-T_3(1)|\le\frac{e}{4!}<\frac{3}{4!}\approx 0.125$$</div>
+        </div>
 
-    <div class="example">
-        <p><strong>応用&nbsp;2.</strong> $\cos(0.01)-1$ の評価：</p>
-        <p>$a=0$，$n=4$ とし，$f(x)=\cos x$ について</p>
-        <div class="formula">$$|\cos(0.01)-T_4(0.01)|\le \frac{|f^{(5)}(\xi)|}{5!}|0.01|^{5}\le \frac{1}{120}\times 10^{-10}\approx 8.3\times10^{-13},$$</div>
-        <p>従って $\displaystyle\cos(0.01)-1\approx -\frac{0.01^{2}}{2}+\frac{0.01^{4}}{24}\approx -4.999\times10^{-5}$ となります。</p>
-    </div>
+        <div class="example">
+            <p><strong>応用&nbsp;2.</strong> $\cos(0.01)-1$ の評価：</p>
+            <p>$a=0$，$n=4$ とし，$f(x)=\cos x$ について</p>
+            <div class="formula">$$|\cos(0.01)-T_4(0.01)|\le \frac{|f^{(5)}(\xi)|}{5!}|0.01|^{5}\le \frac{1}{120}\times 10^{-10}\approx 8.3\times10^{-13}$$</div>
+            <p>従って $\displaystyle\cos(0.01)-1\approx -\frac{0.01^{2}}{2}+\frac{0.01^{4}}{24}\approx -4.999\times10^{-5}$ となる。</p>
+        </div>
 
-    <h2>テイラーの定理の証明</h2>
-    <p>$f_n(x)=f(x)-T_n(x)$ とおきます。$T_n^{(k)}(a)=f^{(k)}(a)$ が $k\le n$ で成立していることから，$f_n^{(k)}(a)=0$ が $k\le n$ で分かります。</p>
-    <p>$g(x)=(x-a)^{n+1}$ とし，コーシーの平均値の定理を $n$ 回適用すると，ある $\xi$ が $a$ と $x$ の間に存在して</p>
-    <div class="formula">$$\frac{f_n^{(n)}(\xi)}{g^{(n)}(\xi)}=\frac{f_n^{(n+1)}(\xi)}{g^{(n+1)}(\xi)}.$$
-    </div>
-    <p>これを整理すればテイラーの定理の剰余項表現を得ます。</p>
-
+        <h2>テイラーの定理の証明</h2>
+        <p>$f_n(x)=f(x)-T_n(x)$ とおく。$T_n^{(k)}(a)=f^{(k)}(a)$ が $k\le n$ で成立していることから，$f_n^{(k)}(a)=0$ が $k\le n$ で分かる。</p>
+        <p>$g(x)=(x-a)^{n+1}$ とし，コーシーの平均値の定理を $n$ 回適用すると，ある $\xi$ が $a$ と $x$ の間に存在して</p>
+        <div class="formula">$$\frac{f_n^{(n)}(\xi)}{g^{(n)}(\xi)}=\frac{f_n^{(n+1)}(\xi)}{g^{(n+1)}(\xi)}$$
+        </div>
+        <p>これを整理すればテイラーの定理の剰余項表現を得る。</p>
+    </div> <!-- end of container -->
 </body>
 </html>
