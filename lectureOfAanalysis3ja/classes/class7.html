@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>第7回：多変数関数の局所的極値</title>
+    <title>第7回：極値と臨界点</title>
     <style>
         :root {
             --primary-color: #2c3e50;
@@ -70,18 +70,6 @@
             font-style: italic;
             padding: 0 3px;
         }
-        
-        .formula {
-            margin: 25px 0;
-            padding: 15px;
-            background-color: #f8f9fa;
-            border-left: 4px solid var(--secondary-color);
-            border-radius: 5px;
-            overflow-x: auto;
-            font-size: 1.1em;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
-            text-align: center;
-        }
 
         .figure {
             text-align: center;
@@ -101,17 +89,6 @@
             font-style: italic;
             color: #777;
             margin-top: 15px;
-        }
-        
-        .example-title {
-            font-weight: bold;
-            font-size: 1.2em;
-            color: var(--secondary-color);
-            margin-top: 30px;
-            margin-bottom: 15px;
-            padding-bottom: 5px;
-            border-bottom: 1px dashed #ccc;
-            display: inline-block;
         }
 
         .navigation {
@@ -149,6 +126,28 @@
             color: var(--primary-color);
         }
 
+        .formula {
+            margin: 25px 0;
+            padding: 15px;
+            background-color: #f8f9fa;
+            border-left: 4px solid var(--secondary-color);
+            border-radius: 5px;
+            overflow-x: auto;
+            font-size: 1.1em;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+        }
+
+        .example-title {
+            font-weight: bold;
+            font-size: 1.2em;
+            color: var(--secondary-color);
+            margin-top: 30px;
+            margin-bottom: 15px;
+            padding-bottom: 5px;
+            border-bottom: 1px dashed #ccc;
+            display: inline-block;
+        }
+
         p {
             margin-bottom: 20px;
             line-height: 1.8;
@@ -158,43 +157,118 @@
             padding-bottom: 30px;
         }
         
-        .footnote {
-            font-size: 0.9em;
-            color: #777;
-            margin-top: 5px;
-            border-top: 1px solid #eee;
-            padding-top: 10px;
-        }
-        
-        ul {
-            margin-bottom: 20px;
-        }
-        
-        .key-insights {
-            background-color: #eefaf8;
-            border-left: 4px solid #2ecc71;
-            text-align: left;
-            padding: 15px 20px;
-            margin: 25px 0;
+        .definition-box {
+            background-color: #f0f7ff;
+            border-left: 4px solid #3498db;
+            padding: 15px;
+            margin: 20px 0;
             border-radius: 5px;
             box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
         }
         
-        .key-insights h3 {
-            margin-top: 0;
-            color: #2ecc71;
+        .property-box {
+            background-color: #eefaf8;
+            border-left: 4px solid #2ecc71;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
         }
         
-        .key-insights ul {
+        ol.styled-list, ul.styled-list {
             padding-left: 20px;
         }
         
-        .solution {
-            margin-left: 20px;
+        ol.styled-list li, ul.styled-list li {
+            margin-bottom: 12px;
+            line-height: 1.7;
+        }
+        
+        .section-highlight {
+            background-color: #f8f9fa;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 25px 0;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+        }
+        
+        .animation-link {
+            display: inline-block;
+            margin-left: 10px;
+            color: var(--accent-color);
+            text-decoration: none;
+            font-weight: bold;
+            transition: all 0.2s ease;
+        }
+        
+        .animation-link:hover {
+            color: #c0392b;
+            transform: translateY(-2px);
+        }
+        
+        .contour-image {
+            display: block;
+            margin: 20px auto;
+            max-width: 500px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .theme-title {
+            text-align: center;
+            font-size: 1.5rem;
+            color: var(--secondary-color);
+            margin: 30px 0;
             padding: 15px;
-            background-color: #f0f7ff;
-            border-left: 4px solid var(--secondary-color);
+            background-color: #f8f9fa;
+            border-radius: 10px;
+            border: 2px solid var(--secondary-color);
+        }
+
+        .section-divider {
+            margin: 40px 0;
+            border-top: 2px solid #eee;
+        }
+
+        .subsection-title {
+            font-size: 1.2rem;
+            color: var(--primary-color);
+            margin-top: 25px;
+            margin-bottom: 15px;
+            font-weight: bold;
+        }
+
+        .problem-section {
+            background-color: #fff8f0;
+            border-left: 4px solid var(--accent-color);
+            padding: 20px;
+            margin: 30px 0;
             border-radius: 5px;
+        }
+
+        .problem-title {
+            font-size: 1.3rem;
+            color: var(--accent-color);
+            margin-bottom: 20px;
+            font-weight: bold;
+        }
+
+        .problem-subsection {
+            margin: 20px 0;
+        }
+
+        .problem-subsection h4 {
+            color: var(--primary-color);
+            margin-bottom: 10px;
+        }
+
+        ol {
+            margin: 10px 0;
+            padding-left: 20px;
+        }
+
+        ol li {
+            margin-bottom: 8px;
         }
     </style>
     <!-- MathJax configuration -->
@@ -214,117 +288,135 @@
 <body>
     <div class="container">
         <header>
-            <h1>微分積分学I</h1>
-            <div class="lecture-title">工学部：電気電子工学グループ4</div>
-            <div class="author-info">講義ノート</div>
+            <h1>第7回：極値と臨界点</h1>
         </header>
 
-        <section id="class7" class="content-section">
-            <div class="section-title">第7回：多変数関数の局所的極値</div>
 
-            <p>この講義では、多変数関数の<span class="topic-highlight">局所的極値</span>（最大値と最小値）を見つけ、特徴づける方法を探求し、一変数微分積分学の概念を多次元に拡張する。</p>
+        <div class="section-divider"></div>
 
-            <h3>多変数における局所的極値</h3>
-            <p>関数 <span class="math">$f: \mathbb{R}^n \to \mathbb{R}$</span> において、点 <span class="math">$\mathbf{p} \in \mathbb{R}^n$</span> が以下の場合である：</p>
-            <ul>
-                <li><strong>局所的最大値</strong>：点 <span class="math">$\mathbf{p}$</span> の近傍 <span class="math">$U$</span> が存在し、すべての <span class="math">$\mathbf{x} \in U$</span> について <span class="math">$f(\mathbf{x}) \leq f(\mathbf{p})$</span> が成り立つ場合。</li>
-                <li><strong>局所的最小値</strong>：点 <span class="math">$\mathbf{p}$</span> の近傍 <span class="math">$U$</span> が存在し、すべての <span class="math">$\mathbf{x} \in U$</span> について <span class="math">$f(\mathbf{x}) \geq f(\mathbf{p})$</span> が成り立つ場合。</li>
-                <li><strong>局所的極値</strong>：局所的最大値または局所的最小値のいずれかである場合。</li>
-            </ul>
-
-            <h3>臨界点</h3>
-            <p>極値を見つける上で重要なステップは<span class="topic-highlight">臨界点</span>を特定することである。微分可能な関数 <span class="math">$f: \mathbb{R}^n \to \mathbb{R}$</span> において、点 <span class="math">$\mathbf{p}$</span> が<strong>臨界点</strong>であるのは、点 <span class="math">$\mathbf{p}$</span> における <span class="math">$f$</span> の勾配がゼロである場合である：</p>
-            <div class="formula">
-                $$\nabla f(\mathbf{p}) = \mathbf{0}$$
-            </div>
-            <p>2変数関数 <span class="math">$f(x,y)$</span> の場合、これは臨界点において両方の偏導関数がゼロでなければならないことを意味する：</p>
-            <div class="formula">
-                $$\frac{\partial f}{\partial x}(x_0, y_0) = 0 \quad \text{かつ} \quad \frac{\partial f}{\partial y}(x_0, y_0) = 0$$
-            </div>
-
-            <p>一変数微分積分学と同様に、臨界点は局所的極値の<em>必要</em>条件である（その点で関数が微分可能である場合）が、<em>十分</em>条件ではない。臨界点は局所的最大値、局所的最小値、またはどちらでもない（鞍点）可能性がある。</p>
-
-            <div class="example-title">例 7.1</div>
-            <div class="formula" style="background-color: #f0f7ff; border-left-color: #3498db; text-align: left;">
-                <p><strong>問題：</strong> <span class="math">$f(x,y) = x^2 + y^2 - 2x - 4y + 5$</span> の臨界点を求めよ。</p>
-                
-                <p><strong>解答：</strong></p>
-                <p>偏導関数を計算する：</p>
-                $$\frac{\partial f}{\partial x} = 2x - 2$$
-                $$\frac{\partial f}{\partial y} = 2y - 4$$
-                
-                <p>これらをゼロに設定する：</p>
-                $$2x - 2 = 0 \implies x = 1$$
-                $$2y - 4 = 0 \implies y = 2$$
-                
-                <p>したがって、唯一の臨界点は $(1, 2)$ である。</p>
-            </div>
-
-            <h3>鞍点</h3>
-            <p>一変数微分積分学とは異なり、多変数関数は最大値でも最小値でもない臨界点を持つことがある。これらは<span class="topic-highlight">鞍点</span>と呼ばれる。</p>
+        <section class="content-section">
+            <h2 class="section-title">§1 一変数関数の極値</h2>
             
-            <p>鞍点とは、関数がある方向では増加し、別の方向では減少するような臨界点である。古典的な例は関数 <span class="math">$f(x,y) = x^2 - y^2$</span> であり、原点 <span class="math">$(0,0)$</span> に鞍点がある。<span class="math">$y=0$</span> に固定して <span class="math">$x$</span> を変化させると、関数は <span class="math">$x^2$</span> のように振る舞う（<span class="math">$x=0$</span> で最小値）。しかし、<span class="math">$x=0$</span> に固定して <span class="math">$y$</span> を変化させると、関数は <span class="math">$-y^2$</span> のように振る舞う（<span class="math">$y=0$</span> で最大値）。</p>
-
-            <div class="figure">
-                <img src="https://via.placeholder.com/500x300" alt="鞍点の可視化">
-                <div class="figure-caption">図7.1：関数 f(x,y) = x² - y² の鞍点の可視化。原点付近で表面はx方向には上昇するが、y方向には下降する。</div>
+            <div class="subsection-title">1.1 定義</div>
+            <div class="definition-box">
+                <p>関数 $f:\mathbb{R}\to\mathbb{R}$ と点 $a\in\mathbb{R}$ に対し、</p>
+                <div class="formula">
+                    $$\exists\,\varepsilon>0\quad(|x-a|<\varepsilon\;\Rightarrow\;f(x)\ge f(a))$$
+                </div>
+                <p>が成り立つとき、$f$ は $a$ で最小値（極小値）をとるという（最大値は不等号を逆にする）。</p>
             </div>
 
-            <div class="example-title">例 7.2</div>
-            <div class="formula" style="background-color: #f0f7ff; border-left-color: #3498db; text-align: left;">
-                <p><strong>問題：</strong> <span class="math">$f(x,y) = x^2 - y^2 + 2x$</span> の臨界点を求め、その性質を判定せよ。</p>
-                
-                <p><strong>解答：</strong></p>
-                <p>偏導関数を計算する：</p>
-                $$\frac{\partial f}{\partial x} = 2x + 2$$
-                $$\frac{\partial f}{\partial y} = -2y$$
-                
-                <p>これらをゼロに設定する：</p>
-                $$2x + 2 = 0 \implies x = -1$$
-                $$-2y = 0 \implies y = 0$$
-                
-                <p>したがって、唯一の臨界点は $(-1, 0)$ である。</p>
-                
-                <p>この臨界点の性質を判定するには、この点付近の関数の挙動を分析する必要がある。直感的には、$y=0$ に固定して $x$ を変化させると、関数は $f(x,0) = x^2 + 2x$ となり、$x=-1$ で最小値を持つ。しかし、$x=-1$ に固定して $y$ を変化させると、関数は $f(-1,y) = 1 - y^2$ となり、$y=0$ で最大値を持つ。$(-1, 0)$ の周りで関数がある方向では増加し、別の方向では減少するため、これは鞍点である。</p>
+            <div class="subsection-title">1.2 微分可能な場合の必要条件（一次）</div>
+            <div class="property-box">
+                <p>$f$ が $a$ で微分可能かつ $a$ で極値をとるならば、</p>
+                <div class="formula">
+                    $$f'(a)=0.$$
+                </div>
             </div>
-
-            <h3>臨界点の種類</h3>
-            <p>関数 <span class="math">$f: \mathbb{R}^2 \to \mathbb{R}$</span> で臨界点が <span class="math">$(x_0, y_0)$</span> にある場合、この点周りの関数の挙動に基づいて分類できる：</p>
-            <ul>
-                <li><strong>局所的最大値</strong>：関数が臨界点からすべての方向に減少する。</li>
-                <li><strong>局所的最小値</strong>：関数が臨界点からすべての方向に増加する。</li>
-                <li><strong>鞍点</strong>：関数が臨界点からある方向には増加し、別の方向には減少する。</li>
-            </ul>
-            
-            <p>次回の講義では、関数の二次導関数を使用して臨界点を分類する体系的なアプローチを展開し、多変数関数のための<span class="topic-highlight">第二導関数テスト</span>へとつなげる。</p>
-
-            <h3>幾何学的解釈</h3>
-            <p>関数 <span class="math">$f(x,y)$</span> について、グラフ <span class="math">$z = f(x,y)$</span> を3次元空間で見ることで臨界点を視覚化できる：</p>
-            <ul>
-                <li>局所的最大値は表面上の「山頂」に対応する。</li>
-                <li>局所的最小値は表面上の「谷底」に対応する。</li>
-                <li>鞍点は山の峠のようなもので、表面がある方向には上昇し、別の方向には下降する。</li>
-            </ul>
-            
-            <div class="key-insights">
-                <h3>臨界点に関する重要な洞察</h3>
-                <ul>
-                    <li>臨界点はすべての偏導関数がゼロになる点で発生する。</li>
-                    <li>臨界点は最大値、最小値、または鞍点になり得る。</li>
-                    <li>多変数関数はしばしば鞍点を持ち、これは最大値でも最小値でもない。</li>
-                    <li>第二導関数テスト（次回扱う）は臨界点を分類するための体系的な方法を提供する。</li>
-                    <li>臨界点を見つけることは、最適化問題、安定性解析、ポテンシャルエネルギー構成など、多くの工学応用の中心となる。</li>
-                </ul>
-            </div>
-            
-            <p>臨界点の幾何学を理解することは、最適化問題、安定性解析、ポテンシャルエネルギー構成など、多くの工学応用において極めて重要である。</p>
         </section>
 
-        <div class="navigation">
-            <a href="class6.html">← 前回：第6回</a>
-            <a href="../index.html">ホーム</a>
-            <a href="class8.html">次回：第8回 →</a>
-        </div>
+        <div class="section-divider"></div>
+
+        <section class="content-section">
+            <h2 class="section-title">§2 二変数関数の極値</h2>
+            
+            <div class="subsection-title">2.1 定義</div>
+            <div class="definition-box">
+                <p>$f:\mathbb{R}^2\to\mathbb{R}$ が点 $(a,b)\in\mathbb{R}^2$ に対して</p>
+                <div class="formula">
+                    $$\exists\,\varepsilon>0\quad\bigl(\sqrt{(x-a)^2+(y-b)^2}<\varepsilon\;\Rightarrow\;f(x,y)\ge f(a,b)\bigr)$$
+                </div>
+                <p>を満たすとき、$f$ は $(a,b)$ で極小値をとるという（最大値も同様に定義される）。</p>
+            </div>
+
+            <div class="subsection-title">2.2 微分可能な場合の必要条件（二次）</div>
+            <div class="property-box">
+                <p>$f$ が $(a,b)$ で偏微分可能で極値をとるならば、</p>
+                <div class="formula">
+                    $$\frac{\partial f}{\partial x}(a,b)=\frac{\partial f}{\partial y}(a,b)=0.$$
+                </div>
+            </div>
+        </section>
+
+        <div class="section-divider"></div>
+
+        <section class="content-section">
+            <h2 class="section-title">§3 臨界点</h2>
+            
+            <div class="definition-box">
+                <p>点 $(a,b)$ が臨界点であるとは、</p>
+                <div class="formula">
+                    $$\nabla f(a,b)=\left(\frac{\partial f}{\partial x}(a,b),\,\frac{\partial f}{\partial y}(a,b)\right)=(0,0)$$
+                </div>
+                <p>が成り立つことである。臨界点は以下のいずれかとなり得る：</p>
+                <ul class="styled-list">
+                    <li>極小点</li>
+                    <li>極大点</li>
+                    <li>鞍点（saddle point）</li>
+                </ul>
+            </div>
+        </section>
+
+        <div class="section-divider"></div>
+
+        <section class="content-section">
+            <h2 class="section-title">§4 二次関数の極値判定</h2>
+            
+            <div class="subsection-title">4.1 臨界点でも極値でない例</div>
+            <div class="section-highlight">
+                <div class="formula">
+                    $$f(x,y)=x^2-y^2$$
+                </div>
+                <p>は原点で $\nabla f(0,0)=(0,0)$ を満たすが、極小値でも極大値でもなく鞍点となる。</p>
+            </div>
+
+            <div class="subsection-title">4.2 一般二次形式の判定</div>
+            <p>二次関数</p>
+            <div class="formula">
+                $$f(x,y) = ax^2 + 2bxy + cy^2$$
+            </div>
+            <p>について以下の手順で極値を判定する。</p>
+
+            <div class="example-title">Step 1：平方完成</div>
+            <div class="formula">
+                $$f(x,y) = a\left(x + \frac{b}{a}y\right)^2 + \left(c - \frac{b^2}{a}\right)y^2 \quad(a\ne 0)$$
+            </div>
+
+            <div class="example-title">Step 2：符号による分類</div>
+            <ul class="styled-list">
+                <li>$a>0$ かつ $c - \dfrac{b^2}{a} > 0$ のとき、原点は最小点</li>
+                <li>$a<0$ かつ $c - \dfrac{b^2}{a} < 0$ のとき、原点は最大点</li>
+                <li>符号が異なるとき、原点は極値をもたない（鞍点）</li>
+            </ul>
+
+            <p>別の判定法としてヘッセ行列 $H$ を用いてもよい：</p>
+            <div class="formula">
+                $$H = \begin{pmatrix} 2a & 2b \\ 2b & 2c \end{pmatrix},\quad \det H = 4(ac - b^2)$$
+            </div>
+        </section>
+
+        <div class="section-divider"></div>
+
+        <section class="problem-section">
+            <h2 class="problem-title">練習問題</h2>
+            
+            <div class="problem-subsection">
+                <h4>A 臨界点を求めよ</h4>
+                <ol>
+                    <li>$f(x,y)=x^2+y^2$</li>
+                    <li>$f(x,y)=x^3-3x+y^2$</li>
+                    <li>$f(x,y)=x^2y+y^3-3y$</li>
+                </ol>
+            </div>
+
+            <div class="problem-subsection">
+                <h4>B 二次関数の極値判定</h4>
+                <ol start="4">
+                    <li>$f(x,y)=3x^2+4xy+2y^2$</li>
+                    <li>$f(x,y)=x^2-4xy+4y^2$</li>
+                </ol>
+            </div>
+        </section>
     </div>
 </body>
 </html>
