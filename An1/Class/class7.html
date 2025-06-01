@@ -159,64 +159,6 @@
             <div class="author-info">講義ノート</div>
         </header>
 
-        <h2>テイラー多項式</h2>
-        <p>点 $x=a$ の周りの $n$ 次テイラー多項式を次で定義する。</p>
-        <div class="formula">$$T_n(x)=\sum_{k=0}^{n}\frac{f^{(k)}(a)}{k!}(x-a)^k=f(a)+f'(a)(x-a)+\frac{f''(a)}{2!}(x-a)^2+\cdots+\frac{f^{(n)}(a)}{n!}(x-a)^n$$</div>
-
-        <p>テイラー多項式は次の性質を持つ：点 $x=a$ において，$k\le n$ なる任意の $k$ に対して</p>
-        <div class="formula">$$T_n^{(k)}(a)=f^{(k)}(a)$$</div>
-        <p>が成り立つ。すなわち，$T_n(x)$ は点 $x=a$ において，$f(x)$ と $n$ 階微分まで一致する。</p>
-
-        <div class="example">
-            <p><strong>例&nbsp;1.</strong> $f(x)=e^x$，$a=0$ の場合：</p>
-            <div class="formula">$$T_3(x)=1+x+\frac{x^{2}}{2}+\frac{x^{3}}{6}$$</div>
-        </div>
-        <div class="example">
-            <p><strong>例&nbsp;2.</strong> $f(x)=\ln(1+x)$，$a=0$ の場合：</p>
-            <div class="formula">$$T_3(x)=x-\frac{x^{2}}{2}+\frac{x^{3}}{3}$$</div>
-        </div>
-        <div class="example">
-            <p><strong>例&nbsp;3.</strong> $f(x)=\cos x$，$a=0$ の場合：</p>
-            <div class="formula">$$T_4(x)=1-\frac{x^{2}}{2}+\frac{x^{4}}{24}$$</div>
-        </div>
-
-        <div class="note">
-            <p><strong>目標：</strong> テイラーの定理を用いて $|f(x)-T_n(x)|$ の誤差を評価する。</p>
-        </div>
-
-
-        <div class="theorem">
-            <p><strong>定義（$C^n$ 級関数）</strong></p>
-            <p>区間 $I$ 上で定義された関数 $f$ が $n$ 回連続的微分可能であるとき，$f$ を $C^n$ 級関数と呼び，$f\in C^n(I)$ と表す。特に，</p>
-            <ul>
-                <li>$C^0(I)$ は連続関数全体</li>
-                <li>$C^1(I)$ は1回連続的微分可能な関数全体</li>
-                <li>$C^\infty(I)$ は無限回連続的微分可能な関数全体</li>
-            </ul>
-            <p>を表す。</p>
-        </div>
-
-        <h2>テイラーの定理とその応用</h2>
-        <div class="theorem">
-            <p><strong>テイラーの定理</strong></p>
-            <p>$f\in C^{n+1}(I)$とし，$a\in I$ とする。任意の $x\in I$ に対して，ある $\xi$ が $a$ と $x$ の間に存在し</p>
-            <div class="formula">$$f(x)=T_n(x)+\frac{f^{(n+1)}(\xi)}{(n+1)!}(x-a)^{n+1}$$</div>
-            <p>が成り立つ。</p>
-        </div>
-
-        <div class="example">
-            <p><strong>応用&nbsp;1.</strong> 自然対数の底 $e$ の近似誤差：</p>
-            <p>点 $a=1$ で $n=3$ とし，$f(x)=e^{x}$ にテイラーの定理を適用すると</p>
-            <div class="formula">$$|e-T_3(1)|\le\frac{e}{4!}<\frac{3}{4!}\approx 0.125$$</div>
-        </div>
-
-        <div class="example">
-            <p><strong>応用&nbsp;2.</strong> $\cos(0.01)-1$ の評価：</p>
-            <p>$a=0$，$n=4$ とし，$f(x)=\cos x$ について</p>
-            <div class="formula">$$|\cos(0.01)-T_4(0.01)|\le \frac{|f^{(5)}(\xi)|}{5!}|0.01|^{5}\le \frac{1}{120}\times 10^{-10}\approx 8.3\times10^{-13}$$</div>
-            <p>従って $\displaystyle\cos(0.01)-1\approx -\frac{0.01^{2}}{2}+\frac{0.01^{4}}{24}\approx -4.999\times10^{-5}$ となる。</p>
-        </div>
-
         <h2>テイラーの定理の証明</h2>
         
         <h2>コーシーの平均値の定理</h2>
@@ -240,12 +182,6 @@
             <p>証明：$\displaystyle \varphi(x)=\frac{f(b)-f(a)}{g(b)-g(a)}\bigl(g(x)-g(a)\bigr)-\bigl(f(x)-f(a)\bigr)$ と置くと $\varphi(a)=\varphi(b)=0$ となる。ロルの定理を適用すれば $\varphi'(c)=0$ を与え，整理して上式が得られる。</p>
         </div>
         
-        <div class="theorem">
-            <p><strong>ロピタルの定理</strong></p>
-            <p>$f,g\in C^{1}$ で $g'(a)\neq 0$ とする。$\displaystyle\lim_{x\to a}\frac{f(x)}{g(x)}$ が不定形 $\tfrac{0}{0}$ または $\tfrac{\infty}{\infty}$ ならば，</p>
-            <div class="formula">$$\lim_{x\to a}\frac{f(x)}{g(x)}=\lim_{x\to a}\frac{f'(x)}{g'(x)}$$</div>
-            <p>ただし右辺の極限が存在する場合に限る。</p>
-        </div>
 
 <div class="proof">
   <p>証明：$x\neq a$ かつ $x$ が $a$ に十分近いとき，$f(a)=g(a)=0$ だから区間 $[a,x]$（または $[x,a]$）に対してコーシーの平均値の定理を適用すると，ある $c$ がその区間内に存在して</p>
@@ -271,9 +207,91 @@
         </div>
         <p>これを整理すればテイラーの定理の剰余項表現を得る。</p>
     </div> <!-- end of container -->
+
+<h2>テイラー展開</h2>
+
+<!-- 指数関数 -->
+<div class="theorem">
+  <p><strong>定理（指数関数のテイラー展開）</strong></p>
+  <p>任意の $x\in\mathbb{R}$ について  
+  $$
+    \lim_{n\to\infty}\Bigl|e^{x}-\sum_{k=0}^{n}\frac{x^{k}}{k!}\Bigr|=0.
+  $$</p>
+</div>
+<div class="proof">
+  <p>テイラーの定理より  
+  $$
+    e^{x}=\sum_{k=0}^{n}\frac{x^{k}}{k!}+R_n(x),\qquad
+    R_n(x)=\frac{e^{\xi}}{(n+1)!}x^{\,n+1}\quad(\xi\ \text{は}\ 0\ \text{と}\ x\ \text{の間}).
+  $$  
+  固定した $x$ では  
+  $$
+    |R_n(x)|\le\frac{e^{|x|}}{(n+1)!}|x|^{\,n+1}\xrightarrow[n\to\infty]{}0,
+  $$  
+  したがって主張が従う。</p>
+</div>
+
+<!-- 余弦関数 -->
+<div class="theorem">
+  <p><strong>定理（余弦関数のテイラー展開）</strong></p>
+  <p>任意の $x\in\mathbb{R}$ について  
+  $$
+    \lim_{n\to\infty}\Bigl|\cos x-\sum_{k=0}^{n}\frac{(-1)^k}{(2k)!}x^{2k}\Bigr|=0.
+  $$</p>
+</div>
+<div class="proof">
+  <p>テイラー剰余は  
+  $$
+    R_n(x)=\frac{(-1)^{n+1}\sin\xi}{(2n+1)!}x^{\,2n+1},\qquad |\sin\xi|\le1.
+  $$  
+  よって  
+  $$
+    |R_n(x)|\le\frac{|x|^{\,2n+1}}{(2n+1)!}\xrightarrow[n\to\infty]{}0.
+  $$</p>
+</div>
+
+<!-- 正弦関数 -->
+<div class="theorem">
+  <p><strong>定理（正弦関数のテイラー展開）</strong></p>
+  <p>任意の $x\in\mathbb{R}$ について  
+  $$
+    \lim_{n\to\infty}\Bigl|\sin x-\sum_{k=0}^{n}\frac{(-1)^k}{(2k+1)!}x^{2k+1}\Bigr|=0.
+  $$</p>
+</div>
+<div class="proof">
+  <p>剰余項は  
+  $$
+    R_n(x)=\frac{(-1)^{n+1}\cos\xi}{(2n+2)!}x^{\,2n+2},\qquad |\cos\xi|\le1.
+  $$  
+  同様に  
+  $$
+    |R_n(x)|\le\frac{|x|^{\,2n+2}}{(2n+2)!}\xrightarrow[n\to\infty]{}0.
+  $$</p>
+</div>
+
+<h2>オイラーの公式</h2>
+
+<div class="theorem">
+  <p><strong>定理（オイラーの公式）</strong></p>
+  <p>任意の $x\in\mathbb{R}$ で  
+  $$
+    e^{ix}=\cos x+i\sin x.
+  $$</p>
+</div>
+<div class="proof">
+  <p>指数関数のテイラー展開を複素数に拡張すると  
+  $$
+    e^{ix}=\sum_{k=0}^{\infty}\frac{(ix)^{k}}{k!}
+          =\sum_{m=0}^{\infty}\frac{(-1)^{m}x^{2m}}{(2m)!}
+          +\,i\sum_{m=0}^{\infty}\frac{(-1)^{m}x^{2m+1}}{(2m+1)!}.
+  $$  
+  前者は $\cos x$，後者は $\sin x$ に一致するので公式が成立する。</p>
+</div>
         <div class="navigation">
-            <a href="class5.html">前のページ</a>
-            <a href="class7.html">次のページ</a>
+            <a href="class6.html">前の講義</a>
+            <a href="class8.html">次の講義</a>
         </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
 </body>
 </html>
