@@ -172,41 +172,59 @@
             <figcaption>イメージ図：$f(a)=f(b)$ となる点 $a,b$ の間に停留点が存在する</figcaption>
         </div>
 
-        <div class="theorem">
-            <p><strong>定理（コーシーの平均値の定理）</strong></p>
-            <p>$f,g$ を $[a,b]$ で連続，$(a,b)$ で微分可能とし，$g'(x)\neq 0$ が成り立つとする。このとき，ある $c\in(a,b)$ が存在して</p>
-            <div class="formula">$$\frac{f(b)-f(a)}{g(b)-g(a)}=\frac{f'(c)}{g'(c)}$$</div>
-        </div>
-        <div class="proof">
-
-            <p>証明：$\displaystyle \varphi(x)=\frac{f(b)-f(a)}{g(b)-g(a)}\bigl(g(x)-g(a)\bigr)-\bigl(f(x)-f(a)\bigr)$ と置くと $\varphi(a)=\varphi(b)=0$ となる。ロルの定理を適用すれば $\varphi'(c)=0$ を与え，整理して上式が得られる。</p>
-        </div>
-        
+<div class="theorem">
+  <p><strong>定理（コーシーの平均値の定理）</strong></p>
+  <p>$g, h$ を $[a, b]$ 上連続、$(a, b)$ 上微分可能な関数とする。また、任意の $x \in (a, b)$ に対して $h'(x) \neq 0$ が成り立つとする。このとき、ある $c \in (a, b)$ が存在して</p>
+  <div class="formula">
+    $$\frac{g(b) - g(a)}{h(b) - h(a)} = \frac{g'(c)}{h'(c)}$$
+  </div>
+</div>
 
 <div class="proof">
-  <p>証明：$x\neq a$ かつ $x$ が $a$ に十分近いとき，$f(a)=g(a)=0$ だから区間 $[a,x]$（または $[x,a]$）に対してコーシーの平均値の定理を適用すると，ある $c$ がその区間内に存在して</p>
-  <div class="formula">
-    $$\frac{f(x)-f(a)}{g(x)-g(a)}=\frac{f'(c)}{g'(c)}$$
-  </div>
-  <p>が成り立つ。ここで $f(a)=g(a)=0$ なので</p>
-  <div class="formula">
-    $$\frac{f(x)}{g(x)}=\frac{f'(c)}{g'(c)}.$$
-  </div>
-  <p>今 $x\to a$ のとき $c\to a$ となり，仮定より右辺の $$\lim_{x\to a}\frac{f'(x)}{g'(x)}$$ が存在するため，左辺の $$\lim_{x\to a}\frac{f(x)}{g(x)}$$ も同じ値に収束する。</p>
+  <p><strong>証明：</strong> 関数
+    $$
+    \varphi(x) = \frac{g(b) - g(a)}{h(b) - h(a)} (h(x) - h(a)) - (g(x) - g(a))
+    $$
+    と定義する。$\varphi(a) = \varphi(b) = 0$ であるから、ロルの定理よりある $c \in (a, b)$ が存在して $\varphi'(c) = 0$ となる。$\varphi'(x)$ を計算すると
+    $$
+    \varphi'(x) = \frac{g(b) - g(a)}{h(b) - h(a)} h'(x) - g'(x)
+    $$
+    であるから、$\varphi'(c) = 0$ は
+    $$
+    \frac{g(b) - g(a)}{h(b) - h(a)} h'(c) = g'(c)
+    $$
+    を意味し、これを整理すると主張が得られる。
+  </p>
 </div>
-        <div class="theorem">
-            <p><strong>テイラーの定理</strong></p>
-            <p>$f$ が $I$ 上で $(n+1)$ 回微分可能とし，$a\in I$ とする。任意の $x\in I$ に対して，ある $\xi$ が $a$ と $x$ の間に存在し</p>
-            <div class="formula">$$f(x)=T_n(x)+\frac{f^{(n+1)}(\xi)}{(n+1)!}(x-a)^{n+1}=:T_n(x)+R_n(x).$$</div>
-            <p>が成り立つ。</p>
-        </div>
-        <div class="proof">
-        <p>$f_n(x)=f(x)-T_n(x)$ とおく。$T_n^{(k)}(a)=f^{(k)}(a)$ が $k\le n$ で成立していることから，$f_n^{(k)}(a)=0$ が $k\le n$ で分かる。</p>
-        <p>$g(x)=(x-a)^{n+1}$ とし，コーシーの平均値の定理を $n$ 回適用すると，ある $\xi$ が $a$ と $x$ の間に存在して</p>
-        <div class="formula">$$\frac{f_n^{(n)}(\xi)}{g^{(n)}(\xi)}=\frac{f_n^{(n+1)}(\xi)}{g^{(n+1)}(\xi)}$$
-        </div>
-        <p>これを整理すればテイラーの定理の剰余項表現を得る。</p>
-    </div> <!-- end of container -->
+
+<div class="theorem">
+  <p><strong>定理（テイラーの定理）</strong></p>
+  <p>$f$ を開区間 $I$ 上で $(n+1)$ 回連続微分可能な関数とし、$a \in I$ とする。任意の $x \in I$ に対して、ある $c$ が $a$ と $x$ の間に存在して</p>
+  <div class="formula">
+    $$f(x) = T_n(x) + \frac{f^{(n+1)}(c)}{(n+1)!}(x - a)^{n+1}$$
+  </div>
+  <p>が成り立つ。ただし、$T_n(x)$ は $f$ の $a$ における $n$ 次テイラー多項式である。</p>
+</div>
+
+<div class="proof">
+  <p><strong>証明：</strong> $g(x) = f(x) - T_n(x)$, $h(x) = (x - a)^{n+1}$ とおく。$T_n^{(k)}(a) = f^{(k)}(a)$ が $k \leq n$ に対して成り立つので、$g^{(k)}(a) = 0$ が $k \leq n$ に対して成り立つ。</p>
+  <p>同様に、$h^{(k)}(a) = 0$ が $k < n+1$ に対して成り立ち、$h^{(n+1)}(x) = (n+1)!$ である。</p>
+  <p>コーシーの平均値の定理を $n$ 回適用することを考える。まず、$g$ と $h$ に対してコーシーの平均値の定理を適用すると、ある $c_n \in (a, x)$ が存在して</p>
+  <div class="formula">
+    $$\frac{g^{(n)}(x) - g^{(n)}(a)}{h^{(n)}(x) - h^{(n)}(a)} = \frac{g^{(n+1)}(c_n)}{h^{(n+1)}(c_n)}.$$
+  </div>
+  <p>ここで $g^{(n)}(a) = 0$, $h^{(n)}(a) = 0$, $h^{(n+1)}(c_n) = (n+1)!$ であることに注意すると、
+  $$
+  g^{(n)}(x) = \frac{f^{(n+1)}(c_n)}{(n+1)!} h^{(n)}(x)
+  $$
+  が成り立つ。</p>
+  <p>これを $n$ 回積分すると、結局
+  $$
+  f(x) = T_n(x) + \frac{f^{(n+1)}(c)}{(n+1)!}(x - a)^{n+1}
+  $$
+  を得る。ここで $c$ は $a$ と $x$ の間に存在する。
+  </p>
+</div>
 
 <h2>テイラー展開</h2>
 
