@@ -265,6 +265,15 @@
   が成り立つ。</p>
 </div>
 
+<div class="theorem">
+  <p><strong>定義（テイラー級数）</strong></p>
+  <p>関数 $f$ の点 $x=a$ における無限次のテイラー多項式
+  $$
+    \lim_{n\to\infty}T_n(x)=\sum_{k=0}^{\infty}\frac{f^{(k)}(a)}{k!}(x-a)^k
+  $$
+  をテイラー級数という。特に $a=0$ のときはマクローリン級数という。</p>
+</div>
+
 <!-- 指数関数 -->
 <div class="theorem">
   <p><strong>定理（指数関数のテイラー展開）</strong></p>
@@ -333,6 +342,12 @@
     e^{ix}=\cos x+i\sin x.
   $$</p>
 </div>
+
+<div class="figure">
+  <img src="figures/euler.svg" alt="オイラーの円">
+  <figcaption>オイラーの円：虚数単位 $i$（代数）、円周率 $\pi$（幾何）、自然対数の底 $e$（解析）の美しい関係を表す。特に $x=\pi$ のとき $e^{i\pi}+1=0$ が成り立つ。</figcaption>
+</div>
+
 <div class="proof">
   <p>指数関数のテイラー展開を複素数に拡張すると  
   $$
@@ -342,6 +357,32 @@
   $$  
   前者は $\cos x$，後者は $\sin x$ に一致するので公式が成立する。</p>
 </div>
+
+<div class="theorem">
+  <p><strong>系（三角関数の加法定理）</strong></p>
+  <p>任意の $x,y\in\mathbb{R}$ に対して以下が成り立つ：</p>
+  <ul>
+    <li>$\cos(x+y)=\cos x\cos y-\sin x\sin y$</li>
+    <li>$\sin(x+y)=\sin x\cos y+\cos x\sin y$</li>
+  </ul>
+</div>
+
+<div class="proof">
+  <p>オイラーの公式より，
+  $$
+    e^{i(x+y)}=\cos(x+y)+i\sin(x+y).
+  $$
+  一方，指数関数の性質より
+  $$
+  \begin{aligned}
+    e^{i(x+y)}&=e^{ix}e^{iy}\\
+    &=(\cos x+i\sin x)(\cos y+i\sin y)\\
+    &=(\cos x\cos y-\sin x\sin y)+i(\sin x\cos y+\cos x\sin y).
+  \end{aligned}
+  $$
+  両者を比較することで加法定理が得られる。</p>
+</div>
+
         <div class="navigation">
             <a href="class6.html">前の講義</a>
             <a href="class8.html">次の講義</a>
