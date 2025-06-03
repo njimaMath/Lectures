@@ -228,9 +228,9 @@
 
   <p><strong>ステップ3：</strong> コーシーの平均値の定理を順次適用する。</p>
   <ol>
-    <li>まず $g^{(n)}$ と $h^{(n)}$ に対してコーシーの平均値の定理を適用：ある $c_n \in (a,x)$ が存在して
+    <li>まず $g^{(n)}$ と $h^{(n)}$ に対してコーシーの平均値の定理を適用：ある $c_{n+1} \in (a,x)$ が存在して
       <div class="formula">
-        $$\frac{g^{(n)}(x) - g^{(n)}(a)}{h^{(n)}(x) - h^{(n)}(a)} = \frac{g^{(n+1)}(c_n)}{h^{(n+1)}(c_n)}$$
+        $$\frac{g^{(n)}(x) - g^{(n)}(a)}{h^{(n)}(x) - h^{(n)}(a)} = \frac{g^{(n+1)}(c_{n+1})}{h^{(n+1)}(c_{n+1})}$$
       </div>
     </li>
   </ol>
@@ -247,6 +247,23 @@
 </div>
 
 <h2>テイラー展開</h2>
+
+<div class="theorem">
+  <p><strong>補題</strong></p>
+  <p>任意の $x\in\mathbb{R}$ に対して
+  $$
+    \lim_{n\to\infty}\frac{|x|^n}{n!}=0
+  $$
+  が成り立つ。</p>
+</div>
+
+<div class="proof">
+  <p>$|x|=r$ とおく。任意の $\varepsilon>0$ に対して，ある $N\in\mathbb{N}$ が存在して，$n>N$ ならば $\frac{r}{n}<1$ となるようにできる。このとき，$n>N$ に対して
+  $$
+    \frac{r^n}{n!}=\frac{r}{n}\cdot\frac{r}{n-1}\cdots\frac{r}{N+1}\cdot\frac{r^N}{N!}<\left(\frac{r}{N+1}\right)^{n-N}\frac{r^N}{N!}\to 0\quad(n\to\infty)
+  $$
+  が成り立つ。</p>
+</div>
 
 <!-- 指数関数 -->
 <div class="theorem">
@@ -280,7 +297,7 @@
 <div class="proof">
   <p>テイラー剰余は  
   $$
-    R_n(x)=\frac{(-1)^{n+1}\sin\xi}{(2n+1)!}x^{\,2n+1},\qquad |\sin\xi|\le1.
+    R_n(x)=\frac{(-1)^{n+1}\sin(c)}{(2n+1)!}x^{\,2n+1},\qquad |\sin\xi|\le1.
   $$  
   よって  
   $$
@@ -299,11 +316,11 @@
 <div class="proof">
   <p>剰余項は  
   $$
-    R_n(x)=\frac{(-1)^{n+1}\cos\xi}{(2n+2)!}x^{\,2n+2},\qquad |\cos\xi|\le1.
+    R_n(x)=\frac{(-1)^{n+1}\cos c}{(n+1)!}x^{\,2n+2},\qquad |\cos\xi|\le1.
   $$  
   同様に  
   $$
-    |R_n(x)|\le\frac{|x|^{\,2n+2}}{(2n+2)!}\xrightarrow[n\to\infty]{}0.
+    |R_n(x)|\le\frac{|x|^{\,n+1}}{(n+1)!}\xrightarrow[n\to\infty]{}0.
   $$</p>
 </div>
 
