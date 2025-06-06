@@ -1,9 +1,11 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>第8回：二変数関数の第二導関数テスト</title>
+
+    <!-- ======  スタイル  ====== -->
     <style>
         :root {
             --primary-color: #2c3e50;
@@ -16,7 +18,7 @@
         }
 
         body {
-            font-family: 'Georgia', serif;
+            font-family: "Georgia", serif;
             line-height: 1.7;
             margin: 0;
             padding: 0;
@@ -28,7 +30,7 @@
             max-width: 900px;
             margin: 20px auto;
             padding: 30px;
-            background-color: white;
+            background-color: #fff;
             box-shadow: var(--container-shadow);
             border-radius: 15px;
         }
@@ -40,7 +42,9 @@
             padding-bottom: 20px;
         }
 
-        h1, h2, h3 {
+        h1,
+        h2,
+        h3 {
             color: var(--primary-color);
         }
 
@@ -66,66 +70,6 @@
             color: #777;
         }
 
-        .math {
-            font-style: italic;
-            padding: 0 3px;
-        }
-
-        .figure {
-            text-align: center;
-            margin: 30px 0;
-            padding: 20px;
-            background-color: #f8f9fa;
-            border-radius: 10px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
-        }
-
-        .figure img {
-            max-width: 100%;
-            border-radius: 5px;
-        }
-
-        .figure-caption {
-            font-style: italic;
-            color: #777;
-            margin-top: 15px;
-        }
-
-        .navigation {
-            margin-top: 40px;
-            text-align: center;
-            display: flex;
-            justify-content: space-between;
-            padding: 15px 0;
-            border-top: 1px solid #eee;
-        }
-
-        .navigation a {
-            display: inline-block;
-            padding: 10px 20px;
-            background-color: var(--primary-color);
-            color: white;
-            text-decoration: none;
-            border-radius: 8px;
-            transition: all 0.3s ease;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-        }
-
-        .navigation a:hover {
-            background-color: var(--secondary-color);
-            transform: translateY(-2px);
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
-        }
-
-        .topic-highlight {
-            display: inline-block;
-            background-color: rgba(52, 152, 219, 0.1);
-            padding: 2px 8px;
-            border-radius: 4px;
-            font-weight: 500;
-            color: var(--primary-color);
-        }
-
         .formula {
             margin: 25px 0;
             padding: 15px;
@@ -133,7 +77,7 @@
             border-left: 4px solid var(--secondary-color);
             border-radius: 5px;
             overflow-x: auto;
-            font-size: 1.1em;
+            font-size: 1.05rem;
             box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
         }
 
@@ -150,174 +94,248 @@
 
         p {
             margin-bottom: 20px;
-            line-height: 1.8;
+        }
+
+        ul {
+            margin-bottom: 20px;
+            padding-left: 1.2em;
         }
 
         .content-section {
             padding-bottom: 30px;
         }
-        
-        .footnote {
-            font-size: 0.9em;
-            color: #777;
-            margin-top: 5px;
+
+        .navigation {
+            margin-top: 40px;
+            display: flex;
+            justify-content: space-between;
+            padding: 15px 0;
             border-top: 1px solid #eee;
-            padding-top: 10px;
         }
-        
-        ul {
-            margin-bottom: 20px;
+
+        .navigation a {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: var(--primary-color);
+            color: #fff;
+            text-decoration: none;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
         }
-        
-        .key-insights {
-            background-color: #eefaf8;
-            border-left: 4px solid #2ecc71;
-            text-align: left;
-            padding: 15px 20px;
-            margin: 25px 0;
-            border-radius: 5px;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
-        }
-        
-        .key-insights h3 {
-            margin-top: 0;
-            color: #2ecc71;
-        }
-        
-        .key-insights ul {
-            padding-left: 20px;
+
+        .navigation a:hover {
+            background-color: var(--secondary-color);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
         }
     </style>
-    <!-- MathJax configuration -->
+
+    <!-- ====== MathJax ====== -->
     <script>
-      window.MathJax = {
-        tex: {
-          inlineMath: [['$', '$']],
-          displayMath: [['$$', '$$']]
-        },
-        svg: {
-          fontCache: 'global'
-        }
-      };
+        window.MathJax = {
+            tex: { inlineMath: [["$", "$"]], displayMath: [["$$", "$$"]] },
+            svg: { fontCache: "global" }
+        };
     </script>
-    <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js" async></script>
+    <script
+        src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"
+        async
+    ></script>
 </head>
+
 <body>
     <div class="container">
+        <!-- ====== ヘッダー ====== -->
         <header>
-            <h1>微分積分学I</h1>
-            <div class="lecture-title">工学部：電気電子工学グループ4</div>
+            <h1>微分積分学 I</h1>
+            <div class="lecture-title">工学部：電気電子工学グループ 4</div>
             <div class="author-info">講義ノート</div>
         </header>
-        
+
+        <!-- ====== 本文 ====== -->
         <section id="class8" class="content-section">
             <div class="section-title">第8回：二変数関数の第二導関数テスト</div>
 
-            <p>この講義では、二変数関数のための<span class="topic-highlight">第二導関数テスト</span>を展開する。これにより、臨界点を局所的最大値、局所的最小値、または鞍点として分類するための体系的な方法が提供される。</p>
+            <!-- 0. 授業のねらい -->
+            <p>
+                本講では、二変数関数における
+                <strong>二階微分</strong> と
+                <strong>臨界点の分類</strong>
+                を扱います。一次元のテイラー展開を出発点に、二次元でのテイラー展開と
+                Hessian 行列を用いた極値判定基準までを確認し、具体例を通じて理解を深めます。
+            </p>
 
-            <h3>二変数関数のヘッセ行列</h3>
-            <p>二変数関数 <span class="math">$f(x,y)$</span> について、点 <span class="math">$(x_0, y_0)$</span> における<span class="topic-highlight">ヘッセ行列</span>は、すべての二階偏導関数から成る <span class="math">$2 \times 2$</span> 行列である：</p>
-            
+            <!-- 1. 復習：一次元のテイラー展開 -->
+            <h3 class="example-title">1. 復習：一次元のテイラー展開</h3>
+            <p>
+                まず、一次元関数における二次テイラー展開を確認します。
+            </p>
             <div class="formula">
-                $$H(x,y) = \begin{bmatrix}
-                f_{xx}(x,y) & f_{xy}(x,y) \\
-                f_{yx}(x,y) & f_{yy}(x,y)
-                \end{bmatrix}$$
+                $$\phi(t)=\phi(0)+\phi'(0)\,t+\frac{1}{2}\phi''(0)\,t^2+o(t^2)\quad
+                (t\to0)$$
             </div>
-            
-            <p>ここで <span class="math">$f_{xx}$</span> は <span class="math">$\frac{\partial^2 f}{\partial x^2}$</span> を、<span class="math">$f_{xy}$</span> は <span class="math">$\frac{\partial^2 f}{\partial x \partial y}$</span> を表し、以下同様である。</p>
-            
-            <p>なお、<span class="math">$f$</span> が連続な二階偏導関数を持つ場合、<span class="math">$f_{xy} = f_{yx}$</span> となる（これはクレローの定理またはシュワルツの定理として知られている）。これはヘッセ行列が対称であることを意味する。</p>
+            <p>
+                ここで $\phi$ が $t=0$ の近くで 2 回連続微分可能であれば、上式が成り立ちます。
+                $o(t^2)$ は $t\to0$ で $\dfrac{o(t^2)}{t^2}\to0$ を意味する高次項です。
+            </p>
 
-            <h3>二変数関数の第二導関数テスト</h3>
-            <p>連続な二階偏導関数を持つ関数 <span class="math">$f(x,y)$</span> があり、<span class="math">$(x_0, y_0)$</span> が <span class="math">$f$</span> の臨界点であるとする（つまり、<span class="math">$\nabla f(x_0, y_0) = \mathbf{0}$</span>）。次のように定義する：</p>
-            
+            <!-- 2. 二変数関数の二次テイラー展開 -->
+            <h3 class="example-title">2. 二変数関数の二次テイラー展開</h3>
+            <p>
+                $f(x,y)$ を点 $(a,b)$ の近くで 2 回連続微分可能とします。$h=x-a,\;k=y-b$ とすると、
+                二変数関数の二次テイラー展開は次のように表されます：
+            </p>
             <div class="formula">
-                $$D(x_0, y_0) = f_{xx}(x_0, y_0) \cdot f_{yy}(x_0, y_0) - [f_{xy}(x_0, y_0)]^2$$
-            </div>
-            
-            <p>これは点 <span class="math">$(x_0, y_0)$</span> におけるヘッセ行列の行列式である。第二導関数テストは以下のように述べられる：</p>
-            
-            <ol>
-                <li><span class="math">$D(x_0, y_0) > 0$</span> かつ <span class="math">$f_{xx}(x_0, y_0) > 0$</span> の場合、<span class="math">$(x_0, y_0)$</span> は<strong>局所的最小値</strong>である。</li>
-                <li><span class="math">$D(x_0, y_0) > 0$</span> かつ <span class="math">$f_{xx}(x_0, y_0) < 0$</span> の場合、<span class="math">$(x_0, y_0)$</span> は<strong>局所的最大値</strong>である。</li>
-                <li><span class="math">$D(x_0, y_0) < 0$</span> の場合、<span class="math">$(x_0, y_0)$</span> は<strong>鞍点</strong>である。</li>
-                <li><span class="math">$D(x_0, y_0) = 0$</span> の場合、テストは決定的ではなく、さらなる分析が必要である。</li>
-            </ol>
-            
-            <p>このテストの背後にある理由は、臨界点付近での関数の二次近似の挙動を分析することから来ており、これはヘッセ行列によって捉えられる。</p>
-            
-            <div class="figure">
-                <img src="./critical_points_ja.svg" alt="臨界点の種類">
-                <div class="figure-caption">図8.1：三種類の臨界点の視覚的表現：局所的最大値、局所的最小値、鞍点。</div>
+                \[
+                \begin{aligned}
+                    f(x,y)=f(a,b)&+f_x(a,b)\,h+f_y(a,b)\,k\\
+                    &+\frac{1}{2}\Bigl[
+                        f_{xx}(a,b)\,h^2
+                        +2f_{xy}(a,b)\,hk
+                        +f_{yy}(a,b)\,k^2
+                    \Bigr]\\
+                    &\quad+\,o(h^2+k^2)
+                \end{aligned}
+                \]
             </div>
 
-            <div class="example-title">例 8.1</div>
-            <div class="formula" style="background-color: #f0f7ff; border-left-color: #3498db; text-align: left;">
-                <p><strong>問題：</strong> <span class="math">$f(x,y) = x^2 + y^2 - 2x - 4y + 5$</span> の臨界点を分類せよ。</p>
-                
-                <p><strong>解答：</strong></p>
-                <p>例7.1で、この関数の唯一の臨界点が <span class="math">$(1, 2)$</span> であることを見出した。ここで二階導関数を計算する：</p>
-                
-                $$f_{xx}(x,y) = \frac{\partial^2 f}{\partial x^2} = \frac{\partial}{\partial x}(2x - 2) = 2$$
-                $$f_{yy}(x,y) = \frac{\partial^2 f}{\partial y^2} = \frac{\partial}{\partial y}(2y - 4) = 2$$
-                $$f_{xy}(x,y) = \frac{\partial^2 f}{\partial x \partial y} = \frac{\partial}{\partial x}(2y - 4) = 0$$
-                
-                <p>臨界点 $(1, 2)$ における行列式を計算する：</p>
-                
-                $$D(1, 2) = f_{xx}(1, 2) \cdot f_{yy}(1, 2) - [f_{xy}(1, 2)]^2 = 2 \cdot 2 - 0^2 = 4 > 0$$
-                
-                <p>$D(1, 2) > 0$ かつ $f_{xx}(1, 2) = 2 > 0$ なので、第二導関数テストによれば臨界点 $(1, 2)$ は<strong>局所的最小値</strong>である。</p>
-                
-                <p>また、関数をより分かりやすい形に書き直すことでこれを確認できる：</p>
-                
-                $$f(x,y) = x^2 - 2x + y^2 - 4y + 5 = (x - 1)^2 + (y - 2)^2 + 5 - 1 - 4 = (x - 1)^2 + (y - 2)^2 + 0$$
-                
-                <p>この形は、すべての $(x,y)$ について $f(x,y) \geq 0$ であり、等号は $(1, 2)$ でのみ成立することを明確に示しており、これが大域的最小値であることを確認している。</p>
-            </div>
-
-            <div class="example-title">例 8.2</div>
-            <div class="formula" style="background-color: #f0f7ff; border-left-color: #3498db; text-align: left;">
-                <p><strong>問題：</strong> <span class="math">$f(x,y) = x^2 - y^2 + 2x$</span> の臨界点を分類せよ。</p>
-                
-                <p><strong>解答：</strong></p>
-                <p>例7.2で、この関数の唯一の臨界点が <span class="math">$(-1, 0)$</span> であることを見出した。二階導関数を計算する：</p>
-                
-                $$f_{xx}(x,y) = \frac{\partial^2 f}{\partial x^2} = \frac{\partial}{\partial x}(2x + 2) = 2$$
-                $$f_{yy}(x,y) = \frac{\partial^2 f}{\partial y^2} = \frac{\partial}{\partial y}(-2y) = -2$$
-                $$f_{xy}(x,y) = \frac{\partial^2 f}{\partial x \partial y} = \frac{\partial}{\partial x}(-2y) = 0$$
-                
-                <p>臨界点 $(-1, 0)$ における行列式を計算する：</p>
-                
-                $$D(-1, 0) = f_{xx}(-1, 0) \cdot f_{yy}(-1, 0) - [f_{xy}(-1, 0)]^2 = 2 \cdot (-2) - 0^2 = -4 < 0$$
-                
-                <p>$D(-1, 0) < 0$ なので、第二導関数テストによれば臨界点 $(-1, 0)$ は<strong>鞍点</strong>であり、例7.2の結論を確認している。</p>
-            </div>
-
-            <h3>工学における応用</h3>
-            <p>第二導関数テストはさまざまな工学応用において重要である：</p>
-            
+            <p><strong>証明の概要：</strong></p>
             <ul>
-                <li><strong>構造解析：</strong> 2次元機械システムの安定および不安定な平衡構成を見つける。</li>
-                <li><strong>最適化：</strong> 2次元工学システムの最適設計や運転条件を特定する。</li>
-                <li><strong>信号処理：</strong> 2次元信号や画像における局所的特徴を検出する。</li>
-                <li><strong>機械学習：</strong> 2次元パラメータ空間における最適パラメータを見つけ、最適化手法の収束特性を理解する。</li>
+                <li>
+                    $u=\sqrt{h^2+k^2}\;(>0)$ とし、方向を固定した一次元関数
+                    $$\phi(t)=f\!\left(a+t\,\frac{h}{u},\,b+t\,\frac{k}{u}\right)$$
+                    を定義します。
+                </li>
+                <li>
+                    $\phi(t)$ に一次元のテイラー展開を適用：
+                    $$\phi(t)=\phi(0)+\phi'(0)\,t+\frac{1}{2}\phi''(0)\,t^2+o(t^2)$$
+                </li>
+                <li>
+                    $t=u$ を代入し、合成関数の微分法則を用いて $\phi'(0),\phi''(0)$ を
+                    $f$ の偏導関数で表現すると、上の公式が得られます。
+                </li>
             </ul>
 
-            <div class="key-insights">
-                <h3>二変数関数の第二導関数テストに関する重要な洞察</h3>
+            <!-- 3. 二次形式と行列表現 -->
+            <h3 class="example-title">3. 二次形式とHessian行列</h3>
+            <p>
+                二次テイラー展開の二次項は、<strong>二次形式</strong>として表現できます：
+            </p>
+            <div class="formula">
+                $$Q(h,k)=Ah^2+2Bhk+Ck^2$$
+            </div>
+            <p>
+                ここで $A=f_{xx}(a,b)$、$B=f_{xy}(a,b)$、$C=f_{yy}(a,b)$ です。
+                これは行列形式で次のように書けます：
+            </p>
+            <div class="formula">
+                $$Q(h,k) = \begin{pmatrix} h & k \end{pmatrix}
+                \begin{pmatrix} A & B \\ B & C \end{pmatrix}
+                \begin{pmatrix} h \\ k \end{pmatrix}$$
+            </div>
+            <p>
+                この行列を<strong>Hessian行列</strong>と呼びます：
+            </p>
+            <div class="formula">
+                $$H_f(a,b)=
+                    \begin{pmatrix}
+                        f_{xx}(a,b) & f_{xy}(a,b)\\
+                        f_{xy}(a,b) & f_{yy}(a,b)
+                    \end{pmatrix}$$
+            </div>
+
+            <!-- 4. 臨界点の分類 -->
+            <h3 class="example-title">4. 臨界点の分類（Hessianテスト）</h3>
+            <p>
+                <strong>臨界点</strong>とは、1次偏導関数がすべて0となる点です：
+                $$f_x(a,b)=f_y(a,b)=0$$
+            </p>
+            <p>
+                臨界点における関数の性質は、Hessian行列の性質によって決まります。
+                判別式 $D = AC - B^2 = \det(H_f)$ を用いて分類します：
+            </p>
+            <div class="formula">
                 <ul>
-                    <li>ヘッセ行列は、臨界点付近の関数のすべての二階の挙動を要約する。</li>
-                    <li>二変数関数の場合、ヘッセ行列の行列式（$f_{xx}$ の符号と共に）が臨界点の種類を決定する。</li>
-                    <li>テストは特定の場合に決定的でなく、さらなる分析を必要とすることがある。</li>
-                    <li>臨界点の性質を理解することは、工学における最適化問題にとって不可欠であり、最小値、最大値、鞍点を見つけることがしばしば実用的な意義を持つ。</li>
-                    <li>第二導関数テストは、あらゆる方向における関数の挙動を調べることなく、臨界点を分類するための体系的なアプローチを提供する。</li>
+                    <li>
+                        $D>0$ かつ $A>0$ $\Longrightarrow$ 
+                        $(a,b)$ は<strong>極小点</strong>（正定値）
+                    </li>
+                    <li>
+                        $D>0$ かつ $A<0$ $\Longrightarrow$ 
+                        $(a,b)$ は<strong>極大点</strong>（負定値）
+                    </li>
+                    <li>
+                        $D<0$ $\Longrightarrow$ 
+                        $(a,b)$ は<strong>鞍点</strong>（不定値）
+                    </li>
+                    <li>
+                        $D=0$ $\Longrightarrow$ 
+                        判定不能（高次項の解析が必要）
+                    </li>
                 </ul>
             </div>
+
+            <p>
+                <strong>理論的根拠：</strong>
+                臨界点では1次項が消えるため、二次テイラー展開は
+                $$f(x,y)-f(a,b) = \frac{1}{2}Q(h,k) + o(h^2+k^2)$$
+                となります。十分小さな $(h,k)$ に対して、$f-f(a,b)$ の符号は二次形式 $Q(h,k)$ の符号によって決まります。
+            </p>
+
+            <!-- 5. 具体例 -->
+            <h3 class="example-title">5. 具体例</h3>
             
-            <p>次の講義では、変数に制約がある条件下で関数の極値を見つける制約付き最適化問題を探求する。</p>
+            <p><strong>例1：</strong> $f(x,y) = x^2 + 2y^2 - 4x + 8y + 1$</p>
+            <p>
+                まず臨界点を求めます：
+                $$f_x = 2x - 4 = 0 \Rightarrow x = 2$$
+                $$f_y = 4y + 8 = 0 \Rightarrow y = -2$$
+                臨界点は $(2, -2)$ です。
+            </p>
+            <p>
+                次に二階偏導関数を計算：
+                $$f_{xx} = 2, \quad f_{yy} = 4, \quad f_{xy} = 0$$
+            </p>
+            <p>
+                Hessianテストを適用：
+                $$D = f_{xx} \cdot f_{yy} - (f_{xy})^2 = 2 \cdot 4 - 0^2 = 8 > 0$$
+                $$f_{xx} = 2 > 0$$
+                したがって $(2, -2)$ は<strong>極小点</strong>です。
+            </p>
+
+            <p><strong>例2：</strong> $g(x,y) = x^2 - y^2$</p>
+            <p>
+                臨界点：$g_x = 2x = 0$、$g_y = -2y = 0$ より $(0, 0)$
+            </p>
+            <p>
+                二階偏導関数：$g_{xx} = 2$、$g_{yy} = -2$、$g_{xy} = 0$
+            </p>
+            <p>
+                判別式：$D = 2 \cdot (-2) - 0^2 = -4 < 0$
+            </p>
+            <p>
+                したがって $(0, 0)$ は<strong>鞍点</strong>です。
+            </p>
+
+            <!-- 6. まとめ -->
+            <h3 class="example-title">6. まとめと次回予告</h3>
+            <p>
+                今回学習した内容：
+            </p>
+            <ul>
+                <li>二変数関数の二次テイラー展開</li>
+                <li>Hessian行列の定義と意味</li>
+                <li>臨界点の分類（極大・極小・鞍点）</li>
+                <li>具体的な計算例</li>
+            </ul>
+            <p>
+                次回は、制約条件付き最適化問題（ラグランジュの未定乗数法）について学習します。
+                工学における最適化問題の実例とともに、理論と応用の両面から理解を深めます。
+            </p>
         </section>
-        
+
+        <!-- ====== ナビゲーション ====== -->
         <div class="navigation">
             <a href="class7.html">← 前回：第7回</a>
             <a href="../index.html">ホーム</a>
