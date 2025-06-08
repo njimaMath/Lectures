@@ -1,123 +1,135 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>実数の講義ノート 第13回</title>
+  <script>
+    MathJax = {
+      tex: {
+        inlineMath: [['$', '$']],
+        displayMath: [['$$', '$$']]
+      }
+    };
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js" async></script>
+  <style>
+    body {
+      font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+      background: #f5f5f5;
+      color: #222;
+      line-height: 1.7;
+      margin: 0;
+      padding: 2rem;
+    }
+    .container {
+      background: white;
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 2rem;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+    h1, h2, h3 {
+      color: #003366;
+    }
+    h1 {
+      text-align: center;
+      margin-bottom: 2rem;
+    }
+    h2 {
+      border-left: 6px solid #003366;
+      padding-left: 0.5rem;
+      margin-top: 2rem;
+    }
+    .definition, .theorem, .proof {
+      margin-top: 1em;
+      padding-left: 1em;
+    }
+    .definition {
+      border-left: 3px solid #4CAF50;
+    }
+    .theorem {
+      border-left: 3px solid #2196F3;
+    }
+    .proof {
+      border-left: 3px solid #FFC107;
+    }
+    .qed {
+      text-align: right;
+      font-weight: bold;
+    }
+  </style>
+</head>
 <body>
-    <div class="container">
-      <h1>第12回：関数の極限</h1>
-  
-      <!-- 1. 基本性質 -->
-      <h2>1. 関数の極限の基本性質</h2>
-      <div class="theorem">
-        <h3>定理&nbsp;1&nbsp;(線形性と積の極限)</h3>
-        <p>
-          実数列について $\displaystyle\lim_{x\to a}f(x)=L,\;
-          \lim_{x\to a}g(x)=M$ が存在し，定数 $c\in\mathbb{R}$ を取ると
-          次が成り立つ。
-        </p>
-        <ul>
-          <li>$\displaystyle\lim_{x\to a}c f(x) = cL$</li>
-          <li>$\displaystyle\lim_{x\to a}[f(x)+g(x)] = L+M$</li>
-          <li>$\displaystyle\lim_{x\to a}f(x)g(x) = LM$</li>
-        </ul>
-      </div>
-      <div class="proof">
-        <h3>証明の概略</h3>
-        <p>
-          $\varepsilon$–$\delta$ 定義を用い，$|f(x)-L|<\varepsilon$ と
-          $|g(x)-M|<\varepsilon$ を同時に満たす $\delta$ を構成すれば十分。
-        </p>
-      </div>
-  
-      <!-- 2. 数列による特徴付け -->
-      <h2>2. 関数の極限と数列の極限</h2>
-      <div class="theorem">
-        <h3>定理&nbsp;2&nbsp;(数列による特徴付け)</h3>
-        <p>
-          $f$ を $a$ の近傍で定義された関数とする。次は同値。
-        </p>
-        <ul>
-          <li>$\displaystyle\lim_{x\to a}f(x)=L$</li>
-          <li>
-            任意の数列 $(x_n)$ で $x_n\neq a,\; x_n\to a$ が成り立つとき，
-            $\displaystyle f(x_n)\to L$
-          </li>
-        </ul>
-      </div>
-      <div class="proof">
-        <h3>証明の概略</h3>
-        <p>
-          1&nbsp;$\Rightarrow$&nbsp;2: $\varepsilon$–$\delta$ 条件を
-          数列に適用すれば直ちに従う。<br>
-          2&nbsp;$\Rightarrow$&nbsp;1: 反証法を用いる。極限が存在しないなら
-          ある $\varepsilon_0$ について
-          $|f(x)-L|\ge\varepsilon_0$ を満たす点列を取れることに矛盾。
-        </p>
-      </div>
-  
-      <!-- 3. 片側極限 -->
-      <h2>3. 片側極限</h2>
-      <div class="definition">
-        <h3>定義&nbsp;3&nbsp;(右極限と左極限)</h3>
-        <p>
-          $f$ が点 $a$ の右側・左側で定義されているとき，それぞれ
-          右極限・左極限を
-        </p>
-        <ul>
-          <li>
-            $\displaystyle\lim_{x\to a+}f(x)=L\iff
-            \forall\varepsilon>0\,\exists\delta>0\;
-            (0<x-a<\delta\Rightarrow|f(x)-L|<\varepsilon)$
-          </li>
-          <li>
-            $\displaystyle\lim_{x\to a-}f(x)=L\iff
-            \forall\varepsilon>0\,\exists\delta>0\;
-            (0<a-x<\delta\Rightarrow|f(x)-L|<\varepsilon)$
-          </li>
-        </ul>
-      </div>
-  
-      <div class="theorem">
-        <h3>定理&nbsp;4&nbsp;(両側極限の存在条件)</h3>
-        <p>
-          $\displaystyle\lim_{x\to a}f(x)$ が存在するとき，右極限と左極限は
-          ともに存在し，互いに等しい。
-        </p>
-      </div>
-      <div class="proof">
-        <h3>証明の概略</h3>
-        <p>
-          両側極限の定義から直接従う。逆は一般には成り立たないが，
-          右極限と左極限が一致するとき
-          関数は点 $a$ で極限をもつ。
-        </p>
-      </div>
-  
-      <!-- 4. 例題 -->
-      <h2>4. 例題</h2>
-      <div class="definition">
-        <p>
-          恒等関数 $x\mapsto x$ について
-          $\displaystyle\lim_{x\to a}x = a$。
-        </p>
-        <p>
-          絶対値関数 $x\mapsto|x|$ について
-          $\displaystyle\lim_{x\to 0+}|x| = 0$，
-          $\displaystyle\lim_{x\to 0-}|x| = 0$。
-        </p>
-        <p>
-          階段関数
-          $$
-            f(x)=\begin{cases}
-              0 & (x<0)\\
-              1 & (x\ge 0)
-            \end{cases}
-          $$
-          について
-          $\displaystyle\lim_{x\to 0+}f(x)=1,\;
-          \lim_{x\to 0-}f(x)=0$。
-          従って $\displaystyle\lim_{x\to 0}f(x)$ は存在しない。
-        </p>
-      </div>
-  
-      <p class="qed">□</p>
+  <div class="container">
+    <h1>第13回 連続関数の基本性質</h1>
+
+    <p>この講義では、実数上の連続関数について学びます。連続関数の定義から始め、その基本的な性質を理解していきます。</p>
+
+    <h2>1. 連続関数の定義</h2>
+
+    <div class="definition">
+      <p><strong>定義 (連続性)</strong></p>
+      <p>関数 $f: D \to \mathbb{R}$ ($D \subset \mathbb{R}$) について、点 $a \in D$ における連続性を以下のように定義する：</p>
+      <p>任意の $\varepsilon > 0$ に対して、ある $\delta > 0$ が存在して、$x \in D$ かつ $|x - a| < \delta$ ならば $|f(x) - f(a)| < \varepsilon$ が成り立つとき、$f$ は点 $a$ で連続であるという。</p>
     </div>
-  </body>
-  </html>
-  
+
+    <div class="theorem">
+      <p><strong>定理3 (中間値の定理)</strong></p>
+      <p>関数 $f: [a,b] \to \mathbb{R}$ が区間 $[a,b]$ 上で連続であり、$f(a) \neq f(b)$ とする。このとき、$f(a)$ と $f(b)$ の間の任意の値 $y$ に対して、ある $c \in [a,b]$ が存在して $f(c) = y$ となる。</p>
+    </div>
+
+    <div class="proof">
+      <p><strong>証明</strong></p>
+      <p>まず $f(a) < y < f(b)$ の場合を考える（$f(b) < y < f(a)$ の場合は同様に逆向きに議論する）。</p>
+      <ol>
+        <li>集合 $S = \{ x \in [a,b] : f(x) \le y \}$ を考える。<br>
+            - $a \in S$ なので $S$ は空でない。<br>
+            - $S \subset [a,b]$ なので上に有界である。<br>
+            よって実数の完備性より $c = \sup S$ が存在し、$c \in [a,b]$ である。</li>
+        <li><strong>$f(c) \le y$ を示す。</strong><br>
+            任意の $\varepsilon > 0$ に対して、$x \in S$ かつ $c - \delta < x \le c$ となるように $x$ を取ると、$x \to c^-$ の極限から
+            $$\lim_{x \uparrow c} f(x) \le y.$$<br>
+            連続性より $f(c) = \lim_{x \to c} f(x) \le y$ が従う。</li>
+        <li><strong>$f(c) \ge y$ を示す。</strong><br>
+            もし $f(c) < y$ であれば、$\varepsilon = y - f(c) > 0$ に対して連続性からある $\delta > 0$ が存在して
+            $$|x - c| < \delta \quad\Rightarrow\quad |f(x) - f(c)| < \varepsilon,$$
+            すなわち $f(x) < f(c) + \varepsilon = y$ が成り立つ。特に $c < x < c + \delta$ のとき $x \in S$ となり、これは $c$ が上限であることに矛盾する。よって $f(c) \ge y$。
+        </li>
+      </ol>
+      <p>以上より $f(c) \le y$ かつ $f(c) \ge y$ から $f(c) = y$ となる。従ってある $c \in [a,b]$ が存在して $f(c) = y$ が成り立つ。</p>
+      <div class="qed">■</div>
+    </div>
+
+    <h2>2. 最大値・最小値の定理（連続関数）</h2>
+
+    <div class="theorem">
+      <p><strong>定理4 (最大値・最小値の定理)</strong></p>
+      <p>$f: [a,b] \to \mathbb{R}$ が連続関数であるとき、$f$ は $[a,b]$ 上で最大値と最小値を取る。すなわち、ある $x_{\max}, x_{\min} \in [a,b]$ が存在して、</p>
+      <p>$$
+      f(x_{\min}) \le f(x) \le f(x_{\max}), \quad (\forall x \in [a,b]).
+      $$</p>
+    </div>
+
+    <div class="proof">
+      <p><strong>証明</strong></p>
+      <ol>
+        <li>連続像のコンパクト性： $f$ が連続であるから、$[a,b]$ はコンパクト集合であり、その像 $f([a,b])$ もコンパクト（閉かつ有界）である。</li>
+        <li>上限・下限の実現： 有界な集合 $f([a,b])$ は上限 $M = \sup f([a,b])$ および下限 $m = \inf f([a,b])$ を持つ。
+            
+            - $M$ が最大値であることを示すために、$f(x_n) \to M$ となる点列 $(x_n)$ を $[a,b]$ から取る。コンパクト性より、ある部分列 $(x_{n_k})$ が収束し、極限点 $x^* \in [a,b]$ となる。連続性により
+            $$f(x_{n_k}) \to f(x^*),$$
+            したがって $f(x^*) = M$ となる。
+            
+            - 同様に、$m$ についてもある $x_* \in [a,b]$ が存在して $f(x_*) = m$ となる。
+        </li>
+        <li>これにより任意の $x \in [a,b]$ に対して
+        $$m = f(x_*) \le f(x) \le f(x^*) = M$$
+        が成り立つ。
+        </li>
+      </ol>
+      <div class="qed">■</div>
+    </div>
+
+</body>
+</html>

@@ -47,50 +47,90 @@
   </style>
 </head>
 <body>
-  <div class="container">
-    <h1>第9回 実数の性質</h1>
-
-
-    <h3>Ax 2: 順序の公理</h3>
-    <ul>
-      <li>任意の $a,b \in \mathbb{R}$ に対して、$a \leq b$ または $b \leq a$</li>
-      <li>$a \leq b$ かつ $b \leq a$ ならば $a = b$</li>
-      <li>$a \leq b$ かつ $b \leq c$ ならば $a \leq c$</li>
-      <li>$a \leq b$ ならば $a + c \leq b + c$</li>
-      <li>$0 \leq a$, $0 \leq b$ ならば $0 \leq a \cdot b$</li>
-    </ul>
-    <h2>9.2 上限と下限</h2>
-    <p>
-      上限（supremum）と下限（infimum）は実数の完備性に基づき定義される。上に有界な集合 $A$ に対して、$\sup A$ が存在する。
-    </p>
-
-    <h3>Ax 3: 完備性の公理（上限性質）</h3>
-    <p>上に有界な集合は常に最小の上界（上限）を持つ。</p>
-
-
-    <h2>9.3 応用</h2>
-    <h3>9.3.1 アルキメデスの性質</h3>
-    <p>
-      任意の実数 $a > 0$ に対して、ある自然数 $n \in \mathbb{N}$ が存在して $n > a$ となる。
-    </p>
-
-    <h3>9.3.2 有理数の稠密性</h3>
-    <p>
-      任意の実数 $a < b$ に対して、有理数 $q \in \mathbb{Q}$ が存在して
-      $$
-      a < q < b
-      $$
-      を満たす。この性質を<strong>稠密性</strong>と呼び、連続性の一つのあらわれでもある。
-    </p>
-
-    <h3>9.3.3 単調有界列の収束</h3>
-    <p>
-      実数列 $\{a_n\}$ が単調増加かつ上に有界であるとき、極限が存在して
-      $$
-      \lim_{n \to \infty} a_n = \sup\{a_n\}
-      $$
-      が成り立つ。同様に、単調減少かつ下に有界な列も収束する。
-    </p>
-  </div>
-</body>
+    <div class="container">
+      <h1>第10回：$\varepsilon$-$N$論法による極限の証明</h1>
+  
+      <section>
+        <h2>1. $\varepsilon$-$N$論法の定義</h2>
+        <p>
+          数列 $(a_n)$ が実数 $a$ に収束するとは、任意の $\varepsilon > 0$ に対して、
+          ある自然数 $N$ が存在して
+          $$n \ge N \;\Rightarrow\; |a_n - a| < \varepsilon$$
+          が成り立つことを意味します。このとき、$\lim_{n \to \infty} a_n = a$ と書きます。
+        </p>
+      </section>
+  
+      <section>
+        <h2>2. 極限が既知の場合の証明の書き方</h2>
+  
+        <article>
+          <h3>例1：$\displaystyle\lim_{n \to \infty}2a_n = 2a$ の証明</h3>
+          <p>
+            任意の $\varepsilon > 0$ に対して、$\lim a_n = a$ よりある $N$ が存在し、
+            $$n \ge N \;\Rightarrow\; |a_n - a| < \frac{\varepsilon}{2}$$
+            となります。よって
+            $$|2a_n - 2a| = 2|a_n - a| < 2 \cdot \frac{\varepsilon}{2} = \varepsilon$$
+            したがって、$\lim 2a_n = 2a$ が示されました。
+          </p>
+        </article>
+  
+        <article>
+          <h3>例2：$\displaystyle\lim_{n \to \infty}(a_n + 1) = a + 1$ の証明</h3>
+          <p>
+            任意の $\varepsilon > 0$ に対して、$\lim a_n = a$ よりある $N$ が存在し、
+            $$n \ge N \;\Rightarrow\; |a_n - a| < \varepsilon$$
+            となります。よって
+            $$|(a_n + 1) - (a + 1)| = |a_n - a| < \varepsilon$$
+            したがって、$\lim (a_n + 1) = a + 1$ が成り立ちます。
+          </p>
+        </article>
+      </section>
+  
+      <section>
+        <h2>3. 極限が二つある場合の和・積の極限</h2>
+        <p>命題：$\displaystyle\lim a_n = a,\;\lim b_n = b$ のとき、</p>
+        <ul>
+          <li>和：$\displaystyle\lim (a_n + b_n) = a + b$</li>
+          <li>積：$\displaystyle\lim (a_n b_n) = ab$</li>
+        </ul>
+  
+        <article>
+          <h3>和の場合</h3>
+          <p>
+            任意の $\varepsilon > 0$ に対し、$\lim a_n = a$ より $N_1$、$\lim b_n = b$ より $N_2$ が存在して
+            $$n \ge N_1 \Rightarrow |a_n - a| < \tfrac{\varepsilon}{2},\quad
+              n \ge N_2 \Rightarrow |b_n - b| < \tfrac{\varepsilon}{2}.$$
+            ここで $N = \max(N_1, N_2)$ とすると
+            $$
+              |(a_n + b_n) - (a + b)|
+              \le |a_n - a| + |b_n - b|
+              < \tfrac{\varepsilon}{2} + \tfrac{\varepsilon}{2}
+              = \varepsilon,
+            $$
+            したがって $\lim (a_n + b_n) = a + b$ です。
+          </p>
+        </article>
+  
+        <article>
+          <h3>積の場合</h3>
+          <p>
+            収束する数列は有界なので、例えば $|a_n|\le M$ を満たす定数 $M>0$ が取れます。
+            任意の $\varepsilon>0$ について
+            $\displaystyle\delta = \min\Bigl(1,\frac{\varepsilon}{2(|b|+1)}\Bigr)$ とし、
+            $n \ge N$ で
+            $|a_n - a| < \delta,\;|b_n - b| < \delta$ とすると
+          </p>
+          <p>
+            $$
+              |a_n b_n - ab|
+              \le |a_n - a|\,|b_n| + |a|\,|b_n - b|
+              < \delta(|b|+1) + |a|\delta
+              \le \varepsilon.
+            $$
+            よって $\lim (a_n b_n) = ab$ が成立します。
+          </p>
+        </article>
+      </section>
+    </div>
+  </body>
 </html>

@@ -160,7 +160,7 @@
         </header>
 
         <h2>テイラー多項式</h2>
-        <p>点 $x=a$ の周りの $n$ 次テイラー多項式は次で定義される。</p>
+        <p>点 $x=a$ の周りの $n$ 次テイラー多項式を次で定義する。</p>
         <div class="formula">$$T_n(x)=\sum_{k=0}^{n}\frac{f^{(k)}(a)}{k!}(x-a)^k=f(a)+f'(a)(x-a)+\frac{f''(a)}{2!}(x-a)^2+\cdots+\frac{f^{(n)}(a)}{n!}(x-a)^n$$</div>
 
         <p>テイラー多項式は次の性質を持つ：点 $x=a$ において，$k\le n$ なる任意の $k$ に対して</p>
@@ -181,7 +181,7 @@
         </div>
 
         <div class="note">
-            <p><strong>目標：</strong> テイラーの定理を用いて $|f(x)-T_n(x)|$ の誤差評価を行う。</p>
+            <p><strong>目標：</strong> テイラーの定理を用いて $|f(x)-T_n(x)|$ の誤差を評価する。</p>
         </div>
 
 
@@ -214,7 +214,7 @@
             <p><strong>応用&nbsp;2.</strong> $\cos(0.01)-1$ の評価：</p>
             <p>$a=0$，$n=4$ とし，$f(x)=\cos x$ について</p>
             <div class="formula">$$|\cos(0.01)-T_4(0.01)|\le \frac{|f^{(5)}(\xi)|}{5!}|0.01|^{5}\le \frac{1}{120}\times 10^{-10}\approx 8.3\times10^{-13}$$</div>
-            <p>よって $\displaystyle\cos(0.01)-1\approx -\frac{0.01^{2}}{2}+\frac{0.01^{4}}{24}\approx -4.999\times10^{-5}$ が成り立つ。</p>
+            <p>従って $\displaystyle\cos(0.01)-1\approx -\frac{0.01^{2}}{2}+\frac{0.01^{4}}{24}\approx -4.999\times10^{-5}$ となる。</p>
         </div>
 
         <h2>テイラーの定理の証明</h2>
@@ -237,7 +237,7 @@
         </div>
         <div class="proof">
 
-            <p>証明：$\displaystyle \varphi(x)=\frac{f(b)-f(a)}{g(b)-g(a)}\bigl(g(x)-g(a)\bigr)-\bigl(f(x)-f(a)\bigr)$ と置く。このとき $\varphi(a)=\varphi(b)=0$ である。ロルの定理より $\varphi'(c)=0$ を与える $c$ が存在し，これを整理すると主張が得られる。</p>
+            <p>証明：$\displaystyle \varphi(x)=\frac{f(b)-f(a)}{g(b)-g(a)}\bigl(g(x)-g(a)\bigr)-\bigl(f(x)-f(a)\bigr)$ と置くと $\varphi(a)=\varphi(b)=0$ となる。ロルの定理を適用すれば $\varphi'(c)=0$ を与え，整理して上式が得られる。</p>
         </div>
         
         <div class="theorem">

@@ -1,135 +1,66 @@
-<!DOCTYPE html>
-<html lang="ja">
-<head>
-  <meta charset="UTF-8">
-  <title>実数の講義ノート 第13回</title>
-  <script>
-    MathJax = {
-      tex: {
-        inlineMath: [['$', '$']],
-        displayMath: [['$$', '$$']]
-      }
-    };
-  </script>
-  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js" async></script>
-  <style>
-    body {
-      font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-      background: #f5f5f5;
-      color: #222;
-      line-height: 1.7;
-      margin: 0;
-      padding: 2rem;
-    }
-    .container {
-      background: white;
-      max-width: 900px;
-      margin: 0 auto;
-      padding: 2rem;
-      border-radius: 10px;
-      box-shadow: 0 0 10px rgba(0,0,0,0.1);
-    }
-    h1, h2, h3 {
-      color: #003366;
-    }
-    h1 {
-      text-align: center;
-      margin-bottom: 2rem;
-    }
-    h2 {
-      border-left: 6px solid #003366;
-      padding-left: 0.5rem;
-      margin-top: 2rem;
-    }
-    .definition, .theorem, .proof {
-      margin-top: 1em;
-      padding-left: 1em;
-    }
-    .definition {
-      border-left: 3px solid #4CAF50;
-    }
-    .theorem {
-      border-left: 3px solid #2196F3;
-    }
-    .proof {
-      border-left: 3px solid #FFC107;
-    }
-    .qed {
-      text-align: right;
-      font-weight: bold;
-    }
-  </style>
-</head>
 <body>
   <div class="container">
-    <h1>第13回 連続関数の基本性質</h1>
+    <h1>第14回：一様連続と平均値の定理</h1>
 
-    <p>この講義では、実数上の連続関数について学びます。連続関数の定義から始め、その基本的な性質を理解していきます。</p>
-
-    <h2>1. 連続関数の定義</h2>
+    <h2>3. 一様連続性</h2>
 
     <div class="definition">
-      <p><strong>定義 (連続性)</strong></p>
-      <p>関数 $f: D \to \mathbb{R}$ ($D \subset \mathbb{R}$) について、点 $a \in D$ における連続性を以下のように定義する：</p>
-      <p>任意の $\varepsilon > 0$ に対して、ある $\delta > 0$ が存在して、$x \in D$ かつ $|x - a| < \delta$ ならば $|f(x) - f(a)| < \varepsilon$ が成り立つとき、$f$ は点 $a$ で連続であるという。</p>
+      <p><strong>定義 (一様連続性)</strong></p>
+      <p>関数 $f: D \to \mathbb{R}$ が一様連続であるとは、任意の $\varepsilon > 0$ に対して、ある $\delta > 0$ が存在して、$x, y \in D$ で $|x - y| < \delta$ ならば $|f(x) - f(y)| < \varepsilon$ が成り立つことである。</p>
+      <p>このときの $\delta$ は点に依存せず、全体で共通に使える。</p>
     </div>
 
     <div class="theorem">
-      <p><strong>定理3 (中間値の定理)</strong></p>
-      <p>関数 $f: [a,b] \to \mathbb{R}$ が区間 $[a,b]$ 上で連続であり、$f(a) \neq f(b)$ とする。このとき、$f(a)$ と $f(b)$ の間の任意の値 $y$ に対して、ある $c \in [a,b]$ が存在して $f(c) = y$ となる。</p>
-    </div>
-
-    <div class="proof">
-      <p><strong>証明</strong></p>
-      <p>まず $f(a) < y < f(b)$ の場合を考える（$f(b) < y < f(a)$ の場合は同様に逆向きに議論する）。</p>
-      <ol>
-        <li>集合 $S = \{ x \in [a,b] : f(x) \le y \}$ を考える。<br>
-            - $a \in S$ なので $S$ は空でない。<br>
-            - $S \subset [a,b]$ なので上に有界である。<br>
-            よって実数の完備性より $c = \sup S$ が存在し、$c \in [a,b]$ である。</li>
-        <li><strong>$f(c) \le y$ を示す。</strong><br>
-            任意の $\varepsilon > 0$ に対して、$x \in S$ かつ $c - \delta < x \le c$ となるように $x$ を取ると、$x \to c^-$ の極限から
-            $$\lim_{x \uparrow c} f(x) \le y.$$<br>
-            連続性より $f(c) = \lim_{x \to c} f(x) \le y$ が従う。</li>
-        <li><strong>$f(c) \ge y$ を示す。</strong><br>
-            もし $f(c) < y$ であれば、$\varepsilon = y - f(c) > 0$ に対して連続性からある $\delta > 0$ が存在して
-            $$|x - c| < \delta \quad\Rightarrow\quad |f(x) - f(c)| < \varepsilon,$$
-            すなわち $f(x) < f(c) + \varepsilon = y$ が成り立つ。特に $c < x < c + \delta$ のとき $x \in S$ となり、これは $c$ が上限であることに矛盾する。よって $f(c) \ge y$。
-        </li>
-      </ol>
-      <p>以上より $f(c) \le y$ かつ $f(c) \ge y$ から $f(c) = y$ となる。従ってある $c \in [a,b]$ が存在して $f(c) = y$ が成り立つ。</p>
-      <div class="qed">■</div>
-    </div>
-
-    <h2>2. 最大値・最小値の定理（連続関数）</h2>
-
-    <div class="theorem">
-      <p><strong>定理4 (最大値・最小値の定理)</strong></p>
-      <p>$f: [a,b] \to \mathbb{R}$ が連続関数であるとき、$f$ は $[a,b]$ 上で最大値と最小値を取る。すなわち、ある $x_{\max}, x_{\min} \in [a,b]$ が存在して、</p>
-      <p>$$
-      f(x_{\min}) \le f(x) \le f(x_{\max}), \quad (\forall x \in [a,b]).
-      $$</p>
+      <p><strong>定理5 (Heine–Cantor の定理)</strong></p>
+      <p>$f: [a,b] \to \mathbb{R}$ が連続関数であるとき、$f$ は $[a,b]$ 上で一様連続である。</p>
     </div>
 
     <div class="proof">
       <p><strong>証明</strong></p>
       <ol>
-        <li>連続像のコンパクト性： $f$ が連続であるから、$[a,b]$ はコンパクト集合であり、その像 $f([a,b])$ もコンパクト（閉かつ有界）である。</li>
-        <li>上限・下限の実現： 有界な集合 $f([a,b])$ は上限 $M = \sup f([a,b])$ および下限 $m = \inf f([a,b])$ を持つ。
-            
-            - $M$ が最大値であることを示すために、$f(x_n) \to M$ となる点列 $(x_n)$ を $[a,b]$ から取る。コンパクト性より、ある部分列 $(x_{n_k})$ が収束し、極限点 $x^* \in [a,b]$ となる。連続性により
-            $$f(x_{n_k}) \to f(x^*),$$
-            したがって $f(x^*) = M$ となる。
-            
-            - 同様に、$m$ についてもある $x_* \in [a,b]$ が存在して $f(x_*) = m$ となる。
-        </li>
-        <li>これにより任意の $x \in [a,b]$ に対して
-        $$m = f(x_*) \le f(x) \le f(x^*) = M$$
-        が成り立つ。
-        </li>
+        <li>任意の $\varepsilon > 0$ を取る。各 $x \in [a,b]$ に対して、連続性よりある $\delta_x > 0$ が存在して、
+        $$|t - x| < \delta_x \quad\Rightarrow\quad |f(t) - f(x)| < \frac{\varepsilon}{2}.$$</li>
+        <li>区間 $[a,b]$ はコンパクトなので、開区間 $\{(x - \delta_x, x + \delta_x) : x \in [a,b]\}$ の有限部分被覆
+        $\{(x_i - \delta_{x_i}, x_i + \delta_{x_i})\}_{i=1}^{n}$ が存在する。</li>
+        <li>これらの中で最小の $\delta = \min_{1 \le i \le n} \delta_{x_i} > 0$ を取る。
+            任意の $u,v \in [a,b]$ で $|u - v| < \delta$ とすると、ある $i$ が存在して $u,v \in (x_i - \delta_{x_i}, x_i + \delta_{x_i})$ を満たす。
+            したがって三角不等式から
+            $$|f(u) - f(v)| \le |f(u) - f(x_i)| + |f(x_i) - f(v)| < \frac{\varepsilon}{2} + \frac{\varepsilon}{2} = \varepsilon.$$</li>
       </ol>
+      <p>以上により、任意の $\varepsilon > 0$ に対して共通の $\delta > 0$ を選べるので、$f$ は一様連続である。</p>
       <div class="qed">■</div>
     </div>
 
+  </div>
+      <h2>2. 平均値の定理</h2>
+
+    <div class="theorem">
+      <p><strong>最大値・最小値の定理（仮定）：</strong> 関数 $f: [a,b] \to \mathbb{R}$ が連続ならば、$f$ は最大値 $M$ と最小値 $m$ を $[a,b]$ 上で取る。</p>
+    </div>
+
+    <div class="theorem">
+      <p><strong>平均値の定理：</strong> 関数 $f: [a,b] \to \mathbb{R}$ が連続で $[a,b]$ 上可微分であるとする。このとき、ある $c \in (a,b)$ が存在して
+        $$f'(c) = \frac{f(b) - f(a)}{b - a}$$
+        が成り立つ。</p>
+    </div>
+
+    <div class="proof">
+      <p><strong>証明：</strong> 関数
+        $$\varphi(x) := f(x) - \frac{f(b) - f(a)}{b - a}(x - a)$$
+        を考える。これは連続で可微分である。$\varphi(a) = f(a)$, $\varphi(b) = f(b) - (f(b)-f(a)) = f(a)$ なので、$\varphi(a) = \varphi(b)$。</p>
+      <p>よって Rolle の定理より、ある $c \in (a,b)$ が存在して $\varphi'(c) = 0$。</p>
+      <p>よって
+        $$f'(c) - \frac{f(b) - f(a)}{b - a} = 0 \Rightarrow f'(c) = \frac{f(b) - f(a)}{b - a}$$</p>
+      <div class="qed">■</div>
+    </div>
+
+    <div class="proof">
+      <p><strong>補足（$\varepsilon$-$\delta$ 論法による確認）：</strong></p>
+      <p>平均値の定理における差分商 $[f(b)-f(a)]/(b-a)$ が導関数 $f'(c)$ に一致するという主張は、$f$ の連続性・可微分性により、差分商が局所的に導関数に近づく性質（微分係数の定義）に基づいている。</p>
+      <p>実際、任意の $\varepsilon > 0$ に対し、$f'(c)$ の定義により、ある $\delta > 0$ が存在して $0 < |h| < \delta$ ならば
+        $$\left|\frac{f(c+h) - f(c)}{h} - f'(c)\right| < \varepsilon$$
+        が成り立つ。</p>
+    </div>
+
+  </div>
 </body>
-</html>

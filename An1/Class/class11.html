@@ -1,217 +1,123 @@
-<!DOCTYPE html>
-<html lang="ja">
-<head>
-  <meta charset="UTF-8">
-  <title>実数の講義ノート 第11回</title>
-  <script>
-    MathJax = {
-      tex: {
-        inlineMath: [['$', '$']],
-        displayMath: [['$$', '$$']]
-      }
-    };
-  </script>
-  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js" async></script>
-  <style>
-    body {
-      font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-      background: #f5f5f5;
-      color: #222;
-      line-height: 1.7;
-      margin: 0;
-      padding: 2rem;
-    }
-    .container {
-      background: white;
-      max-width: 900px;
-      margin: 0 auto;
-      padding: 2rem;
-      border-radius: 10px;
-      box-shadow: 0 0 10px rgba(0,0,0,0.1);
-    }
-    h1, h2, h3 {
-      color: #003366;
-    }
-    h1 {
-      text-align: center;
-      margin-bottom: 2rem;
-    }
-    h2 {
-      border-left: 6px solid #003366;
-      padding-left: 0.5rem;
-      margin-top: 2rem;
-    }
-    p {
-      margin-top: 1em;
-    }
-    .definition, .theorem, .proof {
-      margin-top: 1em;
-      padding-left: 1em;
-    }
-    .definition {
-      border-left: 3px solid #4CAF50; /* 緑 */
-    }
-    .theorem {
-      border-left: 3px solid #2196F3; /* 青 */
-    }
-    .proof {
-      border-left: 3px solid #FFC107; /* 黄 */
-    }
-    .qed {
-      text-align: right;
-      font-weight: bold;
-    }
-  </style>
-</head>
 <body>
-  <div class="container">
-    <h1>第11回 実数の連続性と数列の極限 (ε-N論法)</h1>
-
-    <p>この講義では、数列の極限に関する重要な性質をε-N論法を用いて議論します。具体的には、極限の一意性、ボルツァーノ・ワイエルシュトラスの定理、そしてコーシーの収束判定条件について学びます。</p>
-
-    <h2>1. 極限の一意性</h2>
-
-    <div class="definition">
-      <p><strong>定義 (数列の収束)</strong></p>
-      <p>数列 $\{a_n\}_{n \in \mathbb{N}}$ が実数 $\alpha \in \mathbb{R}$ に収束するとは、任意の正の実数 $\varepsilon > 0$ に対して、ある自然数 $N \in \mathbb{N}$ が存在し、$n > N$ を満たすすべての自然数 $n$ について
-      $$ |a_n - \alpha| < \varepsilon $$
-      が成り立つことをいう。このとき、$\lim_{n \to \infty} a_n = \alpha$ または $a_n \to \alpha \ (n \to \infty)$ と書く。</p>
+    <div class="container">
+      <h1>第12回：関数の極限</h1>
+  
+      <!-- 1. 基本性質 -->
+      <h2>1. 関数の極限の基本性質</h2>
+      <div class="theorem">
+        <h3>定理&nbsp;1&nbsp;(線形性と積の極限)</h3>
+        <p>
+          実数列について $\displaystyle\lim_{x\to a}f(x)=L,\;
+          \lim_{x\to a}g(x)=M$ が存在し，定数 $c\in\mathbb{R}$ を取ると
+          次が成り立つ。
+        </p>
+        <ul>
+          <li>$\displaystyle\lim_{x\to a}c f(x) = cL$</li>
+          <li>$\displaystyle\lim_{x\to a}[f(x)+g(x)] = L+M$</li>
+          <li>$\displaystyle\lim_{x\to a}f(x)g(x) = LM$</li>
+        </ul>
+      </div>
+      <div class="proof">
+        <h3>証明の概略</h3>
+        <p>
+          $\varepsilon$–$\delta$ 定義を用い，$|f(x)-L|<\varepsilon$ と
+          $|g(x)-M|<\varepsilon$ を同時に満たす $\delta$ を構成すれば十分。
+        </p>
+      </div>
+  
+      <!-- 2. 数列による特徴付け -->
+      <h2>2. 関数の極限と数列の極限</h2>
+      <div class="theorem">
+        <h3>定理&nbsp;2&nbsp;(数列による特徴付け)</h3>
+        <p>
+          $f$ を $a$ の近傍で定義された関数とする。次は同値。
+        </p>
+        <ul>
+          <li>$\displaystyle\lim_{x\to a}f(x)=L$</li>
+          <li>
+            任意の数列 $(x_n)$ で $x_n\neq a,\; x_n\to a$ が成り立つとき，
+            $\displaystyle f(x_n)\to L$
+          </li>
+        </ul>
+      </div>
+      <div class="proof">
+        <h3>証明の概略</h3>
+        <p>
+          1&nbsp;$\Rightarrow$&nbsp;2: $\varepsilon$–$\delta$ 条件を
+          数列に適用すれば直ちに従う。<br>
+          2&nbsp;$\Rightarrow$&nbsp;1: 反証法を用いる。極限が存在しないなら
+          ある $\varepsilon_0$ について
+          $|f(x)-L|\ge\varepsilon_0$ を満たす点列を取れることに矛盾。
+        </p>
+      </div>
+  
+      <!-- 3. 片側極限 -->
+      <h2>3. 片側極限</h2>
+      <div class="definition">
+        <h3>定義&nbsp;3&nbsp;(右極限と左極限)</h3>
+        <p>
+          $f$ が点 $a$ の右側・左側で定義されているとき，それぞれ
+          右極限・左極限を
+        </p>
+        <ul>
+          <li>
+            $\displaystyle\lim_{x\to a+}f(x)=L\iff
+            \forall\varepsilon>0\,\exists\delta>0\;
+            (0<x-a<\delta\Rightarrow|f(x)-L|<\varepsilon)$
+          </li>
+          <li>
+            $\displaystyle\lim_{x\to a-}f(x)=L\iff
+            \forall\varepsilon>0\,\exists\delta>0\;
+            (0<a-x<\delta\Rightarrow|f(x)-L|<\varepsilon)$
+          </li>
+        </ul>
+      </div>
+  
+      <div class="theorem">
+        <h3>定理&nbsp;4&nbsp;(両側極限の存在条件)</h3>
+        <p>
+          $\displaystyle\lim_{x\to a}f(x)$ が存在するとき，右極限と左極限は
+          ともに存在し，互いに等しい。
+        </p>
+      </div>
+      <div class="proof">
+        <h3>証明の概略</h3>
+        <p>
+          両側極限の定義から直接従う。逆は一般には成り立たないが，
+          右極限と左極限が一致するとき
+          関数は点 $a$ で極限をもつ。
+        </p>
+      </div>
+  
+      <!-- 4. 例題 -->
+      <h2>4. 例題</h2>
+      <div class="definition">
+        <p>
+          恒等関数 $x\mapsto x$ について
+          $\displaystyle\lim_{x\to a}x = a$。
+        </p>
+        <p>
+          絶対値関数 $x\mapsto|x|$ について
+          $\displaystyle\lim_{x\to 0+}|x| = 0$，
+          $\displaystyle\lim_{x\to 0-}|x| = 0$。
+        </p>
+        <p>
+          階段関数
+          $$
+            f(x)=\begin{cases}
+              0 & (x<0)\\
+              1 & (x\ge 0)
+            \end{cases}
+          $$
+          について
+          $\displaystyle\lim_{x\to 0+}f(x)=1,\;
+          \lim_{x\to 0-}f(x)=0$。
+          従って $\displaystyle\lim_{x\to 0}f(x)$ は存在しない。
+        </p>
+      </div>
+  
+      <p class="qed">□</p>
     </div>
-
-    <div class="theorem">
-      <p><strong>定理1 (極限の一意性)</strong></p>
-      <p>数列 $\{a_n\}$ が収束するならば、その極限はただ一つである。</p>
-    </div>
-
-    <div class="proof">
-      <p><strong>証明</strong></p>
-      <p>背理法により証明する。数列 $\{a_n\}$ が二つの異なる極限 $\alpha$ と $\beta$ ($\alpha \neq \beta$) を持つと仮定する。
-      すなわち、$\lim_{n \to \infty} a_n = \alpha$ かつ $\lim_{n \to \infty} a_n = \beta$ であるとする。</p>
-      <p>$\alpha \neq \beta$ より $|\alpha - \beta| > 0$ である。ここで、$\varepsilon = \frac{|\alpha - \beta|}{2}$ とおく。$\varepsilon > 0$ である。</p>
-      <p>$\lim_{n \to \infty} a_n = \alpha$ であるから、この $\varepsilon$ に対して、ある自然数 $N_1 \in \mathbb{N}$ が存在し、
-      $$ n > N_1 \implies |a_n - \alpha| < \varepsilon $$
-      が成り立つ。</p>
-      <p>同様に、$\lim_{n \to \infty} a_n = \beta$ であるから、この $\varepsilon$ に対して、ある自然数 $N_2 \in \mathbb{N}$ が存在し、
-      $$ n > N_2 \implies |a_n - \beta| < \varepsilon $$
-      が成り立つ。</p>
-      <p>$N = \max(N_1, N_2)$ とおく。すると、$n > N$ を満たすすべての自然数 $n$ に対して、上記の二つの不等式が同時に成り立つ。
-      このとき、三角不等式を用いると、
-      $$ |\alpha - \beta| = |(\alpha - a_n) + (a_n - \beta)| \le |\alpha - a_n| + |a_n - \beta| = |a_n - \alpha| + |a_n - \beta| $$
-      $n > N$ であるから、
-      $$ |\alpha - \beta| < \varepsilon + \varepsilon = 2\varepsilon $$
-      $\varepsilon = \frac{|\alpha - \beta|}{2}$ を代入すると、
-      $$ |\alpha - \beta| < 2 \cdot \frac{|\alpha - \beta|}{2} = |\alpha - \beta| $$
-      すなわち、$|\alpha - \beta| < |\alpha - \beta|$ という矛盾が生じる。</p>
-      <p>したがって、仮定が誤りであり、数列の極限はただ一つでなければならない。</p>
-      <p class="qed">■ (Q.E.D.)</p>
-    </div>
-
-    <h2>2. ボルツァーノ・ワイエルシュトラスの定理</h2>
-
-    <div class="definition">
-      <p><strong>定義 (有界な数列)</strong></p>
-      <p>数列 $\{a_n\}$ が有界であるとは、ある実数 $M > 0$ が存在して、すべての自然数 $n \in \mathbb{N}$ に対して $|a_n| \le M$ が成り立つことをいう。</p>
-    </div>
-    
-    <div class="definition">
-       <p><strong>定義 (部分列)</strong></p>
-       <p>数列 $\{a_n\}$ と、自然数の単調増加列 $n_1 < n_2 < n_3 < \dots < n_k < \dots$ が与えられたとき、数列 $\{a_{n_k}\}_{k \in \mathbb{N}}$ を $\{a_n\}$ の部分列という。</p>
-    </div>
-
-    <div class="theorem">
-      <p><strong>定理2 (ボルツァーノ・ワイエルシュトラスの定理)</strong></p>
-      <p>有界な実数列は、収束する部分列を持つ。</p>
-    </div>
-
-    <div class="proof">
-      <p><strong>証明</strong></p>
-      <p>数列 $\{a_n\}$ は有界であるとする。したがって、ある実数 $M > 0$ が存在し、すべての $n$ に対して $-M \le a_n \le M$ が成り立つ。
-      すなわち、すべての項は閉区間 $I_0 = [-M, M]$ に含まれる。</p>
-      <p>区間縮小法を用いて証明する。
-      $I_0$ を二等分し、二つの小区間のうち少なくとも一方には $\{a_n\}$ の項が無限個含まれる。そのような小区間の一つを $I_1 = [b_1, c_1]$ とする。$|I_1| = c_1 - b_1 = \frac{2M}{2} = M$。
-      次に $I_1$ を二等分し、同様に $\{a_n\}$ の項が無限個含まれる小区間を $I_2 = [b_2, c_2]$ とする。$|I_2| = c_2 - b_2 = \frac{|I_1|}{2} = \frac{M}{2}$。
-      この操作を繰り返すことにより、区間の列 $I_k = [b_k, c_k]$ ($k=0, 1, 2, \dots$) が得られる。ここで $I_0$ の長さは $2M$ であったので、正確には $I_k$ の長さは $\frac{2M}{2^k}$ となる。これらの区間は以下の性質を持つ：
-      </p>
-      <ol>
-        <li>$I_0 \supset I_1 \supset I_2 \supset \dots \supset I_k \supset \dots$</li>
-        <li>各 $I_k$ は数列 $\{a_n\}$ の項を無限個含む。</li>
-        <li>区間 $I_k$ の長さは $|I_k| = c_k - b_k = \frac{2M}{2^k}$ であり、$\lim_{k \to \infty} |I_k| = 0$。</li>
-      </ol>
-      <p>数列 $\{b_k\}$ は単調増加で上に有界（例えば $M$ で）、数列 $\{c_k\}$ は単調減少で下に有界（例えば $-M$ で）。
-      したがって、$\lim_{k \to \infty} b_k$ と $\lim_{k \to \infty} c_k$ は存在する。
-      さらに、$\lim_{k \to \infty} (c_k - b_k) = 0$ であるから、$\lim_{k \to \infty} b_k = \lim_{k \to \infty} c_k$ となる。この共通の極限値を $\alpha$ とおく。</p>
-      <p>次に、この $\alpha$ に収束する $\{a_n\}$ の部分列 $\{a_{n_j}\}$ を構成する。
-      まず、$I_1$ に含まれる $a_n$ の項が存在するので、その一つを $a_{n_1}$ とする ($n_1 \in \mathbb{N}$)。
-      次に、$I_2$ には無限個の項が含まれるので、$n_2 > n_1$ となるように $a_{n_2} \in I_2$ を選ぶことができる。
-      以下同様に、$I_j$ には無限個の項が含まれるので、$n_j > n_{j-1}$ となるように $a_{n_j} \in I_j$ を選ぶことができる。
-      こうして得られた部分列 $\{a_{n_j}\}$ について、$b_j \le a_{n_j} \le c_j$ がすべての $j$ について成り立つ。</p>
-      <p>$\lim_{j \to \infty} b_j = \alpha$ かつ $\lim_{j \to \infty} c_j = \alpha$ であるから、はさみうちの原理により、
-      $$ \lim_{j \to \infty} a_{n_j} = \alpha $$
-      となる。よって、有界な数列 $\{a_n\}$ は収束する部分列 $\{a_{n_j}\}$ を持つ。</p>
-      <p class="qed">■ (Q.E.D.)</p>
-      <p><em>(注: この定理で示される収束先の $\alpha$ は数列 $\{a_n\}$ の集積点の一つです。)</em></p>
-    </div>
-
-    <h2>3. コーシーの収束判定条件</h2>
-
-    <div class="definition">
-      <p><strong>定義 (コーシー列)</strong></p>
-      <p>数列 $\{a_n\}$ がコーシー列 (Cauchy sequence) であるとは、任意の正の実数 $\varepsilon > 0$ に対して、ある自然数 $N \in \mathbb{N}$ が存在し、$m, n > N$ を満たすすべての自然数 $m, n$ について
-      $$ |a_m - a_n| < \varepsilon $$
-      が成り立つことをいう。</p>
-      <p><em>(直感的には、数列の先のほうの項は互いにいくらでも近づく、ということです。)</em></p>
-    </div>
-
-    <div class="theorem">
-      <p><strong>定理3 (コーシーの収束判定条件)</strong></p>
-      <p>実数列 $\{a_n\}$ が収束するための必要十分条件は、$\{a_n\}$ がコーシー列であることである。</p>
-      <p><em>(この定理は、極限値が具体的に分からなくても数列の収束を判定できる点で非常に強力です。)</em></p>
-    </div>
-
-    <div class="proof">
-      <p><strong>証明</strong></p>
-      <p><strong>(I) 必要性 (収束する $\implies$ コーシー列)</strong></p>
-      <p>数列 $\{a_n\}$ がある実数 $\alpha$ に収束すると仮定する。すなわち $\lim_{n \to \infty} a_n = \alpha$。
-      任意の $\varepsilon > 0$ をとる。このとき $\varepsilon/2 > 0$ である。
-      収束の定義より、ある自然数 $N \in \mathbb{N}$ が存在し、$k > N$ を満たすすべての自然数 $k$ について
-      $$ |a_k - \alpha| < \frac{\varepsilon}{2} $$
-      が成り立つ。
-      したがって、$m > N$ かつ $n > N$ を満たす任意の自然数 $m, n$ について、
-      $$ |a_m - a_n| = |(a_m - \alpha) + (\alpha - a_n)| \le |a_m - \alpha| + |\alpha - a_n| = |a_m - \alpha| + |a_n - \alpha| $$
-      $$ |a_m - a_n| < \frac{\varepsilon}{2} + \frac{\varepsilon}{2} = \varepsilon $$
-      よって、数列 $\{a_n\}$ はコーシー列である。</p>
-
-      <p><strong>(II) 十分性 (コーシー列 $\implies$ 収束する)</strong></p>
-      <p>数列 $\{a_n\}$ がコーシー列であると仮定する。証明は2段階に分かれる。</p>
-      <p><strong>ステップ1: コーシー列は有界である。</strong></p>
-      <p>$\{a_n\}$ はコーシー列なので、$\varepsilon = 1$ とおくと、ある自然数 $N_0 \in \mathbb{N}$ が存在し、$m, n > N_0$ ならば $|a_m - a_n| < 1$ が成り立つ。
-      特に、$n > N_0$ ならば $|a_n - a_{N_0+1}| < 1$ である。
-      したがって、$|a_n| = |(a_n - a_{N_0+1}) + a_{N_0+1}| \le |a_n - a_{N_0+1}| + |a_{N_0+1}| < 1 + |a_{N_0+1}|$。
-      ここで、$M_0 = \max(|a_1|, |a_2|, \dots, |a_{N_0}|, 1 + |a_{N_0+1}|)$ とおくと、$M_0$ は有限の値であり、すべての自然数 $n$ に対して $|a_n| \le M_0$ が成り立つ。
-      よって、数列 $\{a_n\}$ は有界である。</p>
-
-      <p><strong>ステップ2: 有界なコーシー列は収束する。</strong></p>
-      <p>ステップ1より $\{a_n\}$ は有界である。ボルツァーノ・ワイエルシュトラスの定理 (定理2) により、$\{a_n\}$ は収束する部分列 $\{a_{n_k}\}$ を持つ。
-      この部分列の極限を $\alpha$ とする。すなわち、$\lim_{k \to \infty} a_{n_k} = \alpha$。
-      この $\alpha$ が数列 $\{a_n\}$ 全体の極限であることを示す。</p>
-      <p>任意の $\varepsilon > 0$ をとる。
-      $\{a_n\}$ はコーシー列であるから、$\varepsilon/2 > 0$ に対して、ある自然数 $N_C \in \mathbb{N}$ が存在し、
-      $$ \forall m, l > N_C \implies |a_m - a_l| < \frac{\varepsilon}{2} \quad \dots (*)$$
-      また、$\{a_{n_k}\}$ は $\alpha$ に収束するから、同じ $\varepsilon/2 > 0$ に対して、ある自然数 $K \in \mathbb{N}$ が存在し、
-      $$ \forall k > K \implies |a_{n_k} - \alpha| < \frac{\varepsilon}{2} \quad \dots (**)$$
-      ここで、$n_k \to \infty \ (k \to \infty)$ であるから、$k > K$ かつ $n_k > N_C$ を満たすような $k$ が存在する。そのような $k$ を一つ選び、対応する $n_k$ を固定する。
-      この $n_k$ は $(*)$ の $l$ の役割を果たし、また $(**)$ を満たす。</p>
-      <p>さて、$n > N_C$ を満たす任意の自然数 $n$ に対して、
-      $$ |a_n - \alpha| = |(a_n - a_{n_k}) + (a_{n_k} - \alpha)| \le |a_n - a_{n_k}| + |a_{n_k} - \alpha| $$
-      $n > N_C$ であり、選ばれた $n_k$ も $n_k > N_C$ を満たすので、$(*)$ より $|a_n - a_{n_k}| < \varepsilon/2$。
-      また、選ばれた $n_k$ は $(**)$ を満たすので、$|a_{n_k} - \alpha| < \varepsilon/2$。
-      したがって、
-      $$ |a_n - \alpha| < \frac{\varepsilon}{2} + \frac{\varepsilon}{2} = \varepsilon $$
-      これは、$n > N_C$ を満たすすべての $n$ に対して成り立つ。よって、$\lim_{n \to \infty} a_n = \alpha$ である。</p>
-      <p>以上 (I), (II) より、実数列が収束するための必要十分条件はコーシー列であることである。</p>
-      <p class="qed">■ (Q.E.D.)</p>
-    </div>
-
-  </div>
-</body>
-</html>
+  </body>
+  </html>
+  
