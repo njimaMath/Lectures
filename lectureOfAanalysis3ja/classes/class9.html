@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>第9回：テイラーの定理と第二導関数テスト</title>
+    <title>第9回：面積変化</title>
     <style>
         :root {
             --primary-color: #2c3e50;
@@ -80,8 +80,9 @@
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
         }
 
-        .figure img {
+        .figure svg {
             max-width: 100%;
+            height: auto;
             border-radius: 5px;
         }
 
@@ -89,6 +90,7 @@
             font-style: italic;
             color: #777;
             margin-top: 15px;
+            font-size: 0.9em;
         }
 
         .navigation {
@@ -164,6 +166,29 @@
             border-top: 1px solid #eee;
             padding-top: 10px;
         }
+
+        .subsection-title {
+            color: var(--secondary-color);
+            font-size: 1.4rem;
+            margin-top: 25px;
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+
+        .proof-section {
+            background-color: #f8f9fa;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 20px 0;
+            border-left: 4px solid var(--accent-color);
+        }
+
+        .proof-end {
+            text-align: right;
+            font-style: italic;
+            color: #666;
+            margin-top: 10px;
+        }
     </style>
     <!-- MathJax configuration -->
     <script>
@@ -188,179 +213,316 @@
         </header>
         
         <section id="class9" class="content-section">
-            <div class="section-title">第9回：テイラーの定理と第二導関数テスト</div>
-
-            <p>前回の授業では、勾配がゼロになる点を見つけることで関数の臨界点を特定する方法を学んだ。今回は、<span class="topic-highlight">テイラー展開</span>と<span class="topic-highlight">第二導関数テスト</span>を用いて、これらの臨界点を極大値、極小値、または鞍点として分類する体系的な方法を展開する。</p>
-
-            <p>まず、一次元のテイラー展開を思い出そう。点$a$の周りの関数$f(x)$に対して、次のように表せる：</p>
+            <div class="section-title">第9回：面積変化</div>
+            
+            <div class="subsection-title">空間上の平行四辺形の面積</div>
+            
+            <p>$(0,0),(a,c),(b,d),(a+b,c+d)$で囲まれる平行四辺形の面積は</p>
             
             <div class="formula">
-                $$f(x) = f(a) + f'(a)(x-a) + \frac{f''(a)}{2!}(x-a)^2 + \frac{f'''(a)}{3!}(x-a)^3 + \cdots$$
-            </div>
-            
-            <p>この表現は、関数の導関数に依存する係数を持つ多項式によって関数を近似する。多変数関数の場合、この概念は自然に拡張されるが、表記はより複雑になる。</p>
-
-            <p>関数$f(x,y)$と挙動を分析したい点$(a,b)$を考える。$(a,b)$が臨界点であれば、$\nabla f(a,b) = \mathbf{0}$であり、すなわち$f_x(a,b) = f_y(a,b) = 0$となることがわかっている。点$(a,b)$の周りの多変数テイラー展開は次のような形をとる：</p>
-            
-            <div class="formula">
-                \begin{align}
-                f(x,y) &= f(a,b) + \Big[f_x(a,b)(x-a) + f_y(a,b)(y-b)\Big] \\
-                &+ \frac{1}{2!}\Big[f_{xx}(a,b)(x-a)^2 + 2f_{xy}(a,b)(x-a)(y-b) + f_{yy}(a,b)(y-b)^2\Big] \\
-                &+ \text{(高次の項)}
-                \end{align}
-            </div>
-            
-            <p>臨界点では、$f_x(a,b) = f_y(a,b) = 0$であるため、一次の項は消える。したがって、臨界点付近の関数の挙動は主に二次の項によって決まる：</p>
-            
-            <div class="formula">
-                $$f(x,y) \approx f(a,b) + \frac{1}{2}\Big[f_{xx}(a,b)(x-a)^2 + 2f_{xy}(a,b)(x-a)(y-b) + f_{yy}(a,b)(y-b)^2\Big]$$
+                $$\bigl|ad - bc\bigr|$$
             </div>
 
-            <p>この二次形式は、臨界点付近の関数の挙動に関する洞察を与える。これを行列表記で書き直すことができる。次のように定義しよう：</p>
-            
-            <div class="formula">
-                $$H = \begin{pmatrix} f_{xx}(a,b) & f_{xy}(a,b) \\ f_{xy}(a,b) & f_{yy}(a,b) \end{pmatrix}$$
-            </div>
-            
-            <p>この行列$H$は点$(a,b)$における<span class="topic-highlight">ヘッセ行列</span>と呼ばれる。ベクトル表記$\mathbf{v} = (x-a, y-b)^T$を用いると、近似式を次のように書き直せる：</p>
-            
-            <div class="formula">
-                $$f(x,y) \approx f(a,b) + \frac{1}{2}\mathbf{v}^T H \mathbf{v}$$
-            </div>
-            
-            <p>この二次形式の挙動はヘッセ行列$H$の固有値によって決まる。三つの場合が生じる：</p>
-            
-            <div class="figure" style="background-color: #eefaf8; border-left: 4px solid #2ecc71; text-align: left;">
-                <h3 style="margin-top: 0;">臨界点の分類</h3>
-                <ul style="padding-left: 20px;">
-                    <li><strong>局所的最小値：</strong> $H$のすべての固有値が正（Hが正定値）であれば、$(a,b)$は局所的最小値である。</li>
-                    <li><strong>局所的最大値：</strong> $H$のすべての固有値が負（Hが負定値）であれば、$(a,b)$は局所的最大値である。</li>
-                    <li><strong>鞍点：</strong> $H$が正と負の両方の固有値を持つ（Hが不定値）場合、$(a,b)$は鞍点である。</li>
-                    <li><strong>退化した場合：</strong> $H$の固有値のいずれかがゼロの場合、分類には高次の項が必要となる。</li>
-                </ul>
-            </div>
-            
-            <p>実際には、固有値を直接計算するのは面倒である。$2 \times 2$行列に対しては、行列式に基づくより簡単なテストを使用できる。次のように定義する：</p>
-            
-            <div class="formula">
-                $$D = \det(H) = f_{xx}(a,b)f_{yy}(a,b) - [f_{xy}(a,b)]^2$$
-            </div>
-
-            <p>すると<span class="topic-highlight">第二導関数テスト</span>が得られる：</p>
-            
-            <div class="formula">
-                <ul style="list-style-type: none; padding-left: 0;">
-                    <li>$D > 0$かつ$f_{xx}(a,b) > 0$ならば、$(a,b)$は局所的最小値である。</li>
-                    <li>$D > 0$かつ$f_{xx}(a,b) < 0$ならば、$(a,b)$は局所的最大値である。</li>
-                    <li>$D < 0$ならば、$(a,b)$は鞍点である。</li>
-                    <li>$D = 0$ならば、テストは決定的でない（高次の導関数が必要）。</li>
-                </ul>
-            </div>
-
-            <p>このテストの直感的理解は、二次近似を考えるとより明確になる。臨界点付近では、関数は放物面のように振る舞う。行列式テストはこの放物面の形状について教えてくれる：</p>
-            
             <div class="figure">
-                <img src="https://via.placeholder.com/500x300" alt="臨界点の種類">
-                <div class="figure-caption">図9.1：二変数関数の局所的最小値、局所的最大値、および鞍点の図解。</div>
+                <svg width="400" height="300" viewBox="0 0 400 300">
+                    <!-- Grid lines -->
+                    <defs>
+                        <pattern id="grid" width="20" height="20" patternUnits="userSpaceOnUse">
+                            <path d="M 20 0 L 0 0 0 20" fill="none" stroke="#e0e0e0" stroke-width="1"/>
+                        </pattern>
+                    </defs>
+                    <rect width="400" height="300" fill="url(#grid)" />
+                    
+                    <!-- Coordinate axes -->
+                    <line x1="50" y1="250" x2="350" y2="250" stroke="#333" stroke-width="2"/>
+                    <line x1="50" y1="250" x2="50" y2="50" stroke="#333" stroke-width="2"/>
+                    
+                    <!-- Axis labels -->
+                    <text x="360" y="255" font-family="Arial" font-size="14" fill="#333">x</text>
+                    <text x="45" y="40" font-family="Arial" font-size="14" fill="#333">y</text>
+                    <text x="40" y="265" font-family="Arial" font-size="14" fill="#333">O</text>
+                    
+                    <!-- Parallelogram vertices -->
+                    <!-- (0,0) at (50,250) -->
+                    <!-- (a,c) at (50+60,250-40) = (110,210) -->
+                    <!-- (b,d) at (50+100,250-20) = (150,230) -->
+                    <!-- (a+b,c+d) at (50+160,250-60) = (210,190) -->
+                    
+                    <!-- Parallelogram -->
+                    <polygon points="50,250 110,210 210,190 150,230" 
+                             fill="rgba(52,152,219,0.3)" 
+                             stroke="#3498db" 
+                             stroke-width="2"/>
+                    
+                    <!-- Rectangle for proof -->
+                    <rect x="50" y="190" width="160" height="60" 
+                          fill="none" 
+                          stroke="#e74c3c" 
+                          stroke-width="1" 
+                          stroke-dasharray="5,5"/>
+                    
+                    <!-- Vertices -->
+                    <circle cx="50" cy="250" r="3" fill="#e74c3c"/>
+                    <circle cx="110" cy="210" r="3" fill="#e74c3c"/>
+                    <circle cx="150" cy="230" r="3" fill="#e74c3c"/>
+                    <circle cx="210" cy="190" r="3" fill="#e74c3c"/>
+                    
+                    <!-- Labels -->
+                    <text x="40" y="265" font-family="Arial" font-size="12" fill="#333">(0,0)</text>
+                    <text x="115" y="205" font-family="Arial" font-size="12" fill="#333">(a,c)</text>
+                    <text x="155" y="245" font-family="Arial" font-size="12" fill="#333">(b,d)</text>
+                    <text x="215" y="185" font-family="Arial" font-size="12" fill="#333">(a+b,c+d)</text>
+                </svg>
+                <div class="figure-caption">平行四辺形の面積計算</div>
             </div>
 
-            <div class="example-title">例9.1</div>
-            <div class="formula" style="background-color: #f0f7ff; border-left-color: #3498db;">
-                <p><strong>問題：</strong> 関数$f(x,y) = 3x^2y - y^3 - 3x^2$の臨界点を分類せよ。</p>
+            <div class="proof-section">
+                <strong>証明:</strong> $(0,0)\to(a+b,0)\to(a+b,c+d)\to(0,c+d)$で囲まれる長方形の面積は
                 
-                <p><strong>解答：</strong></p>
-                <p>まず、勾配をゼロとおいて臨界点を求める：</p>
+                <div class="formula">
+                    $$(a+b)(c+d)$$
+                </div>
                 
-                $$\frac{\partial f}{\partial x} = 6xy - 6x = 6x(y - 1) = 0$$
-                $$\frac{\partial f}{\partial y} = 3x^2 - 3y^2 = 3(x^2 - y^2) = 0$$
+                $(0,0)\to(a+b,0)\to(a,c)$で囲まれる三角形，$(a+b,c+d)\to(0,c+d)\to(b,d)$で囲まれる三角形はそれぞれ
                 
-                <p>最初の方程式から、$x = 0$または$y = 1$である。それぞれの場合を検討しよう：</p>
+                <div class="formula">
+                    $$\frac{(a+b)\,c}{2}$$
+                </div>
                 
-                <p>$x = 0$の場合、二番目の方程式から$-3y^2 = 0$となり、$y = 0$を得る。したがって$(0,0)$は臨界点である。</p>
+                $(a+b,0)\to(a+b,c+d)\to(a,c)$で囲まれる三角形，$(0,0)\to(0,c+d)\to(b,d)$で囲まれる三角形はそれぞれ
                 
-                <p>$y = 1$の場合、二番目の方程式から$3(x^2 - 1) = 0$となり、$x = \pm 1$を得る。これにより、さらに二つの臨界点$(1,1)$と$(-1,1)$が得られる。</p>
+                <div class="formula">
+                    $$\frac{b\,(c+d)}{2}$$
+                </div>
                 
-                <p>次に、二階偏導関数を計算する：</p>
+                したがって，平行四辺形の面積は
                 
-                $$f_{xx} = 6y - 6 = 6(y - 1)$$
-                $$f_{xy} = f_{yx} = 6x$$
-                $$f_{yy} = -6y$$
+                <div class="formula">
+                    $$(a+b)(c+d) - 2\cdot\frac{(a+b)\,c}{2} - 2\cdot\frac{b\,(c+d)}{2} = ad - bc$$
+                </div>
                 
-                <p>臨界点$(0,0)$について：</p>
+                実際には、全てに絶対値をつける.
                 
-                $$f_{xx}(0,0) = 6(0 - 1) = -6$$
-                $$f_{xy}(0,0) = 6 \cdot 0 = 0$$
-                $$f_{yy}(0,0) = -6 \cdot 0 = 0$$
-                
-                <p>行列式は$D = f_{xx}f_{yy} - (f_{xy})^2 = (-6) \cdot 0 - 0^2 = 0$である。</p>
-                
-                <p>$D = 0$なので、第二導関数テストは決定的でない。高次の項を調べるか他の方法を使用する必要がある。</p>
-                
-                <p>臨界点$(1,1)$について：</p>
-                
-                $$f_{xx}(1,1) = 6(1 - 1) = 0$$
-                $$f_{xy}(1,1) = 6 \cdot 1 = 6$$
-                $$f_{yy}(1,1) = -6 \cdot 1 = -6$$
-                
-                <p>行列式は$D = f_{xx}f_{yy} - (f_{xy})^2 = 0 \cdot (-6) - 6^2 = -36 < 0$である。</p>
-                
-                <p>$D < 0$なので、$(1,1)$は鞍点である。</p>
-                
-                <p>臨界点$(-1,1)$について：</p>
-                
-                $$f_{xx}(-1,1) = 6(1 - 1) = 0$$
-                $$f_{xy}(-1,1) = 6 \cdot (-1) = -6$$
-                $$f_{yy}(-1,1) = -6 \cdot 1 = -6$$
-                
-                <p>行列式は$D = f_{xx}f_{yy} - (f_{xy})^2 = 0 \cdot (-6) - (-6)^2 = -36 < 0$である。</p>
-                
-                <p>$D < 0$なので、$(-1,1)$も鞍点である。</p>
+                <div class="proof-end">証明終</div>
             </div>
 
-            <div class="example-title">例9.2</div>
-            <div class="formula" style="background-color: #f0f7ff; border-left-color: #3498db;">
-                <p><strong>問題：</strong> 関数$f(x,y) = x^2 + y^2 - 4xy + 6x - 2y$の臨界点を分類せよ。</p>
-                
-                <p><strong>解答：</strong></p>
-                <p>勾配をゼロとおいて臨界点を求める：</p>
-                
-                $$\frac{\partial f}{\partial x} = 2x - 4y + 6 = 0$$
-                $$\frac{\partial f}{\partial y} = 2y - 4x - 2 = 0$$
-                
-                <p>二番目の方程式から、$y = 2x + 1$が得られる。これを最初の方程式に代入すると：</p>
-                
-                $$2x - 4(2x + 1) + 6 = 0$$
-                $$2x - 8x - 4 + 6 = 0$$
-                $$-6x + 2 = 0$$
-                $$x = \frac{1}{3}$$
-                
-                <p>よって$y = 2 \cdot \frac{1}{3} + 1 = \frac{5}{3}$である。したがって、$(\frac{1}{3}, \frac{5}{3})$がただ一つの臨界点である。</p>
-                
-                <p>次に二階偏導関数を計算する：</p>
-                
-                $$f_{xx} = 2$$
-                $$f_{xy} = f_{yx} = -4$$
-                $$f_{yy} = 2$$
-                
-                <p>行列式は$D = f_{xx}f_{yy} - (f_{xy})^2 = 2 \cdot 2 - (-4)^2 = 4 - 16 = -12 < 0$である。</p>
-                
-                <p>$D < 0$なので、臨界点$(\frac{1}{3}, \frac{5}{3})$は鞍点である。</p>
-            </div>
+            <div class="example-title">計算問題 2問</div>
 
-            <p>テイラー展開のアプローチは、二変数を超える関数にも拡張できるが、分析はより複雑になる。$n$変数の関数$f(\mathbf{x})$に対して、ヘッセ行列は$n \times n$行列となり、すべての固有値の符号を調べるか、行列式技法を使用する必要がある。</p>
-
-
-            <p><span class="topic-highlight">テイラー展開</span>と<span class="topic-highlight">第二導関数テスト</span>は、工学の様々な分野における最適化問題の基本的なツールである。これらにより、多変数関数の極値を体系的に特定することができ、様々な応用において最適な設計を見つけたり、コストを最小化したり、効率を最大化したりするのに不可欠である。</p>
+            <div class="subsection-title">一次変換の面積変化</div>
             
-            <div class="figure" style="background-color: #eefaf8; border-left: 4px solid #2ecc71; text-align: left;">
-                <h3 style="margin-top: 0;">臨界点分類に関する重要な洞察</h3>
-                <ul style="padding-left: 20px;">
-                    <li>臨界点では、関数の挙動は主にその二次の項によって決定される。</li>
-                    <li>ヘッセ行列は、ある点における関数のすべての二次情報を包含している。</li>
-                    <li>第二導関数テストは、固有値を直接計算せずに臨界点を分類する体系的な方法を提供する。</li>
-                    <li>多変数関数に対しては、ヘッセ行列の固有値を調べることが一般的なアプローチである。</li>
-                    <li>行列式がゼロになる退化した場合では、テイラー展開の高次の項が必要となる。</li>
-                </ul>
+            <div class="formula">
+                $$g(u,v)=(x_0,y_0)+(au+bv,\;cu+dv)$$
+            </div>
+            
+            とおく．
+            
+            <div class="formula">
+                $$g\bigl([u_0,u_1]\times[v_0,v_1]\bigr)$$
+            </div>
+            
+            の面積は
+            
+            <div class="formula">
+                $$(ad - bc)\,(u_1 - u_0)^2$$
+            </div>
+
+            <div class="figure">
+                <svg width="500" height="250" viewBox="0 0 500 250">
+                    <!-- Left side: original square -->
+                    <g transform="translate(50, 50)">
+                        <text x="50" y="20" font-family="Arial" font-size="14" fill="#333" text-anchor="middle">変換前</text>
+                        
+                        <!-- Grid -->
+                        <defs>
+                            <pattern id="grid2" width="15" height="15" patternUnits="userSpaceOnUse">
+                                <path d="M 15 0 L 0 0 0 15" fill="none" stroke="#e0e0e0" stroke-width="0.5"/>
+                            </pattern>
+                        </defs>
+                        <rect width="120" height="120" fill="url(#grid2)" />
+                        
+                        <!-- Axes -->
+                        <line x1="0" y1="120" x2="120" y2="120" stroke="#333" stroke-width="1"/>
+                        <line x1="0" y1="120" x2="0" y2="0" stroke="#333" stroke-width="1"/>
+                        
+                        <!-- Square -->
+                        <rect x="20" y="80" width="40" height="40" 
+                              fill="rgba(52,152,219,0.3)" 
+                              stroke="#3498db" 
+                              stroke-width="2"/>
+                        
+                        <!-- Labels -->
+                        <text x="125" y="125" font-family="Arial" font-size="12" fill="#333">u</text>
+                        <text x="-5" y="10" font-family="Arial" font-size="12" fill="#333">v</text>
+                        <text x="15" y="135" font-family="Arial" font-size="10" fill="#333">u₀</text>
+                        <text x="55" y="135" font-family="Arial" font-size="10" fill="#333">u₁</text>
+                        <text x="-15" y="85" font-family="Arial" font-size="10" fill="#333">v₁</text>
+                        <text x="-15" y="125" font-family="Arial" font-size="10" fill="#333">v₀</text>
+                    </g>
+                    
+                    <!-- Arrow -->
+                    <g transform="translate(200, 125)">
+                        <path d="M 0 0 L 40 0" stroke="#333" stroke-width="2" marker-end="url(#arrowhead)"/>
+                        <text x="20" y="-10" font-family="Arial" font-size="12" fill="#333" text-anchor="middle">g</text>
+                        <defs>
+                            <marker id="arrowhead" markerWidth="10" markerHeight="7" 
+                                    refX="9" refY="3.5" orient="auto">
+                                <polygon points="0 0, 10 3.5, 0 7" fill="#333"/>
+                            </marker>
+                        </defs>
+                    </g>
+                    
+                    <!-- Right side: transformed parallelogram -->
+                    <g transform="translate(270, 50)">
+                        <text x="75" y="20" font-family="Arial" font-size="14" fill="#333" text-anchor="middle">変換後</text>
+                        
+                        <!-- Grid -->
+                        <rect width="150" height="120" fill="url(#grid2)" />
+                        
+                        <!-- Axes -->
+                        <line x1="0" y1="120" x2="150" y2="120" stroke="#333" stroke-width="1"/>
+                        <line x1="0" y1="120" x2="0" y2="0" stroke="#333" stroke-width="1"/>
+                        
+                        <!-- Transformed parallelogram -->
+                        <polygon points="30,100 80,85 110,60 60,75" 
+                                 fill="rgba(52,152,219,0.3)" 
+                                 stroke="#3498db" 
+                                 stroke-width="2"/>
+                        
+                        <!-- Labels -->
+                        <text x="155" y="125" font-family="Arial" font-size="12" fill="#333">x</text>
+                        <text x="-5" y="10" font-family="Arial" font-size="12" fill="#333">y</text>
+                    </g>
+                </svg>
+                <div class="figure-caption">一次変換による面積変化</div>
+            </div>
+
+            <div class="proof-section">
+                <strong>証明:</strong> 前の定理を用いると…
+                <div class="proof-end">証明終</div>
+            </div>
+
+            <div class="example-title">計算問題 2問</div>
+
+            <div class="subsection-title">一般の座標変換での面積変化</div>
+            
+            <p><strong>定理:</strong> $X(u,v),Y(u,v)$を二変数関数，$\phi(u,v):=(X(u,v),Y(u,v))$とする．<br>
+            $R:=[u_0,u_1]\times[v_0,v_1]$とする．</p>
+
+            <div class="figure">
+                <svg width="500" height="300" viewBox="0 0 500 300">
+                    <!-- Left side: rectangular region in uv-plane -->
+                    <g transform="translate(50, 50)">
+                        <text x="75" y="20" font-family="Arial" font-size="14" fill="#333" text-anchor="middle">uv平面</text>
+                        
+                        <!-- Grid -->
+                        <rect width="150" height="150" fill="url(#grid2)" />
+                        
+                        <!-- Axes -->
+                        <line x1="0" y1="150" x2="150" y2="150" stroke="#333" stroke-width="1"/>
+                        <line x1="0" y1="150" x2="0" y2="0" stroke="#333" stroke-width="1"/>
+                        
+                        <!-- Rectangle R -->
+                        <rect x="40" y="80" width="60" height="40" 
+                              fill="rgba(231,76,60,0.3)" 
+                              stroke="#e74c3c" 
+                              stroke-width="2"/>
+                        
+                        <!-- Labels -->
+                        <text x="155" y="155" font-family="Arial" font-size="12" fill="#333">u</text>
+                        <text x="-5" y="10" font-family="Arial" font-size="12" fill="#333">v</text>
+                        <text x="35" y="165" font-family="Arial" font-size="10" fill="#333">u₀</text>
+                        <text x="95" y="165" font-family="Arial" font-size="10" fill="#333">u₁</text>
+                        <text x="-15" y="85" font-family="Arial" font-size="10" fill="#333">v₁</text>
+                        <text x="-15" y="125" font-family="Arial" font-size="10" fill="#333">v₀</text>
+                        <text x="70" y="105" font-family="Arial" font-size="12" fill="#e74c3c" font-weight="bold">R</text>
+                    </g>
+                    
+                    <!-- Arrow with phi -->
+                    <g transform="translate(220, 150)">
+                        <path d="M 0 0 L 50 0" stroke="#333" stroke-width="2" marker-end="url(#arrowhead2)"/>
+                        <text x="25" y="-10" font-family="Arial" font-size="12" fill="#333" text-anchor="middle">φ</text>
+                        <defs>
+                            <marker id="arrowhead2" markerWidth="10" markerHeight="7" 
+                                    refX="9" refY="3.5" orient="auto">
+                                <polygon points="0 0, 10 3.5, 0 7" fill="#333"/>
+                            </marker>
+                        </defs>
+                    </g>
+                    
+                    <!-- Right side: curved region in xy-plane -->
+                    <g transform="translate(290, 50)">
+                        <text x="75" y="20" font-family="Arial" font-size="14" fill="#333" text-anchor="middle">xy平面</text>
+                        
+                        <!-- Grid -->
+                        <rect width="150" height="150" fill="url(#grid2)" />
+                        
+                        <!-- Axes -->
+                        <line x1="0" y1="150" x2="150" y2="150" stroke="#333" stroke-width="1"/>
+                        <line x1="0" y1="150" x2="0" y2="0" stroke="#333" stroke-width="1"/>
+                        
+                        <!-- Curved region φ(R) -->
+                        <path d="M 30 110 Q 70 95 110 100 Q 120 85 130 70 Q 90 60 50 75 Q 40 95 30 110 Z" 
+                              fill="rgba(231,76,60,0.3)" 
+                              stroke="#e74c3c" 
+                              stroke-width="2"/>
+                        
+                        <!-- Labels -->
+                        <text x="155" y="155" font-family="Arial" font-size="12" fill="#333">x</text>
+                        <text x="-5" y="10" font-family="Arial" font-size="12" fill="#333">y</text>
+                        <text x="80" y="85" font-family="Arial" font-size="12" fill="#e74c3c" font-weight="bold">φ(R)</text>
+                    </g>
+                </svg>
+                <div class="figure-caption">一般的な座標変換による面積変化</div>
+            </div>
+
+            <p>$\phi(R)$の面積 $S$ は近似的に</p>
+            
+            <div class="formula">
+                $$\bigl(\,X_uY_v - X_vY_u + o(1)\bigr)\,(u - u_0)(v - v_0)$$
+            </div>
+            
+            となる．
+
+            <p><strong>定義:</strong> 面積の変化を表す</p>
+            
+            <div class="formula">
+                $$\frac{\partial(X,Y)}{\partial(u,v)} = X_uY_v - X_vY_u$$
+            </div>
+            
+            をヤコビアンと呼ぶ．
+
+            <div class="example-title">計算問題 3問</div>
+
+            <div class="proof-section">
+                <strong>証明の概略:</strong><br>
+                $\Delta u:=u-u_0,\;\Delta v:=v-v_0$とおく．<br>
+                <strong>定理:</strong> テイラーの一次近似より，
+                
+                <div class="formula">
+                    $$\phi(u,v) = \phi(u_0,v_0) + \begin{pmatrix} X_u & X_v\\ Y_u & Y_v \end{pmatrix}_{(u_0,v_0)} \begin{pmatrix}\Delta u\\\Delta v\end{pmatrix} + o\bigl(\sqrt{\Delta u^2+\Delta v^2}\bigr)$$
+                </div>
+                
+                したがって，$\phi$は微小領域では線形写像
+                
+                <div class="formula">
+                    $$g(\Delta u,\Delta v) = (x_0,y_0)+(a\,\Delta u + b\,\Delta v,\;c\,\Delta u + d\,\Delta v)$$
+                </div>
+                
+                とみなせる．ここで
+                
+                <div class="formula">
+                    $$\begin{aligned}
+                    x_0 &= X(u_0,v_0), \quad y_0 = Y(u_0,v_0)\\
+                    a &= X_u(u_0,v_0), \quad b = X_v(u_0,v_0)\\
+                    c &= Y_u(u_0,v_0), \quad d = Y_v(u_0,v_0)
+                    \end{aligned}$$
+                </div>
+                
+                したがって，
+                
+                <div class="formula">
+                    $$\phi(R)\approx g\bigl([u_0,u_1]\times [v_0,v_1]\bigr) = (ad - bc)\,(u_1 - u_0)(v_1 - v_0)$$
+                </div>
             </div>
         </section>
 
