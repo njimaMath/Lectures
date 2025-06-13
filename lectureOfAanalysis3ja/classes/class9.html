@@ -322,7 +322,7 @@
             の面積は
             
             <div class="formula">
-                $$(ad - bc)\,(u_1 - u_0)^2$$
+                $$(ad - bc)\,(u_1 - u_0)(v_1-v_0)$$
             </div>
 
             <div class="figure">
@@ -402,14 +402,46 @@
         
             <div class="figure-caption">一次変換による面積変化</div>
             </div>
+<div class="proof-section">
+  <strong>証明:</strong>
+  一次変換
+  <div class="formula">
+    $$g(u,v)=(x_0,y_0)+(au+bv,\;cu+dv)$$
+  </div>
+  は平行移動 $(x_0,y_0)$ と線形変換 $(u,v) \mapsto (au + bv,\; cu + dv)$ の合成なので，面積の変化は線形変換部分だけで考えてよい．<br><br>
 
-            <div class="proof-section">
-                <strong>証明:</strong> 前の定理を用いると…
-                <div class="proof-end">証明終</div>
-            </div>
+  長方形 $[u_0, u_1] \times [v_0, v_1]$ の４頂点
+  <ul>
+    <li>$(u_0, v_0)$</li>
+    <li>$(u_1, v_0)$</li>
+    <li>$(u_1, v_1)$</li>
+    <li>$(u_0, v_1)$</li>
+  </ul>
+  の像はそれぞれ
+  <ul>
+    <li>$g(u_0,v_0)=(x_0+au_0+bv_0,\; y_0+cu_0+dv_0)$</li>
+    <li>$g(u_1,v_0)=(x_0+au_1+bv_0,\; y_0+cu_1+dv_0)$</li>
+    <li>$g(u_1,v_1)=(x_0+au_1+bv_1,\; y_0+cu_1+dv_1)$</li>
+    <li>$g(u_0,v_1)=(x_0+au_0+bv_1,\; y_0+cu_0+dv_1)$</li>
+  </ul>
 
-            <div class="example-title">計算問題 2問</div>
+  ２辺のベクトルは
+  <ul>
+    <li>$\vec{AB} = g(u_1,v_0) - g(u_0,v_0) = (a(u_1 - u_0),\; c(u_1 - u_0))$</li>
+    <li>$\vec{AD} = g(u_0,v_1) - g(u_0,v_0) = (b(v_1 - v_0),\; d(v_1 - v_0))$</li>
+  </ul>
 
+  よって，面積は２つのベクトルの行列式の絶対値で与えられ，
+  <div class="formula">
+    $$\left|\det \begin{pmatrix} a(u_1 - u_0) & b(v_1 - v_0) \\ c(u_1 - u_0) & d(v_1 - v_0) \end{pmatrix} \right| = |ad - bc| \cdot (u_1 - u_0)(v_1 - v_0)$$
+  </div>
+  したがって面積は
+  <div class="formula">
+    $$(ad - bc)(u_1 - u_0)(v_1 - v_0)$$
+  </div>
+  となる．
+  <div class="proof-end">証明終</div>
+</div>
             <div class="subsection-title">一般の座標変換での面積変化</div>
             
             <p><strong>定理:</strong> $X(u,v),Y(u,v)$を二変数関数，$\phi(u,v):=(X(u,v),Y(u,v))$とする．<br>
