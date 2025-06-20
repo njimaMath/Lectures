@@ -1,0 +1,184 @@
+<!DOCTYPE html><html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>実数の講義ノート</title>
+  <script>
+    MathJax = {
+      tex: {
+        inlineMath: [['$', '$']],
+        displayMath: [['$$', '$$']]
+      }
+    };
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js" async></script>
+  <style>
+    body {
+      font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+      background: #f5f5f5;
+      color: #222;
+      line-height: 1.7;
+      margin: 0;
+      padding: 2rem;
+    }
+    .container {
+      background: white;
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 2rem;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+    h1, h2, h3 {
+      color: #003366;
+    }
+    h1 {
+      text-align: center;
+      margin-bottom: 2rem;
+    }
+    h2 {
+      border-left: 6px solid #003366;
+      padding-left: 0.5rem;
+      margin-top: 2rem;
+    }
+    p {
+      margin-top: 1em;
+    }
+    ul {
+      margin-left: 1.2em;
+    }
+  </style>
+</head>
+<body>
+    <!-- ===== ナビゲーション（上） ===== -->
+    <nav class="navigation">
+        <a href="class7.html">← 第7回</a>
+        <a href="../index.html">ホーム</a>
+        <a href="class9.html">第9回 →</a>
+    </nav><div class="container">
+  <h1>上限・下限と有界性 ─ 概要ノート</h1>
+
+  <h2>1. 最大値と最小値（$\max$, $\min$）</h2>
+  <p><strong>定義:</strong> 非空集合 $A \subset \mathbb{R}$ について、
+    <ul>
+      <li>$a = \max A$ とは $a \in A$ かつ $\forall x \in A,\; x \le a$。</li>
+      <li>$a = \min A$ とは $a \in A$ かつ $\forall x \in A,\; a \le x$。</li>
+    </ul>
+  </p>
+  <p><strong>注意:</strong> $\max A$ と $\min A$ は常に集合の<strong>要素</strong>であり、存在しないこともある。</p>
+  <p><strong>例:</strong>
+    <ul>
+      <li>$\max\{1,2,3\}=3$</li>
+      <li>開区間 $(0,1)$ に最大値・最小値は存在しない</li>
+    </ul>
+  </p>
+
+  <h2>2. 上限（$\sup$）と下限（$\inf$）</h2>
+  <p><strong>定義:</strong> 上に有界な非空集合 $A \subset \mathbb{R}$ について、$s = \sup A$ とは
+    $$
+      \begin{cases}
+        \forall x \in A,\; x \le s,\\
+        \forall \varepsilon > 0,\; \exists x \in A \text{ s.t. } s - \varepsilon < x.
+      \end{cases}
+    $$
+    下限 $i = \inf A$ は同様に
+    $$
+      \begin{cases}
+        \forall x \in A,\; i \le x,\\
+        \forall \varepsilon > 0,\; \exists x \in A \text{ s.t. } x < i + \varepsilon.
+      \end{cases}
+    $$
+  </p>
+  <p><strong>例:</strong>
+    <ul>
+      <li>$\sup(0,1)=1$（ただし $1 \notin (0,1)$）</li>
+      <li>$\inf\{1/n : n\in\mathbb{N}\}=0$</li>
+      <li>$\sup\{1-1/n : n\in\mathbb{N}\}=1$</li>
+    </ul>
+  </p>
+
+  <h2>3. 上限・下限に関する証明例</h2>
+  <h3>3.1 $\sup\{1/n : n\in\mathbb{N}\}=1$</h3>
+  <p>
+    <em>上限であることの確認:</em> 任意の $n$ で $1/n \le 1$。したがって $1$ は上界。
+  </p>
+  <p>
+    <em>最小上界性:</em> 任意の $\varepsilon>0$ に対し、$N>1/\varepsilon$ を選ぶと $1/N > 1-\varepsilon$。よって条件を満たす要素が存在。
+  </p>
+  <h3>3.2 $\inf\{1-1/n : n\in\mathbb{N}\}=0$</h3>
+  <p>
+    下界は $0$、$n$ を大きくすると $1-1/n$ は任意に $0$ に近づく。
+  </p>
+
+  <h2>4. 有界性</h2>
+  <p><strong>定義:</strong>
+    <ul>
+      <li><em>上に有界:</em> $\exists M \in \mathbb{R}$ で $\forall x \in A,\; x \le M$。</li>
+      <li><em>下に有界:</em> $\exists m \in \mathbb{R}$ で $\forall x \in A,\; m \le x$。</li>
+      <li><em>有界:</em> 上にも下にも有界。</li>
+    </ul>
+  </p>
+  <p><strong>例:</strong>
+    <ul>
+      <li>区間 $(0,1)$ は上下とも有界</li>
+      <li>自然数集合 $\mathbb{N}$ は下に有界だが上に有界でない</li>
+    </ul>
+  </p>
+
+  <h2>5. 連続性公理（完備性）</h2>
+  <p>
+    実数 $\mathbb{R}$ は次を満たす：<br>
+    <em>「上に有界な非空集合には必ず最小上界が存在する」。</em>
+  </p>
+  <p><strong>近接定理:</strong> 有界集合 $A$ と $\varepsilon>0$ に対し、
+    $$
+      \exists b \in A \text{ s.t. } \sup A - \varepsilon < b \le \sup A.
+    $$
+  </p>
+
+  <h2>6. 応用例</h2>
+  <h3>6.1 アルキメデスの公理</h3>
+  <p>
+    任意の $x \in \mathbb{R}$ に対し、ある自然数 $n$ が $n > x$ を満たす。
+  </p>
+  <h3>6.2 有理数の稠密性</h3>
+  <p>
+    $a<b$ ならば $a<q<b$ を満たす $q \in \mathbb{Q}$ が存在する。
+  </p>
+
+  <h2>練習問題</h2>
+  <ol>
+    <li>$A=\{1-1/n : n\in\mathbb{N}\}$ の $\sup, \inf, \max, \min$ を求めよ。</li>
+    <li>$B=(-3,5]$ の $\sup$ と $\inf$ を求めよ。</li>
+    <li>$C=\{x\in\mathbb{Q}:x^2<2\}$ の $\sup$ を示せ。</li>
+  </ol>
+</div>
+
+<!-- ===== ナビゲーション（下） ===== -->
+<nav class="navigation">
+    <a href="class7.html">← 第7回</a>
+    <a href="../index.html">ホーム</a>
+    <a href="class9.html">第9回 →</a>
+</nav>
+
+<style>
+  .navigation {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 2rem;
+      padding-top: 1rem;
+      border-top: 1px solid #ddd;
+  }
+  .navigation a {
+      color: var(--primary-color, #003366);
+      text-decoration: none;
+      padding: 0.5rem 1rem;
+      border-radius: 4px;
+      transition: background-color 0.3s;
+  }
+  .navigation a:hover {
+      background-color: #f0f0f0;
+  }
+</style>
+
+</body>
+</html>
