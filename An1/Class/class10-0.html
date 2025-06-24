@@ -56,7 +56,47 @@
         <a href="class9.html">第9回 →</a>
     </nav><div class="container">
   <h1>上限・下限と有界性 ─ 概要ノート</h1>
+<h2>証明について ─ 逆と対偶</h2>
 
+<h3>1. 主張の逆</h3>
+<p>
+  主張 $P\Rightarrow Q$ の逆は $Q\Rightarrow P$。必ずしも元の命題と同値ではない。
+</p>
+
+<p><strong>形式的変形の例:</strong></p>
+<ul>
+  <li>(1) $\forall \varepsilon>0 \Rightarrow \exists \delta>0$ の逆: $\exists \delta>0 \Rightarrow \forall \varepsilon>0$</li>
+  <li>(2) $\exists N \in \mathbb{N} \Rightarrow \forall n \in \mathbb{N}$ の逆: $\forall n \in \mathbb{N} \Rightarrow \exists N \in \mathbb{N}$</li>
+  <li>(3) $a > b \Rightarrow a \leq b$、$a \in A \Rightarrow a \notin A$、$a = b \Rightarrow a \neq b$</li>
+  <li>(4) $P \Rightarrow Q$ の逆: $Q \Rightarrow P$</li>
+</ul>
+
+<h3>2. 対偶</h3>
+<p>
+  命題 $P \Rightarrow Q$ の<strong>対偶</strong>は $\neg Q \Rightarrow \neg P$ であり、元の命題と常に<strong>同値</strong>である。
+</p>
+
+<p><strong>例題:</strong> 「任意の $\varepsilon > 0$ に対して $a - \varepsilon < b$ ならば $a \leq b$」の対偶を用いた証明:</p>
+<p>
+  <strong>定理:</strong>  
+  任意の $\varepsilon > 0$ に対して $a - \varepsilon < b$ ならば $a \leq b$
+</p>
+
+<p><strong>証明（対偶）:</strong></p>
+<p>
+  対偶は「$a > b$ ならば、ある $\varepsilon > 0$ が存在して $a - \varepsilon \geq b$」である。
+</p>
+<p>
+  実際、$a > b$ とすると $\varepsilon := a - b > 0$ とおける。このとき $a - \varepsilon = b \geq b$。ゆえに対偶は真であり、元の命題も真である。
+</p>
+
+<h3>3. 練習問題</h3>
+<ol>
+  <li>命題「$x > 1 \Rightarrow x^2 > 1$」の逆と対偶を求め、それらの真偽を判断せよ。</li>
+  <li>命題「$x$ は偶数であるならば、$x^2$ は偶数である」の対偶を書け。元の命題と対偶は同値か？</li>
+  <li>命題「$x > 2$ ならば $x^2 > 4$」の逆と対偶を求め、真偽を判定せよ。</li>
+  <li>命題「$\forall \varepsilon>0,\, \exists \delta>0,\ldots$」のような $\varepsilon$-$\delta$ 型命題の逆を書いて、それが元の命題と同値か調べよ。</li>
+</ol>
   <h2>1. 最大値と最小値（$\max$, $\min$）</h2>
   <p><strong>定義:</strong> 非空集合 $A \subset \mathbb{R}$ について、
     <ul>
