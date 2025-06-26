@@ -14,7 +14,6 @@
             --container-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
             --text-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
         }
-
         body {
             font-family: 'Georgia', serif;
             line-height: 1.7;
@@ -23,7 +22,6 @@
             background-color: var(--background-color);
             color: var(--text-color);
         }
-
         .container {
             max-width: 900px;
             margin: 20px auto;
@@ -32,18 +30,15 @@
             box-shadow: var(--container-shadow);
             border-radius: 15px;
         }
-
         header {
             text-align: center;
             margin-bottom: 40px;
             border-bottom: 2px solid var(--secondary-color);
             padding-bottom: 20px;
         }
-
         h1, h2, h3 {
             color: var(--primary-color);
         }
-
         .section-title {
             color: var(--primary-color);
             font-size: 1.8rem;
@@ -53,24 +48,20 @@
             border-bottom: 1px solid #eee;
             text-shadow: var(--text-shadow);
         }
-
         .lecture-title {
             color: var(--secondary-color);
             font-size: 1.5rem;
             margin-bottom: 15px;
             font-weight: normal;
         }
-
         .author-info {
             font-style: italic;
             color: #777;
         }
-
         .math {
             font-style: italic;
             padding: 0 3px;
         }
-
         .figure {
             text-align: center;
             margin: 30px 0;
@@ -79,18 +70,15 @@
             border-radius: 10px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
         }
-
         .figure img {
             max-width: 100%;
             border-radius: 5px;
         }
-
         .figure-caption {
             font-style: italic;
             color: #777;
             margin-top: 15px;
         }
-
         .navigation {
             margin-top: 40px;
             text-align: center;
@@ -99,7 +87,6 @@
             padding: 15px 0;
             border-top: 1px solid #eee;
         }
-
         .navigation a {
             display: inline-block;
             padding: 10px 20px;
@@ -110,13 +97,11 @@
             transition: all 0.3s ease;
             box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
         }
-
         .navigation a:hover {
             background-color: var(--secondary-color);
             transform: translateY(-2px);
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
         }
-
         .topic-highlight {
             display: inline-block;
             background-color: rgba(52, 152, 219, 0.1);
@@ -125,7 +110,6 @@
             font-weight: 500;
             color: var(--primary-color);
         }
-
         .formula {
             margin: 25px 0;
             padding: 15px;
@@ -136,7 +120,6 @@
             font-size: 1.1em;
             box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
         }
-
         .example-title {
             font-weight: bold;
             font-size: 1.2em;
@@ -147,12 +130,10 @@
             border-bottom: 1px dashed #ccc;
             display: inline-block;
         }
-
         p {
             margin-bottom: 20px;
             line-height: 1.8;
         }
-
         .content-section {
             padding-bottom: 30px;
         }
@@ -163,6 +144,15 @@
             margin-top: 5px;
             border-top: 1px solid #eee;
             padding-top: 10px;
+        }
+        .section-highlight {
+            margin: 20px 0;
+        }
+        ol.exercise {
+            margin: 20px 0;
+        }
+        ol.exercise li {
+            margin-bottom: 15px;
         }
     </style>
     <!-- MathJax configuration -->
@@ -189,125 +179,394 @@
         
         <section id="class10" class="content-section">
             <div class="section-title">第10回：逆関数</div>
-            
-            <p>この講義では、ベクトル値関数の導関数を表現するヤコビ行列について学び、多変数関数の微分を行列を用いて表現する方法を探る。</p>
-
+      
             <div class="section-highlight">
-                <h3>ベクトル値関数の微分</h3>
-                
-                <p>ベクトル値関数は複数の出力を持つ関数で、各成分が入力変数の関数となる。例えば、2次元のベクトル値関数 $\mathbf{f}(t) = (x(t), y(t))$ を考えると、その導関数は各成分の導関数からなるベクトルとなる：</p>
-                
-                <div class="formula">
-                    $$\frac{d\mathbf{f}}{dt} = \left(\frac{dx}{dt}, \frac{dy}{dt}\right)$$
-                </div>
-            </div>
+                <h2>1変数の逆関数</h2>
 
-            <div class="section-highlight">
-                <h3>ヤコビ行列の定義</h3>
-                
-                <p>2変数関数 $f(x,y)$ と $g(x,y)$ からなる写像 $\mathbf{F}(x,y) = (f(x,y), g(x,y))$ に対し、ヤコビ行列は次のように定義される：</p>
-                
-                <div class="formula">
-                    $$J = \begin{pmatrix}
-                    \frac{\partial f}{\partial x} & \frac{\partial f}{\partial y} \\
-                    \frac{\partial g}{\partial x} & \frac{\partial g}{\partial y}
-                    \end{pmatrix}$$
-                </div>
-                
-                <p>この行列は、写像の局所的な線形近似を表現する。各成分は、入力の微小な変化が出力にどのように影響するかを示す。</p>
-            </div>
+                <p>$I,J$ を区間とし，関数 $f:I\to\mathbb{R}$，$g:J\to\mathbb{R}$ とする。次を満たすとき，$g$ を $f$ の<strong>逆関数</strong>と呼ぶ：</p>
 
-            <div class="example-box">
-                <div class="example-title">例 10.1</div>
-                <p>写像 $\mathbf{F}(x,y) = (x^2 + y^2, xy)$ のヤコビ行列を求めよ。</p>
-                
-                <p><strong>解答：</strong></p>
-                <p>$f(x,y) = x^2 + y^2$ と $g(x,y) = xy$ の偏微分を計算する：</p>
-                
-                <div class="formula" style="background: none; border-left: none; box-shadow: none;">
-                    \begin{align*}
-                    \frac{\partial f}{\partial x} &= 2x\\
-                    \frac{\partial f}{\partial y} &= 2y\\
-                    \frac{\partial g}{\partial x} &= y\\
-                    \frac{\partial g}{\partial y} &= x
-                    \end{align*}
-                </div>
-                
-                <p>したがって、ヤコビ行列は次のようになる：</p>
-                
-                <div class="formula">
-                    $$J = \begin{pmatrix}
-                    2x & 2y\\
-                    y & x
-                    \end{pmatrix}$$
-                </div>
-                
-                <p>このヤコビ行列は点 $(x,y)$ における写像の局所的な線形近似を表す。</p>
-            </div>
+                <ol>
+                    <li>任意の $x\in I$ について，$f(x)\in J$。</li>
+                    <li>任意の $y\in J$ について，$g(y)\in I$。</li>
+                    <li>任意の $x\in I,\,y\in J$ について，$f(g(y))=y,\;g(f(x))=x$。</li>
+                </ol>
 
-            <div class="section-highlight">
-                <h3>ヤコビ行列の幾何学的意味</h3>
-                
-                <p>ヤコビ行列は以下の情報を含む：</p>
-                
+                <div class="figure">
+                    <canvas id="inverse-function-graph" width="600" height="400"></canvas>
+                    <div class="figure-caption">図1: 関数 $f(x) = x^2$ (青) とその逆関数 $g(x) = \sqrt{x}$ (赤) の関係<br>
+                    定義域を $[0, \infty)$ に制限することで逆関数が存在する</div>
+                </div>
+
+                <h3>例</h3>
                 <ul>
-                    <li>写像の局所的な拡大・縮小率</li>
-                    <li>写像による図形の変形の様子</li>
-                    <li>写像の向きの保存・反転</li>
+                    <li>$f(x)=x,\;g(y)=y$ （$\mathbb{R}$ 上）。</li>
+                    <li>$f(x)=x^2,\;g(y)=\sqrt{y}$ （$x\in[0,\infty),\,y\in[0,\infty)$）。</li>
+                    <li>$f(x)=x^2$ （$\mathbb{R}$ 上）は逆関数を持たない。<br>
+                        <em>理由：</em>$f$ は単調ではなく，例えば $f(-1)=f(1)=1$。よって条件 (3) を同時に満たす関数 $g$ は存在しない。</li>
                 </ul>
-                
-                <p>さらに、ヤコビアン（ヤコビ行列の行列式）は、写像による面積の変化率を表す。</p>
+
+                <div class="figure">
+                    <canvas id="exp-log-graph" width="600" height="400"></canvas>
+                    <div class="figure-caption">図2: 指数関数 $e^x$ (青) と対数関数 $\ln x$ (赤) は互いに逆関数<br>
+                    直線 $y = x$ に関して対称な関係にある</div>
+                </div>
+
+                <p>さらに $\log x$ は $\exp x$ の，$\arccos x$，$\arcsin x$ はそれぞれ $\cos x$，$\sin x$ の逆関数となる。</p>
+
+                <div class="formula">
+                    <h3>定理（逆関数の微分公式）</h3>
+                    <p>$g$ を $f$ の逆関数とする。$f$ が点 $g(y)$ で微分可能かつ $f'(g(y))\ne0$ ならば</p>
+                    $$g'(y)=\frac{1}{f'(g(y))}.$$
+                </div>
+
+                <h4>証明</h4>
+                <p>$f(g(y))=y$ を $y$ で微分する：</p>
+                $$\frac{d}{dy}\bigl(f(g(y))\bigr)=\frac{d}{dy}\,y \quad\Longrightarrow\quad f'(g(y))\cdot g'(y)=1.$$
+                $$\therefore\; g'(y)=\frac{1}{f'(g(y))}.\quad\blacksquare$$
             </div>
 
-            <div class="property-box">
-                <h3 style="margin-top: 0;">ヤコビ行列の性質</h3>
+            <div class="section-highlight">
+                <h2>2変数の逆関数（座標変換）</h2>
+
+                <p>$D\subset\mathbb{R}^2$ とし，$x(u,v),\,y(u,v)$ で定義される写像</p>
+                $$\varphi(u,v)=(x(u,v),y(u,v))$$
+                を $D$ 上の<strong>座標変換</strong>と呼ぶ。</p>
+
+                <h3>例</h3>
                 <ul>
-                    <li>合成関数の連鎖律はヤコビ行列の積として表現できる</li>
-                    <li>ヤコビ行列が正則なら、その点の近傍で写像は局所的に可逆となる</li>
-                    <li>ヤコビアンがゼロになる点は、写像の特異点となる可能性がある</li>
+                    <li>$\varphi(u,v)=(u,v)$（恒等変換）。</li>
+                    <li>$\varphi(u,v)=(2u+v,\;u-v)$。</li>
+                    <li>$\varphi(r,\theta)=(r\cos\theta,\;r\sin\theta)$ （極座標，$r\ge0,\;0\le\theta<2\pi$）。</li>
+                </ul>
+
+                <div class="figure">
+                    <canvas id="polar-coordinate-graph" width="600" height="400"></canvas>
+                    <div class="figure-caption">図3: 極座標変換の可視化<br>
+                    格子状の $(r, \theta)$ 座標系（左）から直交座標系（右）への変換</div>
+                </div>
+
+                <h3>逆変換の定義</h3>
+                <p>$D,D'\subset\mathbb{R}^2$，写像 $\varphi:D\to D'$，$\psi:D'\to D$ について</p>
+                <ol>
+                    <li>$\varphi(u,v)\in D'$，</li>
+                    <li>$\psi(x,y)\in D$，</li>
+                    <li>$\varphi(\psi(x,y))=(x,y),\;\psi(\varphi(u,v))=(u,v)$</li>
+                </ol>
+                が成り立てば，$\psi$ を $\varphi$ の<strong>逆変換</strong>と呼ぶ。
+
+                <h3>逆変換の求め方</h3>
+                <p>一般に $\psi(u,v)=(X(u,v),Y(u,v))$ とおき，方程式 $\varphi(X,Y)=(u,v)$ を $X,Y$ について解く。</p>
+
+                <div class="figure">
+                    <canvas id="linear-transformation-graph" width="600" height="400"></canvas>
+                    <div class="figure-caption">図4: 線形変換 $\varphi(u,v) = (2u+v, u-v)$ の例<br>
+                    単位正方領域（左）が平行四辺形（右）に変換される</div>
+                </div>
+
+                <h4>前掲の例の逆変換</h4>
+                <ul>
+                    <li>恒等変換の逆は恒等変換。</li>
+                    <li>$\varphi(u,v)=(2u+v,\;u-v)$ の逆は
+                        $$\psi(x,y)=\Bigl(\frac{x+y}{3},\;\frac{x-2y}{3}\Bigr).$$
+                    </li>
+                    <li>極座標の逆は
+                        $$\psi(x,y)=\bigl(\sqrt{x^2+y^2},\;\arctan2(y,x)\bigr).$$
+                    </li>
                 </ul>
             </div>
 
-            <div class="example-box">
-                <div class="example-title">例 10.2</div>
-                <p>極座標変換 $\mathbf{F}(r,\theta) = (r\cos\theta, r\sin\theta)$ のヤコビ行列を求め、ヤコビアンを計算せよ。</p>
-                
-                <p><strong>解答：</strong></p>
-                <p>$f(r,\theta) = r\cos\theta$ と $g(r,\theta) = r\sin\theta$ の偏微分を計算する：</p>
-                
-                <div class="formula" style="background: none; border-left: none; box-shadow: none;">
-                    \begin{align*}
-                    \frac{\partial f}{\partial r} &= \cos\theta\\
-                    \frac{\partial f}{\partial \theta} &= -r\sin\theta\\
-                    \frac{\partial g}{\partial r} &= \sin\theta\\
-                    \frac{\partial g}{\partial \theta} &= r\cos\theta
-                    \end{align*}
-                </div>
-                
-                <p>よって、ヤコビ行列は：</p>
-                
-                <div class="formula">
-                    $$J = \begin{pmatrix}
-                    \cos\theta & -r\sin\theta\\
-                    \sin\theta & r\cos\theta
-                    \end{pmatrix}$$
-                </div>
-                
-                <p>ヤコビアンを計算すると：</p>
-                
-                <div class="formula">
-                    $$\det J = r(\cos^2\theta + \sin^2\theta) = r$$
-                </div>
-                
-                <p>これは、極座標での面積要素 $r\,dr\,d\theta$ の $r$ の係数と一致する。</p>
-            </div>
+            <h2>練習問題</h2>
+            <ol class="exercise">
+                <li>$f(x)=\tanh x$ の逆関数 $\operatorname{artanh} x$ を導出し，微分を計算せよ。</li>
+                <li>$\varphi(u,v)=(e^{u}\cos v,\;e^{u}\sin v)$ の逆変換 $\psi$ を求め，$\varphi\circ\psi=\mathrm{id}$ と $\psi\circ\varphi=\mathrm{id}$ を確認せよ。</li>
+                <li>双曲線座標変換 $\varphi(u,v)=(uv,\tfrac12(u^2+v^2))$ を考える。$\varphi$ が局所的に可逆であるための $(u,v)$ の条件をヤコビ行列式を用いて示せ。</li>
+            </ol>
+
         </section>
-
         <div class="navigation">
             <a href="class9.html">← 前回：第9回</a>
             <a href="../index.html">ホーム</a>
             <a href="class11.html">次回：第11回 →</a>
         </div>
     </div>
+
+    <script>
+        // Figure 1: Inverse function graph (f(x) = x^2 and g(x) = sqrt(x))
+        function drawInverseFunctionGraph() {
+            const canvas = document.getElementById('inverse-function-graph');
+            const ctx = canvas.getContext('2d');
+            
+            // Clear canvas
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            
+            // Set up coordinate system
+            const centerX = canvas.width / 2;
+            const centerY = canvas.height / 2;
+            const scale = 80;
+            
+            // Draw axes
+            ctx.strokeStyle = '#ccc';
+            ctx.lineWidth = 1;
+            ctx.beginPath();
+            ctx.moveTo(0, centerY);
+            ctx.lineTo(canvas.width, centerY);
+            ctx.moveTo(centerX, 0);
+            ctx.lineTo(centerX, canvas.height);
+            ctx.stroke();
+            
+            // Draw y=x line
+            ctx.strokeStyle = '#999';
+            ctx.setLineDash([5, 5]);
+            ctx.beginPath();
+            ctx.moveTo(0, canvas.height);
+            ctx.lineTo(canvas.width, 0);
+            ctx.stroke();
+            ctx.setLineDash([]);
+            
+            // Draw f(x) = x^2 for x >= 0
+            ctx.strokeStyle = '#3498db';
+            ctx.lineWidth = 2;
+            ctx.beginPath();
+            for (let x = 0; x <= 3; x += 0.1) {
+                const screenX = centerX + x * scale;
+                const screenY = centerY - (x * x) * scale;
+                if (x === 0) {
+                    ctx.moveTo(screenX, screenY);
+                } else {
+                    ctx.lineTo(screenX, screenY);
+                }
+            }
+            ctx.stroke();
+            
+            // Draw g(x) = sqrt(x)
+            ctx.strokeStyle = '#e74c3c';
+            ctx.lineWidth = 2;
+            ctx.beginPath();
+            for (let x = 0; x <= 3; x += 0.1) {
+                const screenX = centerX + x * scale;
+                const screenY = centerY - Math.sqrt(x) * scale;
+                if (x === 0) {
+                    ctx.moveTo(screenX, screenY);
+                } else {
+                    ctx.lineTo(screenX, screenY);
+                }
+            }
+            ctx.stroke();
+            
+            // Add labels
+            ctx.fillStyle = '#3498db';
+            ctx.font = '14px Arial';
+            ctx.fillText('f(x) = x²', centerX + 100, centerY - 120);
+            ctx.fillStyle = '#e74c3c';
+            ctx.fillText('g(x) = √x', centerX + 120, centerY - 60);
+            ctx.fillStyle = '#999';
+            ctx.fillText('y = x', centerX + 200, centerY - 180);
+        }
+        
+        // Figure 2: Exponential and logarithm functions
+        function drawExpLogGraph() {
+            const canvas = document.getElementById('exp-log-graph');
+            const ctx = canvas.getContext('2d');
+            
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            
+            const centerX = canvas.width / 2;
+            const centerY = canvas.height / 2;
+            const scale = 50;
+            
+            // Draw axes
+            ctx.strokeStyle = '#ccc';
+            ctx.lineWidth = 1;
+            ctx.beginPath();
+            ctx.moveTo(0, centerY);
+            ctx.lineTo(canvas.width, centerY);
+            ctx.moveTo(centerX, 0);
+            ctx.lineTo(centerX, canvas.height);
+            ctx.stroke();
+            
+            // Draw y=x line
+            ctx.strokeStyle = '#999';
+            ctx.setLineDash([5, 5]);
+            ctx.beginPath();
+            ctx.moveTo(0, canvas.height);
+            ctx.lineTo(canvas.width, 0);
+            ctx.stroke();
+            ctx.setLineDash([]);
+            
+            // Draw e^x
+            ctx.strokeStyle = '#3498db';
+            ctx.lineWidth = 2;
+            ctx.beginPath();
+            for (let x = -2; x <= 2; x += 0.1) {
+                const screenX = centerX + x * scale;
+                const screenY = centerY - Math.exp(x) * scale;
+                if (screenY >= 0 && screenY <= canvas.height) {
+                    if (x === -2) {
+                        ctx.moveTo(screenX, screenY);
+                    } else {
+                        ctx.lineTo(screenX, screenY);
+                    }
+                }
+            }
+            ctx.stroke();
+            
+            // Draw ln(x)
+            ctx.strokeStyle = '#e74c3c';
+            ctx.lineWidth = 2;
+            ctx.beginPath();
+            for (let x = 0.1; x <= 4; x += 0.1) {
+                const screenX = centerX + x * scale;
+                const screenY = centerY - Math.log(x) * scale;
+                if (screenY >= 0 && screenY <= canvas.height) {
+                    if (x === 0.1) {
+                        ctx.moveTo(screenX, screenY);
+                    } else {
+                        ctx.lineTo(screenX, screenY);
+                    }
+                }
+            }
+            ctx.stroke();
+            
+            // Add labels
+            ctx.fillStyle = '#3498db';
+            ctx.font = '14px Arial';
+            ctx.fillText('e^x', centerX + 80, centerY - 100);
+            ctx.fillStyle = '#e74c3c';
+            ctx.fillText('ln(x)', centerX + 100, centerY + 80);
+        }
+        
+        // Figure 3: Polar coordinate transformation
+        function drawPolarCoordinateGraph() {
+            const canvas = document.getElementById('polar-coordinate-graph');
+            const ctx = canvas.getContext('2d');
+            
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            
+            const leftCenter = 150;
+            const rightCenter = 450;
+            const centerY = 200;
+            const scale = 60;
+            
+            // Left side: polar grid
+            ctx.strokeStyle = '#ccc';
+            ctx.lineWidth = 1;
+            // Concentric circles
+            for (let r = 1; r <= 3; r++) {
+                ctx.beginPath();
+                ctx.arc(leftCenter, centerY, r * scale / 3, 0, 2 * Math.PI);
+                ctx.stroke();
+            }
+            // Radial lines
+            for (let theta = 0; theta < 2 * Math.PI; theta += Math.PI / 4) {
+                ctx.beginPath();
+                ctx.moveTo(leftCenter, centerY);
+                ctx.lineTo(leftCenter + Math.cos(theta) * scale, centerY + Math.sin(theta) * scale);
+                ctx.stroke();
+            }
+            
+            // Right side: Cartesian grid
+            ctx.strokeStyle = '#3498db';
+            ctx.lineWidth = 2;
+            // Transform polar grid to Cartesian
+            for (let r = 0.5; r <= 3; r += 0.5) {
+                ctx.beginPath();
+                for (let theta = 0; theta <= 2 * Math.PI; theta += 0.1) {
+                    const x = r * Math.cos(theta);
+                    const y = r * Math.sin(theta);
+                    const screenX = rightCenter + x * scale / 3;
+                    const screenY = centerY + y * scale / 3;
+                    if (theta === 0) {
+                        ctx.moveTo(screenX, screenY);
+                    } else {
+                        ctx.lineTo(screenX, screenY);
+                    }
+                }
+                ctx.stroke();
+            }
+            
+            // Add labels
+            ctx.fillStyle = '#333';
+            ctx.font = '14px Arial';
+            ctx.fillText('極座標 (r, θ)', leftCenter - 40, 50);
+            ctx.fillText('直交座標 (x, y)', rightCenter - 40, 50);
+        }
+        
+        // Figure 4: Linear transformation
+        function drawLinearTransformationGraph() {
+            const canvas = document.getElementById('linear-transformation-graph');
+            const ctx = canvas.getContext('2d');
+            
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            
+            const leftCenter = 150;
+            const rightCenter = 450;
+            const centerY = 200;
+            const scale = 100;
+            
+            // Left side: unit square in (u,v) space
+            ctx.strokeStyle = '#3498db';
+            ctx.lineWidth = 2;
+            ctx.fillStyle = 'rgba(52, 152, 219, 0.3)';
+            ctx.beginPath();
+            ctx.rect(leftCenter - 50, centerY - 50, 100, 100);
+            ctx.fill();
+            ctx.stroke();
+            
+            // Grid lines in (u,v) space
+            ctx.strokeStyle = '#ccc';
+            ctx.lineWidth = 1;
+            for (let i = -1; i <= 2; i++) {
+                ctx.beginPath();
+                ctx.moveTo(leftCenter + i * 50, centerY - 100);
+                ctx.lineTo(leftCenter + i * 50, centerY + 100);
+                ctx.stroke();
+                
+                ctx.beginPath();
+                ctx.moveTo(leftCenter - 100, centerY + i * 50);
+                ctx.lineTo(leftCenter + 100, centerY + i * 50);
+                ctx.stroke();
+            }
+            
+            // Right side: transformed parallelogram in (x,y) space
+            ctx.strokeStyle = '#e74c3c';
+            ctx.lineWidth = 2;
+            ctx.fillStyle = 'rgba(231, 76, 60, 0.3)';
+            ctx.beginPath();
+            // Transform corners: (0,0), (1,0), (1,1), (0,1)
+            const corners = [[0,0], [1,0], [1,1], [0,1]];
+            const transformedCorners = corners.map(([u, v]) => [
+                2*u + v,  // x = 2u + v
+                u - v     // y = u - v
+            ]);
+            
+            transformedCorners.forEach(([x, y], i) => {
+                const screenX = rightCenter + x * 30;
+                const screenY = centerY - y * 30;
+                if (i === 0) {
+                    ctx.moveTo(screenX, screenY);
+                } else {
+                    ctx.lineTo(screenX, screenY);
+                }
+            });
+            ctx.closePath();
+            ctx.fill();
+            ctx.stroke();
+            
+            // Add labels
+            ctx.fillStyle = '#333';
+            ctx.font = '14px Arial';
+            ctx.fillText('(u, v) 空間', leftCenter - 30, 50);
+            ctx.fillText('(x, y) 空間', rightCenter - 30, 50);
+            ctx.fillText('φ(u,v) = (2u+v, u-v)', 250, 380);
+        }
+        
+        // Initialize all graphs when page loads
+        window.addEventListener('load', function() {
+            drawInverseFunctionGraph();
+            drawExpLogGraph();
+            drawPolarCoordinateGraph();
+            drawLinearTransformationGraph();
+        });
+    </script>
 </body>
 </html>
