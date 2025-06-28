@@ -1,123 +1,223 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>実数の講義ノート 第12回</title>
+  <script>
+    MathJax = {
+      tex: {
+        inlineMath: [['$', '$']],
+        displayMath: [['$$', '$$']]
+      }
+    };
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js" async></script>
+  <style>
+    body {
+      font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+      background: #f5f5f5;
+      color: #222;
+      line-height: 1.7;
+      margin: 0;
+      padding: 2rem;
+    }
+    .container {
+      background: white;
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 2rem;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+    h1, h2, h3 {
+      color: #003366;
+    }
+    h1 {
+      text-align: center;
+      margin-bottom: 2rem;
+    }
+    h2 {
+      border-left: 6px solid #003366;
+      padding-left: 0.5rem;
+      margin-top: 2rem;
+    }
+    p {
+      margin-top: 1em;
+    }
+    .definition, .theorem, .proof, .example, .exercise {
+      margin-top: 1em;
+      padding-left: 1em;
+    }
+    .definition {
+      border-left: 3px solid #4CAF50;
+    }
+    .theorem {
+      border-left: 3px solid #2196F3;
+    }
+    .proof {
+      border-left: 3px solid #FFC107;
+    }
+    .example {
+      border-left: 3px solid #9C27B0;
+    }
+    .exercise {
+      border-left: 3px solid #FF5722;
+    }
+    .qed {
+      text-align: right;
+      font-weight: bold;
+    }
+  </style>
+</head>
 <body>
-    <div class="container">
-      <h1>第12回：関数の極限</h1>
-  
-      <!-- 1. 基本性質 -->
-      <h2>1. 関数の極限の基本性質</h2>
-      <div class="theorem">
-        <h3>定理&nbsp;1&nbsp;(線形性と積の極限)</h3>
-        <p>
-          実数列について $\displaystyle\lim_{x\to a}f(x)=L,\;
-          \lim_{x\to a}g(x)=M$ が存在し，定数 $c\in\mathbb{R}$ を取ると
-          次が成り立つ。
-        </p>
-        <ul>
-          <li>$\displaystyle\lim_{x\to a}c f(x) = cL$</li>
-          <li>$\displaystyle\lim_{x\to a}[f(x)+g(x)] = L+M$</li>
-          <li>$\displaystyle\lim_{x\to a}f(x)g(x) = LM$</li>
-        </ul>
-      </div>
-      <div class="proof">
-        <h3>証明の概略</h3>
-        <p>
-          $\varepsilon$–$\delta$ 定義を用い，$|f(x)-L|<\varepsilon$ と
-          $|g(x)-M|<\varepsilon$ を同時に満たす $\delta$ を構成すれば十分。
-        </p>
-      </div>
-  
-      <!-- 2. 数列による特徴付け -->
-      <h2>2. 関数の極限と数列の極限</h2>
-      <div class="theorem">
-        <h3>定理&nbsp;2&nbsp;(数列による特徴付け)</h3>
-        <p>
-          $f$ を $a$ の近傍で定義された関数とする。次は同値。
-        </p>
-        <ul>
-          <li>$\displaystyle\lim_{x\to a}f(x)=L$</li>
-          <li>
-            任意の数列 $(x_n)$ で $x_n\neq a,\; x_n\to a$ が成り立つとき，
-            $\displaystyle f(x_n)\to L$
-          </li>
-        </ul>
-      </div>
-      <div class="proof">
-        <h3>証明の概略</h3>
-        <p>
-          1&nbsp;$\Rightarrow$&nbsp;2: $\varepsilon$–$\delta$ 条件を
-          数列に適用すれば直ちに従う。<br>
-          2&nbsp;$\Rightarrow$&nbsp;1: 反証法を用いる。極限が存在しないなら
-          ある $\varepsilon_0$ について
-          $|f(x)-L|\ge\varepsilon_0$ を満たす点列を取れることに矛盾。
-        </p>
-      </div>
-  
-      <!-- 3. 片側極限 -->
-      <h2>3. 片側極限</h2>
-      <div class="definition">
-        <h3>定義&nbsp;3&nbsp;(右極限と左極限)</h3>
-        <p>
-          $f$ が点 $a$ の右側・左側で定義されているとき，それぞれ
-          右極限・左極限を
-        </p>
-        <ul>
-          <li>
-            $\displaystyle\lim_{x\to a+}f(x)=L\iff
-            \forall\varepsilon>0\,\exists\delta>0\;
-            (0<x-a<\delta\Rightarrow|f(x)-L|<\varepsilon)$
-          </li>
-          <li>
-            $\displaystyle\lim_{x\to a-}f(x)=L\iff
-            \forall\varepsilon>0\,\exists\delta>0\;
-            (0<a-x<\delta\Rightarrow|f(x)-L|<\varepsilon)$
-          </li>
-        </ul>
-      </div>
-  
-      <div class="theorem">
-        <h3>定理&nbsp;4&nbsp;(両側極限の存在条件)</h3>
-        <p>
-          $\displaystyle\lim_{x\to a}f(x)$ が存在するとき，右極限と左極限は
-          ともに存在し，互いに等しい。
-        </p>
-      </div>
-      <div class="proof">
-        <h3>証明の概略</h3>
-        <p>
-          両側極限の定義から直接従う。逆は一般には成り立たないが，
-          右極限と左極限が一致するとき
-          関数は点 $a$ で極限をもつ。
-        </p>
-      </div>
-  
-      <!-- 4. 例題 -->
-      <h2>4. 例題</h2>
-      <div class="definition">
-        <p>
-          恒等関数 $x\mapsto x$ について
-          $\displaystyle\lim_{x\to a}x = a$。
-        </p>
-        <p>
-          絶対値関数 $x\mapsto|x|$ について
-          $\displaystyle\lim_{x\to 0+}|x| = 0$，
-          $\displaystyle\lim_{x\to 0-}|x| = 0$。
-        </p>
-        <p>
-          階段関数
-          $$
-            f(x)=\begin{cases}
-              0 & (x<0)\\
-              1 & (x\ge 0)
-            \end{cases}
-          $$
-          について
-          $\displaystyle\lim_{x\to 0+}f(x)=1,\;
-          \lim_{x\to 0-}f(x)=0$。
-          従って $\displaystyle\lim_{x\to 0}f(x)$ は存在しない。
-        </p>
-      </div>
-  
-      <p class="qed">□</p>
+  <div class="container">
+    <h1>第11回　数列の極限 (ε–N 論法)</h1>
+
+    <!-- 1. 定義 -->
+    <h2>1. 極限の定義</h2>
+    <div class="definition">
+      数列 $\{a_n\}$ が実数 $a$ に<strong>収束</strong>するとは，次を満たすことをいう：
+      <p>
+        $$
+          \forall \varepsilon &gt; 0\; \exists N \in \mathbb N\;\, \forall n &gt; N : |a_n - a| &lt; \varepsilon.
+        $$
+      </p>
+      このとき $\displaystyle \lim_{n\to\infty} a_n = a$ と書き，$a_n \to a$ と略記する。
     </div>
-  </body>
-  </html>
-  
+
+    <!-- 2. 証明の考え方 -->
+    <h2>2. 証明の考え方</h2>
+    <p>
+      $a_n \to a$ を示したい場合の典型的な手順をまとめる。
+    </p>
+    <ol>
+      <li>評価式 $|a_n - a|$ を具体的に計算・評価する。</li>
+      <li>$|a_n - a| &lt; \varepsilon$ を実現するために必要な条件を導く。</li>
+      <li>その条件を満たす $N$ を構成し，$n &gt; N$ で成り立つことを確認する。</li>
+    </ol>
+
+    <!-- 3. 基本性質 -->
+    <h2>3. 基本性質</h2>
+    <div class="theorem">
+      数列 $a_n \to a$，$b_n \to b$ とする。次が成り立つ。
+      <ol>
+        <li>$a_n + b_n \to a + b$</li>
+        <li>$a_n b_n \to ab$</li>
+        <li>$b \neq 0$ ならば $\displaystyle \frac{a_n}{b_n} \to \frac{a}{b}$</li>
+      </ol>
+    </div>
+
+    <div class="proof">
+      <p><strong>(1) 和の極限</strong></p>
+      <p>　$\varepsilon &gt; 0$ とする。$a_n \to a$ より $\exists N_1$ s.t. $n &gt; N_1 \Rightarrow |a_n - a| &lt; \varepsilon/2$，同様に $\exists N_2$ s.t. $n &gt; N_2 \Rightarrow |b_n - b| &lt; \varepsilon/2$。$N := \max\{N_1, N_2\}$ とすれば</p>
+      <p>
+        $$
+          |(a_n + b_n) - (a + b)| \le |a_n - a| + |b_n - b| &lt; \varepsilon.
+        $$
+      </p>
+      <p><strong>(2) 積の極限</strong></p>
+      <p>　$\varepsilon &gt; 0$ とする。まず $a_n \to a$ から $|a_n| \le |a| + 1$ を保証する $N_1$ を取る（$n &gt; N_1$ で成立）。
+      また (1) と同様に $|a_n - a| &lt; \delta$，$|b_n - b| &lt; \delta$ となる $N_2$ を取る。ここで
+      $$
+        |a_n b_n - ab| \le |a_n| |b_n - b| + |b| |a_n - a|.
+      $$
+      $|a_n| \le |a| + 1$ を用いて
+      $$
+        |a_n b_n - ab| \le (|a| + 1)\delta + |b|\delta = (|a| + |b| + 1)\delta.
+      $$
+      $\delta = \varepsilon / (|a| + |b| + 1)$ と選べば $|a_n b_n - ab| &lt; \varepsilon$。$N := \max\{N_1, N_2\}$ で結論。
+      </p>
+      <p><strong>(3) 商の極限</strong></p>
+      <p>　$|b| &gt; 0$ なので $\exists c &gt; 0$ s.t. $|b| \ge c$。$b_n \to b$ だから $|b_n - b| &lt; c/2$ となる $N_1$ を取る。
+      すると $|b_n| \ge c/2$。以降 (2) と同様の分解
+      $$
+        \Bigl|\frac{a_n}{b_n} - \frac{a}{b}\Bigr| = \Bigl|\frac{a_n b - a b_n}{b_n b}\Bigr| 
+        \le \frac{|b| |a_n - a| + |a| |b_n - b|}{|b_n b|} 
+        \le \frac{2}{c^2}\bigl(|b| |a_n - a| + |a| |b_n - b|\bigr).
+      $$
+      右辺を $&lt; \varepsilon$ にする $N$ を同様に取ればよい。
+      </p>
+      <p class="qed">■</p>
+    </div>
+
+    <!-- 4. 部分列 -->
+    <h2>4. 部分列</h2>
+    <div class="definition">
+      自然数列 $n_1 &lt; n_2 &lt; n_3 &lt; \dots$ に対し $\{a_{n_k}\}$ を $\{a_n\}$ の<strong>部分列</strong>という。
+    </div>
+
+    <div class="example">
+      <p><strong>例 1</strong>　$a_n = (-1)^n$，$n_k = 2k - 1$ とすると $b_k := a_{n_k} = -1$ （定数列）。</p>
+      <p><strong>例 2</strong>　同じく $a_n = (-1)^n$，$n_k = 2k$ とすると $b_k := a_{n_k} = 1$。</p>
+    </div>
+
+    <div class="theorem">
+      収束列の任意の部分列は同じ極限に収束する。
+    </div>
+    <div class="proof">
+      $a_n \to a$ とし，部分列 $a_{n_k}$ を取る。$\varepsilon &gt; 0$ に対し $\exists N$ such that $n &gt; N \Rightarrow |a_n - a| &lt; \varepsilon$。
+      $n_k &gt; N$ なら同不等式がそのまま成り立つので $a_{n_k} \to a$。<span class="qed">■</span>
+    </div>
+
+    <div class="theorem">
+      (収束の必要条件)　もし $a_n \to a$ が成り立たないならば，互いに異なる 2 つの部分列が異なる極限を持つ。
+    </div>
+    <div class="proof">
+      $a_n$ が収束しないと仮定する。すると
+      $$
+        \exists \varepsilon_0 &gt; 0,\; \forall N,\, \exists m, n &gt; N : |a_m - a_n| \ge \varepsilon_0.
+      $$
+      $a_n$ を 2 つの開球 $B(a,\varepsilon_0/2)$ とその補集合に分けて取り出すことで 2 つの部分列が得られ，それぞれの極限が異なることが示せる。<span class="qed">■</span>
+    </div>
+
+    <!-- 5. 収束しない例 -->
+    <h3>例：$(-1)^n$ は収束しない</h3>
+    <div class="proof">
+      背理法による。$\{(-1)^n\}$ が $a$ に収束すると仮定する。$\varepsilon = 1/2$ を取ると $\exists N$ such that $n &gt; N \Rightarrow |(-1)^n - a| &lt; 1/2$。
+      <p>しかし $n = 2N$ と $n = 2N + 1$ を比較すると</p>
+      $$
+        |1 - a| &lt; 1/2, \qquad |-1 - a| &lt; 1/2.
+      $$
+      両不等式を足すと $2 &lt; 1$ で矛盾。ゆえに収束しない。<span class="qed">■</span>
+    </div>
+
+    <!-- 6. ボルツァーノ–ワイエルシュトラス -->
+    <h2>5. Bolzano–Weierstrass (有界列の部分列収束)</h2>
+    <div class="theorem">
+      有界列 $\{x_n\}$ は収束部分列を持つ。
+    </div>
+
+    <div class="proof">
+      $\{x_n\}$ が区間 $[m, M]$ に含まれるとする。
+      <p><strong>峰点 (peak) の集合</strong>を定義：</p>
+      $$
+        P := \{n \in \mathbb N : x_k \le x_n \; (\forall k &gt; n)\}.
+      $$
+      <p>場合分け：</p>
+      <ul>
+        <li><strong>Case 1: $P$ が無限</strong><br>
+            $P$ の元を昇順に並べた部分列 $n_1 &lt; n_2 &lt; \dots$ では $x_{n_k}$ が単調<strong>減少</strong>。有界単調列なので収束する。</li>
+        <li><strong>Case 2: $P$ が有限</strong><br>
+            $n_0 := \max P$ とする。$n &gt; n_0$ なら $n \notin P$ なので $\exists k &gt; n$ with $x_k &gt; x_n$。帰納的に
+            $$
+              n_0 &lt; n_1 &lt; n_2 &lt; \dots, \quad x_{n_1} &lt; x_{n_2} &lt; \dots
+            $$
+            を構成できる。こうして得た部分列は単調<strong>増加</strong>で有界，ゆえに収束する。</li>
+      </ul>
+      どちらの場合も収束部分列が存在することが分かる。<span class="qed">■</span>
+    </div>
+
+    <!-- 7. 演習問題 -->
+    <h2>6. 演習</h2>
+    <div class="exercise">
+      <ol>
+        <li>$a_n = \dfrac{1}{n}$ が 0 に収束することを ε–N 法で示せ。</li>
+        <li>$a_n = \dfrac{(-1)^n}{n}$ の収束先を調べ，証明せよ。</li>
+        <li>命題「非有界列には収束部分列が存在しない」 は正しいか？理由を述べよ。</li>
+        <li>有界非収束列の具体例を 1 つ挙げ，収束しないことを示せ。</li>
+      </ol>
+    </div>
+
+  </div>
+</body>
+</html>
