@@ -49,13 +49,13 @@
       padding-left: 1em;
     }
     .definition {
-      border-left: 3px solid #4CAF50; /* 緑 */
+      border-left: 3px solid #4CAF50;
     }
     .theorem {
-      border-left: 3px solid #2196F3; /* 青 */
+      border-left: 3px solid #2196F3;
     }
     .proof {
-      border-left: 3px solid #FFC107; /* 黄 */
+      border-left: 3px solid #FFC107;
     }
     .qed {
       text-align: right;
@@ -67,149 +67,86 @@
   <div class="container">
     <h1>第11回 実数の連続性と数列の極限 (ε-N論法)</h1>
 
-    <p>この講義では、数列の極限に関する重要な性質をε-N論法を用いて議論します。具体的には、極限の一意性、ボルツァーノ・ワイエルシュトラスの定理、そしてコーシーの収束判定条件について学びます。</p>
+    <h2>実数の連続性の公理</h2>
 
-    <h2>1. 極限の一意性</h2>
-
-    <div class="definition">
-      <p><strong>定義 (数列の収束)</strong></p>
-      <p>数列 $\{a_n\}_{n \in \mathbb{N}}$ が実数 $\alpha \in \mathbb{R}$ に収束するとは、任意の正の実数 $\varepsilon > 0$ に対して、ある自然数 $N \in \mathbb{N}$ が存在し、$n > N$ を満たすすべての自然数 $n$ について
-      $$ |a_n - \alpha| < \varepsilon $$
-      が成り立つことをいう。このとき、$\lim_{n \to \infty} a_n = \alpha$ または $a_n \to \alpha \ (n \to \infty)$ と書く。</p>
+    <div class="theorem">
+      定理：任意の $\varepsilon > 0$ に対して、$a \in A$ が存在して、$sup(A) - \varepsilon < a$ となる。
+    </div>
+    <div class="proof">
+      反証法で証明する。もし全ての $a \in A$ について $sup(A) - \varepsilon \geq a$ なら、$sup(A) - \varepsilon$ は上界になるので $sup(A) \leq sup(A) - \varepsilon$ となり、矛盾する。
+      <div class="qed">■</div>
     </div>
 
     <div class="theorem">
-      <p><strong>定理1 (極限の一意性)</strong></p>
-      <p>数列 $\{a_n\}$ が収束するならば、その極限はただ一つである。</p>
+      定理：任意の $a > sup(A)$ に対して、$a \notin A$ である。
     </div>
-
     <div class="proof">
-      <p><strong>証明</strong></p>
-      <p>背理法により証明する。数列 $\{a_n\}$ が二つの異なる極限 $\alpha$ と $\beta$ ($\alpha \neq \beta$) を持つと仮定する。
-      すなわち、$\lim_{n \to \infty} a_n = \alpha$ かつ $\lim_{n \to \infty} a_n = \beta$ であるとする。</p>
-      <p>$\alpha \neq \beta$ より $|\alpha - \beta| > 0$ である。ここで、$\varepsilon = \frac{|\alpha - \beta|}{2}$ とおく。$\varepsilon > 0$ である。</p>
-      <p>$\lim_{n \to \infty} a_n = \alpha$ であるから、この $\varepsilon$ に対して、ある自然数 $N_1 \in \mathbb{N}$ が存在し、
-      $$ n > N_1 \implies |a_n - \alpha| < \varepsilon $$
-      が成り立つ。</p>
-      <p>同様に、$\lim_{n \to \infty} a_n = \beta$ であるから、この $\varepsilon$ に対して、ある自然数 $N_2 \in \mathbb{N}$ が存在し、
-      $$ n > N_2 \implies |a_n - \beta| < \varepsilon $$
-      が成り立つ。</p>
-      <p>$N = \max(N_1, N_2)$ とおく。すると、$n > N$ を満たすすべての自然数 $n$ に対して、上記の二つの不等式が同時に成り立つ。
-      このとき、三角不等式を用いると、
-      $$ |\alpha - \beta| = |(\alpha - a_n) + (a_n - \beta)| \le |\alpha - a_n| + |a_n - \beta| = |a_n - \alpha| + |a_n - \beta| $$
-      $n > N$ であるから、
-      $$ |\alpha - \beta| < \varepsilon + \varepsilon = 2\varepsilon $$
-      $\varepsilon = \frac{|\alpha - \beta|}{2}$ を代入すると、
-      $$ |\alpha - \beta| < 2 \cdot \frac{|\alpha - \beta|}{2} = |\alpha - \beta| $$
-      すなわち、$|\alpha - \beta| < |\alpha - \beta|$ という矛盾が生じる。</p>
-      <p>したがって、仮定が誤りであり、数列の極限はただ一つでなければならない。</p>
-      <p class="qed">■ (Q.E.D.)</p>
-    </div>
-
-    <h2>2. ボルツァーノ・ワイエルシュトラスの定理</h2>
-
-    <div class="definition">
-      <p><strong>定義 (有界な数列)</strong></p>
-      <p>数列 $\{a_n\}$ が有界であるとは、ある実数 $M > 0$ が存在して、すべての自然数 $n \in \mathbb{N}$ に対して $|a_n| \le M$ が成り立つことをいう。</p>
-    </div>
-    
-    <div class="definition">
-       <p><strong>定義 (部分列)</strong></p>
-       <p>数列 $\{a_n\}$ と、自然数の単調増加列 $n_1 < n_2 < n_3 < \dots < n_k < \dots$ が与えられたとき、数列 $\{a_{n_k}\}_{k \in \mathbb{N}}$ を $\{a_n\}$ の部分列という。</p>
+      もし $a \in A$ ならば、$a \leq sup(A) < a$ となり、矛盾する。
+      <div class="qed">■</div>
     </div>
 
     <div class="theorem">
-      <p><strong>定理2 (ボルツァーノ・ワイエルシュトラスの定理)</strong></p>
-      <p>有界な実数列は、収束する部分列を持つ。</p>
+      定理（アルキメデスの性質）：任意の $a \in \mathbb{R}$ に対して、$n \in \mathbb{N}$ が存在して $n > a$ となる。
     </div>
-
     <div class="proof">
-      <p><strong>証明</strong></p>
-      <p>数列 $\{a_n\}$ は有界であるとする。したがって、ある実数 $M > 0$ が存在し、すべての $n$ に対して $-M \le a_n \le M$ が成り立つ。
-      すなわち、すべての項は閉区間 $I_0 = [-M, M]$ に含まれる。</p>
-      <p>区間縮小法を用いて証明する。
-      $I_0$ を二等分し、二つの小区間のうち少なくとも一方には $\{a_n\}$ の項が無限個含まれる。そのような小区間の一つを $I_1 = [b_1, c_1]$ とする。$|I_1| = c_1 - b_1 = \frac{2M}{2} = M$。
-      次に $I_1$ を二等分し、同様に $\{a_n\}$ の項が無限個含まれる小区間を $I_2 = [b_2, c_2]$ とする。$|I_2| = c_2 - b_2 = \frac{|I_1|}{2} = \frac{M}{2}$。
-      この操作を繰り返すことにより、区間の列 $I_k = [b_k, c_k]$ ($k=0, 1, 2, \dots$) が得られる。ここで $I_0$ の長さは $2M$ であったので、正確には $I_k$ の長さは $\frac{2M}{2^k}$ となる。これらの区間は以下の性質を持つ：
-      </p>
-      <ol>
-        <li>$I_0 \supset I_1 \supset I_2 \supset \dots \supset I_k \supset \dots$</li>
-        <li>各 $I_k$ は数列 $\{a_n\}$ の項を無限個含む。</li>
-        <li>区間 $I_k$ の長さは $|I_k| = c_k - b_k = \frac{2M}{2^k}$ であり、$\lim_{k \to \infty} |I_k| = 0$。</li>
-      </ol>
-      <p>数列 $\{b_k\}$ は単調増加で上に有界（例えば $M$ で）、数列 $\{c_k\}$ は単調減少で下に有界（例えば $-M$ で）。
-      したがって、$\lim_{k \to \infty} b_k$ と $\lim_{k \to \infty} c_k$ は存在する。
-      さらに、$\lim_{k \to \infty} (c_k - b_k) = 0$ であるから、$\lim_{k \to \infty} b_k = \lim_{k \to \infty} c_k$ となる。この共通の極限値を $\alpha$ とおく。</p>
-      <p>次に、この $\alpha$ に収束する $\{a_n\}$ の部分列 $\{a_{n_j}\}$ を構成する。
-      まず、$I_1$ に含まれる $a_n$ の項が存在するので、その一つを $a_{n_1}$ とする ($n_1 \in \mathbb{N}$)。
-      次に、$I_2$ には無限個の項が含まれるので、$n_2 > n_1$ となるように $a_{n_2} \in I_2$ を選ぶことができる。
-      以下同様に、$I_j$ には無限個の項が含まれるので、$n_j > n_{j-1}$ となるように $a_{n_j} \in I_j$ を選ぶことができる。
-      こうして得られた部分列 $\{a_{n_j}\}$ について、$b_j \le a_{n_j} \le c_j$ がすべての $j$ について成り立つ。</p>
-      <p>$\lim_{j \to \infty} b_j = \alpha$ かつ $\lim_{j \to \infty} c_j = \alpha$ であるから、はさみうちの原理により、
-      $$ \lim_{j \to \infty} a_{n_j} = \alpha $$
-      となる。よって、有界な数列 $\{a_n\}$ は収束する部分列 $\{a_{n_j}\}$ を持つ。</p>
-      <p class="qed">■ (Q.E.D.)</p>
-      <p><em>(注: この定理で示される収束先の $\alpha$ は数列 $\{a_n\}$ の集積点の一つです。)</em></p>
-    </div>
-
-    <h2>3. コーシーの収束判定条件</h2>
-
-    <div class="definition">
-      <p><strong>定義 (コーシー列)</strong></p>
-      <p>数列 $\{a_n\}$ がコーシー列 (Cauchy sequence) であるとは、任意の正の実数 $\varepsilon > 0$ に対して、ある自然数 $N \in \mathbb{N}$ が存在し、$m, n > N$ を満たすすべての自然数 $m, n$ について
-      $$ |a_m - a_n| < \varepsilon $$
-      が成り立つことをいう。</p>
-      <p><em>(直感的には、数列の先のほうの項は互いにいくらでも近づく、ということです。)</em></p>
+      $A := \{ n \in \mathbb{N} \mid n \leq a \}$ とする。この $A$ は上に有界なので、$sup(A)$ が存在する。定理より、$sup(A) - 1 < n$ となる $n \in A$ が存在する。$sup(A) < n+1$ なので $n+1 \notin A$、したがって $n+1 > a$ となる。
+      <div class="qed">■</div>
     </div>
 
     <div class="theorem">
-      <p><strong>定理3 (コーシーの収束判定条件)</strong></p>
-      <p>実数列 $\{a_n\}$ が収束するための必要十分条件は、$\{a_n\}$ がコーシー列であることである。</p>
-      <p><em>(この定理は、極限値が具体的に分からなくても数列の収束を判定できる点で非常に強力です。)</em></p>
+      定理：任意の $a,b \in \mathbb{R}$ で $a < b$ ならば、$c \in (a,b) \cap \mathbb{Q}$ が存在する。
+    </div>
+    <div class="proof">
+      $a < b$ とする。$n \in \mathbb{N}$ で $n > 2/(b - a)$ を取る。$A := \{ k \in \mathbb{N} \mid k < n b \}$ とする。定理より、$m \in A$ で $sup(A) - 1 < m$ となるものが存在する。
+      $m \in A$ から $m < n b$ なので $m/n < b$。また、$m+1 \geq n b$ なので $m/n \geq b - 1/n$。さらに $1/n < (b - a)/2$ なので、$m/n > a$ が従う。よって、$a < m/n < b$ かつ $m/n \in \mathbb{Q}$ となる。
+      <div class="qed">■</div>
     </div>
 
+    <h2>ε-N論法による数列の極限</h2>
+
+    <div class="definition">
+      定義：$a_n \to a$ は、任意の $\varepsilon > 0$ に対して、ある $N \in \mathbb{N}$ が存在して、$n > N$ ならば $|a_n - a| < \varepsilon$ となることをいう。
+    </div>
+
+    <p>例：</p>
+    <ul>
+      <li>$\frac{1}{2n+1} \to 0$</li>
+      <li>$\frac{n^2 - n}{n^2 + 1} \to 1$</li>
+    </ul>
+
+    <div class="theorem">
+      定理：任意の $a,b \in \mathbb{R}$ について、もし任意の $\varepsilon > 0$ で $a - \varepsilon < b$ が成り立つならば、$a \leq b$ である。
+    </div>
+
+    <div class="theorem">
+      定理：任意の $\varepsilon > 0$ に対して $|a - b| < \varepsilon$ ならば、$a = b$ である。
+    </div>
+
+    <div class="theorem">
+      定理：$a_n \to a$ かつ $a_n \to b$ ならば、$a = b$ である。
+    </div>
     <div class="proof">
-      <p><strong>証明</strong></p>
-      <p><strong>(I) 必要性 (収束する $\implies$ コーシー列)</strong></p>
-      <p>数列 $\{a_n\}$ がある実数 $\alpha$ に収束すると仮定する。すなわち $\lim_{n \to \infty} a_n = \alpha$。
-      任意の $\varepsilon > 0$ をとる。このとき $\varepsilon/2 > 0$ である。
-      収束の定義より、ある自然数 $N \in \mathbb{N}$ が存在し、$k > N$ を満たすすべての自然数 $k$ について
-      $$ |a_k - \alpha| < \frac{\varepsilon}{2} $$
-      が成り立つ。
-      したがって、$m > N$ かつ $n > N$ を満たす任意の自然数 $m, n$ について、
-      $$ |a_m - a_n| = |(a_m - \alpha) + (\alpha - a_n)| \le |a_m - \alpha| + |\alpha - a_n| = |a_m - \alpha| + |a_n - \alpha| $$
-      $$ |a_m - a_n| < \frac{\varepsilon}{2} + \frac{\varepsilon}{2} = \varepsilon $$
-      よって、数列 $\{a_n\}$ はコーシー列である。</p>
+      任意の $\varepsilon > 0$ を取る。$a_n \to a$ より、ある $N_1$ が存在して $n > N_1$ ならば $|a_n - a| < \varepsilon/2$。
+      また、$a_n \to b$ より、ある $N_2$ が存在して $n > N_2$ ならば $|a_n - b| < \varepsilon/2$。
+      $N := \max\{N_1, N_2\}$ とすれば、$n > N$ なら
+      $$
+      |a - b| \leq |a - a_n| + |a_n - b| < \frac{\varepsilon}{2} + \frac{\varepsilon}{2} = \varepsilon.
+      $$
+      任意の $\varepsilon$ で成り立つので、$a = b$。
+      <div class="qed">■</div>
+    </div>
 
-      <p><strong>(II) 十分性 (コーシー列 $\implies$ 収束する)</strong></p>
-      <p>数列 $\{a_n\}$ がコーシー列であると仮定する。証明は2段階に分かれる。</p>
-      <p><strong>ステップ1: コーシー列は有界である。</strong></p>
-      <p>$\{a_n\}$ はコーシー列なので、$\varepsilon = 1$ とおくと、ある自然数 $N_0 \in \mathbb{N}$ が存在し、$m, n > N_0$ ならば $|a_m - a_n| < 1$ が成り立つ。
-      特に、$n > N_0$ ならば $|a_n - a_{N_0+1}| < 1$ である。
-      したがって、$|a_n| = |(a_n - a_{N_0+1}) + a_{N_0+1}| \le |a_n - a_{N_0+1}| + |a_{N_0+1}| < 1 + |a_{N_0+1}|$。
-      ここで、$M_0 = \max(|a_1|, |a_2|, \dots, |a_{N_0}|, 1 + |a_{N_0+1}|)$ とおくと、$M_0$ は有限の値であり、すべての自然数 $n$ に対して $|a_n| \le M_0$ が成り立つ。
-      よって、数列 $\{a_n\}$ は有界である。</p>
+    <div class="definition">
+      定義：数列 $a_n$ が単調増加とは、任意の $n$ で $a_n \leq a_{n+1}$ が成り立つことをいう。
+    </div>
 
-      <p><strong>ステップ2: 有界なコーシー列は収束する。</strong></p>
-      <p>ステップ1より $\{a_n\}$ は有界である。ボルツァーノ・ワイエルシュトラスの定理 (定理2) により、$\{a_n\}$ は収束する部分列 $\{a_{n_k}\}$ を持つ。
-      この部分列の極限を $\alpha$ とする。すなわち、$\lim_{k \to \infty} a_{n_k} = \alpha$。
-      この $\alpha$ が数列 $\{a_n\}$ 全体の極限であることを示す。</p>
-      <p>任意の $\varepsilon > 0$ をとる。
-      $\{a_n\}$ はコーシー列であるから、$\varepsilon/2 > 0$ に対して、ある自然数 $N_C \in \mathbb{N}$ が存在し、
-      $$ \forall m, l > N_C \implies |a_m - a_l| < \frac{\varepsilon}{2} \quad \dots (*)$$
-      また、$\{a_{n_k}\}$ は $\alpha$ に収束するから、同じ $\varepsilon/2 > 0$ に対して、ある自然数 $K \in \mathbb{N}$ が存在し、
-      $$ \forall k > K \implies |a_{n_k} - \alpha| < \frac{\varepsilon}{2} \quad \dots (**)$$
-      ここで、$n_k \to \infty \ (k \to \infty)$ であるから、$k > K$ かつ $n_k > N_C$ を満たすような $k$ が存在する。そのような $k$ を一つ選び、対応する $n_k$ を固定する。
-      この $n_k$ は $(*)$ の $l$ の役割を果たし、また $(**)$ を満たす。</p>
-      <p>さて、$n > N_C$ を満たす任意の自然数 $n$ に対して、
-      $$ |a_n - \alpha| = |(a_n - a_{n_k}) + (a_{n_k} - \alpha)| \le |a_n - a_{n_k}| + |a_{n_k} - \alpha| $$
-      $n > N_C$ であり、選ばれた $n_k$ も $n_k > N_C$ を満たすので、$(*)$ より $|a_n - a_{n_k}| < \varepsilon/2$。
-      また、選ばれた $n_k$ は $(**)$ を満たすので、$|a_{n_k} - \alpha| < \varepsilon/2$。
-      したがって、
-      $$ |a_n - \alpha| < \frac{\varepsilon}{2} + \frac{\varepsilon}{2} = \varepsilon $$
-      これは、$n > N_C$ を満たすすべての $n$ に対して成り立つ。よって、$\lim_{n \to \infty} a_n = \alpha$ である。</p>
-      <p>以上 (I), (II) より、実数列が収束するための必要十分条件はコーシー列であることである。</p>
-      <p class="qed">■ (Q.E.D.)</p>
+    <div class="theorem">
+      定理：$a_n$ が単調増加で、集合 $A := \{a_n \mid n \in \mathbb{N}\}$ が上に有界ならば、$a_n \to sup(A)$ となる。
+    </div>
+    <div class="proof">
+      $a := sup(A)$ とおく。任意の $\varepsilon > 0$ を取ると、定理より $a - \varepsilon < x$ となる $x \in A$ が存在する。$x = a_N$ とすれば、$n > N$ なら $a - \varepsilon < a_N \leq a_n \leq a$。
+      よって $|a_n - a| < \varepsilon$ が成り立ち、$a_n \to a$ となる。
+      <div class="qed">■</div>
     </div>
 
   </div>
