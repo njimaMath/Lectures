@@ -73,7 +73,7 @@
       定理：任意の $\varepsilon > 0$ に対して、$a \in A$ が存在して、$sup(A) - \varepsilon < a$ となる。
     </div>
     <div class="proof">
-      反証法で証明する。もし全ての $a \in A$ について $sup(A) - \varepsilon \geq a$ なら、$sup(A) - \varepsilon$ は上界になるので $sup(A) \leq sup(A) - \varepsilon$ となり、矛盾する。
+      反証法で証明する。もし全ての $a \in A$ について $sup(A) - \varepsilon \geq a$ ならば、$sup(A) - \varepsilon$ は $A$ の上界になるので、$sup(A) \leq sup(A) - \varepsilon$ となり、矛盾する。
       <div class="qed">■</div>
     </div>
 
@@ -81,7 +81,7 @@
       定理：任意の $a > sup(A)$ に対して、$a \notin A$ である。
     </div>
     <div class="proof">
-      もし $a \in A$ ならば、$a \leq sup(A) < a$ となり、矛盾する。
+      もし $a \in A$ ならば、$a \leq sup(A)$ かつ $a > sup(A)$ となり、矛盾する。
       <div class="qed">■</div>
     </div>
 
@@ -89,7 +89,7 @@
       定理（アルキメデスの性質）：任意の $a \in \mathbb{R}$ に対して、$n \in \mathbb{N}$ が存在して $n > a$ となる。
     </div>
     <div class="proof">
-      $A := \{ n \in \mathbb{N} \mid n \leq a \}$ とする。この $A$ は上に有界なので、$sup(A)$ が存在する。定理より、$sup(A) - 1 < n$ となる $n \in A$ が存在する。$sup(A) < n+1$ なので $n+1 \notin A$、したがって $n+1 > a$ となる。
+      $A := \{ n \in \mathbb{N} \mid n \leq a \}$ とする。この $A$ は上に有界なので $sup(A)$ が存在する。定理より、$sup(A) - 1 < n$ となる $n \in A$ が存在する。$sup(A) < n + 1$ なので $n+1 > a$ となる。
       <div class="qed">■</div>
     </div>
 
@@ -97,42 +97,57 @@
       定理：任意の $a,b \in \mathbb{R}$ で $a < b$ ならば、$c \in (a,b) \cap \mathbb{Q}$ が存在する。
     </div>
     <div class="proof">
-      $a < b$ とする。$n \in \mathbb{N}$ で $n > 2/(b - a)$ を取る。$A := \{ k \in \mathbb{N} \mid k < n b \}$ とする。定理より、$m \in A$ で $sup(A) - 1 < m$ となるものが存在する。
-      $m \in A$ から $m < n b$ なので $m/n < b$。また、$m+1 \geq n b$ なので $m/n \geq b - 1/n$。さらに $1/n < (b - a)/2$ なので、$m/n > a$ が従う。よって、$a < m/n < b$ かつ $m/n \in \mathbb{Q}$ となる。
+      $a < b$ とする。$n \in \mathbb{N}$ で $n > 1/(b - a)$ を取る。整数 $m$ を $na < m < nb$ となるように取れる（これは整数の性質とアルキメデス性質から従う）。このとき、$a < m/n < b$ かつ $m/n \in \mathbb{Q}$ なので、結論が得られる。
       <div class="qed">■</div>
     </div>
 
     <h2>ε-N論法による数列の極限</h2>
 
     <div class="definition">
-      定義：$a_n \to a$ は、任意の $\varepsilon > 0$ に対して、ある $N \in \mathbb{N}$ が存在して、$n > N$ ならば $|a_n - a| < \varepsilon$ となることをいう。
+      定義：$a_n \to a$ とは、任意の $\varepsilon > 0$ に対して、ある $N \in \mathbb{N}$ が存在して、$n > N$ ならば $|a_n - a| < \varepsilon$ となることをいう。
     </div>
 
     <p>例：</p>
     <ul>
-      <li>$\frac{1}{2n+1} \to 0$</li>
-      <li>$\frac{n^2 - n}{n^2 + 1} \to 1$</li>
+      <li>$\displaystyle \frac{1}{2n+1} \to 0$</li>
+      <li>$\displaystyle \frac{n^2 - n}{n^2 + 1} \to 1$</li>
     </ul>
 
     <div class="theorem">
-      定理：任意の $a,b \in \mathbb{R}$ について、もし任意の $\varepsilon > 0$ で $a - \varepsilon < b$ が成り立つならば、$a \leq b$ である。
-    </div>
-
-    <div class="theorem">
-      定理：任意の $\varepsilon > 0$ に対して $|a - b| < \varepsilon$ ならば、$a = b$ である。
-    </div>
-
-    <div class="theorem">
-      定理：$a_n \to a$ かつ $a_n \to b$ ならば、$a = b$ である。
+      定理：任意の $a,b \in \mathbb{R}$ について、もし任意の $\varepsilon > 0$ で $a - \varepsilon < b$ が成り立つならば、$a \leq b$。
     </div>
     <div class="proof">
-      任意の $\varepsilon > 0$ を取る。$a_n \to a$ より、ある $N_1$ が存在して $n > N_1$ ならば $|a_n - a| < \varepsilon/2$。
-      また、$a_n \to b$ より、ある $N_2$ が存在して $n > N_2$ ならば $|a_n - b| < \varepsilon/2$。
-      $N := \max\{N_1, N_2\}$ とすれば、$n > N$ なら
+      もし $a > b$ なら、$\varepsilon := (a - b)/2 > 0$ とすると、$a - \varepsilon = b + (a - b)/2 > b$ となり、仮定に矛盾する。したがって $a \leq b$。
+      <div class="qed">■</div>
+    </div>
+
+    <div class="theorem">
+      定理：任意の $\varepsilon > 0$ に対して $|a - b| < \varepsilon$ ならば、$a = b$。
+    </div>
+    <div class="proof">
+      任意の $\varepsilon > 0$ に対して $|a - b| < \varepsilon$ ならば、$|a - b|$ はどんなに小さい正の数よりも小さい。したがって $|a - b| = 0$、つまり $a = b$。
+      <div class="qed">■</div>
+    </div>
+
+    <div class="theorem">
+      定理：$|a - c| \leq |a - b| + |b - c|$（三角不等式）。
+    </div>
+    <div class="proof">
+      不等式の性質より、$|a - c| = |a - b + b - c| \leq |a - b| + |b - c|$。
+      <div class="qed">■</div>
+    </div>
+
+    <div class="theorem">
+      定理：$a_n \to a$ かつ $a_n \to b$ ならば、$a = b$。
+    </div>
+    <div class="proof">
+      任意の $\varepsilon > 0$ を取る。$a_n \to a$ より、ある $N_1$ が存在して $n > N_1$ なら $|a_n - a| < \varepsilon/2$。
+      同様に、$a_n \to b$ より、ある $N_2$ が存在して $n > N_2$ なら $|a_n - b| < \varepsilon/2$。
+      $N := \max\{N_1, N_2\}$ とすると、$n > N$ ならば
       $$
       |a - b| \leq |a - a_n| + |a_n - b| < \frac{\varepsilon}{2} + \frac{\varepsilon}{2} = \varepsilon.
       $$
-      任意の $\varepsilon$ で成り立つので、$a = b$。
+      任意の $\varepsilon$ に対して成立するので、$a = b$。
       <div class="qed">■</div>
     </div>
 
@@ -144,8 +159,8 @@
       定理：$a_n$ が単調増加で、集合 $A := \{a_n \mid n \in \mathbb{N}\}$ が上に有界ならば、$a_n \to sup(A)$ となる。
     </div>
     <div class="proof">
-      $a := sup(A)$ とおく。任意の $\varepsilon > 0$ を取ると、定理より $a - \varepsilon < x$ となる $x \in A$ が存在する。$x = a_N$ とすれば、$n > N$ なら $a - \varepsilon < a_N \leq a_n \leq a$。
-      よって $|a_n - a| < \varepsilon$ が成り立ち、$a_n \to a$ となる。
+      $a := sup(A)$ とおく。任意の $\varepsilon > 0$ を取る。定理より、$a - \varepsilon < x$ となる $x \in A$ が存在する。$x = a_N$ とすれば、$n > N$ なら $a - \varepsilon < a_N \leq a_n \leq a$。
+      よって $|a_n - a| < \varepsilon$ が成り立ち、$a_n \to a$。
       <div class="qed">■</div>
     </div>
 
