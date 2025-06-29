@@ -1,5 +1,4 @@
-<!DOCTYPE html>
-<html lang="ja">
+<!DOCTYPE html><html lang="ja">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -58,14 +57,6 @@
       border-radius: 8px;
       overflow-x: auto;
     }
-    .example {
-      background: #fff3e0;
-      border-left: 4px solid #ff9800;
-      padding: .8rem 1.2rem;
-      margin: 1.2rem 0;
-      border-radius: 8px;
-      overflow-x: auto;
-    }
     details {
       margin-bottom: 1rem;
     }
@@ -75,19 +66,17 @@
     }
     .navigation {
       display: flex;
-      justify-content: center;
-      gap: .8rem;
-      margin: 2.2rem 0;
-      border-top: 1px solid #e0e0e0;
-      padding-top: 1.5rem;
-      flex-wrap: wrap;
+      justify-content: space-between;
+      margin: 20px 0;
+      padding: 15px 0;
+      border-top: 1px solid #eee;
     }
     .navigation a {
-      padding: .65rem 1.5rem;
+      padding: 10px 20px;
       background: #1a237e;
       color: #fff;
       text-decoration: none;
-      border-radius: 6px;
+      border-radius: 5px;
       transition: opacity .2s;
     }
     .navigation a:hover {
@@ -103,8 +92,8 @@
   <script>
     MathJax = {
       tex: {
-        inlineMath: [['$', '$'], ['\\(', '\\)']],
-        displayMath: [['$$','$$'], ['\\[','\\]']]
+        inlineMath: [['$', '$'], ['\', '\']],
+        displayMath: [['$$', '$$'], ['\', '\']]
       }
     };
   </script>
@@ -114,125 +103,149 @@
   <div class="container">
     <header>
       <h1>確率論における収束の概念</h1>
-    </header>
+    </header><!-- ============================================================= -->
+<h2>1. 各点収束（Pointwise Convergence）</h2>
+<p>
+  <strong>定義：</strong> 確率空間 $(\Omega,\mathcal F,\mathbf P)$ 上の確率変数列 $(X_n)_{n\in\mathbb N}$ と確率変数 $X$ に対し、
+  任意の $\omega\in\Omega$ について $\displaystyle\lim_{n\to\infty} X_n(\omega)=X(\omega)$ であれば、
+  <em>X<sub>n</sub> は X に<strong>各点収束</strong>する</em>と呼ぶ。
+</p>
+<ul>
+  <li>各点収束は解析的には直感的で強い概念だが、確率論ではしばしば扱いづらく、他の収束概念の方が利用される。</li>
+</ul>
 
-    <h2>各点収束</h2>
-    
-    <div class="formula">
-      <strong>定義:</strong> 任意の $\omega \in \Omega$ に対して $X_n(\omega) \to X(\omega)$
-    </div>
-    
-    <p><strong>注意:</strong> 各点収束は確率論ではあまり使われない。</p>
-    
-    <div class="example">
-      <h4>例1:</h4>
-      <p>$\Omega = \{(\omega_i)_{i=1}^\infty : \omega_i \in \{\text{表}, \text{裏}\}\}$ とする。</p>
-      <p>$X_n(\omega) := 1_{\{\omega_n = \text{表}\}}$</p>
-      <p>$S_n(\omega) = \sum_{i=1}^n X_i(\omega)$</p>
-      <p><strong>定理</strong>（前回の講義で証明）：$P(|S_n/n - 1/2| > \varepsilon) \to 0$</p>
-      <p>しかし、各点収束は成り立たない。実際、$\omega = (\text{裏}, \text{裏}, \ldots)$ とすると、$S_n(\omega) = 0$ であるから $S_n/n \to 0$ となる。</p>
-    </div>
-    
-    <div class="example">
-      <h4>例2:</h4>
-      <p>$\Omega = [0,1]$、$P(A) = |A| = \int_0^1 1_A(\omega) d\omega$ とする。</p>
-      <p>$n \in \mathbb{N}$ に対して、$2^m + k \leq n < 2^m + (k+1)$ となる $m, k$ をとる。</p>
-      <div class="formula">
-        $X_n(\omega) := 1_{[k2^{-m}, (k+1)2^{-m}]}(\omega)$
-      </div>
-      <p>このとき、$X_n$ は各点収束しない。実際、$X_{2^m}(\omega) \to 1_{\{0\}}(\omega)$ だが、$X_{2^m+1}(\omega) \to 0$ である。</p>
-    </div>
+<h3>例 1：コイントスの列</h3>
+<p>
+  $\Omega=\{(\omega_i)_{i\ge 1}\mid\omega_i\in\{\text{表},\text{裏}\}\}$ とし、$X_i(\omega):=\mathbf 1_{\{\omega_i=\text{表}\}}$、
+  $S_n:=\sum_{i=1}^n X_i$ と定める。大数の弱法則より
+  $$
+    \mathbf P\Bigl(\bigl|\tfrac{S_n}{n}-\tfrac12\bigr|>\varepsilon\Bigr)\longrightarrow 0\quad(n\to\infty).
+  $$
+  しかし各点収束は成り立たない。たとえば $\omega=(\text{裏},\text{裏},\dots)$ とすると $S_n(\omega)=0$ であり $
+  \tfrac{S_n(\omega)}{n}\to 0\ne \tfrac12$。
+</p>
 
-    <h2>確率収束</h2>
-    
-    <div class="formula">
-      <strong>定義:</strong> 確率空間 $(\Omega, \mathcal{F}, P)$ と確率変数 $X_n, X$ に対して、<br>
-      $X_n \overset{P}{\to} X \Leftrightarrow$ 任意の $\varepsilon > 0$ に対して $P(|X_n - X| > \varepsilon) \to 0$ as $n \to \infty$
-    </div>
-    
-    <p>例1において $S_n/n \overset{P}{\to} 1/2$、例2において $X_n \overset{P}{\to} 0$ である。</p>
-    
-    <div class="example">
-      <h4>例:</h4>
-      <p>$\Omega = [0,1]$、$P(A) = |A| = \int_0^1 1_A(\omega) d\omega$ とする。</p>
-      <div class="formula">
-        $X_n(\omega) := \left(1 + \frac{1}{n}\right) 1_{[1/2 + 1/n, 1]}(\omega) \overset{P}{\to} 1_{[1/2, 1]}(\omega)$
-      </div>
-      <p>であることを証明せよ。</p>
-    </div>
+<h3>例 2：区間 [0,1] 上の指標関数列</h3>
+<p>
+  $\Omega=[0,1]$、$\mathbf P$ をルベーグ測度とし、$n\in\mathbb N$ について $m,k\in\mathbb N$ を
+  $2^{m}+k\le n<2^{m}+(k+1)$ となるように取る。区間 $I_{m,k}:=[k2^{-m},(k+1)2^{-m})$ として
+  $$
+    X_n(\omega):=\mathbf 1_{I_{m,k}}(\omega).
+  $$
+  このとき $X_n$ は任意の確率変数に各点収束しない。事実、$n=2^{m}$ のとき $X_{2^{m}}(\omega)\to \mathbf 1_{\{0\}}(\omega)$ だが、
+  $n=2^{m}+1$ のとき $X_{2^{m}+1}(\omega)\to 0$ となり、一貫しない。
+</p>
 
-    <h2>分布収束</h2>
-    
-    <p>$X_n$ の分布が $X$ の分布に収束している状況を考えたい。</p>
-    
-    <p><strong>問:</strong> 任意の $A \subset \mathbb{R}$ に対して $P(X_n \in A) \to P(X \in A)$ とするのはどうか？</p>
-    
-    <p><strong>答:</strong> それは適切ではない。前の例では、$P(X_n \in [0,1]) = P(X_n = 0) = P(\{\omega : \omega < 1/2 + 1/n\}) = 1/2 + 1/n \to 1/2$ だが、$P(1_{[1/2,1]}(\omega) \in [0,1]) = 1$ である。</p>
-    
-    <div class="formula">
-      <strong>定義:</strong> 確率変数 $X_n, X$（異なる確率空間上で定義されてもよい）に対して、<br>
-      $X_n \overset{d}{\to} X \Leftrightarrow$ 任意の連続有界関数 $f$ に対して $E[f(X_n)] \to E[f(X)]$
-    </div>
-    
-    <p><strong>問:</strong> なぜこの定義が妥当なのか？</p>
-    <p>$f(x) = 1_A(x)$ とすると、左辺は $P(X_n \in A)$、右辺は $P(X \in A)$ である。しかし、定義では連続性条件を課している。</p>
-    
-    <div class="example">
-      <h4>演習:</h4>
-      <p>1. 前の例における分布収束を証明せよ。</p>
-      <p>2. $\Omega_n = \{1, \ldots, n\}$、$X_n(\omega) := \omega/n$、$\Omega = [0,1]$、$X(\omega) := \omega$ とする。$X_n \overset{d}{\to} X$ であることを示せ。</p>
-    </div>
+<!-- ============================================================= -->
+<h2>2. 確率収束（Convergence in Probability）</h2>
+<p>
+  <strong>定義：</strong> 確率空間 $(\Omega,\mathcal F,\mathbf P)$ 上の確率変数列 $(X_n)$ と確率変数 $X$ について、任意の $\varepsilon>0$ に対し
+  $$
+    \mathbf P\bigl(|X_n-X|>\varepsilon\bigr)\longrightarrow 0\quad(n\to\infty)
+  $$
+  が成り立つとき、<em>$X_n$ は $X$ に<strong>確率収束</strong>する</em>と書き $X_n\xrightarrow{\mathbf P}X$ と表す。
+</p>
 
-    <h2>定理と証明</h2>
-    
-    <div class="formula">
-      <strong>定理:</strong> $X_n \overset{P}{\to} X$ ならば $X_n \overset{d}{\to} X$
-    </div>
-    
-    <div class="proof">
-      <h4>証明:</h4>
-      <p>$f$ を有界連続関数とする。任意の $\varepsilon > 0$ をとる。$M > 0$ を</p>
-      <div class="formula">
-        $P(-M \leq X \leq M) > 1 - \frac{\varepsilon}{4(\|f\|_\infty + 1)}$
-      </div>
-      <p>となるようにとる（単調収束定理）。$f$ は $[-M-1, M+1]$ 上で一様連続であるから、$\delta \in (0,1)$ が存在して、任意の $|x-y| < \delta$ に対して $|f(x) - f(y)| < \varepsilon/4$ である。</p>
-      
-      <p>$X_n \overset{P}{\to} X$ であるから、$N$ が存在して $n > N$ ならば</p>
-      <div class="formula">
-        $P(|X_n - X| \geq \delta) < \frac{\varepsilon}{8(\|f\|_\infty + 1)}$
-      </div>
-      
-      <p>したがって、</p>
-      <div class="formula">
-        \begin{align}
-        |E[f(X_n)] - E[f(X)]| &\leq E[|f(X_n) - f(X)| 1_{\{|X| > M\}}] \\
-        &\quad + E[|f(X_n) - f(X)| 1_{\{|X| \leq M, |X_n - X| < \delta\}}] \\
-        &\quad + E[|f(X_n) - f(X)| 1_{\{|X| \leq M, |X_n - X| \geq \delta\}}] \\
-        &< 2\|f\|_\infty \frac{\varepsilon}{4(\|f\|_\infty + 1)} + \frac{\varepsilon}{4} + 2\|f\|_\infty \frac{\varepsilon}{8(\|f\|_\infty + 1)} \\
-        &< \varepsilon
-        \end{align}
-      </div>
-    </div>
+<h3>例 1 の続き</h3>
+<p>
+  大数の弱法則より $\tfrac{S_n}{n}\xrightarrow{\mathbf P}\tfrac12$ である。
+</p>
 
-    <h2>まとめ</h2>
-    
-    <p>確率論における3つの収束概念を学んだ：</p>
-    <ul>
-      <li><strong>各点収束：</strong> 各 $\omega$ に対して $X_n(\omega) \to X(\omega)$</li>
-      <li><strong>確率収束：</strong> $P(|X_n - X| > \varepsilon) \to 0$</li>
-      <li><strong>分布収束：</strong> $E[f(X_n)] \to E[f(X)]$ （連続有界関数 $f$ に対して）</li>
-    </ul>
-    
-    <p>これらの間には「確率収束 $\Rightarrow$ 分布収束」という関係が成り立つ。</p>
+<h3>例 2 の続き</h3>
+<p>
+  $X_n\xrightarrow{\mathbf P}0$ が成り立つ。区間の長さが $2^{-m}\le 1/n$ 程度で縮小し、指標関数が 0 に近づくためである。
+</p>
 
-    <!-- -------------------------------------------------------------- -->
-    <div class="navigation" style="display: flex; justify-content: space-between; margin: 20px 0; padding: 15px 0; border-top: 1px solid #eee;">
-      <a href="class10.html" style="padding: 10px 20px; background-color: #1a237e; color: white; text-decoration: none; border-radius: 5px;">← ホーム</a>
-      <a href="../index.html" style="padding: 10px 20px; background-color: #1a237e; color: white; text-decoration: none; border-radius: 5px;">次のレッスン →</a>
-    </div>
-    <footer>
-      <p style="text-align: center; margin-top: 40px; color: #666;">© 2025 確率論講義 - すべての権利を留保します</p>
-    </footer>
+<h3>例 3：指標関数の平行移動</h3>
+<p>
+  $\Omega=[0,1]$、$\mathbf P$ はルベーグ測度とし
+  $$
+    X_n(\omega):=\bigl(1+\tfrac1n\bigr)\,\mathbf 1_{[1/2+1/n,1]}(\omega),\qquad
+    X(\omega):=\mathbf 1_{[1/2,1]}(\omega).
+  $$
+  このとき $X_n\xrightarrow{\mathbf P}X$ であることを示せ。
+</p>
+
+<!-- ============================================================= -->
+<h2>3. 分布収束（Convergence in Distribution）</h2>
+<p>
+  確率変数列 $(X_n)$ と確率変数 $X$ を、それぞれ<strong>異なる</strong>確率空間上に定義してもよい。次のように定義する。
+</p>
+<p>
+  <strong>定義：</strong> 任意の有界連続関数 $f:\mathbb R\to\mathbb R$ について
+  $$
+    \mathbb E[f(X_n)]\longrightarrow \mathbb E[f(X)]\quad(n\to\infty)
+  $$
+  が成立するとき、$X_n$ は $X$ に<strong>分布収束</strong>し、$X_n\xrightarrow{d}X$ と書く。
+</p>
+
+<details>
+  <summary>なぜこの定義か（クリックで展開）</summary>
+  <p>
+    本来「$\mathbf P(X_n\in A)\to\mathbf P(X\in A)$」を望むが、集合 $A$ をそのまま指標関数 $\mathbf 1_A$ に置き換えると
+    連続性が失われ、収束が壊れる。<br>
+    <em>可測関数</em>のうち<strong>有界連続</strong>なものに限定することで、ポートマンテールの定理により一意な分布が定まり、
+    近似を通じて上記の確率収束を回復できる。
+  </p>
+</details>
+
+<h3>演習 1</h3>
+<p>
+  例 3 で $X_n\xrightarrow{d}X$ も成り立つことを示せ。
+</p>
+
+<h3>演習 2</h3>
+<p>
+  $\Omega_n=\{1,\dots,n\}$、確率測度 $\mathbf P_n(\{k\})=1/n$ とし、確率変数
+  $$
+    X_n(k):=\tfrac{k}{n},\qquad k\in\Omega_n.
+  $$
+  また $\Omega=[0,1]$、ルベーグ測度 $\mathbf P$ 上で $X(\omega):=\omega$ とする。このとき $X_n\xrightarrow{d}X$ を示せ。
+</p>
+
+<h3>定理：確率収束 ⇒ 分布収束</h3>
+<p>
+  もし $X_n\xrightarrow{\mathbf P}X$ ならば必ず $X_n\xrightarrow{d}X$ が成り立つ。
+</p>
+
+<details>
+  <summary>証明（スケッチ）</summary>
+  <div class="proof">
+    <p>
+      有界連続関数 $f$ と $\varepsilon>0$ を取る。有界性より $|f|_{\infty}<\infty$ を置く。
+    </p>
+    <ol>
+      <li>
+        十分大きい $M>0$ を選び、$\mathbf P(|X|>M)<\varepsilon/(4(|f|_{\infty}+1))$ となるようにする。
+      </li>
+      <li>
+        コンパクト $[-M-1,M+1]$ 上で $f$ は一様連続だから、ある $\delta>0$ で $|x-y|<\delta$ なら
+        $|f(x)-f(y)|<\varepsilon/4$。
+      </li>
+      <li>
+        $X_n\xrightarrow{\mathbf P}X$ だから、$n\ge N$ で $\mathbf P(|X_n-X|\ge\delta)<\varepsilon/(8(|f|_{\infty}+1))$。
+      </li>
+    </ol>
+    <p>
+      以上より分割評価を行うと
+      $$
+      |\mathbb E[f(X_n)]-\mathbb E[f(X)]|<\varepsilon.
+      $$
+      よって主張が従う。
+    </p>
+  </div>
+</details>
+
+<!-- ナビゲーション -->
+<div class="navigation">
+  <a href="class10.html">← ホーム</a>
+  <a href="../index.html">次のレッスン →</a>
+</div>
+
+<footer>
+  <p>© 2025 確率論講義 - すべての権利を留保します</p>
+</footer>
+
   </div>
 </body>
 </html>
