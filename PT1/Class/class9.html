@@ -58,6 +58,14 @@
       border-radius: 8px;
       overflow-x: auto;
     }
+    .example {
+      background: #fff3e0;
+      border-left: 4px solid #ff9800;
+      padding: .8rem 1.2rem;
+      margin: 1.2rem 0;
+      border-radius: 8px;
+      overflow-x: auto;
+    }
     details {
       margin-bottom: 1rem;
     }
@@ -108,44 +116,120 @@
       <h1>確率論における収束の概念</h1>
     </header>
 
-    <main>
-      <section>
-        <h2>1. 各点収束・確率収束・分布収束</h2>
-        <div class="formula">
-          \[ X_n(\omega) \to X(\omega) \Rightarrow X_n \xrightarrow{P} X \Rightarrow X_n \xrightarrow{d} X \]
-        </div>
-        <p>このセクションでは、確率変数列の収束に関する基本的な3つの概念、各点収束、確率収束、分布収束の関係性を示す。</p>
-      </section>
+    <h2>各点収束</h2>
+    
+    <div class="formula">
+      <strong>定義:</strong> 任意の $\omega \in \Omega$ に対して $X_n(\omega) \to X(\omega)$
+    </div>
+    
+    <p><strong>注意:</strong> 各点収束は確率論ではあまり使われない。</p>
+    
+    <div class="example">
+      <h4>例1:</h4>
+      <p>$\Omega = \{(\omega_i)_{i=1}^\infty : \omega_i \in \{\text{表}, \text{裏}\}\}$ とする。</p>
+      <p>$X_n(\omega) := 1_{\{\omega_n = \text{表}\}}$</p>
+      <p>$S_n(\omega) = \sum_{i=1}^n X_i(\omega)$</p>
+      <p><strong>定理</strong>（前回の講義で証明）：$P(|S_n/n - 1/2| > \varepsilon) \to 0$</p>
+      <p>しかし、各点収束は成り立たない。実際、$\omega = (\text{裏}, \text{裏}, \ldots)$ とすると、$S_n(\omega) = 0$ であるから $S_n/n \to 0$ となる。</p>
+    </div>
+    
+    <div class="example">
+      <h4>例2:</h4>
+      <p>$\Omega = [0,1]$、$P(A) = |A| = \int_0^1 1_A(\omega) d\omega$ とする。</p>
+      <p>$n \in \mathbb{N}$ に対して、$2^m + k \leq n < 2^m + (k+1)$ となる $m, k$ をとる。</p>
+      <div class="formula">
+        $X_n(\omega) := 1_{[k2^{-m}, (k+1)2^{-m}]}(\omega)$
+      </div>
+      <p>このとき、$X_n$ は各点収束しない。実際、$X_{2^m}(\omega) \to 1_{\{0\}}(\omega)$ だが、$X_{2^m+1}(\omega) \to 0$ である。</p>
+    </div>
 
-      <section>
-        <h2>2. 確率収束の定義と例</h2>
-        <p>確率空間 $(\Omega, \mathcal{F}, \mathbb{P}) = ([0,1], \mathcal{B}, \lambda)$ において、次のような確率変数の列を考える：</p>
-        <div class="formula">
-          $$
-          X_n(\omega) = \begin{cases}
-            1 & \omega \ge \frac{1}{n} + \frac{1}{n^2} \\
-            0 & \omega < \frac{1}{n} + \frac{1}{n^2}
-          \end{cases}
-          $$
-        </div>
-        <p>このとき、極限関数は $X(\omega) \equiv 1_{\{\omega \ge 0\}} = 1$ （ただし $\omega \in [0,1]$）となる。この例を通じて確率収束の具体的な振る舞いを確認する。</p>
-      </section>
+    <h2>確率収束</h2>
+    
+    <div class="formula">
+      <strong>定義:</strong> 確率空間 $(\Omega, \mathcal{F}, P)$ と確率変数 $X_n, X$ に対して、<br>
+      $X_n \overset{P}{\to} X \Leftrightarrow$ 任意の $\varepsilon > 0$ に対して $P(|X_n - X| > \varepsilon) \to 0$ as $n \to \infty$
+    </div>
+    
+    <p>例1において $S_n/n \overset{P}{\to} 1/2$、例2において $X_n \overset{P}{\to} 0$ である。</p>
+    
+    <div class="example">
+      <h4>例:</h4>
+      <p>$\Omega = [0,1]$、$P(A) = |A| = \int_0^1 1_A(\omega) d\omega$ とする。</p>
+      <div class="formula">
+        $X_n(\omega) := \left(1 + \frac{1}{n}\right) 1_{[1/2 + 1/n, 1]}(\omega) \overset{P}{\to} 1_{[1/2, 1]}(\omega)$
+      </div>
+      <p>であることを証明せよ。</p>
+    </div>
 
-      <section>
-        <h2>3. 分布収束の定義と例</h2>
-        <p>分布収束は、確率変数の分布関数が極限分布関数に各連続点で収束することを意味する。すなわち、$F_n(x) \to F(x)$ (for all $x$ where $F$ is continuous) ならば、$X_n \xrightarrow{d} X$ となる。</p>
-        <p>重要な点として、分布収束は必ずしも各点収束や確率収束を意味しない。例えば、次の例を考える：</p>
-        <div class="formula">
-          $$X_n(\omega) = 1_{\{\omega \ge \frac{1}{2} + \frac{1}{n}\}}, \quad X(\omega) = 1_{\{\omega \ge \frac{1}{2}\}}$$
-        </div>
-        <p>この場合、確率変数 $X_n$ の分布関数 $F_{X_n}$ は $X$ の分布関数 $F_X$ に収束するが、$X_n(\omega) \to X(\omega)$ という各点収束は、例えば $\omega = \frac{1}{2}$ では成り立たない。</p>
-      </section>
-    </main>
-          <!-- -------------------------------------------------------------- -->
-<div class="navigation" style="display: flex; justify-content: space-between; margin: 20px 0; padding: 15px 0; border-top: 1px solid #eee;">
-            <a href="class10.html" style="padding: 10px 20px; background-color: #1a237e; color: white; text-decoration: none; border-radius: 5px;">← ホーム</a>
-            <a href="../index.html" style="padding: 10px 20px; background-color: #1a237e; color: white; text-decoration: none; border-radius: 5px;">次のレッスン →</a>
-        </div>
+    <h2>分布収束</h2>
+    
+    <p>$X_n$ の分布が $X$ の分布に収束している状況を考えたい。</p>
+    
+    <p><strong>問:</strong> 任意の $A \subset \mathbb{R}$ に対して $P(X_n \in A) \to P(X \in A)$ とするのはどうか？</p>
+    
+    <p><strong>答:</strong> それは適切ではない。前の例では、$P(X_n \in [0,1]) = P(X_n = 0) = P(\{\omega : \omega < 1/2 + 1/n\}) = 1/2 + 1/n \to 1/2$ だが、$P(1_{[1/2,1]}(\omega) \in [0,1]) = 1$ である。</p>
+    
+    <div class="formula">
+      <strong>定義:</strong> 確率変数 $X_n, X$（異なる確率空間上で定義されてもよい）に対して、<br>
+      $X_n \overset{d}{\to} X \Leftrightarrow$ 任意の連続有界関数 $f$ に対して $E[f(X_n)] \to E[f(X)]$
+    </div>
+    
+    <p><strong>問:</strong> なぜこの定義が妥当なのか？</p>
+    <p>$f(x) = 1_A(x)$ とすると、左辺は $P(X_n \in A)$、右辺は $P(X \in A)$ である。しかし、定義では連続性条件を課している。</p>
+    
+    <div class="example">
+      <h4>演習:</h4>
+      <p>1. 前の例における分布収束を証明せよ。</p>
+      <p>2. $\Omega_n = \{1, \ldots, n\}$、$X_n(\omega) := \omega/n$、$\Omega = [0,1]$、$X(\omega) := \omega$ とする。$X_n \overset{d}{\to} X$ であることを示せ。</p>
+    </div>
+
+    <h2>定理と証明</h2>
+    
+    <div class="formula">
+      <strong>定理:</strong> $X_n \overset{P}{\to} X$ ならば $X_n \overset{d}{\to} X$
+    </div>
+    
+    <div class="proof">
+      <h4>証明:</h4>
+      <p>$f$ を有界連続関数とする。任意の $\varepsilon > 0$ をとる。$M > 0$ を</p>
+      <div class="formula">
+        $P(-M \leq X \leq M) > 1 - \frac{\varepsilon}{4(\|f\|_\infty + 1)}$
+      </div>
+      <p>となるようにとる（単調収束定理）。$f$ は $[-M-1, M+1]$ 上で一様連続であるから、$\delta \in (0,1)$ が存在して、任意の $|x-y| < \delta$ に対して $|f(x) - f(y)| < \varepsilon/4$ である。</p>
+      
+      <p>$X_n \overset{P}{\to} X$ であるから、$N$ が存在して $n > N$ ならば</p>
+      <div class="formula">
+        $P(|X_n - X| \geq \delta) < \frac{\varepsilon}{8(\|f\|_\infty + 1)}$
+      </div>
+      
+      <p>したがって、</p>
+      <div class="formula">
+        \begin{align}
+        |E[f(X_n)] - E[f(X)]| &\leq E[|f(X_n) - f(X)| 1_{\{|X| > M\}}] \\
+        &\quad + E[|f(X_n) - f(X)| 1_{\{|X| \leq M, |X_n - X| < \delta\}}] \\
+        &\quad + E[|f(X_n) - f(X)| 1_{\{|X| \leq M, |X_n - X| \geq \delta\}}] \\
+        &< 2\|f\|_\infty \frac{\varepsilon}{4(\|f\|_\infty + 1)} + \frac{\varepsilon}{4} + 2\|f\|_\infty \frac{\varepsilon}{8(\|f\|_\infty + 1)} \\
+        &< \varepsilon
+        \end{align}
+      </div>
+    </div>
+
+    <h2>まとめ</h2>
+    
+    <p>確率論における3つの収束概念を学んだ：</p>
+    <ul>
+      <li><strong>各点収束：</strong> 各 $\omega$ に対して $X_n(\omega) \to X(\omega)$</li>
+      <li><strong>確率収束：</strong> $P(|X_n - X| > \varepsilon) \to 0$</li>
+      <li><strong>分布収束：</strong> $E[f(X_n)] \to E[f(X)]$ （連続有界関数 $f$ に対して）</li>
+    </ul>
+    
+    <p>これらの間には「確率収束 $\Rightarrow$ 分布収束」という関係が成り立つ。</p>
+
+    <!-- -------------------------------------------------------------- -->
+    <div class="navigation" style="display: flex; justify-content: space-between; margin: 20px 0; padding: 15px 0; border-top: 1px solid #eee;">
+      <a href="class10.html" style="padding: 10px 20px; background-color: #1a237e; color: white; text-decoration: none; border-radius: 5px;">← ホーム</a>
+      <a href="../index.html" style="padding: 10px 20px; background-color: #1a237e; color: white; text-decoration: none; border-radius: 5px;">次のレッスン →</a>
+    </div>
     <footer>
       <p style="text-align: center; margin-top: 40px; color: #666;">© 2025 確率論講義 - すべての権利を留保します</p>
     </footer>
