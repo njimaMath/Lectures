@@ -92,14 +92,50 @@
       $A := \{ n \in \mathbb{N} \mid n \leq a \}$ とする。この $A$ は上に有界なので $sup(A)$ が存在する。定理より、$sup(A) - 1 < n$ となる $n \in A$ が存在する。$sup(A) < n + 1$ なので $n+1 > a$ となる。
       <div class="qed">■</div>
     </div>
+<div class="theorem">
+  <b>定理：</b> 任意の $a,b \in \mathbb{R}$ で $a < b$ ならば、$c \in (a,b) \cap \mathbb{Q}$ が存在する。
+</div>
 
-    <div class="theorem">
-      定理：任意の $a,b \in \mathbb{R}$ で $a < b$ ならば、$c \in (a,b) \cap \mathbb{Q}$ が存在する。
-    </div>
-    <div class="proof">
-      $a < b$ とする。$n \in \mathbb{N}$ で $n > 1/(b - a)$ を取る。整数 $m$ を $na < m < nb$ となるように取れる（これは整数の性質とアルキメデス性質から従う）。このとき、$a < m/n < b$ かつ $m/n \in \mathbb{Q}$ なので、結論が得られる。
-      <div class="qed">■</div>
-    </div>
+<div class="proof">
+  $a < b$ とする。$b - a > 0$ なので、$1/n < (b - a)/2$ となる自然数 $n$ を取ることができる。
+  <br><br>
+  次に、集合
+  $$
+  A := \{ k \in \mathbb{N} \mid k > n \cdot a \}
+  $$
+  を考える。
+  <br><br>
+  $A$ は上に有界なので、$A$ の下限（infimum）を考える。定理により、$A$ に属する整数 $m$ で $\inf(A) + 1 < m$ を満たすものが存在する。
+  <br><br>
+  このとき、$m/n$ が求める有理数候補となることを示す。
+  <br><br>
+  まず、$m \in A$ なので $m > n \cdot a$ が成り立ち、これより
+  $$
+  \frac{m}{n} > a
+  $$
+  が従う。
+  <br><br>
+  一方、$\inf(A) > m - 1$ なので、$m - 1 \notin A$。これは
+  $$
+  m - 1 \leq n \cdot a
+  $$
+  を意味する。したがって、
+  $$
+  \frac{m}{n} = \frac{m-1}{n} + \frac{1}{n} \leq a + \frac{1}{n}.
+  $$
+  ここで、$\frac{1}{n} < \frac{b - a}{2}$ なので、
+  $$
+  a + \frac{1}{n} \leq a + \frac{b - a}{2} = \frac{a + b}{2} < b.
+  $$
+  以上により、
+  $$
+  a < \frac{m}{n} < b
+  $$
+  が示された。
+  <br><br>
+  したがって、$\frac{m}{n}$ は $(a,b)$ に属する有理数である。
+  <div class="qed">■</div>
+</div>
 
     <h2>ε-N論法による数列の極限</h2>
 
