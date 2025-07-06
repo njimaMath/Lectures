@@ -439,6 +439,86 @@ MathJax = {
                 </div>
             </div>
         </div>
+ <h3>仮定がある場合の極限の収束の証明</h3>
+        <p>仮定として他の数列の収束が使える場合の証明は、以下の流れで組み立てます。</p>
+        <div class="rule-box">
+            <div style="margin-top: 15px;">
+            <ol>
+<li><b>仮定の記述</b><br>
+                    仮定を$\varepsilon_1, \varepsilon_2, \dots, N_1,N_2,\dots$を用いて書く。
+                </li>
+                
+                <li><b>$\varepsilon$ の宣言</b><br>
+任意の $\varepsilon > 0$ を取る。
+                </li>
+                <li><b>$N$ の構成</b><br>
+                    仮定の$\varepsilon_1=\text{($\varepsilon$の式)}, \varepsilon_2=\text{($\varepsilon$の式)},\dots$とすると、条件を満たす$N_1,N_2,\dots$が存在する。$\varepsilon,N_1,N_2,\dots$を用いて, $N$を...と定める。
+                </li>
+                <li><b>評価の実行</b><br>
+                    $n > N$ となる任意の $n$ を取る   このとき：</p>
+                    <div class="math-display">
+                        $|a_n - a| = \cdots \leq \cdots < \varepsilon$
+                    </div>
+                    <p>従って、$\lim_{n \to \infty} a_n = a$ が成り立つ。</p>
+         </li>
+            </ol>
+            </div>
+        </div>
+
+        <h3>証明の具体例</h3>
+        <div class="example">
+            <div class="example-title">定理：収束数列の和</div>
+            <p><strong>仮定：</strong> $\lim_{n \to \infty} a_n = a$, $\lim_{n \to \infty} b_n = b$</p>
+            <p><strong>主張：</strong> $\lim_{n \to \infty} (a_n + b_n) = a + b$</p>
+            
+            <div class="proof-container">
+              <h3>証明</h3>
+              <ol>
+<li>
+  仮定として次の条件がある：  
+  <br>
+  $$
+  \forall \varepsilon_1 &gt; 0,\ \exists N_1 \in \mathbb{N},\ \forall n_1 &gt; N_1,\ |a_{n_1} - a| &lt; \varepsilon_1,
+  $$
+  $$
+  \forall \varepsilon_2 &gt; 0,\ \exists N_2 \in \mathbb{N},\ \forall n_2 &gt; N_2,\ |b_{n_2} - b| &lt; \varepsilon_2
+  $$
+ </li>
+  
+
+                <li>
+                  任意の $\varepsilon > 0$ を取る。
+                  <span class="proof-comment">(主張の $\forall \varepsilon$ の処理)</span>
+                </li>
+                <li>
+                  $\varepsilon_1 = \varepsilon/2$ とおく。仮定より、ある自然数 $N_1$ が存在して、
+                  $\forall n_1 > N_1 \implies |a_{n_1} - a| < \varepsilon_1 = \varepsilon/2$
+                  が成り立つ。
+                </li>
+                <li>
+                  $\varepsilon_2 = \varepsilon/2$ とおく。仮定より、ある自然数 $N_2$ が存在して、
+                  $\forall n_2 > N_2 \implies |b_{n_2} - b| < \varepsilon_2 = \varepsilon/2$
+                  が成り立つ。
+                 </li>
+                <li>
+                  $N = \max(N_1, N_2)$ と定める。
+                  <span class="proof-comment">(主張の $\exists N$ の構成)</span>
+                </li>
+                <li>
+                  $n > N$ となる任意の自然数 $n$ を取る。このとき $n>N_1$ と $n>N_2$ の両方が成立する。
+                </li>
+                <li>
+                  したがって、三角不等式を用いて以下の評価を得る。
+                  $$|(a_n+b_n) - (a+b)| = |(a_n-a) + (b_n-b)|$$
+                  $$\leq |a_n-a| + |b_n-b| < \frac{\varepsilon}{2} + \frac{\varepsilon}{2} = \varepsilon$$
+                </li>
+              </ol>
+              <p class="conclusion">
+                以上より、$\lim_{n \to \infty} (a_n+b_n) = a+b$ が示された。 ∎
+              </p>
+            </div>
+        </div>
+    </div>
 
         <div class="section">
             <h2>4. 関数の極限：ε-δ 論法</h2>
@@ -487,7 +567,7 @@ MathJax = {
                 <div style="margin-top: 15px;">
                     <strong>基本原則：</strong> 量詞を左から順に処理する
                     <ul style="margin-top: 10px; padding-left: 20px;">
-                        <li><strong>∀x に対して：</strong> 具体的な値を代入する</li>
+                        <li><strong>∀x に対して：</strong> 式を代入する</li>
                         <li><strong>∃y に対して：</strong> 条件を満たす y を取る</li>
                     </ul>
                 </div>
