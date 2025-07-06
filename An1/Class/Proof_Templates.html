@@ -1,0 +1,563 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>大学数学証明書き方ガイド</title>
+<style>
+* {
+margin: 0;
+padding: 0;
+box-sizing: border-box;
+}
+    body {
+        font-family: 'Helvetica Neue', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Hiragino Kaku Gothic ProN', 'Hiragino Sans', 'Yu Gothic', 'Meiryo', sans-serif;
+        line-height: 1.7;
+        color: #2c3e50;
+        background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+        min-height: 100vh;
+        padding: 20px;
+    }
+
+    .container {
+        max-width: 1000px;
+        margin: 0 auto;
+        background: #ffffff;
+        border-radius: 12px;
+        box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+        overflow: hidden;
+    }
+
+    .header {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        padding: 40px;
+        text-align: center;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .header::before {
+        content: '';
+        position: absolute;
+        top: -50%;
+        left: -50%;
+        width: 200%;
+        height: 200%;
+        background: radial-gradient(circle, rgba(255,255,255,0.1) 20%, transparent 20%);
+        background-size: 20px 20px;
+        animation: float 20s linear infinite;
+    }
+
+    @keyframes float {
+        0% { transform: translateY(0px); }
+        100% { transform: translateY(-20px); }
+    }
+
+    .header h1 {
+        font-size: 2.5em;
+        font-weight: 300;
+        margin-bottom: 10px;
+        position: relative;
+        z-index: 1;
+    }
+
+    .header .subtitle {
+        font-size: 1.1em;
+        opacity: 0.9;
+        position: relative;
+        z-index: 1;
+    }
+
+    .content {
+        padding: 40px;
+    }
+
+    .section {
+        margin-bottom: 50px;
+    }
+
+    h2 {
+        color: #2c3e50;
+        font-size: 1.8em;
+        font-weight: 600;
+        margin-bottom: 20px;
+        position: relative;
+        padding-left: 20px;
+    }
+
+    h2::before {
+        content: '';
+        position: absolute;
+        left: 0;
+        top: 50%;
+        transform: translateY(-50%);
+        width: 4px;
+        height: 30px;
+        background: linear-gradient(45deg, #667eea, #764ba2);
+        border-radius: 2px;
+    }
+
+    h3 {
+        color: #34495e;
+        font-size: 1.4em;
+        font-weight: 500;
+        margin: 30px 0 15px 0;
+        padding-bottom: 8px;
+        border-bottom: 2px solid #ecf0f1;
+    }
+
+    p {
+        margin-bottom: 15px;
+        font-size: 16px;
+        line-height: 1.8;
+    }
+
+    .theorem-box {
+        background: #f8f9fa;
+        border: 1px solid #e9ecef;
+        border-left: 4px solid #667eea;
+        padding: 25px;
+        margin: 25px 0;
+        border-radius: 8px;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .theorem-box::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        right: 0;
+        width: 60px;
+        height: 60px;
+        background: linear-gradient(45deg, rgba(102,126,234,0.1), transparent);
+        border-radius: 0 0 0 100%;
+    }
+
+    .step {
+        background: #ffffff;
+        border: 1px solid #e9ecef;
+        border-radius: 8px;
+        padding: 20px;
+        margin: 15px 0;
+        position: relative;
+        transition: all 0.3s ease;
+    }
+
+    .step:hover {
+        box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+        transform: translateY(-2px);
+    }
+
+    .step-number {
+        position: absolute;
+        top: -10px;
+        left: 20px;
+        background: linear-gradient(45deg, #667eea, #764ba2);
+        color: white;
+        width: 30px;
+        height: 30px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: bold;
+        font-size: 14px;
+    }
+
+    .step-title {
+        font-weight: 600;
+        color: #2c3e50;
+        margin-bottom: 10px;
+        padding-left: 15px;
+    }
+
+    .step-content {
+        padding-left: 15px;
+    }
+
+    .example {
+        background: linear-gradient(135deg, #fff9e6 0%, #fff3cd 100%);
+        border: 1px solid #ffeaa7;
+        border-radius: 8px;
+        padding: 20px;
+        margin: 20px 0;
+        position: relative;
+    }
+
+    .example::before {
+        content: '例';
+        position: absolute;
+        top: -10px;
+        left: 15px;
+        background: #fdcb6e;
+        color: #2d3436;
+        padding: 5px 12px;
+        border-radius: 15px;
+        font-size: 12px;
+        font-weight: bold;
+    }
+
+    .example-title {
+        font-weight: 600;
+        color: #8b4513;
+        margin-bottom: 10px;
+        margin-top: 10px;
+    }
+
+    .note {
+        background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%);
+        border-left: 4px solid #2196f3;
+        padding: 20px;
+        margin: 25px 0;
+        border-radius: 8px;
+        position: relative;
+    }
+
+    .note::before {
+        content: '💡';
+        position: absolute;
+        top: 15px;
+        left: -12px;
+        background: #2196f3;
+        width: 24px;
+        height: 24px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 12px;
+    }
+
+    .note-content {
+        padding-left: 10px;
+    }
+
+    code {
+        background: #f1f3f4;
+        padding: 3px 8px;
+        border-radius: 4px;
+        font-family: 'SF Mono', 'Monaco', 'Cascadia Code', 'Roboto Mono', monospace;
+        font-size: 0.9em;
+        color: #d73a49;
+    }
+
+    .math-display {
+        background: #fafafa;
+        border: 1px solid #e1e4e8;
+        border-radius: 6px;
+        padding: 15px;
+        margin: 15px 0;
+        text-align: center;
+        font-family: 'Latin Modern Math', 'STIX Two Math', serif;
+    }
+
+    .rule-box {
+        background: linear-gradient(135deg, #f0f8ff 0%, #e6f3ff 100%);
+        border: 1px solid #b3d9ff;
+        border-radius: 8px;
+        padding: 20px;
+        margin: 20px 0;
+        position: relative;
+    }
+
+    .rule-box::before {
+        content: 'ルール';
+        position: absolute;
+        top: -10px;
+        left: 15px;
+        background: #4a90e2;
+        color: white;
+        padding: 5px 12px;
+        border-radius: 15px;
+        font-size: 12px;
+        font-weight: bold;
+    }
+
+    .proof-template {
+        background: linear-gradient(135deg, #f5f5f5 0%, #e8e8e8 100%);
+        border: 1px solid #d0d0d0;
+        border-radius: 8px;
+        padding: 20px;
+        margin: 20px 0;
+        font-family: 'SF Mono', 'Monaco', monospace;
+        font-size: 14px;
+        line-height: 1.6;
+    }
+
+    ol {
+        padding-left: 20px;
+    }
+
+    ol li {
+        margin-bottom: 10px;
+        line-height: 1.8;
+    }
+
+    .highlight {
+        background: linear-gradient(120deg, #ffeaa7 0%, #fdcb6e 100%);
+        padding: 2px 6px;
+        border-radius: 3px;
+        font-weight: 500;
+    }
+
+    @media (max-width: 768px) {
+        .container {
+            margin: 10px;
+            border-radius: 8px;
+        }
+        
+        .header {
+            padding: 30px 20px;
+        }
+        
+        .header h1 {
+            font-size: 2em;
+        }
+        
+        .content {
+            padding: 20px;
+        }
+        
+        h2 {
+            font-size: 1.5em;
+        }
+    }
+</style>
+<script>
+MathJax = {
+  tex: {
+    inlineMath: [['$', '$'], ['\\(', '\\)']],
+    displayMath: [['$$', '$$'], ['\\[', '\\]']]
+  },
+  svg: {
+    fontCache: 'global'
+  }
+};
+</script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+</head>
+<body>
+<div class="container">
+<div class="header">
+<h1>大学数学証明書き方ガイド</h1>
+<p class="subtitle">解析学における厳密な証明のテンプレート集</p>
+</div>
+    <div class="content">
+        <div class="section">
+            <h2>1. 上限の証明：sup(A) = a</h2>
+            <p>集合 A の上限が a であることを証明するには、以下の2つの条件を満たすことを示す必要があります。</p>
+            
+            <div class="theorem-box">
+                <strong>定理：</strong> sup(A) = a ⟺ 
+                <ol>
+                    <li>a は A の上界である</li>
+                    <li>a は A の上界の中で最小である</li>
+                </ol>
+            </div>
+
+            <div class="step">
+                <div class="step-number">1</div>
+                <div class="step-title">a が A の上界であることの証明</div>
+                <div class="step-content">
+                    <p>任意に $x \in A$ を取る。[具体的な理由] より $x \leq a$ が成り立つ。したがって、$a$ は $A$ の上界である。</p>
+                </div>
+            </div>
+
+            <div class="step">
+                <div class="step-number">2</div>
+                <div class="step-title">a が最小上界であることの証明</div>
+                <div class="step-content">
+                    <p>$\beta$ を $A$ の任意の上界とする。任意の $\varepsilon > 0$ に対して、$a - \varepsilon < y$ となる $y \in A$ が存在する。（※存在理由を明記）</p>
+                    <p>$\beta$ の上界性より $y \leq \beta$ であるから、$a - \varepsilon < \beta$ が成り立つ。</p>
+                    <p>$\varepsilon > 0$ は任意であるので、$a \leq \beta$ が成り立つ。</p>
+                    <p>以上より、$a$ は $A$ の上界の中で最小である。</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>2. 下限の証明：inf(A) = a</h2>
+            <p>集合 A の下限が a であることを証明する手法は、上限の証明と双対的な構造を持ちます。</p>
+
+            <div class="step">
+                <div class="step-number">1</div>
+                <div class="step-title">a が A の下界であることの証明</div>
+                <div class="step-content">
+                    <p>任意に $x \in A$ を取る。[具体的な理由] より $x \geq a$ が成り立つ。したがって、$a$ は $A$ の下界である。</p>
+                </div>
+            </div>
+
+            <div class="step">
+                <div class="step-number">2</div>
+                <div class="step-title">a が最大下界であることの証明</div>
+                <div class="step-content">
+                    <p>$\alpha$ を $A$ の任意の下界とする。任意の $\varepsilon > 0$ に対して、$y < a + \varepsilon$ となる $y \in A$ が存在する。</p>
+                    <p>$\alpha$ の下界性より $\alpha \leq y$ であるから、$\alpha < a + \varepsilon$ が成り立つ。</p>
+                    <p>$\varepsilon > 0$ は任意であるので、$\alpha \leq a$ が成り立つ。</p>
+                    <p>以上より、$a$ は $A$ の下界の中で最大である。</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>3. 数列の極限：ε-N 論法</h2>
+            <p>数列 $\{a_n\}$ が $a$ に収束することを証明する標準的な手法です。</p>
+
+            <div class="theorem-box">
+                <strong>定義：</strong> $\lim_{n \to \infty} a_n = a$ ⟺ 
+                $\forall \varepsilon > 0, \exists N \in \mathbb{N}$ s.t. $\forall n > N, |a_n - a| < \varepsilon$
+            </div>
+
+            <div class="step">
+                <div class="step-number">1</div>
+                <div class="step-title">ε の任意性の宣言</div>
+                <div class="step-content">
+                    <p>任意の $\varepsilon > 0$ を取る。</p>
+                </div>
+            </div>
+
+            <div class="step">
+                <div class="step-number">2</div>
+                <div class="step-title">N の構成</div>
+                <div class="step-content">
+                    <p>$N \in \mathbb{N}$ を $N > f(\varepsilon)$ となるように取る。</p>
+                    <p class="note-content">※ $f(\varepsilon)$ は $\varepsilon$ の関数で、後の不等式評価から逆算して決定する</p>
+                </div>
+            </div>
+
+            <div class="step">
+                <div class="step-number">3</div>
+                <div class="step-title">不等式の評価</div>
+                <div class="step-content">
+                    <p>$n > N$ となる任意の自然数 $n$ を取る。このとき：</p>
+                    <div class="math-display">
+                        $|a_n - a| = \cdots \leq \cdots < \varepsilon$
+                    </div>
+                    <p>従って、$\lim_{n \to \infty} a_n = a$ が成り立つ。</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>4. 関数の極限：ε-δ 論法</h2>
+            <p>関数 $f(x)$ が点 $a$ で極限値 $L$ を持つことを証明するための厳密な手法です。</p>
+
+            <div class="theorem-box">
+                <strong>定義：</strong> $\lim_{x \to a} f(x) = L$ ⟺
+                $\forall \varepsilon > 0, \exists \delta > 0$ s.t. $\forall x, 0 < |x - a| < \delta \Rightarrow |f(x) - L| < \varepsilon$
+            </div>
+
+            <div class="step">
+                <div class="step-number">1</div>
+                <div class="step-title">ε の任意性の宣言</div>
+                <div class="step-content">
+                    <p>任意の $\varepsilon > 0$ を取る。</p>
+                </div>
+            </div>
+
+            <div class="step">
+                <div class="step-number">2</div>
+                <div class="step-title">δ の構成</div>
+                <div class="step-content">
+                    <p>$\delta > 0$ を $\delta = g(\varepsilon)$ となるように定める。</p>
+                    <p class="note-content">※ $g(\varepsilon)$ は $\varepsilon$ に依存する正の関数で、後の不等式評価から逆算して決定します。例えば、$\delta = \min(1, \varepsilon/C)$ のように複数の条件の最小値を取ることもよくあります。</p>
+                </div>
+            </div>
+
+            <div class="step">
+                <div class="step-number">3</div>
+                <div class="step-title">不等式の評価</div>
+                <div class="step-content">
+                    <p>$0 < |x - a| < \delta$ を満たす任意の $x$ を取る。この仮定と $\delta$ の定義を用いて、以下の不等式を示す。</p>
+                    <div class="math-display">
+                        $|f(x) - L| = \cdots \leq \cdots < \varepsilon$
+                    </div>
+                    <p>従って、$\lim_{x \to a} f(x) = L$ が成り立つ。</p>
+                </div>
+            </div>
+        </div>
+        <div class="section">
+            <h2>5. 一般の証明における量詞の扱い</h2>
+            <p>数学的証明では、全称量詞（∀）と存在量詞（∃）の適切な扱いが重要です。</p>
+
+            <h3>5.1 仮定（条件）の使用方法</h3>
+            <div class="rule-box">
+                <div style="margin-top: 15px;">
+                    <strong>基本原則：</strong> 量詞を左から順に処理する
+                    <ul style="margin-top: 10px; padding-left: 20px;">
+                        <li><strong>∀x に対して：</strong> 具体的な値を代入する</li>
+                        <li><strong>∃y に対して：</strong> 条件を満たす y を取る</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="example">
+                <div class="example-title">例1：単純な存在条件</div>
+                <p><strong>仮定：</strong> $\forall \varepsilon_1 > 0, \exists N_1 \in \mathbb{N}$ s.t. $\frac{1}{N_1} < \varepsilon_1$</p>
+                <p><strong>使用法：</strong> $\varepsilon_1 = f(z)$ とおく。仮定より、$\frac{1}{N_1} < f(z)$ となる $N_1 \in \mathbb{N}$ が存在する。</p>
+            </div>
+
+            <div class="example">
+                <div class="example-title">例2：複合条件</div>
+                <p><strong>仮定：</strong> $\forall \varepsilon_1 > 0, \exists N_1 \in \mathbb{N}$ s.t. $\forall n_1 > N_1, |a_{n_1} - a| < \varepsilon_1$</p>
+                <p><strong>使用法：</strong> $\varepsilon_1 = \varepsilon/C$ とおく。仮定より、「$n_1 > N_1 \Rightarrow |a_{n_1} - a| < \varepsilon/C$」を満たす $N_1 \in \mathbb{N}$ が存在する。</p>
+            </div>
+
+            <h3>5.2 結論（主張）の証明方法</h3>
+            <div class="rule-box">
+                <div style="margin-top: 15px;">
+                    <strong>基本原則：</strong> 量詞を左から順に処理する
+                    <ul style="margin-top: 10px; padding-left: 20px;">
+                        <li><strong>∀x に対して：</strong> 任意の x を取る</li>
+                        <li><strong>∃y に対して：</strong> 適切な y を構成・定義する</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="example">
+                <div class="example-title">例1：アルキメデスの原理</div>
+                <p><strong>主張：</strong> $\forall \varepsilon > 0, \exists N \in \mathbb{N}$ s.t. $\frac{1}{N} < \varepsilon$</p>
+                <p><strong>証明：</strong> 任意の $\varepsilon > 0$ を取る。$N$ を $N > \frac{1}{\varepsilon}$ を満たす自然数として定める。このとき $\frac{1}{N} < \varepsilon$ が成り立つ。</p>
+            </div>
+
+            <h3>5.3 統合的な証明例</h3>
+            <div class="example">
+                <div class="example-title">定理：収束数列の定数倍</div>
+                <p><strong>仮定：</strong> $\lim_{n \to \infty} a_n = a$</p>
+                <p><strong>主張：</strong> $\lim_{n \to \infty} 2a_n = 2a$</p>
+                
+                <div class="proof-template">
+
+<strong>証明：</strong>
+ * 任意の ε > 0 を取る。（<span class="highlight">主張の∀εを処理</span>）
+ * ε₁ = ε/2 とおく。ε₁ > 0 なので、仮定より
+   「n₁ > N₁ ⟹ |a_{n₁} - a| < ε₁ = ε/2」
+   を満たす N₁ ∈ ℕ が存在する。（<span class="highlight">仮定の∀ε₁に代入し、∃N₁を使用</span>）
+ * N = N₁ と定める。（<span class="highlight">主張の∃Nを構成</span>）
+ * n > N となる任意の自然数 n を取る。（<span class="highlight">主張の∀nを処理</span>）
+ * n₁ = n とすると、n > N = N₁ なので、
+   仮定より |aₙ - a| < ε/2 が成り立つ。
+ * したがって、
+   |2aₙ - 2a| = 2|aₙ - a| < 2 · (ε/2) = ε
+ * 以上より、lim(n→∞) 2aₙ = 2a が成り立つ。 ∎
+   </div>
+   </div>
+            <div class="note">
+             <div class="note-content">
+                 <strong>重要なポイント：</strong>
+                 <ul style="margin-top: 10px; padding-left: 20px;">
+                     <li>仮定を使うときは「具体的な式を代入」</li>
+                     <li>主張を証明するときは「一般的な変数で議論」</li>
+                     <li>量詞の順序を守り、左から右へ順次処理</li>
+                     <li>存在量詞では構成的な定義を心がける</li>
+                 </ul>
+             </div>
+         </div>
+     </div>
+ </div>
+
+   </div>
+</body>
+</html>
