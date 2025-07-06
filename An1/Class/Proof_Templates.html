@@ -407,7 +407,7 @@ MathJax = {
 
             <div class="theorem-box">
                 <strong>定義：</strong> $\lim_{n \to \infty} a_n = a$ ⟺ 
-                $\forall \varepsilon > 0, \exists N \in \mathbb{N}$ s.t. $\forall n > N, |a_n - a| < \varepsilon$
+                $\forall \varepsilon > 0, \exists N \in \mathbb{N}, \forall n > N, |a_n - a| < \varepsilon$
             </div>
 
             <div class="step">
@@ -422,8 +422,8 @@ MathJax = {
                 <div class="step-number">2</div>
                 <div class="step-title">N の構成</div>
                 <div class="step-content">
-                    <p>$N \in \mathbb{N}$ を $N > f(\varepsilon)$ となるように取る。</p>
-                    <p class="note-content">※ $f(\varepsilon)$ は $\varepsilon$ の関数で、後の不等式評価から逆算して決定する</p>
+                    <p>$N \in \mathbb{N}$ を $N > (\varepsilon\text{の関数})$ となるように取る。</p>
+                    <p class="note-content">※ $(\varepsilon\text{の関数})$ は $\varepsilon$ の関数で、後の不等式評価から逆算して決定する</p>
                 </div>
             </div>
 
@@ -446,7 +446,7 @@ MathJax = {
 
             <div class="theorem-box">
                 <strong>定義：</strong> $\lim_{x \to a} f(x) = L$ ⟺
-                $\forall \varepsilon > 0, \exists \delta > 0$ s.t. $\forall x, 0 < |x - a| < \delta \Rightarrow |f(x) - L| < \varepsilon$
+                $\forall \varepsilon > 0, \exists \delta > 0, \forall x, 0 < |x - a| < \delta \Rightarrow |f(x) - L| < \varepsilon$
             </div>
 
             <div class="step">
@@ -461,8 +461,8 @@ MathJax = {
                 <div class="step-number">2</div>
                 <div class="step-title">δ の構成</div>
                 <div class="step-content">
-                    <p>$\delta > 0$ を $\delta = g(\varepsilon)$ となるように定める。</p>
-                    <p class="note-content">※ $g(\varepsilon)$ は $\varepsilon$ に依存する正の関数で、後の不等式評価から逆算して決定します。例えば、$\delta = \min(1, \varepsilon/C)$ のように複数の条件の最小値を取ることもよくあります。</p>
+                    <p>$\delta > 0$ を $\delta = (\varepsilon\text{の関数})$ となるように定める。</p>
+                    <p class="note-content">※ $(\varepsilon\text{の関数})$ は $\varepsilon$ に依存する正の関数で、後の不等式評価から逆算して決定します。例えば、$\delta = \min(1, \varepsilon/C)$ のように複数の条件の最小値を取ることもよくあります。</p>
                 </div>
             </div>
 
@@ -495,13 +495,13 @@ MathJax = {
 
             <div class="example">
                 <div class="example-title">例1：単純な存在条件</div>
-                <p><strong>仮定：</strong> $\forall \varepsilon_1 > 0, \exists N_1 \in \mathbb{N}$ s.t. $\frac{1}{N_1} < \varepsilon_1$</p>
+                <p><strong>仮定：</strong> $\forall \varepsilon_1 > 0, \exists N_1 \in \mathbb{N}, \frac{1}{N_1} < \varepsilon_1$</p>
                 <p><strong>使用法：</strong> $\varepsilon_1 = f(z)$ とおく。仮定より、$\frac{1}{N_1} < f(z)$ となる $N_1 \in \mathbb{N}$ が存在する。</p>
             </div>
 
             <div class="example">
                 <div class="example-title">例2：複合条件</div>
-                <p><strong>仮定：</strong> $\forall \varepsilon_1 > 0, \exists N_1 \in \mathbb{N}$ s.t. $\forall n_1 > N_1, |a_{n_1} - a| < \varepsilon_1$</p>
+                <p><strong>仮定：</strong> $\forall \varepsilon_1 > 0, \exists N_1 \in \mathbb{N}, \forall n_1 > N_1, |a_{n_1} - a| < \varepsilon_1$</p>
                 <p><strong>使用法：</strong> $\varepsilon_1 = \varepsilon/C$ とおく。仮定より、「$n_1 > N_1 \Rightarrow |a_{n_1} - a| < \varepsilon/C$」を満たす $N_1 \in \mathbb{N}$ が存在する。</p>
             </div>
 
@@ -518,7 +518,7 @@ MathJax = {
 
             <div class="example">
                 <div class="example-title">例1：アルキメデスの原理</div>
-                <p><strong>主張：</strong> $\forall \varepsilon > 0, \exists N \in \mathbb{N}$ s.t. $\frac{1}{N} < \varepsilon$</p>
+                <p><strong>主張：</strong> $\forall \varepsilon > 0, \exists N \in \mathbb{N}, \frac{1}{N} < \varepsilon$</p>
                 <p><strong>証明：</strong> 任意の $\varepsilon > 0$ を取る。$N$ を $N > \frac{1}{\varepsilon}$ を満たす自然数として定める。このとき $\frac{1}{N} < \varepsilon$ が成り立つ。</p>
             </div>
 
@@ -528,33 +528,41 @@ MathJax = {
                 <p><strong>仮定：</strong> $\lim_{n \to \infty} a_n = a$</p>
                 <p><strong>主張：</strong> $\lim_{n \to \infty} 2a_n = 2a$</p>
                 
-                <div class="proof-template">
-
-<strong>証明：</strong>
- * 任意の ε > 0 を取る。（<span class="highlight">主張の∀εを処理</span>）
- * ε₁ = ε/2 とおく。ε₁ > 0 なので、仮定より
-   「n₁ > N₁ ⟹ |a_{n₁} - a| < ε₁ = ε/2」
-   を満たす N₁ ∈ ℕ が存在する。（<span class="highlight">仮定の∀ε₁に代入し、∃N₁を使用</span>）
- * N = N₁ と定める。（<span class="highlight">主張の∃Nを構成</span>）
- * n > N となる任意の自然数 n を取る。（<span class="highlight">主張の∀nを処理</span>）
- * n₁ = n とすると、n > N = N₁ なので、
-   仮定より |aₙ - a| < ε/2 が成り立つ。
- * したがって、
-   |2aₙ - 2a| = 2|aₙ - a| < 2 · (ε/2) = ε
- * 以上より、lim(n→∞) 2aₙ = 2a が成り立つ。 ∎
+<div class="proof-container">
+  <h3>証明</h3>
+  <ol>
+    <li>
+      任意の $\varepsilon > 0$ を取る。
+      <span class="proof-comment">（主張の $\forall \varepsilon$ を処理）</span>
+    </li>
+    <li>
+      $\varepsilon_1 = \frac{\varepsilon}{2}$ とおく。$\varepsilon_1 > 0$ なので、仮定 $\lim_{n \to \infty} a_n = a$ より、
+        <br>
+      「 $n_1 > N_1 \implies |a_{n_1} - a| < \varepsilon_1 = \frac{\varepsilon}{2}$ 」
+          <br> を満たす自然数 $N_1$ が存在する。
+      <span class="proof-comment">（仮定の $\forall \varepsilon_1$ に代入し、$\exists N_1$ を使用）</span>
+    </li>
+    <li>
+      $N = N_1$ と定める。
+      <span class="proof-comment">（主張の $\exists N$ を構成）</span>
+    </li>
+    <li>
+      $n > N$ となる任意の自然数 $n$ を取る。
+      <span class="proof-comment">（主張の $\forall n$ を処理）</span>
+    </li>
+    <li>
+      このとき、$n > N = N_1$ であるから、ステップ2の条件より $|a_n - a| < \frac{\varepsilon}{2}$ が成り立つ。
+    </li>
+    <li>
+      したがって、以下の評価を得る。
+      $$ |2a_n - 2a| = 2|a_n - a| < 2 \cdot \frac{\varepsilon}{2} = \varepsilon $$
+    </li>
+  </ol>
+  <p class="conclusion">
+    以上より、$\lim_{n \to \infty} 2a_n = 2a$ が示された。 ∎
+  </p>
+</div>
    </div>
-   </div>
-            <div class="note">
-             <div class="note-content">
-                 <strong>重要なポイント：</strong>
-                 <ul style="margin-top: 10px; padding-left: 20px;">
-                     <li>仮定を使うときは「具体的な式を代入」</li>
-                     <li>主張を証明するときは「一般的な変数で議論」</li>
-                     <li>量詞の順序を守り、左から右へ順次処理</li>
-                     <li>存在量詞では構成的な定義を心がける</li>
-                 </ul>
-             </div>
-         </div>
      </div>
  </div>
 
