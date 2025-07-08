@@ -1,323 +1,319 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-<meta charset="UTF-8">
-<title>実数の講義ノート 第12回 数列の極限 (ε–N 論法)</title>
-<script>
-MathJax = {
-tex: {
-inlineMath: [['', '']],
-displayMath: [['&#39;, &#39;']]
-}
-};
-</script>
-<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js" async></script>
-<style>
-body {
-font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-background: #f5f5f5;
-color: #222;
-line-height: 1.7;
-margin: 0;
-padding: 2rem;
-}
-.container {
-background: white;
-max-width: 900px;
-margin: 0 auto;
-padding: 2rem;
-border-radius: 10px;
-box-shadow: 0 0 10px rgba(0,0,0,0.1);
-}
-h1, h2, h3 {
-color: #003366;
-}
-h1 {
-text-align: center;
-margin-bottom: 2rem;
-}
-h2 {
-border-left: 6px solid #003366;
-padding-left: 0.5rem;
-margin-top: 2.5rem;
-margin-bottom: 1.5rem;
-}
-h3 {
-border-bottom: 2px solid #003366;
-padding-bottom: 0.25rem;
-margin-top: 2rem;
-}
-p {
-margin-top: 1em;
-}
-.definition, .theorem, .proof, .example, .exercise, .solution {
-margin-top: 1.5em;
-padding: 1em;
-border-left-width: 4px;
-border-left-style: solid;
-}
-.definition { border-color: #4CAF50; background: #f3faf3; }
-.theorem { border-color: #2196F3; background: #f1f8fe; }
-.proof { border-color: #FFC107; background: #fffbf0; }
-.example { border-color: #9C27B0; background: #f9f2fb; }
-.exercise { border-color: #FF5722; background: #fff5f2; }
-.solution { border-color: #009688; background: #f0fafa; }
-.qed {
-text-align: right;
-font-weight: bold;
-}
-</style>
+  <meta charset="UTF-8">
+  <title>実数の講義ノート 第12回</title>
+
+  <!-- MathJax -->
+  <script>
+    MathJax = {
+      tex: {
+        inlineMath: [['$', '$']],
+        displayMath: [['$$', '$$']]
+      }
+    };
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js" async></script>
+
+  <!-- Style  ※変更していません -->
+  <style>
+    body {
+      font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+      background: #f5f5f5;
+      color: #222;
+      line-height: 1.7;
+      margin: 0;
+      padding: 2rem;
+    }
+    .container {
+      background: white;
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 2rem;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+    h1, h2, h3 {
+      color: #003366;
+    }
+    h1 {
+      text-align: center;
+      margin-bottom: 2rem;
+    }
+    h2 {
+      border-left: 6px solid #003366;
+      padding-left: 0.5rem;
+      margin-top: 2rem;
+    }
+    p {
+      margin-top: 1em;
+    }
+    .definition, .theorem, .proof, .example, .exercise {
+      margin-top: 1em;
+      padding-left: 1em;
+    }
+    .definition { border-left: 3px solid #4CAF50; }
+    .theorem    { border-left: 3px solid #2196F3; }
+    .proof      { border-left: 3px solid #FFC107; }
+    .example    { border-left: 3px solid #9C27B0; }
+    .exercise   { border-left: 3px solid #FF5722; }
+    .qed { text-align: right; font-weight: bold; }
+  </style>
 </head>
+
 <body>
-<div class="container">
-<h1>第11回　数列の極限 (ε–N 論法)</h1>
-<h2>1. 数列の収束の定義</h2>
-<div class="definition">
-  <strong>定義 (収束)</strong><br>
-  数列 $\{a_n\}$ が実数 $a$ に<strong>収束</strong>するとは，次が成り立つことをいう：
-  <p>
-    $$
-      \forall \varepsilon > 0, \; \exists N \in \mathbb{N} \text{ s.t. } \forall n \in \mathbb{N}, \; n > N \implies |a_n - a| < \varepsilon.
-    $$
-  </p>
-  このとき，$\displaystyle \lim_{n\to\infty} a_n = a$ または $a_n \to a \; (n \to \infty)$ と書く。$a$ を数列 $\{a_n\}$ の<strong>極限値</strong>という。
-</div>
+  <div class="container">
 
-<div class="example">
- <p><strong>(定義の解釈)</strong> どんなに小さな正の数 $\varepsilon$ を指定されても，その $\varepsilon$ に応じて十分大きな番号 $N$ を見つけることができる。そして，その $N$ より先の項 ($n > N$) はすべて，極限値 $a$ との差が $\varepsilon$ 未満になる。つまり，添え字 $n$ を大きくすれば，$a_n$ はいくらでも $a$ に近づくことを意味する。</p>
-</div>
+    <h1>第12回　数列の極限 (ε–N 論法)</h1>
 
-<h2>2. ε-N論法による証明の型</h2>
-<p>ε-N論法に慣れるまでは、証明の「型」を覚えるのが有効である。ここでは、よく使われる2つのパターンを紹介する。</p>
+    <!-- 1. 定義 -->
+    <h2>1. 極限の定義</h2>
+    <div class="definition">
+      数列 $\{a_n\}$ が実数 $a$ に<strong>収束</strong>するとは，次を満たすことをいう：
+      <p>
+        $$
+          \forall \varepsilon > 0\; \exists N \in \mathbb N\;\, \forall n > N : |a_n - a| < \varepsilon.
+        $$
+      </p>
+      このとき $\displaystyle \lim_{n\to\infty} a_n = a$ と書き，$a_n \to a$ と略記する。
+    </div>
 
-<h3>パターン1：$\lim a_n = a \implies \lim b_n = b$ の証明</h3>
-<ol>
-  <li><strong>目標の確認：</strong>示すべきは $\lim b_n = b$、すなわち $\forall \varepsilon > 0, \exists N \in \mathbb{N} \text{ s.t. } n>N \implies |b_n - b| < \varepsilon$ である。</li>
-  <li><strong>任意に $\varepsilon > 0$ をとる：</strong>証明は「任意の正の数 $\varepsilon$ に対して...」という文言で始める。</li>
-  <li><strong>仮定の利用：</strong>仮定 $\lim a_n = a$ が使える。これは，$\forall \varepsilon' > 0$ に対して，ある $N_1$ が存在し，$n > N_1 \implies |a_n - a| < \varepsilon'$ が成り立つことを意味する。</li>
-  <li><strong>ε と ε' の関係式：</strong>ゴールである $|b_n - b| < \varepsilon$ を導くために、都合の良い $\varepsilon'$ を設定する。例えば $\varepsilon' = \varepsilon/2$ や $\varepsilon' = \frac{\varepsilon}{C}$ のように、$\varepsilon$ の式で表すことが多い。</li>
-  <li><strong>N の決定：</strong>ステップ3で存在が保証された $N_1$ を使って、$N$ を定める。$N=N_1$ とすることもあれば、他の条件と合わせて $N=\max\{N_1, N_2\}$ のようにとることもある。</li>
-  <li><strong>結論：</strong>$n > N$ ならば、一連の不等式評価によって $|b_n - b| < \varepsilon$ が示されることを記述する。</li>
-</ol>
-<p><b>Q.</b> なぜ仮定の方の $\varepsilon$ を $\varepsilon'$ や $\varepsilon/2$ に勝手に変えて良いのか？<br>
-<b>A.</b> 収束の定義は「任意の（どんな）」正の数に対して成り立つことを保証しているからである。$\varepsilon$ が正の数なら、$\varepsilon/2$ や $\varepsilon/C$ (Cは正の定数) もまた正の数である。したがって、$\varepsilon/2$ という正の数に対して定義を適用し、対応する番号 $N_1$ を見つけてくることができる。証明のゴールである「$\varepsilon$」と区別するために、仮定で使う値を便宜上 $\varepsilon'$ と書くこともある。</p>
+    <!-- 2. ε–N 証明の作法 -->
+    <h2>2. ε–N 証明の作法</h2>
 
-<h2>3. 極限の基本性質とその証明</h2>
-<div class="theorem">
-  <strong>定理 (極限の演算)</strong><br>
-  数列 $\{a_n\}$, $\{b_n\}$ がそれぞれ $a, b$ に収束するとき、次が成り立つ。
-  <ol>
-    <li><b>和：</b> $\displaystyle \lim_{n\to\infty} (a_n + b_n) = a + b$</li>
-    <li><b>積：</b> $\displaystyle \lim_{n\to\infty} (a_n b_n) = ab$</li>
-    <li><b>商：</b> $b \neq 0$ かつ全ての $n$ で $b_n \neq 0$ ならば， $\displaystyle \lim_{n\to\infty} \frac{a_n}{b_n} = \frac{a}{b}$</li>
-  </ol>
-</div>
+    <h3>2.1 1 つの既知極限を利用する場合<br>
+        （$\displaystyle \lim_{n\to\infty} a_n = a \;\Rightarrow\; \lim_{n\to\infty} b_n = b$ など）</h3>
+    <div class="example">
+      <p><strong>手順</strong></p>
+      <ol>
+        <li>$\lim a_n = a$ を<br>
+            &emsp;$\forall \varepsilon_1>0 \;\exists N_1 \;\forall n>N_1 : |a_n-a|<\varepsilon_1$<br>
+            の形で書き下ろす。</li>
+        <li>目標の $\varepsilon>0$ を任意に取る。</li>
+        <li>適当な関数 $\varepsilon_1 = f(\varepsilon)$ を設定し，
+            極限の定義から対応する $N_1$ を確保する。</li>
+        <li>$N := N_1$ あるいは $N := g(\varepsilon,N_1)$ の形で自然数を決める。</li>
+        <li>$n>N$ ならば連鎖的不等式により
+            $|b_n-b|<\varepsilon$ が示される。</li>
+      </ol>
 
-<div class="proof">
-  <p><strong>(1) 和の極限の証明</strong></p>
-  <p>任意の $\varepsilon > 0$ をとる。
-  仮定より、$a_n \to a$ なので、$\varepsilon/2 > 0$ に対して、ある自然数 $N_1$ が存在して、$n > N_1 \implies |a_n - a| < \varepsilon/2$ が成り立つ。
-  同様に、$b_n \to b$ なので、$\varepsilon/2 > 0$ に対して、ある自然数 $N_2$ が存在して、$n > N_2 \implies |b_n - b| < \varepsilon/2$ が成り立つ。
-  ここで $N = \max\{N_1, N_2\}$ とおく。すると、$n > N$ ならば $n > N_1$ かつ $n > N_2$ なので、三角不等式より、
-  $$
-    |(a_n + b_n) - (a + b)| = |(a_n - a) + (b_n - b)| \le |a_n - a| + |b_n - b| < \frac{\varepsilon}{2} + \frac{\varepsilon}{2} = \varepsilon.
-  $$
-  よって $\displaystyle \lim_{n\to\infty} (a_n + b_n) = a + b$ が示された。</p>
+      <p><strong>Q.</strong> なぜ $\varepsilon$ を $\varepsilon_1$ に置き換えてよいのか？<br>
+         <strong>A.</strong> $\varepsilon_1$ も 0 より大きい任意の正数としてとれるため，
+         定義の「任意の正数」に対応しているから。</p>
+    </div>
 
-  <p><strong>(2) 積の極限の証明</strong></p>
-  <p>収束する数列は有界である（後述の定理より）。よって、ある $M > 0$ が存在して、すべての $n$ について $|a_n| \le M$ となる。
-  任意の $\varepsilon > 0$ をとる。
-  $a_n \to a$ より、$\frac{\varepsilon}{2(|b|+1)} > 0$ に対して、ある $N_1$ が存在し、$n>N_1 \implies |a_n - a| < \frac{\varepsilon}{2(|b|+1)}$ とできる。
-  $b_n \to b$ より、$\frac{\varepsilon}{2M} > 0$ に対して、ある $N_2$ が存在し、$n>N_2 \implies |b_n - b| < \frac{\varepsilon}{2M}$ とできる。
-  $N = \max\{N_1, N_2\}$ とおく。$n > N$ ならば、
-  $$
-  \begin{aligned}
-    |a_n b_n - ab| &= |a_n b_n - a_n b + a_n b - ab| \\
-    &= |a_n(b_n - b) + b(a_n - a)| \\
-    &\le |a_n||b_n - b| + |b||a_n - a| \\
-    &< M \cdot \frac{\varepsilon}{2M} + |b| \cdot \frac{\varepsilon}{2(|b|+1)} \\
-    &< \frac{\varepsilon}{2} + \frac{\varepsilon}{2} = \varepsilon.
-  \end{aligned}
-  $$
-  よって $\displaystyle \lim_{n\to\infty} (a_n b_n) = ab$ が示された。</p>
+    <h3>2.2 2 つの既知極限を組み合わせる場合<br>
+        （$\displaystyle \lim a_n = a,\;\lim b_n = b \;\Rightarrow\; \lim c_n = c$ など）</h3>
+    <div class="example">
+      <p><strong>手順</strong></p>
+      <ol>
+        <li>$\lim a_n = a$ を $\varepsilon_1,N_1$、
+            $\lim b_n = b$ を $\varepsilon_2,N_2$ を使って書き出す。</li>
+        <li>目標 $\varepsilon>0$ を任意に取る。</li>
+        <li>適切な
+            $\varepsilon_1 = f_1(\varepsilon)$，
+            $\varepsilon_2 = f_2(\varepsilon)$
+            を決め，それぞれ $N_1,N_2$ を確保する。</li>
+        <li>$N := \max\{N_1,N_2\}$（またはさらに条件を加味した式）とする。</li>
+        <li>$n>N$ ならば三角不等式などにより
+            $|c_n-c|<\varepsilon$ を示す。</li>
+      </ol>
+    </div>
 
-  <p><strong>(3) 商の極限の証明</strong></p>
-  <p>まず $\displaystyle \lim_{n\to\infty} \frac{1}{b_n} = \frac{1}{b}$ を示す。$b \neq 0$ なので $|b|>0$ である。
-  $b_n \to b$ より、$\frac{|b|}{2} > 0$ に対してある $N_1$ が存在し、$n>N_1 \implies |b_n - b| < \frac{|b|}{2}$。
-  このとき、$|b| = |b-b_n+b_n| \le |b-b_n| + |b_n| < \frac{|b|}{2} + |b_n|$。よって $|b_n| > |b| - \frac{|b|}{2} = \frac{|b|}{2}$。
-  任意の $\varepsilon > 0$ をとる。$b_n \to b$ より、$\frac{|b|^2 \varepsilon}{2} > 0$ に対してある $N_2$ が存在し、$n>N_2 \implies |b_n - b| < \frac{|b|^2 \varepsilon}{2}$。
-  $N = \max\{N_1, N_2\}$ とおく。$n > N$ ならば、
-  $$
-    \left|\frac{1}{b_n} - \frac{1}{b}\right| = \frac{|b - b_n|}{|b_n||b|} < \frac{|b-b_n|}{(|b|/2)|b|} = \frac{2|b-b_n|}{|b|^2} < \frac{2}{|b|^2} \cdot \frac{|b|^2 \varepsilon}{2} = \varepsilon.
-  $$
-  これで $\displaystyle \lim_{n\to\infty} \frac{1}{b_n} = \frac{1}{b}$ が示された。あとは(2)の積の極限の結果を用いれば、$\displaystyle \lim_{n\to\infty} \frac{a_n}{b_n} = \lim_{n\to\infty} a_n \cdot \frac{1}{b_n} = a \cdot \frac{1}{b} = \frac{a}{b}$ を得る。</p>
-  <div class="qed">■</div>
-</div>
+    <h3>2.3 証明を理解する 2 つのアプローチ</h3>
+    <div class="example">
+      <ol>
+        <li><strong>慣れで覚える</strong>  
+          <ul>
+            <li>メリット：アイデアが浮かびやすい／書くスピードが速い</li>
+            <li>デメリット：身に付くまで時間がかかる</li>
+          </ul>
+        </li>
+        <li><strong>ルールを体系的に理解する</strong>
+          <ul>
+            <li>メリット：常に正しい証明が書ける／習得が比較的短期</li>
+            <li>デメリット：最初は機械的で退屈に感じることがある</li>
+          </ul>
+        </li>
+      </ol>
+    </div>
 
-<h2>4. 単調数列と収束</h2>
-<div class="definition">
-  <strong>定義 (単調列)</strong><br>
-  <ul>
-    <li>すべての $n \in \mathbb{N}$ で $a_n \le a_{n+1}$ が成り立つとき、数列 $\{a_n\}$ は<strong>単調増加</strong>であるという。</li>
-    <li>すべての $n \in \mathbb{N}$ で $a_n \ge a_{n+1}$ が成り立つとき、数列 $\{a_n\}$ は<strong>単調減少</strong>であるという。</li>
-  </ul>
-  単調増加または単調減少の数列を<strong>単調列</strong>という。
-</div>
+    <!-- 補題（単調増加列の準備） -->
+    <div class="theorem">
+      <strong>補題：</strong>$A\subset\mathbb R$ とし，
+      $a:=\sup A$ とする。任意の $\varepsilon>0$ について
+      $a-\varepsilon<a$ となる元 $x\in A$ が存在する。
+    </div>
 
-<div class="theorem">
-  <strong>定理 (有界単調列の収束)</strong><br>
-  上に有界な単調増加数列は収束し、その極限値は上限 (sup) に等しい。
-</div>
-<div class="proof">
-  数列 $\{a_n\}$ は単調増加で、集合 $A = \{a_n \mid n \in \mathbb{N}\}$ は上に有界であるとする。
-  実数の連続性（ワイエルシュトラスの上限公理）により、上限 $\alpha = \sup A$ が存在する。この $\alpha$ が極限値であることを示す。
-  
-  任意の $\varepsilon > 0$ をとる。上限の定義より、$\alpha - \varepsilon$ は $A$ の上界ではない。
-  したがって、$\alpha - \varepsilon < a_N$ を満たすような項 $a_N$ が存在する。
-  
-  $\{a_n\}$ は単調増加なので、$n > N$ である任意の $n$ に対して $a_N \le a_n$ が成り立つ。
-  また、$\alpha$ は上界なので、すべての $n$ に対して $a_n \le \alpha$ である。
-  
-  以上をまとめると、$n > N$ なるすべての $n$ に対して
-  $$
-    \alpha - \varepsilon < a_N \le a_n \le \alpha < \alpha + \varepsilon
-  $$
-  が成り立つ。これは $|a_n - \alpha| < \varepsilon$ を意味する。
-  よって、$\displaystyle \lim_{n\to\infty} a_n = \alpha = \sup A$ が示された。
-  <div class="qed">■</div>
-</div>
+    <!-- すでにあった定理（単調増加＋上界） -->
+    <div class="theorem">
+      定理：$a_n$ が単調増加で、集合 $A := \{a_n \mid n \in \mathbb{N}\}$ が上に有界ならば、$a_n \to \sup(A)$ となる。
+    </div>
+    <div class="proof">
+      $a := \sup(A)$ とおく。任意の $\varepsilon > 0$ を取る。補題より $a - \varepsilon < x$ となる $x \in A$ が存在する。$x = a_N$ とすれば、$n > N$ なら
+      $a - \varepsilon < a_N \le a_n \le a$。
+      よって $|a_n - a| < \varepsilon$ が成り立ち、$a_n \to a$。
+      <div class="qed">■</div>
+    </div>
 
-<h2>5. 部分列とボルツァーノ・ワイエルシュトラスの定理</h2>
-<div class="definition">
-  <strong>定義 (部分列)</strong><br>
-  自然数の狭義単調増加列 $n_1 < n_2 < n_3 < \dots$ を考える。このとき、数列 $\{a_{n_k}\}_{k=1}^\infty$ を、元の数列 $\{a_n\}$ の<strong>部分列</strong>という。
-</div>
+    <!-- 3. 基本性質 -->
+    <h2>3. 基本性質</h2>
+    <div class="theorem">
+      数列 $a_n \to a$，$b_n \to b$ とする。次が成り立つ。
+      <ol>
+        <li>$a_n + b_n \to a + b$</li>
+        <li>$a_n b_n \to ab$</li>
+        <li>$b \neq 0$ ならば $\displaystyle \frac{a_n}{b_n} \to \frac{a}{b}$</li>
+      </ol>
+    </div>
 
-<div class="example">
-  $a_n = (-1)^n$ とする。
-  <ul>
-    <li>$n_k = 2k$ ととると、部分列 $\{a_{2k}\} = \{(-1)^{2k}\} = \{1, 1, 1, \dots\}$ を得る。これは 1 に収束する。</li>
-    <li>$n_k = 2k-1$ ととると、部分列 $\{a_{2k-1}\} = \{(-1)^{2k-1}\} = \{-1, -1, -1, \dots\}$ を得る。これは -1 に収束する。</li>
-  </ul>
-</div>
+    <div class="proof">
+      <p><strong>(1) 和の極限</strong></p>
+      <p>　$\varepsilon > 0$ とする。$a_n \to a$ より
+        $\exists N_1$ s.t. $n > N_1 \Rightarrow |a_n - a| < \varepsilon/2$，
+        同様に $\exists N_2$ s.t. $n > N_2 \Rightarrow |b_n - b| < \varepsilon/2$。
+        $N := \max\{N_1, N_2\}$ とすれば</p>
+      <p>
+        $$
+          |(a_n + b_n) - (a + b)|
+          \le |a_n - a| + |b_n - b| < \varepsilon.
+        $$
+      </p>
 
-<div class="theorem">
-  数列 $\{a_n\}$ が $a$ に収束するならば、その任意の部分列 $\{a_{n_k}\}$ も同じ極限値 $a$ に収束する。
-</div>
-<div class="proof">
-  $a_n \to a$ とする。任意の $\varepsilon > 0$ に対し、ある $N$ が存在して $n > N \implies |a_n - a| < \varepsilon$ となる。
-  部分列 $\{a_{n_k}\}$ を考える。$n_k$ は $k$ について狭義単調増加するので、$k \to \infty$ のとき $n_k \to \infty$ である。
-  よって、上記の $N$ に対して、十分大きな $K$ をとれば、$k > K \implies n_k > N$ とできる。
-  したがって、$k > K$ ならば $|a_{n_k} - a| < \varepsilon$ が成り立つ。これは $\{a_{n_k}\}$ が $a$ に収束することを意味する。
-  <div class="qed">■</div>
-</div>
+      <p><strong>(2) 積の極限</strong></p>
+      <p>　$\varepsilon > 0$ とする。まず $a_n \to a$ から
+        $|a_n| \le |a| + 1$ を保証する $N_1$ を取る
+        （$n > N_1$ で成立）。また (1) と同様に
+        $|a_n - a| < \delta$，$|b_n - b| < \delta$
+        となる $N_2$ を取る。ここで
+        $$
+          |a_n b_n - ab|
+          \le |a_n|\,|b_n - b| + |b|\,|a_n - a|.
+        $$
+        $|a_n| \le |a| + 1$ を用いて
+        $$
+          |a_n b_n - ab|
+          \le (|a| + 1)\delta + |b|\delta
+          = (|a| + |b| + 1)\,\delta.
+        $$
+        $\delta = \varepsilon / (|a| + |b| + 1)$ と選べば
+        $|a_n b_n - ab| < \varepsilon$。
+        $N := \max\{N_1, N_2\}$ で結論。</p>
 
-<p>この定理の対偶をとると、収束しないことの判定に使える強力なツールが得られる。</p>
-<div class="theorem">
-  <strong>系 (収束しないことの判定法)</strong><br>
-  数列 $\{a_n\}$ が、異なる極限値に収束する2つの部分列を持つならば、$\{a_n\}$ は収束しない。
-</div>
+      <p><strong>(3) 商の極限</strong></p>
+      <p>　$|b| > 0$ なので $\exists c > 0$ s.t. $|b| \ge c$。
+        $b_n \to b$ だから $|b_n - b| < c/2$ となる
+        $N_1$ を取る。すると $|b_n| \ge c/2$。
+        以降 (2) と同様に
+        $$
+          \Bigl|\frac{a_n}{b_n} - \frac{a}{b}\Bigr|
+          = \Bigl|\frac{a_n b - a b_n}{b_n b}\Bigr|
+          \le \frac{|b|\,|a_n - a| + |a|\,|b_n - b|}
+                 {|b_n b|}
+          \le \frac{2}{c^2}\bigl(|b|\,|a_n - a| + |a|\,|b_n - b|\bigr).
+        $$
+        右辺を $<\varepsilon$ にする $N$ を同様に取ればよい。</p>
 
-<div class="example">
-  <strong>例：$\{ (-1)^n \}$ が収束しないことの証明</strong><br>
-  先に見たように、$\{ (-1)^n \}$ は部分列として $\{1, 1, \dots\}$ と $\{-1, -1, \dots\}$ を持つ。
-  前者は $1$ に、後者は $-1$ に収束する。
-  異なる極限値を持つ部分列が存在するので、元の数列 $\{ (-1)^n \}$ は収束しない。
-</div>
+      <p class="qed">■</p>
+    </div>
 
-<div class="theorem">
-  <strong>定理 (Bolzano–Weierstrass)</strong><br>
-  有界な数列は、必ず収束する部分列を持つ。
-</div>
-<div class="proof">
-  数列 $\{x_n\}$ は有界であるとする。証明のために「峰」という概念を導入する。
-  <p><strong>峰 (peak):</strong> 項 $x_p$ が峰であるとは、その項より先にあるすべての項がそれより小さいか等しいこと、すなわち $\forall k > p, x_k \le x_p$ が成り立つことをいう。</p>
-  峰であるような添え字 $p$ の集合を $P$ とする。
-  <ul>
-    <li><strong>Case 1: $P$ が無限集合の場合</strong><br>
-    $P$ の元を小さい順に $p_1 < p_2 < p_3 < \dots$ とする。峰の定義から、$x_{p_1} \ge x_{p_2} \ge x_{p_3} \ge \dots$ となる。
-    したがって、部分列 $\{x_{p_k}\}$ は単調減少である。$\{x_n\}$ は有界なので、この部分列も有界である。
-    有界な単調減少列は収束するので、この場合は収束部分列が見つかった。</li>
-    <li><strong>Case 2: $P$ が有限集合の場合</strong><br>
-    $P$ が空集合であるか、有限集合であるとする。$N_0 = \max P$ とする（$P$が空なら $N_0=0$ とする）。
-    $n_1 > N_0$ なる任意の $n_1$ をとる。$n_1 \notin P$ なので、$n_1$ は峰ではない。
-    したがって、ある $n_2 > n_1$ が存在して $x_{n_2} > x_{n_1}$ となる。
-    $n_2 > N_0$ なので $n_2$ も峰ではない。よって、ある $n_3 > n_2$ が存在して $x_{n_3} > x_{n_2}$ となる。
-    この操作を繰り返すことで、狭義単調増加な部分列 $x_{n_1} < x_{n_2} < x_{n_3} < \dots$ を構成できる。
-    この部分列は単調増加であり、元の列が有界なので、この部分列も有界である。
-    したがって、この場合も収束部分列が存在する。</li>
-  </ul>
-  どちらのケースでも収束部分列の存在が示された。
-  <div class="qed">■</div>
-</div>
+    <!-- 4. 部分列 -->
+    <h2>4. 部分列</h2>
+    <div class="definition">
+      自然数列 $n_1 < n_2 < n_3 < \dots$ に対し $\{a_{n_k}\}$ を $\{a_n\}$ の<strong>部分列</strong>という。
+    </div>
 
+    <div class="example">
+      <p><strong>例 1</strong>　$a_n = (-1)^n$，$n_k = 2k - 1$ とすると
+        $b_k := a_{n_k} = -1$ （定数列）。</p>
+      <p><strong>例 2</strong>　同じく $a_n = (-1)^n$，$n_k = 2k$ とすると
+        $b_k := a_{n_k} = 1$。</p>
+    </div>
 
-<h2>6. 演習問題</h2>
-<div class="exercise">
-  <ol>
-    <li>$a_n = \dfrac{1}{n}$ が 0 に収束することを ε–N 論法で示せ。</li>
-    <li>$a_n = \dfrac{(-1)^n}{n}$ の収束先を調べ，証明せよ。</li>
-    <li>命題「非有界な数列は、収束する部分列を持たない」は正しいか？理由とともに述べよ。</li>
-    <li>有界でありながら収束しない数列の例を1つ挙げ、それが収束しない理由を述べよ。</li>
-  </ol>
-</div>
+    <div class="theorem">
+      収束列の任意の部分列は同じ極限に収束する。
+    </div>
+    <div class="proof">
+      $a_n \to a$ とし，部分列 $a_{n_k}$ を取る。
+      $\varepsilon > 0$ に対し $\exists N$ such that
+      $n > N \Rightarrow |a_n - a| < \varepsilon$。
+      $n_k > N$ なら同不等式がそのまま成り立つので
+      $a_{n_k} \to a$。<span class="qed">■</span>
+    </div>
 
-<h2>7. 演習問題の解答</h2>
-<div class="solution">
-  <p><strong>1. $a_n = \dfrac{1}{n} \to 0$ の証明</strong></p>
-  <p>示すべきこと：$\forall \varepsilon > 0, \exists N \in \mathbb{N} \text{ s.t. } n > N \implies \left|\dfrac{1}{n} - 0\right| < \varepsilon$.</p>
-  <p>任意の $\varepsilon > 0$ をとる。
-  $\left|\dfrac{1}{n} - 0\right| = \dfrac{1}{n}$ なので、示すべきは $\dfrac{1}{n} < \varepsilon$ である。
-  この不等式は $n > \dfrac{1}{\varepsilon}$ と同値である。
-  アルキメデスの原理より、$\dfrac{1}{\varepsilon}$ を上回る自然数 $N$ が存在する。
-  この $N$ をとると、$n > N$ である任意の自然数 $n$ に対して、
-  $$n > N > \frac{1}{\varepsilon}$$
-  となり、$\dfrac{1}{n} < \varepsilon$ が成り立つ。
-  よって、$\left|\dfrac{1}{n} - 0\right| < \varepsilon$ が示された。
-  <span class="qed">■</span></p>
-  
-  <p><strong>2. $a_n = \dfrac{(-1)^n}{n}$ の収束先と証明</strong></p>
-  <p><strong>収束先：</strong> 0</p>
-  <p><strong>証明：</strong>
-  示すべきこと：$\forall \varepsilon > 0, \exists N \in \mathbb{N} \text{ s.t. } n > N \implies \left|\dfrac{(-1)^n}{n} - 0\right| < \varepsilon$.</p>
-  <p>任意の $\varepsilon > 0$ をとる。
-  $$\left|\frac{(-1)^n}{n} - 0\right| = \left|\frac{(-1)^n}{n}\right| = \frac{1}{n}$$
-  よって、示すべきことは $\dfrac{1}{n} < \varepsilon$ である。
-  これは問題1と全く同じであり、アルキメデスの原理から $\dfrac{1}{\varepsilon}$ を上回る自然数 $N$ をとれば、$n > N$ なるすべての $n$ について $\dfrac{1}{n} < \varepsilon$ が成立する。
-  ゆえに $\displaystyle \lim_{n\to\infty} \frac{(-1)^n}{n} = 0$ である。
-  <span class="qed">■</span></p>
-  
-  <p><strong>3. 「非有界な数列は、収束する部分列を持たない」は正しいか？</strong></p>
-  <p><strong>解答：</strong>正しくない。</p>
-  <p><strong>理由（反例）：</strong>
-  次のような数列 $\{a_n\}$ を考える。
-  $$ a_n =
-  \begin{cases}
-    n & (n \text{ が奇数のとき}) \\
-    0 & (n \text{ が偶数のとき})
-  \end{cases}
-  $$
-  すなわち、$\{1, 0, 3, 0, 5, 0, 7, \dots\}$ という数列である。
-  奇数の項は $1, 3, 5, \dots$ と無限に大きくなるため、この数列 $\{a_n\}$ は非有界である。
-  しかし、$n_k = 2k$ とおけば、偶数番目の項だけを取り出した部分列 $\{a_{2k}\}$ を作ることができる。
-  この部分列は $\{0, 0, 0, \dots\}$ であり、明らかに 0 に収束する。
-  したがって、「非有界な数列」が「収束する部分列」を持つ例が存在するため、この命題は偽である。
-  <span class="qed">■</span></p>
-  
-  <p><strong>4. 有界非収束列の例</strong></p>
-  <p><strong>例：</strong> $a_n = (-1)^n$</p>
-  <p><strong>理由：</strong>
-  まず、すべての $n$ に対して $|a_n| = |(-1)^n| = 1$ なので、この数列は $-1$ と $1$ の間にあり、有界である。
-  次に、この数列が収束しないことを示す。講義で示したように、この数列は異なる極限値を持つ２つの収束部分列を持つ。
-  <ul>
-    <li>$n_k = 2k$ （偶数番目）とすると、部分列 $\{a_{2k}\} = \{1, 1, 1, \dots\}$ は $1$ に収束する。</li>
-    <li>$n_k = 2k-1$ （奇数番目）とすると、部分列 $\{a_{2k-1}\} = \{-1, -1, -1, \dots\}$ は $-1$ に収束する。</li>
-  </ul>
-  もし元の数列 $\{a_n\}$ がある値 $\alpha$ に収束すると仮定すれば、そのすべての部分列も同じ値 $\alpha$ に収束するはずである。しかし、この数列は $1$ と $-1$ という異なる値に収束する部分列を持つため、矛盾する。
-  したがって、数列 $\{(-1)^n\}$ は収束しない。
-  <span class="qed">■</span></p>
-</div>
+    <div class="theorem">
+      (収束の必要条件)　もし $a_n \to a$ が成り立たないならば，互いに異なる 2 つの部分列が異なる極限を持つ。
+    </div>
+    <div class="proof">
+      $a_n$ が収束しないと仮定する。すると
+      $$
+        \exists \varepsilon_0 > 0,\;
+        \forall N,\,
+        \exists m,n > N : |a_m - a_n| \ge \varepsilon_0.
+      $$
+      $a_n$ を 2 つの開球 $B(a,\varepsilon_0/2)$ とその補集合に分けて取り出すことで
+      2 つの部分列が得られ，それぞれの極限が異なることが示せる。
+      <span class="qed">■</span>
+    </div>
 
-</div>
+    <!-- 5. 収束しない例 -->
+    <h3>例：$(-1)^n$ は収束しない</h3>
+    <div class="proof">
+      背理法による。$\{(-1)^n\}$ が $a$ に収束すると仮定する。
+      $\varepsilon = 1/2$ を取ると
+      $\exists N$ such that $n > N \Rightarrow |(-1)^n - a| < 1/2$。
+      <p>しかし $n = 2N$ と $n = 2N + 1$ を比較すると</p>
+      $$
+        |1 - a| < 1/2, \qquad |-1 - a| < 1/2.
+      $$
+      両不等式を足すと $2 < 1$ で矛盾。ゆえに収束しない。
+      <span class="qed">■</span>
+    </div>
+
+    <!-- 6. Bolzano–Weierstrass -->
+    <h2>5. Bolzano–Weierstrass (有界列の部分列収束)</h2>
+    <div class="theorem">
+      有界列 $\{x_n\}$ は収束部分列を持つ。
+    </div>
+
+    <div class="proof">
+      $\{x_n\}$ が区間 $[m, M]$ に含まれるとする。
+      <p><strong>峰点 (peak) の集合</strong>を定義：</p>
+      $$
+        P := \{n \in \mathbb N : x_k \le x_n \; (\forall k > n)\}.
+      $$
+      <p>場合分け：</p>
+      <ul>
+        <li><strong>Case&nbsp;1&nbsp;:&nbsp;$P$ が無限</strong><br>
+          $P$ の元を昇順に並べた部分列
+          $n_1 < n_2 < \dots$ では $x_{n_k}$ が単調<strong>減少</strong>。
+          有界単調列なので収束する。</li>
+        <li><strong>Case&nbsp;2&nbsp;:&nbsp;$P$ が有限</strong><br>
+          $n_0 := \max P$ とする。$n > n_0$ なら $n \notin P$
+          なので $\exists k > n$ with $x_k > x_n$。
+          帰納的に
+          $$
+            n_0 < n_1 < n_2 < \dots,\quad
+            x_{n_1} < x_{n_2} < \dots
+          $$
+          を構成できる。こうして得た部分列は単調<strong>増加</strong>で有界，
+          ゆえに収束する。</li>
+      </ul>
+      どちらの場合も収束部分列が存在することが分かる。
+      <span class="qed">■</span>
+    </div>
+
+    <!-- 7. 演習 -->
+    <h2>6. 演習</h2>
+    <div class="exercise">
+      <ol>
+        <li>$a_n = \dfrac{1}{n}$ が 0 に収束することを ε–N 法で示せ。</li>
+        <li>$a_n = \dfrac{(-1)^n}{n}$ の収束先を調べ，証明せよ。</li>
+        <li>命題「非有界列には収束部分列が存在しない」は正しいか？理由を述べよ。</li>
+        <li>有界非収束列の具体例を 1 つ挙げ，収束しないことを示せ。</li>
+      </ol>
+    </div>
+
+  </div><!-- /.container -->
 </body>
 </html>
