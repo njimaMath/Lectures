@@ -1,378 +1,338 @@
+
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>第12回：陰関数定理</title>
-    <style>
-        :root {
-            --primary-color: #2c3e50;
-            --secondary-color: #3498db;
-            --accent-color: #e74c3c;
-            --background-color: #f9f9f9;
-            --text-color: #333;
-            --container-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
-            --text-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
-        }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>第12回：陰関数定理</title>
+<style>
+:root {
+--primary-color: #2c3e50;
+--secondary-color: #3498db;
+--accent-color: #e74c3c;
+--background-color: #f9f9f9;
+--text-color: #333;
+--container-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+--text-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+    body {
+        font-family: 'Georgia', serif;
+        line-height: 1.7;
+        margin: 0;
+        padding: 0;
+        background-color: var(--background-color);
+        color: var(--text-color);
+    }
 
-        body {
-            font-family: 'Georgia', serif;
-            line-height: 1.7;
-            margin: 0;
-            padding: 0;
-            background-color: var(--background-color);
-            color: var(--text-color);
-        }
+    .container {
+        max-width: 900px;
+        margin: 20px auto;
+        padding: 30px;
+        background-color: white;
+        box-shadow: var(--container-shadow);
+        border-radius: 15px;
+    }
 
-        .container {
-            max-width: 900px;
-            margin: 20px auto;
-            padding: 30px;
-            background-color: white;
-            box-shadow: var(--container-shadow);
-            border-radius: 15px;
-        }
+    header {
+        text-align: center;
+        margin-bottom: 40px;
+        border-bottom: 2px solid var(--secondary-color);
+        padding-bottom: 20px;
+    }
 
-        header {
-            text-align: center;
-            margin-bottom: 40px;
-            border-bottom: 2px solid var(--secondary-color);
-            padding-bottom: 20px;
-        }
+    h1, h2, h3 {
+        color: var(--primary-color);
+    }
 
-        h1, h2, h3 {
-            color: var(--primary-color);
-        }
+    .section-title {
+        color: var(--primary-color);
+        font-size: 1.8rem;
+        margin-top: 30px;
+        margin-bottom: 20px;
+        padding-bottom: 10px;
+        border-bottom: 1px solid #eee;
+        text-shadow: var(--text-shadow);
+    }
 
-        .section-title {
-            color: var(--primary-color);
-            font-size: 1.8rem;
-            margin-top: 30px;
-            margin-bottom: 20px;
-            padding-bottom: 10px;
-            border-bottom: 1px solid #eee;
-            text-shadow: var(--text-shadow);
-        }
+    .lecture-title {
+        color: var(--secondary-color);
+        font-size: 1.5rem;
+        margin-bottom: 15px;
+        font-weight: normal;
+    }
 
-        .lecture-title {
-            color: var(--secondary-color);
-            font-size: 1.5rem;
-            margin-bottom: 15px;
-            font-weight: normal;
-        }
+    .author-info {
+        font-style: italic;
+        color: #777;
+    }
 
-        .author-info {
-            font-style: italic;
-            color: #777;
-        }
+    .math {
+        font-style: italic;
+        padding: 0 3px;
+    }
 
-        .math {
-            font-style: italic;
-            padding: 0 3px;
-        }
+    .figure {
+        text-align: center;
+        margin: 30px 0;
+        padding: 20px;
+        background-color: #f8f9fa;
+        border-radius: 10px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+    }
 
-        .figure {
-            text-align: center;
-            margin: 30px 0;
-            padding: 20px;
-            background-color: #f8f9fa;
-            border-radius: 10px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
-        }
+    .figure img {
+        max-width: 100%;
+        border-radius: 5px;
+    }
 
-        .figure img {
-            max-width: 100%;
-            border-radius: 5px;
-        }
+    .figure-caption {
+        font-style: italic;
+        color: #777;
+        margin-top: 15px;
+    }
 
-        .figure-caption {
-            font-style: italic;
-            color: #777;
-            margin-top: 15px;
-        }
+    .navigation {
+        margin-top: 40px;
+        text-align: center;
+        display: flex;
+        justify-content: space-between;
+        padding: 15px 0;
+        border-top: 1px solid #eee;
+    }
 
-        .navigation {
-            margin-top: 40px;
-            text-align: center;
-            display: flex;
-            justify-content: space-between;
-            padding: 15px 0;
-            border-top: 1px solid #eee;
-        }
+    .navigation a {
+        display: inline-block;
+        padding: 10px 20px;
+        background-color: var(--primary-color);
+        color: white;
+        text-decoration: none;
+        border-radius: 8px;
+        transition: all 0.3s ease;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    }
 
-        .navigation a {
-            display: inline-block;
-            padding: 10px 20px;
-            background-color: var(--primary-color);
-            color: white;
-            text-decoration: none;
-            border-radius: 8px;
-            transition: all 0.3s ease;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-        }
+    .navigation a:hover {
+        background-color: var(--secondary-color);
+        transform: translateY(-2px);
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+    }
 
-        .navigation a:hover {
-            background-color: var(--secondary-color);
-            transform: translateY(-2px);
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
-        }
+    .topic-highlight {
+        display: inline-block;
+        background-color: rgba(52, 152, 219, 0.1);
+        padding: 2px 8px;
+        border-radius: 4px;
+        font-weight: 500;
+        color: var(--primary-color);
+    }
 
-        .topic-highlight {
-            display: inline-block;
-            background-color: rgba(52, 152, 219, 0.1);
-            padding: 2px 8px;
-            border-radius: 4px;
-            font-weight: 500;
-            color: var(--primary-color);
-        }
+    .formula {
+        margin: 25px 0;
+        padding: 15px;
+        background-color: #f8f9fa;
+        border-left: 4px solid var(--secondary-color);
+        border-radius: 5px;
+        overflow-x: auto;
+        font-size: 1.1em;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+    }
 
-        .formula {
-            margin: 25px 0;
-            padding: 15px;
-            background-color: #f8f9fa;
-            border-left: 4px solid var(--secondary-color);
-            border-radius: 5px;
-            overflow-x: auto;
-            font-size: 1.1em;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
-        }
+    .example-title {
+        font-weight: bold;
+        font-size: 1.2em;
+        color: var(--secondary-color);
+        margin-top: 30px;
+        margin-bottom: 15px;
+        padding-bottom: 5px;
+        border-bottom: 1px dashed #ccc;
+        display: inline-block;
+    }
 
-        .example-title {
-            font-weight: bold;
-            font-size: 1.2em;
-            color: var(--secondary-color);
-            margin-top: 30px;
-            margin-bottom: 15px;
-            padding-bottom: 5px;
-            border-bottom: 1px dashed #ccc;
-            display: inline-block;
-        }
+    p {
+        margin-bottom: 20px;
+        line-height: 1.8;
+    }
 
-        p {
-            margin-bottom: 20px;
-            line-height: 1.8;
-        }
+    .content-section {
+        padding-bottom: 30px;
+    }
+    
+    .footnote {
+        font-size: 0.9em;
+        color: #777;
+        margin-top: 5px;
+        border-top: 1px solid #eee;
+        padding-top: 10px;
+    }
+</style>
+<script>
+  window.MathJax = {
+    tex: {
+      inlineMath: [['$', '$']],
+      displayMath: [['$$', '$$']]
+    },
+    svg: {
+      fontCache: 'global'
+    }
+  };
+</script>
+<script src="[https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js](https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js)" async></script>
 
-        .content-section {
-            padding-bottom: 30px;
-        }
-        
-        .footnote {
-            font-size: 0.9em;
-            color: #777;
-            margin-top: 5px;
-            border-top: 1px solid #eee;
-            padding-top: 10px;
-        }
-    </style>
-    <!-- MathJax configuration -->
-    <script>
-      window.MathJax = {
-        tex: {
-          inlineMath: [['$', '$']],
-          displayMath: [['$$', '$$']]
-        },
-        svg: {
-          fontCache: 'global'
-        }
-      };
-    </script>
-    <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js" async></script>
 </head>
 <body>
-    <div class="container">
-        <header>
-            <h1>微分積分学I</h1>
-            <div class="lecture-title">工学部：電気・電子工学グループ4</div>
-            <div class="author-info">講義ノート</div>
-        </header>
+<div class="container">
+<header>
+<h1>微分積分学I</h1>
+<div class="lecture-title">工学部：電気・電子工学グループ4</div>
+<div class="author-info">講義ノート</div>
+</header>
+    <section id="class12" class="content-section">
+        <div class="section-title">第12回：陰関数定理</div>
+
+        <h2 class="section-title">1. 3変数関数の偏微分</h2>
+        <p>
+            3変数関数 $F(x, y, z)$ の偏微分は、特定の1つの変数以外を定数とみなして微分する操作である。
+        </p>
+        <p>
+            <b>定義:</b>
+            <ul>
+                <li>$x$ に関する偏導関数: $F_x(x, y, z) = \frac{\partial F}{\partial x} = \lim_{h \to 0} \frac{F(x+h, y, z) - F(x, y, z)}{h}$</li>
+                <li>$y$ に関する偏導関数: $F_y(x, y, z) = \frac{\partial F}{\partial y} = \lim_{h \to 0} \frac{F(x, y+h, z) - F(x, y, z)}{h}$</li>
+                <li>$z$ に関する偏導関数: $F_z(x, y, z) = \frac{\partial F}{\partial z} = \lim_{h \to 0} \frac{F(x, y, z+h) - F(x, y, z)}{h}$</li>
+            </ul>
+        </p>
         
-        <section id="class12" class="content-section">
-            <div class="section-title">第12回：陰関数微分と陰関数定理</div>
-
-            <p>多くの実用的な状況では、変数間の関係は明示的な関数ではなく、方程式によって陰的に与えられる。例えば、円の方程式 $x^2 + y^2 = r^2$ は、$y$ を $x$ の関数として陰的に定義するが、$y$ を明示的に解くと、$y = \pm\sqrt{r^2 - x^2}$ という二つの分枝が生じる。今回は、<span class="topic-highlight">陰関数微分</span>と強力な<span class="topic-highlight">陰関数定理</span>について探求し、これらの関係を体系的に分析する方法を学ぶ。</p>
-
-            <p>まずは一変数微積分学からの陰関数微分を思い出そう。曲線が方程式 $F(x,y) = 0$ によって定義される場合、$y$ を $x$ の関数として扱い、両辺を $x$ で微分することができる。連鎖律を使うと：</p>
-            
-            <div class="formula">
-                $$\frac{d}{dx}F(x,y) = 0 \Rightarrow \frac{\partial F}{\partial x} + \frac{\partial F}{\partial y}\frac{dy}{dx} = 0$$
-            </div>
-            
-            <p>$\frac{dy}{dx}$ について解くと、陰関数微分の基本公式が得られる：</p>
-            
-            <div class="formula">
-                $$\frac{dy}{dx} = -\frac{\frac{\partial F}{\partial x}}{\frac{\partial F}{\partial y}} = -\frac{F_x}{F_y}$$
-            </div>
-            
-            <p>この公式は、$F_y \neq 0$ となる任意の点において、曲線 $F(x,y) = 0$ に対する接線の傾きを与える。</p>
-
-            <div class="example-title">例12.1：円の方程式</div>
-            <div class="formula" style="background-color: #f0f7ff; border-left-color: #3498db;">
-                <p><strong>問題：</strong> 点 $(1, -2\sqrt{2})$ における円 $x^2 + y^2 = 9$ の $\frac{dy}{dx}$ を求めよ。</p>
-                
-                <p><strong>解答：</strong></p>
-                <p>$F(x,y) = x^2 + y^2 - 9 = 0$ とおく。偏導関数を計算する：</p>
-                <p>$F_x = \frac{\partial F}{\partial x} = 2x$</p>
-                <p>$F_y = \frac{\partial F}{\partial y} = 2y$</p>
-                
-                <p>陰関数微分の公式を使用すると：</p>
-                
-                $$\frac{dy}{dx} = -\frac{F_x}{F_y} = -\frac{2x}{2y} = -\frac{x}{y}$$
-                
-                <p>点 $(1, -2\sqrt{2})$ において：</p>
-                
-                $$\frac{dy}{dx} = -\frac{1}{-2\sqrt{2}} = \frac{1}{2\sqrt{2}} = \frac{\sqrt{2}}{4}$$
-                
-                <p>これが与えられた点における円の接線の傾きである。</p>
-            </div>
-
-            <p><span class="topic-highlight">陰関数定理</span>はこの考え方を一般化し、方程式 $F(x,y) = 0$ がどのような条件下で局所的に $y$ を $x$ の微分可能な関数として定義するかを与える。より正確には：</p>
-            
-            <div class="formula">
-                <p>点 $(a,b)$ を含む $\mathbb{R}^2$ の開集合上で連続的に微分可能な関数 $F(x,y)$ が、$F(a,b) = 0$ を満たすとする。もし $\frac{\partial F}{\partial y}(a,b) \neq 0$ ならば：</p>
-                <ol style="margin-bottom: 0;">
-                    <li>$a$ を含む開区間 $I$ と $b$ を含む開区間 $J$、および一意的な連続的に微分可能な関数 $g: I \rightarrow J$ が存在し、次を満たす：
-                        <ul>
-                            <li>$g(a) = b$</li>
-                            <li>すべての $x \in I$ に対して $F(x, g(x)) = 0$</li>
-                        </ul>
-                    </li>
-                    <li>$g$ の導関数は次で与えられる： $g'(x) = -\frac{F_x(x,g(x))}{F_y(x,g(x))}$</li>
-                </ol>
-            </div>
-            
-            <p>言い換えれば、$F_y(a,b) \neq 0$ ならば、点 $(a,b)$ の近傍において、方程式 $F(x,y) = 0$ は陰的に $y$ を $x$ の微分可能な関数として定義する。この関数の導関数は、先ほど導いた公式と同じものによって与えられる。</p>
-
-            <div class="figure">
-                <img src="https://via.placeholder.com/500x300" alt="陰関数の可視化">
-                <div class="figure-caption">図12.1：陰関数定理は、$F_y \neq 0$ となる点の近傍で、レベル曲線 $F(x,y) = 0$ が関数 $y = g(x)$ として表現できることを保証する。</div>
-            </div>
-
-            <p>幾何学的な直感は、$F_y(a,b) \neq 0$ のとき、レベル曲線 $F(x,y) = 0$ は点 $(a,b)$ において垂直な接線を持たないということである。これにより、局所的に $y$ を $x$ の関数として解くことができる。条件 $F_y(a,b) \neq 0$ は、$y$ に関する偏導関数がゼロでないことを意味し、$y$ を「分離」できることを保証する。</p>
-
-            <div class="example-title">例12.2：デカルトの葉</div>
-            <div class="formula" style="background-color: #f0f7ff; border-left-color: #3498db;">
-                <p><strong>問題：</strong> 方程式 $x^3 + y^3 = 3xy$ で与えられるデカルトの葉を考える。陰関数定理がどこに適用されるかを判定し、点 $(2,1)$ における $\frac{dy}{dx}$ を求めよ。</p>
-                
-                <p><strong>解答：</strong></p>
-                <p>$F(x,y) = x^3 + y^3 - 3xy = 0$ とおく。偏導関数は：</p>
-                <p>$F_x = 3x^2 - 3y$</p>
-                <p>$F_y = 3y^2 - 3x$</p>
-                
-                <p>陰関数定理は $F_y \neq 0$ となる点、つまり $3y^2 - 3x \neq 0$ または $y^2 \neq x$ となる点で適用される。そのような点では、$y$ は局所的に $x$ の関数として表現できる。</p>
-                
-                <p>点 $(2,1)$ では：</p>
-                <p>$F_y(2,1) = 3(1)^2 - 3(2) = 3 - 6 = -3 \neq 0$</p>
-                
-                <p>したがって、陰関数定理は点 $(2,1)$ で適用でき、次のように計算できる：</p>
-                
-                $$\frac{dy}{dx} = -\frac{F_x}{F_y} = -\frac{3x^2 - 3y}{3y^2 - 3x} = -\frac{x^2 - y}{y^2 - x}$$
-                
-                <p>点 $(2,1)$ では：</p>
-                
-                $$\frac{dy}{dx} = -\frac{2^2 - 1}{1^2 - 2} = -\frac{3}{-1} = 3$$
-                
-                <p>これは、点 $(2,1)$ におけるデカルトの葉の接線の傾きが3であることを示している。</p>
-            </div>
-
-            <p>陰関数定理は自然に高次元に拡張される。例えば、連続的に微分可能な関数 $F$ による方程式 $F(x,y,z) = 0$ があり、$F(a,b,c) = 0$ を満たす点 $(a,b,c)$ において $F_z(a,b,c) \neq 0$ ならば、この点の近傍で $z$ は $x$ と $y$ の関数として表現できる：$z = g(x,y)$。$g$ の偏導関数は次で与えられる：</p>
-            
-            <div class="formula">
-                $$\frac{\partial z}{\partial x} = -\frac{F_x}{F_z}, \quad \frac{\partial z}{\partial y} = -\frac{F_y}{F_z}$$
-            </div>
-            
-            <p>この高次元版は、複数の変数が制約方程式によって関連付けられている多くの工学的応用で特に有用である。</p>
-
-            <div class="example-title">例12.3：3D曲面</div>
-            <div class="formula" style="background-color: #f0f7ff; border-left-color: #3498db;">
-                <p><strong>問題：</strong> 原点を中心とする半径4の球を定義する方程式 $F(x,y,z) = x^2 + y^2 + z^2 - 16 = 0$ を考える。点 $(3,2,3)$ における $\frac{\partial z}{\partial x}$ と $\frac{\partial z}{\partial y}$ を計算せよ。</p>
-                
-                <p><strong>解答：</strong></p>
-                <p>まず、この点が球上にあるかを確認する：</p>
-                <p>$3^2 + 2^2 + 3^2 = 9 + 4 + 9 = 22 \neq 16$</p>
-                <p>この点は球上にない。代わりに、球上にある点 $(3,2,\sqrt{7})$ を使用しよう。</p>
-                
-                <p>偏導関数を計算する：</p>
-                <p>$F_x = 2x$</p>
-                <p>$F_y = 2y$</p>
-                <p>$F_z = 2z$</p>
-                
-                <p>$z \neq 0$ となる任意の点で、陰関数定理が適用される。点 $(3,2,\sqrt{7})$ では：</p>
-                <p>$F_z(3,2,\sqrt{7}) = 2\sqrt{7} \neq 0$</p>
-                
-                <p>したがって：</p>
-                
-                $$\frac{\partial z}{\partial x} = -\frac{F_x}{F_z} = -\frac{2x}{2z} = -\frac{x}{z} = -\frac{3}{\sqrt{7}}$$
-                
-                $$\frac{\partial z}{\partial y} = -\frac{F_y}{F_z} = -\frac{2y}{2z} = -\frac{y}{z} = -\frac{2}{\sqrt{7}}$$
-                
-                <p>これらの導関数は、球上にとどまりながら、$x$ と $y$ の小さな変化に対して $z$ が局所的にどのように変化するかを示している。</p>
-            </div>
-
-            <p>陰関数定理には多くの重要な応用がある：</p>
-            
-            <div class="figure" style="background-color: #eefaf8; border-left: 4px solid #2ecc71; text-align: left;">
-                <h3 style="margin-top: 0;">陰関数定理の応用</h3>
-                <ul style="padding-left: 20px;">
-                    <li><strong>幾何学：</strong> 一つの変数を明示的に解かずに、レベル集合、曲面、曲線を分析すること。</li>
-                    <li><strong>制約付き最適化：</strong> ラグランジュ乗数法は陰関数に依存している。</li>
-                    <li><strong>微分方程式：</strong> 特定のタイプの方程式の解の存在と一意性を証明すること。</li>
-                    <li><strong>経済学：</strong> 経済モデルにおける均衡条件と比較静学を分析すること。</li>
-                    <li><strong>工学設計：</strong> 設計パラメータの変更がパフォーマンスメトリクスにどのように影響するかを理解すること。</li>
-                </ul>
-            </div>
-
-            <div class="example-title">例12.4：経済学への応用</div>
-            <div class="formula" style="background-color: #f0f7ff; border-left-color: #3498db;">
-                <p><strong>問題：</strong> 経済学では、コブ＝ダグラス生産関数 $F(K,L) = AK^{\alpha}L^{1-\alpha}$ が出力を資本 ($K$) と労働 ($L$) に関連付ける。市場均衡では、労働の限界生産物が賃金率 $w$ に等しくなることが要求される：$\frac{\partial F}{\partial L} = w$。$L$ を $K$ と $w$ の関数として陰的に表現し、均衡における $\frac{dL}{dK}$ を求めよ。</p>
-                
-                <p><strong>解答：</strong></p>
-                <p>労働の限界生産物は：</p>
-                
-                $$\frac{\partial F}{\partial L} = (1-\alpha)AK^{\alpha}L^{-\alpha}$$
-                
-                <p>均衡条件 $\frac{\partial F}{\partial L} = w$ より：</p>
-                
-                $$G(K,L,w) = (1-\alpha)AK^{\alpha}L^{-\alpha} - w = 0$$
-                
-                <p>この方程式は $L$ を $K$ と $w$ の関数として陰的に定義する。偏導関数を計算する：</p>
-                
-                $$G_K = \alpha(1-\alpha)AK^{\alpha-1}L^{-\alpha}$$
-                $$G_L = -\alpha(1-\alpha)AK^{\alpha}L^{-\alpha-1}$$
-                
-                <p>陰関数定理より（$G_L \neq 0$ と仮定）：</p>
-                
-                $$\frac{dL}{dK} = -\frac{G_K}{G_L} = -\frac{\alpha(1-\alpha)AK^{\alpha-1}L^{-\alpha}}{-\alpha(1-\alpha)AK^{\alpha}L^{-\alpha-1}} = \frac{L}{K}$$
-                
-                <p>これは均衡において、同じ賃金率を維持しながら、労働の変化率が資本の変化率に等しいことを示している。これは経済成長理論における重要な結果である。</p>
-            </div>
-
-            <p>陰関数定理にはいくつかの制限があることに注意することが重要である：</p>
-            <ol>
-                <li>局所的な解決可能性のみを保証する。関数 $g$ は、関心のある点の周りの小さな区間でのみ定義されるかもしれない。</li>
-                <li>条件 $F_y \neq 0$ は必要である。$F_y = 0$ となる点（曲線の場合、垂直な接線に対応）では、定理は適用されない。</li>
-                <li>定理は存在と微分可能性を提供するが、関数 $g$ の明示的な公式を常に提供するわけではない。実際には、$g$ を解かずに導関数を直接扱うことが多い。</li>
-            </ol>
-
-            <p>要約すると、<span class="topic-highlight">陰関数微分</span>と<span class="topic-highlight">陰関数定理</span>は、明示的な関数ではなく方程式によって与えられる変数間の関係を分析するための強力なツールを提供する。重要な洞察は、適切な条件（従属変数に関する偏導関数がゼロでない）の下で、ある変数を他の変数の関数として局所的に扱い、関数を明示的に解かずにその導関数を計算できるということである。</p>
-            
-            <div class="figure" style="background-color: #eefaf8; border-left: 4px solid #2ecc71; text-align: left;">
-                <h3 style="margin-top: 0;">陰関数微分に関する重要な洞察</h3>
-                <ul style="padding-left: 20px;">
-                    <li>陰関数微分により、一つの変数を明示的に解かずに導関数を求めることができる。</li>
-                    <li>公式 $\frac{dy}{dx} = -\frac{F_x}{F_y}$ は $F_y \neq 0$ のときに機能する。</li>
-                    <li>陰関数定理は、陰的な方程式を満たす局所的な関数の存在を保証する。</li>
-                    <li>高次元では、類似の公式が適用される：$\frac{\partial z}{\partial x} = -\frac{F_x}{F_z}$、$\frac{\partial z}{\partial y} = -\frac{F_y}{F_z}$。</li>
-                    <li>これらの技術は、数学、物理学、工学、経済学における複雑な関係の分析に不可欠である。</li>
-                </ul>
-            </div>
-        </section>
-
-        <div class="navigation">
-            <a href="class11.html">← 前回：第11回</a>
-            <a href="../index.html">ホーム</a>
-            <a href="class13.html">次回：第13回 →</a>
+        <div class="example-title">演習問題</div>
+        <p><b>問1.</b> $F(x, y, z) = x^2y^3 + z^4$ の偏導関数を求めよ。</p>
+        <div class="formula">
+            $F_x = 2xy^3$ <br>
+            $F_y = 3x^2y^2$ <br>
+            $F_z = 4z^3$
         </div>
+        <p><b>問2.</b> $F(x, y, z) = \sin(xy) + \cos(z)$ の偏導関数を求めよ。</p>
+        <div class="formula">
+            $F_x = y\cos(xy)$ <br>
+            $F_y = x\cos(xy)$ <br>
+            $F_z = -\sin(z)$
+        </div>
+        <p><b>問3.</b> $F(x, y, z) = e^{x+2y} \ln(z)$ の偏導関数を求めよ。</p>
+        <div class="formula">
+            $F_x = e^{x+2y} \ln(z)$ <br>
+            $F_y = 2e^{x+2y} \ln(z)$ <br>
+            $F_z = \frac{e^{x+2y}}{z}$
+        </div>
+        
+        <hr style="margin: 40px 0;">
+
+        <h2 class="section-title">2. 陰関数</h2>
+        <p>
+            方程式 $F(x, y, z) = 0$ によって、3つの変数のうちの1つが他の2つの変数の関数として定められることがある。例えば、$z$ が $x$ と $y$ の関数 $z = \phi(x, y)$ として表される場合、この $\phi$ を <span class="topic-highlight">陰関数</span> (implicit function) と呼ぶ。
+        </p>
+        <p>
+            これは、方程式 $F(x, y, \phi(x, y)) = 0$ が恒等的に成り立つことを意味する。すべての関数が陽な形 $z = ...$ で簡単に表せるわけではないため、陰関数の考え方は非常に重要である。
+        </p>
+
+        <div class="example-title">演習問題</div>
+        <p><b>問1.</b> $F(x, y, z) = x^2 + y^2 + z^2 - 1 = 0$ から $z$ を $x, y$ の陽関数で表せ。($z \ge 0$ の場合)</p>
+        <div class="formula">
+            $z = \sqrt{1 - x^2 - y^2}$
+        </div>
+        <p><b>問2.</b> $F(x, y, z) = x + y + z - 5 = 0$ から $z$ を $x, y$ の陽関数で表せ。</p>
+        <div class="formula">
+            $z = 5 - x - y$
+        </div>
+        <p><b>問3.</b> $F(x, y, z) = \frac{x^2}{4} + \frac{y^2}{9} - z = 0$ から $z$ を $x, y$ の陽関数で表せ。</p>
+        <div class="formula">
+            $z = \frac{x^2}{4} + \frac{y^2}{9}$
+        </div>
+
+        <hr style="margin: 40px 0;">
+
+        <h2 class="section-title">3. 陰関数定理</h2>
+        <p>
+            方程式 $F(x, y, z) = 0$ で定義される陰関数 $z = \phi(x, y)$ の偏導関数を、元の関数 $F$ の偏導関数を使って直接計算することができる。これが <span class="topic-highlight">陰関数定理</span> である。
+        </p>
+        <p>
+            <b>定理:</b>
+            点 $(a, b, c)$ の近傍で $F(x, y, z)$ が連続な偏導関数を持ち、$F(a, b, c)=0$ かつ $F_z(a, b, c) \neq 0$ ならば、$F(x, y, z)=0$ は点 $(a, b)$ の近傍で陰関数 $z = \phi(x, y)$ を一意に定める。このとき、$\phi$ の偏導関数は次式で与えられる。
+        </p>
+        <div class="formula">
+            $$\frac{\partial z}{\partial x} = -\frac{F_x(x, y, z)}{F_z(x, y, z)} \quad , \quad \frac{\partial z}{\partial y} = -\frac{F_y(x, y, z)}{F_z(x, y, z)}$$
+        </div>
+
+        <div class="example-title">演習問題</div>
+        <p><b>問1.</b> $F(x, y, z) = x^2 + y^2 + z^2 - 1 = 0$ で定まる陰関数 $z=\phi(x,y)$ の $\frac{\partial z}{\partial x}, \frac{\partial z}{\partial y}$ を求めよ。</p>
+        <div class="formula">
+            $F_x = 2x, \quad F_y = 2y, \quad F_z = 2z$ <br>
+            $\frac{\partial z}{\partial x} = -\frac{2x}{2z} = -\frac{x}{z}$ <br>
+            $\frac{\partial z}{\partial y} = -\frac{2y}{2z} = -\frac{y}{z}$
+        </div>
+        <p><b>問2.</b> $F(x, y, z) = xyz - 1 = 0$ で定まる陰関数 $z=\phi(x,y)$ の $\frac{\partial z}{\partial x}, \frac{\partial z}{\partial y}$ を求めよ。</p>
+        <div class="formula">
+            $F_x = yz, \quad F_y = xz, \quad F_z = xy$ <br>
+            $\frac{\partial z}{\partial x} = -\frac{yz}{xy} = -\frac{z}{x}$ <br>
+            $\frac{\partial z}{\partial y} = -\frac{xz}{xy} = -\frac{z}{y}$
+        </div>
+        <p><b>問3.</b> $F(x, y, z) = x e^z - y \sin(z) + z - 2 = 0$ で定まる陰関数 $z=\phi(x,y)$ の $\frac{\partial z}{\partial x}$ を求めよ。</p>
+        <div class="formula">
+            $F_x = e^z$ <br>
+            $F_z = x e^z - y \cos(z) + 1$ <br>
+            $\frac{\partial z}{\partial x} = -\frac{F_x}{F_z} = -\frac{e^z}{x e^z - y \cos(z) + 1}$
+        </div>
+        
+        <hr style="margin: 40px 0;">
+
+        <h2 class="section-title">4. 定理の証明</h2>
+        <p>
+            陰関数定理の公式は、合成関数の連鎖律（chain rule）を用いて導出できる。
+        </p>
+        <p>
+            $F(x, y, z) = 0$ から定まる陰関数 $z = \phi(x, y)$ を考える。このとき、$x$ と $y$ は独立変数であり、$z$ はそれらの従属変数である。$z = \phi(x, y)$ を元の式に代入すると、以下の恒等式が得られる。
+        </p>
+        <div class="formula">
+            $F(x, y, \phi(x, y)) = 0$
+        </div>
+        <p>
+            この恒等式の両辺を $x$ で偏微分する。左辺は $x, y, z$ の合成関数と見なせるため、連鎖律を適用する。$z$ が $x$ の関数であることに注意が必要である。
+        </p>
+        <div class="formula">
+            $$\frac{\partial F}{\partial x} \frac{\partial x}{\partial x} + \frac{\partial F}{\partial y} \frac{\partial y}{\partial x} + \frac{\partial F}{\partial z} \frac{\partial z}{\partial x} = 0$$
+        </div>
+        <p>
+            ここで、$\frac{\partial x}{\partial x} = 1$ であり、$x$ と $y$ は独立変数なので $\frac{\partial y}{\partial x} = 0$ である。これを代入すると、
+        </p>
+        <div class="formula">
+            $$F_x \cdot 1 + F_y \cdot 0 + F_z \frac{\partial z}{\partial x} = 0$$               $$F_x + F_z \frac{\partial z}{\partial x} = 0$$
+        </div>
+        <p>
+            $F_z \neq 0$ の仮定のもとで、$\frac{\partial z}{\partial x}$ について解くと、公式が得られる。
+        </p>
+        <div class="formula">
+            $$\frac{\partial z}{\partial x} = -\frac{F_x}{F_z}$$
+        </div>
+        <p>
+            同様に、恒等式 $F(x, y, \phi(x, y)) = 0$ の両辺を $y$ で偏微分すると ($\frac{\partial y}{\partial y}=1, \frac{\partial x}{\partial y}=0$)、
+        </p>
+        <div class="formula">
+            $$F_y + F_z \frac{\partial z}{\partial y} = 0$$
+        </div>
+        <p>
+            となり、以下の公式が導かれる。
+        </p>
+        <div class="formula">
+            $$\frac{\partial z}{\partial y} = -\frac{F_y}{F_z}$$
+        </div>
+        <p class="footnote">
+            <b>注:</b> この証明は、$z = \phi(x, y)$ が微分可能であることを前提とする。陰関数定理の完全な証明は、その存在と微分可能性を示すものであり、より高度な解析学の範囲となる。
+        </p>
+
+    </section>
+
+    <div class="navigation">
+        <a href="class11.html">← 前回：第11回</a>
+        <a href="../index.html">ホーム</a>
     </div>
+</div>
+
 </body>
 </html>
