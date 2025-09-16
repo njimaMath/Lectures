@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>条件付き確率と条件付き期待値</title>
+    <style>
+        body{font-family:"Helvetica Neue",Helvetica,Arial,sans-serif;line-height:1.7;color:#212121;margin:0;background:#fafafa;}
+        .container{max-width:960px;margin:0 auto;padding:2rem 1rem 4rem;background:#fff;box-shadow:0 4px 12px rgba(0,0,0,.05);border-radius:12px;}
+        h1,h2,h3{color:#1a237e;margin-top:1.2em;margin-bottom:.6em;}
+        h1{font-size:1.9rem;text-align:center;}
+        h2{font-size:1.45rem;border-left:6px solid #1a237e;padding-left:.55rem;}
+        h3{font-size:1.2rem;}
+        .formula{background:#f3f4ff;border-left:4px solid #5c6bc0;padding:.8rem 1.2rem;margin:1.2rem 0;border-radius:8px;overflow-x:auto;}
+        .proof{background:#e8f5e9;border-left:4px solid #43a047;padding:.8rem 1.2rem;margin:1.2rem 0;border-radius:8px;overflow-x:auto;}
+        details{margin-bottom:1rem;}
+        details summary{cursor:pointer;font-weight:600;}
+        ul{margin:0 0 1rem 1.2rem;}
+        .navigation{display:flex;justify-content:center;gap:.8rem;margin:2.2rem 0;border-top:1px solid #e0e0e0;padding-top:1.5rem;flex-wrap:wrap;}
+        .navigation a{padding:.65rem 1.5rem;background:#1a237e;color:#fff;text-decoration:none;border-radius:6px;transition:opacity .2s;}
+        .navigation a:hover{opacity:.85;}
+        footer{margin-top:3rem;color:#777;text-align:center;font-size:.9rem;}
+        code{background:#eceff1;padding:2px 4px;border-radius:4px;}
+    </style>
+    <!-- MathJax configuration -->
+    <script>
+        MathJax = {
+          tex: {
+            inlineMath: [['$', '$'], ['\\(', '\\)']],
+            displayMath: [['$$','$$'], ['\\[','\\]']]
+          }
+        };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+</head>
+<body>
+    <div class="container">
+        <h1>条件付き確率と条件付き期待値</h1>
+
+        <!-- -------------------------------------------------------------- -->
+        <section id="definition">
+            <h2>1. 定義</h2>
+            ２つの事象 $A,B\subset \Omega$ と確率変数 $X:\Omega\to\mathbb{R}$ に対して，$\mathbb{P}(B)>0$ とするとき
+            <div class="formula">
+                $$\mathbb{P}(A \mid B) = \frac{\mathbb{P}(A \cap B)}{\mathbb{P}(B)},\qquad \mathbb{E}[X \mid B] = \frac{\mathbb{E}[X\,\mathbf{1}_B]}{\mathbb{P}(B)}.$$
+            </div>
+        </section>
+
+        <!-- -------------------------------------------------------------- -->
+        <section id="properties">
+            <h2>2. 基本性質</h2>
+            <ul>
+                <li>期待値の定義により
+                    <div class="formula">$$\mathbb{E}[X \mid B] = \sum_{\omega\in\Omega} X(\omega)\,\mathbb{P}(\{\omega\}\mid B).$$</div>
+                </li>
+                <li>線形性：実数 $\alpha,\beta$ に対して
+                    <div class="formula">$$\mathbb{E}[\alpha X + \beta Y \mid B] = \alpha\,\mathbb{E}[X \mid B] + \beta\,\mathbb{E}[Y \mid B].$$</div>
+                </li>
+                <li>独立性：$X$ と $Y$ が独立ならば
+                    <div class="formula">$$\mathbb{E}[X \mid Y = y] = \mathbb{E}[X].$$</div>
+                </li>
+                <li>自己条件付け：
+                    <div class="formula">$$\mathbb{E}[X \mid X = x] = x.$$</div>
+                </li>
+            </ul>
+            <!-- Proof of linearity in collapsible details -->
+            <details>
+                <summary>線形性の証明を表示</summary>
+                <div class="proof">
+                    $$\mathbb{E}[\alpha X + \beta Y \mid B] = \frac{\mathbb{E}[(\alpha X + \beta Y)\mathbf{1}_B]}{\mathbb{P}(B)} = \frac{\alpha\,\mathbb{E}[X\mathbf{1}_B] + \beta\,\mathbb{E}[Y\mathbf{1}_B]}{\mathbb{P}(B)} = \alpha\,\mathbb{E}[X \mid B] + \beta\,\mathbb{E}[Y \mid B].$$
+                </div>
+            </details>
+        </section>
+
+        <!-- -------------------------------------------------------------- -->
+        <section id="total-probability">
+            <h2>3. 全確率の公式</h2>
+            可算分割 $\{B_i\}_{i\in I}$ ($B_i \cap B_j = \varnothing,\; \cup_i B_i = \Omega$) と $\mathbb{P}(B_i)>0$ に対して，任意の事象 $A$ について
+            <div class="formula">
+                $$\mathbb{P}(A) = \sum_{i\in I} \mathbb{P}(A\mid B_i)\,\mathbb{P}(B_i).$$
+            </div>
+            <details>
+                <summary>証明を表示</summary>
+                <div class="proof">
+                    $A = A \cap \Omega = A \cap \bigcup_{i} B_i = \bigcup_{i}(A \cap B_i)$ は互いに排反な和である。よって加法性より
+                    $$\mathbb{P}(A) = \sum_i \mathbb{P}(A \cap B_i) = \sum_i \frac{\mathbb{P}(A \cap B_i)}{\mathbb{P}(B_i)}\,\mathbb{P}(B_i) = \sum_i \mathbb{P}(A \mid B_i)\,\mathbb{P}(B_i).$$
+                </div>
+            </details>
+        </section>
+
+        <!-- -------------------------------------------------------------- -->
+        <section id="bayes">
+            <h2>4. ベイズの定理</h2>
+            事象 $A,B$ に対し $\mathbb{P}(A),\mathbb{P}(B)>0$ とすると
+            <div class="formula">
+                $$\mathbb{P}(A \mid B) = \frac{\mathbb{P}(B \mid A)\,\mathbb{P}(A)}{\mathbb{P}(B)}.$$
+            </div>
+            <details>
+                <summary>証明を表示</summary>
+                <div class="proof">
+                    定義により $\mathbb{P}(A \mid B) = \dfrac{\mathbb{P}(A \cap B)}{\mathbb{P}(B)}$，同様に $\mathbb{P}(B \mid A) = \dfrac{\mathbb{P}(A \cap B)}{\mathbb{P}(A)}$。よって
+                    $$\mathbb{P}(A \cap B)=\mathbb{P}(B \mid A)\,\mathbb{P}(A).$$
+                    これを分子に代入すれば結論が従う。
+                </div>
+            </details>
+        </section>
+
+        <!-- -------------------------------------------------------------- -->
+        <section id="example">
+            <h2>5. 例：検査の精度と事後確率</h2>
+            疾患の有病率が $1\%$，検査の感度が $99\%$，偽陽性率が $2\%$ とする。検査で陽性が出たとき，実際に疾患をもつ確率は？
+            <div class="formula">
+                $$\mathbb{P}(\text{病気} \mid +) = \frac{\mathbb{P}(+ \mid \text{病気})\,\mathbb{P}(\text{病気})}{\mathbb{P}(+ \mid \text{病気})\,\mathbb{P}(\text{病気}) + \mathbb{P}(+ \mid \text{健康})\,\mathbb{P}(\text{健康})} = \frac{0.99\times0.01}{0.99\times0.01 + 0.02\times0.99} \approx 0.333.$$
+            </div>
+            したがって陽性者の約 $33\%$ が実際に疾患を持つ。
+        </section>
+
+        <!-- -------------------------------------------------------------- -->
+        <div class="navigation">
+            <a href="class3.html">&larr; 前のレッスン</a>
+            <a href="../index.html">ホーム</a>
+            <a href="class5.html">次のレッスン &rarr;</a>
+        </div>
+
+        <footer>&copy; 2025 確率論講義 - すべての権利を留保します</footer>
+    </div>
+</body>
+</html>

@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>期待値と確率密度関数</title>
+  <script>
+    MathJax = {
+      tex: {
+        inlineMath: [['$', '$']],
+        displayMath: [['$$', '$$']]
+      }
+    };
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js" async></script>
+</head>
+<body>
+  <h1>期待値の定義と密度関数による表現</h1>
+
+  <p>
+    確率変数 $X$ の期待値は以下のように定義される：
+  </p>
+
+  <p>
+    $$
+    \mathbb{E}[X] = \int_\Omega X(\omega)\, p(\omega)\, d\omega
+    $$
+  </p>
+
+  <p>
+    ここで $\Omega$ は確率空間、$p(\omega)$ はその上の確率密度のようなものと考える。
+  </p>
+
+  <h2>$X$ を区間に分けて近似する</h2>
+
+  <p>
+    $X$ の値を小さい区間に分割し、各区間内で一定とみなすことで近似を行う。
+  </p>
+
+  <p>
+    区間 $[(k-1)/n,\,k/n]$ に $X(\omega)$ が入るとき、その値を $k/n$ で代表させる：
+  </p>
+
+  <p>
+    $$
+    \int_\Omega X(\omega)\, p(\omega)\, d\omega 
+    = \sum_{k=-\infty}^{\infty} \int_\Omega X(\omega)\, 1_{X(\omega) \in [\frac{k-1}{n}, \frac{k}{n}]} p(\omega)\, d\omega
+    $$
+    $$
+    \approx \sum_{k=-\infty}^{\infty} \frac{k}{n} \int_\Omega 1_{X(\omega) \in [\frac{k-1}{n}, \frac{k}{n}]} p(\omega)\, d\omega
+    $$
+  </p>
+
+  <p>
+    これは、$X$ の値域を $1/n$ 間隔で分割し、それぞれの区間内の平均値に置き換えて足し合わせる操作に対応する。
+  </p>
+
+  <h2>確率密度関数への書き換え</h2>
+
+  <p>
+    区間 $[a,b]$ における確率は、$P(a \leq X \leq b) = \int_a^b p_X(x)\, dx$ で与えられる。
+  </p>
+
+  <p>
+    よって、
+  </p>
+
+  <p>
+    $$
+    \sum_{k=-\infty}^{\infty} \frac{k}{n} \int_{\frac{k-1}{n}}^{\frac{k}{n}} p_X(x)\, dx
+    $$
+  </p>
+
+  <p>
+    は $x p_X(x)$ のリーマン和になっており、$n \to \infty$ で以下に収束する：
+  </p>
+
+  <p>
+    $$
+    \int_{-\infty}^{\infty} x\, p_X(x)\, dx
+    $$
+  </p>
+
+  <h2>結論</h2>
+  <p>
+    以上より、確率変数 $X$ の期待値は
+  </p>
+
+  <p>
+    $$
+    \mathbb{E}[X] = \int_{\Omega} X(\omega) p(\omega)\, d\omega
+    $$
+  </p>
+
+  <p>
+    であるが、確率密度関数 $p_X(x)$ を用いて
+  </p>
+
+  <p>
+    $$
+    \mathbb{E}[X] = \int_{-\infty}^{\infty} x\, p_X(x)\, dx
+    $$
+  </p>
+
+  <p>
+    と書き換えることができる。
+  </p>
+
+</body>
+</html>
