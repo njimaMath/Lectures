@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>確率論の基礎：スライド 1</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Hiragino Sans', 'Meiryo', sans-serif;
+            background-color: #101639;
+            color: #f5f5f5;
+            overflow: hidden;
+        }
+        .progress {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 6px;
+            background-color: rgba(255, 255, 255, 0.1);
+            z-index: 10;
+        }
+        .progress-bar {
+            width: 0;
+            height: 100%;
+            background: linear-gradient(90deg, #303f9f, #7986cb);
+            transition: width 0.3s ease;
+        }
+        .slides {
+            width: 100vw;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .slide {
+            width: min(900px, 90vw);
+            height: min(540px, 80vh);
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(6px);
+            border-radius: 20px;
+            padding: 60px 80px;
+            box-sizing: border-box;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.35);
+            display: none;
+        }
+        .slide.active {
+            display: block;
+            animation: fadeIn 0.4s ease;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        h1, h2, h3 {
+            margin-top: 0;
+            color: #ffeb3b;
+        }
+        h1 {
+            font-size: 2.8rem;
+            margin-bottom: 0.4em;
+        }
+        h2 {
+            font-size: 2.2rem;
+            border-bottom: 2px solid rgba(255, 255, 255, 0.2);
+            padding-bottom: 0.3em;
+            margin-bottom: 0.8em;
+        }
+        h3 {
+            font-size: 1.6rem;
+            color: #ffe082;
+        }
+        p, li {
+            font-size: 1.15rem;
+            line-height: 1.7;
+            color: #f0f4ff;
+        }
+        ul, ol {
+            padding-left: 1.2em;
+        }
+        .highlight {
+            display: inline-block;
+            padding: 0.2em 0.6em;
+            background-color: rgba(255, 235, 59, 0.2);
+            border-radius: 999px;
+            color: #ffeb3b;
+            font-weight: bold;
+        }
+        .timeline {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 18px;
+        }
+        .timeline div {
+            background-color: rgba(48, 63, 159, 0.35);
+            border-radius: 12px;
+            padding: 18px;
+        }
+        .figure {
+            margin-top: 20px;
+            text-align: center;
+        }
+        .figure svg {
+            max-width: 85%;
+            height: auto;
+        }
+        .controls {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            background: rgba(16, 22, 57, 0.8);
+            padding: 12px 24px;
+            border-radius: 999px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+        }
+        .controls button {
+            background: rgba(255, 255, 255, 0.1);
+            color: #ffeb3b;
+            border: 1px solid rgba(255, 235, 59, 0.4);
+            border-radius: 999px;
+            padding: 10px 18px;
+            font-size: 1rem;
+            cursor: pointer;
+        }
+        .controls button:disabled {
+            opacity: 0.4;
+            cursor: not-allowed;
+        }
+        .controls span {
+            font-size: 1rem;
+            color: rgba(255, 255, 255, 0.7);
+        }
+        .hint {
+            position: fixed;
+            bottom: 10px;
+            right: 20px;
+            font-size: 0.9rem;
+            color: rgba(255, 255, 255, 0.5);
+        }
+        .subtitle {
+            font-size: 1.4rem;
+            color: #fff59d;
+            margin-bottom: 1.5rem;
+        }
+        .dual-column {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 20px;
+        }
+        .dual-column > div {
+            background-color: rgba(33, 150, 243, 0.15);
+            border-radius: 12px;
+            padding: 16px 20px;
+        }
+        .example {
+            background-color: rgba(129, 199, 132, 0.2);
+            border-left: 4px solid #aed581;
+            padding: 14px 18px;
+            border-radius: 10px;
+        }
+        footer {
+            position: fixed;
+            bottom: 10px;
+            left: 20px;
+            font-size: 0.9rem;
+            color: rgba(255, 255, 255, 0.5);
+        }
+        @media (max-width: 768px) {
+            .slide {
+                padding: 40px 30px;
+                height: min(540px, 85vh);
+                overflow-y: auto;
+            }
+            .timeline {
+                grid-template-columns: 1fr;
+            }
+            .dual-column {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="progress"><div class="progress-bar"></div></div>
+    <div class="slides">
+        <section class="slide active" data-title="イントロ">
+            <h1>確率論の基礎</h1>
+            <div class="subtitle">歴史とコイン投げ実験</div>
+            <p class="highlight">講義 1</p>
+            <p>確率論は不確実性を数学的に扱うための強力な言語であり、歴史・応用・基本概念を通じて理解を深める。</p>
+            <p>このスライドでは、講義で扱う内容をステップごとに確認する。</p>
+        </section>
+
+        <section class="slide" data-title="歴史の序章">
+            <h2>1. 確率論の歴史的背景</h2>
+            <p>確率論は <span class="highlight">17世紀の賭博問題</span> をきっかけに発展した。偶然を定量的に扱う試みが、数学的な枠組みを生み出した。</p>
+            <div class="dual-column">
+                <div>
+                    <h3>パスカルとフェルマー</h3>
+                    <p>賭け金を公平に分ける「ポイントの問題」についての往復書簡が、初期の確率計算を導いた。</p>
+                </div>
+                <div>
+                    <h3>ホイヘンスの教科書</h3>
+                    <p>1657年の著書『ゲームにおける推測』は、確率論初の体系的な教科書とされる。</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="slide" data-title="発展の流れ">
+            <h2>1.1 概念の広がり</h2>
+            <div class="timeline">
+                <div>
+                    <strong>18世紀</strong>
+                    <p>ベルヌーイが大数の法則を提案し、実験回数と確率の安定性を結び付けた。</p>
+                </div>
+                <div>
+                    <strong>19世紀</strong>
+                    <p>ガウスが正規分布を導入。統計学と誤差論が確率と合流する。</p>
+                </div>
+                <div>
+                    <strong>20世紀</strong>
+                    <p>コルモゴロフが公理化を行い、現代確率論の厳密な土台が完成。</p>
+                </div>
+                <div>
+                    <strong>現代</strong>
+                    <p>金融工学、機械学習、量子情報など多分野で不可欠な理論となる。</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="slide" data-title="現代の応用">
+            <h2>2. 現代社会での応用例</h2>
+            <ul>
+                <li><strong>天気予報</strong>：降水確率や台風進路予測は確率モデルに依存する。</li>
+                <li><strong>医療診断</strong>：検査の精度や治療効果をベイズ推定で評価する。</li>
+                <li><strong>交通システム</strong>：渋滞予測や輸送計画に確率過程が活躍。</li>
+                <li><strong>ゲームと賭博</strong>：公平性や期待値評価を確率で解析する。</li>
+            </ul>
+            <p>不確実性を制御する場面では、必ず確率的な思考が支えている。</p>
+        </section>
+
+        <section class="slide" data-title="確率空間の要素">
+            <h2>3. 確率空間の基本構造</h2>
+            <ol>
+                <li><strong>標本空間 (Ω)</strong>：可能なすべての結果の集合。</li>
+                <li><strong>事象集合 (F)</strong>：標本空間の部分集合で構成されるシグマ代数。</li>
+                <li><strong>確率測度 (P)</strong>：各事象に 0〜1 の値を割り当てる関数。</li>
+            </ol>
+            <p>これらを合わせて <span class="highlight">(Ω, F, P)</span> と表記し、形式的な確率モデルが定義される。</p>
+        </section>
+
+        <section class="slide" data-title="公理と図解">
+            <h2>3.1 コルモゴロフの公理</h2>
+            <div class="example">
+                <ol>
+                    <li><strong>非負性</strong>：任意の事象 A について P(A) ≥ 0。</li>
+                    <li><strong>正規化</strong>：全標本空間 Ω の確率は 1。</li>
+                    <li><strong>加法性</strong>：排反な事象列 A₁, A₂, … に対して P(∪Aᵢ) = ΣP(Aᵢ)。</li>
+                </ol>
+            </div>
+            <div class="figure">
+                <svg width="560" height="260" viewBox="0 0 600 300">
+                    <rect x="50" y="50" width="500" height="200" fill="#1a237e" opacity="0.2" stroke="#7986cb" stroke-width="3"/>
+                    <text x="300" y="40" text-anchor="middle" font-size="18" fill="#ffeb3b">標本空間 (Ω)</text>
+                    <circle cx="210" cy="150" r="80" fill="#bbdefb" opacity="0.5" stroke="#64b5f6" stroke-width="3"/>
+                    <text x="210" y="150" text-anchor="middle" font-size="16" fill="#0d47a1">事象 A</text>
+                    <circle cx="330" cy="150" r="72" fill="#e1bee7" opacity="0.5" stroke="#ba68c8" stroke-width="3"/>
+                    <text x="330" y="150" text-anchor="middle" font-size="16" fill="#6a1b9a">事象 B</text>
+                    <text x="260" y="150" text-anchor="middle" font-size="14" fill="#ffeb3b">A ∩ B</text>
+                    <text x="140" y="120" font-size="14" fill="#ffeb3b">P(A)=0.4</text>
+                    <text x="380" y="120" font-size="14" fill="#ffeb3b">P(B)=0.35</text>
+                    <text x="260" y="190" font-size="14" fill="#ffeb3b">P(A∩B)=0.15</text>
+                    <text x="260" y="230" font-size="14" fill="#ffeb3b">P(A∪B)=0.6</text>
+                </svg>
+            </div>
+        </section>
+
+        <section class="slide" data-title="コイン投げ">
+            <h2>4. コイン投げと確率モデル</h2>
+            <div class="example">
+                <h3>1回のコイン投げ</h3>
+                <p>標本空間：Ω = {H, T}</p>
+                <p>確率測度：P(H) = P(T) = 1/2（公平なコイン）</p>
+            </div>
+            <div class="example">
+                <h3>2回のコイン投げ</h3>
+                <p>標本空間：Ω = {(H,H), (H,T), (T,H), (T,T)}</p>
+                <p>事象例：A = 「少なくとも1回は表」</p>
+                <p>確率：P(A) = 3/4</p>
+            </div>
+        </section>
+
+        <section class="slide" data-title="まとめ">
+            <h2>5. まとめと次回予告</h2>
+            <ul>
+                <li>確率論は歴史的課題から生まれ、現代の多様な分野へ広がった。</li>
+                <li>確率空間 (Ω, F, P) が不確実性を定式化する基本の器となる。</li>
+                <li>身近なコイン投げでも、確率の考え方を具体的に理解できる。</li>
+            </ul>
+            <p>次回は確率分布と期待値へと進み、より高度なモデルを構築する。</p>
+        </section>
+    </div>
+
+    <div class="controls">
+        <button id="prev" type="button">◀ 前へ</button>
+        <span id="counter">1 / 8</span>
+        <button id="next" type="button">次へ ▶</button>
+    </div>
+    <div class="hint">キーボードの ← → / Space でも操作できます</div>
+    <footer>© 2025 確率論講義 - Slide 1</footer>
+
+    <script>
+        const slides = Array.from(document.querySelectorAll('.slide'));
+        const prevButton = document.getElementById('prev');
+        const nextButton = document.getElementById('next');
+        const counter = document.getElementById('counter');
+        const progressBar = document.querySelector('.progress-bar');
+        let currentIndex = 0;
+
+        function updateSlide(index) {
+            slides[currentIndex].classList.remove('active');
+            currentIndex = index;
+            slides[currentIndex].classList.add('active');
+            counter.textContent = `${currentIndex + 1} / ${slides.length}`;
+            const progress = ((currentIndex + 1) / slides.length) * 100;
+            progressBar.style.width = `${progress}%`;
+            prevButton.disabled = currentIndex === 0;
+            nextButton.disabled = currentIndex === slides.length - 1;
+        }
+
+        function showNext() {
+            if (currentIndex < slides.length - 1) {
+                updateSlide(currentIndex + 1);
+            }
+        }
+
+        function showPrev() {
+            if (currentIndex > 0) {
+                updateSlide(currentIndex - 1);
+            }
+        }
+
+        prevButton.addEventListener('click', showPrev);
+        nextButton.addEventListener('click', showNext);
+
+        document.addEventListener('keydown', (event) => {
+            if (event.key === 'ArrowRight' || event.key === ' ') {
+                event.preventDefault();
+                showNext();
+            }
+            if (event.key === 'ArrowLeft') {
+                event.preventDefault();
+                showPrev();
+            }
+        });
+
+        updateSlide(0);
+    </script>
+</body>
+</html>
