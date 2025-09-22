@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>確率論講座ナビゲーション</title>
+    <title>確率論第1同演習ナビゲーション</title>
     <style>
         body {
             font-family: 'Hiragino Sans', 'Meiryo', sans-serif;
@@ -176,8 +176,12 @@
 
     <div class="main-container">
         <header>
-            <h1>確率と統計学I</h1>
-            <div class="subtitle">数学的な思考と実践的応用</div>
+            <h1>確率論第1同演習</h1>
+            <div class="subtitle">確率空間・確率変数・確率分布</div>
+            <div style="color: #7986cb; font-size: 1em; margin-top: 15px;">
+                担当: 中島 秀太, 横山 聡 | 3単位 | 2025年秋学期<br>
+                火曜 3,4時限 | 矢上キャンパス 12-104教室
+            </div>
         </header>
 
         <div class="logo-container">
@@ -185,23 +189,43 @@
         </div>
 
         <div class="nav-container">
-            <button class="nav-button current" onclick="navigateToClass(1)">Class 1<br>集合と確率</button>
-            <button class="nav-button" onclick="navigateToClass(2)">Class 2<br>確率変数と期待値</button>
-            <button class="nav-button" onclick="navigateToClass(3)">Class 3<br>分散、共分散、独立性</button>
-            <button class="nav-button" onclick="navigateToClass(4)">Class 4<br>条件付確率</button>
-            <button class="nav-button" onclick="navigateToClass(5)">Class 5<br>確率分布</button>
-            <button class="nav-button" onclick="navigateToClass(6)">Class 6<br>連続確率空間</button>
-            <button class="nav-button" onclick="navigateToClass(7)">Class 7<br>母関数</button>
-            <button class="nav-button" onclick="navigateToClass(8)">Class 8<br>大数の法則</button>
-            <button class="nav-button" onclick="navigateToClass(9)">Class 9<br>確率論の収束</button>
-            <button class="nav-button" onclick="navigateToClass(10)">Class 10<br>中心極限定理</button>
+            <button class="nav-button current" onclick="navigateToClass(1)">第1回<br>一般の確率空間</button>
+            <button class="nav-button" onclick="navigateToClass(2)">第2回<br>確率変数と確率分布</button>
+            <button class="nav-button" onclick="navigateToClass(3)">第3回<br>期待値とその極限定理</button>
+            <button class="nav-button" onclick="navigateToClass(4)">第4回<br>Kolmogorovの拡張定理</button>
+            <button class="nav-button" onclick="navigateToClass(5)">第5回<br>連続確率分布の例</button>
+            <button class="nav-button" onclick="navigateToClass(6)">第6回<br>二項分布の正規近似</button>
+            <button class="nav-button" onclick="navigateToClass(7)">第7回<br>分布の収束と特性関数</button>
+            <button class="nav-button" onclick="navigateToClass(8)">第8回<br>確率変数列に対する様々な収束</button>
+            <button class="nav-button" onclick="navigateToClass(9)">第9回<br>Bochner の定理</button>
+            <button class="nav-button" onclick="navigateToClass(10)">第10回<br>独立確率変数列</button>
+            <button class="nav-button" onclick="navigateToClass(11)">第11回<br>大数の法則と中心極限定理</button>
+            <button class="nav-button" onclick="navigateToClass(12)">第12回<br>条件付き期待値</button>
+            <button class="nav-button" onclick="navigateToClass(13)">第13回<br>確率モデルへの応用</button>
+            <button class="nav-button" onclick="navigateToClass(14)">第14回<br>まとめおよび展望</button>
         </div>
 
         <div class="content-preview">
             <h2>講座の概要</h2>
             <div class="preview-text">
-                <p>この講座では、確率論の基礎から応用まで体系的に学びます。日常生活や科学研究、データ分析などで広く使われる確率の概念を理解し、様々な問題に適用する力を身につけましょう。</p>
-                <p>各クラスでは理論的な説明だけでなく、実践的な例題や歴史的な背景も交えて解説します。確率的思考は現代社会を生きる上で非常に重要なスキルです。</p>
+                <p>ルベーク積分論に基づく確率空間を扱い，期待値の収束定理，特性関数と確率分布の関係，分布の極限定理などを厳密に証明を通して理解します。</p>
+                <p>本講座では確率論の数学的基礎を重視し、一般の確率空間からKolmogorovの拡張定理、様々な収束概念、大数の法則、中心極限定理まで、現代確率論の核心となる理論を体系的に学習します。</p>
+            </div>
+            
+            <h2>評価方法</h2>
+            <div class="preview-text">
+                <ul style="margin-left: 20px; color: #555;">
+                    <li>レポートの提出状況およびレポートの成績</li>
+                    <li>試験の成績</li>
+                    <li>演習の成績</li>
+                </ul>
+                <p>上記を総合して評価します。</p>
+            </div>
+            
+            <h2>教科書・参考書</h2>
+            <div class="preview-text">
+                <p><strong>教科書:</strong> 熊谷隆「確率論 (新しい解析学の流れ)」および講義録</p>
+                <p><strong>参考書:</strong> 講義録記載の参考文献を参照</p>
             </div>
         </div>
 
@@ -224,7 +248,7 @@
                 if (match) {
                     const currentClass = parseInt(match[1]);
                     const prevClass = currentClass > 1 ? currentClass - 1 : null;
-                    const nextClass = currentClass < 11 ? currentClass + 1 : null;
+                    const nextClass = currentClass < 15 ? currentClass + 1 : null;
 
                     const navContainer = document.querySelector('.navigation');
                     if (navContainer) {
