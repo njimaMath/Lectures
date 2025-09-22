@@ -195,7 +195,6 @@
             <button class="nav-button" onclick="navigateToClass(8)">Class 8<br>大数の法則</button>
             <button class="nav-button" onclick="navigateToClass(9)">Class 9<br>確率論の収束</button>
             <button class="nav-button" onclick="navigateToClass(10)">Class 10<br>中心極限定理</button>
-            <button class="nav-button" onclick="navigateToClass(11)">Class 11<br>ランダム行列理論</button>
         </div>
 
         <div class="content-preview">
@@ -214,7 +213,7 @@
     <script>
         // Function to navigate to class pages
         function navigateToClass(classNumber) {
-            window.location.href = `./Class/class${classNumber}.html`;
+            window.location.href = `./class${classNumber}/class${classNumber}.html`;
         }
 
         // Add navigation between classes
@@ -225,13 +224,13 @@
                 if (match) {
                     const currentClass = parseInt(match[1]);
                     const prevClass = currentClass > 1 ? currentClass - 1 : null;
-                    const nextClass = currentClass < 12 ? currentClass + 1 : null;
+                    const nextClass = currentClass < 11 ? currentClass + 1 : null;
 
                     const navContainer = document.querySelector('.navigation');
                     if (navContainer) {
                         navContainer.innerHTML = `
-                            ${prevClass ? `<a href="class${prevClass}.html">← Class ${prevClass}</a>` : '<a href="../index.html">← Home</a>'}
-                            ${nextClass ? `<a href="class${nextClass}.html">Class ${nextClass} →</a>` : ''}
+                            ${prevClass ? `<a href="../class${prevClass}/class${prevClass}.html">← Class ${prevClass}</a>` : '<a href="../index.html">← Home</a>'}
+                            ${nextClass ? `<a href="../class${nextClass}/class${nextClass}.html">Class ${nextClass} →</a>` : ''}
                         `;
                     }
                 }
