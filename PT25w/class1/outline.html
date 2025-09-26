@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>確率論講義 - アウトライン</title>
+    <style>
+        body {
+            font-family: 'Hiragino Sans', 'Meiryo', sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+            color: #333;
+            background-color: #f5f5f5;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #fff;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #1a237e;
+            text-align: center;
+            margin-bottom: 30px;
+            border-bottom: 2px solid #1a237e;
+            padding-bottom: 10px;
+        }
+        h2 {
+            color: #303f9f;
+            margin-top: 30px;
+            margin-bottom: 20px;
+            border-left: 5px solid #303f9f;
+            padding-left: 10px;
+        }
+        h3 {
+            color: #3949ab;
+            margin-top: 25px;
+            margin-bottom: 15px;
+        }
+        .outline-section {
+            margin-bottom: 30px;
+        }
+        .subsection {
+            margin-left: 20px;
+            margin-bottom: 15px;
+        }
+        .arrow {
+            margin-left: 20px;
+            color: #666;
+            font-style: italic;
+        }
+        .point {
+            background-color: #e8eaf6;
+            padding: 10px 15px;
+            border-radius: 5px;
+            margin: 10px 20px;
+            border-left: 3px solid #303f9f;
+        }
+        .point::before {
+            content: "Point! ";
+            font-weight: bold;
+            color: #1a237e;
+        }
+        .list-item {
+            margin-left: 20px;
+            margin-bottom: 10px;
+        }
+        .example-box {
+            background-color: #fff8e1;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 20px 0;
+            border-left: 3px solid #ffc107;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>確率論講義 - アウトライン</h1>
+
+        <div class="outline-section">
+            <h2>1. 歴史</h2>
+            
+            <h3>1.1 17世紀: ゲームやギャンブル（どのような戦略がよいか？）</h3>
+            <div class="arrow">→ 離散確率論 (パスカル、フェルマー)</div>
+            <div class="point">ニュートン力学は確率論とは無関係(?)</div>
+
+            <h3>1.2 19世紀: 相転移はなぜ起きるか？(氷 ↔ 水 ↔ 水蒸気)</h3>
+            <div class="arrow">→ 統計物理 (マクスウェル、ボルツマン)</div>
+            <div class="point">統計物理では、ニュートン力学に"人工的に"確率を加えている。（初期配置や観測時間）</div>
+
+            <h3>1.3 20世紀: 粒子の位置と速度が確定できない</h3>
+            <div class="arrow">→ 確率論的量子力学 (ボルン)</div>
+            <div class="point">離散ではなく連続的な確率論が求められる → 公理的確率論 (コルモゴロフ)</div>
+        </div>
+
+        <div class="outline-section">
+            <h2>2. なぜ確率論が重要か？</h2>
+            <div class="list-item">1) 自然界の規則は確率論によって記述される</div>
+            <div class="list-item">2) ほぼすべての数学の概念に確率版が存在する (確率微分方程式、確率幾何、確率行列など)</div>
+            <div class="list-item">3) 統計学との関わり (確率モデル ↔ 結果において、確率論は→、統計学は←)</div>
+        </div>
+
+        <div class="outline-section">
+            <h2>3. コイントスをモデル化</h2>
+            <div class="example-box">
+                <strong>コインを二回投げる:</strong> (表,表), (表,裏), (裏,表), (裏,裏)
+            </div>
+        </div>
+    </div>
+</body>
+</html> 
+　
+
