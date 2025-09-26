@@ -5,112 +5,417 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>確率論講義 - アウトライン</title>
     <style>
+        @import url('https://fonts.googleapis.com/css2?family=Cabin:wght@500&family=Noto+Sans+JP:wght@400;500;700&display=swap');
+
+        :root {
+            --background: radial-gradient(120% 120% at 20% 20%, #1e3a8a 0%, #0f172a 55%, #020617 100%);
+            --card-bg: rgba(255, 255, 255, 0.88);
+            --card-border: rgba(255, 255, 255, 0.25);
+            --accent: #4c6ef5;
+            --accent-soft: rgba(76, 110, 245, 0.14);
+            --accent-strong: #2c3791;
+            --text-primary: #0f172a;
+            --text-secondary: #475569;
+            --highlight: #facc15;
+            --shadow: 0 18px 45px -25px rgba(15, 23, 42, 0.75);
+        }
+
+        *, *::before, *::after {
+            box-sizing: border-box;
+        }
+
         body {
-            font-family: 'Hiragino Sans', 'Meiryo', sans-serif;
-            line-height: 1.6;
+            font-family: 'Noto Sans JP', 'Hiragino Sans', 'Meiryo', sans-serif;
+            line-height: 1.7;
+            margin: 0;
+            min-height: 100vh;
+            padding: 60px 24px;
+            color: var(--text-primary);
+            background: var(--background);
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+        }
+
+        body::before {
+            content: "";
+            position: fixed;
+            inset: 0;
+            background: repeating-linear-gradient(135deg, rgba(255, 255, 255, 0.04) 0, rgba(255, 255, 255, 0.04) 12px, transparent 12px, transparent 24px);
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        main {
+            width: min(960px, 100%);
+            background: var(--card-bg);
+            backdrop-filter: blur(18px);
+            border: 1px solid var(--card-border);
+            border-radius: 28px;
+            padding: 56px 64px;
+            position: relative;
+            z-index: 1;
+            box-shadow: var(--shadow);
+        }
+
+        header.hero {
+            text-align: center;
+            margin-bottom: 48px;
+            display: grid;
+            gap: 18px;
+        }
+
+        .hero-label {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 6px 16px;
+            border-radius: 999px;
+            font-size: 14px;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            color: var(--accent-strong);
+            background: var(--accent-soft);
+            font-family: 'Cabin', sans-serif;
+        }
+
+        h1 {
+            font-size: clamp(32px, 4vw, 44px);
+            margin: 0;
+            color: var(--accent-strong);
+            letter-spacing: 0.05em;
+        }
+
+        .hero p {
+            margin: 0 auto;
+            max-width: 620px;
+            color: var(--text-secondary);
+            font-size: 17px;
+        }
+
+        section.outline-section {
+            background: rgba(255, 255, 255, 0.78);
+            border: 1px solid rgba(148, 163, 184, 0.25);
+            padding: 32px 36px;
+            border-radius: 22px;
+            margin-bottom: 32px;
+            box-shadow: 0 24px 40px -32px rgba(15, 23, 42, 0.35);
+        }
+
+        section.outline-section:last-of-type {
+            margin-bottom: 0;
+        }
+
+        h2 {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            font-size: 24px;
+            margin: 0 0 24px;
+            color: var(--accent-strong);
+        }
+
+        h2::before {
+            content: "";
+            width: 42px;
+            height: 4px;
+            border-radius: 999px;
+            background: linear-gradient(90deg, var(--accent) 0%, rgba(76, 110, 245, 0.2) 100%);
+        }
+
+        .timeline {
+            position: relative;
+            padding-left: 32px;
+            display: grid;
+            gap: 24px;
+        }
+
+        .timeline::before {
+            content: "";
+            position: absolute;
+            top: 6px;
+            bottom: 6px;
+            left: 10px;
+            width: 2px;
+            background: linear-gradient(180deg, rgba(76, 110, 245, 0.2) 0%, rgba(76, 110, 245, 0.6) 60%, rgba(76, 110, 245, 0.1) 100%);
+        }
+
+        .milestone {
+            position: relative;
+            padding: 20px 24px 24px;
+            border-radius: 18px;
+            background: rgba(248, 250, 252, 0.78);
+            border: 1px solid rgba(148, 163, 184, 0.25);
+            box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.5);
+        }
+
+        .milestone::before {
+            content: "";
+            position: absolute;
+            top: 24px;
+            left: -23px;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            border: 2px solid #fff;
+            background: var(--accent);
+            box-shadow: 0 0 0 6px rgba(76, 110, 245, 0.18);
+        }
+
+        .milestone-era {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 4px 12px;
+            border-radius: 999px;
+            font-size: 13px;
+            letter-spacing: 0.06em;
+            text-transform: uppercase;
+            color: var(--accent-strong);
+            background: rgba(76, 110, 245, 0.12);
+            font-family: 'Cabin', sans-serif;
+            margin-bottom: 12px;
+        }
+
+        .milestone h3 {
+            margin: 0 0 12px;
+            font-size: 20px;
+            color: var(--text-primary);
+        }
+
+        .milestone p {
+            margin: 0 0 14px;
+            color: var(--text-secondary);
+        }
+
+        .milestone p:last-child {
+            margin-bottom: 0;
+        }
+
+        .insight {
+            position: relative;
+            padding: 12px 16px 12px 44px;
+            border-radius: 14px;
+            background: rgba(76, 110, 245, 0.08);
+            color: var(--accent-strong);
+            font-weight: 500;
+        }
+
+        .insight::before {
+            content: "✧";
+            position: absolute;
+            left: 16px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--accent);
+            font-size: 18px;
+        }
+
+        .pill-list {
+            display: grid;
+            gap: 14px;
             margin: 0;
             padding: 0;
-            color: #333;
-            background-color: #f5f5f5;
+            list-style: none;
         }
-        .container {
-            max-width: 800px;
-            margin: 0 auto;
-            padding: 20px;
-            background-color: #fff;
-            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+
+        .pill-list li {
+            position: relative;
+            margin: 0;
+            padding: 18px 24px 18px 56px;
+            border-radius: 18px;
+            background: rgba(248, 250, 252, 0.86);
+            border: 1px solid rgba(148, 163, 184, 0.25);
+            color: var(--text-secondary);
+            font-size: 16px;
+            box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.55);
         }
-        h1 {
-            color: #1a237e;
+
+        .pill-list li::before {
+            content: counter(item);
+            counter-increment: item;
+            position: absolute;
+            left: 20px;
+            top: 18px;
+            display: inline-flex;
+            width: 26px;
+            height: 26px;
+            border-radius: 50%;
+            align-items: center;
+            justify-content: center;
+            font-size: 13px;
+            color: var(--accent-strong);
+            background: rgba(76, 110, 245, 0.18);
+            font-family: 'Cabin', sans-serif;
+            font-weight: 600;
+        }
+
+        .pill-list {
+            counter-reset: item;
+        }
+
+        .focus-card {
+            background: rgba(76, 110, 245, 0.08);
+            border: 1px solid rgba(76, 110, 245, 0.22);
+            box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.4), 0 20px 32px -28px rgba(76, 110, 245, 0.55);
+        }
+
+        .focus-card h3 {
+            margin-top: 0;
+            margin-bottom: 12px;
+            color: var(--accent-strong);
+            font-size: 19px;
+        }
+
+        .outcome-list {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+            gap: 12px;
+        }
+
+        .outcome-list li {
+            padding: 12px 16px;
+            border-radius: 14px;
+            background: rgba(255, 255, 255, 0.9);
+            border: 1px solid rgba(148, 163, 184, 0.25);
             text-align: center;
-            margin-bottom: 30px;
-            border-bottom: 2px solid #1a237e;
-            padding-bottom: 10px;
+            font-weight: 600;
+            color: var(--text-primary);
         }
-        h2 {
-            color: #303f9f;
-            margin-top: 30px;
-            margin-bottom: 20px;
-            border-left: 5px solid #303f9f;
-            padding-left: 10px;
+
+        .note {
+            margin-top: 18px;
+            font-size: 15px;
+            color: var(--text-secondary);
         }
-        h3 {
-            color: #3949ab;
-            margin-top: 25px;
-            margin-bottom: 15px;
-        }
-        .outline-section {
-            margin-bottom: 30px;
-        }
-        .subsection {
-            margin-left: 20px;
-            margin-bottom: 15px;
-        }
-        .arrow {
-            margin-left: 20px;
-            color: #666;
-            font-style: italic;
-        }
-        .point {
-            background-color: #e8eaf6;
-            padding: 10px 15px;
-            border-radius: 5px;
-            margin: 10px 20px;
-            border-left: 3px solid #303f9f;
-        }
-        .point::before {
-            content: "Point! ";
-            font-weight: bold;
-            color: #1a237e;
-        }
-        .list-item {
-            margin-left: 20px;
-            margin-bottom: 10px;
-        }
-        .example-box {
-            background-color: #fff8e1;
-            padding: 15px;
-            border-radius: 5px;
-            margin: 20px 0;
-            border-left: 3px solid #ffc107;
+
+        @media (max-width: 768px) {
+            body {
+                padding: 32px 16px;
+            }
+
+            main {
+                padding: 36px 24px;
+                border-radius: 22px;
+            }
+
+            section.outline-section {
+                padding: 28px 24px;
+            }
+
+            .timeline {
+                padding-left: 24px;
+            }
+
+            .timeline::before {
+                left: 6px;
+            }
+
+            .milestone::before {
+                left: -18px;
+            }
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <h1>確率論講義 - アウトライン</h1>
+    <main>
+        <header class="hero">
+            <span class="hero-label">Lecture Outline</span>
+            <h1>確率論講義アウトライン</h1>
+            <p>歴史的展開、学問的意義、そして基礎的なモデル化の視点から確率論の核心をコンパクトに整理するためのガイドとなる。</p>
+        </header>
 
-        <div class="outline-section">
-            <h2>1. 歴史</h2>
-            
-            <h3>1.1 17世紀: ゲームやギャンブル（どのような戦略がよいか？）</h3>
-            <div class="arrow">→ 離散確率論 (パスカル、フェルマー)</div>
-            <div class="point">ニュートン力学は確率論とは無関係(?)</div>
+        <section class="outline-section">
+            <h2>1. 歴史のハイライト</h2>
+            <div class="timeline">
+                <article class="milestone">
+                    <span class="milestone-era">17世紀</span>
+                    <h3>ゲームとギャンブルから生まれた戦略思考</h3>
+                    <p>パスカルやフェルマーは偶然のゲームで勝利を導くための定量的戦略を追究し、離散確率論の枠組みを築き上げた。</p>
+                    <p class="insight">当時のニュートン力学は決定論的であり、確率的な視点とはまだ交わっていなかった。</p>
+                </article>
 
-            <h3>1.2 19世紀: 相転移はなぜ起きるか？(氷 ↔ 水 ↔ 水蒸気)</h3>
-            <div class="arrow">→ 統計物理 (マクスウェル、ボルツマン)</div>
-            <div class="point">統計物理では、ニュートン力学に"人工的に"確率を加えている。（初期配置や観測時間）</div>
+                <article class="milestone">
+                    <span class="milestone-era">19世紀</span>
+                    <h3>相転移の謎に挑んだ統計物理</h3>
+                    <p>マクスウェルやボルツマンは氷・水・水蒸気の相転移を説明するため、巨視的現象を微視的粒子の確率モデルとして捉え直した。</p>
+                    <p class="insight">統計物理では初期条件や観測時間に不確かさを導入し、決定論的な力学に意図的に確率を重ね合わせる。</p>
+                </article>
 
-            <h3>1.3 20世紀: 粒子の位置と速度が確定できない</h3>
-            <div class="arrow">→ 確率論的量子力学 (ボルン)</div>
-            <div class="point">離散ではなく連続的な確率論が求められる → 公理的確率論 (コルモゴロフ)</div>
-        </div>
-
-        <div class="outline-section">
-            <h2>2. なぜ確率論が重要か？</h2>
-            <div class="list-item">1) 自然界の規則は確率論によって記述される</div>
-            <div class="list-item">2) ほぼすべての数学の概念に確率版が存在する (確率微分方程式、確率幾何、確率行列など)</div>
-            <div class="list-item">3) 統計学との関わり (確率モデル ↔ 結果において、確率論は→、統計学は←)</div>
-        </div>
-
-        <div class="outline-section">
-            <h2>3. コイントスをモデル化</h2>
-            <div class="example-box">
-                <strong>コインを二回投げる:</strong> (表,表), (表,裏), (裏,表), (裏,裏)
+                <article class="milestone">
+                    <span class="milestone-era">20世紀</span>
+                    <h3>量子ゆらぎが切り開いた新たな確率論</h3>
+                    <p>ボルンらによる量子力学は粒子の位置と速度を同時に確定できないことを示し、連続的な確率モデルと公理的確率論へと発展した。</p>
+                    <p class="insight">波動関数の確率解釈によって、確率論は物理学の基礎概念へと飛躍する。</p>
+                </article>
             </div>
-        </div>
-    </div>
+        </section>
+
+        <section class="outline-section">
+            <h2>2. 確率論が担う役割</h2>
+            <ul class="pill-list">
+                <li>自然現象の振る舞いは確率的法則に従うことが多く、複雑なシステムの動きを記述するための不可欠な道具となる。</li>
+                <li>微分方程式や幾何学、線形代数など、ほぼすべての数学分野が確率的な拡張を持ち、学際的な研究を支えている。</li>
+                <li>確率モデルが前提を与え、統計学がデータからその妥当性を検証するという双方向の関係が、仮説検定や推論の基盤を形成する。</li>
+            </ul>
+        </section>
+
+        <section class="outline-section focus-card">
+            <h2>3. コイントスで学ぶモデル化</h2>
+            <h3>標本空間の設計</h3>
+            <p>最小のモデルとして公平なコインを二回投げる状況を考える。このとき標本空間 Ω は次の四つの結果からなる。</p>
+            <ul class="outcome-list">
+                <li>（表, 表）</li>
+                <li>（表, 裏）</li>
+                <li>（裏, 表）</li>
+                <li>（裏, 裏）</li>
+            </ul>
+            <p class="note">この標本空間を基盤に条件付き確率や期待値の概念を組み立てていく。</p>
+            <div class="insight">標本空間と事象を明示すると、確率の議論が曖昧さから解放される。</div>
+
+            <h3>有限確率空間の一般形</h3>
+            <p>Ω を有限集合とし、各 ω ∈ Ω に 0 以上 1 以下の重み p(ω) を割り当て、総和を 1 に正規化する。</p>
+            <ul class="pill-list">
+                <li>確率測度 P(A) = Σ<sub>ω∈A</sub> p(ω) と定めると、(Ω, 2<sup>Ω</sup>, P) が有限確率空間となる。</li>
+                <li>例: 三回のコイントス、二つのサイコロ、有限状態マルコフ連鎖など。</li>
+            </ul>
+
+            <h3>確率の公理</h3>
+            <p>コルモゴロフは確率測度に関する三つの公理を提示した。</p>
+            <ul class="pill-list">
+                <li>P(Ω) = 1</li>
+                <li>任意の事象 A について 0 ≤ P(A) ≤ 1</li>
+                <li>互いに素な可算族 {A<sub>i</sub>} に対し P(⋃ A<sub>i</sub>) = Σ P(A<sub>i</sub>)</li>
+            </ul>
+            <p class="note">有限集合の枠を超えると、単点集合の確率が 0 でも集合全体に正の確率を割り当てられる。</p>
+
+            <h3>シグマ代数とボレル集合</h3>
+            <p>集合 Ω 上の族 F が次の条件を満たすとき F をシグマ代数と呼ぶ。</p>
+            <ul class="pill-list">
+                <li>Ω ∈ F</li>
+                <li>A ∈ F ならば A<sup>c</sup> ∈ F</li>
+                <li>可算個の集合 A<sub>i</sub> ∈ F に対し ⋃<sub>i=1</sub><sup>∞</sup> A<sub>i</sub> ∈ F</li>
+            </ul>
+            <div class="insight">R<sup>d</sup> のボレルシグマ代数は開集合族から生成され、連続モデルの標準的な選択となる。</div>
+            <p>確率空間は三つ組 (Ω, F, P) であり、測度 P は F 上の可算加法的な写像となる。</p>
+
+            <h3>確率空間の基本性質</h3>
+            <p>公理から直ちに導かれる性質を整理する。</p>
+            <ul class="pill-list">
+                <li>P(A<sup>c</sup>) = 1 - P(A)</li>
+                <li>A ⊂ B ならば P(A) ≤ P(B)</li>
+                <li>P(⋃ A<sub>i</sub>) ≤ Σ P(A<sub>i</sub>)（可算劣加法性）</li>
+                <li>P(A ∪ B) = P(A) + P(B) - P(A ∩ B)</li>
+            </ul>
+            <div class="note">包含排除の公式は有限個の事象にも拡張され、交差部分の情報を補正項として扱う。</div>
+        </section>
+    </main>
 </body>
-</html> 
-　
+</html>
+
 
