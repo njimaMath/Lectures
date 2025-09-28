@@ -5,135 +5,303 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>逆関数と逆三角関数</title>
     <style>
+        @import url('https://fonts.googleapis.com/css2?family=Cabin:wght@500&family=Noto+Sans+JP:wght@400;500;700&display=swap');
+
+        :root {
+            --background: radial-gradient(120% 120% at 20% 20%, #1e3a8a 0%, #0f172a 55%, #020617 100%);
+            --card-bg: rgba(255, 255, 255, 0.88);
+            --card-border: rgba(255, 255, 255, 0.25);
+            --accent: #4c6ef5;
+            --accent-soft: rgba(76, 110, 245, 0.14);
+            --accent-strong: #2c3791;
+            --text-primary: #0f172a;
+            --text-secondary: #475569;
+            --highlight: #facc15;
+            --shadow: 0 18px 45px -25px rgba(15, 23, 42, 0.75);
+        }
+
+        *, *::before, *::after {
+            box-sizing: border-box;
+        }
+
         body {
-            font-family: 'Hiragino Sans', 'Meiryo', sans-serif;
+            font-family: 'Noto Sans JP', 'Hiragino Sans', 'Meiryo', sans-serif;
             line-height: 1.7;
-            color: #333;
-            max-width: 920px;
-            margin: 0 auto;
-            padding: 32px 20px 60px;
-            background-color: #f8f9fb;
+            margin: 0;
+            min-height: 100vh;
+            padding: 60px 24px;
+            color: var(--text-primary);
+            background: var(--background);
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
         }
-        h1, h2, h3 {
-            color: #1a237e;
-            margin-top: 1.6em;
+
+        body::before {
+            content: "";
+            position: fixed;
+            inset: 0;
+            background: repeating-linear-gradient(135deg, rgba(255, 255, 255, 0.04) 0, rgba(255, 255, 255, 0.04) 12px, transparent 12px, transparent 24px);
+            pointer-events: none;
+            z-index: 0;
         }
-        h1 {
+
+        main {
+            width: min(960px, 100%);
+            background: var(--card-bg);
+            backdrop-filter: blur(18px);
+            border: 1px solid var(--card-border);
+            border-radius: 28px;
+            padding: 56px 64px;
+            position: relative;
+            z-index: 1;
+            box-shadow: var(--shadow);
+        }
+
+        header.hero {
             text-align: center;
-            border-bottom: 2px solid #1a237e;
-            padding-bottom: 12px;
-            margin-bottom: 36px;
+            margin-bottom: 48px;
+            display: grid;
+            gap: 18px;
         }
+
+        .hero-label {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 6px 16px;
+            border-radius: 999px;
+            font-size: 14px;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            color: var(--accent-strong);
+            background: var(--accent-soft);
+            font-family: 'Cabin', sans-serif;
+        }
+
+        h1 {
+            font-size: clamp(32px, 4vw, 44px);
+            margin: 0;
+            color: var(--accent-strong);
+            letter-spacing: 0.05em;
+        }
+
+        header.hero p {
+            margin: 0 auto;
+            max-width: 620px;
+            color: var(--text-secondary);
+            font-size: 17px;
+        }
+
+        section.outline-section {
+            background: rgba(255, 255, 255, 0.78);
+            border: 1px solid rgba(148, 163, 184, 0.25);
+            padding: 32px 36px;
+            border-radius: 22px;
+            margin-bottom: 32px;
+            box-shadow: 0 24px 40px -32px rgba(15, 23, 42, 0.35);
+        }
+
+        section.outline-section:last-of-type {
+            margin-bottom: 0;
+        }
+
         h2 {
-            border-left: 5px solid #1a237e;
-            padding-left: 14px;
-            font-size: 1.35rem;
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            font-size: 24px;
+            margin: 0 0 24px;
+            color: var(--accent-strong);
         }
+
+        h2::before {
+            content: "";
+            width: 42px;
+            height: 4px;
+            border-radius: 999px;
+            background: linear-gradient(90deg, var(--accent) 0%, rgba(76, 110, 245, 0.2) 100%);
+        }
+
         h3 {
-            font-size: 1.1rem;
+            font-size: 19px;
+            margin-top: 28px;
+            color: var(--accent-strong);
         }
-        .container {
-            background-color: #ffffff;
-            border-radius: 8px;
-            padding: 28px 32px 44px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+
+        p {
+            margin: 0 0 16px;
+            color: var(--text-secondary);
         }
-        .theorem, .definition, .proof, .note, .example {
-            margin: 18px 0;
-            padding: 16px 18px;
-            border-radius: 6px;
-            background-color: #fff;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.08);
+
+        ol, ul {
+            margin: 0 0 18px;
+            padding-left: 24px;
+            color: var(--text-secondary);
         }
-        .theorem {
-            border-left: 5px solid #3498db;
-        }
-        .definition {
-            border-left: 5px solid #16a085;
-        }
-        .proof {
-            border-left: 5px solid #7f8c8d;
-        }
-        .note {
-            border-left: 5px solid #4caf50;
-            background-color: #eef7f0;
-        }
+
+        .concept-card,
+        .theorem,
+        .definition,
+        .proof,
+        .note,
         .example {
-            border-left: 5px solid #2196f3;
-            background-color: #edf5ff;
+            margin: 18px 0;
+            padding: 18px 22px;
+            border-radius: 18px;
+            background: rgba(248, 250, 252, 0.86);
+            border: 1px solid rgba(148, 163, 184, 0.25);
+            box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.55);
+            color: var(--text-secondary);
         }
+
+        .focus-card {
+            background: rgba(76, 110, 245, 0.08);
+            border: 1px solid rgba(76, 110, 245, 0.22);
+            box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.4), 0 20px 32px -28px rgba(76, 110, 245, 0.55);
+        }
+
+        .theorem {
+            border-left: 6px solid rgba(76, 110, 245, 0.65);
+        }
+
+        .definition {
+            border-left: 6px solid rgba(34, 197, 94, 0.65);
+        }
+
+        .proof {
+            border-left: 6px solid rgba(148, 163, 184, 0.65);
+        }
+
+        .note {
+            border-left: 6px solid rgba(250, 204, 21, 0.7);
+            background: rgba(250, 204, 21, 0.08);
+        }
+
+        .example {
+            border-left: 6px solid rgba(14, 165, 233, 0.7);
+            background: rgba(14, 165, 233, 0.08);
+        }
+
+        .concept-card strong,
+        .theorem strong,
+        .definition strong,
+        .proof strong,
+        .note strong,
+        .example strong {
+            display: block;
+            font-family: 'Cabin', sans-serif;
+            font-weight: 600;
+            color: var(--accent-strong);
+            letter-spacing: 0.04em;
+            margin-bottom: 8px;
+        }
+
         .formula {
-            background-color: #f0f0f8;
-            padding: 15px;
-            border-radius: 6px;
-            margin: 16px 0;
+            background: rgba(76, 110, 245, 0.08);
+            padding: 18px;
+            border-radius: 16px;
+            margin: 18px 0;
             overflow-x: auto;
             text-align: center;
             font-size: 1.05rem;
             font-family: 'Latin Modern Math', 'Cambria Math', serif;
+            color: var(--accent-strong);
+            border: 1px solid rgba(76, 110, 245, 0.2);
+            box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.35);
         }
-        ul, ol {
-            padding-left: 24px;
-        }
+
         table {
             width: 100%;
             border-collapse: collapse;
             margin: 18px 0;
-            background-color: #fff;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            background: rgba(255, 255, 255, 0.92);
+            border-radius: 18px;
+            overflow: hidden;
+            border: 1px solid rgba(148, 163, 184, 0.3);
+            box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.4);
         }
+
         th, td {
-            border: 1px solid #ddd;
-            padding: 10px 12px;
+            border-bottom: 1px solid rgba(148, 163, 184, 0.25);
+            padding: 12px 16px;
             text-align: center;
+            color: var(--text-secondary);
         }
+
         th {
-            background-color: #e8eaf6;
-            font-weight: bold;
+            background: rgba(76, 110, 245, 0.1);
+            font-weight: 600;
+            color: var(--accent-strong);
+            font-family: 'Cabin', sans-serif;
+            letter-spacing: 0.04em;
         }
-        tr:nth-child(even) {
-            background-color: #f7f7f7;
+
+        tr:last-child td {
+            border-bottom: 0;
         }
+
         .graph {
             text-align: center;
             margin: 24px 0;
         }
+
         .graph svg {
             max-width: 100%;
             height: auto;
-            border-radius: 6px;
-            background-color: #fff;
-            box-shadow: 0 2px 6px rgba(0,0,0,0.12);
+            border-radius: 16px;
+            background: rgba(255, 255, 255, 0.92);
+            border: 1px solid rgba(148, 163, 184, 0.25);
+            box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.4), 0 16px 28px -24px rgba(15, 23, 42, 0.6);
         }
+
         .exercise-list {
-            background-color: #fffbea;
-            border-left: 5px solid #f1c40f;
-            padding: 18px 22px;
-            border-radius: 6px;
+            background: rgba(250, 204, 21, 0.12);
+            border: 1px solid rgba(250, 204, 21, 0.32);
+            padding: 22px 24px;
+            border-radius: 18px;
             margin: 22px 0;
+            box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.4);
+            color: var(--text-secondary);
         }
+
         code {
-            font-family: 'Courier New', Courier, monospace;
-            background-color: #f1f1f1;
-            padding: 2px 4px;
-            border-radius: 3px;
+            font-family: 'Source Code Pro', 'Courier New', monospace;
+            background: rgba(15, 23, 42, 0.12);
+            padding: 2px 6px;
+            border-radius: 6px;
+            color: var(--accent-strong);
         }
-        @media screen and (max-width: 640px) {
+
+        .katex-display {
+            overflow-x: auto;
+            overflow-y: hidden;
+        }
+
+        @media (max-width: 768px) {
             body {
-                padding: 24px 14px 40px;
+                padding: 32px 16px;
             }
-            h1 {
-                font-size: 1.9rem;
+
+            main {
+                padding: 36px 24px;
+                border-radius: 22px;
             }
+
+            section.outline-section {
+                padding: 28px 24px;
+            }
+
             h2 {
-                font-size: 1.2rem;
-                padding-left: 10px;
+                font-size: 22px;
             }
-            .container {
-                padding: 22px 20px 34px;
+
+            h3 {
+                font-size: 18px;
             }
         }
-        .katex-display { overflow-x: auto; overflow-y: hidden; }
     </style>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.10/dist/katex.min.css" integrity="sha384-wcIxkf4k558fYv3mQPFEpCREUQueRFCZrCXCtiKU8aNVbN9ODdVcN3BwCAJ6pcBb" crossorigin="anonymous">
     <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.10/dist/katex.min.js" integrity="sha384-hIoBPJpTUs74ddyc4bFZSM1TVlQDA60VBbJS0oA934VSz82sBx1X7kSx2ATBDIyd" crossorigin="anonymous"></script>
@@ -152,188 +320,156 @@
     </script>
 </head>
 <body>
-    <div class="container">
-        <h1>逆関数と逆三角関数の基礎</h1>
+    <main>
+        <header class="hero">
+            <span class="hero-label">Lecture Notes</span>
+            <h1>逆関数と逆三角関数の基礎</h1>
+            <p>逆関数の存在条件から逆三角関数の微分・積分公式までを一気通貫で整理し、単射性や置換積分のアイデアを可視化する。</p>
+        </header>
 
-        <h2>1. 逆関数の定義と単射性</h2>
-
-        <div class="definition">
-            <strong>逆関数の定義</strong>: 関数 $f: X \to Y$ が全単射（単射かつ全射）であるとき、逆関数 $f^{-1}: Y \to X$ が存在し、任意の $x \in X$, $y \in Y$ について
-            $$f(f^{-1}(y)) = y, \quad f^{-1}(f(x)) = x$$
-            が成り立つ。
-        </div>
-
-        <div class="note">
-            グラフを直線 $y=x$ に関して折り返すと逆関数のグラフが得られる。点 $(a, b)$ が $f$ のグラフ上にあれば、点 $(b, a)$ が $f^{-1}$ のグラフ上に現れる。
-        </div>
-
-        <div class="theorem">
-            <strong>単射性の判定</strong>: 実数の区間 $I$ 上の連続関数 $f$ が単調増加あるいは単調減少であれば、$f$ は単射であり、$f(I)$ 上に逆関数を持つ。
-        </div>
-
-        <div class="proof">
-            <strong>証明の概略</strong>: $x_{1} < x_{2}$ とすると単調性から $f(x_{1}) \neq f(x_{2})$ が従い単射となる。中間値の定理により $f(I)$ 全体を連続的に埋め尽くすため、逆関数 $f^{-1}: f(I) \to I$ が定義できる。
-        </div>
-
-        <div class="example">
-            <strong>例 1</strong>: $f(x) = x$ は恒等関数であり、自身が逆関数になる。<br>
-            <strong>例 2</strong>: $f(x) = x^{2}$ は全実数では単射でなく逆関数を持たないが、$x \geq 0$ に制限すると単調増加となり $f^{-1}(y) = \sqrt{y}$ が得られる。
-        </div>
-
-        <h2>2. 逆関数の微分公式</h2>
-
-        <div class="theorem">
-            <strong>逆関数の導関数</strong>: 関数 $f$ が点 $x_{0}$ の近傍で微分可能で $f'(x_{0}) \neq 0$ とする。このとき $y_{0} = f(x_{0})$ の近傍で逆関数 $f^{-1}$ は微分可能であり、
-            <div class="formula">
-                $(f^{-1})'(y_{0}) = \dfrac{1}{f'(x_{0})} = \dfrac{1}{f'(f^{-1}(y_{0}))}$
+        <section class="outline-section">
+            <h2>1. 関数の復習</h2>
+            <p>$A, B \subset \mathbb{R}$ を集合とする。$A$ から $B$ への関数 $f$ とは、$A$ の各元 $x$ に対して $B$ のただ一つの元 $y$ を対応させる規則であり、$y = f(x)$ と書く。$A$ を定義域、$B$ を値域、像 $f(A)$ を値の取りうる集合と呼ぶ。</p>
+            <div class="example">
+                <strong>例</strong>: $f(x) = x^{2}$ は $\mathbb{R}$ から $[0, \infty)$ への関数であり、$f(\mathbb{R}) = [0, \infty)$ が像となる。
             </div>
-        </div>
+        </section>
 
-        <div class="proof">
-            <strong>導出</strong>: 恒等式 $f(f^{-1}(y)) = y$ を $y$ で微分すると連鎖律より
-            $$f'(f^{-1}(y)) \cdot (f^{-1})'(y) = 1$$
-            となる。$f'(f^{-1}(y))$ がゼロでない範囲では上式を解いて逆関数の導関数を得ることができる。
-        </div>
-
-        <div class="example">
-            <strong>例</strong>: $f(x) = x^{2}$ ($x>0$) に対して $f'(x) = 2x$ なので、逆関数 $g(y) = \sqrt{y}$ の導関数は
-            $$g'(y) = \frac{1}{f'(g(y))} = \frac{1}{2\sqrt{y}}$$
-            となる。
-        </div>
-
-        <div class="note">
-            $f'(x_{0})$ がゼロに近いと $(f^{-1})'(y_{0})$ は大きくなる。極値付近では逆関数のグラフが急激に立ち上がる点に注意する。
-        </div>
-
-        <h2>3. 典型的な逆関数の例</h2>
-
-        <table>
-            <thead>
-                <tr>
-                    <th>関数 $f(x)$</th>
-                    <th>定義域</th>
-                    <th>値域</th>
-                    <th>逆関数</th>
-                    <th>導関数</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td>$x^{3}$</td>
-                    <td>$\mathbb{R}$</td>
-                    <td>$\mathbb{R}$</td>
-                    <td>$\sqrt[3]{y}$</td>
-                    <td>$\dfrac{1}{3\sqrt[3]{y^{2}}}$</td>
-                </tr>
-                <tr>
-                    <td>$e^{x}$</td>
-                    <td>$\mathbb{R}$</td>
-                    <td>$(0, \infty)$</td>
-                    <td>$\log y$</td>
-                    <td>$\dfrac{1}{y}$</td>
-                </tr>
-                <tr>
-                    <td>$\ln x$</td>
-                    <td>$(0, \infty)$</td>
-                    <td>$\mathbb{R}$</td>
-                    <td>$e^{y}$</td>
-                    <td>$e^{y}$</td>
-                </tr>
-            </tbody>
-        </table>
-
-        <div class="note">
-            単調性を保つように定義域を適切に制限することで、多くの初等関数に対して逆関数を定義できる。
-        </div>
-
-        <h2>4. 逆三角関数の定義</h2>
-
-        <div class="definition">
-            <strong>逆三角関数</strong>: 周期性を持つ三角関数から単射な部分を取り出すことで逆関数を定義する。標準的な範囲は次の通りである。
-        </div>
-
-        <table>
-            <thead>
-                <tr>
-                    <th>逆関数</th>
-                    <th>対応する三角関数</th>
-                    <th>値域</th>
-                    <th>定義域</th>
-                    <th>特徴</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td>$\arcsin x$</td>
-                    <td>$\sin y$ ($y \in [-\tfrac{\pi}{2}, \tfrac{\pi}{2}]$)</td>
-                    <td>$[-\tfrac{\pi}{2}, \tfrac{\pi}{2}]$</td>
-                    <td>$[-1, 1]$</td>
-                    <td>奇関数で単調増加</td>
-                </tr>
-                <tr>
-                    <td>$\arccos x$</td>
-                    <td>$\cos y$ ($y \in [0, \pi]$)</td>
-                    <td>$[0, \pi]$</td>
-                    <td>$[-1, 1]$</td>
-                    <td>単調減少</td>
-                </tr>
-                <tr>
-                    <td>$\arctan x$</td>
-                    <td>$\tan y$ ($y \in (-\tfrac{\pi}{2}, \tfrac{\pi}{2})$)</td>
-                    <td>$(-\tfrac{\pi}{2}, \tfrac{\pi}{2})$</td>
-                    <td>$\mathbb{R}$</td>
-                    <td>両端で漸近線を持つ</td>
-                </tr>
-            </tbody>
-        </table>
-
-        <div class="graph">
-            <svg width="420" height="280" viewBox="-40 -40 420 280">
-                <line x1="0" y1="200" x2="360" y2="200" stroke="#444" />
-                <line x1="120" y1="0" x2="120" y2="260" stroke="#444" />
-                <text x="350" y="220">x</text>
-                <text x="105" y="15">y</text>
-                <path d="M 20 40 C 70 80, 110 140, 120 200 C 130 260, 220 320, 320 340" stroke="#1565c0" fill="none" stroke-width="2" />
-                <path d="M 20 360 C 70 300, 140 220, 200 200 C 260 180, 310 140, 320 40" stroke="#c62828" fill="none" stroke-width="2" />
-                <path d="M 20 320 C 80 260, 120 220, 120 200 C 120 180, 200 120, 320 80" stroke="#2e7d32" fill="none" stroke-width="2" />
-                <text x="290" y="60" fill="#1565c0">y = \arcsin(x)</text>
-                <text x="290" y="245" fill="#c62828">y = \arccos(x)</text>
-                <text x="290" y="95" fill="#2e7d32">y = \arctan(x)</text>
-            </svg>
-        </div>
-
-        <h2>5. 逆三角関数の導関数</h2>
-
-        <div class="theorem">
-            <strong>導関数の公式</strong>:
-            <div class="formula">
-                $(\arcsin x)' = \dfrac{1}{\sqrt{1 - x^{2}}}, \quad (\arccos x)' = -\dfrac{1}{\sqrt{1 - x^{2}}}, \quad (\arctan x)' = \dfrac{1}{1 + x^{2}}$
+        <section class="outline-section">
+            <h2>2. 逆関数の定義と単射性</h2>
+            <div class="definition">
+                <strong>逆関数の定義</strong>: 関数 $f: X \to Y$ が単射であるとき、$Y$ 上の関数 $f^{-1}: Y \to X$ を定義でき、任意の $x \in X$, $y \in Y$ に対して
+                <div class="formula">$$f(f^{-1}(y)) = y, \quad f^{-1}(f(x)) = x$$</div>
+                が成り立つ。この $f^{-1}$ を $f$ の逆関数と呼ぶ。
             </div>
-        </div>
+            <div class="note">
+                単調な関数（単調増加または単調減少）は単射であるため、区間上で逆関数が定義される。逆関数の存在を判定する際には、定義域を適切に制限することが重要となる。
+            </div>
+        </section>
 
-        <div class="proof">
-            <strong>証明のヒント</strong>: 恒等式 $\sin(\arcsin x) = x$ を微分すると
-            $$\cos(\arcsin x) \cdot (\arcsin x)' = 1$$
-            となる。単位円の関係 $\cos(\arcsin x) = \sqrt{1 - x^{2}}$ を用いれば導関数が得られる。他の逆三角関数についても同様に導出できる。
-        </div>
-
-        <div class="example">
-            <strong>例</strong>: $y = \arctan x$ のグラフは $x \to \pm\infty$ で $\pm \tfrac{\pi}{2}$ に近づく。導関数 $(\arctan x)' = 1/(1+x^{2})$ は $x$ が大きくなるとゼロに近づき、漸近線に近づく速度を表す。
-        </div>
-
-        <h2>6. 応用と演習</h2>
-
-        <div class="note">
-            逆関数や逆三角関数は極限評価、積分計算、微分方程式の解、確率分布の解析など幅広い分野で現れる。公式を丸暗記するだけでなく、定義から導けるようにしておくと応用力が高まる。
-        </div>
-
-        <div class="exercise-list">
+        <section class="outline-section">
+            <h2>3. 逆関数の求め方</h2>
+            <p>逆関数を求める手順は次のとおりである。</p>
             <ol>
-                <li>$f(x) = x + e^{x}$ が単調増加であることを示し、逆関数の定義域・値域を求めたうえで $(f^{-1})'(1)$ を計算せよ。</li>
-                <li>$\arcsin x + \arccos x$ が定数であることを証明し、その値を求めよ。</li>
-                <li>$g(x) = \arctan(\sqrt{x})$ の導関数を求め、合成関数と逆関数の微分公式の使い分けを練習せよ。</li>
+                <li>$y = f(x)$ とおく。</li>
+                <li>$y$ を固定したまま $x$ を $y$ の式に解き直す。</li>
+                <li>$x = g(y)$ と表された式を $f^{-1}(y)$ と読み替える。</li>
+                <li>必要に応じて $y$ を $x$ に戻し、定義域と値域を確認する。</li>
             </ol>
-        </div>
-    </div>
+            <div class="example">
+                <strong>例</strong>: $f(x) = 2x + 3$ の場合、$y = 2x + 3$ から $x = \dfrac{y - 3}{2}$ を得る。したがって $f^{-1}(y) = \dfrac{y - 3}{2}$、定義域と値域は互いに入れ替わる。
+            </div>
+        </section>
+
+        <section class="outline-section">
+            <h2>4. 逆関数の微分公式</h2>
+            <div class="theorem">
+                <strong>逆関数の導関数</strong>: 関数 $f$ が点 $x_{0}$ の近傍で微分可能で $f'(x_{0}) \neq 0$ とする。このとき $y_{0} = f(x_{0})$ の近傍で逆関数 $f^{-1}$ は微分可能であり、
+                <div class="formula">$$(f^{-1})'(y_{0}) = \dfrac{1}{f'(x_{0})} = \dfrac{1}{f'(f^{-1}(y_{0}))}$$</div>
+                が成り立つ。
+            </div>
+            <div class="proof">
+                <strong>導出</strong>: 恒等式 $f(f^{-1}(y)) = y$ を $y$ で微分すると連鎖律より $f'(f^{-1}(y)) \cdot (f^{-1})'(y) = 1$ を得る。$f'(f^{-1}(y)) \neq 0$ の範囲で解けば上の公式になる。
+            </div>
+        </section>
+
+        <section class="outline-section">
+            <h2>5. 逆三角関数の定義</h2>
+            <p>三角関数は周期的で単射ではないため、適切な区間に制限して逆関数を定義する。標準的な選び方を以下にまとめる。</p>
+            <div class="definition">
+                <strong>逆三角関数</strong>: 三角関数の単射な部分に制限を与え、その部分の逆関数として $\arcsin, \arccos, \arctan$ を定義する。
+            </div>
+            <table>
+                <thead>
+                    <tr>
+                        <th>逆関数</th>
+                        <th>対応する三角関数</th>
+                        <th>値域</th>
+                        <th>定義域</th>
+                        <th>特徴</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>$\arcsin x$</td>
+                        <td>$\sin y$ ($y \in [-\tfrac{\pi}{2}, \tfrac{\pi}{2}]$)</td>
+                        <td>$[-\tfrac{\pi}{2}, \tfrac{\pi}{2}]$</td>
+                        <td>$[-1, 1]$</td>
+                        <td>奇関数で単調増加</td>
+                    </tr>
+                    <tr>
+                        <td>$\arccos x$</td>
+                        <td>$\cos y$ ($y \in [0, \pi]$)</td>
+                        <td>$[0, \pi]$</td>
+                        <td>$[-1, 1]$</td>
+                        <td>単調減少</td>
+                    </tr>
+                    <tr>
+                        <td>$\arctan x$</td>
+                        <td>$\tan y$ ($y \in (-\tfrac{\pi}{2}, \tfrac{\pi}{2})$)</td>
+                        <td>$(-\tfrac{\pi}{2}, \tfrac{\pi}{2})$</td>
+                        <td>$\mathbb{R}$</td>
+                        <td>両端に水平漸近線を持つ</td>
+                    </tr>
+                </tbody>
+            </table>
+            <div class="graph">
+                <svg width="420" height="280" viewBox="-40 -40 420 280">
+                    <line x1="0" y1="200" x2="360" y2="200" stroke="#444"></line>
+                    <line x1="120" y1="0" x2="120" y2="260" stroke="#444"></line>
+                    <text x="350" y="220">x</text>
+                    <text x="105" y="15">y</text>
+                    <path d="M 20 160 C 80 120, 120 80, 200 60 C 280 40, 320 20, 340 0" stroke="#1565c0" fill="none" stroke-width="2"></path>
+                    <path d="M 20 40 C 100 60, 160 100, 200 160 C 240 220, 280 240, 320 240" stroke="#c62828" fill="none" stroke-width="2"></path>
+                    <path d="M 20 200 C 120 160, 200 140, 320 120" stroke="#2e7d32" fill="none" stroke-width="2"></path>
+                    <text x="260" y="30" fill="#1565c0">y = \arcsin x</text>
+                    <text x="260" y="230" fill="#c62828">y = \arccos x</text>
+                    <text x="260" y="140" fill="#2e7d32">y = \arctan x</text>
+                </svg>
+            </div>
+        </section>
+
+        <section class="outline-section">
+            <h2>6. 逆三角関数の導関数</h2>
+            <div class="theorem">
+                <strong>導関数の公式</strong>:
+                <div class="formula">$$(\arcsin x)' = \dfrac{1}{\sqrt{1 - x^{2}}}, \quad (\arccos x)' = -\dfrac{1}{\sqrt{1 - x^{2}}}, \quad (\arctan x)' = \dfrac{1}{1 + x^{2}}$$</div>
+            </div>
+            <div class="proof">
+                <strong>証明のヒント</strong>: 恒等式 $\sin(\arcsin x) = x$ を微分すると $\cos(\arcsin x) \cdot (\arcsin x)' = 1$ を得る。単位円の関係 $\cos(\arcsin x) = \sqrt{1 - x^{2}}$ を用いれば導関数が求まる。他の逆三角関数も同様に処理できる。
+            </div>
+            <div class="example">
+                <strong>例</strong>: $y = \arctan x$ の導関数 $(\arctan x)' = 1/(1+x^{2})$ は $|x|$ が大きいほど小さくなり、グラフが水平漸近線 $y = \pm \tfrac{\pi}{2}$ に近づく様子を示す。
+            </div>
+        </section>
+
+        <section class="outline-section">
+            <h2>7. 逆三角関数の積分公式</h2>
+            <p>逆三角関数は置換積分と平方完成を組み合わせることで自然に現れる。以下の基本的な積分公式を押さえておくと応用が広がる。</p>
+            <div class="formula">
+                $$\int \dfrac{1}{\sqrt{1 - x^{2}}} \, dx = \arcsin x + C, \quad \int \dfrac{1}{1 + x^{2}} \, dx = \arctan x + C$$
+                $$\int \dfrac{1}{1 - x^{2}} \, dx = \tfrac{1}{2}\log\left|\dfrac{1 + x}{1 - x}\right| + C = \operatorname{artanh} x + C$$
+            </div>
+            <div class="example">
+                <strong>例</strong>: $\displaystyle \int_{0}^{1/2} \dfrac{1}{\sqrt{1 - x^{2}}} \, dx$ は $\left[\arcsin x\right]_{0}^{1/2} = \arcsin(1/2) = \tfrac{\pi}{6}$ となる。平方根を含む積分が逆三角関数に変換されている点に注目する。
+            </div>
+            <div class="note">
+                $\int \dfrac{1}{a^{2}+x^{2}} \, dx = \dfrac{1}{a} \arctan\left(\dfrac{x}{a}\right) + C$ や $\int \dfrac{1}{\sqrt{a^{2}-x^{2}}} \, dx = \arcsin\left(\dfrac{x}{a}\right) + C$ など、係数 $a$ の有無に注意してスケール調整を行うと計算がスムーズになる。
+            </div>
+        </section>
+
+        <section class="outline-section focus-card">
+            <h2>8. 応用と演習</h2>
+            <p>逆関数や逆三角関数は極限評価、積分計算、微分方程式の解、確率分布の解析など幅広い分野で現れる。定義から性質を導けるように練習しておこう。</p>
+            <div class="exercise-list">
+                <ol>
+                    <li>$f(x) = x + e^{x}$ が単調増加であることを示し、逆関数の定義域・値域を求めたうえで $(f^{-1})'(1)$ を計算せよ。</li>
+                    <li>$\arcsin x + \arccos x$ が定数であることを証明し、その値を求めよ。</li>
+                    <li>$g(x) = \arctan(\sqrt{x})$ の導関数を求め、合成関数と逆関数の微分公式の使い分けを練習せよ。</li>
+                    <li>$\displaystyle \int \dfrac{1}{4 + x^{2}} \, dx$ を計算し、逆三角関数の積分公式を活用せよ。</li>
+                </ol>
+            </div>
+        </section>
+    </main>
 </body>
 </html>
