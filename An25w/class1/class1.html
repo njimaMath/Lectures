@@ -399,7 +399,7 @@
         <section class="outline-section">
             <h2>Section 3. 逆三角関数</h2>
             
-            <p>$f(x) = \sin(x)$ (定義域: $[-\pi/2,\pi/2]$)を考える. $g(x)$を$f$の逆関数とするとき, $g$を$\arcsin$, $\Sin^{-1}$と書く。$g(x)$の値を主値と呼ぶ.</p>
+            <p>$f(x) = \sin(x)$ (定義域: $[-\pi/2,\pi/2]$)を考える. $g(x)$を$f$の逆関数とするとき, $g$を$\arcsin$, ${\rm Sin}^{-1}$と書く。$g(x)$の値を主値と呼ぶ.</p>
 
             <div class="note">
                 <strong>主値のポイント:</strong>
@@ -495,14 +495,14 @@
                     <text x="150" y="300" font-size="16" fill="#1e293b" font-weight="bold">グラフ: x = sin(y), y ∈ [-π/2, π/2]</text>
                 </svg>
                 <p style="text-align: center; margin-top: 12px; color: var(--text-secondary);">
-                    横軸が$y$、縦軸が$x$のグラフ。$x=1/2$に対応する$y$の値が$\Sin^{-1}(1/2) = \pi/6$となる。
+                    横軸が$y$、縦軸が$x$のグラフ。$x=1/2$に対応する$y$の値が${\rm Sin}^{-1}(1/2) = \pi/6$となる。
                 </p>
             </div>
 
             <h3>グラフの読み方</h3>
             <ol>
                 <li>横軸で求めたい角度$y$を探し, 縦軸に対応する$x=\sin(y)$を確認する。</li>
-                <li>逆に, 与えられた$x$から縦方向に進み, 曲線と交わる点の横座標が$\Sin^{-1}(x)$となる。</li>
+                <li>逆に, 与えられた$x$から縦方向に進み, 曲線と交わる点の横座標が${\rm Sin}^{-1}(x)$となる。</li>
                 <li>主値範囲を外れる箇所では別の枝の値が現れるため, グラフの中央帯を意識する。</li>
             </ol>
 
@@ -513,13 +513,13 @@
             <div class="example">
                 <strong>例:</strong>
                 <ol>
-                    <li>$\Sin^{-1}(0)$を求めよ.</li>
-                    <li>$\Sin^{-1}(\sqrt{3}/2)$</li>
-                    <li>$\Sin^{-1}(-\sqrt{2}/2)$</li>
+                    <li>${\rm Sin}^{-1}(0)$を求めよ.</li>
+                    <li>${\rm Sin}^{-1}(\sqrt{3}/2)$</li>
+                    <li>${\rm Sin}^{-1}(-\sqrt{2}/2)$</li>
                 </ol>
             </div>
 
-            <p>$f(x)=\cos x$ (定義域: $[0,\pi]$)と$f(x)=\tan x$ (定義域: $(-\pi/2,\pi/2)$)の逆関数をそれぞれ, $\Cos^{-1}$, $\Tan^{-1}$と書く.</p>
+            <p>$f(x)=\cos x$ (定義域: $[0,\pi]$)と$f(x)=\tan x$ (定義域: $(-\pi/2,\pi/2)$)の逆関数をそれぞれ, ${\rm Cos}^{-1}$, ${\rm Tan}^{-1}$と書く.</p>
         </section>
 
         <section class="outline-section">
@@ -527,22 +527,22 @@
             
             <h3>導出のステップ</h3>
             <ol>
-                <li>$x = \sin(\Sin^{-1}(x))$を用いて, 合成関数の微分を考える。</li>
-                <li>両辺を$x$で微分し, 出てきた$\cos(\Sin^{-1}(x))$を整理する。</li>
-                <li>$y=\Sin^{-1}(x)$とおけば$y\in [-\pi/2,\pi/2]$で, $\cos(y)=\sqrt{1-\sin^2(y)}$ に注意する。</li>
+                <li>$x = \sin({\rm Sin}^{-1}(x))$を用いて, 合成関数の微分を考える。</li>
+                <li>両辺を$x$で微分し, 出てきた$\cos({\rm Sin}^{-1}(x))$を整理する。</li>
+                <li>$y={\rm Sin}^{-1}(x)$とおけば$y\in [-\pi/2,\pi/2]$で, $\cos(y)=\sqrt{1-\sin^2(y)}$ に注意する。</li>
             </ol>
 
             <div class="formula">
-                $$1 = \cos(\Sin^{-1}(x)) \cdot (\Sin^{-1}(x))'$$
+                $$1 = \cos({\rm Sin}^{-1}(x)) \cdot ({\rm Sin}^{-1}(x))'$$
             </div>
 
             <div class="formula">
-                $$\cos(\Sin^{-1}(x))=\sqrt{1-\sin^2(\Sin^{-1}(x))}=\sqrt{1-x^2}$$
+                $$\cos({\rm Sin}^{-1}(x))=\sqrt{1-\sin^2({\rm Sin}^{-1}(x))}=\sqrt{1-x^2}$$
             </div>
 
             <p>したがって</p>
             <div class="formula">
-                $$(\Sin^{-1}(x))' = \frac{1}{\cos(\Sin^{-1}(x))} = \frac{1}{\sqrt{1-x^2}}$$
+                $$({\rm Sin}^{-1}(x))' = \frac{1}{\cos({\rm Sin}^{-1}(x))} = \frac{1}{\sqrt{1-x^2}}$$
             </div>
 
             <div class="note">
@@ -552,24 +552,24 @@
             <div class="theorem">
                 <strong>逆三角関数の導関数:</strong>
                 <div class="formula">
-                    $$(\Cos^{-1}(x))' = -\frac{1}{\sqrt{1-x^2}}$$
-                    $$(\Tan^{-1}(x))' = \frac{1}{1+x^2}$$
+                    $$({\rm Cos}^{-1}(x))' = -\frac{1}{\sqrt{1-x^2}}$$
+                    $$({\rm Tan}^{-1}(x))' = \frac{1}{1+x^2}$$
                 </div>
             </div>
 
             <p>これらを使うと次の積分問題を逆三角関数を用いてかける:</p>
             <div class="formula">
-                $$\int \frac{1}{\sqrt{1-x^2}} dx = \Sin^{-1}(x) + C$$
-                $$\int \frac{1}{1+x^2} dx = \Tan^{-1}(x) + C$$
+                $$\int \frac{1}{\sqrt{1-x^2}} dx = {\rm Sin}^{-1}(x) + C$$
+                $$\int \frac{1}{1+x^2} dx = {\rm Tan}^{-1}(x) + C$$
             </div>
 
             <h3>例題</h3>
             <div class="example">
                 <strong>例:</strong>
                 <ol>
-                    <li>$\Tan^{-1}(\sqrt{3})$の値</li>
-                    <li>$\Sin^{-1}(\Cos^{-1}(x))$の微分</li>
-                    <li>$\displaystyle\int \Sin^{-1}(x) dx = x \Sin^{-1}(x) - \int \frac{x}{\sqrt{1-x^2}} dx = x \Sin^{-1}(x) + \sqrt{1-x^2} + C$</li>
+                    <li>${\rm Tan}^{-1}(\sqrt{3})$の値</li>
+                    <li>${\rm Sin}^{-1}({\rm Cos}^{-1}(x))$の微分</li>
+                    <li>$\displaystyle\int {\rm Sin}^{-1}(x) dx = x {\rm Sin}^{-1}(x) - \int \frac{x}{\sqrt{1-x^2}} dx = x {\rm Sin}^{-1}(x) + \sqrt{1-x^2} + C$</li>
                     <li>$\displaystyle\int \frac{x^4}{1+ x^2} dx$</li>
                 </ol>
              </div>
