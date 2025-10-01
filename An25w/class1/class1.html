@@ -352,11 +352,11 @@
             <h2>Section 2. 逆関数</h2>
             
             <div class="definition">
-                <strong>定義</strong>: 定義域$A$上で定義された関数が$B$に値取るとき, $f: A\to B$と書く
+                <strong>定義:</strong> 定義域$A$上で定義された関数が$B$に値取るとき, $f: A\to B$と書く
             </div>
 
             <div class="example">
-                <strong>例</strong>: 
+                <strong>例:</strong> 
                 <ol>
                     <li>$f(x)=x^2$は$f:\mathbb{R}\to [0,\infty)$</li>
                     <li>$f(x)=\sqrt{x}$は$f: [0,\infty)\to [0,\infty)$</li>
@@ -364,7 +364,7 @@
             </div>
 
             <div class="definition">
-                <strong>定義</strong>: 関数$f:A\to B$を考える. 次を満たす関数$g:B\to A$を$f$の逆関数と呼ぶ:
+                <strong>定義:</strong> 関数$f:A\to B$を考える. 次を満たす関数$g:B\to A$を$f$の逆関数と呼ぶ:
                 <div class="formula">
                     $$\forall x\in A, \quad g\circ f(x)=x$$
                     $$\forall y\in B, \quad f\circ g(y)=y$$
@@ -372,10 +372,19 @@
             </div>
 
             <h3>逆関数の求め方</h3>
-            <p>$f$を関数(わかっている), $g$を$f$の逆関数(わからない)とする. 関数$g$は$x=f(y)$を$y=$[xの式]の形に解くことで求められる.</p>
+            <p>$f$を既知の関数, $g$を$f$の逆関数とするとき, 次の手順で$g$を求めると整理しやすい.</p>
+            <ol>
+                <li>$y$を元の入力, $x=f(y)$を出力として立式する。</li>
+                <li>$x$と$y$を入れ替え, $y$について方程式を解く。</li>
+                <li>得られた式$y=g(x)$の定義域を, もとの$f$の値域と一致するよう確認する。</li>
+            </ol>
+
+            <div class="note">
+                <strong>注意:</strong> 逆関数が存在するには$f$が一対一対応 (単調性など) を満たし, 値域が明確になっている必要がある。
+            </div>
 
             <div class="proof">
-                <strong>理由</strong>:
+                <strong>理由:</strong>
                 <ol>
                     <li>$x=f(y)$とする. 両辺に$g$を適用</li>
                     <li>$g(x) = g\circ f(y)=y$</li>
@@ -383,11 +392,12 @@
             </div>
 
             <div class="example">
-                <strong>例</strong>:
+                <strong>例:</strong>
                 <ol>
                     <li>$f(x)=x^2+2x$の逆関数を求めよ. (定義域は気にしなくて良い)</li>
                     <li>$f(x) = e^{x^2}$の逆関数を求めよ. (定義域は気にしなくて良い)</li>
                 </ol>
+                <p>手順に従い, 二乗完成や対数を用いれば$y$を$x$の式として整理できる。</p>
             </div>
         </section>
 
@@ -396,63 +406,96 @@
             
             <p>$f(x) = \sin(x)$ (定義域: $[-\pi/2,\pi/2]$)を考える. $g(x)$を$f$の逆関数とするとき, $g$を$\arcsin$, $\sin^{-1}$と書く。$g(x)$の値を主値と呼ぶ.</p>
 
+            <div class="note">
+                <strong>主値のポイント:</strong>
+                <ul>
+                    <li>$g$の値域は$[-\pi/2, \pi/2]$に限定し, 同じ$x$でも範囲外の値は採用しない。</li>
+                    <li>$\sin$のグラフを横方向に眺めると, $x$に対し唯一の$y$が対応する区間を選んでいる。</li>
+                    <li>逆関数と元の関数の定義域・値域を取り違えないよう, 必ず表で整理する。</li>
+                </ul>
+            </div>
+
             <div class="graph">
-                <svg width="600" height="400" viewBox="-50 -50 600 400">
+                <svg width="500" height="320" viewBox="0 0 500 320" aria-labelledby="arcsin-graph-title">
+                    <title id="arcsin-graph-title">Graph of x = sin(y)</title>
+
+                    <!-- Plot frame -->
+                    <rect x="80" y="60" width="340" height="200" fill="rgba(148, 163, 184, 0.12)" stroke="none"></rect>
+
                     <!-- Grid lines -->
-                    <line x1="0" y1="0" x2="0" y2="320" stroke="#cbd5e1" stroke-width="1"></line>
-                    <line x1="0" y1="160" x2="500" y2="160" stroke="#cbd5e1" stroke-width="1"></line>
-                    
+                    <line x1="80" y1="60" x2="420" y2="60" stroke="rgba(148, 163, 184, 0.35)" stroke-dasharray="6 8"></line>
+                    <line x1="80" y1="110" x2="420" y2="110" stroke="rgba(148, 163, 184, 0.25)" stroke-dasharray="4 8"></line>
+                    <line x1="80" y1="160" x2="420" y2="160" stroke="rgba(148, 163, 184, 0.35)" stroke-dasharray="6 8"></line>
+                    <line x1="80" y1="210" x2="420" y2="210" stroke="rgba(148, 163, 184, 0.25)" stroke-dasharray="4 8"></line>
+                    <line x1="80" y1="260" x2="420" y2="260" stroke="rgba(148, 163, 184, 0.35)" stroke-dasharray="6 8"></line>
+
+                    <line x1="80" y1="60" x2="80" y2="260" stroke="rgba(148, 163, 184, 0.35)" stroke-dasharray="6 8"></line>
+                    <line x1="165" y1="60" x2="165" y2="260" stroke="rgba(148, 163, 184, 0.25)" stroke-dasharray="4 8"></line>
+                    <line x1="250" y1="60" x2="250" y2="260" stroke="rgba(148, 163, 184, 0.35)" stroke-dasharray="6 8"></line>
+                    <line x1="335" y1="60" x2="335" y2="260" stroke="rgba(148, 163, 184, 0.25)" stroke-dasharray="4 8"></line>
+                    <line x1="420" y1="60" x2="420" y2="260" stroke="rgba(148, 163, 184, 0.35)" stroke-dasharray="6 8"></line>
+
                     <!-- Axes -->
-                    <line x1="0" y1="160" x2="500" y2="160" stroke="#1e293b" stroke-width="2"></line>
-                    <line x1="250" y1="0" x2="250" y2="320" stroke="#1e293b" stroke-width="2"></line>
-                    
+                    <line x1="80" y1="160" x2="420" y2="160" stroke="#1e293b" stroke-width="2"></line>
+                    <line x1="250" y1="60" x2="250" y2="260" stroke="#1e293b" stroke-width="2"></line>
+
+                    <!-- Axis arrows -->
+                    <path d="M 420 160 L 410 154" stroke="#1e293b" stroke-width="2" fill="none"></path>
+                    <path d="M 420 160 L 410 166" stroke="#1e293b" stroke-width="2" fill="none"></path>
+                    <path d="M 250 60 L 244 70" stroke="#1e293b" stroke-width="2" fill="none"></path>
+                    <path d="M 250 60 L 256 70" stroke="#1e293b" stroke-width="2" fill="none"></path>
+
                     <!-- Axis labels -->
-                    <text x="490" y="150" font-size="16" fill="#1e293b">y</text>
-                    <text x="260" y="15" font-size="16" fill="#1e293b">x</text>
-                    
-                    <!-- y-axis tick marks and labels -->
+                    <text x="430" y="154" font-size="16" fill="#1e293b">y</text>
+                    <text x="258" y="70" font-size="16" fill="#1e293b">x</text>
+
+                    <!-- Vertical axis (x) tick marks and labels -->
                     <line x1="245" y1="60" x2="255" y2="60" stroke="#1e293b" stroke-width="2"></line>
-                    <text x="200" y="65" font-size="14" fill="#1e293b">π/2</text>
-                    
+                    <text x="230" y="65" font-size="14" fill="#1e293b">1</text>
+
                     <line x1="245" y1="110" x2="255" y2="110" stroke="#1e293b" stroke-width="2"></line>
-                    <text x="200" y="115" font-size="14" fill="#1e293b">π/4</text>
-                    
+                    <text x="222" y="115" font-size="14" fill="#1e293b">1/2</text>
+
                     <line x1="245" y1="160" x2="255" y2="160" stroke="#1e293b" stroke-width="2"></line>
-                    <text x="220" y="180" font-size="14" fill="#1e293b">0</text>
-                    
+                    <text x="230" y="165" font-size="14" fill="#1e293b">0</text>
+
                     <line x1="245" y1="210" x2="255" y2="210" stroke="#1e293b" stroke-width="2"></line>
-                    <text x="195" y="215" font-size="14" fill="#1e293b">-π/4</text>
-                    
+                    <text x="222" y="215" font-size="14" fill="#1e293b">-1/2</text>
+
                     <line x1="245" y1="260" x2="255" y2="260" stroke="#1e293b" stroke-width="2"></line>
-                    <text x="195" y="265" font-size="14" fill="#1e293b">-π/2</text>
-                    
-                    <!-- x-axis tick marks and labels -->
-                    <line x1="150" y1="155" x2="150" y2="165" stroke="#1e293b" stroke-width="2"></line>
-                    <text x="140" y="180" font-size="14" fill="#1e293b">-1</text>
-                    
-                    <line x1="350" y1="155" x2="350" y2="165" stroke="#1e293b" stroke-width="2"></line>
-                    <text x="345" y="180" font-size="14" fill="#1e293b">1</text>
-                    
-                    <!-- Sine curve: x = sin(y), so we plot points (sin(y), y) -->
-                    <!-- We convert: x_screen = 250 + 200*sin(y), y_screen = 160 - 200*y/1.57 -->
-                    <path d="M 250,60 C 280,70 310,85 330,95 C 350,105 360,120 365,135 C 368,145 370,150 370,160 C 370,170 368,175 365,185 C 360,200 350,215 330,225 C 310,235 280,250 250,260 C 220,250 190,235 170,225 C 150,215 140,200 135,185 C 132,175 130,170 130,160 C 130,150 132,145 135,135 C 140,120 150,105 170,95 C 190,85 220,70 250,60" 
-                          stroke="#2563eb" fill="none" stroke-width="3"></path>
-                    
-                    <!-- Example point: finding sin^{-1}(0.5) -->
-                    <!-- sin^{-1}(0.5) = π/6 ≈ 0.524 -->
-                    <!-- x = 0.5 corresponds to x_screen = 250 + 200*0.5 = 350 -->
-                    <!-- y = π/6 corresponds to y_screen = 160 - 200*0.524/1.57 ≈ 93 -->
-                    <circle cx="300" cy="110" r="5" fill="#dc2626"></circle>
-                    
-                    <!-- Dashed lines showing the correspondence -->
-                    <line x1="300" y1="110" x2="300" y2="160" stroke="#dc2626" stroke-width="2" stroke-dasharray="5,5"></line>
-                    <line x1="250" y1="110" x2="300" y2="110" stroke="#dc2626" stroke-width="2" stroke-dasharray="5,5"></line>
-                    
+                    <text x="226" y="265" font-size="14" fill="#1e293b">-1</text>
+
+                    <!-- Horizontal axis (y) tick marks and labels -->
+                    <line x1="80" y1="155" x2="80" y2="165" stroke="#1e293b" stroke-width="2"></line>
+                    <text x="62" y="185" font-size="14" fill="#1e293b">-π/2</text>
+
+                    <line x1="165" y1="155" x2="165" y2="165" stroke="#1e293b" stroke-width="2"></line>
+                    <text x="147" y="185" font-size="14" fill="#1e293b">-π/4</text>
+
+                    <line x1="250" y1="155" x2="250" y2="165" stroke="#1e293b" stroke-width="2"></line>
+                    <text x="244" y="185" font-size="14" fill="#1e293b">0</text>
+
+                    <line x1="335" y1="155" x2="335" y2="165" stroke="#1e293b" stroke-width="2"></line>
+                    <text x="322" y="185" font-size="14" fill="#1e293b">π/4</text>
+
+                    <line x1="420" y1="155" x2="420" y2="165" stroke="#1e293b" stroke-width="2"></line>
+                    <text x="408" y="185" font-size="14" fill="#1e293b">π/2</text>
+
+                    <!-- Sine curve: x = sin(y) -->
+                    <path d="M 80.000,260.000 81.889,259.985 83.778,259.939 85.667,259.863 87.556,259.756 89.444,259.619 91.333,259.452 93.222,259.255 95.111,259.027 97.000,258.769 98.889,258.481 100.778,258.163 102.667,257.815 104.556,257.437 106.444,257.030 108.333,256.593 110.222,256.126 112.111,255.630 114.000,255.106 115.889,254.552 117.778,253.969 119.667,253.358 121.556,252.718 123.444,252.050 125.333,251.355 127.222,250.631 129.111,249.879 131.000,249.101 132.889,248.295 134.778,247.462 136.667,246.603 138.556,245.717 140.444,244.805 142.333,243.867 144.222,242.904 146.111,241.915 148.000,240.902 149.889,239.864 151.778,238.801 153.667,237.715 155.556,236.604 157.444,235.471 159.333,234.314 161.222,233.135 163.111,231.934 165.000,230.711 166.889,229.466 168.778,228.200 170.667,226.913 172.556,225.606 174.444,224.279 176.333,222.932 178.222,221.566 180.111,220.182 182.000,218.779 183.889,217.358 185.778,215.919 187.667,214.464 189.556,212.992 191.444,211.504 193.333,210.000 195.222,208.481 197.111,206.947 199.000,205.399 200.889,203.837 202.778,202.262 204.667,200.674 206.556,199.073 208.444,197.461 210.333,195.837 212.222,194.202 214.111,192.557 216.000,190.902 217.889,189.237 219.778,187.564 221.667,185.882 223.556,184.192 225.444,182.495 227.333,180.791 229.222,179.081 231.111,177.365 233.000,175.643 234.889,173.917 236.778,172.187 238.667,170.453 240.556,168.716 242.444,166.976 244.333,165.234 246.222,163.490 248.111,161.745 250.000,160.000 251.889,158.255 253.778,156.510 255.667,154.766 257.556,153.024 259.444,151.284 261.333,149.547 263.222,147.813 265.111,146.083 267.000,144.357 268.889,142.635 270.778,140.919 272.667,139.209 274.556,137.505 276.444,135.808 278.333,134.118 280.222,132.436 282.111,130.763 284.000,129.098 285.889,127.443 287.778,125.798 289.667,124.163 291.556,122.539 293.444,120.927 295.333,119.326 297.222,117.738 299.111,116.163 301.000,114.601 302.889,113.053 304.778,111.519 306.667,110.000 308.556,108.496 310.444,107.008 312.333,105.536 314.222,104.081 316.111,102.642 318.000,101.221 319.889,99.818 321.778,98.434 323.667,97.068 325.556,95.721 327.444,94.394 329.333,93.087 331.222,91.800 333.111,90.534 335.000,89.289 336.889,88.066 338.778,86.865 340.667,85.686 342.556,84.529 344.444,83.396 346.333,82.285 348.222,81.199 350.111,80.136 352.000,79.098 353.889,78.085 355.778,77.096 357.667,76.133 359.556,75.195 361.444,74.283 363.333,73.397 365.222,72.538 367.111,71.705 369.000,70.899 370.889,70.121 372.778,69.369 374.667,68.645 376.556,67.950 378.444,67.282 380.333,66.642 382.222,66.031 384.111,65.448 386.000,64.894 387.889,64.370 389.778,63.874 391.667,63.407 393.556,62.970 395.444,62.563 397.333,62.185 399.222,61.837 401.111,61.519 403.000,61.231 404.889,60.973 406.778,60.745 408.667,60.548 410.556,60.381 412.444,60.244 414.333,60.137 416.222,60.061 418.111,60.015 420.000,60.000" stroke="#2563eb" stroke-width="3" fill="none" stroke-linecap="round"></path>
+
+                    <!-- Example point: sin^{-1}(1/2) = π/6 -->
+                    <circle cx="306.667" cy="110" r="5" fill="#dc2626"></circle>
+
+                    <!-- Projection lines -->
+                    <line x1="306.667" y1="110" x2="306.667" y2="160" stroke="#dc2626" stroke-width="2" stroke-dasharray="5 5"></line>
+                    <line x1="250" y1="110" x2="306.667" y2="110" stroke="#dc2626" stroke-width="2" stroke-dasharray="5 5"></line>
+
                     <!-- Labels for the example point -->
-                    <text x="305" y="145" font-size="14" fill="#dc2626">x = 1/2</text>
-                    <text x="180" y="105" font-size="14" fill="#dc2626">y = π/6</text>
-                    <text x="305" y="100" font-size="14" fill="#dc2626" font-weight="bold">(1/2, π/6)</text>
-                    
+                    <text x="188" y="108" font-size="14" fill="#dc2626">x = 1/2</text>
+                    <text x="310" y="178" font-size="14" fill="#dc2626">y = π/6</text>
+                    <text x="312" y="102" font-size="14" fill="#dc2626" font-weight="bold">(1/2, π/6)</text>
+
                     <!-- Title -->
                     <text x="150" y="300" font-size="16" fill="#1e293b" font-weight="bold">グラフ: x = sin(y), y ∈ [-π/2, π/2]</text>
                 </svg>
@@ -461,12 +504,19 @@
                 </p>
             </div>
 
+            <h3>グラフの読み方</h3>
+            <ol>
+                <li>横軸で求めたい角度$y$を探し, 縦軸に対応する$x=\sin(y)$を確認する。</li>
+                <li>逆に, 与えられた$x$から縦方向に進み, 曲線と交わる点の横座標が$\sin^{-1}(x)$となる。</li>
+                <li>主値範囲を外れる箇所では別の枝の値が現れるため, グラフの中央帯を意識する。</li>
+            </ol>
+
             <div class="note">
-                <strong>注意</strong>: $\sin$の定義域をかえると、異なる値がでてくる。
+                <strong>注意:</strong> $\sin$の定義域をかえると、異なる値がでてくる。
             </div>
 
             <div class="example">
-                <strong>例</strong>:
+                <strong>例:</strong>
                 <ol>
                     <li>$\sin^{-1}(0)$を求めよ.</li>
                     <li>$\sin^{-1}(\sqrt{3}/2)$</li>
@@ -480,23 +530,32 @@
         <section class="outline-section">
             <h2>Section 4. 逆三角関数の微分</h2>
             
-            <p>$x = \sin(\sin^{-1}(x))$より両辺を微分すると:</p>
+            <h3>導出のステップ</h3>
+            <ol>
+                <li>$x = \sin(\sin^{-1}(x))$を用いて, 合成関数の微分を考える。</li>
+                <li>両辺を$x$で微分し, 出てきた$\cos(\sin^{-1}(x))$を整理する。</li>
+                <li>$y=\sin^{-1}(x)$とおけば$y\in [-\pi/2,\pi/2]$で, $\cos(y)=\sqrt{1-\sin^2(y)}$ に注意する。</li>
+            </ol>
+
             <div class="formula">
                 $$1 = \cos(\sin^{-1}(x)) \cdot (\sin^{-1}(x))'$$
             </div>
 
-            <p>$y\in [-\pi/2,\pi/2]$のとき, $\cos(y)=\sqrt{1-\sin^2(y)}$ より</p>
             <div class="formula">
                 $$\cos(\sin^{-1}(x))=\sqrt{1-\sin^2(\sin^{-1}(x))}=\sqrt{1-x^2}$$
             </div>
-            
-            <p>であるので,</p>
+
+            <p>したがって</p>
             <div class="formula">
                 $$(\sin^{-1}(x))' = \frac{1}{\cos(\sin^{-1}(x))} = \frac{1}{\sqrt{1-x^2}}$$
             </div>
 
+            <div class="note">
+                <strong>見落としがちな点:</strong> 平方根は常に非負なので, 分母がゼロになる$x=\pm1$では導関数が定義されない。
+            </div>
+
             <div class="theorem">
-                <strong>逆三角関数の導関数</strong>:
+                <strong>逆三角関数の導関数:</strong>
                 <div class="formula">
                     $$(\cos^{-1}(x))' = -\frac{1}{\sqrt{1-x^2}}$$
                     $$(\tan^{-1}(x))' = \frac{1}{1+x^2}$$
@@ -511,13 +570,14 @@
 
             <h3>例題</h3>
             <div class="example">
-                <strong>例</strong>:
+                <strong>例:</strong>
                 <ol>
                     <li>$\tan^{-1}(\sqrt{3})$の値</li>
                     <li>$\sin^{-1}(\cos^{-1}(x))$の微分</li>
                     <li>$\displaystyle\int \sin^{-1}(x) dx = x \sin^{-1}(x) - \int \frac{x}{\sqrt{1-x^2}} dx = x \sin^{-1}(x) + \sqrt{1-x^2} + C$</li>
                     <li>$\displaystyle\int \frac{x^4}{1+ x^2} dx$</li>
                 </ol>
+                <p>逆三角関数を含む式では, 置き換えで角度と値の範囲を再確認しつつ計算を進めるとミスが減る。</p>
             </div>
         </section>
     </main>
