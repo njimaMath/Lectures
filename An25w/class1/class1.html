@@ -323,150 +323,200 @@
     <main>
         <header class="hero">
             <span class="hero-label">Lecture Notes</span>
-            <h1>逆関数と逆三角関数の基礎</h1>
-            <p>逆関数の存在条件から逆三角関数の微分・積分公式までを一気通貫で整理し、単射性や置換積分のアイデアを可視化する。</p>
+            <h1>逆関数と逆三角関数</h1>
+            <p>逆関数の定義から逆三角関数の微分・積分まで</p>
         </header>
 
         <section class="outline-section">
-            <h2>1. 関数の復習</h2>
-            <p>$A, B \subset \mathbb{R}$ を集合とする。$A$ から $B$ への関数 $f$ とは、$A$ の各元 $x$ に対して $B$ のただ一つの元 $y$ を対応させる規則であり、$y = f(x)$ と書く。$A$ を定義域、$B$ を値域、像 $f(A)$ を値の取りうる集合と呼ぶ。</p>
-            <div class="example">
-                <strong>例</strong>: $f(x) = x^{2}$ は $\mathbb{R}$ から $[0, \infty)$ への関数であり、$f(\mathbb{R}) = [0, \infty)$ が像となる。
-            </div>
+            <h2>Section 1. 授業説明</h2>
+            
+            <h3>1) 成績</h3>
+            <ul>
+                <li>小テスト＋課題 20%</li>
+                <li>中間テスト 30%</li>
+                <li>期末テスト 50%</li>
+                <li>→ 60%以上合格</li>
+            </ul>
+
+            <h3>2) 小テスト 毎回</h3>
+            <p>レポート 2回提出</p>
+
+            <h3>3) 生成AIについて</h3>
+            <p>授業内問題は自力で解くように。</p>
+
+            <h3>4) 講義ノートはweb上に公開</h3>
+            <p>授業の前に軽く復習</p>
         </section>
 
         <section class="outline-section">
-            <h2>2. 逆関数の定義と単射性</h2>
+            <h2>Section 2. 逆関数</h2>
+            
             <div class="definition">
-                <strong>逆関数の定義</strong>: 関数 $f: X \to Y$ が単射であるとき、$Y$ 上の関数 $f^{-1}: Y \to X$ を定義でき、任意の $x \in X$, $y \in Y$ に対して
-                <div class="formula">$$f(f^{-1}(y)) = y, \quad f^{-1}(f(x)) = x$$</div>
-                が成り立つ。この $f^{-1}$ を $f$ の逆関数と呼ぶ。
+                <strong>定義</strong>: 定義域$A$上で定義された関数が$B$に値取るとき, $f: A\to B$と書く
             </div>
-            <div class="note">
-                単調な関数（単調増加または単調減少）は単射であるため、区間上で逆関数が定義される。逆関数の存在を判定する際には、定義域を適切に制限することが重要となる。
-            </div>
-        </section>
 
-        <section class="outline-section">
-            <h2>3. 逆関数の求め方</h2>
-            <p>逆関数を求める手順は次のとおりである。</p>
-            <ol>
-                <li>$y = f(x)$ とおく。</li>
-                <li>$y$ を固定したまま $x$ を $y$ の式に解き直す。</li>
-                <li>$x = g(y)$ と表された式を $f^{-1}(y)$ と読み替える。</li>
-                <li>必要に応じて $y$ を $x$ に戻し、定義域と値域を確認する。</li>
-            </ol>
             <div class="example">
-                <strong>例</strong>: $f(x) = 2x + 3$ の場合、$y = 2x + 3$ から $x = \dfrac{y - 3}{2}$ を得る。したがって $f^{-1}(y) = \dfrac{y - 3}{2}$、定義域と値域は互いに入れ替わる。
-            </div>
-        </section>
-
-        <section class="outline-section">
-            <h2>4. 逆関数の微分公式</h2>
-            <div class="theorem">
-                <strong>逆関数の導関数</strong>: 関数 $f$ が点 $x_{0}$ の近傍で微分可能で $f'(x_{0}) \neq 0$ とする。このとき $y_{0} = f(x_{0})$ の近傍で逆関数 $f^{-1}$ は微分可能であり、
-                <div class="formula">$$(f^{-1})'(y_{0}) = \dfrac{1}{f'(x_{0})} = \dfrac{1}{f'(f^{-1}(y_{0}))}$$</div>
-                が成り立つ。
-            </div>
-            <div class="proof">
-                <strong>導出</strong>: 恒等式 $f(f^{-1}(y)) = y$ を $y$ で微分すると連鎖律より $f'(f^{-1}(y)) \cdot (f^{-1})'(y) = 1$ を得る。$f'(f^{-1}(y)) \neq 0$ の範囲で解けば上の公式になる。
-            </div>
-        </section>
-
-        <section class="outline-section">
-            <h2>5. 逆三角関数の定義</h2>
-            <p>三角関数は周期的で単射ではないため、適切な区間に制限して逆関数を定義する。標準的な選び方を以下にまとめる。</p>
-            <div class="definition">
-                <strong>逆三角関数</strong>: 三角関数の単射な部分に制限を与え、その部分の逆関数として $\arcsin, \arccos, \arctan$ を定義する。
-            </div>
-            <table>
-                <thead>
-                    <tr>
-                        <th>逆関数</th>
-                        <th>対応する三角関数</th>
-                        <th>値域</th>
-                        <th>定義域</th>
-                        <th>特徴</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>$\arcsin x$</td>
-                        <td>$\sin y$ ($y \in [-\tfrac{\pi}{2}, \tfrac{\pi}{2}]$)</td>
-                        <td>$[-\tfrac{\pi}{2}, \tfrac{\pi}{2}]$</td>
-                        <td>$[-1, 1]$</td>
-                        <td>奇関数で単調増加</td>
-                    </tr>
-                    <tr>
-                        <td>$\arccos x$</td>
-                        <td>$\cos y$ ($y \in [0, \pi]$)</td>
-                        <td>$[0, \pi]$</td>
-                        <td>$[-1, 1]$</td>
-                        <td>単調減少</td>
-                    </tr>
-                    <tr>
-                        <td>$\arctan x$</td>
-                        <td>$\tan y$ ($y \in (-\tfrac{\pi}{2}, \tfrac{\pi}{2})$)</td>
-                        <td>$(-\tfrac{\pi}{2}, \tfrac{\pi}{2})$</td>
-                        <td>$\mathbb{R}$</td>
-                        <td>両端に水平漸近線を持つ</td>
-                    </tr>
-                </tbody>
-            </table>
-            <div class="graph">
-                <svg width="420" height="280" viewBox="-40 -40 420 280">
-                    <line x1="0" y1="200" x2="360" y2="200" stroke="#444"></line>
-                    <line x1="120" y1="0" x2="120" y2="260" stroke="#444"></line>
-                    <text x="350" y="220">x</text>
-                    <text x="105" y="15">y</text>
-                    <path d="M 20 160 C 80 120, 120 80, 200 60 C 280 40, 320 20, 340 0" stroke="#1565c0" fill="none" stroke-width="2"></path>
-                    <path d="M 20 40 C 100 60, 160 100, 200 160 C 240 220, 280 240, 320 240" stroke="#c62828" fill="none" stroke-width="2"></path>
-                    <path d="M 20 200 C 120 160, 200 140, 320 120" stroke="#2e7d32" fill="none" stroke-width="2"></path>
-                    <text x="260" y="30" fill="#1565c0">y = \arcsin x</text>
-                    <text x="260" y="230" fill="#c62828">y = \arccos x</text>
-                    <text x="260" y="140" fill="#2e7d32">y = \arctan x</text>
-                </svg>
-            </div>
-        </section>
-
-        <section class="outline-section">
-            <h2>6. 逆三角関数の導関数</h2>
-            <div class="theorem">
-                <strong>導関数の公式</strong>:
-                <div class="formula">$$(\arcsin x)' = \dfrac{1}{\sqrt{1 - x^{2}}}, \quad (\arccos x)' = -\dfrac{1}{\sqrt{1 - x^{2}}}, \quad (\arctan x)' = \dfrac{1}{1 + x^{2}}$$</div>
-            </div>
-            <div class="proof">
-                <strong>証明のヒント</strong>: 恒等式 $\sin(\arcsin x) = x$ を微分すると $\cos(\arcsin x) \cdot (\arcsin x)' = 1$ を得る。単位円の関係 $\cos(\arcsin x) = \sqrt{1 - x^{2}}$ を用いれば導関数が求まる。他の逆三角関数も同様に処理できる。
-            </div>
-            <div class="example">
-                <strong>例</strong>: $y = \arctan x$ の導関数 $(\arctan x)' = 1/(1+x^{2})$ は $|x|$ が大きいほど小さくなり、グラフが水平漸近線 $y = \pm \tfrac{\pi}{2}$ に近づく様子を示す。
-            </div>
-        </section>
-
-        <section class="outline-section">
-            <h2>7. 逆三角関数の積分公式</h2>
-            <p>逆三角関数は置換積分と平方完成を組み合わせることで自然に現れる。以下の基本的な積分公式を押さえておくと応用が広がる。</p>
-            <div class="formula">
-                $$\int \dfrac{1}{\sqrt{1 - x^{2}}} \, dx = \arcsin x + C, \quad \int \dfrac{1}{1 + x^{2}} \, dx = \arctan x + C$$
-                $$\int \dfrac{1}{1 - x^{2}} \, dx = \tfrac{1}{2}\log\left|\dfrac{1 + x}{1 - x}\right| + C = \operatorname{artanh} x + C$$
-            </div>
-            <div class="example">
-                <strong>例</strong>: $\displaystyle \int_{0}^{1/2} \dfrac{1}{\sqrt{1 - x^{2}}} \, dx$ は $\left[\arcsin x\right]_{0}^{1/2} = \arcsin(1/2) = \tfrac{\pi}{6}$ となる。平方根を含む積分が逆三角関数に変換されている点に注目する。
-            </div>
-            <div class="note">
-                $\int \dfrac{1}{a^{2}+x^{2}} \, dx = \dfrac{1}{a} \arctan\left(\dfrac{x}{a}\right) + C$ や $\int \dfrac{1}{\sqrt{a^{2}-x^{2}}} \, dx = \arcsin\left(\dfrac{x}{a}\right) + C$ など、係数 $a$ の有無に注意してスケール調整を行うと計算がスムーズになる。
-            </div>
-        </section>
-
-        <section class="outline-section focus-card">
-            <h2>8. 応用と演習</h2>
-            <p>逆関数や逆三角関数は極限評価、積分計算、微分方程式の解、確率分布の解析など幅広い分野で現れる。定義から性質を導けるように練習しておこう。</p>
-            <div class="exercise-list">
+                <strong>例</strong>: 
                 <ol>
-                    <li>$f(x) = x + e^{x}$ が単調増加であることを示し、逆関数の定義域・値域を求めたうえで $(f^{-1})'(1)$ を計算せよ。</li>
-                    <li>$\arcsin x + \arccos x$ が定数であることを証明し、その値を求めよ。</li>
-                    <li>$g(x) = \arctan(\sqrt{x})$ の導関数を求め、合成関数と逆関数の微分公式の使い分けを練習せよ。</li>
-                    <li>$\displaystyle \int \dfrac{1}{4 + x^{2}} \, dx$ を計算し、逆三角関数の積分公式を活用せよ。</li>
+                    <li>$f(x)=x^2$は$f:\mathbb{R}\to [0,\infty)$</li>
+                    <li>$f(x)=\sqrt{x}$は$f: [0,\infty)\to [0,\infty)$</li>
+                </ol>
+            </div>
+
+            <div class="definition">
+                <strong>定義</strong>: 関数$f:A\to B$を考える. 次を満たす関数$g:B\to A$を$f$の逆関数と呼ぶ:
+                <div class="formula">
+                    $$\forall x\in A, \quad g\circ f(x)=x$$
+                    $$\forall y\in B, \quad f\circ g(y)=y$$
+                </div>
+            </div>
+
+            <h3>逆関数の求め方</h3>
+            <p>$f$を関数(わかっている), $g$を$f$の逆関数(わからない)とする. 関数$g$は$x=f(y)$を$y=$[xの式]の形に解くことで求められる.</p>
+
+            <div class="proof">
+                <strong>理由</strong>:
+                <ol>
+                    <li>$x=f(y)$とする. 両辺に$g$を適用</li>
+                    <li>$g(x) = g\circ f(y)=y$</li>
+                </ol>
+            </div>
+
+            <div class="example">
+                <strong>例</strong>:
+                <ol>
+                    <li>$f(x)=x^2+2x$の逆関数を求めよ. (定義域は気にしなくて良い)</li>
+                    <li>$f(x) = e^{x^2}$の逆関数を求めよ. (定義域は気にしなくて良い)</li>
+                </ol>
+            </div>
+        </section>
+
+        <section class="outline-section">
+            <h2>Section 3. 逆三角関数</h2>
+            
+            <p>$f(x) = \sin(x)$ (定義域: $[-\pi/2,\pi/2]$)を考える. $g(x)$を$f$の逆関数とするとき, $g$を$\arcsin$, $\sin^{-1}$と書く。$g(x)$の値を主値と呼ぶ.</p>
+
+            <div class="graph">
+                <svg width="600" height="400" viewBox="-50 -50 600 400">
+                    <!-- Grid lines -->
+                    <line x1="0" y1="0" x2="0" y2="320" stroke="#cbd5e1" stroke-width="1"></line>
+                    <line x1="0" y1="160" x2="500" y2="160" stroke="#cbd5e1" stroke-width="1"></line>
+                    
+                    <!-- Axes -->
+                    <line x1="0" y1="160" x2="500" y2="160" stroke="#1e293b" stroke-width="2"></line>
+                    <line x1="250" y1="0" x2="250" y2="320" stroke="#1e293b" stroke-width="2"></line>
+                    
+                    <!-- Axis labels -->
+                    <text x="490" y="150" font-size="16" fill="#1e293b">y</text>
+                    <text x="260" y="15" font-size="16" fill="#1e293b">x</text>
+                    
+                    <!-- y-axis tick marks and labels -->
+                    <line x1="245" y1="60" x2="255" y2="60" stroke="#1e293b" stroke-width="2"></line>
+                    <text x="200" y="65" font-size="14" fill="#1e293b">π/2</text>
+                    
+                    <line x1="245" y1="110" x2="255" y2="110" stroke="#1e293b" stroke-width="2"></line>
+                    <text x="200" y="115" font-size="14" fill="#1e293b">π/4</text>
+                    
+                    <line x1="245" y1="160" x2="255" y2="160" stroke="#1e293b" stroke-width="2"></line>
+                    <text x="220" y="180" font-size="14" fill="#1e293b">0</text>
+                    
+                    <line x1="245" y1="210" x2="255" y2="210" stroke="#1e293b" stroke-width="2"></line>
+                    <text x="195" y="215" font-size="14" fill="#1e293b">-π/4</text>
+                    
+                    <line x1="245" y1="260" x2="255" y2="260" stroke="#1e293b" stroke-width="2"></line>
+                    <text x="195" y="265" font-size="14" fill="#1e293b">-π/2</text>
+                    
+                    <!-- x-axis tick marks and labels -->
+                    <line x1="150" y1="155" x2="150" y2="165" stroke="#1e293b" stroke-width="2"></line>
+                    <text x="140" y="180" font-size="14" fill="#1e293b">-1</text>
+                    
+                    <line x1="350" y1="155" x2="350" y2="165" stroke="#1e293b" stroke-width="2"></line>
+                    <text x="345" y="180" font-size="14" fill="#1e293b">1</text>
+                    
+                    <!-- Sine curve: x = sin(y), so we plot points (sin(y), y) -->
+                    <!-- We convert: x_screen = 250 + 200*sin(y), y_screen = 160 - 200*y/1.57 -->
+                    <path d="M 250,60 C 280,70 310,85 330,95 C 350,105 360,120 365,135 C 368,145 370,150 370,160 C 370,170 368,175 365,185 C 360,200 350,215 330,225 C 310,235 280,250 250,260 C 220,250 190,235 170,225 C 150,215 140,200 135,185 C 132,175 130,170 130,160 C 130,150 132,145 135,135 C 140,120 150,105 170,95 C 190,85 220,70 250,60" 
+                          stroke="#2563eb" fill="none" stroke-width="3"></path>
+                    
+                    <!-- Example point: finding sin^{-1}(0.5) -->
+                    <!-- sin^{-1}(0.5) = π/6 ≈ 0.524 -->
+                    <!-- x = 0.5 corresponds to x_screen = 250 + 200*0.5 = 350 -->
+                    <!-- y = π/6 corresponds to y_screen = 160 - 200*0.524/1.57 ≈ 93 -->
+                    <circle cx="300" cy="110" r="5" fill="#dc2626"></circle>
+                    
+                    <!-- Dashed lines showing the correspondence -->
+                    <line x1="300" y1="110" x2="300" y2="160" stroke="#dc2626" stroke-width="2" stroke-dasharray="5,5"></line>
+                    <line x1="250" y1="110" x2="300" y2="110" stroke="#dc2626" stroke-width="2" stroke-dasharray="5,5"></line>
+                    
+                    <!-- Labels for the example point -->
+                    <text x="305" y="145" font-size="14" fill="#dc2626">x = 1/2</text>
+                    <text x="180" y="105" font-size="14" fill="#dc2626">y = π/6</text>
+                    <text x="305" y="100" font-size="14" fill="#dc2626" font-weight="bold">(1/2, π/6)</text>
+                    
+                    <!-- Title -->
+                    <text x="150" y="300" font-size="16" fill="#1e293b" font-weight="bold">グラフ: x = sin(y), y ∈ [-π/2, π/2]</text>
+                </svg>
+                <p style="text-align: center; margin-top: 12px; color: var(--text-secondary);">
+                    横軸が$y$、縦軸が$x$のグラフ。$x=1/2$に対応する$y$の値が$\sin^{-1}(1/2) = \pi/6$となる。
+                </p>
+            </div>
+
+            <div class="note">
+                <strong>注意</strong>: $\sin$の定義域をかえると、異なる値がでてくる。
+            </div>
+
+            <div class="example">
+                <strong>例</strong>:
+                <ol>
+                    <li>$\sin^{-1}(0)$を求めよ.</li>
+                    <li>$\sin^{-1}(\sqrt{3}/2)$</li>
+                    <li>$\sin^{-1}(-\sqrt{2}/2)$</li>
+                </ol>
+            </div>
+
+            <p>$f(x)=\cos x$ (定義域: $[0,\pi]$)と$f(x)=\tan x$ (定義域: $(-\pi/2,\pi/2)$)の逆関数をそれぞれ, $\cos^{-1}$, $\tan^{-1}$と書く.</p>
+        </section>
+
+        <section class="outline-section">
+            <h2>Section 4. 逆三角関数の微分</h2>
+            
+            <p>$x = \sin(\sin^{-1}(x))$より両辺を微分すると:</p>
+            <div class="formula">
+                $$1 = \cos(\sin^{-1}(x)) \cdot (\sin^{-1}(x))'$$
+            </div>
+
+            <p>$y\in [-\pi/2,\pi/2]$のとき, $\cos(y)=\sqrt{1-\sin^2(y)}$ より</p>
+            <div class="formula">
+                $$\cos(\sin^{-1}(x))=\sqrt{1-\sin^2(\sin^{-1}(x))}=\sqrt{1-x^2}$$
+            </div>
+            
+            <p>であるので,</p>
+            <div class="formula">
+                $$(\sin^{-1}(x))' = \frac{1}{\cos(\sin^{-1}(x))} = \frac{1}{\sqrt{1-x^2}}$$
+            </div>
+
+            <div class="theorem">
+                <strong>逆三角関数の導関数</strong>:
+                <div class="formula">
+                    $$(\cos^{-1}(x))' = -\frac{1}{\sqrt{1-x^2}}$$
+                    $$(\tan^{-1}(x))' = \frac{1}{1+x^2}$$
+                </div>
+            </div>
+
+            <p>これらを使うと次の積分問題を逆三角関数を用いてかける:</p>
+            <div class="formula">
+                $$\int \frac{1}{\sqrt{1-x^2}} dx = \sin^{-1}(x) + C$$
+                $$\int \frac{1}{1+x^2} dx = \tan^{-1}(x) + C$$
+            </div>
+
+            <h3>例題</h3>
+            <div class="example">
+                <strong>例</strong>:
+                <ol>
+                    <li>$\tan^{-1}(\sqrt{3})$の値</li>
+                    <li>$\sin^{-1}(\cos^{-1}(x))$の微分</li>
+                    <li>$\displaystyle\int \sin^{-1}(x) dx = x \sin^{-1}(x) - \int \frac{x}{\sqrt{1-x^2}} dx = x \sin^{-1}(x) + \sqrt{1-x^2} + C$</li>
+                    <li>$\displaystyle\int \frac{x^4}{1+ x^2} dx$</li>
                 </ol>
             </div>
         </section>
