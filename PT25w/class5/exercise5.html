@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+        <html lang="ja">
+        <head>
+            <meta charset="UTF-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <title>第5回 演習: 様々な離散分布</title>
+            <style>
+
+body {
+    font-family: "Noto Sans JP", "Hiragino Sans", "Meiryo", sans-serif;
+    background: #f5f7fb;
+    margin: 0;
+    padding: 32px 12px;
+    color: #1f2933;
+}
+main {
+    max-width: 920px;
+    margin: 0 auto;
+    background: #ffffff;
+    border-radius: 20px;
+    box-shadow: 0 18px 45px -28px rgba(31, 41, 51, 0.35);
+    padding: 48px 56px;
+}
+header h1 {
+    margin: 0 0 6px;
+    font-size: 28px;
+    color: #23408f;
+    letter-spacing: 0.04em;
+}
+header p {
+    margin: 0 0 24px;
+    color: #516176;
+}
+section.problem {
+    margin: 28px 0;
+    padding: 22px 26px;
+    border-radius: 16px;
+    background: #f1f5ff;
+    border: 1px solid rgba(35, 64, 143, 0.15);
+}
+section.problem h2 {
+    margin: 0 0 12px;
+    font-size: 20px;
+    color: #1e3a8a;
+}
+section.problem ul {
+    padding-left: 20px;
+    margin: 12px 0 0;
+    color: #374151;
+}
+.note {
+    margin-top: 12px;
+    font-size: 14px;
+    color: #64748b;
+}
+.navigation {
+    margin-top: 36px;
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+}
+.navigation a {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px 18px;
+    border-radius: 999px;
+    background: #1e3a8a;
+    color: #ffffff;
+    text-decoration: none;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+    transition: background 0.2s ease;
+}
+.navigation a:hover {
+    background: #3454c3;
+}
+
+            </style>
+        </head>
+        <body>
+            <main>
+                <header>
+                    <h1>第5回 演習: 様々な離散分布</h1>
+                    <p>class5.html の各離散分布について、母数の解釈や極限挙動を確認します。</p>
+                </header>
+
+<section class="problem">
+    <h2>問題1: 二項分布からポアソン分布への極限</h2>
+    <ul>
+<li>二項分布 \(\mathrm{Bin}(n, p_n)\) で \(n p_n 	o \lambda\) とする。</li>
+<li>確率質量関数を用いて \(n 	o \infty\) で確率 \(\mathbb{P}(X = k)\) が \(\mathrm{Poi}(\lambda)\) に収束することを示せ。</li>
+    </ul>
+</section>
+
+<section class="problem">
+    <h2>問題2: 幾何分布と負の二項分布</h2>
+    <ul>
+<li>幾何分布 \(\mathrm{Geo}(p)\) の期待値と分散を導出せよ。</li>
+<li>負の二項分布 \(\mathrm{NB}(r, p)\) が、「成功までに必要な試行回数」という視点からどのように構成されるか説明し、期待値を求めよ。</li>
+    </ul>
+</section>
+
+<section class="problem">
+    <h2>問題3: 多項分布の共分散</h2>
+    <ul>
+<li>多項分布 \(\mathrm{Mult}(n; p_1, \ldots, p_m)\) の各成分 \(X_i\) について \(\mathrm{Cov}(X_i, X_j)\) を計算せよ。</li>
+<li>得られた式の符号から、カテゴリ間の負の相関について解釈を述べよ。</li>
+    </ul>
+</section>
+
+                <div class="navigation">
+            <a href="../class4/exercise4.html">前の演習</a>
+            <a href="../index.html">ホームに戻る</a>
+            <a href="class5.html">講義ノートへ</a>
+            <a href="../class6/exercise6.html">次の演習</a>
+                </div>
+            </main>
+        </body>
+        </html>

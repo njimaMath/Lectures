@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+        <html lang="ja">
+        <head>
+            <meta charset="UTF-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <title>第8回 演習: 大数の法則</title>
+            <style>
+
+body {
+    font-family: "Noto Sans JP", "Hiragino Sans", "Meiryo", sans-serif;
+    background: #f5f7fb;
+    margin: 0;
+    padding: 32px 12px;
+    color: #1f2933;
+}
+main {
+    max-width: 920px;
+    margin: 0 auto;
+    background: #ffffff;
+    border-radius: 20px;
+    box-shadow: 0 18px 45px -28px rgba(31, 41, 51, 0.35);
+    padding: 48px 56px;
+}
+header h1 {
+    margin: 0 0 6px;
+    font-size: 28px;
+    color: #23408f;
+    letter-spacing: 0.04em;
+}
+header p {
+    margin: 0 0 24px;
+    color: #516176;
+}
+section.problem {
+    margin: 28px 0;
+    padding: 22px 26px;
+    border-radius: 16px;
+    background: #f1f5ff;
+    border: 1px solid rgba(35, 64, 143, 0.15);
+}
+section.problem h2 {
+    margin: 0 0 12px;
+    font-size: 20px;
+    color: #1e3a8a;
+}
+section.problem ul {
+    padding-left: 20px;
+    margin: 12px 0 0;
+    color: #374151;
+}
+.note {
+    margin-top: 12px;
+    font-size: 14px;
+    color: #64748b;
+}
+.navigation {
+    margin-top: 36px;
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+}
+.navigation a {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px 18px;
+    border-radius: 999px;
+    background: #1e3a8a;
+    color: #ffffff;
+    text-decoration: none;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+    transition: background 0.2s ease;
+}
+.navigation a:hover {
+    background: #3454c3;
+}
+
+            </style>
+        </head>
+        <body>
+            <main>
+                <header>
+                    <h1>第8回 演習: 大数の法則</h1>
+                    <p>class8.html の大数の法則に関する結果を使い、収束の感覚を養います。</p>
+                </header>
+
+<section class="problem">
+    <h2>問題1: 弱大数の法則の適用</h2>
+    <ul>
+<li>確率変数 \(\{X_i\}\) が独立かつ同分布で \(\mathbb{E}[X_i] = \mu\), \(\mathrm{Var}(X_i) = \sigma^2 < \infty\) とする。</li>
+<li>弱大数の法則を用いて、標本平均 \(ar{X}_n\) が確率収束することを示せ。</li>
+    </ul>
+</section>
+
+<section class="problem">
+    <h2>問題2: コルモゴロフの不等式</h2>
+    <ul>
+<li>部分和 \(S_n = \sum_{i=1}^n (X_i - \mu)\) に対してコルモゴロフの不等式を述べ、証明の流れをまとめよ。</li>
+<li>その結果を使って強大数の法則の一部を導くアイデアを整理せよ。</li>
+    </ul>
+</section>
+
+<section class="problem">
+    <h2>問題3: 例外的な例</h2>
+    <ul>
+<li>分散が無限大の分布（例: パレート分布）を 1 つ選び、弱大数の法則がどのように壊れるかを説明せよ。</li>
+    </ul>
+</section>
+
+                <div class="navigation">
+            <a href="../class7/exercise7.html">前の演習</a>
+            <a href="../index.html">ホームに戻る</a>
+            <a href="class8.html">講義ノートへ</a>
+            <a href="../class9/exercise9.html">次の演習</a>
+                </div>
+            </main>
+        </body>
+        </html>
