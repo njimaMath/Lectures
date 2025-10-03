@@ -1,1 +1,205 @@
-ここでは雑談をかく
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>確率はなぜ「面積」から始まり、「$\sigma$-加法族」へ至るのか</title>
+
+  <!-- Nikkei-like minimal style -->
+  <style>
+    :root{
+      --ink:#111;
+      --sub:#555;
+      --accent:#0a4a8a; /* deep blue like newspaper headers */
+      --rule:#e3e6ea;
+      --bg:#fffdf9; /* slight paper tone */
+      --serif: "Yu Mincho","Hiragino Mincho ProN","Noto Serif JP","Source Han Serif","Hiragino Mincho Pro","MS PMincho",serif;
+      --sans: "Noto Sans JP","Yu Gothic","Hiragino Kaku Gothic ProN","Source Han Sans","Meiryo",sans-serif;
+      --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+      --max: 720px;
+    }
+    html,body{background:var(--bg); color:var(--ink); margin:0; padding:0;}
+    header{border-bottom:1px solid var(--rule); background:#ffffffcc; backdrop-filter: blur(2px);}
+    .masthead{
+      max-width: var(--max);
+      margin: 0 auto;
+      padding: 14px 16px 10px;
+      display:flex; align-items: baseline; gap:12px; flex-wrap: wrap;
+      font-family: var(--sans);
+    }
+    .brand{font-size: 15px; letter-spacing: .28em; color: var(--accent); font-weight: 700;}
+    .section{font-size: 12px; color: var(--sub); border-left:3px solid var(--accent); padding-left:8px;}
+    main{max-width: var(--max); margin: 0 auto; padding: 18px 16px 64px;}
+    h1{
+      font-family: var(--serif);
+      font-size: 28px;
+      line-height: 1.32;
+      font-weight: 700;
+      margin: 18px 0 8px;
+      letter-spacing: .02em;
+    }
+    .dek{
+      font-family: var(--sans);
+      font-size: 14.5px; line-height: 1.7; color: var(--sub);
+      margin: 0 0 16px;
+    }
+    .meta{
+      font-family: var(--sans);
+      font-size: 12px; color: var(--sub);
+      border-top:1px solid var(--rule);
+      border-bottom:1px solid var(--rule);
+      padding: 8px 0; margin: 12px 0 24px;
+      display:flex; gap:12px; flex-wrap: wrap;
+    }
+    article{font-family: var(--serif); font-size: 17px; line-height: 1.95; letter-spacing:.02em;}
+    p{margin: 0 0 1.05em;}
+    .lead::first-letter{
+      float:left; font-size: 44px; line-height: 1; padding-right: 6px; padding-top: 6px; font-family: var(--serif); font-weight: 700; color: var(--accent);
+    }
+    h2{
+      font-family: var(--sans);
+      font-size: 15px; letter-spacing: .12em; color:#000; margin: 28px 0 8px;
+      border-left: 4px solid var(--accent); padding-left: 10px;
+    }
+    .rule{height:1px; background: var(--rule); margin: 18px 0;}
+    .eq{
+      text-align: center; margin: 12px auto; padding: 8px 0; font-family: var(--serif);
+    }
+    .theorem{
+      border:1px solid var(--rule); background:#fff; padding:14px 14px; margin: 16px 0;
+      box-shadow: 0 1px 0 #00000008;
+    }
+    .theorem .label{
+      font-family: var(--sans); font-size: 12px; font-weight:700; color: var(--accent); letter-spacing: .12em;
+      display:inline-block; margin-bottom:6px;
+    }
+    .note{
+      font-family: var(--sans); font-size: 14px; color: var(--sub); border-left:2px solid var(--rule); padding-left:10px; margin: 8px 0 0;
+    }
+    .pull{
+      font-family: var(--serif); font-size: 16px; line-height:1.9; color:#333; background:#fafbfc; border-left: 3px solid var(--accent);
+      padding:10px 12px; margin: 14px 0;
+    }
+    code, kbd, samp{font-family: var(--mono); font-size: .94em; background:#f6f8fa; padding:.1em .3em; border-radius:4px;}
+    .footer-note{font-family: var(--sans); font-size: 12px; color: var(--sub); margin-top: 26px; border-top:1px dashed var(--rule); padding-top: 12px;}
+    @media print {
+      header{display:none;}
+      body{background:#fff;}
+      a{color:#000; text-decoration: none;}
+    }
+  </style>
+
+  <!-- MathJax (use $...$ for inline, $$...$$ for display) -->
+  <script>
+    window.MathJax = {
+      tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']],
+        displayMath: [['$$','$$'], ['\\[','\\]']],
+        tags: 'none'
+      },
+      svg: {fontCache: 'global'}
+    };
+  </script>
+  <script defer src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+</head>
+<body>
+  <header>
+    <div class="masthead">
+      <div class="brand">雑記 1</div>
+      <div class="section">オピニオン／数学の視点</div>
+    </div>
+  </header>
+
+  <main>
+    <h1>確率はなぜ「面積」から始まり、「$\sigma$-加法族」へ至るのか</h1>
+    <p class="dek">大学で最初に学ぶ直感から、情報という考え方まで——確率論の基礎をつなぐ道筋をたどる。</p>
+    <div class="meta">
+      <div>寄稿</div>
+      <div>2025年10月3日</div>
+    </div>
+
+    <article>
+      <p class="lead">
+        大学の確率論でまず言われるのは、確率は面積によって求めるということである。これは人によってはすんなり受け入れられる。実際、事象を集合で表すと、その集合の面積が大きいほど、適当に点をとるとその集合の点になりやすそうに感じられる。ところが学びを進めると、真に面食らうのは、なぜ確率空間に$\sigma$加法族が出てくるのか、という点だ。本稿ではなぜ$\sigma$加法族を用いるようになったかを、自分なりに考察してみたい。
+      </p>
+
+      <h2>等確率の原理：数え上げで始まる「確率」</h2>
+      <p>
+        中学の確率論は数え上げによって計算する。より正確には、事象 $A$ の確率は
+      </p>
+      <div class="eq">$$
+        \mathbb P(A)=\frac{\text{Aの数}}{\text{全体の数}}\tag{★}
+      $$</div>
+      <p>
+        で与えられる。したがって、全体の数と $A$ の数を効率よく計算することが求められる。例えば、表裏がちょうど $1/2$ で現れるコインを2回投げ、表の数がちょうど1回になる確率では、全体の数は $(\mathrm{HH}),(\mathrm{HT}),(\mathrm{TH}),(\mathrm{TT})$ の4通り、表がちょうど1回は $(\mathrm{HT}),(\mathrm{TH})$ の2通りなので、確率は $2/4=1/2$ となる。
+      </p>
+      <p class="note">
+        ここでの公式（★）は、各「単事象」が同じ確率で現れるという等確率の原理を前提にしていることに注意したい。
+      </p>
+
+      <h2>非等確率への拡張：足し合わせで求める</h2>
+      <p>
+        高校の確率論では、単事象が異なる確率で起こる場合も扱う。そのとき事象の確率は、それを構成する単事象の確率の総和として計算する。例えば、表の確率が $1/4$、裏が $3/4$ のコインを2回投げ、表の数がちょうど1回になる確率は
+      </p>
+      <div class="eq">$$
+        \mathbb P(\mathrm{HT})=\frac{1}{4}\cdot\frac{3}{4},\quad
+        \mathbb P(\mathrm{TH})=\frac{3}{4}\cdot\frac{1}{4},\quad
+        \Rightarrow\ \mathbb P(\text{表がちょうど1回})=\frac{3}{8}.
+      $$</div>
+      <p>
+        実は先ほどの公式（★）は、単事象がすべて同じ確率 $1/(\text{全体の数})$ で現れるという仮定のもとで成り立っているにすぎない。非等確率では「数え上げ」から「足し合わせ」へと視点が移る。
+      </p>
+
+      <h2>無限集合の壁：「数え上げ」をそのままは使えない</h2>
+      <p>
+        この考え方を「無限な全体」に拡張したくなるのは自然だ。例えば $[0,1]$ から一様に元を取るという直観的な操作を、数学的モデルとして構成したくなる。しかし、全体が非可算無限になると大きな問題が生じる。実際、次のような基本的な事実がある。
+      </p>
+
+      <div class="theorem">
+        <div class="label">定理</div>
+        <p>
+          非負列 $(a_i)_{i\in I}$ が
+          $
+          \displaystyle \sup_{F\subset I\ \text{有限}}\sum_{i\in F} a_i < \infty
+          $
+          を満たすなら、$I$ は可算である。
+        </p>
+        <p class="note">
+          したがって、$\sum_{i\in \Omega} p_i = 1$ とした瞬間に、$\{\,i: p_i>0\,\}$ は可算になり、非可算な「全体」を素朴な「重み付きの足し算」だけで表すことはできない。
+        </p>
+      </div>
+
+      <h2>コルモゴロフの視点：和から積分へ</h2>
+      <p>
+        統一的な枠組みを与えたのがコルモゴロフである。発想はシンプルで、足し算 $\sum$ を積分 $\int$ に置き換える。非可算と可算を同時に扱うため、ルベーグ測度論を採用するのが自然だと考えられたのだろう。例えば
+      </p>
+      <div class="eq">$$
+        P(A)=\tfrac{1}{2}\,\mathbf{1}_{\{0\in A\}}+\tfrac{1}{2}\,\lambda(A\cap[0,1]),
+      $$</div>
+      <p>
+        のように、点 $0$ の「重み」（原子）と区間 $[0,1]$ 上の一様分布（ルベーグ測度 $\lambda$）を組み合わせた確率を定義できる。ここで重要なのは、面積をすべての集合で測るのではなく、良い性質を持つ集合族——ボレル可測集合——に限定することだ。
+      </p>
+
+      <h2>なぜ一般の $\sigma$ 加法族か：情報を記述する言語</h2>
+      <p>
+        残る問いは、なぜ一般の $\sigma$ 加法族を考える必要があるのか、である。答えを明確に言い切るのは難しいが、核にあるのは「情報」という考え方だ。毎日の天気を例にとると、今日までの天気は知っているが明日以降は知らない、と表現したい。素朴に「各日の天気の列そのもの」を情報と見なすと、すべての日の天気が判明して初めて情報が定義できる、という不自然で強い前提に陥る。
+      </p>
+      <p class="pull">
+        コルモゴロフの革新的な点は、ある時点で「観測可能な事象の集合」こそが、その時点の情報である——と捉え、情報を $\sigma$ 加法族で表現したことにある。
+      </p>
+      <p>
+        この考えは条件付き確率やフィルトレーション（時間の進行に伴う情報の増大）を定式化する基盤になった。$\sigma$ 加法族は、確率を積分で扱うためだけでなく、情報の粒度を数学的に表すための言語でもある。
+      </p>
+
+      <h2>むすび：自明ではないが、欠かせない基盤</h2>
+      <p>
+        この短い文章だけで、測度論を確率論に導入する理由に完全に納得するのは容易ではないだろう。むしろ混乱を招いたかもしれない。ただ強調したいのは、一般の測度空間を考えるのは自明ではない一方で、明確な理由があり、一般の $\sigma$ 加法族を採用すること自体に、確率を現代の形に整理した重要で聡明なアイデアが潜んでいるという点だ。条件付き確率の学習を通じて、その意義はさらに鮮明になるはずだ。
+      </p>
+
+      <p class="footer-note">
+        注）本文中の $\lambda$ はルベーグ測度。ボレル可測集合族上での定義を前提とする。
+      </p>
+    </article>
+  </main>
+</body>
+</html>
