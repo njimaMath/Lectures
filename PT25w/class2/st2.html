@@ -1,39 +1,313 @@
-[JP][PRO][CON]
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>確率変数を「写像」として捉える理由</title>
 
-以下、文意と流れを保ちつつ、誤字を直し、最後まで書き切りました。必要なら後でHTML化もできます。
+  <!-- Softer tone / relaxed magazine style -->
+  <style>
+    :root{
+      --ink:#1a1a1a;
+      --sub:#6b6b6b;
+      --accent:#6b2e2e;
+      --rule:#e8e7e5;
+      --bg:#fffaf6;
+      --card-bg:#ffffff;
+      --serif: "Noto Serif JP","Yu Mincho","Hiragino Mincho ProN","Source Han Serif","MS PMincho",serif;
+      --sans: "Noto Sans JP","Yu Gothic","Hiragino Kaku Gothic ProN","Meiryo",sans-serif;
+      --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+      --max: 820px;
+      --radius: 12px;
+      --gap: 16px;
+    }
 
----
+    html,body{
+      background: var(--bg);
+      color: var(--ink);
+      margin:0;
+      padding:0;
+      -webkit-font-smoothing:antialiased;
+      -moz-osx-font-smoothing:grayscale;
+      font-family: var(--serif);
+    }
 
-私は大学３年生で初めて公理的確率論を勉強した。確率変数を“写像”で定義すると初めて聞いたとき、正直、変な定義だなと思った。実際、確率論の本格的な教科書以外ではこのあたりがかなり“ぬるっと”扱われ、そもそも厳密に定義せず、分布 $P(X=a)$ を直接与えることで確率変数を説明する場合が多い。一方で、確率変数を写像で定義するというアイデアは実によくできている。\footnote{この枠組みはコルモゴロフ（1933）によって与えられた。} このコラムでは、確率変数を厳密に定義しようとするとき、なぜ写像として与えるのが妥当なのかを考えてみたい。
+    header{
+      background: linear-gradient(180deg, rgba(255,255,255,0.9), rgba(255,255,255,0.85));
+      box-shadow: 0 1px 0 rgba(19,19,19,0.03);
+      position: sticky;
+      top:0;
+      z-index: 10;
+      backdrop-filter: blur(3px);
+    }
+    .masthead{
+      max-width: var(--max);
+      margin: 0 auto;
+      padding: 12px var(--gap);
+      display:flex;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+      font-family: var(--sans);
+    }
+    .brand{
+      font-size: 16px;
+      color: var(--accent);
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      background: linear-gradient(90deg, rgba(107,46,46,0.06), transparent);
+      padding: 6px 10px;
+      border-radius: 8px;
+    }
+    .section{
+      font-size: 13px;
+      color: var(--sub);
+      padding: 6px 8px;
+      border-radius: 8px;
+      background: rgba(0,0,0,0.02);
+      margin-left: auto;
+    }
 
-日常語では、確率変数とは「ランダムに数をとる量」だと教わる。素朴に考えれば、確率空間の一つの元として“数”を置くのが自然に見える。たとえばサイコロを一回振る例では、標本空間を $\Omega={1,\dots,6}$ とすれば、各元がサイコロの目に対応する。この場合は、特に写像を持ち出さなくても困らない。
+    main{
+      max-width: var(--max);
+      margin: 22px auto;
+      padding: 20px var(--gap) 72px;
+    }
 
-しかし、サイコロを二回振ると事情が変わる。標本空間は $\Omega={1,\dots,6}^2$ とするのが自然で、このとき「一回目に出た目」をどう定義するか。各 $\omega=(a,b)\in\Omega$ は一回目と二回目の情報を両方もつので、$\omega$ から $a$ を取り出せばよい。つまり「一回目の目」を返す操作は
-[
-\pi_1:\Omega\to{1,\dots,6},\qquad \pi_1(a,b)=a
-]
-という“写像”で表せる。同様に二回目は $\pi_2(a,b)=b$ だ。ここで見えてくるのは、「ランダムに $\omega$ を選ぶ」ことと、「$\omega$ から数を引き出す」ことが本質的に別物だという点である。
+    h1{
+      font-family: var(--serif);
+      font-size: 30px;
+      line-height: 1.28;
+      font-weight:700;
+      margin: 6px 0 6px;
+      color: var(--ink);
+    }
+    .dek{
+      font-family: var(--sans);
+      font-size: 15px;
+      color: var(--sub);
+      margin: 8px 0 14px;
+    }
+    .meta{
+      font-family: var(--sans);
+      font-size: 13px;
+      color: var(--sub);
+      display:flex;
+      gap:12px;
+      flex-wrap:wrap;
+      margin-bottom: 18px;
+    }
+    .meta div{ padding:6px 10px; background: rgba(0,0,0,0.02); border-radius:8px; }
 
-コルモゴロフの革新は、この二つを意識的に分離し、確率変数という概念を「確率空間 $(\Omega,\mathcal F,\mathbb P)$ から数の空間への可測写像」と定義したことにある。なぜこの考えに至ったのかは歴史を掘る必要があるが、数学的には圧倒的に便利で、次の利点がある。
+    article{
+      font-family: var(--serif);
+      font-size: 17px;
+      line-height: 1.9;
+      color: var(--ink);
+      background: linear-gradient(180deg, rgba(255,255,255,0.95), rgba(255,255,255,0.98));
+      padding: 20px;
+      border-radius: var(--radius);
+      box-shadow: 0 8px 20px rgba(16,16,16,0.03);
+      border: 1px solid var(--rule);
+    }
 
-* 可測性が“情報”と直結する：$X$ が確率変数であることは、任意のボレル集合 $A$ に対し ${X\in A}=X^{-1}(A)\in\mathcal F$ が事象として意味をもつことを保証する。何が観測できるかという“情報”は $\mathcal F$ によって表され、$X$ の可測性は「$X$ に関する問いが事象として問える」ことの同義語になる。
-* 分布は押し出し（pushforward）で統一：$X$ の分布は $P_X(A):=\mathbb P(X\in A)=\mathbb P(X^{-1}(A))$ と書け、分布の定義自体が写像の逆像で自然に与えられる。分布だけを最初に置く方法より、定義の重複や曖昧さがない。
-* 演算や合成が自動的に整う：$f:\mathbb R\to\mathbb R$ が可測なら $f(X)$ も確率変数で、$X+Y,\ XY,\ g(X_1,\dots,X_n)$ などはすべて写像の合成で定義できる。証明は「可測写像の合成は可測」という一行に縮む。
-* 複数の確率変数や依存関係を統一的に扱える：分布だけでは $X$ と $Y$ の“関係”（独立性や共分布）を表しづらいが、写像として同じ $\Omega$ 上に同居させれば、独立・従属性、条件付き分布、フィルトレーションとの整合が一気に見通せる。
-* モデルの取り替えが容易：同じ写像（同じ観測ルール）でも、確率空間 $(\Omega,\mathcal F,\mathbb P)$ を変えれば、依存構造や重み付け（たとえば「一回目の目が二回目に影響する」）を柔軟に設計できる。これはカップリングや確率変分法の発想とも相性がよい。
+    p{ margin: 0 0 1.05em; }
 
-二回サイコロの例に戻ると、$\pi_1,\pi_2$ を用いて $S=\pi_1+\pi_2$（和の目）、$M=\max{\pi_1,\pi_2}$（大きい方の目）などを自然に定義できる。いずれも「標本 $\omega$ を観測して数を返す関数」であり、これが「確率変数＝可測写像」という姿だ。
+    .lead{
+      position: relative;
+      padding-top: 4px;
+    }
+    .lead::first-letter{
+      float:left;
+      font-size: 36px;
+      line-height: 1;
+      padding-right: 8px;
+      padding-top: 2px;
+      font-family: var(--serif);
+      font-weight: 700;
+      color: var(--accent);
+      background: rgba(107,46,46,0.04);
+      border-radius: 6px;
+      padding-left: 6px;
+      padding-right: 6px;
+      margin-right: 8px;
+    }
 
-ここで、厳密な定義を一度だけ整理しておく。
+    h2{
+      font-family: var(--sans);
+      font-size: 15px;
+      font-weight: 700;
+      color: rgba(0,0,0,0.92);
+      margin: 24px 0 8px;
+      padding-bottom: 6px;
+      border-bottom: 1px dashed var(--rule);
+    }
 
-**補足：厳密な定義**
-確率空間 $(\Omega,\mathcal F,\mathbb P)$ と実数のボレル集合族 $\mathcal B(\mathbb R)$ を用いる。
+    ul{
+      padding-left: 1.2em;
+      margin: 0 0 1.05em;
+    }
+    li{
+      margin-bottom: .6em;
+    }
 
-* 確率変数：$X:(\Omega,\mathcal F)\to(\mathbb R,\mathcal B(\mathbb R))$ が可測、すなわち任意の $A\in\mathcal B(\mathbb R)$ について $X^{-1}(A)\in\mathcal F$ を満たすとき、$X$ を確率変数という。
-* 分布（法則）：$P_X(A):=\mathbb P(X\in A)=\mathbb P\bigl(X^{-1}(A)\bigr)$（$A\in\mathcal B(\mathbb R)$）。
-* 分布関数：$F_X(a):=\mathbb P(X\le a)$（$a\in\mathbb R$）。
+    .eq{
+      text-align: center;
+      margin: 14px auto;
+      padding: 10px 16px;
+      font-family: var(--serif);
+      background: #fcfcfc;
+      border: 1px solid var(--rule);
+      border-radius: 8px;
+      max-width: 640px;
+    }
 
-最後に、分布だけを最初に与えるやり方が“間違い”というわけではないことも強調しておきたい。単一の $X$ に限れば、それでも十分に多くの計算ができる。ただし、複数の確率変数の関係、条件付き期待値、停止時刻や情報の時間発展（フィルトレーション）といった現代確率の核に入ると、写像としての視点が初めて“全体を一枚の絵”にしてくれる。学び始めは違和感があるが、使えば使うほど、これ以外ではうまく回らない場面に出会うはずだ。
+    .theorem{
+      border-left: 4px solid var(--accent);
+      background: #fff;
+      padding: 14px 16px;
+      margin: 16px 0;
+      border-radius: 8px;
+    }
+    .theorem .label{
+      font-family: var(--sans);
+      font-size: 12px;
+      font-weight:700;
+      color: var(--accent);
+      display:inline-block;
+      margin-bottom:6px;
+    }
 
-**まとめ**
-確率変数を写像として定義することは、分布・演算・情報・依存関係を一つの枠に収めるための最小限で最強の道具立てである。最初に抱いた「変な定義だな」は、実は後の発展を支えるための“必要最小限の抽象化”への違和感だったのだと、いまは感じている。
+    .note{
+      font-family: var(--sans);
+      font-size: 14px;
+      color: var(--sub);
+      padding-left:10px;
+      margin: 8px 0 0;
+    }
+
+    .pull{
+      font-family: var(--serif);
+      font-size: 16px;
+      line-height:1.9;
+      color:#333;
+      background: linear-gradient(90deg, rgba(107,46,46,0.03), rgba(0,0,0,0.01));
+      padding:12px 14px;
+      margin: 14px 0;
+      border-radius: 8px;
+      border: 1px solid rgba(0,0,0,0.03);
+    }
+
+    code, kbd, samp{
+      font-family: var(--mono);
+      font-size: .95em;
+      background:#f6f6f6;
+      padding:.12em .34em;
+      border-radius:6px;
+    }
+
+    .footer-note{
+      font-family: var(--sans);
+      font-size: 13px;
+      color: var(--sub);
+      margin-top: 22px;
+      padding-top: 12px;
+      border-top: 1px dashed var(--rule);
+    }
+
+    @media (max-width:520px){
+      h1{ font-size: 22px; }
+      .masthead{ padding:10px; }
+      main{ padding: 16px; }
+      article{ padding: 16px; }
+      .lead::first-letter{ font-size: 30px; }
+    }
+
+    @media print{
+      header{ display:none; }
+      body{ background: #fff; color: #000; }
+      article{ box-shadow:none; border-radius:0; padding:0; border:none; }
+    }
+  </style>
+
+  <!-- MathJax (use $...$ for inline, $$...$$ for display) -->
+  <script>
+    window.MathJax = {
+      tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']],
+        displayMath: [['$$','$$'], ['\\[','\\]']],
+        tags: 'none'
+      },
+      svg: {fontCache: 'global'}
+    };
+  </script>
+  <script defer src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+</head>
+<body>
+  <header>
+    <div class="masthead">
+      <div class="brand">雑記・確率</div>
+      <div class="section">コラム</div>
+    </div>
+  </header>
+
+  <main>
+    <h1>確率変数を「写像」として捉える理由</h1>
+    <div class="meta">
+      <div>寄稿：中島秀太</div>
+      <div>2025年10月10日</div>
+    </div>
+
+    <article>
+      <p class="lead">
+        大学3年で公理的確率論を学び始めたとき、確率変数を「確率空間から実数への写像」と定義する話に戸惑いを覚えた。確率変数はランダムに数を返す量なのだから、最初から数を要素として並べれば十分だと思ったからである。しかし、歴史を振り返るとコルモゴロフが写像として定義したのには必然の理由がある。<sup>1</sup>
+      </p>
+
+      <p>
+        日常的な例では、確率空間の元そのものが「結果の数」になっていることが多い。サイコロを一度振る場面では、標本空間 $\Omega=\{1,\dots,6\}$ に各目を割り当てれば、写像をわざわざ持ち出さなくても計算ができる。
+      </p>
+
+      <h2>サイコロを二度振ると見えるギャップ</h2>
+      <p>
+        ところがサイコロを二回振ると、標本空間は $\Omega=\{1,\dots,6\}^2$ とするのが自然である。このとき「一回目に出た目」は $\omega=(a,b)$ から $a$ を取り出す操作であり、$\pi_1(\omega)=a$ と定義する写像がその役割を担う。二回目は $\pi_2(\omega)=b$ であり、$\omega$ から「どの数を観測するか」を写像が指定している。
+      </p>
+      <p>
+        この視点に立つと、「ランダムに $\omega$ を選ぶ」ことと「$\omega$ から数を抽出する」ことが別の工程だと理解できる。確率変数を写像とみなすのは、この二段構えを明示し、観測が何を意味するかを定義する作業にほかならない。
+      </p>
+
+      <h2>写像として定義する利点</h2>
+      <ul>
+        <li><strong>可測性が情報を保証する。</strong> $X$ が確率変数であるとは、任意のボレル集合 $A$ に対し $X^{-1}(A)\in\mathcal F$ が成り立つことであり、$\mathcal F$ が表す「観測可能な事象」の枠組みに沿って問いを立てられることを意味する。</li>
+        <li><strong>分布は押し出しで統一される。</strong> $X$ の分布は $P_X(A)=\mathbb P\bigl(X^{-1}(A)\bigr)$ と書け、写像の逆像を用いるだけで自然に定義できる。分布だけを与える方法に比べ、定義の重複がない。</li>
+        <li><strong>演算が合成に還元される。</strong> 可測写像の合成は可測であるから、$f:\mathbb R\to\mathbb R$ が可測なら $f(X)$ も確率変数である。和や積、$g(X_1,\dots,X_n)$ といった構成が一行の議論に収まる。</li>
+        <li><strong>依存関係を表現しやすい。</strong> 同じ $\Omega$ 上に $X$ と $Y$ を並べれば、独立性や共分布、条件付き分布、フィルトレーションとの関係などが統一的に記述できる。</li>
+        <li><strong>モデルを柔軟に取り替えられる。</strong> 観測のルールを保ったまま確率測度 $\mathbb P$ を変えれば、依存構造や重み付けを自在に設計できる。カップリングや確率変分法の発想とも親和的だ。</li>
+      </ul>
+
+      <p>
+        $\pi_1,\pi_2$ を用いれば、和 $S=\pi_1+\pi_2$ や最大値 $M=\max\{\pi_1,\pi_2\}$ といった新しい確率変数が自然に定義できる。いずれも $\omega$ を観測して数を返す関数であり、「確率変数＝可測写像」という構造がそのまま姿を現す。
+      </p>
+
+      <h2>補足：厳密な定義</h2>
+      <div class="theorem">
+        <div class="label">定義</div>
+        <p>
+          確率空間 $(\Omega,\mathcal F,\mathbb P)$ と実数のボレル集合族 $\mathcal B(\mathbb R)$ を用いる。写像 $X:(\Omega,\mathcal F)\to(\mathbb R,\mathcal B(\mathbb R))$ が可測、すなわち任意の $A\in\mathcal B(\mathbb R)$ について $X^{-1}(A)\in\mathcal F$ を満たすとき、$X$ を確率変数という。
+        </p>
+        <p>
+          $X$ の分布（法則）は $P_X(A)=\mathbb P(X\in A)=\mathbb P\bigl(X^{-1}(A)\bigr)$ ($A\in\mathcal B(\mathbb R)$) と定め、分布関数は $F_X(a)=\mathbb P(X\le a)$ ($a\in\mathbb R$) と書く。
+        </p>
+      </div>
+
+      <h2>まとめ</h2>
+      <p>
+        確率変数を写像として定義することは、分布・演算・情報・依存関係を一つの枠に収めるための最小限で強力な装置である。学び始めの違和感は、後の議論を支える抽象化への入り口なのだと今では感じている。
+      </p>
+
+      <p class="footer-note">
+        <sup>1</sup> この枠組みはコルモゴロフ（1933年）によって整備された。
+      </p>
+    </article>
+  </main>
+</body>
+</html>
