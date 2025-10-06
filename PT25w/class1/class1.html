@@ -696,10 +696,19 @@
                 <li>もし $A \in \mathcal{F}$ ならば $A^{c} \in \mathcal{F}$</li>
                 <li>$A_i \in \mathcal{F}$, $i \in \mathbb{N}$ ならば $\bigcup_{i=1}^{\infty} A_i \in \mathcal{F}$</li>
             </ul>
+<h3>4.2 確率測度の定義</h3>
+            <p>集合 $\Omega$ 上のシグマ代数 $\mathcal{F}$ に対して, 写像 $P : \mathcal{F} \to [0,1]$ が次の三条件を満たすとき, $P$ を確率測度と呼ぶ。</p>
+            <ul class="pill-list">
+                <li>$P(A) \ge 0$ （非負性）</li>
+                <li>$P(\Omega) = 1$ （全体の確率は1）</li>
+                <li>互いに素な $A_i \in \mathcal{F}$ に対して $P\!\left(\bigcup_{i=1}^{\infty} A_i\right) = \sum_{i=1}^{\infty} P(A_i)$ （可算加法性）</li>
+            </ul>
+            <div class="insight">確率測度は測度論の枠組みに基づくものであり, その定義はルベーグ測度の拡張と対応している。したがって確率空間 $(\Omega, \mathcal{F}, P)$ は, 測度空間の特別な場合とみなせる。</div>
             <div class="insight">$\mathbb{R}^d$ のボレルシグマ代数は開集合族から生成され, 連続モデルの標準的な選択となる。</div>
             <p>確率空間は三つ組 $(\Omega, \mathcal{F}, P)$ であり, 測度 $P$ は $\mathcal{F}$ 上の可算加法的な写像となる。</p>
 
-            <h3>4.2 確率空間の基本性質</h3>
+
+            <h3>4.3 確率空間の基本性質</h3>
             <p>公理から直ちに導かれる性質を整理する。</p>
             <ul class="pill-list">
                 <li>$P(A^{c}) = 1 - P(A)$</li>
