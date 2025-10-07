@@ -1,554 +1,129 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>確率論と統計学I　レジュメ2</title>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/MathJax.js?config=TeX-MML-AM_CHTML"></script>
-    <script type="text/x-mathjax-config">
-        MathJax.Hub.Config({
-            tex2jax: {
-                inlineMath: [['$','$'], ['\\(','\\)']],
-                displayMath: [['$$','$$'], ['\\[','\\]']],
-                processEscapes: true
-            },
-            CommonHTML: { scale: 100 },
-            "HTML-CSS": { scale: 100 }
-        });
-    </script>
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Cabin:wght@500&family=Noto+Sans+JP:wght@400;500;700&display=swap');
-
-        :root {
-            --background: radial-gradient(120% 120% at 20% 20%, #1e3a8a 0%, #0f172a 55%, #020617 100%);
-            --card-bg: rgba(255, 255, 255, 0.88);
-            --card-border: rgba(255, 255, 255, 0.25);
-            --accent: #4c6ef5;
-            --accent-soft: rgba(76, 110, 245, 0.14);
-            --accent-strong: #2c3791;
-            --text-primary: #0f172a;
-            --text-secondary: #475569;
-            --highlight: #facc15;
-            --shadow: 0 18px 45px -25px rgba(15, 23, 42, 0.75);
-        }
-
-        *, *::before, *::after { box-sizing: border-box; }
-
-        /* ---- Layout tweaks for perfect width ---- */
-        body {
-            font-family: 'Noto Sans JP', 'Hiragino Sans', 'Meiryo', sans-serif;
-            line-height: 1.7;
-            margin: 0;
-            min-height: 100vh;
-            padding: clamp(24px, 6vw, 60px) clamp(12px, 4vw, 24px);
-            color: var(--text-primary);
-            background: var(--background);
-            position: relative;
-            display: flex;
-            justify-content: center;
-            align-items: flex-start;
-        }
-
-        body::before {
-            content: "";
-            position: fixed;
-            inset: 0;
-            background: repeating-linear-gradient(135deg, rgba(255, 255, 255, 0.04) 0, rgba(255, 255, 255, 0.04) 12px, transparent 12px, transparent 24px);
-            pointer-events: none;
-            z-index: 0;
-        }
-
-        main {
-            /* 読みやすい横幅に自動調整 */
-            width: clamp(320px, 92vw, 880px);
-            max-width: 100%;
-            background: var(--card-bg);
-            backdrop-filter: blur(18px);
-            border: 1px solid var(--card-border);
-            border-radius: 28px;
-            padding: clamp(24px, 5vw, 56px) clamp(20px, 6vw, 64px);
-            position: relative;
-            z-index: 1;
-            box-shadow: var(--shadow);
-            overflow-wrap: anywhere;
-        }
-
-        header.hero {
-            text-align: center;
-            margin-bottom: 52px;
-            display: grid;
-            gap: 18px;
-        }
-
-        .hero-label {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-            padding: 6px 16px;
-            border-radius: 999px;
-            font-size: 14px;
-            letter-spacing: 0.08em;
-            text-transform: uppercase;
-            color: var(--accent-strong);
-            background: var(--accent-soft);
-            font-family: 'Cabin', sans-serif;
-        }
-
-        h1 {
-            font-size: clamp(28px, 4vw, 42px);
-            margin: 0;
-            color: var(--accent-strong);
-            letter-spacing: 0.05em;
-        }
-
-        .hero p {
-            margin: 0 auto;
-            max-width: 640px;
-            color: var(--text-secondary);
-            font-size: 17px;
-        }
-
-        section.outline-section {
-            background: rgba(255, 255, 255, 0.78);
-            border: 1px solid rgba(148, 163, 184, 0.25);
-            padding: clamp(18px, 3.6vw, 32px) clamp(18px, 3.6vw, 36px);
-            border-radius: 22px;
-            margin-bottom: 32px;
-            box-shadow: 0 24px 40px -32px rgba(15, 23, 42, 0.35);
-        }
-
-        section.outline-section:last-of-type { margin-bottom: 48px; }
-
-        section.outline-section h2 {
-            display: flex;
-            align-items: center;
-            gap: 14px;
-            font-size: clamp(20px, 2.4vw, 24px);
-            margin: 0 0 24px;
-            color: var(--accent-strong);
-        }
-
-        section.outline-section h2::before {
-            content: "";
-            width: 42px;
-            height: 4px;
-            border-radius: 999px;
-            background: linear-gradient(90deg, var(--accent) 0%, rgba(76, 110, 245, 0.2) 100%);
-        }
-
-        section.outline-section h3 {
-            margin: 28px 0 14px;
-            font-size: 19px;
-            color: var(--accent-strong);
-        }
-
-        section.outline-section p { margin: 0 0 16px; color: var(--text-secondary); }
-
-        ul.styled-list {
-            margin: 0 0 18px;
-            padding-left: 22px;
-            color: var(--text-secondary);
-        }
-
-        ul.styled-list li { margin-bottom: 8px; }
-
-        .math-card {
-            background: rgba(226, 232, 240, 0.5);
-            border: 1px solid rgba(148, 163, 184, 0.3);
-            border-radius: 18px;
-            padding: 18px 22px;
-            margin: 18px 0;
-            text-align: center;
-            font-size: 17px;
-        }
-
-        .callout {
-            background: rgba(255, 255, 255, 0.86);
-            border-radius: 18px;
-            padding: 22px 24px;
-            border: 1px solid rgba(148, 163, 184, 0.28);
-            box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.6);
-            margin: 24px 0;
-        }
-
-        .callout h3 {
-            margin-top: 0;
-            margin-bottom: 12px;
-            font-size: 18px;
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-
-        .callout h3::before {
-            content: "";
-            width: 30px;
-            height: 3px;
-            border-radius: 999px;
-            background: currentColor;
-            opacity: 0.35;
-        }
-
-        .callout.definition { border-left: 4px solid #f59f00; }
-        .callout.definition h3 { color: #b97309; }
-
-        .callout.example { border-left: 4px solid var(--accent); }
-        .callout.example h3 { color: var(--accent-strong); }
-
-        .callout.theorem {
-            border-left: 4px solid #2f9e44;
-            background: rgba(240, 253, 244, 0.92);
-        }
-        .callout.theorem h3 { color: #2f9e44; }
-
-        .visual-grid { display: grid; gap: 26px; }
-
-        .sample-space {
-            display: grid;
-            gap: 18px;
-            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-        }
-
-        .sample-space .outcome {
-            background: rgba(236, 243, 255, 0.9);
-            border-radius: 18px;
-            padding: 18px;
-            text-align: center;
-            border: 1px solid rgba(148, 163, 184, 0.25);
-            box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.65);
-        }
-
-        .coin {
-            width: 90px;
-            height: 90px;
-            background: radial-gradient(circle at 30% 30%, #ffe066, #f59f00);
-            border-radius: 50%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            margin: 0 auto 14px;
-            font-weight: 700;
-            color: #2c1b00;
-            letter-spacing: 0.08em;
-            box-shadow: 0 10px 25px -12px rgba(245, 159, 0, 0.6);
-        }
-
-        .probability-map {
-            background: rgba(226, 232, 240, 0.45);
-            border-radius: 22px;
-            padding: 24px;
-            border: 1px solid rgba(148, 163, 184, 0.3);
-            overflow: hidden;
-        }
-
-        .probability-map svg { width: 100%; height: auto; }
-
-        .figure { margin: 24px 0 0; text-align: center; }
-        .figure svg { max-width: 100%; height: auto; }
-
-        /* Ensure all media respect container width */
-        img, svg, canvas, video { max-width: 100%; height: auto; }
-
-        .nav-links {
-            display: flex;
-            justify-content: center;
-            gap: 12px;
-            margin-top: 16px;
-            flex-wrap: wrap;
-        }
-
-        .nav-links a {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            gap: 6px;
-            padding: 10px 22px;
-            border-radius: 999px;
-            background: linear-gradient(135deg, var(--accent) 0%, var(--accent-strong) 100%);
-            color: white;
-            text-decoration: none;
-            font-weight: 500;
-            letter-spacing: 0.04em;
-            transition: transform 0.2s ease, box-shadow 0.2s ease;
-        }
-
-        .nav-links a:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 12px 30px -18px rgba(76, 110, 245, 0.8);
-        }
-
-        footer {
-            text-align: center;
-            color: rgba(71, 85, 105, 0.8);
-            font-size: 14px;
-        }
-
-        @media (max-width: 720px) {
-            .hero p { font-size: 16px; }
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>確率変数と分布</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;600;700&display=swap" rel="stylesheet">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        inlineMath: [['$','$'], ['\\(','\\)']],
+        displayMath: [['$$','$$'], ['\\[','\\]']],
+        processEscapes: true
+      },
+      CommonHTML: { scale: 100 },
+      "HTML-CSS": { scale: 100 }
+    });
+  </script>
+  <style>
+    :root{ --bg:#0f172a; --fg:#e5e7eb; --muted:#9ca3af; --card:#111827; --accent:#60a5fa; --border:#1f2937; }
+    *{ box-sizing:border-box; }
+    body{ margin:0; font-family:"Noto Sans JP",system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,"Apple Color Emoji","Segoe UI Emoji"; background:linear-gradient(180deg,#0b1220 0%, #0f172a 100%); color:var(--fg); line-height:1.75; }
+    .container{ max-width:920px; margin:0 auto; padding:24px; }
+    header h1{ font-size:clamp(26px,3.2vw,36px); margin:8px 0 4px; letter-spacing:.02em; }
+    header .meta{ color:var(--muted); font-size:14px; }
+    .card{ background:rgba(17,24,39,.7); border:1px solid var(--border); border-radius:14px; padding:20px; margin:18px 0; }
+    h2{ font-size:clamp(20px,2.5vw,26px); border-left:4px solid var(--accent); padding-left:10px; margin-top:26px; }
+    h3{ font-size:clamp(18px,2vw,22px); color:#c7d2fe; margin:18px 0 8px; }
+    .def,.thm,.prop,.remark,.example,.proof{ border:1px solid var(--border); background:#0b1324; border-radius:14px; padding:16px 16px 14px; margin:16px 0; }
+    .def>strong,.thm>strong,.prop>strong,.remark>strong,.example>strong,.proof>strong{ color:#93c5fd; display:inline-block; margin-bottom:6px; }
+    .proof{ border-left:4px solid #34d399; }
+    .remark{ border-left:4px solid #f59e0b; }
+    .example{ border-left:4px solid #a78bfa; }
+    code.kwd{ background:#0b1220; padding:1px 6px; border-radius:6px; border:1px solid #1f2937; }
+    ul,ol{ padding-left:22px; }
+    a{ color:#93c5fd; text-decoration:none; }
+    a:hover{ text-decoration:underline; }
+  </style>
 </head>
 <body>
-    <main>
-        <header class="hero">
-            <span class="hero-label">Lecture 2</span>
-            <h1>確率論と統計学I　レジュメ2</h1>
-            <p>有限な確率空間の構成と基礎的な確率変数の扱いを、コイントスの具体例を通して整理する。</p>
-        </header>
+  <div class="container">
+    <header>
+      <h1>確率変数と分布</h1>
+      <div class="meta">講義ノート（基礎）</div>
+    </header>
 
-        <section class="outline-section">
-            <h2>1. コイントス</h2>
-            <p>コインを2回投げる状況を考えると、結果の組み合わせ全体は次の集合で表される。</p>
-            <ul class="styled-list">
-                <li>(全事象) $\Omega=\{(\text{表,表}),(\text{表,裏}),(\text{裏,表}),(\text{裏,裏})\}$</li>
-                <li>(確率測度) $\mathbb{P}(\text{表,表})=\mathbb{P}(\text{表,裏})=\mathbb{P}(\text{裏,表})=\mathbb{P}(\text{裏,裏})=1/4$</li>
-            </ul>
-            <p>$X$を2回投げたコインの表の数とすると、$X$は$\Omega$から$\mathbb{R}$への写像として表現できる。</p>
-            <div class="math-card">
-                $X(\text{表,表})=2,\; X(\text{表,裏})=1,\; X(\text{裏,表})=1,\; X(\text{裏,裏})=0$
-            </div>
+    <div class="card">
+      <p>以下では確率空間 $(\Omega,\mathcal F,P)$ を前提とし、主に $\mathbb R$ 値の確率変数を扱う。$\mathcal B(\mathbb R)$ は実数のボレル $\sigma$–代数を表す。</p>
+    </div>
 
-            <div class="callout definition">
-                <h3>平均 (期待値) の定義</h3>
-                <p>$X$の平均を次で定義する。</p>
-                <div class="math-card">
-                    $$\mathbb{E}[X] \equiv \sum_{\omega\in \Omega}X(\omega)\mathbb{P}(\omega)=2\cdot \frac{1}{4}+1\cdot \frac{2}{4}+0\cdot\frac{1}{4}=1$$
-                </div>
-            </div>
+    <h2>1. 準備：$\sigma$–代数とボレル集合</h2>
+    <div class="def">
+      <strong>定義（$\sigma$–代数）</strong>
+      <p>集合 $\Omega$ の部分集合族 $\mathcal F$ が次を満たすとき $\sigma$–代数という。
+      $$\Omega\in\mathcal F,\quad A\in\mathcal F\Rightarrow A^c\in\mathcal F,\quad A_i\in\mathcal F\ (i\in\mathbb N)\Rightarrow \bigcup_{i=1}^\infty A_i\in\mathcal F.$$
+      </p>
+      <p>$\mathbb R$ 上のボレル $\sigma$–代数 $\mathcal B(\mathbb R)$ は開集合によって生成される。</p>
+    </div>
 
-            <h3>コイントスの視覚化</h3>
-            <div class="visual-grid">
-                <div class="sample-space">
-                    <div class="outcome">
-                        <div class="coin">表表</div>
-                        <p>$X = 2$</p>
-                        <p>$\mathbb{P} = \frac{1}{4}$</p>
-                    </div>
-                    <div class="outcome">
-                        <div class="coin">表裏</div>
-                        <p>$X = 1$</p>
-                        <p>$\mathbb{P} = \frac{1}{4}$</p>
-                    </div>
-                    <div class="outcome">
-                        <div class="coin">裏表</div>
-                        <p>$X = 1$</p>
-                        <p>$\mathbb{P} = \frac{1}{4}$</p>
-                    </div>
-                    <div class="outcome">
-                        <div class="coin">裏裏</div>
-                        <p>$X = 0$</p>
-                        <p>$\mathbb{P} = \frac{1}{4}$</p>
-                    </div>
-                </div>
+    <h2>2. 確率変数の定義</h2>
+    <div class="def">
+      <strong>定義（確率変数）</strong>
+      <p>写像 $X\colon (\Omega,\mathcal F)\to (\mathbb R,\mathcal B(\mathbb R))$ が
+      $$X^{-1}(B)\in\mathcal F\quad(\forall\,B\in\mathcal B(\mathbb R))$$
+      を満たすとき、$X$ を（実）<span class="code">確率変数</span>という。</p>
+    </div>
 
-                <div class="probability-map">
-                    <svg viewBox="0 0 480 300">
-                        <rect x="50" y="50" width="300" height="200" fill="#f0f8ff" stroke="#3949ab" stroke-width="2" rx="10" />
-                        <text x="200" y="30" text-anchor="middle" font-size="16">確率空間 $(\Omega, \mathbb{P})$</text>
+    <div class="thm">
+      <strong>定理（同値条件：半無限区間で十分）</strong>
+      <p>写像 $X\colon \Omega\to\mathbb R$ に対し、次は同値である。
+      </p>
+      <ol>
+        <li>$X$ は確率変数（すなわちボレル可測）。</li>
+        <li>任意の $a\in\mathbb R$ について $X^{-1}((-\infty,a])\in\mathcal F$。</li>
+        <li>任意の $a\in\mathbb R$ について $X^{-1}((-\infty,a))\in\mathcal F$。</li>
+      </ol>
+    </div>
 
-                        <circle cx="100" cy="100" r="20" fill="#3f51b5" />
-                        <text x="100" y="105" text-anchor="middle" fill="white">(表,表)</text>
+    <div class="proof">
+      <strong>証明スケッチ.</strong>
+      <p>$\{(-\infty,a]\colon a\in\mathbb R\}$ は $\mathcal B(\mathbb R)$ を生成する半環である。可測性の定義は「生成族の逆像が可測集合になる」ことと同値。詳細は標準的な測度論テキストを参照。</p>
+    </div>
 
-                        <circle cx="300" cy="100" r="20" fill="#3f51b5" />
-                        <text x="300" y="105" text-anchor="middle" fill="white">(表,裏)</text>
+    <h2>3. 分布（法則）と分布関数</h2>
+    <div class="def">
+      <strong>定義（分布/法則）</strong>
+      <p>$X$ の <span class="code">分布</span>（法則）$P_X$ を
+      $$P_X(A):=P\bigl(X\in A\bigr)=P\bigl(X^{-1}(A)\bigr)\qquad(A\in\mathcal B(\mathbb R))$$
+      と定める。これは $\mathbb R$ 上の確率測度で、$P_X=P\circ X^{-1}$（押し出し）と書く。</p>
+    </div>
 
-                        <circle cx="100" cy="200" r="20" fill="#3f51b5" />
-                        <text x="100" y="205" text-anchor="middle" fill="white">(裏,表)</text>
+    <div class="def">
+      <strong>定義（分布関数）</strong>
+      <p>$F_X\colon\mathbb R\to[0,1]$ を
+      $$F_X(a):=P(X\le a)=P\bigl((-\infty,a]\bigr)\quad(a\in\mathbb R)$$
+      と定める。</p>
+    </div>
 
-                        <circle cx="300" cy="200" r="20" fill="#3f51b5" />
-                        <text x="300" y="205" text-anchor="middle" fill="white">(裏,裏)</text>
+    <div class="prop">
+      <strong>性質（分布関数）</strong>
+      <ul>
+        <li>$F_X$ は非減少、右連続。</li>
+        <li>$\displaystyle \lim_{a\to-\infty}F_X(a)=0,\quad \lim_{a\to+\infty}F_X(a)=1$。</li>
+        <li>$P(a<X\le b)=F_X(b)-F_X(a)$。</li>
+      </ul>
+    </div>
 
-                        <path d="M 350 125 L 380 125 L 380 75 L 410 125 L 380 175 L 380 125" fill="none" stroke="#303f9f" stroke-width="2" />
-                        <text x="420" y="125" text-anchor="start">$X$</text>
+    <div class="example">
+      <strong>例</strong>
+      <ul>
+        <li><em>離散型</em>：$P(X=x_k)=p_k$（$\sum p_k=1$）なら
+          $$F_X(a)=\sum_{x_k\le a}p_k.$$</li>
+        <li><em>密度をもつ連続型</em>：$f\ge0$, $\int_{\mathbb R} f(x)\,dx=1$ なら
+          $$F_X(a)=\int_{-\infty}^a f(x)\,dx.$$</li>
+      </ul>
+    </div>
 
-                        <line x1="450" y1="50" x2="450" y2="250" stroke="#1a237e" stroke-width="2" />
-                        <circle cx="450" cy="75" r="5" fill="#1a237e" />
-                        <text x="465" y="80" text-anchor="start">$2$</text>
+    <h2>4. ほぼ確実（a.s.）</h2>
+    <div class="remark">
+      <strong>用語</strong>
+      <p>$A\in\mathcal F$ で $P(A)=1$ のとき「$A$ 上で成り立つ」を <span class="code">ほぼ確実</span>（a.s.）に成り立つという。</p>
+    </div>
 
-                        <circle cx="450" cy="150" r="5" fill="#1a237e" />
-                        <text x="465" y="155" text-anchor="start">$1$</text>
-
-                        <circle cx="450" cy="225" r="5" fill="#1a237e" />
-                        <text x="465" y="230" text-anchor="start">$0$</text>
-                    </svg>
-                </div>
-
-                <div class="figure">
-                    <svg viewBox="0 0 400 250">
-                        <line x1="50" y1="200" x2="350" y2="200" stroke="#333" stroke-width="2" />
-                        <line x1="50" y1="50" x2="50" y2="200" stroke="#333" stroke-width="2" />
-
-                        <line x1="50" y1="200" x2="50" y2="205" stroke="#333" stroke-width="2" />
-                        <text x="50" y="220" text-anchor="middle">0</text>
-
-                        <line x1="150" y1="200" x2="150" y2="205" stroke="#333" stroke-width="2" />
-                        <text x="150" y="220" text-anchor="middle">1</text>
-
-                        <line x1="250" y1="200" x2="250" y2="205" stroke="#333" stroke-width="2" />
-                        <text x="250" y="220" text-anchor="middle">2</text>
-
-                        <line x1="350" y1="200" x2="350" y2="205" stroke="#333" stroke-width="2" />
-                        <text x="350" y="220" text-anchor="middle">∞</text>
-
-                        <line x1="45" y1="50" x2="50" y2="50" stroke="#333" stroke-width="2" />
-                        <text x="40" y="55" text-anchor="end">1</text>
-
-                        <line x1="45" y1="125" x2="50" y2="125" stroke="#333" stroke-width="2" />
-                        <text x="40" y="130" text-anchor="end">1/2</text>
-
-                        <line x1="45" y1="200" x2="50" y2="200" stroke="#333" stroke-width="2" />
-                        <text x="40" y="205" text-anchor="end">0</text>
-
-                        <text x="200" y="240" text-anchor="middle">$x$</text>
-                        <text x="30" y="125" text-anchor="middle" transform="rotate(-90, 30, 125)">$F_X(x)$</text>
-
-                        <line x1="50" y1="200" x2="150" y2="200" stroke="#3f51b5" stroke-width="3" />
-                        <circle cx="50" cy="200" r="4" fill="#3f51b5" />
-                        <circle cx="150" cy="200" r="4" fill="white" stroke="#3f51b5" stroke-width="2" />
-
-                        <line x1="150" y1="125" x2="250" y2="125" stroke="#3f51b5" stroke-width="3" />
-                        <circle cx="150" cy="125" r="4" fill="#3f51b5" />
-                        <circle cx="250" cy="125" r="4" fill="white" stroke="#3f51b5" stroke-width="2" />
-
-                        <line x1="250" y1="50" x2="350" y2="50" stroke="#3f51b5" stroke-width="3" />
-                        <circle cx="250" cy="50" r="4" fill="#3f51b5" />
-                        <circle cx="350" cy="50" r="4" fill="#3f51b5" />
-
-                        <text x="280" y="80" text-anchor="start" font-size="10">分布関数:</text>
-                        <text x="280" y="100" text-anchor="start" font-size="10">$F_X(x) = \mathbb{P}(X \leq x)$</text>
-                        <text x="280" y="120" text-anchor="start" font-size="10">$F_X(x) = 0, 0 \leq x < 1$</text>
-                        <text x="280" y="140" text-anchor="start" font-size="10">$F_X(x) = 1/2, 1 \leq x < 2$</text>
-                        <text x="280" y="160" text-anchor="start" font-size="10">$F_X(x) = 1, x \geq 2$</text>
-                    </svg>
-                </div>
-            </div>
-                <p><strong>2. コインを3回投げる場合</strong></p>
-                <ul class="styled-list">
-                    <li>全事象：$\Omega = \{(x_1,x_2,x_3) \mid x_i \in \{\text{表},\text{裏}\}, i=1,2,3\}$</li>
-                    <li>
-                        具体的には：
-                        $$\Omega = \left\{ \begin{array}{cccc}
-                        (表,表,表), & (表,表,裏), & (表,裏,表), & (表,裏,裏), \\
-                        (裏,表,表), & (裏,表,裏), & (裏,裏,表), & (裏,裏,裏)
-                        \end{array} \right\}$$
-                    </li>
-                    <li>$|\Omega| = 2^3 = 8$より、各要素の確率は$\mathbb{P}(\omega) = \frac{1}{8}$</li>
-                    <li>確率変数$X$：表の出た数</li>
-                    <li>
-                        期待値の計算：
-                        $$\begin{align}
-                        \mathbb{E}[X] &= 3 \cdot \mathbb{P}(X=3) + 2 \cdot \mathbb{P}(X=2) + 1 \cdot \mathbb{P}(X=1) + 0 \cdot \mathbb{P}(X=0)\\
-                        &= 3 \cdot \frac{1}{8} + 2 \cdot \frac{3}{8} + 1 \cdot \frac{3}{8} + 0 \cdot \frac{1}{8}
-                        = \frac{12}{8} = 1.5
-                        \end{align}$$
-                    </li>
-                </ul>
-        </section>
-
-        <section class="outline-section">
-            <h2>2. 確率空間と確率変数 (抽象的な定義)</h2>
-
-            <div class="callout definition">
-                <h3>有限(可算)の場合の確率空間</h3>
-                <p>$\Omega$を有限(または可算)集合とし、それぞれの元$a \in \Omega$に対し$p_a\in[0,1]$が対応し$\sum_{a\in\Omega}p_a=1$とする。</p>
-                <div class="math-card">
-                    $$\mathbb{P}(A)=\sum_{a\in A}p_a\quad(A\subset\Omega)$$
-                </div>
-                <p>組$(\Omega,\mathbb{P})$を<strong>確率空間</strong>と呼ぶ。$\Omega\to\mathbb{R}$の写像を確率変数と呼ぶ。</p>
-            </div>
-
-            <div class="callout definition">
-                <h3>分布と期待値（有限の場合）</h3>
-                <p>$A \subset \mathbb{R}$について、$\mathbb{P}(X \in A) \equiv \mathbb{P}(\{\omega \in \Omega \mid X(\omega) \in A\})$で定義する。$A\mapsto\mathbb{P}(X\in A)$を$X$の分布と呼ぶ。</p>
-                <div class="math-card">
-                    $$\mathbb{E}[X]=\sum_{\omega\in\Omega}X(\omega)\,\mathbb{P}(\omega)$$
-                </div>
-            </div>
-
-            <div class="callout definition">
-                <h3>確率分布と分布関数（有限の場合）</h3>
-                <div class="math-card">
-                    $$\mathbb{P}(X=x)=\sum_{\omega\in\Omega:\,X(\omega)=x}\mathbb{P}(\omega),\qquad
-                      F_X(x)=\mathbb{P}(X\le x)$$
-                </div>
-            </div>
-
-            <div class="callout definition">
-                <h3>一般の確率空間での定義（測度論）</h3>
-                <p><strong>確率空間</strong>は、集合$\Omega$、$\sigma$加法族$\mathcal{F}\subset 2^\Omega$、測度$\mathbb{P}:\mathcal{F}\to[0,1]$で、$\mathbb{P}(\Omega)=1$を満たす組$(\Omega,\mathcal{F},\mathbb{P})$である。</p>
-                <p><strong>確率変数</strong>（実確率変数）は、可測写像$X:(\Omega,\mathcal{F})\to(\mathbb{R},\mathcal{B}(\mathbb{R}))$であり、</p>
-                <div class="math-card">
-                    $$\forall A\in\mathcal{B}(\mathbb{R})\quad X^{-1}(A)=\{\omega\in\Omega: X(\omega)\in A\}\in\mathcal{F}.$$
-                </div>
-                <p>同値な条件として、すべての$a\in\mathbb{R}$について$\{\omega: X(\omega)\le a\}\in\mathcal{F}$でもよい。</p>
-                <p><strong>分布（押し出し測度）</strong>$\mu_X$は</p>
-                <div class="math-card">
-                    $$\mu_X(A):=\mathbb{P}(X\in A)=\mathbb{P}(X^{-1}(A))\qquad(A\in\mathcal{B}(\mathbb{R}))$$
-                </div>
-                <p>で定義される$\mathbb{R}$上の確率測度である。$\mu_X$のことを$X$の分布と呼ぶこともある。<strong>分布関数</strong>$F_X:\mathbb{R}\to[0,1]$は</p>
-                <div class="math-card">
-                    $$F_X(a):=\mathbb{P}(X\le a)\qquad(a\in\mathbb{R})$$
-                </div>
-                <p>で定義され、非減少・右連続、$\lim_{a\to-\infty}F_X(a)=0$、$\lim_{a\to\infty}F_X(a)=1$を満たす。</p>
-            </div>
-
-            <!-- 追加：可測性の同値条件の定理 -->
-            <div class="callout theorem">
-                <h3>定理（実確率変数の可測性の同値条件）</h3>
-                <p>写像$X:(\Omega,\mathcal{F})\to\mathbb{R}$について、次は同値：</p>
-                <ul class="styled-list">
-                    <li>$X$は$(\Omega,\mathcal{F})\to(\mathbb{R},\mathcal{B}(\mathbb{R}))$の可測写像である。</li>
-                    <li>$\forall a\in\mathbb{R}$に対し、$X^{-1}((-\infty,a])\in\mathcal{F}$。</li>
-                    <li>（同値）$\forall a\in\mathbb{R}$に対し、$X^{-1}((-\infty,a))\in\mathcal{F}$。</li>
-                    <li>（同値）$\forall a\in\mathbb{R}$に対し、$X^{-1}([a,\infty))\in\mathcal{F}$。</li>
-                    <li>（同値）$\forall a\in\mathbb{R}$に対し、$X^{-1}((a,\infty))\in\mathcal{F}$。</li>
-                </ul>
-                <p>理由の概略：$\{(-\infty,a]\}_{a\in\mathbb{R}}$（あるいは上記のいずれかの片側無限区間族）は$\mathbb{R}$のボレル$\sigma$加法族$\mathcal{B}(\mathbb{R})$を生成する。可測性は生成系に対する可測性で判定できる。</p>
-            </div>
-
-            <div class="callout example">
-                <h3>記法についての注意</h3>
-                <div class="math-card">
-                    $$\mathbb{P}(X \in A) = \mathbb{P}(\{\omega \in \Omega : X(\omega) \in A\}),\quad
-                      \mathbb{P}(X \le x) = \mathbb{P}(\{\omega : X(\omega)\le x\}),\quad
-                      \mathbb{P}(X = x)=\mathbb{P}(\{\omega: X(\omega)=x\})$$
-                </div>
-            </div>
-        </section>
-
-        <section class="outline-section">
-            <h2>3. 例題</h2>
-            <div class="callout example">
-                <h3>演習問題</h3>
-                <p>次の設定の下で確率空間を定義し、期待値を求めよ。</p>
-                <ul class="styled-list">
-                    <li>サイコロを1回振り，出た目の期待値</li>
-                    <li>コインを3回投げたときの，表の出た数</li>
-                </ul>
-            </div>
-
-            <div class="callout example">
-                <h3>解答例</h3>
-                <p><strong>1. サイコロの場合</strong></p>
-                <ul class="styled-list">
-                    <li>$\Omega = \{1,2,3,4,5,6\}$</li>
-                    <li>$\mathbb{P}(1) = \mathbb{P}(2) = \mathbb{P}(3) = \mathbb{P}(4) = \mathbb{P}(5) = \mathbb{P}(6) = \frac{1}{6}$</li>
-                    <li>$X(\omega) = \omega$（出目をそのまま値とする）</li>
-                    <li>$\mathbb{E}[X] = \sum_{\omega \in \Omega} X(\omega)\mathbb{P}(\omega) = \frac{21}{6} = 3.5$</li>
-                </ul>
-            </div>
-        </section>
-
-        <div class="nav-links">
-            <a href="../class1/class1.html">← 前のレッスン</a>
-            <a href="../index.html">ホーム</a>
-            <a href="../class3/class3.html">次のレッスン →</a>
-        </div>
-
-        <footer>
-            <p>© 2025 確率論講義 - すべての権利を留保する</p>
-        </footer>
-    </main>
+  </div>
 </body>
 </html>
