@@ -294,24 +294,24 @@
         <header class="hero">
             <span class="hero-label">Lecture 2</span>
             <h1>確率論と統計学I　レジュメ2</h1>
-            <p>有限な確率空間の構成と基礎的な確率変数の扱いを、コイントスの具体例を通して整理します。</p>
+            <p>有限な確率空間の構成と基礎的な確率変数の扱いを、コイントスの具体例を通して整理する。</p>
         </header>
 
         <section class="outline-section">
             <h2>1. コイントス</h2>
-            <p>コインを2回投げる状況を考えると、結果の組み合わせ全体は次の集合で表されます。</p>
+            <p>コインを2回投げる状況を考えると、結果の組み合わせ全体は次の集合で表される。</p>
             <ul class="styled-list">
                 <li>(全事象) $\Omega=\{(\text{表,表}),(\text{表,裏}),(\text{裏,表}),(\text{裏,裏})\}$</li>
                 <li>(確率測度) $\mathbb{P}(\text{表,表})=\mathbb{P}(\text{表,裏})=\mathbb{P}(\text{裏,表})=\mathbb{P}(\text{裏,裏})=1/4$</li>
             </ul>
-            <p>$X$を2回投げたコインの表の数とすると、$X$は$\Omega$から$\mathbb{R}$への写像として表現できます。</p>
+            <p>$X$を2回投げたコインの表の数とすると、$X$は$\Omega$から$\mathbb{R}$への写像として表現できる。</p>
             <div class="math-card">
                 $X(\text{表,表})=2,\; X(\text{表,裏})=1,\; X(\text{裏,表})=1,\; X(\text{裏,裏})=0$
             </div>
 
             <div class="callout definition">
                 <h3>平均 (期待値) の定義</h3>
-                <p>$X$の平均を次で定義します。</p>
+                <p>$X$の平均を次で定義する。</p>
                 <div class="math-card">
                     $$\mathbb{E}[X] \equiv \sum_{\omega\in \Omega}X(\omega)\mathbb{P}(\omega)=2\cdot \frac{1}{4}+1\cdot \frac{2}{4}+0\cdot\frac{1}{4}=1$$
                 </div>
@@ -486,11 +486,25 @@
                 <div class="math-card">
                     $$\mu_X(A):=\mathbb{P}(X\in A)=\mathbb{P}(X^{-1}(A))\qquad(A\in\mathcal{B}(\mathbb{R}))$$
                 </div>
-                <p>で定義される$\mathbb{R}$上の確率測度である。$mu_X$のことを$X$の分布と呼ぶこともある。<strong>分布関数</strong>$F_X:\mathbb{R}\to[0,1]$は</p>
+                <p>で定義される$\mathbb{R}$上の確率測度である。$\mu_X$のことを$X$の分布と呼ぶこともある。<strong>分布関数</strong>$F_X:\mathbb{R}\to[0,1]$は</p>
                 <div class="math-card">
                     $$F_X(a):=\mathbb{P}(X\le a)\qquad(a\in\mathbb{R})$$
                 </div>
                 <p>で定義され、非減少・右連続、$\lim_{a\to-\infty}F_X(a)=0$、$\lim_{a\to\infty}F_X(a)=1$を満たす。</p>
+            </div>
+
+            <!-- 追加：可測性の同値条件の定理 -->
+            <div class="callout theorem">
+                <h3>定理（実確率変数の可測性の同値条件）</h3>
+                <p>写像$X:(\Omega,\mathcal{F})\to\mathbb{R}$について、次は同値：</p>
+                <ul class="styled-list">
+                    <li>$X$は$(\Omega,\mathcal{F})\to(\mathbb{R},\mathcal{B}(\mathbb{R}))$の可測写像である。</li>
+                    <li>$\forall a\in\mathbb{R}$に対し、$X^{-1}((-\infty,a])\in\mathcal{F}$。</li>
+                    <li>（同値）$\forall a\in\mathbb{R}$に対し、$X^{-1}((-\infty,a))\in\mathcal{F}$。</li>
+                    <li>（同値）$\forall a\in\mathbb{R}$に対し、$X^{-1}([a,\infty))\in\mathcal{F}$。</li>
+                    <li>（同値）$\forall a\in\mathbb{R}$に対し、$X^{-1}((a,\infty))\in\mathcal{F}$。</li>
+                </ul>
+                <p>理由の概略：$\{(-\infty,a]\}_{a\in\mathbb{R}}$（あるいは上記のいずれかの片側無限区間族）は$\mathbb{R}$のボレル$\sigma$加法族$\mathcal{B}(\mathbb{R})$を生成する。可測性は生成系に対する可測性で判定できる。</p>
             </div>
 
             <div class="callout example">
@@ -507,7 +521,7 @@
             <h2>3. 例題</h2>
             <div class="callout example">
                 <h3>演習問題</h3>
-                <p>次の設定の下で確率空間を定義し、期待値を求めてみましょう。</p>
+                <p>次の設定の下で確率空間を定義し、期待値を求めよ。</p>
                 <ul class="styled-list">
                     <li>サイコロを1回振り，出た目の期待値</li>
                     <li>コインを3回投げたときの，表の出た数</li>
@@ -520,14 +534,10 @@
                 <ul class="styled-list">
                     <li>$\Omega = \{1,2,3,4,5,6\}$</li>
                     <li>$\mathbb{P}(1) = \mathbb{P}(2) = \mathbb{P}(3) = \mathbb{P}(4) = \mathbb{P}(5) = \mathbb{P}(6) = \frac{1}{6}$</li>
-                    <li>$X(\omega) = \omega$ （出目をそのまま値とする）</li>
+                    <li>$X(\omega) = \omega$（出目をそのまま値とする）</li>
                     <li>$\mathbb{E}[X] = \sum_{\omega \in \Omega} X(\omega)\mathbb{P}(\omega) = \frac{21}{6} = 3.5$</li>
                 </ul>
-
-
             </div>
-
-
         </section>
 
         <div class="nav-links">
@@ -537,7 +547,7 @@
         </div>
 
         <footer>
-            <p>© 2025 確率論講義 - すべての権利を留保します</p>
+            <p>© 2025 確率論講義 - すべての権利を留保する</p>
         </footer>
     </main>
 </body>
