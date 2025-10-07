@@ -1,118 +1,522 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>期待値（Lebesgue 積分による定義）</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;600;700&display=swap" rel="stylesheet">
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/MathJax.js?config=TeX-MML-AM_CHTML"></script>
-  <script type="text/x-mathjax-config">
-    MathJax.Hub.Config({
-      tex2jax: {
-        inlineMath: [['$','$'], ['\\(','\\)']],
-        displayMath: [['$$','$$'], ['\\[','\\]']],
-        processEscapes: true
-      },
-      CommonHTML: { scale: 100 },
-      "HTML-CSS": { scale: 100 }
-    });
-  </script>
-  <style>
-    :root{ --bg:#0f172a; --fg:#e5e7eb; --muted:#9ca3af; --card:#111827; --accent:#34d399; --border:#1f2937; }
-    *{ box-sizing:border-box; }
-    body{ margin:0; font-family:"Noto Sans JP",system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,"Apple Color Emoji","Segoe UI Emoji"; background:linear-gradient(180deg,#0b1220 0%, #0f172a 100%); color:var(--fg); line-height:1.75; }
-    .container{ max-width:920px; margin:0 auto; padding:24px; }
-    header h1{ font-size:clamp(26px,3.2vw,36px); margin:8px 0 4px; letter-spacing:.02em; }
-    header .meta{ color:var(--muted); font-size:14px; }
-    .card{ background:rgba(17,24,39,.7); border:1px solid var(--border); border-radius:14px; padding:20px; margin:18px 0; }
-    h2{ font-size:clamp(20px,2.5vw,26px); border-left:4px solid var(--accent); padding-left:10px; margin-top:26px; }
-    h3{ font-size:clamp(18px,2vw,22px); color:#bbf7d0; margin:18px 0 8px; }
-    .def,.prop,.thm,.remark,.example,.proof{ border:1px solid var(--border); background:#0b1324; border-radius:14px; padding:16px 16px 14px; margin:16px 0; }
-    .def>strong,.prop>strong,.thm>strong,.remark>strong,.example>strong,.proof>strong{ color:#86efac; display:inline-block; margin-bottom:6px; }
-    .proof{ border-left:4px solid #60a5fa; }
-    .remark{ border-left:4px solid #f59e0b; }
-    .example{ border-left:4px solid #a78bfa; }
-    code.kwd{ background:#0b1220; padding:1px 6px; border-radius:6px; border:1px solid #1f2937; }
-    ul,ol{ padding-left:22px; }
-    a{ color:#93c5fd; text-decoration:none; }
-    a:hover{ text-decoration:underline; }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>期待値（Lebesgue 積分による定義）</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Cabin:wght@500&family=Noto+Sans+JP:wght@400;500;700&display=swap');
+
+        :root {
+            --background: radial-gradient(120% 120% at 20% 20%, #1e3a8a 0%, #0f172a 55%, #020617 100%);
+            --card-bg: rgba(255, 255, 255, 0.88);
+            --card-border: rgba(255, 255, 255, 0.25);
+            --accent: #4c6ef5;
+            --accent-soft: rgba(76, 110, 245, 0.14);
+            --accent-strong: #2c3791;
+            --text-primary: #0f172a;
+            --text-secondary: #475569;
+            --highlight: #facc15;
+            --shadow: 0 18px 45px -25px rgba(15, 23, 42, 0.75);
+        }
+
+        *, *::before, *::after {
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Noto Sans JP', 'Hiragino Sans', 'Meiryo', sans-serif;
+            line-height: 1.7;
+            margin: 0;
+            min-height: 100vh;
+            padding: 60px 24px;
+            color: var(--text-primary);
+            background: var(--background);
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+        }
+
+        body::before {
+            content: "";
+            position: fixed;
+            inset: 0;
+            background: repeating-linear-gradient(135deg, rgba(255, 255, 255, 0.04) 0, rgba(255, 255, 255, 0.04) 12px, transparent 12px, transparent 24px);
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        main {
+            width: min(960px, 100%);
+            background: var(--card-bg);
+            backdrop-filter: blur(18px);
+            border: 1px solid var(--card-border);
+            border-radius: 28px;
+            padding: 56px 64px;
+            position: relative;
+            z-index: 1;
+            box-shadow: var(--shadow);
+        }
+
+        header.hero {
+            text-align: center;
+            margin-bottom: 52px;
+            display: grid;
+            gap: 18px;
+        }
+
+        .hero-label {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 6px 16px;
+            border-radius: 999px;
+            font-size: 14px;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            color: var(--accent-strong);
+            background: var(--accent-soft);
+            font-family: 'Cabin', sans-serif;
+        }
+
+        h1 {
+            font-size: clamp(32px, 4vw, 44px);
+            margin: 0;
+            color: var(--accent-strong);
+            letter-spacing: 0.05em;
+        }
+
+        .hero p {
+            margin: 0 auto;
+            max-width: 640px;
+            color: var(--text-secondary);
+            font-size: 17px;
+        }
+
+        section.outline-section {
+            background: rgba(255, 255, 255, 0.78);
+            border: 1px solid rgba(148, 163, 184, 0.25);
+            padding: 32px 36px;
+            border-radius: 22px;
+            margin-bottom: 32px;
+            box-shadow: 0 24px 40px -32px rgba(15, 23, 42, 0.35);
+        }
+
+        section.outline-section:last-of-type {
+            margin-bottom: 0;
+        }
+
+        section.outline-section h2 {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            font-size: 24px;
+            margin: 0 0 24px;
+            color: var(--accent-strong);
+        }
+
+        section.outline-section h2::before {
+            content: "";
+            width: 42px;
+            height: 4px;
+            border-radius: 999px;
+            background: linear-gradient(90deg, var(--accent) 0%, rgba(76, 110, 245, 0.2) 100%);
+        }
+
+        section.outline-section h3 {
+            margin: 28px 0 14px;
+            font-size: 19px;
+            color: var(--accent-strong);
+        }
+
+        section.outline-section p {
+            margin: 0 0 16px;
+            color: var(--text-secondary);
+        }
+
+        .timeline {
+            display: grid;
+            gap: 26px;
+            margin-top: 22px;
+        }
+
+        .milestone {
+            position: relative;
+            padding: 24px 24px 24px 88px;
+            border-radius: 20px;
+            background: rgba(248, 250, 252, 0.92);
+            border: 1px solid rgba(148, 163, 184, 0.25);
+            box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.55);
+        }
+
+        .milestone::before {
+            content: "";
+            position: absolute;
+            left: 40px;
+            top: 28px;
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: var(--accent);
+            box-shadow: 0 0 0 8px rgba(76, 110, 245, 0.12);
+        }
+
+        .milestone-era {
+            position: absolute;
+            left: 0;
+            top: 24px;
+            width: 64px;
+            padding: 6px 0;
+            border-radius: 999px;
+            text-align: center;
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--accent-strong);
+            background: rgba(76, 110, 245, 0.16);
+            font-family: 'Cabin', sans-serif;
+        }
+
+        .milestone h3 {
+            margin: 0 0 10px;
+        }
+
+        .insight {
+            margin-top: 12px;
+            padding: 14px 18px;
+            border-radius: 16px;
+            background: rgba(76, 110, 245, 0.08);
+            border: 1px solid rgba(76, 110, 245, 0.14);
+            font-size: 15px;
+            color: var(--accent-strong);
+        }
+
+        .key-figures {
+            list-style: none;
+            margin: 28px 0 0;
+            padding: 0;
+            display: grid;
+            gap: 14px;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+        }
+
+        .key-figures li {
+            padding: 18px 20px;
+            border-radius: 18px;
+            background: rgba(255, 255, 255, 0.85);
+            border: 1px solid rgba(148, 163, 184, 0.22);
+            box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.5);
+            color: var(--text-secondary);
+        }
+
+        .key-figures strong {
+            display: block;
+            margin-bottom: 6px;
+            color: var(--accent-strong);
+        }
+
+        .figure {
+            margin: 34px auto;
+            text-align: center;
+            padding: 22px;
+            border-radius: 20px;
+            background: rgba(15, 23, 42, 0.04);
+            border: 1px solid rgba(148, 163, 184, 0.18);
+        }
+
+        .figure svg {
+            width: 100%;
+            height: auto;
+        }
+
+        .figure-caption {
+            margin-top: 14px;
+            font-size: 15px;
+            color: var(--text-secondary);
+            font-style: italic;
+        }
+
+        .pill-list {
+            counter-reset: item;
+            list-style: none;
+            margin: 18px 0 0;
+            padding: 0;
+            display: grid;
+            gap: 12px;
+        }
+
+        .pill-list li {
+            position: relative;
+            margin: 0;
+            padding: 18px 24px 18px 60px;
+            border-radius: 18px;
+            background: rgba(248, 250, 252, 0.86);
+            border: 1px solid rgba(148, 163, 184, 0.25);
+            color: var(--text-secondary);
+            font-size: 16px;
+            box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.55);
+        }
+
+        .pill-list li::before {
+            content: counter(item);
+            counter-increment: item;
+            position: absolute;
+            left: 20px;
+            top: 18px;
+            display: inline-flex;
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            align-items: center;
+            justify-content: center;
+            font-size: 13px;
+            color: var(--accent-strong);
+            background: rgba(76, 110, 245, 0.18);
+            font-family: 'Cabin', sans-serif;
+            font-weight: 600;
+        }
+
+        .focus-card {
+            background: rgba(76, 110, 245, 0.08);
+            border: 1px solid rgba(76, 110, 245, 0.22);
+            box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.4), 0 20px 32px -28px rgba(76, 110, 245, 0.55);
+        }
+
+        .example {
+            background: rgba(76, 110, 245, 0.12);
+            border: 1px solid rgba(76, 110, 245, 0.22);
+            border-radius: 18px;
+            padding: 22px 26px;
+            margin: 22px 0;
+            box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.45);
+        }
+
+        .example h3 {
+            margin-top: 0;
+            color: var(--accent-strong);
+        }
+
+        .example h4 {
+            margin: 0 0 12px;
+            color: var(--accent-strong);
+            font-size: 17px;
+        }
+
+        .definition {
+            background: rgba(250, 204, 21, 0.16);
+            border: 1px solid rgba(250, 204, 21, 0.32);
+            border-radius: 18px;
+            padding: 22px 26px;
+            margin: 22px 0;
+            box-shadow: inset 0 1px 0 rgba(255, 240, 200, 0.4);
+        }
+
+        .definition h3 {
+            margin-top: 0;
+        }
+
+        .theorem {
+            background: rgba(76, 110, 245, 0.1);
+            border: 1px solid rgba(76, 110, 245, 0.28);
+            border-radius: 18px;
+            padding: 22px 26px;
+            margin: 22px 0;
+            box-shadow: inset 0 1px 0 rgba(209, 227, 255, 0.45);
+        }
+
+        .theorem h3 {
+            margin-top: 0;
+            color: var(--accent-strong);
+        }
+
+        .proof {
+            margin-top: 18px;
+            padding-left: 18px;
+            border-left: 3px solid rgba(76, 110, 245, 0.3);
+            color: var(--text-secondary);
+        }
+
+        .coin-toss {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 26px;
+            margin: 18px 0 24px;
+            flex-wrap: wrap;
+        }
+
+        .coin {
+            width: 96px;
+            height: 96px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-weight: 700;
+            color: var(--text-primary);
+            background: radial-gradient(circle at 30% 30%, #fff7bf, #facc15, #d97706);
+            box-shadow: 0 14px 24px -12px rgba(217, 119, 6, 0.55);
+        }
+
+        ol, ul {
+            color: var(--text-secondary);
+        }
+
+        .example ul, .definition ol {
+            margin: 0;
+            padding-left: 20px;
+        }
+
+        .navigation {
+            margin-top: 36px;
+            padding-top: 24px;
+            border-top: 1px solid rgba(148, 163, 184, 0.35);
+            display: flex;
+            justify-content: space-between;
+            gap: 16px;
+        }
+
+        .navigation a {
+            flex: 1;
+            display: inline-flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+            padding: 12px 24px;
+            border-radius: 14px;
+            background: var(--accent-strong);
+            color: #fff;
+            text-decoration: none;
+            font-weight: 600;
+            transition: background 0.2s ease;
+        }
+
+        .navigation a:hover {
+            background: var(--accent);
+        }
+
+        footer {
+            margin-top: 40px;
+            text-align: center;
+            color: var(--text-secondary);
+            font-size: 14px;
+        }
+
+        @media (max-width: 768px) {
+            body {
+                padding: 32px 16px;
+            }
+
+            main {
+                padding: 36px 24px;
+            }
+
+            section.outline-section {
+                padding: 24px;
+            }
+
+            .milestone {
+                padding: 22px 22px 22px 68px;
+            }
+
+            .milestone-era {
+                left: 8px;
+            }
+
+            .navigation {
+                flex-direction: column;
+            }
+        }
+    </style>
+    <script>
+        window.MathJax = {
+            tex: { inlineMath: [['$', '$'], ['\\(', '\\)']], displayMath: [['$$', '$$'], ['\\[', '\\]']] },
+            svg: { fontCache: 'global' }
+        };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
 </head>
 <body>
-  <div class="container">
-    <header>
-      <h1>期待値（Lebesgue 積分による定義）</h1>
-      <div class="meta">講義ノート（基礎）</div>
-    </header>
+    <main>
+        <header class="hero">
+            <span class="hero-label">Lecture 03</span>
+            <h1>期待値（Lebesgue 積分による定義）</h1>
+            <p>Lebesgue 積分の枠組みを用いて期待値を定義し, 可積分性や収束定理による基本性質を確認する。</p>
+        </header>
 
-    <div class="card">
-      <p>確率空間 $(\Omega,\mathcal F,P)$ と実確率変数 $X$ を固定する。期待値は Lebesgue 積分として定義する。</p>
-    </div>
+        <section class="outline-section focus-card">
+            <h2>イントロダクション</h2>
+            <p>確率空間 $(\Omega, \mathcal F, P)$ と実確率変数 $X$ を固定する。期待値は Lebesgue 積分として定義すると, 収束定理など測度論の結果をそのまま活用できる。</p>
+        </section>
 
-    <h2>1. 定義</h2>
-    <div class="def">
-      <strong>定義（単関数 $\to$ 非負 $\to$ 一般）</strong>
-      <ol>
-        <li><em>単関数</em>：$X=\sum_{k=1}^n a_k \mathbf 1_{A_k}$（$a_k\in\mathbb R$, $A_k\in\mathcal F$ 互いに素）なら
-          $$\mathbb E[X]:=\sum_{k=1}^n a_k\,P(A_k).$$</li>
-        <li><em>非負可測関数</em>：$0\le X$ のとき、単関数の単調増加列 $X_m\uparrow X$ をとり
-          $$\mathbb E[X]:=\lim_{m\to\infty}\mathbb E[X_m]\in[0,\infty].$$</li>
-        <li><em>一般の確率変数</em>：$X=X^+-X^-$（$X^\pm:=\max\{\pm X,0\}$）。もし $\mathbb E[X^+]+\mathbb E[X^-]<\infty$（<span class="code">可積分</span>）なら
-          $$\mathbb E[X]:=\mathbb E[X^+]-\mathbb E[X^-].$$
-          いずれかが $\infty$ のとき期待値は定義しない。</li>
-      </ol>
-    </div>
+        <section class="outline-section">
+            <h2>1 期待値の定義</h2>
+            <div class="definition">
+                <h3>定義（単関数 \(\to\) 非負 \(\to\) 一般）</h3>
+                <ul class="pill-list">
+                    <li><strong>単関数</strong>：$X = \sum_{k=1}^n a_k \mathbf{1}_{A_k}$（$a_k \in \mathbb{R}$, $A_k \in \mathcal F$ 互いに素）なら $\displaystyle \mathbb{E}[X] := \sum_{k=1}^n a_k P(A_k)$。</li>
+                    <li><strong>非負可測関数</strong>：$0 \le X$ のとき, 単関数の単調増加列 $X_m \uparrow X$ をとり $\displaystyle \mathbb{E}[X] := \lim_{m \to \infty} \mathbb{E}[X_m] \in [0, \infty]$ と定める。</li>
+                    <li><strong>一般の確率変数</strong>：$X = X^+ - X^-$（$X^\pm := \max\{\pm X, 0\}$）と分解し, $\mathbb{E}[X^+] + \mathbb{E}[X^-] < \infty$（可積分）なら $\mathbb{E}[X] := \mathbb{E}[X^+] - \mathbb{E}[X^-]$。どちらかが $\infty$ なら期待値は定義しない。</li>
+                </ul>
+            </div>
+            <div class="insight">可積分性（$\mathbb{E}[|X|] < \infty$）を仮定することで, 期待値は有限の実数として一意に定まる。非負のみ扱う場合は自動的に定義できる。</div>
+        </section>
 
-    <h2>2. 基本性質</h2>
-    <div class="prop">
-      <strong>命題</strong>
-      <ul>
-        <li><em>線形性</em>：可積分 $X,Y$ と $\alpha,\beta\in\mathbb R$ に対し $\mathbb E[\alpha X+\beta Y]=\alpha \mathbb E[X]+\beta \mathbb E[Y]$。</li>
-        <li><em>単調性</em>：$X\le Y$ a.s. なら $\mathbb E[X]\le \mathbb E[Y]$。</li>
-        <li><em>単調収束</em>（Beppo–Levi）：$0\le X_n\uparrow X$ なら $\mathbb E[X_n]\uparrow \mathbb E[X]$。</li>
-        <li><em>Fatou</em>：$X_n\ge0$ なら $\mathbb E[\liminf X_n]\le \liminf \mathbb E[X_n]$。</li>
-        <li><em>優収束</em>（DCT）：$X_n\to X$ a.s., $|X_n|\le Y$（$\mathbb E[|Y|]<\infty$）なら $\mathbb E[X_n]\to \mathbb E[X]$。</li>
-      </ul>
-    </div>
+        <section class="outline-section">
+            <h2>2 基本性質</h2>
+            <div class="focus-card">
+                <h3>性質</h3>
+                <ul class="pill-list">
+                    <li><strong>線形性</strong>：可積分 $X, Y$ と $\alpha, \beta \in \mathbb{R}$ に対し $\mathbb{E}[\alpha X + \beta Y] = \alpha \mathbb{E}[X] + \beta \mathbb{E}[Y]$。</li>
+                    <li><strong>単調性</strong>：$X \le Y$ がほぼ確実に成り立つとき $\mathbb{E}[X] \le \mathbb{E}[Y]$。</li>
+                    <li><strong>単調収束定理</strong>（Beppo–Levi）：$0 \le X_n \uparrow X$ なら $\mathbb{E}[X_n] \uparrow \mathbb{E}[X]$。</li>
+                    <li><strong>Fatou の補題</strong>：$X_n \ge 0$ なら $\mathbb{E}[\liminf X_n] \le \liminf \mathbb{E}[X_n]$。</li>
+                    <li><strong>優収束定理</strong>（DCT）：$X_n \to X$ がほぼ確実, $|X_n| \le Y$ かつ $\mathbb{E}[|Y|] < \infty$ なら $\mathbb{E}[X_n] \to \mathbb{E}[X]$。</li>
+                </ul>
+            </div>
+        </section>
 
-    <h2>3. 分布を使った表現</h2>
-    <div class="thm">
-      <strong>定理（LOTUS／法則による計算）</strong>
-      <p>$g\colon\mathbb R\to\mathbb R$ 可測で $g(X)$ が可積分なら
-      $$\mathbb E[g(X)]=\int_{\mathbb R} g(x)\,P_X(dx).$$
-      </p>
-    </div>
+        <section class="outline-section">
+            <h2>3 分布を使った表現</h2>
+            <div class="theorem">
+                <h3>定理（LOTUS／法則による計算）</h3>
+                <p>$g \colon \mathbb{R} \to \mathbb{R}$ 可測で $g(X)$ が可積分なら</p>
+                <p>$$\mathbb{E}[g(X)] = \int_{\mathbb{R}} g(x)\,P_X(dx).$$</p>
+                <p>ここで $P_X = P \circ X^{-1}$ は $X$ の分布（法則）であり, 期待値は $P_X$ に関する Lebesgue 積分として書ける。</p>
+            </div>
+            <div class="example">
+                <h3>例</h3>
+                <ul>
+                    <li><strong>離散分布</strong>：$P(X = x_k) = p_k$, $\sum_k p_k = 1$, $\sum_k |g(x_k)| p_k < \infty$ なら $\displaystyle \mathbb{E}[g(X)] = \sum_k g(x_k) p_k$。</li>
+                    <li><strong>密度をもつ連続型</strong>：$P_X(dx) = f(x)\,dx$, $\int_{\mathbb{R}} |g(x)| f(x)\,dx < \infty$ なら $\displaystyle \mathbb{E}[g(X)] = \int_{\mathbb{R}} g(x) f(x)\,dx$。</li>
+                </ul>
+            </div>
+        </section>
 
-    <div class="example">
-      <strong>例</strong>
-      <ul>
-        <li><em>離散分布</em>：$P(X=x_k)=p_k$、$\sum_k p_k=1$ で $\sum_k |g(x_k)|p_k<\infty$ なら
-          $$\mathbb E[g(X)]=\sum_k g(x_k)p_k.$$</li>
-        <li><em>密度 $f$ をもつ連続型</em>：$P_X(dx)=f(x)\,dx$、$\int |g(x)|f(x)\,dx<\infty$ なら
-          $$\mathbb E[g(X)]=\int_{\mathbb R} g(x) f(x)\,dx.$$</li>
-      </ul>
-    </div>
+        <section class="outline-section">
+            <h2>4 注意とよくある落とし穴</h2>
+            <div class="focus-card">
+                <h3>注意</h3>
+                <ul class="pill-list">
+                    <li>$\mathbb{E}[X]$ の存在には $\mathbb{E}[|X|] < \infty$ が必要（非負なら自動的に満たす）。</li>
+                    <li>$\mathbb{E}[X] = \infty$ と書くより, 「期待値は定義されない」と表現するのが厳密。</li>
+                    <li>期待値の存在は分散の存在を保証しないし, その逆も一般には成り立たない。</li>
+                </ul>
+            </div>
+        </section>
 
-    <h2>4. 注意とよくある落とし穴</h2>
-    <div class="remark">
-      <strong>注意</strong>
-      <ul>
-        <li>$\mathbb E[X]$ の存在は $\mathbb E[|X|]<\infty$ を要する（非負なら自動的に存在）。</li>
-        <li>$\mathbb E[X]=\infty$ と書くことは避ける（定義されない、が正確）。</li>
-        <li>期待値の存在は分散の存在を保証しないし、その逆も成り立たない場合がある。</li>
-      </ul>
-    </div>
+        <section class="outline-section">
+            <h2>5 派生量（参考）</h2>
+            <div class="definition">
+                <h3>定義（分散と共分散）</h3>
+                <p>$\mathbb{E}[|X|^2] < \infty$ のとき, 分散と共分散を次で定める。</p>
+                <p>$$\mathrm{Var}(X) := \mathbb{E}\bigl[(X - \mathbb{E}[X])^2\bigr], \qquad \mathrm{Cov}(X, Y) := \mathbb{E}[(X - \mathbb{E}[X])(Y - \mathbb{E}[Y])].$$</p>
+                <p>二乗可積分性（$L^2$ 可積分）を前提にすると, 偏差の二乗が有限となり, 分散や共分散が計算できる。</p>
+            </div>
+        </section>
 
-    <h2>5. 派生量（参考）</h2>
-    <div class="def">
-      <strong>定義（分散と二乗可積分性）</strong>
-      <p>$\mathbb E[|X|^2]<\infty$ なら
-      $$\mathrm{Var}(X):=\mathbb E\!\bigl[(X-\mathbb E[X])^2\bigr],\qquad \mathrm{Cov}(X,Y):=\mathbb E[(X-\mathbb E[X])(Y-\mathbb E[Y])].$$
-      </p>
-    </div>
-
-  </div>
+        <footer>© 2025 確率論講義ノート</footer>
+    </main>
 </body>
 </html>
