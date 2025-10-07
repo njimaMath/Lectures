@@ -1,121 +1,118 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>分散、共分散、独立性</title>
-    <style>
-        body{font-family:"Helvetica Neue",Helvetica,Arial,sans-serif;line-height:1.7;color:#212121;margin:0;background:#fafafa;}
-        .container{max-width:960px;margin:0 auto;padding:2rem 1rem 4rem;background:#fff;box-shadow:0 4px 12px rgba(0,0,0,.05);border-radius:12px;}
-        h1,h2,h3,h4{color:#1a237e;margin-top:1.2em;margin-bottom:.6em;}
-        h1{font-size:1.9rem;text-align:center;}
-        h2{font-size:1.5rem;border-left:6px solid #1a237e;padding-left:.55rem;}
-        h3{font-size:1.25rem;}
-        h4{font-size:1.1rem;color:#3949ab;margin-top:1.2em;}
-        .formula{background:#f3f4ff;border-left:4px solid #5c6bc0;padding:.8rem 1.2rem;margin:1.2rem 0;border-radius:8px;overflow-x:auto;text-align:center;}
-        details{margin-bottom:1rem;}
-        details summary{cursor:pointer;font-weight:600;}
-        .proof{background:#e8f5e9;border-left:4px solid #43a047;padding:.8rem 1.2rem;margin:1.2rem 0;border-radius:8px;overflow-x:auto;}
-        ul{margin:0 0 1rem 1.2rem;}
-        .navigation{display:flex;justify-content:center;gap:.8rem;margin:2.2rem 0;border-top:1px solid #e0e0e0;padding-top:1.5rem;flex-wrap:wrap;}
-        .navigation a{padding:.65rem 1.5rem;background:#1a237e;color:#fff;text-decoration:none;border-radius:6px;transition:opacity .2s;}
-        .navigation a:hover{opacity:.85;}
-        footer{margin-top:3rem;color:#777;text-align:center;font-size:.9rem;}
-    </style>
-    <!-- MathJax configuration -->
-    <script>
-        MathJax = {
-          tex: {
-            inlineMath: [['$', '$'], ['\\(', '\\)']],
-            displayMath: [['$$','$$'], ['\\[','\\]']]
-          }
-        };
-    </script>
-    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>期待値（Lebesgue 積分による定義）</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;600;700&display=swap" rel="stylesheet">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        inlineMath: [['$','$'], ['\\(','\\)']],
+        displayMath: [['$$','$$'], ['\\[','\\]']],
+        processEscapes: true
+      },
+      CommonHTML: { scale: 100 },
+      "HTML-CSS": { scale: 100 }
+    });
+  </script>
+  <style>
+    :root{ --bg:#0f172a; --fg:#e5e7eb; --muted:#9ca3af; --card:#111827; --accent:#34d399; --border:#1f2937; }
+    *{ box-sizing:border-box; }
+    body{ margin:0; font-family:"Noto Sans JP",system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,"Apple Color Emoji","Segoe UI Emoji"; background:linear-gradient(180deg,#0b1220 0%, #0f172a 100%); color:var(--fg); line-height:1.75; }
+    .container{ max-width:920px; margin:0 auto; padding:24px; }
+    header h1{ font-size:clamp(26px,3.2vw,36px); margin:8px 0 4px; letter-spacing:.02em; }
+    header .meta{ color:var(--muted); font-size:14px; }
+    .card{ background:rgba(17,24,39,.7); border:1px solid var(--border); border-radius:14px; padding:20px; margin:18px 0; }
+    h2{ font-size:clamp(20px,2.5vw,26px); border-left:4px solid var(--accent); padding-left:10px; margin-top:26px; }
+    h3{ font-size:clamp(18px,2vw,22px); color:#bbf7d0; margin:18px 0 8px; }
+    .def,.prop,.thm,.remark,.example,.proof{ border:1px solid var(--border); background:#0b1324; border-radius:14px; padding:16px 16px 14px; margin:16px 0; }
+    .def>strong,.prop>strong,.thm>strong,.remark>strong,.example>strong,.proof>strong{ color:#86efac; display:inline-block; margin-bottom:6px; }
+    .proof{ border-left:4px solid #60a5fa; }
+    .remark{ border-left:4px solid #f59e0b; }
+    .example{ border-left:4px solid #a78bfa; }
+    code.kwd{ background:#0b1220; padding:1px 6px; border-radius:6px; border:1px solid #1f2937; }
+    ul,ol{ padding-left:22px; }
+    a{ color:#93c5fd; text-decoration:none; }
+    a:hover{ text-decoration:underline; }
+  </style>
 </head>
 <body>
-    <div class="container">
-        <h1>分散、共分散、独立性</h1>
+  <div class="container">
+    <header>
+      <h1>期待値（Lebesgue 積分による定義）</h1>
+      <div class="meta">講義ノート（基礎）</div>
+    </header>
 
-        <!-- ---------------------------------------------------------- -->
-        <section id="variance-covariance">
-            <h2>2. 分散と共分散</h2>
-            <p>離散確率空間 $(\Omega, \mathbb{P})$ を考え，確率変数 $X, Y : \Omega \to \mathbb{R}$ を与える。任意の二変数関数 $f : \mathbb{R}^2 \to \mathbb{R}$ について</p>
-            <div class="formula">$$\mathbb{E}[f(X,Y)] = \sum_{\omega\in\Omega} f\bigl(X(\omega), Y(\omega)\bigr)\,\mathbb{P}(\{\omega\}).$$</div>
-            <p>特に</p>
-            <div class="formula">$$\mathrm{Var}[X] = \mathbb{E}\bigl[(X-\mathbb{E}[X])^2\bigr], \qquad \mathrm{Cov}(X,Y) = \mathbb{E}\bigl[(X-\mathbb{E}[X])(Y-\mathbb{E}[Y])\bigr].$$</div>
-
-            <h3>2.0 期待値の計算例</h3>
-            <p><strong>例&nbsp;1：</strong>公平なコイン 2 回投げで得る表裏を $(H,T)$ で表し，$X$ を 1 回目，$Y$ を 2 回目の表 (=1)／裏 (=0) とする。各 $\omega$ の確率は $1/4$ で</p>
-            <div class="formula">$$\mathbb{E}[XY]=\tfrac14,\quad \mathbb{E}[X]=\mathbb{E}[Y]=\tfrac12.$$</div>
-            <p>したがって $\mathbb{E}[XY]=\mathbb{E}[X]\mathbb{E}[Y]$ が成り立つ。</p>
-
-            <p><strong>例&nbsp;2：</strong>同じ試行で $\mathbb{E}[(X-Y)^2]=\tfrac12$。</p>
-
-            <h3>2.1 分散の性質</h3>
-            <ul>
-              <li>$\mathrm{Var}[X]\ge 0$（非負性）</li>
-              <li>定数 $a,b$ について $\mathrm{Var}[aX+b]=a^2\,\mathrm{Var}[X]$</li>
-              <li>$\mathrm{Var}[X+Y]=\mathrm{Var}[X]+\mathrm{Var}[Y]+2\,\mathrm{Cov}(X,Y)$</li>
-            </ul>
-
-            <h3>2.2 共分散の性質</h3>
-            <ul>
-              <li>$\mathrm{Cov}(X,X)=\mathrm{Var}[X]$</li>
-              <li>$\mathrm{Cov}(X,Y)=\mathrm{Cov}(Y,X)$</li>
-              <li>$a,b,c,d\in\mathbb{R}$ で $\mathrm{Cov}(aX+b,cY+d)=ac\,\mathrm{Cov}(X,Y)$</li>
-            </ul>
-
-            <h3>2.3 相関係数</h3>
-            <div class="formula">$$\rho(X,Y)=\frac{\mathrm{Cov}(X,Y)}{\sqrt{\mathrm{Var}[X] \; \mathrm{Var}[Y]}}\in[-1,1].$$</div>
-
-            <details>
-              <summary>分散・共分散の代数公式の証明</summary>
-              <div class="proof">
-                  $$\mathrm{Var}[X]=\mathbb{E}[X^2]-\bigl(\mathbb{E}[X]\bigr)^2,\qquad \mathrm{Cov}(X,Y)=\mathbb{E}[XY]-\mathbb{E}[X]\,\mathbb{E}[Y].$$
-              </div>
-            </details>
-        </section>
-
-        <!-- ---------------------------------------------------------- -->
-        <section id="independence">
-            <h2>3. 独立性</h2>
-
-            <h3>3.1 事象の独立性</h3>
-            <div class="formula">$$A\,\text{と}\,B\,\text{が独立}\;\iff\;\mathbb{P}(A\cap B)=\mathbb{P}(A)\,\mathbb{P}(B).$$</div>
-
-            <h3>3.2 確率変数の独立性</h3>
-            <div class="formula">$$X\perp Y\;\iff\;\mathbb{P}(X\in A, Y\in B)=\mathbb{P}(X\in A)\,\mathbb{P}(Y\in B)\quad(\forall A,B).$$</div>
-            <details>
-              <summary>離散変数の場合の同値性</summary>
-              <div class="proof">
-                  任意の値 $x,y$ で $\mathbb{P}(X=x, Y=y)=\mathbb{P}(X=x)\,\mathbb{P}(Y=y)$ が成り立つことと，独立性定義は同値である。
-              </div>
-            </details>
-        </section>
-
-        <!-- ---------------------------------------------------------- -->
-        <section id="independence-expectation">
-            <h2>4. 独立性と期待値</h2>
-            <div class="formula">$$X\perp Y\;\Longrightarrow\;\mathbb{E}[XY]=\mathbb{E}[X]\,\mathbb{E}[Y]\quad\Longrightarrow\;\mathrm{Cov}(X,Y)=0.$$</div>
-            <details>
-              <summary>証明を表示</summary>
-              <div class="proof">
-                  離散変数なら
-                  $$\mathbb{E}[XY]=\sum_{x,y}xy\,\mathbb{P}(X=x,Y=y)=\sum_{x,y}xy\,\mathbb{P}(X=x)\mathbb{P}(Y=y)=\mathbb{E}[X]\,\mathbb{E}[Y].$$
-              </div>
-            </details>
-            <p><strong>注意：</strong>$\mathrm{Cov}(X,Y)=0$ でも独立とは限らない。</p>
-        </section>
-
-        <!-- ---------------------------------------------------------- -->
-        <div class="navigation">
-            <a href="class2.html">&larr; 前のレジュメ</a>
-            <a href="../index.html">ホーム</a>
-            <a href="class4.html">次のレジュメ &rarr;</a>
-        </div>
-
-        <footer>&copy; 2025 確率論講義 - すべての権利を留保します</footer>
+    <div class="card">
+      <p>確率空間 $(\Omega,\mathcal F,P)$ と実確率変数 $X$ を固定する。期待値は Lebesgue 積分として定義する。</p>
     </div>
+
+    <h2>1. 定義</h2>
+    <div class="def">
+      <strong>定義（単関数 $\to$ 非負 $\to$ 一般）</strong>
+      <ol>
+        <li><em>単関数</em>：$X=\sum_{k=1}^n a_k \mathbf 1_{A_k}$（$a_k\in\mathbb R$, $A_k\in\mathcal F$ 互いに素）なら
+          $$\mathbb E[X]:=\sum_{k=1}^n a_k\,P(A_k).$$</li>
+        <li><em>非負可測関数</em>：$0\le X$ のとき、単関数の単調増加列 $X_m\uparrow X$ をとり
+          $$\mathbb E[X]:=\lim_{m\to\infty}\mathbb E[X_m]\in[0,\infty].$$</li>
+        <li><em>一般の確率変数</em>：$X=X^+-X^-$（$X^\pm:=\max\{\pm X,0\}$）。もし $\mathbb E[X^+]+\mathbb E[X^-]<\infty$（<span class="code">可積分</span>）なら
+          $$\mathbb E[X]:=\mathbb E[X^+]-\mathbb E[X^-].$$
+          いずれかが $\infty$ のとき期待値は定義しない。</li>
+      </ol>
+    </div>
+
+    <h2>2. 基本性質</h2>
+    <div class="prop">
+      <strong>命題</strong>
+      <ul>
+        <li><em>線形性</em>：可積分 $X,Y$ と $\alpha,\beta\in\mathbb R$ に対し $\mathbb E[\alpha X+\beta Y]=\alpha \mathbb E[X]+\beta \mathbb E[Y]$。</li>
+        <li><em>単調性</em>：$X\le Y$ a.s. なら $\mathbb E[X]\le \mathbb E[Y]$。</li>
+        <li><em>単調収束</em>（Beppo–Levi）：$0\le X_n\uparrow X$ なら $\mathbb E[X_n]\uparrow \mathbb E[X]$。</li>
+        <li><em>Fatou</em>：$X_n\ge0$ なら $\mathbb E[\liminf X_n]\le \liminf \mathbb E[X_n]$。</li>
+        <li><em>優収束</em>（DCT）：$X_n\to X$ a.s., $|X_n|\le Y$（$\mathbb E[|Y|]<\infty$）なら $\mathbb E[X_n]\to \mathbb E[X]$。</li>
+      </ul>
+    </div>
+
+    <h2>3. 分布を使った表現</h2>
+    <div class="thm">
+      <strong>定理（LOTUS／法則による計算）</strong>
+      <p>$g\colon\mathbb R\to\mathbb R$ 可測で $g(X)$ が可積分なら
+      $$\mathbb E[g(X)]=\int_{\mathbb R} g(x)\,P_X(dx).$$
+      </p>
+    </div>
+
+    <div class="example">
+      <strong>例</strong>
+      <ul>
+        <li><em>離散分布</em>：$P(X=x_k)=p_k$、$\sum_k p_k=1$ で $\sum_k |g(x_k)|p_k<\infty$ なら
+          $$\mathbb E[g(X)]=\sum_k g(x_k)p_k.$$</li>
+        <li><em>密度 $f$ をもつ連続型</em>：$P_X(dx)=f(x)\,dx$、$\int |g(x)|f(x)\,dx<\infty$ なら
+          $$\mathbb E[g(X)]=\int_{\mathbb R} g(x) f(x)\,dx.$$</li>
+      </ul>
+    </div>
+
+    <h2>4. 注意とよくある落とし穴</h2>
+    <div class="remark">
+      <strong>注意</strong>
+      <ul>
+        <li>$\mathbb E[X]$ の存在は $\mathbb E[|X|]<\infty$ を要する（非負なら自動的に存在）。</li>
+        <li>$\mathbb E[X]=\infty$ と書くことは避ける（定義されない、が正確）。</li>
+        <li>期待値の存在は分散の存在を保証しないし、その逆も成り立たない場合がある。</li>
+      </ul>
+    </div>
+
+    <h2>5. 派生量（参考）</h2>
+    <div class="def">
+      <strong>定義（分散と二乗可積分性）</strong>
+      <p>$\mathbb E[|X|^2]<\infty$ なら
+      $$\mathrm{Var}(X):=\mathbb E\!\bigl[(X-\mathbb E[X])^2\bigr],\qquad \mathrm{Cov}(X,Y):=\mathbb E[(X-\mathbb E[X])(Y-\mathbb E[Y])].$$
+      </p>
+    </div>
+
+  </div>
 </body>
 </html>
