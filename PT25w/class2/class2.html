@@ -474,7 +474,6 @@
                 </div>
             </div>
 
-            <!-- ここから追加：一般の確率空間での定義 -->
             <div class="callout definition">
                 <h3>一般の確率空間での定義（測度論）</h3>
                 <p><strong>確率空間</strong>は、集合$\Omega$、$\sigma$加法族$\mathcal{F}\subset 2^\Omega$、測度$\mathbb{P}:\mathcal{F}\to[0,1]$で、$\mathbb{P}(\Omega)=1$を満たす組$(\Omega,\mathcal{F},\mathbb{P})$である。</p>
@@ -487,7 +486,7 @@
                 <div class="math-card">
                     $$\mu_X(A):=\mathbb{P}(X\in A)=\mathbb{P}(X^{-1}(A))\qquad(A\in\mathcal{B}(\mathbb{R}))$$
                 </div>
-                <p>で定義される$\mathbb{R}$上の確率測度である。<strong>分布関数</strong>$F_X:\mathbb{R}\to[0,1]$は</p>
+                <p>で定義される$\mathbb{R}$上の確率測度である。$mu_X$のことを$X$の分布と呼ぶこともある。<strong>分布関数</strong>$F_X:\mathbb{R}\to[0,1]$は</p>
                 <div class="math-card">
                     $$F_X(a):=\mathbb{P}(X\le a)\qquad(a\in\mathbb{R})$$
                 </div>
@@ -528,18 +527,7 @@
 
             </div>
 
-            <div class="callout theorem">
-                <h3>基本性質</h3>
-                <p>確率測度と期待値に関して、次の関係が成り立ちます。</p>
-                <div class="math-card">
-                    $$\begin{align}
-                    \mathbb{P}(A \cup B) &\leq \mathbb{P}(A) + \mathbb{P}(B),\\
-                    \mathbb{P}(A^c) &= 1 - \mathbb{P}(A),\\
-                    \mathbb{E}[X] &= \sum_{x \in I_X} x \cdot \mathbb{P}(X = x)
-                    \end{align}$$
-                </div>
-                <p>ここで$I_X \equiv \{X(\omega) \mid \omega \in \Omega\}$は$X$の値域です。</p>
-            </div>
+
         </section>
 
         <div class="nav-links">
