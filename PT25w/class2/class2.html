@@ -449,9 +449,10 @@
             <div class="callout definition">
                 <h3>一般の確率空間での定義（測度論）</h3>
                 <p><strong>確率空間</strong>は、集合$\Omega$、$\sigma$加法族$\mathcal{F}\subset 2^\Omega$、測度$\mathbb{P}:\mathcal{F}\to[0,1]$で、$\mathbb{P}(\Omega)=1$を満たす組$(\Omega,\mathcal{F},\mathbb{P})$である。</p>
-                <p><strong>確率変数</strong>（実確率変数）は、可測写像$X:(\Omega,\mathcal{F})\to(\mathbb{R},\mathcal{B}(\mathbb{R}))$であり、</p>
+                <p>$(\Omega,\mathcal F)$から$(\mathbb R,\mathcal B)$の可測な写像、つまり次を満たす、</p>
                 <div class="math-card">
-                    $$\forall A\in\mathcal{B}(\mathbb{R})\quad X^{-1}(A)=\{\omega\in\Omega: X(\omega)\in A\}\in\mathcal{F}.$$
+                    $$\forall A\in\mathcal{B}(\mathbb{R})\quad X^{-1}(A)=\{\omega\in\Omega: X(\omega)\in A\}\in\mathcal{F},$$
+とき、$X$を<strong>確率変数</strong>と呼ぶ
                 </div>
                 <p>同値な条件として、すべての$a\in\mathbb{R}$について$\{\omega: X(\omega)\le a\}\in\mathcal{F}$でもよい。</p>
                 <p><strong>分布（押し出し測度）</strong>$\mu_X$は</p>
