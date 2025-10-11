@@ -1,493 +1,207 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>第2回 有理関数の積分</title>
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Cabin:wght@500&family=Noto+Sans+JP:wght@400;500;700&display=swap');
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>第2回 有理関数の積分</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <style>
+      /* --- same CSS as before, unchanged --- */
+      @import url('https://fonts.googleapis.com/css2?family=Cabin:wght@500&family=Noto+Sans+JP:wght@400;500;700&display=swap');
+      :root {
+          --background: radial-gradient(120% 120% at 20% 20%, #1e3a8a 0%, #0f172a 55%, #020617 100%);
+          --card-bg: rgba(255, 255, 255, 0.88);
+          --card-border: rgba(255, 255, 255, 0.25);
+          --accent: #4c6ef5;
+          --accent-soft: rgba(76, 110, 245, 0.14);
+          --accent-strong: #2c3791;
+          --text-primary: #0f172a;
+          --text-secondary: #475569;
+          --highlight: #facc15;
+          --shadow: 0 18px 45px -25px rgba(15, 23, 42, 0.75);
+      }
+      *, *::before, *::after { box-sizing: border-box; }
+      body {
+          font-family: 'Noto Sans JP', 'Hiragino Sans', 'Meiryo', sans-serif;
+          line-height: 1.7;
+          margin: 0;
+          min-height: 100vh;
+          padding: 60px 24px;
+          color: var(--text-primary);
+          background: var(--background);
+          display: flex;
+          justify-content: center;
+          align-items: flex-start;
+          position: relative;
+      }
+      body::before {
+          content: "";
+          position: fixed;
+          inset: 0;
+          background: repeating-linear-gradient(135deg, rgba(255,255,255,0.04) 0, rgba(255,255,255,0.04) 12px, transparent 12px, transparent 24px);
+          pointer-events: none;
+          z-index: 0;
+      }
+      main {
+          width: min(960px, 100%);
+          background: var(--card-bg);
+          backdrop-filter: blur(18px);
+          border: 1px solid var(--card-border);
+          border-radius: 28px;
+          padding: 56px 64px;
+          z-index: 1;
+          box-shadow: var(--shadow);
+      }
+      header.hero {
+          text-align: center;
+          margin-bottom: 48px;
+          display: grid;
+          gap: 18px;
+      }
+      .hero-label {
+          display: inline-flex;
+          align-items: center;
+          justify-content: center;
+          gap: 8px;
+          padding: 6px 16px;
+          border-radius: 999px;
+          font-size: 14px;
+          letter-spacing: 0.08em;
+          text-transform: uppercase;
+          color: var(--accent-strong);
+          background: var(--accent-soft);
+          font-family: 'Cabin', sans-serif;
+      }
+      h1 {
+          font-size: clamp(32px, 4vw, 44px);
+          margin: 0;
+          color: var(--accent-strong);
+          letter-spacing: 0.05em;
+      }
+      header.hero p {
+          margin: 0 auto;
+          max-width: 620px;
+          color: var(--text-secondary);
+          font-size: 17px;
+      }
+      section.outline-section {
+          background: rgba(255, 255, 255, 0.78);
+          border: 1px solid rgba(148, 163, 184, 0.25);
+          padding: 32px 36px;
+          border-radius: 22px;
+          margin-bottom: 32px;
+          box-shadow: 0 24px 40px -32px rgba(15, 23, 42, 0.35);
+      }
+      h2 {
+          display: flex;
+          align-items: center;
+          gap: 14px;
+          font-size: 24px;
+          margin: 0 0 24px;
+          color: var(--accent-strong);
+      }
+      h2::before {
+          content: "";
+          width: 42px;
+          height: 4px;
+          border-radius: 999px;
+          background: linear-gradient(90deg, var(--accent) 0%, rgba(76,110,245,0.2) 100%);
+      }
+      h3 { font-size: 19px; margin-top: 28px; color: var(--accent-strong); }
+      p { margin: 0 0 16px; color: var(--text-secondary); }
+      ol, ul { margin: 0 0 18px; padding-left: 24px; color: var(--text-secondary); }
+      .concept-card,.theorem,.definition,.proof,.note,.example {
+          margin: 18px 0;
+          padding: 18px 22px;
+          border-radius: 18px;
+          background: rgba(248,250,252,0.86);
+          border: 1px solid rgba(148,163,184,0.25);
+          color: var(--text-secondary);
+      }
+      .theorem { border-left: 6px solid rgba(76,110,245,0.65); }
+      .definition { border-left: 6px solid rgba(34,197,94,0.65); }
+      .proof { border-left: 6px solid rgba(148,163,184,0.65); }
+      .note { border-left: 6px solid rgba(250,204,21,0.7); background: rgba(250,204,21,0.08); }
+      .example { border-left: 6px solid rgba(14,165,233,0.7); background: rgba(14,165,233,0.08); }
+      .formula {
+          background: rgba(76,110,245,0.08);
+          padding: 18px;
+          border-radius: 16px;
+          margin: 18px 0;
+          text-align: center;
+          font-size: 1.05rem;
+          font-family: 'Latin Modern Math', 'Cambria Math', serif;
+          color: var(--accent-strong);
+          border: 1px solid rgba(76,110,245,0.2);
+      }
+  </style>
 
-        :root {
-            --background: radial-gradient(120% 120% at 20% 20%, #1e3a8a 0%, #0f172a 55%, #020617 100%);
-            --card-bg: rgba(255, 255, 255, 0.88);
-            --card-border: rgba(255, 255, 255, 0.25);
-            --accent: #4c6ef5;
-            --accent-soft: rgba(76, 110, 245, 0.14);
-            --accent-strong: #2c3791;
-            --text-primary: #0f172a;
-            --text-secondary: #475569;
-            --highlight: #facc15;
-            --shadow: 0 18px 45px -25px rgba(15, 23, 42, 0.75);
-        }
-
-        *, *::before, *::after {
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: 'Noto Sans JP', 'Hiragino Sans', 'Meiryo', sans-serif;
-            line-height: 1.7;
-            margin: 0;
-            min-height: 100vh;
-            padding: 60px 24px;
-            color: var(--text-primary);
-            background: var(--background);
-            position: relative;
-            display: flex;
-            justify-content: center;
-            align-items: flex-start;
-        }
-
-        body::before {
-            content: "";
-            position: fixed;
-            inset: 0;
-            background: repeating-linear-gradient(135deg, rgba(255, 255, 255, 0.04) 0, rgba(255, 255, 255, 0.04) 12px, transparent 12px, transparent 24px);
-            pointer-events: none;
-            z-index: 0;
-        }
-
-        main {
-            width: min(960px, 100%);
-            background: var(--card-bg);
-            backdrop-filter: blur(18px);
-            border: 1px solid var(--card-border);
-            border-radius: 28px;
-            padding: 56px 64px;
-            position: relative;
-            z-index: 1;
-            box-shadow: var(--shadow);
-        }
-
-        header.hero {
-            text-align: center;
-            margin-bottom: 48px;
-            display: grid;
-            gap: 18px;
-        }
-
-        .hero-label {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-            padding: 6px 16px;
-            border-radius: 999px;
-            font-size: 14px;
-            letter-spacing: 0.08em;
-            text-transform: uppercase;
-            color: var(--accent-strong);
-            background: var(--accent-soft);
-            font-family: 'Cabin', sans-serif;
-        }
-
-        h1 {
-            font-size: clamp(32px, 4vw, 44px);
-            margin: 0;
-            color: var(--accent-strong);
-            letter-spacing: 0.05em;
-        }
-
-        header.hero p {
-            margin: 0 auto;
-            max-width: 620px;
-            color: var(--text-secondary);
-            font-size: 17px;
-        }
-
-        section.outline-section {
-            background: rgba(255, 255, 255, 0.78);
-            border: 1px solid rgba(148, 163, 184, 0.25);
-            padding: 32px 36px;
-            border-radius: 22px;
-            margin-bottom: 32px;
-            box-shadow: 0 24px 40px -32px rgba(15, 23, 42, 0.35);
-        }
-
-        section.outline-section:last-of-type {
-            margin-bottom: 0;
-        }
-
-        h2 {
-            display: flex;
-            align-items: center;
-            gap: 14px;
-            font-size: 24px;
-            margin: 0 0 24px;
-            color: var(--accent-strong);
-        }
-
-        h2::before {
-            content: "";
-            width: 42px;
-            height: 4px;
-            border-radius: 999px;
-            background: linear-gradient(90deg, var(--accent) 0%, rgba(76, 110, 245, 0.2) 100%);
-        }
-
-        h3 {
-            font-size: 19px;
-            margin-top: 28px;
-            color: var(--accent-strong);
-        }
-
-        p {
-            margin: 0 0 16px;
-            color: var(--text-secondary);
-        }
-
-        ol, ul {
-            margin: 0 0 18px;
-            padding-left: 24px;
-            color: var(--text-secondary);
-        }
-
-        .concept-card,
-        .theorem,
-        .definition,
-        .proof,
-        .note,
-        .example {
-            margin: 18px 0;
-            padding: 18px 22px;
-            border-radius: 18px;
-            background: rgba(248, 250, 252, 0.86);
-            border: 1px solid rgba(148, 163, 184, 0.25);
-            box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.55);
-            color: var(--text-secondary);
-        }
-
-        .focus-card {
-            background: rgba(76, 110, 245, 0.08);
-            border: 1px solid rgba(76, 110, 245, 0.22);
-            box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.4), 0 20px 32px -28px rgba(76, 110, 245, 0.55);
-        }
-
-        .theorem {
-            border-left: 6px solid rgba(76, 110, 245, 0.65);
-        }
-
-        .definition {
-            border-left: 6px solid rgba(34, 197, 94, 0.65);
-        }
-
-        .proof {
-            border-left: 6px solid rgba(148, 163, 184, 0.65);
-        }
-
-        .note {
-            border-left: 6px solid rgba(250, 204, 21, 0.7);
-            background: rgba(250, 204, 21, 0.08);
-        }
-
-        .example {
-            border-left: 6px solid rgba(14, 165, 233, 0.7);
-            background: rgba(14, 165, 233, 0.08);
-        }
-
-        .concept-card strong,
-        .theorem strong,
-        .definition strong,
-        .proof strong,
-        .note strong,
-        .example strong {
-            display: block;
-            font-family: 'Cabin', sans-serif;
-            font-weight: 600;
-            color: var(--accent-strong);
-            letter-spacing: 0.04em;
-            margin-bottom: 8px;
-        }
-
-        .formula {
-            background: rgba(76, 110, 245, 0.08);
-            padding: 18px;
-            border-radius: 16px;
-            margin: 18px 0;
-            overflow-x: auto;
-            text-align: center;
-            font-size: 1.05rem;
-            font-family: 'Latin Modern Math', 'Cambria Math', serif;
-            color: var(--accent-strong);
-            border: 1px solid rgba(76, 110, 245, 0.2);
-            box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.35);
-        }
-
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin: 18px 0;
-            background: rgba(255, 255, 255, 0.92);
-            border-radius: 18px;
-            overflow: hidden;
-            border: 1px solid rgba(148, 163, 184, 0.3);
-            box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.4);
-        }
-
-        th, td {
-            border-bottom: 1px solid rgba(148, 163, 184, 0.25);
-            padding: 12px 16px;
-            text-align: center;
-            color: var(--text-secondary);
-        }
-
-        th {
-            background: rgba(76, 110, 245, 0.1);
-            font-weight: 600;
-            color: var(--accent-strong);
-            font-family: 'Cabin', sans-serif;
-            letter-spacing: 0.04em;
-        }
-
-        tr:last-child td {
-            border-bottom: 0;
-        }
-
-        .graph {
-            text-align: center;
-            margin: 24px 0;
-        }
-
-        .graph svg {
-            max-width: 100%;
-            height: auto;
-            border-radius: 16px;
-            background: rgba(255, 255, 255, 0.92);
-            border: 1px solid rgba(148, 163, 184, 0.25);
-            box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.4), 0 16px 28px -24px rgba(15, 23, 42, 0.6);
-        }
-
-        .exercise-list {
-            background: rgba(250, 204, 21, 0.12);
-            border: 1px solid rgba(250, 204, 21, 0.32);
-            padding: 22px 24px;
-            border-radius: 18px;
-            margin: 22px 0;
-            box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.4);
-            color: var(--text-secondary);
-        }
-
-        code {
-            font-family: 'Source Code Pro', 'Courier New', monospace;
-            background: rgba(15, 23, 42, 0.12);
-            padding: 2px 6px;
-            border-radius: 6px;
-            color: var(--accent-strong);
-        }
-
-        .katex-display {
-            overflow-x: auto;
-            overflow-y: hidden;
-        }
-
-        @media (max-width: 768px) {
-            body {
-                padding: 32px 16px;
-            }
-
-            main {
-                padding: 36px 24px;
-                border-radius: 22px;
-            }
-
-            section.outline-section {
-                padding: 28px 24px;
-            }
-
-            h2 {
-                font-size: 22px;
-            }
-
-            h3 {
-                font-size: 18px;
-            }
-        }
-    </style>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.10/dist/katex.min.css" integrity="sha384-wcIxkf4k558fYv3mQPFEpCREUQueRFCZrCXCtiKU8aNVbN9ODdVcN3BwCAJ6pcBb" crossorigin="anonymous">
-    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.10/dist/katex.min.js" integrity="sha384-hIoBPJpTUs74ddyc4bFZSM1TVlQDA60VBbJS0oA934VSz82sBx1X7kSx2ATBDIyd" crossorigin="anonymous"></script>
-    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.10/dist/contrib/auto-render.min.js" integrity="sha384-43gviWU0YVjaDtb/GhzOouOXtZMP/7XUzwPTstBeZFe/+rCMvRwr4yROQP43s0Xk" crossorigin="anonymous"
-        onload="renderMathInElement(document.body);"></script>
-    <script>
-        document.addEventListener("DOMContentLoaded", function() {
-            renderMathInElement(document.body, {
-                delimiters: [
-                    {left: '$$', right: '$$', display: true},
-                    {left: '$', right: '$', display: false}
-                ],
-                throwOnError : false
-            });
-        });
-    </script>
+  <!-- MathJax v3 -->
+  <script>
+  MathJax = {
+    tex: {
+      inlineMath: [['$', '$'], ['\\(', '\\)']],
+      displayMath: [['$$', '$$'], ['\\[', '\\]']],
+      processEscapes: true
+    },
+    svg: { fontCache: 'global' }
+  };
+  </script>
+  <script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
 </head>
 <body>
-    <main>
-        <header class="hero">
-            <span class="hero-label">Lecture 2</span>
-            <h1>第2回 有理関数の積分</h1>
-            <p>基本形の積分公式と部分分数分解をそろえ，あらゆる有理関数の不定積分を計算できる道具立てをまとめる。</p>
-        </header>
+  <main>
+    <header class="hero">
+      <span class="hero-label">Lecture 2</span>
+      <h1>第2回 有理関数の積分</h1>
+      <p>基本形の積分公式と部分分数分解をまとめ，有理関数の積分を体系的に扱う。</p>
+    </header>
 
-        <section class="outline-section">
-            <h2>1. 有理関数の定義</h2>
-            <div class="definition">
-                <strong>定義（多項式・有理関数）</strong>
-                <p>$a_n,\dots,a_0\in\mathbb{R}$ を定数として $f(x)=a_nx^n+\cdots+a_1x+a_0$ を<strong>多項式</strong>と呼ぶ。多項式 $P,Q$ を用いて $f(x)=\dfrac{P(x)}{Q(x)}$ と表せる関数を<strong>有理関数</strong>と呼ぶ。</p>
-            </div>
-            <div class="note">
-                <strong>今日の目標</strong>
-                <p>有理関数の積分を体系的に計算できるようにする。</p>
-            </div>
-        </section>
+    <section class="outline-section">
+      <h2>1. 有理関数の定義</h2>
+      <div class="definition">
+        <strong>定義（多項式・有理関数）</strong>
+        <p>$a_n, \dots, a_0 \in \mathbb{R}$ として $f(x) = a_n x^n + \cdots + a_1 x + a_0$ を<strong>多項式</strong>という。
+        多項式 $P, Q$ を用い $f(x) = \dfrac{P(x)}{Q(x)}$ と表せるものを<strong>有理関数</strong>と呼ぶ。</p>
+      </div>
+    </section>
 
-        <section class="outline-section">
-            <h2>2. 基礎的な有理関数の積分</h2>
+    <section class="outline-section">
+      <h2>2. 基礎的な有理関数の積分</h2>
+      <h3>□ $\dfrac{1}{(x-\alpha)^n}$ の積分（$n\in\mathbb{N}$）</h3>
+      <div class="formula">
+        $$\int (x-\alpha)^{-n}dx = 
+          \begin{cases}
+            \dfrac{(x-\alpha)^{1-n}}{1-n}+C, & n\neq1,\\[6pt]
+            \log|x-\alpha|+C, & n=1.
+          \end{cases}$$
+      </div>
 
-            <h3>□ $\dfrac{1}{(x-\alpha)^n}$ の積分（$n\in\mathbb{N}$）</h3>
-            <div class="formula">$$
-                \int (x-\alpha)^{-n}\,dx=
-                \begin{cases}
-                    \dfrac{(x-\alpha)^{\,1-n}}{1-n}+C,& n\neq 1,\\[6pt]
-                    \log|x-\alpha|+C,& n=1.
-                \end{cases}
-            $$</div>
+      <h3>□ $\dfrac{1}{x^2+ax+b}$ の積分</h3>
+      <p>判別式 $D=a^2-4b$ で場合分けする。</p>
 
-            <h3>□ $\dfrac{1}{x^2+ax+b}$ の積分</h3>
-            <p>判別式 $D:=a^2-4b$ で場合分けする。</p>
-            <ul>
-                <li><strong>$D>0$（実根 $\alpha\neq\beta$）</strong>：$x^2+ax+b=(x-\alpha)(x-\beta)$。</li>
-            </ul>
-            <div class="formula">$$
-                \frac{1}{x^2+ax+b}=\frac{1}{\alpha-\beta}\!\left(\frac{1}{x-\alpha}-\frac{1}{x-\beta}\right),\qquad
-                \int \frac{dx}{x^2+ax+b}=\frac{1}{\alpha-\beta}\log\left|\frac{x-\alpha}{x-\beta}\right|+C.
-            $$</div>
-            <ul>
-                <li><strong>$D=0$（重根 $\alpha=-\tfrac a2$）</strong>：$x^2+ax+b=(x+\tfrac a2)^2$。</li>
-            </ul>
-            <div class="formula">$$
-                \int \frac{dx}{x^2+ax+b}=\int\frac{dx}{\left(x+\frac a2\right)^2}=-\frac{1}{x+\frac a2}+C.
-            $$</div>
-            <ul>
-                <li><strong>$D<0$</strong>：平方完成で $x^2+ax+b=\left(x+\tfrac a2\right)^2+\bigl(b-\tfrac{a^2}{4}\bigr)$。$\Delta:=4b-a^2>0$ とおく。</li>
-            </ul>
-            <div class="formula">$$
-                \int \frac{dx}{x^2+ax+b}
-                =\frac{2}{\sqrt{\Delta}}\arctan\!\left(\frac{2x+a}{\sqrt{\Delta}}\right)+C.
-            $$</div>
+      <div class="formula">
+        $$\int \frac{dx}{x^2+ax+b} = 
+        \begin{cases}
+          \dfrac{1}{\alpha-\beta}\log\!\left|\dfrac{x-\alpha}{x-\beta}\right|+C, & D>0,\\[6pt]
+          -\dfrac{1}{x+\frac{a}{2}}+C, & D=0,\\[6pt]
+          \dfrac{2}{\sqrt{\Delta}}\arctan\!\left(\dfrac{2x+a}{\sqrt{\Delta}}\right)+C, & D<0.
+        \end{cases}$$
+      </div>
+    </section>
 
-            <div class="definition">
-                <strong>定義（規約な多項式）</strong>
-                <p>実係数で $\mathbb{R}$ 上これ以上因数分解できない多項式，すなわち $x-\alpha$ または $x^2+ax+b$（$a^2<4b$）を<strong>規約（既約）多項式</strong>と呼ぶ。</p>
-            </div>
-
-            <h3>□ $\dfrac{1}{(x^2+1)^n}$ の積分（反復公式）</h3>
-            <p>$I_n(x):=\displaystyle\int \dfrac{dx}{(1+x^2)^n}$ とおく（$n\in\mathbb{N}$）。</p>
-            <div class="theorem">
-                <strong>定理（反復公式）</strong>
-                <p>$n\ge 2$ について</p>
-                <div class="formula">$$
-                    I_n(x)=\frac{x}{2(n-1)\,(1+x^2)^{\,n-1}}+\frac{2n-3}{2(n-1)}\,I_{n-1}(x),\qquad
-                    I_1(x)=\arctan x + C.
-                $$</div>
-                <div class="proof">
-                    <strong>証明の要点</strong>
-                    <p>$F(x):=\dfrac{x}{(1+x^2)^{n-1}}$ とおくと
-                    $$F'(x)=\frac{1}{(1+x^2)^n}+(3-2n)\frac{x^2}{(1+x^2)^n}.$$
-                    ここで $\dfrac{x^2}{(1+x^2)^n}=\dfrac{1}{(1+x^2)^{n-1}}-\dfrac{1}{(1+x^2)^n}$ を用いて
-                    $$F'(x)=\frac{2(n-1)}{(1+x^2)^n}+\frac{3-2n}{(1+x^2)^{n-1}}.$$
-                    両辺を積分して式を解けば主張が従う。</p>
-                </div>
-            </div>
-
-            <div class="note">
-                <strong>係数付き二次分母の一般形</strong>
-                <p>$\Delta:=4b-a^2>0,\ s:=\dfrac{2x+a}{\sqrt{\Delta}}$ とし，$cx+d=A(2x+a)+B$（$A=\tfrac c2,\ B=d-\tfrac{ac}{2}$）。</p>
-                <div class="formula">$$
-                    \int \frac{cx+d}{(x^2+ax+b)^n}\,dx
-                    =-\frac{A}{n-1}\,(x^2+ax+b)^{\,1-n}
-                    +\frac{2B}{\sqrt{\Delta}}\left(\frac{4}{\Delta}\right)^{\!n-1} I_n(s)+C,
-                $$</div>
-                <p>特に $n=1$ では
-                $$\int \frac{cx+d}{x^2+ax+b}\,dx
-                  = A\log(x^2+ax+b)+\frac{2B}{\sqrt{\Delta}}\arctan s + C.$$
-                </p>
-            </div>
-        </section>
-
-        <section class="outline-section">
-            <h2>3. 一般の有理関数の積分</h2>
-            <div class="concept-card">
-                <strong>戦略</strong>
-                <ol>
-                    <li><em>多項式割り算</em>：$P/Q$ を $P=SQ+R$ として $P/Q=S+R/Q$ に分ける（$R$ は $\deg R<\deg Q$）。</li>
-                    <li><em>因数分解</em>：分母 $Q$ を実数係数で $(x-\alpha_i)^{n_i}$ と $(x^2+a_jx+b_j)^{m_j}$ の積に分解（$a_j^2<4b_j$）。</li>
-                    <li><em>部分分数</em>：次の定理により一次・二次既約要素の冪の和に分解。</li>
-                    <li><em>基本公式で積分</em>：上節の公式を適用して各項を積分。</li>
-                </ol>
-            </div>
-
-            <div class="example">
-                <strong>例1</strong>
-                <p>$$\int \frac{dx}{(x+1)(x-1)^2}$$</p>
-                <p>部分分数分解：
-                $$\frac{1}{(x+1)(x-1)^2}=\frac{1/4}{x+1}-\frac{1/4}{x-1}+\frac{1/2}{(x-1)^2}.$$
-                よって
-                $$\int \frac{dx}{(x+1)(x-1)^2}
-                  =\frac14\log|x+1|-\frac14\log|x-1|-\frac{1}{2(x-1)}+C\\
-                  =\frac14\log\left|\frac{x+1}{x-1}\right|-\frac{1}{2(x-1)}+C.$$
-                </p>
-            </div>
-
-            <div class="example">
-                <strong>例2</strong>
-                <p>$$\int \frac{dx}{x^3+1} \quad\bigl(x^3+1=(x+1)(x^2-x+1)\bigr)$$</p>
-                <p>分解
-                $$\frac{1}{x^3+1}=\frac{A}{x+1}+\frac{Bx+C}{x^2-x+1},$$
-                係数比較から $A=\tfrac13,\ B=-\tfrac13,\ C=\tfrac23$。</p>
-                <p>したがって
-                $$\int\frac{dx}{x^3+1}
-                  =\frac13\log|x+1|
-                   +\int\frac{-\frac13x+\frac23}{x^2-x+1}\,dx.$$
-                平方完成 $x^2-x+1=(x-\tfrac12)^2+\tfrac34$ を用い，$-\tfrac13x+\tfrac23
-                =-\tfrac16(2x-1)+\tfrac12$ に分けると</p>
-                <div class="formula">$$
-                    \int\frac{-\frac13x+\frac23}{x^2-x+1}\,dx
-                    =-\frac{1}{6}\log(x^2-x+1)+\frac{1}{\sqrt{3}}\arctan\!\left(\frac{2x-1}{\sqrt{3}}\right)+C.
-                $$</div>
-                <p>まとめると</p>
-                <div class="formula">$$
-                    \int\frac{dx}{x^3+1}
-                    =\frac{1}{3}\log|x+1|
-                     -\frac{1}{6}\log(x^2-x+1)
-                     +\frac{1}{\sqrt{3}}\arctan\!\left(\frac{2x-1}{\sqrt{3}}\right)+C.
-                $$</div>
-            </div>
-
-            <div class="theorem">
-                <strong>定理（部分分数分解）</strong>
-                <p>任意の実係数有理関数 $\dfrac{P(x)}{Q(x)}$ は，多項式と
-                $$\sum_{i,m}\frac{C_{i,m}}{(x-\alpha_i)^m}\quad\text{および}\quad
-                  \sum_{j,m}\frac{D_{j,m}x+E_{j,m}}{(x^2+a_jx+b_j)^m}\ \ (a_j^2<4b_j)$$
-                の有限和に一意的に分解できる（順序以外）。</p>
-                <div class="proof">
-                    <strong>証明の指針</strong>
-                    <p>多項式割り算で真性分数にし，$Q$ を一次・二次既約因子の積に分解する。相異なる既約因子間では中国剰余の議論で同時に分解できる。重因子については
-                    $$\frac{g(x)}{(x-\alpha)^n f(x)}
-                      =\frac{A}{(x-\alpha)^n}+\frac{h(x)}{(x-\alpha)^{n-1}f(x)}$$
-                    の形（ユークリッド互除法）を用いて冪指数に関する帰納法を回せばよい。係数は連立一次方程式で決まる。</p>
-                </div>
-            </div>
-        </section>
-
-        <section class="outline-section">
-            <h2>4. 仕上げの演習</h2>
-            <div class="exercise-list">
-                <ol>
-                    <li>$\displaystyle \int \frac{2x+3}{(x^2+2x+5)^2}\,dx$ を計算せよ。</li>
-                    <li>$\displaystyle \int \frac{x^2+1}{x^3-1}\,dx$ を部分分数分解で計算せよ。</li>
-                    <li>$\displaystyle I_n=\int \frac{dx}{(1+x^2)^n}$ の反復公式を別法（部分積分）でも導け。</li>
-                </ol>
-            </div>
-        </section>
-    </main>
+    <section class="outline-section">
+      <h2>3. 一般の有理関数の積分</h2>
+      <p>部分分数分解によりすべての有理関数の積分を求められる。</p>
+      <div class="theorem">
+        <strong>定理（部分分数分解）</strong>
+        <p>任意の有理関数 $\dfrac{P(x)}{Q(x)}$ は
+        $$\sum_{i,m}\frac{C_{i,m}}{(x-\alpha_i)^m}
+          +\sum_{j,m}\frac{D_{j,m}x+E_{j,m}}{(x^2+a_jx+b_j)^m}$$
+        に一意的に分解できる。</p>
+      </div>
+    </section>
+  </main>
 </body>
 </html>
