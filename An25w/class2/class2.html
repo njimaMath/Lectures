@@ -190,6 +190,42 @@
         \end{cases}$$
       </div>
     </section>
+<section class="outline-section">
+  <h3>□ $\dfrac{1}{(x^2+1)^n}$ の積分（帰納公式）</h3>
+  <p>$I_n(x):=\displaystyle\int \dfrac{dx}{(x^2+1)^n}$ とおく。$I_1(x)=\arctan x$。$n\ge2$ については部分積分（または $\dfrac{d}{dx}\!\left[\dfrac{x}{(x^2+1)^{\,n-1}}\right]$ の計算）から次の帰納式が得られる。</p>
+  <div class="formula">
+    $$I_n(x)=\frac{x}{2(n-1)(x^2+1)^{\,n-1}}+\frac{2n-3}{2(n-1)}\,I_{n-1}(x)\qquad(n\ge2).$$
+  </div>
+  <p>この式を繰り返し適用すると、$I_n(x)$ は $\arctan x$ と $\dfrac{x}{(x^2+1)^k}$（$1\le k\le n-1$）の線形結合として表せる。</p>
+<h3>□ $\dfrac{1}{(x^2+1)^n}$ の積分（帰納公式）</h3>
+<p>$I_n(x):=\displaystyle\int \dfrac{dx}{(x^2+1)^n}$ とおく。$I_1(x)=\arctan x$。$n\ge2$ については部分積分（または $\dfrac{d}{dx}\!\left[\dfrac{x}{(x^2+1)^{\,n-1}}\right]$ の計算）から次の帰納式が得られる。</p>
+<div class="formula">
+  $$I_n(x)=\frac{x}{2(n-1)(x^2+1)^{\,n-1}}+\frac{2n-3}{2(n-1)}\,I_{n-1}(x)\qquad(n\ge2).$$
+</div>
+<p>この式を繰り返し適用すると、$I_n(x)$ は $\arctan x$ と $\dfrac{x}{(x^2+1)^k}$（$1\le k\le n-1$）の線形結合として表せる。</p>
+
+<h3>□ 応用：$\dfrac{cx+d}{(x^2+ax+b)^n}$ の積分（$D=a^2-4b<0$）</h3>
+<p>$t:=\dfrac{x+\frac{a}{2}}{\sqrt{b-(a/2)^2}}$ とおくと、$x^2+ax+b=(b-(a/2)^2)(t^2+1)$ である。分子を $\sqrt{b-(a/2)^2}\,ct+\bigl(d-\dfrac{ac}{2}\bigr)$と書くと、</p>
+<div class="formula">
+  $$\int \frac{cx+d}{(x^2+ax+b)^n}\,dx
+  =c\,(b-(a/2)^2)^{1-n}\!\int\frac{t}{(t^2+1)^n}\,dt$$
+    $$
+  +\left(d-\frac{ac}{2}\right)(b-(a/2)^2)^{\frac12-n}\!\int\frac{dt}{(t^2+1)^n}.$$
+</div>
+<p>前者は置換 $w=t^2+1$ で</p>
+<div class="formula">
+  $$\int\frac{t}{(t^2+1)^n}\,dt
+  =-\frac{1}{2(n-1)}(t^2+1)^{1-n}+C.$$
+</div>
+<p>$I_n(t)=\displaystyle\int\dfrac{dt}{(t^2+1)^n}$ に帰着する。以上より、$n\ge2$ について</p>
+<div class="formula">
+  $$\int \frac{cx+d}{(x^2+ax+b)^n}\,dx
+  =-\frac{c}{2(n-1)}\,\frac{1}{(x^2+ax+b)^{\,n-1}}
+  +\left(d-\frac{ac}{2}\right)\frac{1}{\bigl(b-(a/2)^2\bigr)^{\,n-\frac12}}\;
+  I_n\!\left(\frac{x+\frac a2}{\sqrt{\,b-(a/2)^2\,}}\right)+C.$$
+</div>
+
+</section>
 
     <section class="outline-section">
       <h2>3. 一般の有理関数の積分</h2>
