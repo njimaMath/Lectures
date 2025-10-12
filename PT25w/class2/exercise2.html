@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>確率論 演習問題</title>
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script id="MathJax-script" async
+    src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
+  </script>
+  <style>
+    body{
+      font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif;
+      max-width:900px;margin:0 auto;padding:20px;line-height:1.6;
+      background-color:#f5f5f5;
+    }
+    .container{
+      background:#fff;padding:30px;border-radius:8px;
+      box-shadow:0 2px 4px rgba(0,0,0,.1);
+    }
+    h1{color:#2c3e50;border-bottom:3px solid #3498db;padding-bottom:10px;}
+    h2{color:#34495e;margin-top:30px;}
+    .problem{
+      background:#ecf0f1;padding:20px;margin:20px 0;border-left:4px solid #3498db;border-radius:4px;
+    }
+    .answer{
+      background:#e8f5e9;padding:20px;margin:20px 0;border-left:4px solid #4caf50;border-radius:4px;display:none;
+    }
+    .answer.show{display:block;}
+    button{
+      background:#3498db;color:#fff;padding:12px 30px;border:none;border-radius:5px;
+      cursor:pointer;font-size:16px;margin:20px 0;transition:background-color .3s;
+    }
+    button:hover{background:#2980b9;}
+    .answer-label{font-weight:bold;color:#2e7d32;margin-bottom:10px;}
+    .note{font-size:.95em;color:#555;margin-top:8px;}
+    .svg-wrap{display:flex;justify-content:center;align-items:center;margin-top:12px;}
+    .code{font-family:ui-monospace,Consolas,Menlo,monospace;background:#fafafa;border:1px solid #e0e0e0;border-radius:6px;padding:10px;}
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>確率論 演習問題（分布関数の基礎）</h1>
+
+    <!-- 問題1 -->
+    <div class="problem">
+      <h2>問題1（コインを3回）</h2>
+      <p>
+        公平なコインを独立に3回投げる。標本空間を \(\Omega=\{H,T\}^3\)、\(\mathcal F=2^\Omega\)、確率測度を各結果に一様とする。
+      </p>
+      <p>
+        1回目・2回目・3回目の表を示す指示関数をそれぞれ
+        \[
+          X_1(\omega)=\mathbf 1\{\text{1回目が}H\},\quad
+          X_2(\omega)=\mathbf 1\{\text{2回目が}H\},\quad
+          X_3(\omega)=\mathbf 1\{\text{3回目が}H\}
+        \]
+        と定義する。確率変数 \(X:=X_1+X_2\) の分布関数 \(F_X(x)=P(X\le x)\) を求め、グラフを描け。
+      </p>
+      <div class="note">ヒント：\(X\in\{0,1,2\}\)。二項分布 \(\mathrm{Bin}(2,1/2)\) を思い出す。</div>
+    </div>
+
+    <!-- 問題2 -->
+    <div class="problem">
+      <h2>問題2（連続一様と写像）</h2>
+      <p>
+        \([0,1]\) 上の一様測度（ルベーグ測度の制限）を考える：\(P(A)=\int_0^1 \mathbf 1_A(x)\,dx\)。
+        \(\Omega=[0,1]\)、\(X(\omega)=\omega\)、\(Y(\omega)=\omega+1\) とする。
+      </p>
+      <p>
+        (a) \(S:=X+Y\) の分布関数 \(F_S(t)\) を求めよ。<br>
+        (b) \(P:=X\times Y\) の分布関数 \(F_P(z)\) を求めよ。
+      </p>
+      <div class="note">注意：ここでは \(X\) と \(Y\) は独立ではなく、同じ \(\omega\) で結び付いている。</div>
+    </div>
+
+    <!-- 問題3 -->
+    <div class="problem">
+      <h2>問題3（前像と和集合）</h2>
+      <p>
+        任意の写像 \(X:\Omega\to\mathbb R\) と可算族 \(\{B_i\}_{i\in I}\subset\mathcal P(\mathbb R)\) について
+        \[
+        X^{-1}\!\Bigl(\bigcup_{i\in I} B_i\Bigr)=\bigcup_{i\in I} X^{-1}(B_i)
+        \]
+        を示せ。
+      </p>
+    </div>
+
+    <button onclick="toggleAnswers()">解答を表示/非表示</button>
+
+    <!-- 解答1 -->
+    <div class="answer" id="ans1">
+      <div class="answer-label">解答1</div>
+      <p>
+        \(X=X_1+X_2\) は 2 回の独立な公平コイントスの表の総数なので
+        \[
+          P(X=0)=\tfrac14,\quad P(X=1)=\tfrac12,\quad P(X=2)=\tfrac14.
+        \]
+        よって分布関数は
+      </p>
+      <div>
+        \[
+        F_X(x)=
+        \begin{cases}
+          0 & (x<0),\\[2pt]
+          \tfrac14 & (0\le x<1),\\[2pt]
+          \tfrac34 & (1\le x<2),\\[2pt]
+          1 & (x\ge 2).
+        \end{cases}
+        \]
+      </div>
+
+      <!-- CDF 図（ステップ関数） -->
+      <div class="svg-wrap">
+        <svg viewBox="0 0 420 240" width="420" height="240" aria-label="CDF of X">
+          <!-- 軸 -->
+          <line x1="50" y1="200" x2="390" y2="200" stroke="#333" stroke-width="2"/>
+          <line x1="50" y1="200" x2="50" y2="40" stroke="#333" stroke-width="2"/>
+          <!-- 目盛 -->
+          <line x1="50" y1="200" x2="50" y2="205" stroke="#333"/><text x="50" y="220" text-anchor="middle">0</text>
+          <line x1="170" y1="200" x2="170" y2="205" stroke="#333"/><text x="170" y="220" text-anchor="middle">1</text>
+          <line x1="290" y1="200" x2="290" y2="205" stroke="#333"/><text x="290" y="220" text-anchor="middle">2</text>
+          <text x="400" y="205" font-size="12">x</text>
+
+          <line x1="45" y1="200" x2="50" y2="200" stroke="#333"/>
+          <text x="38" y="205" text-anchor="end">0</text>
+          <line x1="45" y1="140" x2="50" y2="140" stroke="#333"/>
+          <text x="38" y="145" text-anchor="end">1/4</text>
+          <line x1="45" y1="80" x2="50" y2="80" stroke="#333"/>
+          <text x="38" y="85" text-anchor="end">3/4</text>
+          <line x1="45" y1="40" x2="50" y2="40" stroke="#333"/>
+          <text x="38" y="45" text-anchor="end">1</text>
+          <text x="22" y="60" transform="rotate(-90,22,60)">F_X(x)</text>
+
+          <!-- ステップ -->
+          <!-- (-∞,0): 0 -->
+          <line x1="50" y1="200" x2="170" y2="200" stroke="#3f51b5" stroke-width="3"/>
+          <circle cx="50" cy="200" r="4" fill="#3f51b5"/>
+          <circle cx="170" cy="200" r="4" fill="#fff" stroke="#3f51b5" stroke-width="2"/>
+
+          <!-- [0,1): 1/4 -->
+          <line x1="170" y1="140" x2="290" y2="140" stroke="#3f51b5" stroke-width="3"/>
+          <circle cx="170" cy="140" r="4" fill="#3f51b5"/>
+          <circle cx="290" cy="140" r="4" fill="#fff" stroke="#3f51b5" stroke-width="2"/>
+
+          <!-- [1,2): 3/4 -->
+          <line x1="290" y1="80" x2="390" y2="80" stroke="#3f51b5" stroke-width="3"/>
+          <circle cx="290" cy="80" r="4" fill="#3f51b5"/>
+          <circle cx="390" cy="80" r="4" fill="#3f51b5"/>
+
+          <!-- 凡例 -->
+          <text x="240" y="30" text-anchor="middle" font-size="13">\(X=X_1+X_2\) の分布関数</text>
+        </svg>
+      </div>
+    </div>
+
+    <!-- 解答2 -->
+    <div class="answer" id="ans2">
+      <div class="answer-label">解答2</div>
+      <p class="code">設定：\(\Omega=[0,1]\)、\(X(\omega)=\omega\sim \mathrm{Unif}[0,1]\)、\(Y(\omega)=\omega+1\in[1,2]\)。独立でない（同一 \(\omega\)）。</p>
+
+      <h3>(a) \(S=X+Y\) の分布関数</h3>
+      <p>
+        \(S=2\omega+1\) は \(\omega\in[0,1]\) を \([1,3]\) に線形写像する。したがって
+        \[
+          F_S(t)=P(S\le t)=P\bigl(\omega\le \tfrac{t-1}{2}\bigr)
+          =
+          \begin{cases}
+            0 & (t<1),\\[2pt]
+            \dfrac{t-1}{2} & (1\le t\le 3),\\[4pt]
+            1 & (t>3).
+          </end{cases}
+        \]
+      </p>
+      <p class="note">
+        別解（畳み込みの視点）：独立なら三角形分布だが、ここは <em>同一 \(\omega\)</em> なので線形の CDF になる点に注意。
+      </p>
+
+      <h3>(b) \(P=X\times Y=X(\omega)(\omega+1)=\omega+\omega^2\) の分布関数</h3>
+      <p>
+        \(g(x)=x+x^2\) は \([0,1]\) で単調増加、像は \([0,2]\)。よって
+        \[
+          F_P(z)=P(P\le z)=P\bigl(X\le g^{-1}(z)\bigr)
+          =
+          \begin{cases}
+            0 & (z<0),\\[4pt]
+            \dfrac{-1+\sqrt{\,1+4z\,}}{2} & (0\le z\le 2),\\[10pt]
+            1 & (z>2).
+          \end{cases}
+        \]
+        ここで \(g^{-1}(z)=\dfrac{-1+\sqrt{1+4z}}{2}\)（正の根）。
+      </p>
+      <p class="note">密度が必要なら \(f_P(z)=\dfrac{d}{dz}F_P(z)=\dfrac{1}{\sqrt{1+4z}}\)（\(0<z<2\)）。</p>
+    </div>
+
+    <!-- 解答3 -->
+    <div class="answer" id="ans3">
+      <div class="answer-label">解答3</div>
+      <p><strong>主張：</strong>\(X^{-1}\!\bigl(\cup_{i\in I} B_i\bigr)=\cup_{i\in I} X^{-1}(B_i)\)。</p>
+      <p><strong>証明：</strong>
+        \(\omega\in X^{-1}\!\bigl(\cup_i B_i\bigr)\) ならば \(X(\omega)\in \cup_i B_i\) なので、ある \(j\) が存在して \(X(\omega)\in B_j\)。
+        よって \(\omega\in X^{-1}(B_j)\subset \cup_i X^{-1}(B_i)\)。ゆえに左辺 \(\subset\) 右辺。
+      </p>
+      <p>
+        逆に \(\omega\in \cup_i X^{-1}(B_i)\) ならば、ある \(j\) で \(\omega\in X^{-1}(B_j)\)。
+        これは \(X(\omega)\in B_j\subset \cup_i B_i\) を意味し、\(\omega\in X^{-1}\!\bigl(\cup_i B_i\bigr)\)。
+        よって右辺 \(\subset\) 左辺。両包含が示された。
+      </p>
+      <p class="note">同様に、前像は交わりや差集合についても集合演算と交換する（可算交わりは注意：\(\cap\) に対しても同様に成り立つ）。</p>
+    </div>
+
+    <button onclick="toggleAnswers()">解答を表示/非表示</button>
+  </div>
+
+  <script>
+    function toggleAnswers(){
+      document.querySelectorAll('.answer').forEach(el=>el.classList.toggle('show'));
+    }
+  </script>
+</body>
+</html>
