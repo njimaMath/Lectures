@@ -416,10 +416,10 @@
 
       <div class="sim-card" id="coin-sim">
         <div class="sim-head">
-          <div class="sim-title">28回のコイントスを体験</div>
+          <div class="sim-title">35回のコイントスを体験</div>
           <button class="sim-button" id="sim-replay" type="button">もう一度</button>
         </div>
-        <p class="note">自動で28回投げるコインを眺めながら、平均がどのように安定していくかを確かめてみよう。</p>
+        <p class="note">自動で35回投げるコインを眺めながら、平均がどのように安定していくかを確かめてみよう。</p>
         <div class="coin-stage">
           <div class="coin" id="coin" style="transform: rotateY(0deg);">
             <div class="face front">H</div>
@@ -456,6 +456,13 @@
           <div class="sim-tile" data-index="26">26投目</div>
           <div class="sim-tile" data-index="27">27投目</div>
           <div class="sim-tile" data-index="28">28投目</div>
+          <div class="sim-tile" data-index="29">29投目</div>
+          <div class="sim-tile" data-index="30">30投目</div>
+          <div class="sim-tile" data-index="31">31投目</div>
+          <div class="sim-tile" data-index="32">32投目</div>
+          <div class="sim-tile" data-index="33">33投目</div>
+          <div class="sim-tile" data-index="34">34投目</div>
+          <div class="sim-tile" data-index="35">35投目</div>
         </div>
         <div class="sim-note">※ 公平なコインを仮定。表が出ると100円、裏なら0円とする。</div>
       </div>
@@ -499,7 +506,7 @@
       const timeline = Array.from(document.querySelectorAll('.sim-tile'));
       const summary = document.getElementById('sim-summary');
       const replayButton = document.getElementById('sim-replay');
-      const totalFlips = 28;
+      const totalFlips = 35;
       const rewardHeads = 100;
       const rewardTails = 0;
       let spinAngle = 0;
