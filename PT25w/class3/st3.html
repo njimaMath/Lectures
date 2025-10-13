@@ -207,6 +207,157 @@
       border-top: 1px dashed var(--rule);
     }
 
+    .sim-card{
+      margin: 26px 0;
+      padding: 20px;
+      border-radius: var(--radius);
+      border: 1px solid rgba(107,46,46,0.16);
+      background: linear-gradient(145deg, rgba(107,46,46,0.06), rgba(255,255,255,0.95));
+      box-shadow: 0 12px 28px rgba(16,16,16,0.06);
+      font-family: var(--sans);
+    }
+
+    .sim-head{
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      margin-bottom: 14px;
+    }
+
+    .sim-title{
+      font-size: 18px;
+      font-weight: 600;
+      color: var(--accent);
+      letter-spacing: 0.04em;
+    }
+
+    .sim-button{
+      border: none;
+      background: var(--accent);
+      color: #fff;
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: 0.03em;
+      padding: 8px 14px;
+      border-radius: 999px;
+      cursor: pointer;
+      transition: transform 0.18s ease, box-shadow 0.18s ease, background 0.18s ease;
+    }
+
+    .sim-button:disabled{
+      background: rgba(107,46,46,0.38);
+      cursor: not-allowed;
+      box-shadow: none;
+    }
+
+    .sim-button:not(:disabled):hover{
+      transform: translateY(-1px);
+      box-shadow: 0 8px 18px rgba(107,46,46,0.28);
+    }
+
+    .coin-stage{
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 130px;
+      perspective: 800px;
+    }
+
+    .coin{
+      position: relative;
+      width: 88px;
+      height: 88px;
+      border-radius: 50%;
+      transform-style: preserve-3d;
+      background: radial-gradient(circle at 30% 30%, #fff8f5, rgba(107,46,46,0.4));
+      box-shadow: 0 10px 24px rgba(16,16,16,0.18);
+      transition: transform 0.9s cubic-bezier(0.25, 0.8, 0.25, 1);
+    }
+
+    .coin::after{
+      content: "";
+      position: absolute;
+      inset: 0;
+      border-radius: 50%;
+      background: radial-gradient(circle at 70% 30%, rgba(255,255,255,0.75), rgba(107,46,46,0.45));
+      transform: translateZ(-4px);
+    }
+
+    .coin .face{
+      position: absolute;
+      inset: 0;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 28px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      color: rgba(255,255,255,0.92);
+      text-shadow: 0 2px 4px rgba(0,0,0,0.35);
+      backface-visibility: hidden;
+    }
+
+    .coin .face.front{
+      background: linear-gradient(145deg, rgba(107,46,46,0.85), rgba(107,46,46,0.65));
+    }
+
+    .coin .face.back{
+      background: linear-gradient(145deg, rgba(38,38,38,0.9), rgba(58,58,58,0.7));
+      transform: rotateY(180deg);
+    }
+
+    .sim-summary{
+      text-align: center;
+      font-size: 14px;
+      color: var(--sub);
+      margin-top: 12px;
+    }
+
+    .sim-timeline{
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(92px, 1fr));
+      gap: 10px;
+      margin-top: 18px;
+    }
+
+    .sim-tile{
+      padding: 10px;
+      border-radius: 10px;
+      background: rgba(255,255,255,0.7);
+      border: 1px solid rgba(0,0,0,0.05);
+      text-align: center;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--ink);
+      opacity: 0.25;
+      transform: translateY(6px);
+      transition: opacity 0.3s ease, transform 0.3s ease, background 0.3s ease;
+    }
+
+    .sim-tile.show{
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .sim-tile.heads{
+      background: rgba(107,46,46,0.12);
+      color: var(--accent);
+    }
+
+    .sim-tile.tails{
+      background: rgba(0,0,0,0.06);
+      color: rgba(58,58,58,0.88);
+    }
+
+    .sim-note{
+      font-size: 12px;
+      color: var(--sub);
+      margin-top: 10px;
+      text-align: center;
+    }
+
     @media (max-width:520px){
       h1{ font-size: 22px; }
       .masthead{ padding:10px; }
@@ -257,11 +408,44 @@
 
       <h2>コイン投げの長期平均</h2>
       <p>
-        公平なコインを1回投げ、表なら100円、裏なら0円獲得するとする。上記の期待値の計算に基づくとこのゲームの期待値は$0\times (1/2)+100\times (1/2)=50$円となる。一回の結果は0円か100円のどちらかで、50円は出てこないのであるが、この期待値はなにをいみしているのだろうか。
+       公平なコインを1回投げ、表なら100円、裏なら0円獲得するとする。上記の期待値の計算に基づくとこのゲームの期待値は$0\times (1/2)+100\times (1/2)=50$円となる。一回の結果は0円か100円のどちらかで、50円は出てこないのであるが、この期待値はなにをいみしているのだろうか。
       </p>
       <p>
        意味を与えるために、この試行を繰り返すことにする。 実際$n$ 回繰り返すと、合計金額の $n$ で割った（標本）平均は50円に近づく。回数を増やすほど平均は安定し、50円に近づく。この収束が<strong>大数の法則</strong>であり、期待値が表すのは「長期的な平均」だと言える。
       </p>
+
+      <div class="sim-card" id="coin-sim">
+        <div class="sim-head">
+          <div class="sim-title">15回のコイントスを体験</div>
+          <button class="sim-button" id="sim-replay" type="button">もう一度</button>
+        </div>
+        <p class="note">自動で15回投げるコインを眺めながら、平均がどのように安定していくかを確かめてみよう。</p>
+        <div class="coin-stage">
+          <div class="coin" id="coin" style="transform: rotateY(0deg);">
+            <div class="face front">H</div>
+            <div class="face back">T</div>
+          </div>
+        </div>
+        <div class="sim-summary" id="sim-summary">待機中… ボタンを押すとシミュレーションが始まります。</div>
+        <div class="sim-timeline" id="sim-timeline">
+          <div class="sim-tile" data-index="1">1投目</div>
+          <div class="sim-tile" data-index="2">2投目</div>
+          <div class="sim-tile" data-index="3">3投目</div>
+          <div class="sim-tile" data-index="4">4投目</div>
+          <div class="sim-tile" data-index="5">5投目</div>
+          <div class="sim-tile" data-index="6">6投目</div>
+          <div class="sim-tile" data-index="7">7投目</div>
+          <div class="sim-tile" data-index="8">8投目</div>
+          <div class="sim-tile" data-index="9">9投目</div>
+          <div class="sim-tile" data-index="10">10投目</div>
+          <div class="sim-tile" data-index="11">11投目</div>
+          <div class="sim-tile" data-index="12">12投目</div>
+          <div class="sim-tile" data-index="13">13投目</div>
+          <div class="sim-tile" data-index="14">14投目</div>
+          <div class="sim-tile" data-index="15">15投目</div>
+        </div>
+        <div class="sim-note">※ 公平なコインを仮定。表が出ると100円、裏なら0円とする。</div>
+      </div>
 
 
       <h2>“期待できる値”とズレる状況</h2>
@@ -296,5 +480,91 @@
       </div>
     </article>
   </main>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const coin = document.getElementById('coin');
+      const timeline = Array.from(document.querySelectorAll('.sim-tile'));
+      const summary = document.getElementById('sim-summary');
+      const replayButton = document.getElementById('sim-replay');
+      const totalFlips = 15;
+      const rewardHeads = 100;
+      const rewardTails = 0;
+      let spinAngle = 0;
+      let timerId = null;
+
+      const resetTiles = () => {
+        timeline.forEach((tile) => {
+          tile.classList.remove('show', 'heads', 'tails');
+          tile.textContent = `${tile.dataset.index}投目`;
+        });
+      };
+
+      const stopTimer = () => {
+        if (timerId) {
+          clearTimeout(timerId);
+          timerId = null;
+        }
+      };
+
+      const updateSummary = (heads, tails, flipsDone) => {
+        if (flipsDone === 0) {
+          summary.textContent = 'シミュレーション中…';
+          return;
+        }
+
+        const totalReward = heads * rewardHeads + tails * rewardTails;
+        const average = (totalReward / flipsDone).toFixed(1);
+        summary.textContent = `表${heads}回 / 裏${tails}回 ｜ 平均獲得額 ${average}円`;
+      };
+
+      const runSimulation = () => {
+        stopTimer();
+        replayButton.disabled = true;
+        spinAngle = 0;
+        coin.style.transform = 'rotateY(0deg)';
+        summary.textContent = 'シミュレーション中…';
+        resetTiles();
+
+        let currentFlip = 0;
+        let headsCount = 0;
+        let tailsCount = 0;
+
+        const flipOnce = () => {
+          if (currentFlip >= totalFlips) {
+            updateSummary(headsCount, tailsCount, totalFlips);
+            replayButton.disabled = false;
+            return;
+          }
+
+          const outcomeHeads = Math.random() < 0.5;
+          spinAngle += 360 + (outcomeHeads ? 0 : 180);
+          coin.style.transform = `rotateY(${spinAngle}deg)`;
+
+          if (outcomeHeads) {
+            headsCount += 1;
+          } else {
+            tailsCount += 1;
+          }
+
+          const tile = timeline[currentFlip];
+          const resultLabel = outcomeHeads ? '表' : '裏';
+          const reward = outcomeHeads ? rewardHeads : rewardTails;
+          tile.textContent = `${currentFlip + 1}投目：${resultLabel}（${reward}円）`;
+          tile.classList.add('show', outcomeHeads ? 'heads' : 'tails');
+
+          currentFlip += 1;
+          updateSummary(headsCount, tailsCount, currentFlip);
+          timerId = setTimeout(flipOnce, 900);
+        };
+
+        timerId = setTimeout(flipOnce, 600);
+      };
+
+      replayButton.addEventListener('click', runSimulation);
+      runSimulation();
+
+      window.addEventListener('beforeunload', stopTimer);
+    });
+  </script>
 </body>
 </html>
