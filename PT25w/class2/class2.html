@@ -430,6 +430,25 @@
         <section class="outline-section">
 
             <div class="callout definition">
+                <h3>有限確率空間での確率変数</h3>
+                <p>有限集合$\Omega$と各元$\omega\in\Omega$に対して割り当てられた確率$p_\omega\ge 0$（$\sum_{\omega\in\Omega}p_\omega=1$）からなる有限確率空間$(\Omega,(p_\omega)_{\omega\in\Omega})$を考える。</p>
+                <p>この場合には一般の写像$X:\Omega\to\mathbb{R}$を<strong>確率変数</strong>と呼ぶ。</p>
+                <p><strong>分布</strong>は各$x\in\mathbb{R}$について</p>
+                <div class="math-card">
+                    $$\mathbb{P}(X=x)=\sum_{\omega\in\Omega,\; X(\omega)=x} p_\omega$$
+                </div>
+                <p>で与えられ、<strong>分布関数</strong>$F_X$は</p>
+                <div class="math-card">
+                    $$F_X(a)=\mathbb{P}(X\le a)=\sum_{\omega\in\Omega,\; X(\omega)\le a} p_\omega\qquad(a\in\mathbb{R})$$
+                </div>
+                <p>と定める。また<strong>期待値</strong>は</p>
+                <div class="math-card">
+                    $$\mathbb{E}[X]=\sum_{\omega\in\Omega} X(\omega)\,p_\omega$$
+                </div>
+                <p>と定義される。</p>
+            </div>
+
+            <div class="callout definition">
                 <h3>一般の確率空間での定義</h3>
                 <p><strong>確率空間</strong>は、集合$\Omega$、$\sigma$加法族$\mathcal{F}\subset 2^\Omega$、測度$\mathbb{P}:\mathcal{F}\to[0,1]$で、$\mathbb{P}(\Omega)=1$を満たす組$(\Omega,\mathcal{F},\mathbb{P})$である。</p>
                 <p>$(\Omega,\mathcal F)$から$(\mathbb R,\mathcal B)$の可測な写像、つまり次を満たす、</p>
@@ -437,7 +456,7 @@
                     $\forall A\in\mathcal{B}(\mathbb{R})\quad X^{-1}(A)=\{\omega\in\Omega: X(\omega)\in A\}\in\mathcal{F},$
                 </div>
 <p>とき、$X$を<strong>確率変数</strong>と呼ぶ</p>
-                <p>同値な条件として、すべての$a\in\mathbb{R}$について$\{\omega: X(\omega)\le a\}\in\mathcal{F}$でもよい。</p>
+                <p>同値な条件として、すべての$a\in\mathbb{R}$について$\{\omega: a\le X(\omega)\le b\}=X^{-1}([a,b])\in\mathcal{F}$でもよい。</p>
                 <p><strong>分布（押し出し測度）</strong>$\mu_X$は</p>
                 <div class="math-card">
                     $$\mu_X(A):=\mathbb{P}(X\in A)=\mathbb{P}(X^{-1}(A))\qquad(A\in\mathcal{B}(\mathbb{R}))$$
@@ -474,9 +493,9 @@ $$                      \mathbb{P}(X = x)=\mathbb{P}(\{\omega: X(\omega)=x\}).$$
         </section>
         <section class="outline-section">
             <h2>6 レポート課題</h2>
-            <p>以下の問いについてレポートとしてまとめてください。必要に応じて参考文献や図表を添付し, 根拠を明確に示しましょう。</p>
+            <p>以下の問いについてレポートとしてまとめよ。（例えば、関連するより簡単な問題を証明するや、シミュレーションで確かめるなど、また応用例を調べるなどでも良い）必要に応じて参考文献や図表を添付し, 根拠を明確に示せ。</p>
             <ol>
-                <li>Feigeの予想(期待値$1$である独立な非負値確率変数の列$(X_i)$に対し, $\mathbb{P}\Big(\sum^n_{i=1} X_i \leq n+1\Big)\geq 1/e$)に関し、なにかせよ。</li>
+                <li>Feigeの予想(期待値$1$である独立な非負値確率変数の列$(X_i)$に対し, $\mathbb{P}\Big(\sum^n_{i=1} X_i \leq n+1\Big)\geq 1/e$)に関し、考察せよ。</li>
             </ol>
         </section>
 
