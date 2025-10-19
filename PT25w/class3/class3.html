@@ -442,29 +442,55 @@
         <header class="hero">
             <span class="hero-label">Lecture 03</span>
             <h1>期待値と極限定理</h1>
-            <p>Lebesgue 積分の枠組みを用いて期待値を定義し, 可積分性や収束定理による基本性質を確認する。</p>
+            <p>有限確率から一般の期待値の定義，分布による表現と基本性質を確認する。</p>
         </header>
 
-        <section class="outline-section focus-card">
-            <h2>期待値の定義</h2>
-            <p>確率空間 $(\Omega, \mathcal F, P)$ と実確率変数 $X$ を固定する。期待値は Lebesgue 積分として定義すると, 収束定理など測度論の結果をそのまま活用できる。</p>
-        </section>
-
         <section class="outline-section">
-            <h2>1 期待値の定義</h2>
+            <h2>1 有限確率空間の期待値</h2>
             <div class="definition">
-                <h3>定義（単関数 \(\to\) 非負 \(\to\) 一般）</h3>
+                <h3>定義（有限確率空間と確率変数）</h3>
+                <p>$\Omega$ を有限集合，$p_\omega\ge0$（$\sum_{\omega\in\Omega} p_\omega=1$）を各点の確率とする。任意の写像 $X\colon \Omega\to\mathbb{R}$ を確率変数と呼ぶ。</p>
+            </div>
+            <div class="definition">
+                <h3>定義（期待値）</h3>
+                <div class="formula">$$\mathbb{E}[X]=\sum_{\omega\in\Omega} X(\omega)\,p_\omega.$$</div>
+            </div>
+            <div class="theorem">
+                <h3>基本性質</h3>
                 <ul class="pill-list">
-                    <li><strong>単関数</strong>：$X = \sum_{k=1}^n a_k \mathbf{1}_{A_k}$（$a_k \in \mathbb{R}$, $A_k \in \mathcal F$ 互いに素）なら $\displaystyle \mathbb{E}[X] := \sum_{k=1}^n a_k P(A_k)$。</li>
-                    <li><strong>非負可測関数</strong>：$0 \le X$ のとき, 単関数の単調増加列 $X_m \uparrow X$ をとり $\displaystyle \mathbb{E}[X] := \sup_{g:\text{単関数},g\leq f} \mathbb{E}[g] \in [0, \infty]$ と定める。</li>
-                    <li><strong>一般の確率変数</strong>：$X = X^+ - X^-$（$X^\pm := \max\{\pm X, 0\}$）と分解し, $\mathbb{E}[X^+] + \mathbb{E}[X^-] < \infty$（可積分）なら $\mathbb{E}[X] := \mathbb{E}[X^+] - \mathbb{E}[X^-]$。どちらかが $\infty$ なら期待値は定義しない。</li>
+                    <li><strong>線形性</strong>：$\mathbb{E}[X+Y]=\mathbb{E}[X]+\mathbb{E}[Y]$，$\;\mathbb{E}[\alpha X]=\alpha\,\mathbb{E}[X]$。</li>
+                    <li><strong>値域による表現</strong>：$I_X:=\{x\in\mathbb{R}\mid P(X=x)>0\}$ とすると $\displaystyle \mathbb{E}[X]=\sum_{x\in I_X} x\,P(X=x)$。</li>
                 </ul>
             </div>
-            <div class="insight">可積分性（$\mathbb{E}[|X|] < \infty$）を仮定することで, 期待値は有限の実数として一意に定まる。非負のみ扱う場合は自動的に定義できる。</div>
         </section>
 
         <section class="outline-section">
-            <h2>2 基本性質</h2>
+            <h2>2 一般の確率変数の期待値</h2>
+            <div class="definition">
+                <h3>定義（単関数とその期待値）</h3>
+                <p>$(\Omega,\mathcal F,P)$ 上の可測集合 $A_i\in\mathcal F$ と $\alpha_i\ge0$ に対し，$X=\sum_i \alpha_i\,\mathbf 1_{A_i}$ と表せるとき $X$ を<strong>単関数</strong>という。その期待値は</p>
+                <div class="formula">$$\mathbb{E}[X]=\sum_i \alpha_i\,P(A_i).$$</div>
+            </div>
+            <div class="definition">
+                <h3>定義（非負可測関数の期待値）</h3>
+                <p>$X\ge0$ 可測に対し，区間分割で作る増加列</p>
+                <div class="formula">$$X_n:=\sum_{i=1}^{\infty} \frac{i-1}{n}\,\mathbf 1_{\{\frac{i-1}{n}\le X<\frac{i}{n}\}}\;\uparrow\; X$$</div>
+                <p>を用いて</p>
+                <div class="formula">$$\mathbb{E}[X]:=\lim_{n\to\infty}\mathbb{E}[X_n].$$</div>
+            </div>
+            <div class="theorem">
+                <h3>特徴付け</h3>
+                <p>$X\ge0$ なら $$\mathbb{E}[X]=\sup\{\mathbb{E}[Y]\mid 0\le Y\le X,\;Y\text{ は単関数}\}.$$</p>
+            </div>
+            <div class="definition">
+                <h3>定義（一般の期待値）</h3>
+                <p>$X=X^+-X^-$（$X^+=X\,\mathbf 1_{\{X\ge0\}}$, $X^-=(-X)\,\mathbf 1_{\{X<0\}}$）と分解し，$\mathbb{E}[X^+],\mathbb{E}[X^-]<\infty$ なら $X$ を<strong>可積分</strong>といい</p>
+                <div class="formula">$$\mathbb{E}[X]=\mathbb{E}[X^+]-\mathbb{E}[X^-].$$</div>
+            </div>
+        </section>
+
+        <section class="outline-section">
+            <h2>3 基本性質</h2>
             <div class="focus-card">
                 <h3>性質</h3>
                 <ul class="pill-list">
@@ -478,12 +504,12 @@
         </section>
 
         <section class="outline-section">
-            <h2>3 分布を使った表現</h2>
+            <h2>4 分布を使った表現</h2>
             <div class="theorem">
                 <h3>定理（LOTUS／法則による計算）</h3>
                 <p>$g \colon \mathbb{R} \to \mathbb{R}$ 可測で $g(X)$ が可積分なら</p>
-                <p>$$\mathbb{E}[g(X)] = \int_{\mathbb{R}} g(x)\,P_X(dx).$$</p>
-                <p>ここで $P_X = P \circ X^{-1}$ は $X$ の分布（法則）であり, 期待値は $P_X$ に関する Lebesgue 積分として書ける。</p>
+                <p>$$\mathbb{E}[g(X)] = \int_{\mathbb{R}} g(x)\,\mu_X(dx).$$</p>
+                <p>ここで $\mu_X = P \circ X^{-1}$ は $X$ の分布（法則）であり，期待値は $\mu_X$ に関する Lebesgue 積分として書ける。</p>
             </div>
             <div class="example">
                 <h3>例</h3>
@@ -495,7 +521,7 @@
         </section>
 
         <section class="outline-section">
-            <h2>4 注意とよくある落とし穴</h2>
+            <h2>5 注意とよくある落とし穴</h2>
             <div class="focus-card">
                 <h3>注意</h3>
                 <ul class="pill-list">
@@ -507,20 +533,14 @@
         </section>
 
         <section class="outline-section">
-            <h2>5 派生量（参考）</h2>
-            <div class="definition">
-                <h3>定義（分散と共分散）</h3>
-                <p>$\mathbb{E}[|X|^2] < \infty$ のとき, 分散と共分散を次で定める。</p>
-                <p>$$\mathrm{Var}(X) := \mathbb{E}\bigl[(X - \mathbb{E}[X])^2\bigr], \qquad \mathrm{Cov}(X, Y) := \mathbb{E}[(X - \mathbb{E}[X])(Y - \mathbb{E}[Y])].$$</p>
-                <p>二乗可積分性（$L^2$ 可積分）を前提にすると, 偏差の二乗が有限となり, 分散や共分散が計算できる。</p>
-            </div>
-        </section>
-
-        <section class="outline-section">
             <h2>6 レポート課題</h2>
             <p>次を確かめよ</p>
             <ol>
-                <li>有限確率空間での期待値の定義と一般の期待値の定義が一致することを確かめよ.</li>
+                <li> サイコロを３回ふる。すべての目を足し合わせた確率変数の期待値を求めよ   </li>
+                <li>有限確率空間での期待値の定義と一般の期待値の定義が一致することを確かめよ。</li>
+                <li>$\mu_X$ は $\mathbb{R}$ 上の確率測度である。恒等写像 $\mathrm{id}\colon \mathbb{R}\to\mathbb{R}$ を用いて
+                    $\displaystyle \int x\,d\mu_X=\int \mathrm{id}(x)\,d\mu_X$ と書ける。$\displaystyle \mathbb{E}[X]=\int_{\mathbb{R}} x\,d\mu_X$ を確かめよ（ヒント：ルベーグの収束定理より，まず $X$ が単関数の場合で示せばよい）。
+                </li>
             </ol>
         </section>
         <footer>© 2025 確率論講義ノート</footer>
