@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>期待値（Lebesgue 積分による定義）</title>
+    <title>期待値と極限定理</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Cabin:wght@500&family=Noto+Sans+JP:wght@400;500;700&display=swap');
 
@@ -441,12 +441,12 @@
     <main>
         <header class="hero">
             <span class="hero-label">Lecture 03</span>
-            <h1>期待値（Lebesgue 積分による定義）</h1>
+            <h1>期待値と極限定理</h1>
             <p>Lebesgue 積分の枠組みを用いて期待値を定義し, 可積分性や収束定理による基本性質を確認する。</p>
         </header>
 
         <section class="outline-section focus-card">
-            <h2>イントロダクション</h2>
+            <h2>期待値の定義</h2>
             <p>確率空間 $(\Omega, \mathcal F, P)$ と実確率変数 $X$ を固定する。期待値は Lebesgue 積分として定義すると, 収束定理など測度論の結果をそのまま活用できる。</p>
         </section>
 
@@ -456,7 +456,7 @@
                 <h3>定義（単関数 \(\to\) 非負 \(\to\) 一般）</h3>
                 <ul class="pill-list">
                     <li><strong>単関数</strong>：$X = \sum_{k=1}^n a_k \mathbf{1}_{A_k}$（$a_k \in \mathbb{R}$, $A_k \in \mathcal F$ 互いに素）なら $\displaystyle \mathbb{E}[X] := \sum_{k=1}^n a_k P(A_k)$。</li>
-                    <li><strong>非負可測関数</strong>：$0 \le X$ のとき, 単関数の単調増加列 $X_m \uparrow X$ をとり $\displaystyle \mathbb{E}[X] := \lim_{m \to \infty} \mathbb{E}[X_m] \in [0, \infty]$ と定める。</li>
+                    <li><strong>非負可測関数</strong>：$0 \le X$ のとき, 単関数の単調増加列 $X_m \uparrow X$ をとり $\displaystyle \mathbb{E}[X] := \sup_{g:\text{単関数},g\leq f} \mathbb{E}[g] \in [0, \infty]$ と定める。</li>
                     <li><strong>一般の確率変数</strong>：$X = X^+ - X^-$（$X^\pm := \max\{\pm X, 0\}$）と分解し, $\mathbb{E}[X^+] + \mathbb{E}[X^-] < \infty$（可積分）なら $\mathbb{E}[X] := \mathbb{E}[X^+] - \mathbb{E}[X^-]$。どちらかが $\infty$ なら期待値は定義しない。</li>
                 </ul>
             </div>
@@ -469,7 +469,7 @@
                 <h3>性質</h3>
                 <ul class="pill-list">
                     <li><strong>線形性</strong>：可積分 $X, Y$ と $\alpha, \beta \in \mathbb{R}$ に対し $\mathbb{E}[\alpha X + \beta Y] = \alpha \mathbb{E}[X] + \beta \mathbb{E}[Y]$。</li>
-                    <li><strong>単調性</strong>：$X \le Y$ がほぼ確実に成り立つとき $\mathbb{E}[X] \le \mathbb{E}[Y]$。</li>
+                    <li><strong>単調性</strong>：$X \le Y$ が確実に成り立つとき $\mathbb{E}[X] \le \mathbb{E}[Y]$。</li>
                     <li><strong>単調収束定理</strong>（Beppo–Levi）：$0 \le X_n \uparrow X$ なら $\mathbb{E}[X_n] \uparrow \mathbb{E}[X]$。</li>
                     <li><strong>Fatou の補題</strong>：$X_n \ge 0$ なら $\mathbb{E}[\liminf X_n] \le \liminf \mathbb{E}[X_n]$。</li>
                     <li><strong>優収束定理</strong>（DCT）：$X_n \to X$ がほぼ確実, $|X_n| \le Y$ かつ $\mathbb{E}[|Y|] < \infty$ なら $\mathbb{E}[X_n] \to \mathbb{E}[X]$。</li>
