@@ -256,6 +256,21 @@
             border: 1px solid rgba(148, 163, 184, 0.25);
             box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.4), 0 16px 28px -24px rgba(15, 23, 42, 0.6);
         }
+        .graph img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 16px;
+            background: rgba(255, 255, 255, 0.92);
+            border: 1px solid rgba(148, 163, 184, 0.25);
+            box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.4), 0 16px 28px -24px rgba(15, 23, 42, 0.6);
+        }
+        .graph figure { margin: 0; }
+        .fig-caption {
+            text-align: center;
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+            margin-top: 8px;
+        }
 
         .exercise-list {
             background: rgba(250, 204, 21, 0.12);
@@ -303,78 +318,104 @@
             }
         }
     </style>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.10/dist/katex.min.css" integrity="sha384-wcIxkf4k558fYv3mQPFEpCREUQueRFCZrCXCtiKU8aNVbN9ODdVcN3BwCAJ6pcBb" crossorigin="anonymous">
-    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.10/dist/katex.min.js" integrity="sha384-hIoBPJpTUs74ddyc4bFZSM1TVlQDA60VBbJS0oA934VSz82sBx1X7kSx2ATBDIyd" crossorigin="anonymous"></script>
-    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.10/dist/contrib/auto-render.min.js" integrity="sha384-43gviWU0YVjaDtb/GhzOouOXtZMP/7XUzwPTstBeZFe/+rCMvRwr4yROQP43s0Xk" crossorigin="anonymous"
-        onload="renderMathInElement(document.body);"></script>
+    <!-- MathJax v3 for rendering TeX ($...$, $$...$$) -->
     <script>
-        document.addEventListener("DOMContentLoaded", function() {
-            renderMathInElement(document.body, {
-                delimiters: [
-                    {left: '$$', right: '$$', display: true},
-                    {left: '$', right: '$', display: false}
-                ],
-                throwOnError : false
-            });
-        });
+      MathJax = {
+        tex: {
+          inlineMath: [['$', '$'], ['\\(', '\\)']],
+          displayMath: [['$$', '$$'], ['\\[', '\\]']],
+          processEscapes: true,
+          packages: {'[+]': ['ams']}
+        },
+        svg: { fontCache: 'global' }
+      };
     </script>
+    <script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
 </head>
 <body>
-    <main>
     <main>
         <header class="hero">
             <span class="hero-label">Lecture 3</span>
             <h1>第3回 重積分の定義</h1>
-            <p>多変数関数の積分をリーマン和を通じて定義し、積分が存在する条件を学びます。</p>
+            <p>多変数関数の積分をリーマン和で定義し，長方形領域から一般領域へ拡張する。</p>
         </header>
 
         <section class="outline-section">
-            <h2>Section 1. 講義概要</h2>
-            <div class="note">
-                <strong>テーマ:</strong> 領域上の積分をどう定めるか
-            </div>
+            <h2>1. 定積分と区分求積法（復習）</h2>
             <div class="definition">
-                <strong>到達目標:</strong>
-                <ul>
-                    <li>直方体領域上の二重積分・三重積分の定義を理解する</li><li>可積分性の条件と有界閉集合の扱い方を確認する</li><li>リーマン和の極限として重積分を捉える</li>
-                </ul>
+                <strong>1変数の定積分</strong>
+                <p>$F$ を $f$ の不定積分（$F'=f$）とするとき</p>
+                <div class="formula">$$\int_a^b f(x)\,dx = F(b)-F(a)　= [\text{区間$[a,b]$}].$$</div>
+                <p>[a,b] を $N$ 等分し $\Delta x=\dfrac{b-a}{N}$，各小区間の代表点を $x_i^*$ とすると</p>
+                <div class="formula">$$S_N:=\sum_{i=1}^N f(x_i^*)\,\Delta x = [\text{長方形の面積の和}]$$</div>
+                <p>を区分求積和という。$f$ が連続なら $\displaystyle\lim_{N\to\infty}S_N=\int_a^b f(x)\,dx$。</p>
             </div>
+            <div class="note"><strong>考え方</strong> 面積を細分化した長方形の和で近似し，分割を細かくした極限で面積（積分）を定める。</div>
+            <div class="graph" aria-label="フォルダ内画像: output.png">
+                <figure>
+                    <img src="output.png" alt="関数と区間 [a,b] の面積の可視化" />
+                    <figcaption class="fig-caption">図1: 区間 [a,b] 上の面積（定積分）のイメージ</figcaption>
+                </figure>
+            </div>
+            <div class="graph" aria-label="フォルダ内画像: rectangle.png">
+                <figure>
+                    <img src="rectangle.png" alt="区分求積の長方形（midpoint rectangles の例）" />
+                    <figcaption class="fig-caption">図2: 区分求積（中点法）の長方形を用いた近似例</figcaption>
+                </figure>
+            </div>
+            
         </section>
 
         <section class="outline-section">
-            <h2>Section 2. 重要な公式・キーポイント</h2>
-            <div class="formula">$$ \iint_{R} f(x,y)\,dA = \lim_{\|P\|\to 0} \sum f(\xi_{ij}, \eta_{ij})\,\Delta A_{ij} $$</div><div class="formula">$$ \iiint_{B} f(x,y,z)\,dV = \lim_{\|P\|\to 0} \sum f(\xi_k, \eta_k, \zeta_k)\,\Delta V_k $$</div>
-            <div class="proof">
-                <strong>チェックリスト:</strong>
-                <ul class="highlight-list">
-                    <li>公式の導出過程を説明できるか。</li>
-                    <li>適用条件や必要な仮定を記憶しているか。</li>
-                    <li>例題に当てはめて計算できるか。</li>
-                </ul>
+            <h2>2. 長方形上の重積分</h2>
+            <div class="definition">
+                <strong>定義（長方形上の重積分）</strong>
+                <p>$長方形K=[a,b]\times[c,d]$とその上の２変数関数$f:K\to\mathbb{R}$を考える。区間$[a,b]$を $N$ 等分，$[c,d]$ を $M$ 等分し，$\Delta x=\dfrac{b-a}{N}$，$\Delta y=\dfrac{d-c}{M}$ とする。代表点 $(x_i^*,y_j^*)$ を選び</p>
+                <div class="formula">$$S_{N,M}:=\sum_{i=1}^{N}\sum_{j=1}^{M} f(x_i^*,y_j^*)\,\Delta x\,\Delta y$$</div>
+                <p>とおく。極限が存在するとき</p>
+                <div class="formula">$$\iint_{K} f(x,y)\,dx\,dy:=\lim_{N,M\to\infty}S_{N,M}$$</div>
+                <p>を $f$ の（リーマン）重積分という。</p>
             </div>
-        </section>
-
-        <section class="outline-section">
-            <h2>Section 3. 演習課題</h2>
+            <div class="theorem">
+                <strong>存在定理</strong>
+                <p>$f$ が $K$ 上で連続なら $\iint_K f\,dx\,dy$ は存在する。</p>
+            </div>
+            <div class="graph" aria-label="フォルダ内画像: surface.png">
+                <figure>
+                    <img src="surface.png" alt="関数 z = f(x,y) の曲面（イメージ）" />
+                    <figcaption class="fig-caption">図3: 曲面 z = f(x,y) と領域 K 上の値の可視化</figcaption>
+                </figure>
+            </div>
+            <div class="graph" aria-label="フォルダ内画像: Riemann_sum_surface.png">
+                <figure>
+                    <img src="riemann_sum_surface.png" alt="重積分のリーマン和（直方体の和）による体積近似" />
+                    <figcaption class="fig-caption">図4: 直方体の和（リーマン和）による体積近似のイメージ</figcaption>
+                </figure>
+            </div>
+            <h3>例題</h3>
             <div class="example">
-                <strong>練習問題:</strong>
-                <ol>
-                    <li>(1) 正方形領域$[0,1]\times[0,1]$上の$\iint (x+y)\,dA$をリーマン和から考える</li><li>(2) 二重積分が存在しない例を探す</li><li>(3) 直方体領域上の定積分と重積分の関係をまとめる</li>
-                </ol>
-            </div>
-            <div class="note">
-                <strong>アドバイス:</strong> 定義の段階で領域分割と上限・下限の概念を整理しておくと、後の変数変換が理解しやすくなります。
+                <strong>例1.</strong>
+                <div class="formula">$$\iint_{[0,1]\times[0,1]} x y\,dx\,dy
+                =\left(\int_0^1 x\,dx\right)\!\left(\int_0^1 y\,dy\right)=\tfrac12\cdot\tfrac12=\tfrac14.$$</div>
             </div>
         </section>
 
         <section class="outline-section">
-            <h2>Section 4. 次回までに</h2>
-            <ul>
-                <li>ノートを整理し、重要な定理と例題をまとめ直す。</li>
-                <li>不明点があれば授業冒頭で質問できるよう準備する。</li>
-                <li>関連する教科書の該当ページを読み、例題を一度自力で解く。</li>
-            </ul>
+            <h2>3. 一般の定義域での重積分</h2>
+            <div class="definition">
+                <strong>定義（一般領域への拡張）</strong>
+                <p>$D\subset\mathbb{R}^2$ を有界集合，$f:D\to\mathbb{R}$。$D\subset K=[a,b]\times[c,d]$ を満たす長方形 $K$ をとり，次で $D$ 外を 0 に拡張する：</p>
+                <div class="formula">$$\tilde f(x,y):=\begin{cases}
+                f(x,y), & (x,y)\in D,\\
+                0, & (x,y)\notin D
+                \end{cases}$$</div>
+                <p>$\iint_K \tilde f\,dx\,dy$ が存在するとき</p>
+                <div class="formula">$$\iint_{D} f(x,y)\,dx\,dy:=\iint_{K} \tilde f(x,y)\,dx\,dy$$</div>
+                <p>で $D$ 上の重積分を定める（$K$ の取り方によらない）。</p>
+            </div>
+            <div class="note"><strong>次回予告</strong> 一般領域での実際の計算（反復積分・領域の分割と変数の順序入替）を練習する。</div>
         </section>
-</main>
+        
+    </main>
 </body>
 </html>
