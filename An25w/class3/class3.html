@@ -416,6 +416,44 @@
             <div class="note"><strong>次回予告</strong> 一般領域での実際の計算（反復積分・領域の分割と変数の順序入替）を練習する。</div>
         </section>
         
+        <section class="outline-section">
+            <div class="theorem">
+                <strong>定理</strong>：$f$ が $D$ 上連続ならば，$\displaystyle \iint_{D} f(x,y)\,dx\,dy$ は定義できる。
+            </div>
+            <div class="proof">
+                <strong>証明の概略</strong>：簡単のため $D=[0,1]\times[0,1]$ とする。格子点 $x_{ij}=(i/N,j/M)$ に対し区画
+                <div class="formula">
+                    $$Q_{ij}=\Big[\tfrac{i-1}{N},\tfrac{i}{N}\Big]\times\Big[\tfrac{j-1}{M},\tfrac{j}{M}\Big]$$
+                </div>
+                を取り，$f_{ij}^{\min}:=\min_{(x,y)\in Q_{ij}} f(x,y)$，$f_{ij}^{\max}:=\max_{(x,y)\in Q_{ij}} f(x,y)$ とおく。下・上ダルブー和を
+                <div class="formula">
+                    $$S_{N,M}^{\min}:=\frac{1}{NM}\sum_{i=1}^{N}\sum_{j=1}^{M} f_{ij}^{\min},\qquad
+                    S_{N,M}^{\max}:=\frac{1}{NM}\sum_{i=1}^{N}\sum_{j=1}^{M} f_{ij}^{\max}$$
+                </div>
+                と定める。$N=M=2^{n}$ のとき，$S_{2^{n},2^{n}}^{\min}$ は $n$ に関して単調増加，$S_{2^{n},2^{n}}^{\max}$ は単調減少である。$[0,1]^{2}$ 上での一様連続性より各区画で $f_{ij}^{\max}-f_{ij}^{\min}\to0$，したがって
+                <div class="formula">
+                    $$\lim_{n\to\infty} S_{2^{n},2^{n}}^{\min}
+                    =\lim_{n\to\infty} S_{2^{n},2^{n}}^{\max}
+                    =:S$$
+                </div>
+                が成り立つ。
+
+                <p>つぎに一般の $N,M$ について，ある $n$ を固定し $N,M\ge 2^{n}$ とすると分割が細かくなるので</p>
+                <div class="formula">
+                    $$S_{N,M}^{\min}\ge S_{2^{n},2^{n}}^{\min}-o(1),\qquad
+                    S_{N,M}^{\max}\le S_{2^{n},2^{n}}^{\max}+o(1).$$
+                </div>
+                ゆえに
+                <div class="formula">
+                    $$S_{2^{n},2^{n}}^{\min}
+                    \le \liminf_{N,M\to\infty} S_{N,M}^{\min}
+                    \le \limsup_{N,M\to\infty} S_{N,M}^{\max}
+                    \le S_{2^{n},2^{n}}^{\max}.$$
+                </div>
+                <p>$n\to\infty$ とすればはさみうちの原理により両極限は $S$ に一致する。よって積分は定義できる。</p>
+            </div>
+        </section>
+        
     </main>
 </body>
 </html>
