@@ -37,6 +37,8 @@ Y¥leq X_n + (1/n)より,
 E[Y]¥leq E[X_n] + 1/n ¥leq E[X]+1\n.
 nは任意より, E[Y]¥leq E[X]. 
 
+定理 4: 0\leq X_1\leq X_2が任意に成り立つならば、E[X_1]\leq E[X_2].
+
 定義:  一般の確率変数 X:¥Omega¥to¥Rに対し, X=X^+ - X^- (ここでX^+ = X 1{X¥geq 0}, X^- = X 1{X< 0})と分解する。EX^+,EX^^-<¥inftyである時, Xは可積分とよび
 E[X]= E[X^+]-E[X^-]で定義する。
 
