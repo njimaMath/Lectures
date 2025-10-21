@@ -1,3 +1,9 @@
+report
+1) オンライン上で提出（期限来週）, pdf一枚
+2) AIをそのまま移さないで
+
+
+
 1. 有限確率空間の確率変数と期待値
 
 定義: Omega: 有限集合, p_¥omega (¥omega¥in ¥Omega)をそれぞれの元の確率とする。任意の写像X:¥Omega¥to ¥Rを確率変数と呼ぶ。
@@ -15,6 +21,10 @@ E[X]= ¥sum_{¥omega¥in ¥Omega} X(¥omega) p_¥omegaで定義する
 定義 (単関数とその期待値) あるA_i¥in ¥F (i¥in ¥N), ¥alpha_i¥in [0,¥infty)に対し, X(¥omega) = ¥sum_{i¥in ¥N} ¥alpha_i 1¥{¥omega¥in A_i¥}と表せるとき、Xを単関数とよぶ。
 このとき、Xの期待値は
 E[X]=E[¥sum_{i¥in ¥N} ¥alpha_i 1¥{¥omega¥in A_i¥}]= ¥sum ¥alpha_i P(A_i)で定義する.
+
+定理: 
+E[c]=c.
+X,Yが単関数のとき、E[X+Y]=E[X]+E[Y]
 
 定義: X:¥Omega¥to [0,¥infty)を確率変数とする。X_n = ¥sum_{i=1}^¥infty (i-1)/n 1¥{X(0¥leq ¥omega < i/n)¥}とする。このとき, X_¥leq  X ¥leq  X_n +(1/n)かつX_nは単調増加.
 E[X] = ¥lim_{n¥to ¥infty }E[X_n] = ¥lim ¥sum_{i=1}^¥infty (i-1)/n P{X(0¥leq ¥omega < i/n)}
