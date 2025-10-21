@@ -497,7 +497,6 @@
                     <li><strong>線形性</strong>：可積分 $X, Y$ と $\alpha, \beta \in \mathbb{R}$ に対し $\mathbb{E}[\alpha X + \beta Y] = \alpha \mathbb{E}[X] + \beta \mathbb{E}[Y]$。</li>
                     <li><strong>単調性</strong>：$X \le Y$ が確実に成り立つとき $\mathbb{E}[X] \le \mathbb{E}[Y]$。</li>
                     <li><strong>単調収束定理</strong>（Beppo–Levi）：$0 \le X_n \uparrow X$ なら $\mathbb{E}[X_n] \uparrow \mathbb{E}[X]$。</li>
-                    <li><strong>Fatou の補題</strong>：$X_n \ge 0$ なら $\mathbb{E}[\liminf X_n] \le \liminf \mathbb{E}[X_n]$。</li>
                     <li><strong>優収束定理</strong>（DCT）：$X_n \to X$ がほぼ確実, $|X_n| \le Y$ かつ $\mathbb{E}[|Y|] < \infty$ なら $\mathbb{E}[X_n] \to \mathbb{E}[X]$。</li>
                 </ul>
             </div>
@@ -509,7 +508,7 @@
                 <h3>定理（LOTUS／法則による計算）</h3>
                 <p>$g \colon \mathbb{R} \to \mathbb{R}$ 可測で $g(X)$ が可積分なら</p>
                 <p>$$\mathbb{E}[g(X)] = \int_{\mathbb{R}} g(x)\,\mu_X(dx).$$</p>
-                <p>ここで $\mu_X = P \circ X^{-1}$ は $X$ の分布（法則）であり，期待値は $\mu_X$ に関する Lebesgue 積分として書ける。</p>
+                <p>ここで $\mu_X (A)= P (X\in A)$ は $X$ の分布（法則）であり，期待値は $\mu_X$ に関する Lebesgue 積分として書ける。</p>
             </div>
         </section>
 
