@@ -26,8 +26,8 @@ E[X]=E[¥sum_{i¥in ¥N} ¥alpha_i 1¥{¥omega¥in A_i¥}]= ¥sum ¥alpha_i P(A_
 E[c]=c.
 X,Yが単関数のとき、E[X+Y]=E[X]+E[Y]
 
-定義: X:¥Omega¥to [0,¥infty)を確率変数とする。X_n = ¥sum_{i=1}^¥infty (i-1)/n 1¥{X(0¥leq ¥omega < i/n)¥}とする。このとき, X_¥leq  X ¥leq  X_n +(1/n)かつX_nは単調増加.
-E[X] = ¥lim_{n¥to ¥infty }E[X_n] = ¥lim ¥sum_{i=1}^¥infty (i-1)/n P{X(0¥leq ¥omega < i/n)}
+定義: X:¥Omega¥to [0,¥infty)を確率変数とする。X_n = ¥sum_{i=1}^¥infty (i-1)/2^n 1¥{X(0¥leq ¥omega < i/2^n)¥}とする。このとき, X_¥leq  X ¥leq  X_n +(1/2^n)かつX_nは単調増加.
+E[X] = ¥lim_{n¥to ¥infty }E[X_n] = ¥lim ¥sum_{i=1}^¥infty (i-1)/2^n P{0¥leq X(¥omega) < i/2^n)}
 で定義する。
 
 
