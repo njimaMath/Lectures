@@ -1,123 +1,200 @@
 <!DOCTYPE html>
-        <html lang="ja">
-        <head>
-            <meta charset="UTF-8">
-            <meta name="viewport" content="width=device-width, initial-scale=1.0">
-            <title>第3回 演習: 分散・共分散・独立性</title>
-            <style>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>確率論 演習問題（期待値の基本性質）</title>
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script id="MathJax-script" async
+    src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
+  </script>
+  <style>
+    body{
+      font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif;
+      max-width:900px;margin:0 auto;padding:20px;line-height:1.6;
+      background-color:#f5f5f5;
+    }
+    .container{
+      background:#fff;padding:30px;border-radius:8px;
+      box-shadow:0 2px 4px rgba(0,0,0,.1);
+    }
+    h1{color:#2c3e50;border-bottom:3px solid #3498db;padding-bottom:10px;}
+    h2{color:#34495e;margin-top:30px;}
+    .problem{
+      background:#ecf0f1;padding:20px;margin:20px 0;border-left:4px solid #3498db;border-radius:4px;
+    }
+    .answer{
+      background:#e8f5e9;padding:20px;margin:20px 0;border-left:4px solid #4caf50;border-radius:4px;display:none;
+    }
+    .answer.show{display:block;}
+    button{
+      background:#3498db;color:#fff;padding:12px 30px;border:none;border-radius:5px;
+      cursor:pointer;font-size:16px;margin:20px 0;transition:background-color .3s;
+    }
+    button:hover{background:#2980b9;}
+    .answer-label{font-weight:bold;color:#2e7d32;margin-bottom:10px;}
+    .note{font-size:.95em;color:#555;margin-top:8px;}
+    .svg-wrap{display:flex;justify-content:center;align-items:center;margin-top:12px;}
+    .code{font-family:ui-monospace,Consolas,Menlo,monospace;background:#fafafa;border:1px solid #e0e0e0;border-radius:6px;padding:10px;}
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>確率論 演習問題（期待値の基本性質）</h1>
 
-body {
-    font-family: "Noto Sans JP", "Hiragino Sans", "Meiryo", sans-serif;
-    background: #f5f7fb;
-    margin: 0;
-    padding: 32px 12px;
-    color: #1f2933;
-}
-main {
-    max-width: 920px;
-    margin: 0 auto;
-    background: #ffffff;
-    border-radius: 20px;
-    box-shadow: 0 18px 45px -28px rgba(31, 41, 51, 0.35);
-    padding: 48px 56px;
-}
-header h1 {
-    margin: 0 0 6px;
-    font-size: 28px;
-    color: #23408f;
-    letter-spacing: 0.04em;
-}
-header p {
-    margin: 0 0 24px;
-    color: #516176;
-}
-section.problem {
-    margin: 28px 0;
-    padding: 22px 26px;
-    border-radius: 16px;
-    background: #f1f5ff;
-    border: 1px solid rgba(35, 64, 143, 0.15);
-}
-section.problem h2 {
-    margin: 0 0 12px;
-    font-size: 20px;
-    color: #1e3a8a;
-}
-section.problem ul {
-    padding-left: 20px;
-    margin: 12px 0 0;
-    color: #374151;
-}
-.note {
-    margin-top: 12px;
-    font-size: 14px;
-    color: #64748b;
-}
-.navigation {
-    margin-top: 36px;
-    display: flex;
-    gap: 12px;
-    flex-wrap: wrap;
-}
-.navigation a {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    padding: 10px 18px;
-    border-radius: 999px;
-    background: #1e3a8a;
-    color: #ffffff;
-    text-decoration: none;
-    font-weight: 600;
-    letter-spacing: 0.02em;
-    transition: background 0.2s ease;
-}
-.navigation a:hover {
-    background: #3454c3;
-}
+    <!-- 問題1 -->
+    <div class="problem">
+      <h2>問題1（有限確率空間での期待値：2つの設定）</h2>
+      <p>以下の二つの有限確率空間の設定について，標本空間 \(\Omega\)，\(\sigma\)-代数 \(\mathcal F\)（ここでは \(2^\Omega\) でよい），確率測度 \(P\) を明示し，それぞれの確率変数の期待値を求めよ。</p>
+      <p><strong>設定A（重み付きサイコロ）</strong></p>
+      <ul>
+        <li>\(\Omega=\{1,2,3,4,5,6\},\ \mathcal F=2^\Omega,\ P(\{k\})=\dfrac{k}{21}\ (k=1,\dots,6)\).</li>
+        <li>確率変数 \(X(\omega)=\omega\)（出た目），\(Y(\omega)=\mathbf 1_{\{\omega\in\{2,3,5\}\}}\)（素数なら1）。</li>
+      </ul>
+      <p>求めるもの：\(E[X]\) と \(E[Y]\)。</p>
+      <p><strong>設定B（対称群 \(S_4\) の一様分布）</strong></p>
+      <ul>
+        <li>\(\Omega=S_4\)（\(\{1,2,3,4\}\) の置換全体），\(\mathcal F=2^\Omega\)，\(P\) は一様（各元の確率 \(1/24\)）。</li>
+        <li>確率変数 \(X(\sigma)=\#\{i\in\{1,2,3,4\}:\sigma(i)=i\}\)（不動点の個数），\(Y(\sigma)=\mathbf 1_{\{\sigma\ \text{が偶置換}\}}\)。</li>
+      </ul>
+      <p>求めるもの：\(E[X]\) と \(E[Y]\)。</p>
+    </div>
 
-            </style>
-        </head>
-        <body>
-            <main>
-                <header>
-                    <h1>第3回 演習: 分散・共分散・独立性</h1>
-                    <p>講義 class3.html で扱った分散と共分散、独立性の基本性質を復習します。</p>
-                </header>
+    <!-- 問題2 -->
+    <div class="problem">
+      <h2>問題2（スカラー倍の期待値）</h2>
+      <p>
+        一般の確率変数 \(X\) と実数 \(\alpha\) について，\(E[\alpha X]=\alpha E[X]\) を証明せよ（\(X\) は可積分とする）。
+      </p>
+    </div>
 
-<section class="problem">
-    <h2>問題1: 共分散の具体計算</h2>
-    <ul>
-<li>公平なコインを 2 回投げ、表を 1、裏を 0 として確率変数 \(X, Y\) を定義する。以下を求めよ。</li>
-<li>\(\mathbb{E}[X],\ \mathbb{E}[Y],\ \mathbb{E}[XY],\ \mathrm{Cov}(X,Y)\)。</li>
-<li>同じ試行で \(Z = X + Y\) とおく。\(\mathrm{Var}(Z)\) を求め、分散の加法公式を確認せよ。</li>
-    </ul>
-</section>
+    <!-- 問題3 -->
+    <div class="problem">
+      <h2>問題3（単調性）</h2>
+      <p>
+        一般の確率変数 \(X,Y\) に対し \(X\le Y\) ならば \(E[X]\le E[Y]\) を証明せよ。ヒント：
+        \(X\ge 0\) のとき
+        \[
+          E[X]=\inf\{E[Z]: Z \ \text{単関数},\ X\le Z\}
+        \]
+        を用いてよい。
+      </p>
+    </div>
 
-<section class="problem">
-    <h2>問題2: 線形変換と分散</h2>
-    <ul>
-<li>確率変数 \(X\) に対して定数 \(a, b\) を用いて \(Y = aX + b\) を定める。</li>
-<li>講義で示した公式を参考に \(\mathrm{Var}(Y)\) を厳密に計算し、\(\mathrm{Var}(Y) = a^2 \mathrm{Var}(X)\) を証明せよ。</li>
-<li>さらに 2 変数 \(X, Y\) の線形結合 \(aX + bY\) に対する分散の表式を導出せよ。</li>
-    </ul>
-</section>
+    <!-- 問題4 -->
+    <div class="problem">
+      <h2>問題4（加法性）</h2>
+      <p>
+        一般の確率変数 \(X,Y\) に対し
+        \[
+          E[X+Y]=E[X]+E[Y]
+        \]
+        を証明せよ（\(X,Y\) は可積分とする）。ヒント：\(X,Y\ge 0\) の場合は授業で示したので既知として用いてよい。
+      </p>
+    </div>
 
-<section class="problem">
-    <h2>問題3: 相関係数と独立性</h2>
-    <ul>
-<li>共分散が 0 であるが独立でない確率変数 \(X, Y\) の例を構成せよ。</li>
-<li>構成した例について相関係数 \(
-ho(X, Y)\) を計算し、相関係数と独立性の違いを説明せよ。</li>
-    </ul>
-</section>
+    <div class="note">
+      <a href="../class2/exercise2.html">前の演習</a> /
+      <a href="../index.html">ホームに戻る</a> /
+      <a href="class3.html">講義ノートへ</a> /
+      <a href="../class4/exercise4.html">次の演習</a>
+    </div>
 
-                <div class="navigation">
-            <a href="../class2/exercise2.html">前の演習</a>
-            <a href="../index.html">ホームに戻る</a>
-            <a href="class3.html">講義ノートへ</a>
-            <a href="../class4/exercise4.html">次の演習</a>
-                </div>
-            </main>
-        </body>
-        </html>
+    <button onclick="toggleAnswers()">解答を表示/非表示</button>
+
+    <!-- 解答1 -->
+    <div class="answer" id="ans1">
+      <div class="answer-label">解答1</div>
+      <p><strong>設定A</strong></p>
+      <p>
+        \[
+          E[X]=\sum_{k=1}^6 k\cdot \frac{k}{21}=\frac{1^2+2^2+3^2+4^2+5^2+6^2}{21}
+          =\frac{91}{21}=\frac{13}{3}.
+        \]
+        \[
+          E[Y]=P(\{\text{素数}\})=\frac{2+3+5}{21}=\frac{10}{21}.
+        \]
+      </p>
+      <p><strong>設定B</strong></p>
+      <p>
+        指示関数 \(I_i(\sigma)=\mathbf 1_{\{\sigma(i)=i\}}\) とおくと \(X=\sum_{i=1}^4 I_i\)。一様性より
+        \(E[I_i]=P(\sigma(i)=i)=\dfrac{1}{4}\)。よって
+        \[
+          E[X]=\sum_{i=1}^4 E[I_i]=4\cdot \frac{1}{4}=1.
+        \]
+        また偶置換は全体24個のうち12個なので
+        \[
+          E[Y]=P(\text{偶置換})=\frac{12}{24}=\frac{1}{2}.
+        \]
+      </p>
+    </div>
+
+    <!-- 解答2 -->
+    <div class="answer" id="ans2">
+      <div class="answer-label">解答2</div>
+      <p>
+        まず \(X\ge 0\) の単関数 \(X=\sum_{k=1}^m a_k \mathbf 1_{A_k}\ (a_k\ge 0)\) については
+        \[
+          E[\alpha X]=\sum_{k=1}^m \alpha a_k P(A_k)=\alpha \sum_{k=1}^m a_k P(A_k)=\alpha E[X]
+        \]
+        が \(\alpha\ge 0\) のとき成り立つ。一般の \(X\ge 0\) は増加列の単関数 \(X_n\uparrow X\) で近似でき，単調収束定理より
+        \[
+          E[\alpha X]=\lim_{n\to\infty}E[\alpha X_n]=\alpha \lim_{n\to\infty}E[X_n]=\alpha E[X]\qquad(\alpha\ge 0).
+        \]
+        一般の可積分 \(X\) については \(X=X^+-X^-\) と書けるので
+        \[
+          E[\alpha X]=E[\alpha X^+]-E[\alpha X^-]=\alpha E[X^+]-\alpha E[X^-]=\alpha E[X]\qquad(\alpha\ge 0).
+        \]
+        \(\alpha<0\) のときは \(\alpha X=|\alpha|(-X)\) を用い，\(({-}X)^+=X^-\), \(({-}X)^-=X^+\) から
+        \[
+          E[\alpha X]=|\alpha|E[-X]=|\alpha|\,(E[X^-]-E[X^+])=\alpha\,(E[X^+]-E[X^-])=\alpha E[X].
+        \]
+        よって任意の実数 \(\alpha\) で \(E[\alpha X]=\alpha E[X]\)。
+      </p>
+    </div>
+
+    <!-- 解答3 -->
+    <div class="answer" id="ans3">
+      <div class="answer-label">解答3</div>
+      <p>
+        まず \(X,Y\ge 0\) とする。\(X\le Y\) なら \(Y\) を上から支配する任意の単関数 \(Z\) は自動的に \(X\) も支配する（\(Z\ge Y\ge X\)）。したがって
+        \[
+          \{Z:\ \text{単関数},\ Y\le Z\}\ \subset\ \{Z:\ \text{単関数},\ X\le Z\}.
+        \]
+        集合の包含から下限の大小が従い
+        \[
+          E[Y]=\inf_{Z\ge Y}E[Z]\ \ge\ \inf_{Z\ge X}E[Z]=E[X].
+        \]
+        一般の可積分 \(X,Y\) でも \(X\le Y\) から \(X^+\le Y^+\) および \(X^-\ge Y^-\) が成り立つので
+        \[
+          E[X]=E[X^+]-E[X^-]\ \le\ E[Y^+]-E[Y^-]=E[Y].
+        \]
+      </p>
+    </div>
+
+    <!-- 解答4 -->
+    <div class="answer" id="ans4">
+      <div class="answer-label">解答4</div>
+      <p>
+        可積分 \(X,Y\) に対し \(X=X^+-X^-\), \(Y=Y^+-Y^-\) と書くと
+        \[
+          X+Y=(X^++Y^+)-(X^-+Y^-),
+        \]
+        ここで \(X^+,X^-,Y^+,Y^-\) は全て非負。非負関数の加法性（既知）より
+        \[
+          E[X+Y]=E[X^++Y^+]-E[X^-+Y^-]=(E[X^+]+E[Y^+])-(E[X^-]+E[Y^-])=E[X]+E[Y].
+        \]
+        以上で示された。
+      </p>
+    </div>
+
+    
+  </div>
+
+  <script>
+    function toggleAnswers(){
+      document.querySelectorAll('.answer').forEach(el=>el.classList.toggle('show'));
+    }
+  </script>
+</body>
+</html>

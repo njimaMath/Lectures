@@ -3,59 +3,518 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>コルモゴロフの拡張定理</title>
+    <title>Kolmogorovの拡張定理</title>
     <style>
-        body{font-family:"Helvetica Neue",Helvetica,Arial,sans-serif;line-height:1.7;color:#212121;margin:0;background:#fafafa;}
-        .container{max-width:960px;margin:0 auto;padding:2rem 1rem 4rem;background:#fff;box-shadow:0 4px 12px rgba(0,0,0,.05);border-radius:12px;}
-        h1,h2,h3{color:#1a237e;margin-top:1.2em;margin-bottom:.6em;}
-        h1{font-size:1.9rem;text-align:center;}
-        h2{font-size:1.45rem;border-left:6px solid #1a237e;padding-left:.55rem;}
-        h3{font-size:1.2rem;}
-        .formula{background:#f3f4ff;border-left:4px solid #5c6bc0;padding:.8rem 1.2rem;margin:1.2rem 0;border-radius:8px;overflow-x:auto;}
-        .proof{background:#e8f5e9;border-left:4px solid #43a047;padding:.8rem 1.2rem;margin:1.2rem 0;border-radius:8px;overflow-x:auto;}
-        details{margin-bottom:1rem;}
-        details summary{cursor:pointer;font-weight:600;}
-        ul{margin:0 0 1rem 1.2rem;}
-        .navigation{display:flex;justify-content:center;gap:.8rem;margin:2.2rem 0;border-top:1px solid #e0e0e0;padding-top:1.5rem;flex-wrap:wrap;}
-        .navigation a{padding:.65rem 1.5rem;background:#1a237e;color:#fff;text-decoration:none;border-radius:6px;transition:opacity .2s;}
-        .navigation a:hover{opacity:.85;}
-        footer{margin-top:3rem;color:#777;text-align:center;font-size:.9rem;}
-        code{background:#eceff1;padding:2px 4px;border-radius:4px;}
+        @import url('https://fonts.googleapis.com/css2?family=Cabin:wght@500&family=Noto+Sans+JP:wght@400;500;700&display=swap');
+
+        :root {
+            --background: radial-gradient(120% 120% at 20% 20%, #1e3a8a 0%, #0f172a 55%, #020617 100%);
+            --card-bg: rgba(255, 255, 255, 0.88);
+            --card-border: rgba(255, 255, 255, 0.25);
+            --accent: #4c6ef5;
+            --accent-soft: rgba(76, 110, 245, 0.14);
+            --accent-strong: #2c3791;
+            --text-primary: #0f172a;
+            --text-secondary: #475569;
+            --highlight: #facc15;
+            --shadow: 0 18px 45px -25px rgba(15, 23, 42, 0.75);
+        }
+
+        *, *::before, *::after {
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Noto Sans JP', 'Hiragino Sans', 'Meiryo', sans-serif;
+            line-height: 1.7;
+            margin: 0;
+            min-height: 100vh;
+            padding: 60px 24px;
+            color: var(--text-primary);
+            background: var(--background);
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+        }
+
+        body::before {
+            content: "";
+            position: fixed;
+            inset: 0;
+            background: repeating-linear-gradient(135deg, rgba(255, 255, 255, 0.04) 0, rgba(255, 255, 255, 0.04) 12px, transparent 12px, transparent 24px);
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        main {
+            width: min(960px, 100%);
+            background: var(--card-bg);
+            backdrop-filter: blur(18px);
+            border: 1px solid var(--card-border);
+            border-radius: 28px;
+            padding: 56px 64px;
+            position: relative;
+            z-index: 1;
+            box-shadow: var(--shadow);
+        }
+
+        header.hero {
+            text-align: center;
+            margin-bottom: 52px;
+            display: grid;
+            gap: 18px;
+        }
+
+        .hero-label {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 6px 16px;
+            border-radius: 999px;
+            font-size: 14px;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            color: var(--accent-strong);
+            background: var(--accent-soft);
+            font-family: 'Cabin', sans-serif;
+        }
+
+        h1 {
+            font-size: clamp(32px, 4vw, 44px);
+            margin: 0;
+            color: var(--accent-strong);
+            letter-spacing: 0.05em;
+        }
+
+        .hero p {
+            margin: 0 auto;
+            max-width: 640px;
+            color: var(--text-secondary);
+            font-size: 17px;
+        }
+
+        section.outline-section {
+            background: rgba(255, 255, 255, 0.78);
+            border: 1px solid rgba(148, 163, 184, 0.25);
+            padding: 32px 36px;
+            border-radius: 22px;
+            margin-bottom: 32px;
+            box-shadow: 0 24px 40px -32px rgba(15, 23, 42, 0.35);
+        }
+
+        section.outline-section:last-of-type {
+            margin-bottom: 0;
+        }
+
+        section.outline-section h2 {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            font-size: 24px;
+            margin: 0 0 24px;
+            color: var(--accent-strong);
+        }
+
+        section.outline-section h2::before {
+            content: "";
+            width: 42px;
+            height: 4px;
+            border-radius: 999px;
+            background: linear-gradient(90deg, var(--accent) 0%, rgba(76, 110, 245, 0.2) 100%);
+        }
+
+        section.outline-section h3 {
+            margin: 28px 0 14px;
+            font-size: 19px;
+            color: var(--accent-strong);
+        }
+
+        section.outline-section p {
+            margin: 0 0 16px;
+            color: var(--text-secondary);
+        }
+
+        .focus-card {
+            background: rgba(76, 110, 245, 0.08);
+            border: 1px solid rgba(76, 110, 245, 0.22);
+            box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.4), 0 20px 32px -28px rgba(76, 110, 245, 0.55);
+            border-radius: 18px;
+            padding: 22px 26px;
+            margin: 22px 0;
+        }
+
+        .definition {
+            background: rgba(250, 204, 21, 0.16);
+            border: 1px solid rgba(250, 204, 21, 0.32);
+            border-radius: 18px;
+            padding: 22px 26px;
+            margin: 22px 0;
+            box-shadow: inset 0 1px 0 rgba(255, 240, 200, 0.4);
+        }
+
+        .definition h3 {
+            margin-top: 0;
+        }
+
+        .theorem {
+            background: rgba(76, 110, 245, 0.1);
+            border: 1px solid rgba(76, 110, 245, 0.28);
+            border-radius: 18px;
+            padding: 22px 26px;
+            margin: 22px 0;
+            box-shadow: inset 0 1px 0 rgba(209, 227, 255, 0.45);
+        }
+
+        .theorem h3 {
+            margin-top: 0;
+            color: var(--accent-strong);
+        }
+
+        .proof {
+            margin-top: 18px;
+            padding-left: 18px;
+            border-left: 3px solid rgba(76, 110, 245, 0.3);
+            color: var(--text-secondary);
+        }
+
+        .example {
+            background: rgba(76, 110, 245, 0.12);
+            border: 1px solid rgba(76, 110, 245, 0.22);
+            border-radius: 18px;
+            padding: 22px 26px;
+            margin: 22px 0;
+            box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.45);
+        }
+
+        .example h3 {
+            margin-top: 0;
+            color: var(--accent-strong);
+        }
+
+        .pill-list {
+            counter-reset: item;
+            list-style: none;
+            margin: 18px 0 0;
+            padding: 0;
+            display: grid;
+            gap: 12px;
+        }
+
+        .pill-list li {
+            position: relative;
+            margin: 0;
+            padding: 18px 24px 18px 60px;
+            border-radius: 18px;
+            background: rgba(248, 250, 252, 0.86);
+            border: 1px solid rgba(148, 163, 184, 0.25);
+            color: var(--text-secondary);
+            font-size: 16px;
+            box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.55);
+        }
+
+        .pill-list li::before {
+            content: counter(item);
+            counter-increment: item;
+            position: absolute;
+            left: 20px;
+            top: 18px;
+            display: inline-flex;
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            align-items: center;
+            justify-content: center;
+            font-size: 13px;
+            color: var(--accent-strong);
+            background: rgba(76, 110, 245, 0.18);
+            font-family: 'Cabin', sans-serif;
+            font-weight: 600;
+        }
+
+        .step-list {
+            counter-reset: step;
+            list-style: none;
+            padding: 0;
+            margin: 22px 0 0;
+            display: grid;
+            gap: 18px;
+        }
+
+        .step-list li {
+            position: relative;
+            padding: 18px 22px 18px 68px;
+            border-radius: 18px;
+            background: rgba(248, 250, 252, 0.88);
+            border: 1px solid rgba(148, 163, 184, 0.28);
+            color: var(--text-secondary);
+        }
+
+        .step-list li::before {
+            content: "Step " counter(step);
+            counter-increment: step;
+            position: absolute;
+            left: 20px;
+            top: 18px;
+            width: 34px;
+            height: 34px;
+            border-radius: 50%;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 11px;
+            font-weight: 700;
+            color: #fff;
+            background: var(--accent-strong);
+            font-family: 'Cabin', sans-serif;
+            letter-spacing: 0.04em;
+        }
+
+        .step-list li strong {
+            color: var(--accent-strong);
+        }
+
+        .step-list li ol {
+            margin-top: 12px;
+            padding-left: 20px;
+        }
+
+        blockquote {
+            margin: 18px 0;
+            padding: 18px 24px;
+            border-left: 4px solid var(--accent);
+            background: rgba(76, 110, 245, 0.08);
+            border-radius: 16px;
+            color: var(--text-secondary);
+        }
+
+        .inline-note {
+            display: block;
+            margin-top: 16px;
+            font-size: 15px;
+            color: var(--text-secondary);
+        }
+
+        ol, ul {
+            color: var(--text-secondary);
+        }
+
+        .navigation {
+            margin-top: 36px;
+            padding-top: 24px;
+            border-top: 1px solid rgba(148, 163, 184, 0.35);
+            display: flex;
+            justify-content: space-between;
+            gap: 16px;
+        }
+
+        .navigation a {
+            flex: 1;
+            display: inline-flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+            padding: 12px 24px;
+            border-radius: 14px;
+            text-decoration: none;
+            font-weight: 600;
+            color: var(--accent-strong);
+            background: rgba(76, 110, 245, 0.12);
+            border: 1px solid rgba(76, 110, 245, 0.24);
+            transition: all 0.3s ease;
+        }
+
+        .navigation a:hover {
+            background: var(--accent);
+            color: #fff;
+        }
+
+        footer {
+            margin-top: 40px;
+            text-align: center;
+            color: var(--text-secondary);
+            font-size: 14px;
+        }
+
+        @media (max-width: 768px) {
+            body {
+                padding: 32px 16px;
+            }
+
+            main {
+                padding: 36px 24px;
+            }
+
+            section.outline-section {
+                padding: 24px;
+            }
+
+            .navigation {
+                flex-direction: column;
+            }
+        }
     </style>
-    <!-- MathJax configuration -->
     <script>
-        MathJax = {
-          tex: {
-            inlineMath: [['$', '$'], ['\\(', '\\)']],
-            displayMath: [['$$','$$'], ['\\[','\\]']]
-          }
+        window.MathJax = {
+            tex: { inlineMath: [['$', '$'], ['\\(', '\\)']], displayMath: [['$$', '$$'], ['\\[', '\\]']] },
+            svg: { fontCache: 'global' }
         };
     </script>
-    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
 </head>
 <body>
-    <div class="container">
-        <h1>コルモゴロフの拡張定理</h1>
+    <main>
+        <header class="hero">
+            <span class="hero-label">Lecture 04</span>
+            <h1>Kolmogorovの拡張定理</h1>
+            <p>整合的な有限次元分布を与えるだけで無限次元の確率測度が一意に構成できることを示し，無限コイントスや確率過程の厳密なモデル化に備える。</p>
+        </header>
 
-        <!-- -------------------------------------------------------------- -->
-        <section id="definition">
-            <h2>1. 定義</h2>
-            ２つの事象 $A,B\subset \Omega$ と確率変数 $X:\Omega\to\mathbb{R}$ に対して，$\mathbb{P}(B)>0$ とするとき
-            <div class="formula">
-                $$\mathbb{P}(A \mid B) = \frac{\mathbb{P}(A \cap B)}{\mathbb{P}(B)},\qquad \mathbb{E}[X \mid B] = \frac{\mathbb{E}[X\,\mathbf{1}_B]}{\mathbb{P}(B)}.$$
+        <section class="outline-section">
+            <h2>1 可積分性と収束の準備</h2>
+            <div class="definition">
+                <h3>定義（可積分性）</h3>
+                <p>確率変数 \(X\) に対し，正部 \(X_+=\max\{X,0\}\)，負部 \(X_-=\max\{-X,0\}\) とおく。このとき
+                    \(\mathbb{E}[X_+]<\infty\) かつ \(\mathbb{E}[X_-]<\infty\) であれば \(X\) を<strong>可積分</strong>という。</p>
+            </div>
+            <div class="theorem">
+                <h3>命題（単調収束）</h3>
+                <p>確率変数列 \(X_n:\Omega\to\mathbb{R}\) がフィルトレーション \((\mathcal{F}_n)\) に関し \(\mathcal{F}_n\subseteq\mathcal{F}_{n+1}\) を満たし，
+                    \((X_0)_-\) が可積分で \(X_n\uparrow X\) が成立するならば
+                    \(\mathbb{E}[\lim_{n\to\infty} X_n]=\lim_{n\to\infty}\mathbb{E}[X_n]\) が成り立つ。</p>
+                <div class="proof">
+                    <p>単調収束定理（Beppo–Levi）を適用する。負の部分を制御する条件が期待値の極限交換を保証する。</p>
+                </div>
+            </div>
+            <div class="focus-card">
+                <h3>優収束定理の補足</h3>
+                <p>さらに \(X_n\to X\) ほぼ確実かつ \(|X_n|\le Y\) を満たす可積分な支配変数 \(Y\) が存在するなら
+                    \(\mathbb{E}[\lim X_n]=\mathbb{E}[X]\) が従う。Kolmogorov の拡張ではこの「有限次元分布の整合性」から得られる界が重要になる。</p>
             </div>
         </section>
 
-        <!-- -------------------------------------------------------------- -->
-       
-        <!-- -------------------------------------------------------------- -->
+        <section class="outline-section">
+            <h2>2 有限回コイントスの復習</h2>
+            <div class="definition">
+                <h3>定義（有限試行の確率空間）</h3>
+                <p>公平なコインを \(n\) 回投げるとき
+                    \(\Omega=\{+1,-1\}^n\)，\(\mathcal{F}=2^\Omega\)，\(p_\omega=2^{-n}\) と定める。測度は
+                    \(P(A)=\sum_{\omega\in A}p_\omega=|A|/2^n\)。</p>
+            </div>
+            <div class="example">
+                <h3>例（表の個数）</h3>
+                <p>第 \(i\) 回目の結果を
+                    \(X_i(\omega)=\mathbf{1}_{\{\omega_i=+1\}}\) とおく。表の総数は \(S_n=\sum_{i=1}^n X_i\) であり，
+                    \(\mathbb{E}[S_n]=n/2\)，\(\mathrm{Var}(S_n)=n/4\)。</p>
+            </div>
+            <div class="focus-card">
+                <h3>有限モデルの役割</h3>
+                <p>Kolmogorov の拡張定理では，これら有限次元の確率構造を無限次数に拡張する。有限次元分布が整合的であれば，無限列全体の確率測度が一意に定まる。</p>
+            </div>
+        </section>
+
+        <section class="outline-section">
+            <h2>3 無限試行とKolmogorovの枠組み</h2>
+            <div class="definition">
+                <h3>設定（円筒集合）</h3>
+                <p>\(\Omega=\{+1,-1\}^{\mathbb{N}}\) とし，射影
+                    \(\pi_n(\omega)=(\omega_1,\dots,\omega_n)\) を用いて \(\mathcal{F}_n=\{\pi_n^{-1}(A)\mid A\subset\{+1,-1\}^n\}\) を定める。
+                    円筒集合族 \(\mathcal{S}=\bigcup_{n\ge1}\mathcal{F}_n\) が生成する \(\sigma\)-代数は \(\mathcal{F}=\sigma(\mathcal{S})\)。</p>
+            </div>
+            <div class="theorem">
+                <h3>定理（Kolmogorovの拡張定理）</h3>
+                <p>整合的な有限次元分布 \((\mu_J)_{|J|<\infty}\) が与えられれば，直積空間 \((\Omega,\mathcal{F})\) 上に確率測度 \(P\) が存在し，
+                    任意の有限集合 \(J\) に対し \(P(\pi_J^{-1}(A))=\mu_J(A)\) が成り立つ。さらにこの測度は唯一である。</p>
+                <div class="proof">
+                    <p>証明の骨格を 2 つのステップに分ける。</p>
+                    <ol class="step-list">
+                        <li>
+                            <strong>円筒集合上の劣加法性を確保する。</strong>
+                            <p>任意の集合列 \(A_n\subset\Omega\) に対し，\(\varepsilon>0\) を与えると各 \(n\) について
+                                \(A_n\subset B_n\in\mathcal{S}\) かつ \(\mu(B_n)\le\mu(A_n)+\varepsilon/2^n\) と取れる。
+                                \(S=\bigcup_{k}B_k\) とおけば \(\bigcup_k A_k \subset S\) であり，整合性から</p>
+                            <blockquote>
+                                \(P\Bigl(\bigcup_k A_k\Bigr)\le P(S)\le\sum_k\mu(B_k)\le\sum_k\bigl(\mu(A_k)+\varepsilon/2^k\bigr)
+                                =\sum_k\mu(A_k)+\varepsilon.\)
+                            </blockquote>
+                            <p>\(\varepsilon\) 任意より劣加法性（有限個での可算加法性）が成立し，前測度を定義できる。</p>
+                        </li>
+                        <li>
+                            <strong>Carathéodory の補題で可測集合を拡張する。</strong>
+                            <p>外測度 \(P^*(A)=\inf\{\sum \mu(C_n)\mid A\subset\bigcup C_n,\ C_n\in\mathcal{S}\}\) を導入し，
+                                \(\mathcal{F}'=\{A\subset\Omega\mid \forall \varepsilon>0,\ \exists B\in\mathcal{S}:\ P^*(A\triangle B)<\varepsilon\}\) を考える。</p>
+                            <ol>
+                                <li>\(\Omega\in\mathcal{F}'\) であり，\(A\in\mathcal{F}'\Rightarrow A^c\in\mathcal{F}'\) が成り立つ。</li>
+                                <li>各 \(A_n\in\mathcal{F}'\) について \(A=\bigcup_n A_n\) とおく。近似集合 \(B_n\in\mathcal{S}\) を
+                                    \(P^*(A_n\triangle B_n)<\varepsilon/2^n\) と選ぶと，差集合
+                                    \(C_n=A\setminus\bigcup_{k=1}^n A_k\) が \(\varepsilon\) 未満に抑えられる。</li>
+                                <li>したがって \(A\) も \(\mathcal{F}'\) に属し，\(\mathcal{F}'\) は \(\sigma\)-加法族となる。</li>
+                            </ol>
+                            <p>この結果より，外測度は \(\mathcal{F}'\supset\mathcal{S}\) 上の測度 \(P\) として制限される。</p>
+                        </li>
+                    </ol>
+                    <span class="inline-note">整合的な有限次元分布が前測度を可算加法的に保つことで，外測度の Carathéodory 拡張を適用できる。</span>
+                </div>
+            </div>
+            <div class="theorem">
+                <h3>定理の仕上げ（可算加法性）</h3>
+                <div class="proof">
+                    <p>\(\mathcal{F}\) 内の互いに素な列 \(A_n\) に対し \(A=\bigcup_n A_n\) とおく。補題で得た近似列 \(B_n\in\mathcal{S}\) を用い，
+                        \(C_n=A\setminus\bigcup_{k<n}A_k\)，\(D_n=B_n\setminus\bigcup_{k<n}B_k\) と定めると
+                        十分大きい \(n\) で \(P(C_n)<\varepsilon/4\) を得る。</p>
+                    <p>Step 1 の不等式から \(P(A)\le P(C_n)+P(\bigcup_{k=1}^n A_k)\le \sum_{k=1}^n P(A_k)+\varepsilon\)。
+                        逆向きの評価も同様に得られるので，\(\varepsilon\) 任意より \(P(A)=\sum_k P(A_k)\) が示される。</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="outline-section">
+            <h2>4 例：ベルヌーイ列の構成</h2>
+            <div class="example">
+                <h3>例（無限コイントス）</h3>
+                <p>状態空間 \(S=\{0,1\}\)，添字集合 \(I=\mathbb{N}\) とする。有限集合 \(J=\{1,\dots,n\}\) について
+                    \(\mu_J\) を \(\mathrm{Bernoulli}(1/2)\) 分布の \(n\) 回独立積で定めると整合性が自動的に満たされる。</p>
+                <ul>
+                    <li>各円筒集合の確率は有限次元分布で計算できる。</li>
+                    <li>Kolmogorov の拡張定理により \(\{0,1\}^{\mathbb{N}}\) 上に一意な測度 \(P\) が存在し，直感的な無限コイントスが正当化される。</li>
+                    <li>有限列に関する任意の事象は，有限次元分布で与えた確率と一致する。</li>
+                </ul>
+            </div>
+            <div class="focus-card">
+                <h3>応用のヒント</h3>
+                <ul class="pill-list">
+                    <li>ブラウン運動やガウス過程の構成では，有限次元分布の整合性チェックに帰着される。</li>
+                    <li>極限定理で現れる無限列の存在を，Kolmogorov 拡張が支えている。</li>
+                    <li>一意性が保証されるため，解析的議論で用いる確率空間を共通化できる。</li>
+                </ul>
+            </div>
+        </section>
+
+        <section class="outline-section">
+            <h2>5 学習のまとめと課題</h2>
+            <div class="focus-card">
+                <h3>今日の要点</h3>
+                <ul class="pill-list">
+                    <li>整合的な有限次元分布があれば，積空間上に一意な確率測度を構成できる。</li>
+                    <li>Carathéodory の外測度拡張が Kolmogorov の証明で中心的な役割を果たす。</li>
+                    <li>無限コイントスをはじめ多くの確率過程の枠組みがこの定理に依存する。</li>
+                </ul>
+            </div>
+            <div class="theorem">
+                <h3>レポート課題</h3>
+                <ol>
+                </ol>
+            </div>
+        </section>
+
         <div class="navigation">
-            <a href="class3.html">&larr; 前のクラス</a>
-            <a href="../index.html">ホーム</a>
-            <a href="class5.html">次のクラス &rarr;</a>
+            <a href="../class3/class3.html">← Lecture 03</a>
+            <a href="../index.html">ホームへ</a>
+            <a href="../class5/class5.html">Lecture 05 →</a>
         </div>
 
-        <footer>&copy; 2025 確率論講義 - すべての権利を留保します</footer>
-    </div>
+        <footer>© 2025 確率論講義ノート</footer>
+    </main>
 </body>
 </html>

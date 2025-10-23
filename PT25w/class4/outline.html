@@ -1,56 +1,90 @@
 1. 極限定理
 
-Def: Xが可積分 < = > E[X_+]<¥infty and E X_- <¥infty
+Def: X が可積分 ⇔ E[X_+]<¥infty かつ E[X_-]<¥infty.
 
-確率変数の列 X_n;¥Omega¥to ¥RがOmega_n¥leq Omega_{n+1}を満たしとき, (X_0)_-が可積分のとき、E ¥lim X_n = ¥limE[X_n].
+確率変数列 (X_n) が X_n:¥Omega→¥R の可測写像であり、可測空間が ¥mathcal{F}_n⊆¥mathcal{F}_{n+1} を満たすとする。 (X_0)_- が可積分ならば、¥E[¥lim X_n]=¥lim ¥E[X_n].
 
-¥lim X_n =  X a.s. かつ|X_n| ¥leq Yとなる可積文RVYが存在するならば、E ¥lim X_n =  E[X]
+さらに ¥lim X_n = X a.s. かつ |X_n|≤Y を満たす可積分な確率変数 Y が存在するならば、¥E[¥lim X_n]=¥E[X].
 
-例はもっと後でやる
+例は後で扱う。
 
 2. 有限回の試行
 
-表裏が同じ確率で出るコインをn回投げる。この試行を確率空間で定義しよう
+表と裏が同じ確率で出るコインを n 回投げる。この試行を確率空間で定式化する。
 
+¥Omega = ¥{+1,-1}^n,  ¥mathcal{F} = 2^¥Omega,  p_¥omega = 1/2^n.
 
-Omega = ¥{+1,-1}^n,  F = 2^Omega, p_¥omega = 1/2^n
+したがって確率測度は P(A)=¥sum_{¥omega¥in A}p_¥omega=|A|/2^n.
 
--> 確率測度 P(A) = ¥sum_{¥omega ¥in A} p_¥omega　= |A|/2^n
+X_i: i 回目が表なら 1、裏なら 0 とする確率変数とおく。
 
-X_i: i回目の試行が表なら1, 裏なら0とする確率変数
-X_i(¥omega) = ¥begin{cases} 1 & ¥text{if } ¥omega_i = +1 \\ 0 & ¥text{if } ¥omega_i = -1 ¥end{cases}
-S_n = ¥sum_{i=1}^n X_i : 表が出た回数
+X_i(¥omega)=¥begin{cases} 1 & ¥text{if } ¥omega_i=+1 \\ 0 & ¥text{if } ¥omega_i=-1 ¥end{cases},  S_n=¥sum_{i=1}^n X_i は表が出た回数。
 
-E[S_n] = n/2, Var(S_n) = n/4
+E[S_n]=n/2,  Var(S_n)=n/4.
 
 3. 無限回の試行
-無限回コインを投げたい。
-安直にn回の試行をn¥to ¥inftyとしてみる。
-Omega -> {+1,-1}^{¥N}、¥kF_n -> 2^¥Omega, p_¥omega -> 0
-だめ
 
+無限回コインを投げたい。素朴には n 回の試行を n→¥infty とすれば良さそうに見える。
 
-Omega = {+1,-1}^{¥N}としよう。FとPはどのように定義すればうよいだろうか？
+¥Omega→{+1,-1}^{¥N}、¥mathcal{F}_n→2^{¥Omega}, p_¥omega→0。これはうまくいかない。
 
-射影π_n: ¥Omega ¥to ¥Omega_n,  π_n(¥omega) = (¥omega_1, ¥omega_2, ..., ¥omega_n)
-F_n = {π_n^{-1}(A) | A ¥subset ¥Omega_n}, ¥forall n ¥in ¥N
-P'(π_n^{-1}(A)) = P_n(A), ¥forall A ¥subset
+そこで ¥Omega={+1,-1}^{¥N} とする。F と P をどのように定義するかを考える。
 
-¥kS = ¥{¥sum A_k: A_k¥subset ¥bigcup F_n,¥, A_k is disjoint¥}
-¥mathcal{P}'(A) = ¥sum_{k=1}^{¥infty} P(A_k)
+射影 π_n:¥Omega→¥Omega_n,  π_n(¥omega)=(¥omega_1,¥omega_2,...,¥omega_n).
 
-F = ¥sigma(¥kS), P(A) = ¥inf_{B ¥in ¥mathcal{S}, A¥subset A} ¥mathcal{P}(B)
+¥mathcal{F}_n={π_n^{-1}(A) | A⊆¥Omega_n},  ¥forall n∈¥N.
 
-Thm: Pは(Omega,F)上の確率測度
+µ(π_n^{-1}(A))=P_n(A),  ¥forall A⊆¥Omega_n.
 
-section 3/ 定理の証明
+¥mathcal{S}=¥{A : A∈¥bigcup ¥mathcal{F}_n for some n¥}.
 
-補題1. (カラテオドリの拡張定理)
- ¥ｋF' = ¥{A¥subset ¥Omega: 任意のeps>0, あるB¥in S, A¥subset B, P'(B)<P(A)+¥eps¥}とする。このとき¥kF¥subset ¥kF'
+F=σ(¥mathcal{S}),  P(A)=¥inf_{B∈¥mathcal{S}, A⊆B}µ(B).
 
+Thm: P は (¥Omega,F) 上の確率測度である。
 
+section 3 / 定理の証明
 
+Step 1. 任意の A_n⊆¥Omega について P(¥cup^N A_n)≤¥sum^N P(A_n).
 
+{Proof.}
 
+ε>0 を与える。各 n について A_n⊆B_n かつ P(B_n)≤P(A_n)+ε/2^n を満たす B_n∈¥mathcal{S} が存在する。S=¥cup B_k とおくと、¥cup A_k⊆S であり P(¥cup A_k)≤P(S)≤¥sum µ(B_k)≤¥sum^N(P(A_k)+ε/2^k)=¥sum^N P(A_k)+ε。ε 任意より主張が従う。
 
+Step 2.
 
+補題 1. (カラテオドリの拡張定理)
+
+¥mathcal{F}'=¥{A⊆¥Omega : 任意の ε>0 に対し、ある B∈¥mathcal{S} が存在して P'(A△B)<ε¥} とする。このとき ¥mathcal{F}⊆¥mathcal{F}'。また ¥mathcal{F}' は σ-下方族であり ¥mathcal{F}⊆¥mathcal{F}'。
+
+Proof:
+
+¥Omega∈¥mathcal{F}' なのは P(¥Omega△¥Omega)=0 より明らか。
+
+A∈¥mathcal{F}' ならば B∈¥mathcal{S} が存在して P(A△B)<ε。すると P(B△A)=P(A△B)<ε。
+
+B^c∈¥mathcal{S} かつ A△B=A^c△B^c なので A^c∈¥mathcal{F}'。
+
+さらに A_n∈¥mathcal{F}' とする。各 n について P(A_n△B_n)<ε/2^n を満たす B_n∈¥mathcal{S} を取る。A=¥cup A_n、C_n=A¥setminus¥cup_{k=1}^n A_k とおく。
+
+P(C_n)≤P(C_n△(¥cup_{k=n+1}^∞ B_k¥setminus¥cup_{k=1}^n B_k))
++P((¥cup_{k=n+1}^∞ B_k)¥setminus¥cup_{k=1}^n B_k)
+≤¥sum_{k=n+1}^∞ P(A_k△B_k)+P(¥cup_{k=n+1}^∞ B'_k),  B'_k=B_k¥setminus¥cup_{i=1}^k B_i.
+
+第一項は ¥sum ε/2^k<ε/2 で抑えられる。第二項については、
+
+1≥P(¥cup_{k=n+1}^∞ B'_k)≥¥sum_{k=n+1}^m P(B'_k)=P(¥cup_{k=n+1}^m B'_k)=¥sum_{k=n+1}^m µ(B'_k) (m>n)。
+
+m→∞ とすると ¥sum_{k=n+1}^∞ µ(B'_k)≤1。したがって n→∞ で ¥lim_{n→∞}¥sum_{k=n+1}^∞ µ(B'_k)=0。
+
+よって十分大きい n で P(¥cup_{k=n+1}^∞ B'_k)≤¥sum_{k=n+1}^∞ µ(B'_k)<ε/2。これより P(C_n)<ε となる。
+
+従って P(A△(¥cup_{k=1}^n B_k))≤P(C_n)+¥sum_{k=1}^n P(A_k△B_k)<ε/2+ε/2=ε。よって A∈¥mathcal{F}'。
+¥end{proof}
+
+Proof of thm: P(¥Omega)=1、かつ P(A)∈[0,1] は自明。
+
+互いに交わらない A_n∈¥mathcal{F} に対し、P(A:=¥cup A_n)=¥sum P(A_n) を示す。ε>0 を与える。補題より P(A_n△B_n)<ε/2^n を満たす B_n を取れる。C_n=A¥setminus¥cup_{k<n}A_k、D_n=B_n¥setminus¥cup_{k<n}B_k と定める。Step 2 の議論より十分大きい n で P(C_n)<ε/4。
+
+Step 1 から P(¥cup A_n)≤P(C_n)+P(¥cup_{k=1}^n A_k)≤¥sum_{k=1}^n P(A_k)+ε。
+
+一方 P(¥cup A_n)≥P(¥cup_{k=1}^n A_k)≥¥sum_{k=1}^n P(B_k)-¥sum P(A_k△B_k)≥¥sum P(A_k)-ε。ε 任意より結論が得られる。
