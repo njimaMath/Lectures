@@ -378,6 +378,8 @@
       border:1px solid rgba(107,46,46,0.28);
       background: rgba(107,46,46,0.06);
       transition: background 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+      cursor: pointer;
+      appearance: none;
     }
 
     .back-link:hover{
@@ -424,7 +426,7 @@
 
   <main>
     <nav class="back-nav">
-      <a class="back-link" href="../index.html">&larr; ホームに戻る</a>
+      <button class="back-link" type="button" onclick="window.location.href='../index.html'">&larr; ホームに戻る</button>
     </nav>
     <h1>無限回の試行</h1>
     <div class="meta">
