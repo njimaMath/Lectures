@@ -1,0 +1,690 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>確率変数の期待値の定義を考える</title>
+
+  <!-- Softer tone / relaxed magazine style -->
+  <style>
+    :root{
+      --ink:#1a1a1a;
+      --sub:#6b6b6b;
+      --accent:#6b2e2e;
+      --rule:#e8e7e5;
+      --bg:#fffaf6;
+      --card-bg:#ffffff;
+      --serif: "Noto Serif JP","Yu Mincho","Hiragino Mincho ProN","Source Han Serif","MS PMincho",serif;
+      --sans: "Noto Sans JP","Yu Gothic","Hiragino Kaku Gothic ProN","Meiryo",sans-serif;
+      --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+      --max: 820px;
+      --radius: 12px;
+      --gap: 16px;
+    }
+
+    html,body{
+      background: var(--bg);
+      color: var(--ink);
+      margin:0;
+      padding:0;
+      -webkit-font-smoothing:antialiased;
+      -moz-osx-font-smoothing:grayscale;
+      font-family: var(--serif);
+    }
+
+    header{
+      background: linear-gradient(180deg, rgba(255,255,255,0.9), rgba(255,255,255,0.85));
+      box-shadow: 0 1px 0 rgba(19,19,19,0.03);
+      position: sticky;
+      top:0;
+      z-index: 10;
+      backdrop-filter: blur(3px);
+    }
+    .masthead{
+      max-width: var(--max);
+      margin: 0 auto;
+      padding: 12px var(--gap);
+      display:flex;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+      font-family: var(--sans);
+    }
+    .brand{
+      font-size: 16px;
+      color: var(--accent);
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      background: linear-gradient(90deg, rgba(107,46,46,0.06), transparent);
+      padding: 6px 10px;
+      border-radius: 8px;
+    }
+    .section{
+      font-size: 13px;
+      color: var(--sub);
+      padding: 6px 8px;
+      border-radius: 8px;
+      background: rgba(0,0,0,0.02);
+      margin-left: auto;
+    }
+
+    main{
+      max-width: var(--max);
+      margin: 22px auto;
+      padding: 20px var(--gap) 72px;
+    }
+
+    h1{
+      font-family: var(--serif);
+      font-size: 30px;
+      line-height: 1.28;
+      font-weight:700;
+      margin: 6px 0 6px;
+      color: var(--ink);
+    }
+    .dek{
+      font-family: var(--sans);
+      font-size: 15px;
+      color: var(--sub);
+      margin: 8px 0 14px;
+    }
+    .meta{
+      font-family: var(--sans);
+      font-size: 13px;
+      color: var(--sub);
+      display:flex;
+      gap:12px;
+      flex-wrap:wrap;
+      margin-bottom: 18px;
+    }
+    .meta div{ padding:6px 10px; background: rgba(0,0,0,0.02); border-radius:8px; }
+
+    article{
+      font-family: var(--serif);
+      font-size: 17px;
+      line-height: 1.9;
+      color: var(--ink);
+      background: linear-gradient(180deg, rgba(255,255,255,0.95), rgba(255,255,255,0.98));
+      padding: 20px;
+      border-radius: var(--radius);
+      box-shadow: 0 8px 20px rgba(16,16,16,0.03);
+      border: 1px solid var(--rule);
+    }
+
+    p{ margin: 0 0 1.05em; }
+
+    .lead{
+      position: relative;
+      padding-top: 4px;
+    }
+    .lead::first-letter{
+      float:left;
+      font-size: 36px;
+      line-height: 1;
+      padding-right: 8px;
+      padding-top: 2px;
+      font-family: var(--serif);
+      font-weight: 700;
+      color: var(--accent);
+      background: rgba(107,46,46,0.04);
+      border-radius: 6px;
+      padding-left: 6px;
+      padding-right: 6px;
+      margin-right: 8px;
+    }
+
+    h2{
+      font-family: var(--sans);
+      font-size: 15px;
+      font-weight: 700;
+      color: rgba(0,0,0,0.92);
+      margin: 24px 0 8px;
+      padding-bottom: 6px;
+      border-bottom: 1px dashed var(--rule);
+    }
+
+    .eq{
+      text-align: center;
+      margin: 14px auto;
+      padding: 10px 16px;
+      font-family: var(--serif);
+      background: #fcfcfc;
+      border: 1px solid var(--rule);
+      border-radius: 8px;
+      max-width: 640px;
+    }
+
+    .theorem{
+      border-left: 4px solid var(--accent);
+      background: #fff;
+      padding: 14px 16px;
+      margin: 16px 0;
+      border-radius: 8px;
+    }
+    .theorem .label{
+      font-family: var(--sans);
+      font-size: 12px;
+      font-weight:700;
+      color: var(--accent);
+      display:inline-block;
+      margin-bottom:6px;
+    }
+
+    .note{
+      font-family: var(--sans);
+      font-size: 14px;
+      color: var(--sub);
+      padding-left:10px;
+      margin: 8px 0 0;
+    }
+
+    .pull{
+      font-family: var(--serif);
+      font-size: 16px;
+      line-height:1.9;
+      color:#333;
+      background: linear-gradient(90deg, rgba(107,46,46,0.03), rgba(0,0,0,0.01));
+      padding:12px 14px;
+      margin: 14px 0;
+      border-radius: 8px;
+      border: 1px solid rgba(0,0,0,0.03);
+    }
+
+    code, kbd, samp{
+      font-family: var(--mono);
+      font-size: .95em;
+      background:#f6f6f6;
+      padding:.12em .34em;
+      border-radius:6px;
+    }
+
+    .footer-note{
+      font-family: var(--sans);
+      font-size: 13px;
+      color: var(--sub);
+      margin-top: 22px;
+      padding-top: 12px;
+      border-top: 1px dashed var(--rule);
+    }
+
+    .sim-card{
+      margin: 26px 0;
+      padding: 20px;
+      border-radius: var(--radius);
+      border: 1px solid rgba(107,46,46,0.16);
+      background: linear-gradient(145deg, rgba(107,46,46,0.06), rgba(255,255,255,0.95));
+      box-shadow: 0 12px 28px rgba(16,16,16,0.06);
+      font-family: var(--sans);
+    }
+
+    .sim-head{
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      margin-bottom: 14px;
+    }
+
+    .sim-title{
+      font-size: 18px;
+      font-weight: 600;
+      color: var(--accent);
+      letter-spacing: 0.04em;
+    }
+
+    .sim-button{
+      border: none;
+      background: var(--accent);
+      color: #fff;
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: 0.03em;
+      padding: 8px 14px;
+      border-radius: 999px;
+      cursor: pointer;
+      transition: transform 0.18s ease, box-shadow 0.18s ease, background 0.18s ease;
+    }
+
+    .sim-button:disabled{
+      background: rgba(107,46,46,0.38);
+      cursor: not-allowed;
+      box-shadow: none;
+    }
+
+    .sim-button:not(:disabled):hover{
+      transform: translateY(-1px);
+      box-shadow: 0 8px 18px rgba(107,46,46,0.28);
+    }
+
+    .coin-stage{
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 130px;
+      perspective: 800px;
+    }
+
+    .coin{
+      position: relative;
+      width: 88px;
+      height: 88px;
+      border-radius: 50%;
+      transform-style: preserve-3d;
+      background: radial-gradient(circle at 30% 30%, #fff8f5, rgba(107,46,46,0.4));
+      box-shadow: 0 10px 24px rgba(16,16,16,0.18);
+      transition: transform 0.9s cubic-bezier(0.25, 0.8, 0.25, 1);
+    }
+
+    .coin::after{
+      content: "";
+      position: absolute;
+      inset: 0;
+      border-radius: 50%;
+      background: radial-gradient(circle at 70% 30%, rgba(255,255,255,0.75), rgba(107,46,46,0.45));
+      transform: translateZ(-4px);
+    }
+
+    .coin .face{
+      position: absolute;
+      inset: 0;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 28px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      color: rgba(255,255,255,0.92);
+      text-shadow: 0 2px 4px rgba(0,0,0,0.35);
+      backface-visibility: hidden;
+    }
+
+    .coin .face.front{
+      background: linear-gradient(145deg, rgba(107,46,46,0.85), rgba(107,46,46,0.65));
+    }
+
+    .coin .face.back{
+      background: linear-gradient(145deg, rgba(38,38,38,0.9), rgba(58,58,58,0.7));
+      transform: rotateY(180deg);
+    }
+
+    .sim-summary{
+      text-align: center;
+      font-size: 14px;
+      color: var(--sub);
+      margin-top: 12px;
+    }
+
+    .sim-timeline{
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(92px, 1fr));
+      gap: 10px;
+      margin-top: 18px;
+    }
+
+    .sim-tile{
+      padding: 10px;
+      border-radius: 10px;
+      background: rgba(255,255,255,0.7);
+      border: 1px solid rgba(0,0,0,0.05);
+      text-align: center;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--ink);
+      opacity: 0.25;
+      transform: translateY(6px);
+      transition: opacity 0.3s ease, transform 0.3s ease, background 0.3s ease;
+    }
+
+    .sim-tile.show{
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .sim-tile.heads{
+      background: rgba(107,46,46,0.12);
+      color: var(--accent);
+    }
+
+    .sim-tile.tails{
+      background: rgba(0,0,0,0.06);
+      color: rgba(58,58,58,0.88);
+    }
+
+    .sim-note{
+      font-size: 12px;
+      color: var(--sub);
+      margin-top: 10px;
+      text-align: center;
+    }
+
+    .back-nav{
+      display:flex;
+      justify-content:flex-start;
+      margin-bottom:16px;
+    }
+
+    .back-link{
+      display:inline-flex;
+      align-items:center;
+      gap:6px;
+      font-family: var(--sans);
+      font-size:13px;
+      font-weight:600;
+      color: var(--accent);
+      text-decoration:none;
+      padding:6px 14px;
+      border-radius:999px;
+      border:1px solid rgba(107,46,46,0.28);
+      background: rgba(107,46,46,0.06);
+      transition: background 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .back-link:hover{
+      background: rgba(107,46,46,0.12);
+      transform: translateY(-1px);
+      box-shadow:0 8px 18px rgba(107,46,46,0.18);
+    }
+
+    @media (max-width:520px){
+      h1{ font-size: 22px; }
+      .masthead{ padding:10px; }
+      main{ padding: 16px; }
+      article{ padding: 16px; }
+      .lead::first-letter{ font-size: 30px; }
+    }
+
+    @media print{
+      header{ display:none; }
+      body{ background: #fff; color: #000; }
+      article{ box-shadow:none; border-radius:0; padding:0; border:none; }
+    }
+  </style>
+
+  <!-- MathJax (use $...$ for inline, $$...$$ for display) -->
+  <script>
+    window.MathJax = {
+      tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']],
+        displayMath: [['$$','$$'], ['\\[','\\]']],
+        tags: 'none'
+      },
+      svg: {fontCache: 'global'}
+    };
+  </script>
+  <script defer src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+</head>
+<body>
+  <header>
+    <div class="masthead">
+      <div class="brand">雑記・確率</div>
+      <div class="section">コラム</div>
+    </div>
+  </header>
+
+  <main>
+    <nav class="back-nav">
+      <a class="back-link" href="../index.html">&larr; ホームに戻る</a>
+    </nav>
+    <h1>無限回の試行</h1>
+    <div class="meta">
+      <div>寄稿：中島秀太</div>
+      <div>2025年10月20日</div>
+    </div>
+
+    <article>
+      <p class="lead">コルモゴロフの拡張定理は、有限個の座標に対する同時分布が整合的に与えられれば無限積空間に一意の確率測度が存在することを保証する。典型例である公平なコイントス列の分布は $\{0,1\}^{\mathbb{N}}$ 上の積測度であり、抽象的な主張だけでなく具体的にも構成できる。</p>
+      <p>ここでは $[0,1]$ 上のルベーグ一様測度を用い、二進展開を通じてその構成手順を追い直す。抽象定理を支える仕組みがどのように見えるのかを段階的に確かめてみよう。</p>
+
+      <section>
+        <h2>[0,1] から $\{0,1\}^{\mathbb{N}}$ の一様測度をつくる</h2>
+        <p>コルモゴロフの拡張定理が与えてくれる $\{0,1\}^{\mathbb{N}}$ 上の積測度は、各桁が独立同分布の $\operatorname{Bernoulli}(1/2)$ になる標準的なものだ。これを $[0,1]$ の一様乱数から得られる像測度として作り直すのが今回の目標である。</p>
+      </section>
+
+      <section>
+        <h2>二進展開による写像の定義</h2>
+        <p>まず $[0,1]$ 上のルベーグ測度を $\lambda$ と書く。二進有理点（ダイアディック点）の集合</p>
+        <div class="eq">
+          \[
+            D = \Bigl\{\frac{k}{2^{n}} : k,n \in \mathbb{N},\ 0 \le k \le 2^{n} \Bigr\}
+          \]
+        </div>
+        <p>は可算で $\lambda(D) = 0$ である。$x \in [0,1] \setminus D$ に対しては二進展開が一意に定まり、$x \in D$ の場合も末尾が $0$ で終わる展開を採用することで一意に決める。</p>
+        <div class="eq">
+          \[
+            x = \sum_{j=1}^{\infty} \frac{\varepsilon_j(x)}{2^{j}},\qquad \varepsilon_j(x) \in \{0,1\}
+          \]
+        </div>
+        <p>こうして得られる桁列を写像</p>
+        <div class="eq">
+          \[
+            \phi : [0,1] \longrightarrow \{0,1\}^{\mathbb{N}},\qquad \phi(x) = \bigl(\varepsilon_1(x),\varepsilon_2(x),\ldots\bigr)
+          \]
+        </div>
+        <p>としてまとめる。$\phi$ の像測度</p>
+        <div class="eq">
+          \[
+            \nu (A)= \lambda (\phi^{-1}(A)),\qquad A \subset \{0,1\}^{\mathbb{N}}
+          \]
+        </div>
+        <p>を $\{0,1\}^{\mathbb{N}}$ 上の候補測度と定義すると、これが求める一様測度となる。</p>
+      </section>
+
+      <section>
+        <h2>シリンダー集合での振る舞い</h2>
+        <p>長さ $n$ の語 $\mathbf{e} = (e_1,\ldots,e_n) \in \{0,1\}^n$ をとり、最初の $n$ 桁が $\mathbf{e}$ に一致する列の集合を</p>
+        <div class="eq">
+          \[
+            C(\mathbf{e}) = \bigl\{\omega \in \{0,1\}^{\mathbb{N}} : \omega_1 = e_1,\ldots,\omega_n = e_n\bigr\}
+          \]
+        </div>
+        <p>と書く。$\phi^{-1}(C(\mathbf{e}))$ は二進区間</p>
+        <div class="eq">
+          \[
+            I_{\mathbf{e}} = \Bigl[\frac{k(\mathbf{e})}{2^{n}},\,\frac{k(\mathbf{e}) + 1}{2^{n}}\Bigr),\qquad
+            k(\mathbf{e}) = \sum_{j=1}^{n} e_j 2^{n-j}
+          \]
+        </div>
+        <p>から端点に関する零集合を取り除いたものに一致するため</p>
+        <div class="eq">
+          \[
+            \nu\bigl(C(\mathbf{e})\bigr) = \lambda\bigl(I_{\mathbf{e}}\bigr) = 2^{-n}
+          \]
+        </div>
+        <p>が成り立つ。したがって有限次元分布は各桁が独立に確率 $1/2$ で $1$ となるものに一致し、拡張定理の仮定が満たされている。</p>
+      </section>
+
+      <section>
+        <h2>体験してみる：コイントスのシミュレーション</h2>
+        <p>以下のシミュレーションでは、独立なコイントス列がどのように生成されるかを可視化する。ボタンでリセットし、表裏の推移と平均獲得額を追いかけてみよう。</p>
+        <div class="sim-card">
+          <div class="sim-head">
+            <div class="sim-title">コイントス・シミュレーション</div>
+            <button class="sim-button" id="sim-replay" type="button">もう一度</button>
+          </div>
+          <div class="coin-stage">
+            <div class="coin" id="coin">
+              <div class="face front">表</div>
+              <div class="face back">裏</div>
+            </div>
+          </div>
+          <div class="sim-summary" id="sim-summary">シミュレーション中…</div>
+          <div class="sim-timeline">
+            <div class="sim-tile" data-index="1">1投目</div>
+            <div class="sim-tile" data-index="2">2投目</div>
+            <div class="sim-tile" data-index="3">3投目</div>
+            <div class="sim-tile" data-index="4">4投目</div>
+            <div class="sim-tile" data-index="5">5投目</div>
+            <div class="sim-tile" data-index="6">6投目</div>
+            <div class="sim-tile" data-index="7">7投目</div>
+            <div class="sim-tile" data-index="8">8投目</div>
+            <div class="sim-tile" data-index="9">9投目</div>
+            <div class="sim-tile" data-index="10">10投目</div>
+            <div class="sim-tile" data-index="11">11投目</div>
+            <div class="sim-tile" data-index="12">12投目</div>
+            <div class="sim-tile" data-index="13">13投目</div>
+            <div class="sim-tile" data-index="14">14投目</div>
+            <div class="sim-tile" data-index="15">15投目</div>
+            <div class="sim-tile" data-index="16">16投目</div>
+            <div class="sim-tile" data-index="17">17投目</div>
+            <div class="sim-tile" data-index="18">18投目</div>
+            <div class="sim-tile" data-index="19">19投目</div>
+            <div class="sim-tile" data-index="20">20投目</div>
+            <div class="sim-tile" data-index="21">21投目</div>
+            <div class="sim-tile" data-index="22">22投目</div>
+            <div class="sim-tile" data-index="23">23投目</div>
+            <div class="sim-tile" data-index="24">24投目</div>
+            <div class="sim-tile" data-index="25">25投目</div>
+            <div class="sim-tile" data-index="26">26投目</div>
+            <div class="sim-tile" data-index="27">27投目</div>
+            <div class="sim-tile" data-index="28">28投目</div>
+            <div class="sim-tile" data-index="29">29投目</div>
+            <div class="sim-tile" data-index="30">30投目</div>
+            <div class="sim-tile" data-index="31">31投目</div>
+            <div class="sim-tile" data-index="32">32投目</div>
+            <div class="sim-tile" data-index="33">33投目</div>
+            <div class="sim-tile" data-index="34">34投目</div>
+            <div class="sim-tile" data-index="35">35投目</div>
+            <div class="sim-tile" data-index="36">36投目</div>
+            <div class="sim-tile" data-index="37">37投目</div>
+            <div class="sim-tile" data-index="38">38投目</div>
+            <div class="sim-tile" data-index="39">39投目</div>
+            <div class="sim-tile" data-index="40">40投目</div>
+            <div class="sim-tile" data-index="41">41投目</div>
+            <div class="sim-tile" data-index="42">42投目</div>
+          </div>
+          <p class="sim-note">各投目の結果と獲得額が順に表示されます。</p>
+        </div>
+      </section>
+
+      <section>
+        <h2>拡張定理との関係と一意性</h2>
+        <p>コルモゴロフの拡張定理の一意性部分により、この $\nu$ は独立な公平コイントス列の標準積測度そのものである。言い換えれば $U \sim \operatorname{Unif}[0,1]$ とすると、$\phi(U)$ は独立同分布の $\operatorname{Bernoulli}(1/2)$ 列となる。</p>
+        <p>この構成は抽象定理が保証する存在と一意性を具体的に実現しており、零集合を除けば</p>
+        <div class="eq">
+          \[
+            ([0,1],\mathcal{B},\lambda) \simeq (\{0,1\}^{\mathbb{N}},\mathcal{C},\nu)
+          \]
+        </div>
+        <p>という測度同型を与える。逆写像</p>
+        <div class="eq">
+          \[
+            \psi(\omega) = \sum_{j=1}^{\infty} \frac{\omega_j}{2^{j}}
+          \]
+        </div>
+        <p>を考えれば、$\psi \circ \phi$ も $\phi \circ \psi$ もそれぞれの零集合を除いて恒等写像になる。</p>
+      </section>
+
+      <section>
+        <h2>力学的視点：独立性の確認</h2>
+        <p>独立性は前節の計算から明らかだが、力学系的にも理解できる。写像</p>
+        <div class="eq">
+          \[
+            T(x) = 2x \pmod 1
+          \]
+        </div>
+        <p>を用いると</p>
+        <div class="eq">
+          \[
+            \varepsilon_1(x) = \mathbf{1}_{[1/2,1)}(x),\qquad \varepsilon_j(x) = \varepsilon_1\bigl(T^{j-1}x\bigr)
+          \]
+        </div>
+        <p>と書ける。$T$ は $\lambda$ に関して測度保存かつベルヌーイ的であり、これによって $(\varepsilon_j)_{j \ge 1}$ が独立列になることがわかる。この観点は二進展開と一様測度の自然な対応を鮮明にする。</p>
+      </section>
+
+      <section>
+        <h2>結び</h2>
+        <p>二進展開を通した具体構成により、$\{0,1\}^{\mathbb{N}}$ 上の一様測度は $[0,1]$ の一様測度の像測度として明示的に得られる。端点の二重表現は零集合に吸収されるため実際上の問題はなく、抽象定理の内容が手に取るように理解できる。</p>
+      </section>
+
+      <p class="footer-note">コイントス列をシミュレーションするときは末尾が $0$ で終わる二進展開を採用しておけば、零集合を除いて $\phi$ の定義が一意に保たれる。</p>
+    </article>
+  </main>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const coin = document.getElementById('coin');
+      const timeline = Array.from(document.querySelectorAll('.sim-tile'));
+      const summary = document.getElementById('sim-summary');
+      const replayButton = document.getElementById('sim-replay');
+      const totalFlips = 42;
+      const rewardHeads = 100;
+      const rewardTails = 0;
+      let spinAngle = 0;
+      let timerId = null;
+
+      const resetTiles = () => {
+        timeline.forEach((tile) => {
+          tile.classList.remove('show', 'heads', 'tails');
+          tile.textContent = `${tile.dataset.index}投目`;
+        });
+      };
+
+      const stopTimer = () => {
+        if (timerId) {
+          clearTimeout(timerId);
+          timerId = null;
+        }
+      };
+
+      const updateSummary = (heads, tails, flipsDone) => {
+        if (flipsDone === 0) {
+          summary.textContent = 'シミュレーション中…';
+          return;
+        }
+
+        const totalReward = heads * rewardHeads + tails * rewardTails;
+        const average = (totalReward / flipsDone).toFixed(1);
+        summary.textContent = `表${heads}回 / 裏${tails}回 ｜ 平均獲得額 ${average}円`;
+      };
+
+      const runSimulation = () => {
+        stopTimer();
+        replayButton.disabled = true;
+        spinAngle = 0;
+        coin.style.transform = 'rotateY(0deg)';
+        summary.textContent = 'シミュレーション中…';
+        resetTiles();
+
+        let currentFlip = 0;
+        let headsCount = 0;
+        let tailsCount = 0;
+
+        const flipOnce = () => {
+          if (currentFlip >= totalFlips) {
+            updateSummary(headsCount, tailsCount, totalFlips);
+            replayButton.disabled = false;
+            return;
+          }
+
+          const outcomeHeads = Math.random() < 0.5;
+          spinAngle += 360 + (outcomeHeads ? 0 : 180);
+          coin.style.transform = `rotateY(${spinAngle}deg)`;
+
+          if (outcomeHeads) {
+            headsCount += 1;
+          } else {
+            tailsCount += 1;
+          }
+
+          const tile = timeline[currentFlip];
+          const resultLabel = outcomeHeads ? '表' : '裏';
+          const reward = outcomeHeads ? rewardHeads : rewardTails;
+          tile.textContent = `${currentFlip + 1}投目：${resultLabel}（${reward}円）`;
+          tile.classList.add('show', outcomeHeads ? 'heads' : 'tails');
+
+          currentFlip += 1;
+          updateSummary(headsCount, tailsCount, currentFlip);
+          timerId = setTimeout(flipOnce, 900);
+        };
+
+        timerId = setTimeout(flipOnce, 600);
+      };
+
+      replayButton.addEventListener('click', runSimulation);
+      runSimulation();
+
+      window.addEventListener('beforeunload', stopTimer);
+    });
+  </script>
+</body>
+</html>
