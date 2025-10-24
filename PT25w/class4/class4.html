@@ -416,91 +416,62 @@
 
         <section class="outline-section">
             <h2>3 無限試行とKolmogorovの枠組み</h2>
+            <div class="focus-card">
+                <h3>無限回コイントスの課題</h3>
+                <p>無限回コインを投げたいが，単純に試行回数 \(n\) を \(n \to \infty\) とするだけでは各事象の確率
+                    \(p_\omega \to 0\) となり，測度が崩壊する。そこで無限列そのものを初めから空間として扱う必要がある。</p>
+            </div>
             <div class="definition">
-                <h3>設定（円筒集合）</h3>
-                <p>\(\Omega=\{+1,-1\}^{\mathbb{N}}\) とし，射影
-                    \(\pi_n(\omega)=(\omega_1,\dots,\omega_n)\) を用いて \(\mathcal{F}_n=\{\pi_n^{-1}(A)\mid A\subset\{+1,-1\}^n\}\) を定める。
-                    円筒集合族 \(\mathcal{S}=\bigcup_{n\ge1}\mathcal{F}_n\) が生成する \(\sigma\)-代数は \(\mathcal{F}=\sigma(\mathcal{S})\)。</p>
+                <h3>射影系の準備</h3>
+                <p>\(\Omega = \{+1,-1\}^{\mathbb{N}}\) を無限列の空間とし，有限次元の射影 \(\pi_n(\omega) = (\omega_1,\ldots,\omega_n)\)
+                    を考える。有限次元分布 \((P_n)\) が整合的であるとき，次のように円筒集合族を構成する。</p>
+                <ol class="pill-list">
+                    <li>\(\Omega_n = \{+1,-1\}^n\) として \(\pi_n : \Omega \to \Omega_n\) を定める。</li>
+                    <li>\(\mathcal{F}_n = \{\pi_n^{-1}(A) \mid A \subseteq \Omega_n\}\) を円筒集合族とする。</li>
+                    <li>\(\mu(\pi_n^{-1}(A)) = P_n(A)\) とおけば，\(\mathcal{F}_n\) 上で整合する前測度 \(\mu\) が得られる。</li>
+                    <li>\(\mathcal{S} = \bigcup_{n \ge 1} \mathcal{F}_n\) とし，\(\mathcal{F} = \sigma(\mathcal{S})\) を生成する。</li>
+                </ol>
+                <p class="inline-note">\(\mathcal{S}\) 上の前測度 \(\mu\) を Carathéodory の方法で拡張して全体の確率測度 \(P\) を構成する。</p>
             </div>
             <div class="theorem">
-                <h3>定理（Kolmogorovの拡張定理）</h3>
-                <p>整合的な有限次元分布 \((\mu_J)_{|J|<\infty}\) が与えられれば，直積空間 \((\Omega,\mathcal{F})\) 上に確率測度 \(P\) が存在し，
-                    任意の有限集合 \(J\) に対し \(P(\pi_J^{-1}(A))=\mu_J(A)\) が成り立つ。さらにこの測度は唯一である。</p>
+                <h3>定理（Kolmogorovの拡張）</h3>
+                <p>整合的な有限次元分布 \((P_n)\) が与えられるとき，\((\Omega,\mathcal{F})\) 上に確率測度 \(P\) が存在し，
+                    各射影により誘導される周辺分布は \(P_n\) と一致する。構成には Carathéodory の拡張定理を用いる。</p>
                 <div class="proof">
-                    <p>証明の骨格を 2 つのステップに分ける。</p>
+                    <p>証明は前測度の性質を抑える段階と，Carathéodory の基準を満たすことを示す段階に分かれる。</p>
                     <ol class="step-list">
                         <li>
-                            <strong>円筒集合上の劣加法性を確保する。</strong>
-                            <p>任意の集合列 \(A_n\subset\Omega\) に対し，\(\varepsilon>0\) を与えると各 \(n\) について
-                                \(A_n\subset B_n\in\mathcal{S}\) かつ \(\mu(B_n)\le\mu(A_n)+\varepsilon/2^n\) と取れる。
-                                \(S=\bigcup_{k}B_k\) とおけば \(\bigcup_k A_k \subset S\) であり，整合性から</p>
-                            <blockquote>
-                                \(P\Bigl(\bigcup_k A_k\Bigr)\le P(S)\le\sum_k\mu(B_k)\le\sum_k\bigl(\mu(A_k)+\varepsilon/2^k\bigr)
-                                =\sum_k\mu(A_k)+\varepsilon.\)
-                            </blockquote>
-                            <p>\(\varepsilon\) 任意より劣加法性（有限個での可算加法性）が成立し，前測度を定義できる。</p>
+                            <strong>Step 1.</strong> \(\mathcal{S}\) 上の前測度の性質を確認する。
+                            <ul>
+                                <li>任意の可算族 \(A_k \subseteq \Omega\) に対し
+                                    \(P\bigl(\bigcup_{k=1}^\infty A_k\bigr) \le \sum_{k=1}^\infty P(A_k)\) を示し，
+                                    特に \(P(A \setminus B) \ge P(A) - P(B)\) を得る。</li>
+                                <li>\(E \in \mathcal{S}\) ならば \(P(E) = \mu(E)\) が成り立つことを確認する。</li>
+                            </ul>
+                            <p>これらにより \(\mathcal{S}\) 上で期待される単調性・劣加法性が確保される。</p>
                         </li>
                         <li>
-                            <strong>Carathéodory の補題で可測集合を拡張する。</strong>
-                            <p>外測度 \(P^*(A)=\inf\{\sum \mu(C_n)\mid A\subset\bigcup C_n,\ C_n\in\mathcal{S}\}\) を導入し，
-                                \(\mathcal{F}'=\{A\subset\Omega\mid \forall \varepsilon>0,\ \exists B\in\mathcal{S}:\ P^*(A\triangle B)<\varepsilon\}\) を考える。</p>
-                            <ol>
-                                <li>\(\Omega\in\mathcal{F}'\) であり，\(A\in\mathcal{F}'\Rightarrow A^c\in\mathcal{F}'\) が成り立つ。</li>
-                                <li>各 \(A_n\in\mathcal{F}'\) について \(A=\bigcup_n A_n\) とおく。近似集合 \(B_n\in\mathcal{S}\) を
-                                    \(P^*(A_n\triangle B_n)<\varepsilon/2^n\) と選ぶと，差集合
-                                    \(C_n=A\setminus\bigcup_{k=1}^n A_k\) が \(\varepsilon\) 未満に抑えられる。</li>
-                                <li>したがって \(A\) も \(\mathcal{F}'\) に属し，\(\mathcal{F}'\) は \(\sigma\)-加法族となる。</li>
-                            </ol>
-                            <p>この結果より，外測度は \(\mathcal{F}'\supset\mathcal{S}\) 上の測度 \(P\) として制限される。</p>
+                            <strong>Step 2.</strong> Carathéodory の基準で \(\sigma\)-加法性を得る。
+                            <p>\(\mathcal{F}' = \{A \subseteq \Omega \mid \forall \varepsilon > 0,\,
+                                    \exists (B_k),(C_k) \subset \mathcal{S},\,
+                                    P(A \triangle \bigcup_k B_k) < \varepsilon,\,
+                                    P(A^c \triangle \bigcup_k C_k) < \varepsilon\}\) とおくと，
+                                \(\mathcal{F}'\) は \(\sigma\)-加法族であり \(\mathcal{F} \subseteq \mathcal{F}'\) を満たす。</p>
+                            <p>互いに素な \(A_n \in \mathcal{F}\) に対しては可算加法性
+                                \(P\bigl(\bigcup_{n=1}^\infty A_n\bigr) = \sum_{n=1}^\infty P(A_n)\) が成立し，
+                                構成された \(P\) が確率測度であることが結論づけられる。</p>
                         </li>
                     </ol>
-                    <span class="inline-note">整合的な有限次元分布が前測度を可算加法的に保つことで，外測度の Carathéodory 拡張を適用できる。</span>
                 </div>
-            </div>
-            <div class="theorem">
-                <h3>定理の仕上げ（可算加法性）</h3>
-                <div class="proof">
-                    <p>\(\mathcal{F}\) 内の互いに素な列 \(A_n\) に対し \(A=\bigcup_n A_n\) とおく。補題で得た近似列 \(B_n\in\mathcal{S}\) を用い，
-                        \(C_n=A\setminus\bigcup_{k<n}A_k\)，\(D_n=B_n\setminus\bigcup_{k<n}B_k\) と定めると
-                        十分大きい \(n\) で \(P(C_n)<\varepsilon/4\) を得る。</p>
-                    <p>Step 1 の不等式から \(P(A)\le P(C_n)+P(\bigcup_{k=1}^n A_k)\le \sum_{k=1}^n P(A_k)+\varepsilon\)。
-                        逆向きの評価も同様に得られるので，\(\varepsilon\) 任意より \(P(A)=\sum_k P(A_k)\) が示される。</p>
-                </div>
+                <blockquote>
+                    <p>結果として，有限次元分布が整合的であれば無限列全体の確率測度 \(P\) が一意に存在し，
+                        無限コイントスや確率過程の厳密なモデル化が可能になる。</p>
+                </blockquote>
             </div>
         </section>
 
         <section class="outline-section">
-            <h2>4 例：ベルヌーイ列の構成</h2>
-            <div class="example">
-                <h3>例（無限コイントス）</h3>
-                <p>状態空間 \(S=\{0,1\}\)，添字集合 \(I=\mathbb{N}\) とする。有限集合 \(J=\{1,\dots,n\}\) について
-                    \(\mu_J\) を \(\mathrm{Bernoulli}(1/2)\) 分布の \(n\) 回独立積で定めると整合性が自動的に満たされる。</p>
-                <ul>
-                    <li>各円筒集合の確率は有限次元分布で計算できる。</li>
-                    <li>Kolmogorov の拡張定理により \(\{0,1\}^{\mathbb{N}}\) 上に一意な測度 \(P\) が存在し，直感的な無限コイントスが正当化される。</li>
-                    <li>有限列に関する任意の事象は，有限次元分布で与えた確率と一致する。</li>
-                </ul>
-            </div>
-            <div class="focus-card">
-                <h3>応用のヒント</h3>
-                <ul class="pill-list">
-                    <li>ブラウン運動やガウス過程の構成では，有限次元分布の整合性チェックに帰着される。</li>
-                    <li>極限定理で現れる無限列の存在を，Kolmogorov 拡張が支えている。</li>
-                    <li>一意性が保証されるため，解析的議論で用いる確率空間を共通化できる。</li>
-                </ul>
-            </div>
-        </section>
 
-        <section class="outline-section">
-            <h2>5 学習のまとめと課題</h2>
-            <div class="focus-card">
-                <h3>今日の要点</h3>
-                <ul class="pill-list">
-                    <li>整合的な有限次元分布があれば，積空間上に一意な確率測度を構成できる。</li>
-                    <li>Carathéodory の外測度拡張が Kolmogorov の証明で中心的な役割を果たす。</li>
-                    <li>無限コイントスをはじめ多くの確率過程の枠組みがこの定理に依存する。</li>
-                </ul>
-            </div>
             <div class="theorem">
                 <h3>レポート課題</h3>
                 <ol>

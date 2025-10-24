@@ -38,53 +38,63 @@ E[S_n]=n/2,  Var(S_n)=n/4.
 
 ¥mathcal{S}=¥{A : A∈¥bigcup ¥mathcal{F}_n for some n¥}.
 
-F=σ(¥mathcal{S}),  P(A)=¥inf_{B∈¥mathcal{S}, A⊆B}µ(B).
+F=σ(¥mathcal{S}),  P(A)=¥inf_{(B_k)∈¥mathcal{S}, A⊆¥cup B}¥sum µ(B_k).
 
 Thm: P は (¥Omega,F) 上の確率測度である。
 
 section 3 / 定理の証明
 
-Step 1. 任意の A_n⊆¥Omega について P(¥cup^N A_n)≤¥sum^N P(A_n).
+Step 1.
+Lem. 任意の A_n⊆¥Omega について P(¥cup^¥infty A_n)≤¥sum^¥infty P(A_n). In particular, P(A¥setminus B) ¥geq P(A)-P(B)
 
 {Proof.}
 
-ε>0 を与える。各 n について A_n⊆B_n かつ P(B_n)≤P(A_n)+ε/2^n を満たす B_n∈¥mathcal{S} が存在する。S=¥cup B_k とおくと、¥cup A_k⊆S であり P(¥cup A_k)≤P(S)≤¥sum µ(B_k)≤¥sum^N(P(A_k)+ε/2^k)=¥sum^N P(A_k)+ε。ε 任意より主張が従う。
+ε>0 を与える。各 n について A_n⊆B_n かつ ¥sum P(B_n,k)≤P(A_n)+ε/2^n を満たす (B_n,k)∈¥mathcal{S} が存在する。S=¥cup B_n,k とおくと、¥cup A_k⊆S であり P(¥cup A_k)≤P(S)≤¥sum µ(B_n,k)≤¥sum^¥infty (P(A_k)+ε/2^k)=¥sum^N P(A_k)+ε. ε 任意より主張が従う。
 
+Lem2. For any E¥in ¥kS, P(E)=µ(E).
+
+Proof.
+Let S_n in ¥kS  be such that S¥subset ¥cup S_n. We take $E_n = E¥seminut ¥cup^n S_n$. Then, E_n¥in ¥kS and E_n is decreasing. Since E_n is compact, if ¥E_n¥neq empty, ¥cap E_n¥neq ¥emptyset, which derives a contradiction. Hence, E¥subset ¥cup^N S_n with some N. Therefore, ¥sum^N µ(S_n)¥geq mu(E). Taking infimum over all such (S_n), we get P(E)= µ(E). 
 Step 2.
 
 補題 1. (カラテオドリの拡張定理)
 
-¥mathcal{F}'=¥{A⊆¥Omega : 任意の ε>0 に対し、ある B∈¥mathcal{S} が存在して P'(A△B)<ε¥} とする。このとき ¥mathcal{F}⊆¥mathcal{F}'。また ¥mathcal{F}' は σ-下方族であり ¥mathcal{F}⊆¥mathcal{F}'。
+¥mathcal{F}'=¥{A⊆¥Omega : 任意の ε>0 に対し、ある (B_k),(C_k)∈¥mathcal{S} が存在して P(A△(¥cup B_k))<ε,P(A^c △(¥cup C_k))<ε¥} とする。このとき ¥mathcal{F}⊆¥mathcal{F}'。また ¥mathcal{F}' は σ-下方族であり ¥mathcal{F}⊆¥mathcal{F}'。
 
 Proof:
 
 ¥Omega∈¥mathcal{F}' なのは P(¥Omega△¥Omega)=0 より明らか。
 
-A∈¥mathcal{F}' ならば B∈¥mathcal{S} が存在して P(A△B)<ε。すると P(B△A)=P(A△B)<ε。
+A∈¥mathcal{F}' ならば A^c∈¥mathcal{F}'も定義から明らか。
 
-B^c∈¥mathcal{S} かつ A△B=A^c△B^c なので A^c∈¥mathcal{F}'。
-
-さらに A_n∈¥mathcal{F}' とする。各 n について P(A_n△B_n)<ε/2^n を満たす B_n∈¥mathcal{S} を取る。A=¥cup A_n、C_n=A¥setminus¥cup_{k=1}^n A_k とおく。
-
-P(C_n)≤P(C_n△(¥cup_{k=n+1}^∞ B_k¥setminus¥cup_{k=1}^n B_k))
-+P((¥cup_{k=n+1}^∞ B_k)¥setminus¥cup_{k=1}^n B_k)
-≤¥sum_{k=n+1}^∞ P(A_k△B_k)+P(¥cup_{k=n+1}^∞ B'_k),  B'_k=B_k¥setminus¥cup_{i=1}^k B_i.
-
-第一項は ¥sum ε/2^k<ε/2 で抑えられる。第二項については、
-
-1≥P(¥cup_{k=n+1}^∞ B'_k)≥¥sum_{k=n+1}^m P(B'_k)=P(¥cup_{k=n+1}^m B'_k)=¥sum_{k=n+1}^m µ(B'_k) (m>n)。
-
-m→∞ とすると ¥sum_{k=n+1}^∞ µ(B'_k)≤1。したがって n→∞ で ¥lim_{n→∞}¥sum_{k=n+1}^∞ µ(B'_k)=0。
-
-よって十分大きい n で P(¥cup_{k=n+1}^∞ B'_k)≤¥sum_{k=n+1}^∞ µ(B'_k)<ε/2。これより P(C_n)<ε となる。
-
-従って P(A△(¥cup_{k=1}^n B_k))≤P(C_n)+¥sum_{k=1}^n P(A_k△B_k)<ε/2+ε/2=ε。よって A∈¥mathcal{F}'。
+さらに A_n∈¥mathcal{F}' とする。¥eps>0を任意に取る。各 n について P(A_n△B_n),P(A^c_n△C_n)<ε/2^n を満たす B_n∈¥mathcal{S} を取る。A=¥cup A_n,、B= ¥cup B_n, C=¥cup C_n とおく。
+P(A¥triangle B)≤¥sum P(A_n△B_n)< ¥eps.
+同様にP(A¥triangle C)<¥eps. よって A∈¥mathcal{F}'。 
 ¥end{proof}
 
 Proof of thm: P(¥Omega)=1、かつ P(A)∈[0,1] は自明。
 
-互いに交わらない A_n∈¥mathcal{F} に対し、P(A:=¥cup A_n)=¥sum P(A_n) を示す。ε>0 を与える。補題より P(A_n△B_n)<ε/2^n を満たす B_n を取れる。C_n=A¥setminus¥cup_{k<n}A_k、D_n=B_n¥setminus¥cup_{k<n}B_k と定める。Step 2 の議論より十分大きい n で P(C_n)<ε/4。
+互いに交わらない A_n∈¥mathcal{F} に対し、P(A:=¥cup A_n)=¥sum P(A_n) を示す。補題より, ¥leqは成り立つ. P(A)¥egq ¥sum P(A_n)を示す.
 
-Step 1 から P(¥cup A_n)≤P(C_n)+P(¥cup_{k=1}^n A_k)≤¥sum_{k=1}^n P(A_k)+ε。
+N¥in ¥Nを一つ固定する. ε>0 を与える。補題より P(A_n△B_n)<ε を満たす B_n を取れる。B_n = ¥cup B_{n,k}ただし(B_{n,k})_kは互いに素とすると, 任意のrについて, ¥sum^r_{k=1} P(B_{n,k}) = P(¥cup^r B_{  n,k}) ¥leq P(B_n). したがって,  ¥sum^¥infty_{k=1} P(B_{n,k})<¥infty. 以上より, あるN_nが存在して, ¥sum_{k>N_n} P(B_{n,k})<ε. Let B_n' = ¥cup^{Nn} B_{n,k}.
 
-一方 P(¥cup A_n)≥P(¥cup_{k=1}^n A_k)≥¥sum_{k=1}^n P(B_k)-¥sum P(A_k△B_k)≥¥sum P(A_k)-ε。ε 任意より結論が得られる。
+
+一方 P(A)≥P(¥cup_{n=1}^N A_n)≥ P(¥cup B_n') - P(¥cup B_n¥setminus B_n') - ¥sum P(A_n△B_n) ¥geq P(¥cup B_n') - Nε - Nε.
+
+D_n = B_n'¥setminus (¥cup^{n-1}_j B_{j}') とすると,
+\begin{equation}\label{eq:incl}
+A_n\ \subset\ D_n\ \cup\ (A_n\triangle B_n')\ \cup\ \bigcup_{j=1}^{n-1}(B_j'\triangle A_j).
+\end{equation}
+Indeed, take $x\in A_n$. If $x\notin B_n'$, then $x\in A_n\setminus B_n'\subset A_n\triangle B_n'$.
+If $x\in B_n'$ but $x\notin D_n$, then $x\in B_j'$ for some $j<n$. Since the $A_i$ are pairwise disjoint and $x\in A_n$, we have $x\notin A_j$, hence $x\in B_j'\setminus A_j\subset B_j'\triangle A_j$.
+This proves \eqref{eq:incl}. Applying monotonicity and subadditivity of $P$ to \eqref{eq:incl} yields
+[
+P(A_n)\ \le\ P(D_n)\ +\ P(A_n\triangle B_n')\ +\ \sum_{j=1}^{n-1} P(B_j'\triangle A_j),
+]
+書き換えると
+P(D_n)¥geq P(A_n) - P(A_n ¥triangle B_n') - ¥sum_{j=1}^{n-1}P(B_j'¥triangle A_j) ¥geq P(A_n) - 4 N ¥eps. よって
+
+P(¥cup B_n') = ¥sum P(D_n) ¥geq ¥sum^N P(A_n) - 2 N ¥eps. よって
+P(¥cup^N A_n) ¥geq ¥sum^N P(A_n) - 3Nε. ¥epsは任意より
+
+P(¥cup^N A_n) ¥geq ¥sum^N P(A_n). N¥to ¥inftｙとすると, 主張が従う。
