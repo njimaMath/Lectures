@@ -158,6 +158,20 @@
             margin-top: 0;
         }
 
+        .definition.projection-setup {
+            background: rgba(148, 163, 184, 0.15);
+            border: 1px solid rgba(148, 163, 184, 0.35);
+            box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.45);
+        }
+
+        .definition.projection-setup .inline-note {
+            margin-top: 18px;
+            padding: 14px 18px;
+            border-radius: 14px;
+            background: rgba(76, 110, 245, 0.08);
+            border: 1px dashed rgba(76, 110, 245, 0.28);
+        }
+
         .theorem {
             background: rgba(76, 110, 245, 0.1);
             border: 1px solid rgba(76, 110, 245, 0.28);
@@ -393,7 +407,6 @@
                     \(\mathbb{E}[\lim X_n]=\mathbb{E}[X]\) が従う。Kolmogorov の拡張ではこの「有限次元分布の整合性」から得られる界が重要になる。</p>
             </div>
         </section>
-
         <section class="outline-section">
             <h2>2 有限回コイントスの復習</h2>
             <div class="definition">
@@ -421,7 +434,7 @@
                 <p>無限回コインを投げたいが，単純に試行回数 \(n\) を \(n \to \infty\) とするだけでは各事象の確率
                     \(p_\omega \to 0\) となり，測度が崩壊する。そこで無限列そのものを初めから空間として扱う必要がある。</p>
             </div>
-            <div class="definition">
+            <div class="definition projection-setup">
                 <h3>射影系の準備</h3>
                 <p>\(\Omega = \{+1,-1\}^{\mathbb{N}}\) を無限列の空間とし，有限次元の射影 \(\pi_n(\omega) = (\omega_1,\ldots,\omega_n)\)
                     を考える。有限次元分布 \((P_n)\) が整合的であるとき，次のように円筒集合族を構成する。</p>
@@ -433,41 +446,49 @@
                 </ol>
                 <p class="inline-note">\(\mathcal{S}\) 上の前測度 \(\mu\) を Carathéodory の方法で拡張して全体の確率測度 \(P\) を構成する。</p>
             </div>
-            <div class="theorem">
-                <h3>定理（Kolmogorovの拡張）</h3>
-                <p>整合的な有限次元分布 \((P_n)\) が与えられるとき，\((\Omega,\mathcal{F})\) 上に確率測度 \(P\) が存在し，
-                    各射影により誘導される周辺分布は \(P_n\) と一致する。構成には Carathéodory の拡張定理を用いる。</p>
-                <div class="proof">
-                    <p>証明は前測度の性質を抑える段階と，Carathéodory の基準を満たすことを示す段階に分かれる。</p>
-                    <ol class="step-list">
-                        <li>
-                            <strong>Step 1.</strong> \(\mathcal{S}\) 上の前測度の性質を確認する。
-                            <ul>
-                                <li>任意の可算族 \(A_k \subseteq \Omega\) に対し
-                                    \(P\bigl(\bigcup_{k=1}^\infty A_k\bigr) \le \sum_{k=1}^\infty P(A_k)\) を示し，
-                                    特に \(P(A \setminus B) \ge P(A) - P(B)\) を得る。</li>
-                                <li>\(E \in \mathcal{S}\) ならば \(P(E) = \mu(E)\) が成り立つことを確認する。</li>
-                            </ul>
-                            <p>これらにより \(\mathcal{S}\) 上で期待される単調性・劣加法性が確保される。</p>
-                        </li>
-                        <li>
-                            <strong>Step 2.</strong> Carathéodory の基準で \(\sigma\)-加法性を得る。
-                            <p>\(\mathcal{F}' = \{A \subseteq \Omega \mid \forall \varepsilon > 0,\,
-                                    \exists (B_k),(C_k) \subset \mathcal{S},\,
-                                    P(A \triangle \bigcup_k B_k) < \varepsilon,\,
-                                    P(A^c \triangle \bigcup_k C_k) < \varepsilon\}\) とおくと，
-                                \(\mathcal{F}'\) は \(\sigma\)-加法族であり \(\mathcal{F} \subseteq \mathcal{F}'\) を満たす。</p>
-                            <p>互いに素な \(A_n \in \mathcal{F}\) に対しては可算加法性
-                                \(P\bigl(\bigcup_{n=1}^\infty A_n\bigr) = \sum_{n=1}^\infty P(A_n)\) が成立し，
-                                構成された \(P\) が確率測度であることが結論づけられる。</p>
-                        </li>
-                    </ol>
-                </div>
-                <blockquote>
-                    <p>結果として，有限次元分布が整合的であれば無限列全体の確率測度 \(P\) が一意に存在し，
-                        無限コイントスや確率過程の厳密なモデル化が可能になる。</p>
-                </blockquote>
+            <div class="focus-card">
+                <h3>外測度の定義</h3>
+                <p>— 外測度の定義：</p>
+                <p>\(P(A)= \inf_{(B_k)\subset\mathcal{S},\, A\subset \bigcup_k B_k}\ \sum_k \mu(B_k)\)。</p>
+                            <div class="theorem">   
+                                <p>\(P\) は \((\Omega,\mathcal{F})\) 上の確率測度である。</p>
+</div>
             </div>
+            
+
+                <h2>定理の証明</h2>
+                <div class="proof">
+                    <p>証明は，前測度の性質と，Carathéodory の拡張定理に分かれる。</p>
+                    <div class="focus-card">
+                        <h3>前測度の性質</h3>
+                        <div class="definition">
+                            <h4>補題 1</h4>
+                            <p>\((E_n)\) が \(\mathcal{S}\) 上の互いに素な有限列ならば，\(\mu\!\left(\bigcup_n E_n\right)=\sum_n \mu(E_n)\) が成り立つ。さらに，\(\mu(A^c)=1-\mu(A)\)，\(\mu(\Omega)=1\) が成り立つ。このとき，\(\mu\) を有限加法測度と呼ぶ。</p>
+                            <div class="proof">
+                                <p>（証明）ある \(M\) が存在して各 \(E_n\) は \(\mathcal{F}_M\) に属する。\(E_n=\pi_M^{-1}(A_n)\)。互いに素より \(A_n\) も互いに素。
+                                \(\mu\left(\bigcup_{n=1}^N E_n\right)=P_M\left(\bigcup_{n=1}^N A_n\right)=\sum_{n=1}^N P_M(A_n)=\sum_{n=1}^N \mu(E_n)\)。
+                                また \(\mu(\Omega)=P_M(\Omega_M)=1\)。\(E=\pi_M^{-1}(A)\) に対し \(\mu(E^c)=P_M(A^c)=1-P_M(A)=1-\mu(E)\)。</p>
+                            </div>
+                        </div>
+                        <div class="definition">
+                            <h4>補題 2</h4>
+                            <p>任意の \(E\in \mathcal{S}\) について \(P(E)=\mu(E)\)。</p>
+                            <div class="proof">
+                                <p>（証明）\(S_n\in\mathcal{S}\) で \(E\subset \bigcup_{n} S_n\)。\(E_n:=E\setminus \bigcup_{k=1}^n S_k\) とおくと単調減少。\(E_n\neq\varnothing\) が無限回起こるとコンパクト性の議論より矛盾。したがってある \(N\) が存在して \(E\subset \bigcup_{k=1}^N S_k\)。よって \(\sum_{k=1}^N \mu(S_k)\ge \mu(E)\)。下限をとって \(P(E)=\mu(E)\)。</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="definition">
+                        <h3>Carathéodoryの拡張定理</h3>
+                        <p>[定義（Carathéodory 可測集合）] 任意の \(A\subset\Omega\) について \(\mu^{\ast}(A)=\mu^{\ast}(A\cap E)+\mu^{\ast}(A\cap E^c)\) を満たす \(E\) を可測とする。可測全体を \(\mathcal{F}_{\mu^{\ast}}\) とする。</p>
+                        <p>[定理（Carathéodory の外測度定理）] \(\mu\) が有限加法測度で，任意の \(E\in \mathcal{S}\) について \(P(E)=\mu(E)\) が成り立つとき，\(\mathcal{F}_{\mu^{\ast}}\) は \(\sigma\)-加法族で，\(\mathcal{S}\subset \mathcal{F}_{\mu^{\ast}}\) かつ \(P:=\mu^{\ast}\big|_{\mathcal{F}_{\mu^{\ast}}}\) は測度。特に，\(P\) は \(\mathcal{F}=\sigma(\mathcal{S})\subset \mathcal{F}_{\mu^{\ast}}\) 上の測度である。</p>
+                    </div>
+                    <p>上記の補題をカラテオドリの定理に適用することで，\(P\) が確率測度であることがわかる。</p>
+                </div>
+            <blockquote>
+                <p>結果として，有限次元分布が整合的であれば無限列全体の確率測度 \(P\) が一意に存在し，
+                    無限コイントスや確率過程の厳密なモデル化が可能になる。</p>
+            </blockquote>
         </section>
 
         <section class="outline-section">
@@ -475,6 +496,10 @@
             <div class="theorem">
                 <h3>レポート課題</h3>
                 <ol>
+                    <li>\(\mu\) が well-defined であることを確かめよ。具体的には \(\pi_n^{-1}(A_n)=\pi_m^{-1}(A_m)\) となる \(A_n,A_m\in \mathcal{S}\) について，\(P_n(A_n)=P_m(A_m)\) が成り立つことを示せ。</li>
+                    <li>\(A_i\) は互いに素な \(\Omega\) の集合，\(B_i\) を一般の集合とする。\(D_n:= B_n\setminus \bigcup^{n-1}_{j=1}B_j\) とするとき次を示せ
+                        \[A_n\subset D_n \cup \bigcup^n_{j=1} \left(A_j\triangle B_j\right).\]
+                     </li>
                 </ol>
             </div>
         </section>
