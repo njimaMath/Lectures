@@ -433,8 +433,8 @@
     </div>
 
     <article>
-      <p class="lead">コルモゴロフの拡張定理は、有限個の座標に対する同時分布が整合的に与えられれば無限積空間に一意の確率測度が存在することを保証する。典型例である公平なコイントス列の分布は $\{0,1\}^{\mathbb{N}}$ 上の積測度であり、抽象的な主張だけでなく具体的にも構成できる。</p>
-      <p>ここでは $[0,1]$ 上のルベーグ一様測度を用い、二進展開を通じてその構成手順を追い直す。抽象定理を支える仕組みがどのように見えるのかを段階的に確かめてみよう。</p>
+      <p class="lead">授業で扱ったコルモゴロフの拡張定理は、公平なコイントス無限列の測度を $\{0,1\}^{\mathbb{N}}$ を有限列の拡張という形で定義した。しかしルベーグ測度を用いることで、具体的にも構成できる。</p>
+      <p>ここでは $[0,1]$ 上のルベーグ測度と、二進展開を通じてその構成手順を追い直す。抽象定理を支える仕組みがどのように見えるのかを段階的に確かめてみよう。</p>
 
       <section>
         <h2>[0,1] から $\{0,1\}^{\mathbb{N}}$ の一様測度をつくる</h2>
@@ -495,105 +495,7 @@
       </section>
 
       <section>
-        <h2>体験してみる：コイントスのシミュレーション</h2>
-        <p>以下のシミュレーションでは、独立なコイントス列がどのように生成されるかを可視化する。ボタンでリセットし、表裏の推移と平均獲得額を追いかけてみよう。</p>
-        <div class="sim-card">
-          <div class="sim-head">
-            <div class="sim-title">コイントス・シミュレーション</div>
-            <button class="sim-button" id="sim-replay" type="button">もう一度</button>
-          </div>
-          <div class="coin-stage">
-            <div class="coin" id="coin">
-              <div class="face front">表</div>
-              <div class="face back">裏</div>
-            </div>
-          </div>
-          <div class="sim-summary" id="sim-summary">シミュレーション中…</div>
-          <div class="sim-timeline">
-            <div class="sim-tile" data-index="1">1投目</div>
-            <div class="sim-tile" data-index="2">2投目</div>
-            <div class="sim-tile" data-index="3">3投目</div>
-            <div class="sim-tile" data-index="4">4投目</div>
-            <div class="sim-tile" data-index="5">5投目</div>
-            <div class="sim-tile" data-index="6">6投目</div>
-            <div class="sim-tile" data-index="7">7投目</div>
-            <div class="sim-tile" data-index="8">8投目</div>
-            <div class="sim-tile" data-index="9">9投目</div>
-            <div class="sim-tile" data-index="10">10投目</div>
-            <div class="sim-tile" data-index="11">11投目</div>
-            <div class="sim-tile" data-index="12">12投目</div>
-            <div class="sim-tile" data-index="13">13投目</div>
-            <div class="sim-tile" data-index="14">14投目</div>
-            <div class="sim-tile" data-index="15">15投目</div>
-            <div class="sim-tile" data-index="16">16投目</div>
-            <div class="sim-tile" data-index="17">17投目</div>
-            <div class="sim-tile" data-index="18">18投目</div>
-            <div class="sim-tile" data-index="19">19投目</div>
-            <div class="sim-tile" data-index="20">20投目</div>
-            <div class="sim-tile" data-index="21">21投目</div>
-            <div class="sim-tile" data-index="22">22投目</div>
-            <div class="sim-tile" data-index="23">23投目</div>
-            <div class="sim-tile" data-index="24">24投目</div>
-            <div class="sim-tile" data-index="25">25投目</div>
-            <div class="sim-tile" data-index="26">26投目</div>
-            <div class="sim-tile" data-index="27">27投目</div>
-            <div class="sim-tile" data-index="28">28投目</div>
-            <div class="sim-tile" data-index="29">29投目</div>
-            <div class="sim-tile" data-index="30">30投目</div>
-            <div class="sim-tile" data-index="31">31投目</div>
-            <div class="sim-tile" data-index="32">32投目</div>
-            <div class="sim-tile" data-index="33">33投目</div>
-            <div class="sim-tile" data-index="34">34投目</div>
-            <div class="sim-tile" data-index="35">35投目</div>
-            <div class="sim-tile" data-index="36">36投目</div>
-            <div class="sim-tile" data-index="37">37投目</div>
-            <div class="sim-tile" data-index="38">38投目</div>
-            <div class="sim-tile" data-index="39">39投目</div>
-            <div class="sim-tile" data-index="40">40投目</div>
-            <div class="sim-tile" data-index="41">41投目</div>
-            <div class="sim-tile" data-index="42">42投目</div>
-          </div>
-          <p class="sim-note">各投目の結果と獲得額が順に表示されます。</p>
-        </div>
-      </section>
-
-      <section>
-        <h2>拡張定理との関係と一意性</h2>
-        <p>コルモゴロフの拡張定理の一意性部分により、この $\nu$ は独立な公平コイントス列の標準積測度そのものである。言い換えれば $U \sim \operatorname{Unif}[0,1]$ とすると、$\phi(U)$ は独立同分布の $\operatorname{Bernoulli}(1/2)$ 列となる。</p>
-        <p>この構成は抽象定理が保証する存在と一意性を具体的に実現しており、零集合を除けば</p>
-        <div class="eq">
-          \[
-            ([0,1],\mathcal{B},\lambda) \simeq (\{0,1\}^{\mathbb{N}},\mathcal{C},\nu)
-          \]
-        </div>
-        <p>という測度同型を与える。逆写像</p>
-        <div class="eq">
-          \[
-            \psi(\omega) = \sum_{j=1}^{\infty} \frac{\omega_j}{2^{j}}
-          \]
-        </div>
-        <p>を考えれば、$\psi \circ \phi$ も $\phi \circ \psi$ もそれぞれの零集合を除いて恒等写像になる。</p>
-      </section>
-
-      <section>
-        <h2>力学的視点：独立性の確認</h2>
-        <p>独立性は前節の計算から明らかだが、力学系的にも理解できる。写像</p>
-        <div class="eq">
-          \[
-            T(x) = 2x \pmod 1
-          \]
-        </div>
-        <p>を用いると</p>
-        <div class="eq">
-          \[
-            \varepsilon_1(x) = \mathbf{1}_{[1/2,1)}(x),\qquad \varepsilon_j(x) = \varepsilon_1\bigl(T^{j-1}x\bigr)
-          \]
-        </div>
-        <p>と書ける。$T$ は $\lambda$ に関して測度保存かつベルヌーイ的であり、これによって $(\varepsilon_j)_{j \ge 1}$ が独立列になることがわかる。この観点は二進展開と一様測度の自然な対応を鮮明にする。</p>
-      </section>
-
-      <section>
-        <h2>結び</h2>
+        <h2>まとめ</h2>
         <p>二進展開を通した具体構成により、$\{0,1\}^{\mathbb{N}}$ 上の一様測度は $[0,1]$ の一様測度の像測度として明示的に得られる。端点の二重表現は零集合に吸収されるため実際上の問題はなく、抽象定理の内容が手に取るように理解できる。</p>
       </section>
 
