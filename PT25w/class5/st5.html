@@ -282,112 +282,85 @@
     </div>
 
     <article>
+      <p class="lead">
+        一年間の地震回数がポアソン分布に従う理由を、離散時間と連続時間の二つの視点で整理する。前半では授業で扱った「二項分布の少数の法則」を復習し、後半では微小時間での仮定を手がかりにポアソン過程を導出する。
+      </p>
 
-一年間の地震回数がポアソン分布に従う理由を、二つの視点で順にまとめる。前半は二項分布の「少数の法則」（授業で扱ったので読み飛ばして可）。後半は「微小時間での仮定」からの導出。
+      <h2>1. 二項分布の少数の法則（復習）</h2>
+      <p>
+        1 年間を等間隔に <span class="math">$n$</span> 個の区間に分け、各区間で「少なくとも 1 回地震が起きる」事象を成功とみなす。成功確率を <span class="math">$p_n$</span> とし、区間ごとに独立と仮定すると、年間の回数 <span class="math">$X_n$</span> は二項分布に従う。
+      </p>
+      <div class="eq">
+        X_n \sim \mathrm{Bin}(n,p_n)
+      </div>
+      <p>
+        平均回数が <span class="math">$\lambda$</span> に収束するように <span class="math">$p_n$</span> を選ぶと、二項分布の極限としてポアソン分布が現れる。
+      </p>
+      <div class="eq">
+        \Pr(X_n=k)=\binom{n}{k}p_n^k(1-p_n)^{n-k}\xrightarrow[n\to\infty]{}e^{-\lambda}\frac{\lambda^k}{k!}.
+      </div>
+      <p>
+        つまり「試行回数 <span class="math">$\uparrow$</span>・成功確率 <span class="math">$\downarrow$</span>・平均一定」という極限操作がポアソン分布を生む。
+      </p>
 
+      <h2>2. 微小時間の仮定からの導出（連続時間）</h2>
+      <p>
+        時刻 <span class="math">$t$</span> までの地震回数を <span class="math">$N(t)$</span> とし、以下の 3 つを仮定する。
+      </p>
+      <ol>
+        <li><strong>定常性</strong>：任意の <span class="math">$s,t\ge0$</span> で <span class="math">$N(t+s)-N(s)\stackrel{d}{=}N(t)$</span>、すなわち平均回数は一定の <span class="math">$\lambda$</span>。</li>
+        <li><strong>独立増分</strong>：重ならない時間区間での増分が独立。</li>
+        <li><strong>微小時間の振る舞い</strong>：<span class="math">$h\downarrow0$</span> のとき
+          <span class="math">$\Pr(N(h)=1)=\lambda h+o(h)$</span>、<span class="math">$\Pr(N(h)\ge2)=o(h)$</span>。</li>
+      </ol>
+      <p>
+        ここで <span class="math">$p_k(t):=\Pr(N(t)=k)$</span> と置く。小さな <span class="math">$h&gt;0$</span> に対し、直前区間で 0 回・1 回発生した場合を分け、独立増分を用いると次の差分方程式が得られる。
+      </p>
+      <div class="eq">
+        p_k(t+h)=p_k(t)\Pr(N(h)=0)+p_{k-1}(t)\Pr(N(h)=1)+o(h).
+      </div>
+      <p>
+brace}$</span> から順に解くと、
+  これを両辺 <span class="math">$h$</span> で割って極限をとると、<span class="math">$k\ge1$</span> で <span class="math">$p_k'(t)=-\lambda p_k(t)+\lambda p_{k-1}(t)$</span>、また <span class="math">$p_0'(t)=-\lambda p_0(t)$</span> となる。初期条件 <span class="math">$p_k(0)=\mathbf{1}_{\{k=0\}}$</span> から順に解くと、
+      </p>
+      <div class="eq">
+        p_k(t)=e^{-\lambda t}\frac{(\lambda t)^k}{k!}\quad(k=0,1,2,\dots)
+      </div>
+      <p>
+        よって <span class="math">$N(t)\sim \mathrm{Po}(\lambda t)$</span>、特に 1 年間では <span class="math">$N(1)\sim \mathrm{Po}(\lambda)$</span> となる。
+      </p>
 
----
+      <h2>3. <span class="math">$\Pr(N(h)\ge2)=o(h)$</span> とおく直観</h2>
+      <p>
+        区間 <span class="math">$[0,h]$</span> をさらに <span class="math">$m$</span> 分割し、各サブ区間での発生確率を <span class="math">$p\approx\lambda h/m$</span> とみなすと、二回以上起こる確率は
+      </p>
+      <div class="eq">
+        \binom{m}{2}p^2+O(p^3)\approx\frac{m^2}{2}\left(\frac{\lambda h}{m}\right)^2=O(h^2).
+      </div>
+      <p>
+        一年を <span class="math">$h^{-1}$</span> 個の区間に分ければ二回以上起きる確率は <span class="math">$h^{-1}O(h^2)=O(h)$</span> まで落ち、<span class="math">$h\to0$</span> で無視できる。
+      </p>
 
-1. 二項分布の少数の法則（復習）
+      <h2>4. イベント時刻の均一性</h2>
+      <p>
+        上記の仮定のもとでは、区間 <span class="math">$[0,t]$</span> に <span class="math">$k$</span> 回発生したとき、順序統計 <span class="math">$(T_1&lt;\dots&lt;T_k)$</span> は <span class="math">$[0,t]$</span> 上で一様に並ぶ。この性質からも
+      </p>
+      <div class="eq">
+        \Pr(N(t)=k)=e^{-\lambda t}\frac{(\lambda t)^k}{k!}
+      </div>
+      <p>
+        が確認でき、離散モデルと同じ分布式に到達する。
+      </p>
 
-年を等間隔に $n$ 個の区間に割る。各区間で「少なくとも一度地震が起きる」事象を成功とみなし、成功確率を $p_n$ とする。区間ごとに独立と仮定すれば、年間の回数 $X_n$ は
+      <h2>5. 二つの説明の対応</h2>
+      <p>
+        二項モデルでは「試行回数を増やしつつ成功確率を減らす」極限操作がポアソン分布を導く。連続時間モデルでは「微小区間で 0 回が主、1 回が一次、2 回以上は二次以下」という仮定と独立増分が同じ分布を与える。<span class="math">$h=1/n$</span> と対応づければ、両者は同一の極限原理の離散／連続バージョンと捉えられる。
+      </p>
 
-X_n\sim\mathrm{Bin}(n,p_n)
-
-\Pr(X_n=k)
-=\binom{n}{k}p_n^k(1-p_n)^{n-k}
-\ \xrightarrow[n\to\infty]{}\ e^{-\lambda}\frac{\lambda^k}{k!}.
-
-
-
----
-
-2. 微小時間の仮定からの導出（連続時間の説明）
-
-$N(t)$ を時刻 $t$ までの地震回数とする。次の三つを仮定する。
-
-定常性（時間長だけに依存）
-任意の $s,t\ge0$ で $N(t+s)-N(s)\stackrel{d}{=}N(t)$。一単位時間あたりの平均回数は定数 $\lambda$。
-
-独立増分
-重ならない時間区間での増分は独立。
-
-微小時間の振る舞い
-$h\downarrow0$ で
-
-
-\Pr(N(h)=1)=\lambda h+o(h),\qquad \Pr(N(h)\ge2)=o(h).
-
-このとき、$p_k(t):=\Pr(N(t)=k)$ は微分方程式を満たす。小さな $h>0$ について、
-
-\underbrace{N(t+h)=k}_{\text{時刻 }t+h\text{ で }k\text{ 回}}
-
-直前の長さ $h$ の区間で「0回」で、かつ $N(t)=k$。
-
-直前の区間で「1回」で、かつ $N(t)=k-1$。
-
-
-独立増分より
-
-p_k(t+h)=p_k(t)\Pr(N(h)=0)+p_{k-1}(t)\Pr(N(h)=1)+o(h).
-
-p_k(t+h)-p_k(t)= -\lambda h\,p_k(t)+\lambda h\,p_{k-1}(t)+o(h).
-
-p_k'(t)=-\lambda p_k(t)+\lambda p_{k-1}(t)\quad(k\ge1),\qquad
-p_0'(t)=-\lambda p_0(t).
-
-まず $p_0(t)=e^{-\lambda t}$。
-次に $k=1$ について
-
-p_1'(t)=-\lambda p_1(t)+\lambda p_0(t)=-\lambda p_1(t)+\lambda e^{-\lambda t},
-
-同様に帰納すると
-
-p_k(t)=e^{-\lambda t}\frac{(\lambda t)^k}{k!}\quad(k=0,1,2,\dots)
-
-N(t)\sim\mathrm{Po}(\lambda t),\qquad \text{特に }N(1)\sim\mathrm{Po}(\lambda).
-
-
----
-
-なぜ $\Pr(N(h)\ge2)=o(h)$ と置くのか（直観）
-
-$[0,h]$ をさらに $m$ 分割し、各サブ区間の発生確率を $p\approx \lambda h/m$ とみなすと、二回以上起こる確率は
-
-\binom{m}{2}p^2+O(p^3)\approx \frac{m^2}{2}\left(\frac{\lambda h}{m}\right)^2 = O(h^2).
-
-したがって、一年間のサブ区間の中で、二回以上起きる確率は$h^{-1} O(h^2)=O(h)\to 0\quad (h\to 0)$となって無視できる。
-
-
----
-
-イベント時刻の均一性
-
-上の仮定下では、$[0,t]$ に $k$ 回起きたときの発生時刻の順序統計 $(T_1<\dots<T_k)$ は $[0,t]$ 上で一様に「並ぶ」。したがって
-
-\Pr(N(t)=k)=\Pr(\text{ちょうど }k\text{ 回})=e^{-\lambda t}\cdot\frac{(\lambda t)^k}{k!},
-
-
----
-
-二つの説明の関係
-
-離散モデル（二項分布）では「試行回数 $\uparrow$、成功確率 $\downarrow$、平均一定」という極限でポアソンが現れる。
-
-連続モデル（微小時間の仮定）では「直近の極小区間で 0 回が主・1 回が一次・2 回以上は二次以下」という振る舞いと独立増分が、同じ分布式を生む。
-両者は $h=1/n$ と対応づければ同質の極限原理になっている。
-
-
-
----
-
-地震データへの当てはめと限界
-
-$\lambda$ は「一年あたり平均回数」。長期観測から推定する（例：最大尤度推定で標本平均）。
-
-余震の連鎖が強い期間は独立仮定が壊れる。主震のみを見るか、時間依存強度 $\lambda(t)$ を許す非一様ポアソン過程に拡張する（このとき $N(1)\sim\mathrm{Po}!\left(\int_0^1\lambda(t),dt\right)$）。さらに余震の自己励起性は Hawkes 過程の方が相性が良い。
-
-
+      <h2>6. 実データへの適用と限界</h2>
+      <p>
+        平均回数 <span class="math">$\lambda$</span> は長期観測データから推定する（例：標本平均による最大尤度推定）。ただし余震が連鎖する期間は独立仮定が崩れるため、主震のみを抽出するか、時間依存強度 <span class="math">$\lambda(t)$</span> を許す非一様ポアソン過程や Hawkes 過程など、より柔軟なモデルを使う必要がある。
+      </p>
     </article>
   </main>
 </body>

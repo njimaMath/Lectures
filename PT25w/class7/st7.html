@@ -5,7 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>第7回 補講メモ</title>
 
-  <!-- Softer tone / relaxed magazine style -->
   <style>
     :root{
       --ink:#1a1a1a;
@@ -250,12 +249,12 @@
     }
   </style>
 
-  <!-- MathJax (use $...$ for inline, $$...$$ for display) -->
+  <!-- MathJax (use $...$ / $$...$$) -->
   <script>
     window.MathJax = {
       tex: {
-        inlineMath: [['$', '$'], ['\(', '\)']],
-        displayMath: [['$$','$$'], ['\[','\]']],
+        inlineMath: [['$', '$'], ['\\(', '\\)']],
+        displayMath: [['$$','$$'], ['\\[','\\]']],
         tags: 'none'
       },
       svg: {fontCache: 'global'}
@@ -282,26 +281,57 @@
     </div>
 
     <article>
-      <p class="lead">第7回の講義内容をまとめ直すためのテンプレートです。授業後に残った問いや補足説明を記入し、次回までのフォローアップに活用してください。</p>
+      <p class="lead">第7回では、分布の収束と<strong>特性関数</strong>の関係（レヴィの連続性定理）を学びました。分布を直接扱う代わりに特性関数の極限を見ることで、収束判定や中心極限定理（CLT）の証明が簡潔になります。</p>
 
-      <h2>レイアウトの狙い</h2>
-      <p>誌面風のレイアウトは、重要な数式や一言メモを自然と目に留まらせるためのものです。節の見出しごとに要点を整理し、文章のまとまりが長くなりすぎないように意識してみましょう。</p>
-      <p class="note">図表や演習の補足を書き込みたい場合は、小見出しを増やしながら調整してください。</p>
-
-      <h2>数式メモ</h2>
-      <p>授業で扱った主要な等式は、この囲みを使ってまとめます。次のような条件付き確率の形を例としておきます。</p>
+      <h2>特性関数の基本</h2>
+      <p>実数値確率変数 $X$ の特性関数は</p>
       <div class="eq">$$
-        \mathbb{P}(A\mid B) = \frac{\mathbb{P}(A \cap B)}{\mathbb{P}(B)}
+        \varphi_X(t) = \mathbb{E}[e^{itX}], \qquad t\in\mathbb{R}.
       $$</div>
-      <p>式の意味だけでなく、どのタイミングで適用したのかも併記しておくと復習時に役立ちます。</p>
+      <p>常に存在し、$|\varphi_X(t)|\le 1$, $\varphi_X(0)=1$, 一様連続です。さらに、特性関数は分布を一意に定めます（同じ $\varphi$ なら同じ分布）。</p>
 
-      <h2>次のアクション</h2>
-      <p>疑問点が残っている場合は、講義メモの末尾に TODO として書き出しておきましょう。例えば</p>
-      <div class="pull">例：独立性の条件を確認する演習問題をもう一度解く。</div>
-      <p>次回の講義や演習時間で講師へ質問する内容をここにストックしておくと、学習の流れが継続しやすくなります。</p>
+      <div class="theorem">
+        <div class="label">定理（レヴィの連続性定理）</div>
+        <p>$X_n\Rightarrow X$ であることと、全ての $t\in\mathbb{R}$ で</p>
+        <div class="eq">$$
+          \varphi_{X_n}(t)\longrightarrow \varphi_X(t)
+        $$</div>
+        <p>が成り立つことは同値です。特に極限 $\varphi(t)$ が特性関数ならば、その分布に $X_n$ は分布収束します。</p>
+      </div>
 
-      <p class="footer-note">このテンプレートは講義ごとに自由に書き換えて構いません。章ごとの見出しや数式の枠を増やすときは、必要に応じて複製してください。</p>
+      <h2>CLT のスケッチ（特性関数による証明）</h2>
+      <p>独立同分布 $\{X_i\}$（平均 $0$, 分散 $1$）とし、$S_n=\frac{1}{\sqrt{n}}\sum_{i=1}^n X_i$。このとき</p>
+      <div class="eq">$$
+        \varphi_{S_n}(t) = \big(\varphi_{X_1}(t/\sqrt{n})\big)^n,\qquad
+        \log \varphi_{X_1}(u) = -\tfrac{1}{2}u^2 + o(u^2)\ (u\to0).
+      $$</div>
+      <p>ゆえに $\log\varphi_{S_n}(t) = n\,(-\tfrac{1}{2}(t/\sqrt{n})^2 + o(n^{-1})) \to -\tfrac{t^2}{2}$、したがって</p>
+      <div class="eq">$$
+        \varphi_{S_n}(t) \to e^{-t^2/2} \quad (\mathcal{N}(0,1) \text{ の特性関数})
+      $$</div>
+      <p>より $S_n\Rightarrow \mathcal{N}(0,1)$。</p>
+
+      <h2>MGF との関係・注意点</h2>
+      <p>MGF（積率母関数）$M_X(t)=\mathbb{E}[e^{tX}]$ は便利ですが、$t\ne0$ で発散する分布もあります（例：標準コーシー）。一方、特性関数は常に存在し、分布の一意性・収束判定に安定して使えます。</p>
+      <div class="pull">例：標準コーシー $\mathrm{Cauchy}(0,1)$ は $M_X(t)$ 不存在（$t\ne0$）だが、特性関数は $\varphi_X(t)=e^{-|t|}$。</div>
+
+      <h2>実用メモ</h2>
+      <ul>
+        <li>分布収束を示したいときは、特性関数の極限を計算してレヴィの定理を使う。</li>
+        <li>和や独立性が絡むときは、特性関数の積の公式が有効。</li>
+        <li>MGF は存在域に注意。存在しないときは特性関数で置き換える。</li>
+      </ul>
+
+      <h2>まとめ</h2>
+      <ul>
+        <li>$X_n\Rightarrow X$ ⇔ $\varphi_{X_n}(t)\to\varphi_X(t)$（全ての $t$）。</li>
+        <li>特性関数は常に存在し分布を一意に決める。</li>
+        <li>CLT の証明は特性関数で極めて簡潔になる。</li>
+      </ul>
+
+      <p class="footer-note">誤植や補足の希望があれば、次回の講義までにお知らせください。式は MathJax で整形表示されます。</p>
     </article>
   </main>
 </body>
 </html>
+

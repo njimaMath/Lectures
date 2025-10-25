@@ -250,12 +250,12 @@
     }
   </style>
 
-  <!-- MathJax (use $...$ for inline, $$...$$ for display) -->
+  <!-- MathJax (use $...$ / $$...$$) -->
   <script>
     window.MathJax = {
       tex: {
-        inlineMath: [['$', '$'], ['\(', '\)']],
-        displayMath: [['$$','$$'], ['\[','\]']],
+        inlineMath: [['$', '$'], ['\\(', '\\)']],
+        displayMath: [['$$','$$'], ['\\[','\\]']],
         tags: 'none'
       },
       svg: {fontCache: 'global'}
@@ -282,144 +282,77 @@
     </div>
 
     <article>
-[TEX]
+      <p class="lead">第8回では、確率変数列に対する代表的な収束概念（分布収束・確率収束・概収束）の関係を整理しました。ここでは反例と便利な道具（スコロホッド表現・Borel–Cantelli）を短くまとめておきます。</p>
 
-\section*{分布収束・確率収束・概収束の逆について}
+      <h2>分布収束は概収束を含意しない</h2>
+      <p>よって $X_n$ は分布としては一定、すなわち分布収束している。</p>
+      <p>しかし任意の $\omega \in (0,1)\setminus\{\tfrac12\}$ に対して次のように値が交互に変化し、極限は存在しない：</p>
+      <div class="eq">$$
+        X_1(\omega)=1,\ \; X_2(\omega)=0,\ \; X_3(\omega)=1,\ \; X_4(\omega)=0,\ \;\dots
+      $$</div>
+      <p>したがって $X_n$ は概収束しない。</p>
 
-前回は
-[
-\text{概収束} ;\Rightarrow; \text{確率収束} ;\Rightarrow; \text{分布収束}
-]
-が成り立つことを示した。ここではその逆向きが成り立つかどうかを考える。
+      <div class="theorem">
+        <div class="label">定理（スコロホッド表現：実数値）</div>
+        <p>ただし、空間を取り替えれば分布収束を概収束に変換できる。すなわち、確率変数列 $X_n$ と確率変数 $X$ が分布収束 $X_n \Rightarrow X$ するとき、ある確率空間 $(\tilde{\Omega},\tilde{\mathcal{F}},\tilde{\mathbb{P}})$ と確率変数 $\tilde{X}_n,\tilde{X}$ が存在して</p>
+        <div class="eq">$$
+          \tilde{X}_n \stackrel{d}{=} X_n, \quad
+          \tilde{X} \stackrel{d}{=} X, \quad
+          \tilde{X}_n \to \tilde{X} \text{ a.s.}
+        $$</div>
+        <p>が同時に成り立つ。</p>
+      </div>
 
----
+      <h2>確率収束は概収束を含意しない</h2>
+      <p>確率収束は「$|X_n-X|>\varepsilon$ の確率が 0 に近づく」という平均的な近さの概念であり、すべての $\omega$ で $X_n(\omega)\to X(\omega)$ となるとは限りません。</p>
 
-\subsection*{1. 分布収束から概収束は成り立たない}
+      <div class="theorem">
+        <div class="label">命題（十分条件：Borel–Cantelli）</div>
+        <p>任意の $\varepsilon>0$ に対して</p>
+        <div class="eq">$$
+          \sum_{n=1}^\infty \mathbb{P}(|X_n - X|>\varepsilon) < \infty
+        $$</div>
+        <p>ならば $X_n \to X$ は almost surely に成り立つ。</p>
+        <p class="note">証明のアイデア：$A_n(\varepsilon)=\{|X_n-X|>\varepsilon\}$ とおき、Borel–Cantelli より $A_n(\varepsilon)$ が無限回起こる確率は 0。よって $|X_n-X|\to0$ a.s.</p>
+      </div>
 
-分布収束は確率変数の「取りうる値と確率の分布」だけを考え、
-それぞれの確率変数を同じ確率空間上で比較していない。
-したがって、分布収束しても概収束するとは限らない。
+      <h2>部分列は常に概収束する</h2>
+      <p>$X_n \xrightarrow{\mathbb{P}} X$ ならば、概収束する部分列を必ず取れる。例えば $k$ ごとに $n_k$ を</p>
+      <div class="eq">$$
+        \mathbb{P}(|X_{n_k}-X|>2^{-k}) < 2^{-k}
+      $$</div>
+      <p>となるよう選べば</p>
+      <div class="eq">$$
+        \sum_{k=1}^{\infty} \mathbb{P}(|X_{n_k}-X|>2^{-k}) < \infty
+      $$</div>
+      <p>より Borel–Cantelli で $X_{n_k}\to X$ a.s.</p>
 
-\paragraph{例}
-確率空間 $(0,1)$ にルベーグ測度 $\mathbb{P}$ を入れ、
-[
-A_{2k-1} = [0,\tfrac12), \quad A_{2k} = [\tfrac12,1), \quad
-X_n = \mathbf{1}_{A_n}
-]
-と定める。
-どの $n$ に対しても
-[
-\mathbb{P}(X_n=1) = \tfrac12
-]
-であるから、$X_n$ の分布は常に $\mathrm{Bernoulli}(1/2)$。
-よって $X_n$ は分布としては一定、すなわち分布収束している。
+      <h2>反例（タイプライタ列）</h2>
+      <p>確率空間 $(0,1)$ にルベーグ測度を入れ、$n=2^k+j\ (0\le j<2^k)$ と書いて</p>
+      <div class="eq">$$
+        I_n = \Big[\tfrac{j}{2^k},\tfrac{j+1}{2^k}\Big), \qquad X_n = \mathbf{1}_{I_n}.
+      $$</div>
+      <p>このとき</p>
+      <div class="eq">$$
+        \mathbb{P}(X_n=1)=2^{-k}\to0,
+      $$</div>
+      <p>したがって $X_n\xrightarrow{\mathbb{P}}0$。しかし各 $\omega\in(0,1)$ に対して $X_n(\omega)=1$ となる $n$ が無限に存在するため、$X_n(\omega)$ は $1,0,1,0,\dots$ と振動し収束しない。よって概収束は成り立たない。</p>
 
-しかし任意の $\omega \in (0,1)\setminus{\tfrac12}$ に対して
-[
-X_1(\omega)=1,\ X_2(\omega)=0,\ X_3(\omega)=1,\ X_4(\omega)=0,\dots
-]
-と値が交互に変化し、極限は存在しない。
-したがって $X_n$ は概収束しない。
+      <h2>まとめ</h2>
+      <div class="eq">$$
+        \text{概収束} \Rightarrow \text{確率収束} \Rightarrow \text{分布収束}
+      $$</div>
+      <div class="eq">$$
+        \text{分布収束} \nRightarrow \text{確率収束, 概収束},\qquad
+        \text{確率収束} \nRightarrow \text{概収束}
+      $$</div>
+      <ul>
+        <li>分布収束 $\Rightarrow$ 概収束 は同一空間では一般に偽だが、スコロホッド表現で別空間上なら可。</li>
+        <li>$\sum_n \mathbb{P}(|X_n-X|>\varepsilon)<\infty$ なら確率収束 $\Rightarrow$ 概収束。</li>
+        <li>確率収束からは、概収束する部分列を必ず取り出せる。</li>
+      </ul>
 
----
-
-\paragraph{スコロホッド表現定理}
-
-ただし、空間を取り替えれば分布収束を概収束に変換できる。
-
-\begin{theorem}[スコロホッド表現定理（実数値の場合）]
-確率変数列 $X_n$ と確率変数 $X$ が分布収束 $X_n \Rightarrow X$ するとき、
-ある新しい確率空間 $(\tilde{\Omega},\tilde{\mathcal{F}},\tilde{\mathbb{P}})$ と
-確率変数 $\tilde{X}_n,\tilde{X}$ が存在して、
-[
-\tilde{X}_n \stackrel{d}{=} X_n, \quad
-\tilde{X} \stackrel{d}{=} X, \quad
-\tilde{X}_n \to \tilde{X} \text{ a.s.}
-]
-が同時に成り立つ。
-\end{theorem}
-
-すなわち、分布収束は同一空間での概収束を保証しないが、
-**確率空間をうまく作りなおせば概収束にできる**。
-
----
-
-\subsection*{2. 確率収束から概収束は成り立たない}
-
-確率収束は「$|X_n-X|>\varepsilon$ の確率が 0 に近づく」ことを意味するが、
-これはあくまで「平均的に」近いという意味であり、
-すべての $\omega$ に対して $X_n(\omega)\to X(\omega)$ が成り立つとは限らない。
-
-\paragraph{成立する十分条件}
-次の条件を満たすときには概収束が得られる。
-
-\begin{proposition}
-任意の $\varepsilon>0$ に対して
-[
-\sum_{n=1}^\infty \mathbb{P}(|X_n-X|>\varepsilon) < \infty
-]
-ならば $X_n \to X$ almost surely に成り立つ。
-\end{proposition}
-
-\begin{proof}
-$A_n(\varepsilon)={|X_n-X|>\varepsilon}$ とおく。
-仮定より $\sum_n \mathbb{P}(A_n(\varepsilon))<\infty$ だから、
-Borel–Cantelli の定理より
-$\mathbb{P}(A_n(\varepsilon)\text{ が無限回起こる})=0$。
-すなわち、$|X_n-X|\to0$ a.s.
-\end{proof}
-
----
-
-\paragraph{部分列は常に概収束する}
-
-$X_n \xrightarrow{\mathbb{P}} X$ ならば、概収束する部分列を必ず取ることができる。
-具体的には $k$ ごとに $n_k$ を
-[
-\mathbb{P}(|X_{n_k}-X|>2^{-k}) < 2^{-k}
-]
-となるように選べば
-[
-\sum_k \mathbb{P}(|X_{n_k}-X|>2^{-k}) < \infty,
-]
-よって Borel–Cantelli より $X_{n_k}\to X$ a.s.
-
----
-
-\paragraph{反例（タイプライタ列）}
-確率空間 $(0,1)$ にルベーグ測度を入れ、
-$n=2^k+j\ (0\le j<2^k)$ と書いて
-[
-I_n = \Big[\frac{j}{2^k},\frac{j+1}{2^k}\Big), \qquad X_n = \mathbf{1}_{I_n}.
-]
-このとき
-[
-\mathbb{P}(X_n=1)=2^{-k}\to0,
-]
-したがって $X_n\xrightarrow{\mathbb{P}}0$。
-しかし各 $\omega\in(0,1)$ に対して、$X_n(\omega)=1$ となる $n$ が無限に存在するため
-$X_n(\omega)$ は $1,0,1,0,\dots$ と振動し、収束しない。
-よって概収束は成り立たない。
-
----
-
-\subsection*{3. まとめ}
-
-[
-\begin{array}{lll}
-\text{概収束} &\Rightarrow& \text{確率収束} \
-\text{確率収束} &\Rightarrow& \text{分布収束} \
-\text{分布収束} &\nRightarrow& \text{確率収束, 概収束} \
-\text{確率収束} &\nRightarrow& \text{概収束}
-\end{array}
-]
-
-ただし
-
-* 分布収束 $\Rightarrow$ 概収束 はスコロホッド表現により別空間上では可能。
-* 確率収束 $\Rightarrow$ 概収束 は $\sum_n \mathbb{P}(|X_n-X|>\varepsilon)<\infty$ のとき成立。
-* 確率収束からは概収束する部分列を必ず取り出せる。
-    </article>
+     </article>
   </main>
 </body>
 </html>
