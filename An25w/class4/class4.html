@@ -275,11 +275,6 @@
             color: var(--accent-strong);
         }
 
-        .katex-display {
-            overflow-x: auto;
-            overflow-y: hidden;
-        }
-
         @media (max-width: 768px) {
             body {
                 padding: 32px 16px;
@@ -303,78 +298,219 @@
             }
         }
     </style>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.10/dist/katex.min.css" integrity="sha384-wcIxkf4k558fYv3mQPFEpCREUQueRFCZrCXCtiKU8aNVbN9ODdVcN3BwCAJ6pcBb" crossorigin="anonymous">
-    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.10/dist/katex.min.js" integrity="sha384-hIoBPJpTUs74ddyc4bFZSM1TVlQDA60VBbJS0oA934VSz82sBx1X7kSx2ATBDIyd" crossorigin="anonymous"></script>
-    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.10/dist/contrib/auto-render.min.js" integrity="sha384-43gviWU0YVjaDtb/GhzOouOXtZMP/7XUzwPTstBeZFe/+rCMvRwr4yROQP43s0Xk" crossorigin="anonymous"
-        onload="renderMathInElement(document.body);"></script>
+
+    <!-- MathJax configuration (uses $...$ and $$...$$) -->
     <script>
-        document.addEventListener("DOMContentLoaded", function() {
-            renderMathInElement(document.body, {
-                delimiters: [
-                    {left: '$$', right: '$$', display: true},
-                    {left: '$', right: '$', display: false}
-                ],
-                throwOnError : false
-            });
-        });
+    window.MathJax = {
+      tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']],
+        displayMath: [['$$', '$$'], ['\\[', '\\]']],
+        processEscapes: true,
+        processEnvironments: true
+      },
+      options: {
+        skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code', 'svg', 'math'],
+        ignoreHtmlClass: 'no-mathjax',
+        processHtmlClass: 'mathjax-process'
+      }
+    };
     </script>
+    <script id="MathJax-script" async
+      src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
 </head>
 <body>
-    <main>
     <main>
         <header class="hero">
             <span class="hero-label">Lecture 4</span>
             <h1>第4回 重積分の計算と累次積分</h1>
-            <p>計算可能な形に分割する累次積分を導入し、Fubiniの定理を活用します。</p>
+          
         </header>
 
-        <section class="outline-section">
-            <h2>Section 1. 講義概要</h2>
-            <div class="note">
-                <strong>テーマ:</strong> 累次積分による計算手法
-            </div>
-            <div class="definition">
-                <strong>到達目標:</strong>
-                <ul>
-                    <li>Fubiniの定理の主張と適用条件を説明できる</li><li>領域を上手く分割して累次積分を実行する</li><li>計算例から順序の入れ替えの有効性を確認する</li>
-                </ul>
-            </div>
-        </section>
+    <h2>重積分の基礎（復習と逐次積分）</h2>
+<section>
+  <h3>1. 一変数から二変数へ：リーマン和の復習</h3>
+  <p>
+    区間 $[a,b]$ を等分し、$\Delta=\dfrac{b-a}{N}$、右端点 $x_i=a+i\Delta\ (i=1,\dots,N)$ とすると、
+    一変数関数 $f$ に対し
+    $$S_N(f)=\Delta\sum_{i=1}^N f(x_i)\ \to\ \int_a^b f(x)\,dx\quad (N\to\infty).$$
+  </p>
+  <p>
+    長方形 $K=[a,b]\times[c,d]$ に対し、$\Delta_x=\dfrac{b-a}{N}$、$\Delta_y=\dfrac{d-c}{M}$、
+    $x_i=a+i\Delta_x$、$y_j=c+j\Delta_y$ とおくと、
+  </p>
+  $$S_{N,M}(f)=\Delta_x\Delta_y\sum_{i=1}^N\sum_{j=1}^M f(x_i,y_j).$$
+  <div class="concept-card focus-card">
+    <strong>リーマン和から重積分へ</strong>
+    <p>格子幅 $\Delta_x,\Delta_y$ を小さくしていくと、分割された小さな長方形の体積の総和
+      $S_{N,M}(f)$ が極限的に二重積分に近づく。</p>
+    <ul>
+      <li>$S_{N,M}(f)$ は長方形領域 $K$ を細かく切ったときの近似値。</li>
+      <li>$N,M\to\infty$ の極限が存在すれば、それを $\iint_K f$ と定義する。</li>
+    </ul>
+  </div>
+  <p>
+    $f$ が可積分なら
+    $$\iint_{K} f(x,y)\,dx\,dy=\lim_{N,M\to\infty} S_{N,M}(f)$$
+    と定義（= 一致）される。
+  </p>
+</section>
 
-        <section class="outline-section">
-            <h2>Section 2. 重要な公式・キーポイント</h2>
-            <div class="formula">$$ \iint_{R} f(x,y)\,dA = \int_a^b\left(\int_{g_1(x)}^{g_2(x)} f(x,y)\,dy\right)dx $$</div><div class="formula">$$ \int_{\alpha}^{\beta} \int_{\gamma}^{\delta} f(x,y)\,dy\,dx = \int_{\gamma}^{\delta} \int_{\alpha}^{\beta} f(x,y)\,dx\,dy $$</div>
-            <div class="proof">
-                <strong>チェックリスト:</strong>
-                <ul class="highlight-list">
-                    <li>公式の導出過程を説明できるか。</li>
-                    <li>適用条件や必要な仮定を記憶しているか。</li>
-                    <li>例題に当てはめて計算できるか。</li>
-                </ul>
-            </div>
-        </section>
+<section>
+  <h3>2. 長方形上の逐次積分 </h3>
+  <div class="theorem">
+    <strong>逐次積分の交換（Fubini/Tonelli）</strong>
+    <p>$y$ を固定すると $x\mapsto f(x,y)$ は一変数関数とみなせるので $\int_a^b f(x,y)\,dx$ が考えられる。
+      十分な可積分性（例：$f\in L^1(K)$）のもとで
+    </p>
+    $$\iint_{K} f(x,y)\,dx\,dy=\int_c^d\Bigl(\int_a^b f(x,y)\,dx\Bigr)\,dy
+      =\int_a^b\Bigl(\int_c^d f(x,y)\,dy\Bigr)\,dx.$$
+  </div>
+  <details class="proof">
+    <summary>証明のスケッチ（リーマン和の極限）</summary>
+    <p>
+      $j$ を固定すると
+      $$\Delta_x\sum_{i=1}^N f(x_i,y_j)=S_N(f_j)\ \to\ \int_a^b f(x,y_j)\,dx\quad(N\to\infty).$$
+      よって
+      $$S_{N,M}(f)\ \to\ \Delta_y\sum_{j=1}^M\int_a^b f(x,y_j)\,dx
+      = \Delta_y\sum_{j=1}^M g(y_j)=S_M(g)\ \to\ \int_c^d g(y)\,dy,$$
+      ただし $g(y)=\int_a^b f(x,y)\,dx$。
+    </p>
+  </details>
 
-        <section class="outline-section">
-            <h2>Section 3. 演習課題</h2>
-            <div class="example">
-                <strong>練習問題:</strong>
-                <ol>
-                    <li>(1) 領域$0 \le y \le x \le 1$で$\iint (x+y)\,dA$を計算する</li><li>(2) 積分順序の入れ替えが有効な例・不適切な例を挙げる</li><li>(3) 三重積分を累次積分で計算する例題を作る</li>
-                </ol>
-            </div>
-            <div class="note">
-                <strong>アドバイス:</strong> 領域図を必ず描き、積分順序を決める際の可視化を習慣化しましょう。
-            </div>
-        </section>
+  <h4>例 1</h4>
+  <p>次を計算せよ：</p>
+  $$\iint_{[0,1]\times[0,1]} xy\,dx\,dy$$
+  <details class="toggle-solution">
+    <summary>計算を表示</summary>
+    <div>
+      $$\iint_{[0,1]\times[0,1]} xy\,dx\,dy
+        = \int_0^1\Bigl(\int_0^1 xy\,dx\Bigr)dy
+        = \int_0^1 \frac{y}{2}\,dy
+        = \frac{1}{4}.$$
+      <p>逆順でも同様に $\dfrac{1}{4}$。</p>
+    </div>
+  </details>
 
-        <section class="outline-section">
-            <h2>Section 4. 次回までに</h2>
-            <ul>
-                <li>ノートを整理し、重要な定理と例題をまとめ直す。</li>
-                <li>不明点があれば授業冒頭で質問できるよう準備する。</li>
-                <li>関連する教科書の該当ページを読み、例題を一度自力で解く。</li>
-            </ul>
-        </section>
+  <h4>例 2（順序を入れ替えて計算）</h4>
+  <p>次を計算せよ（順序を入れ替えて確かめる）：</p>
+  $$\iint_{[-1,1]\times[0,2]} (2x+1)y\,dx\,dy$$
+  <details class="toggle-solution">
+    <summary>計算を表示</summary>
+    <div>
+      <p>まず $x$ で積分：</p>
+      $$\int_0^2\Bigl(\int_{-1}^1 (2x+1)y\,dx\Bigr)dy
+        =\int_0^2 y\Bigl(\underbrace{\int_{-1}^1 2x\,dx}_{=0}+\underbrace{\int_{-1}^1 1\,dx}_{=2}\Bigr)dy
+        =\int_0^2 2y\,dy=4.$$
+      <p>逆順でも</p>
+      $$\int_{-1}^1\Bigl(\int_0^2 (2x+1)y\,dy\Bigr)dx
+        =\int_{-1}^1 (2x+1)\cdot\frac{4}{2}\,dx
+        =2\int_{-1}^1 (2x+1)\,dx=4.$$
+    </div>
+  </details>
+  <div class="graph">
+    <svg viewBox="0 0 220 160" role="img" aria-label="長方形領域の等分割">
+      <rect x="30" y="20" width="160" height="120" fill="#e0e7ff" fill-opacity="0.4" stroke="#1e3a8a" stroke-width="2" />
+      <rect x="30" y="20" width="40" height="40" fill="#93c5fd" fill-opacity="0.6" stroke="#1e3a8a" stroke-width="1.5" />
+      <line x1="70" y1="20" x2="70" y2="140" stroke="#1e3a8a" stroke-dasharray="4 4" stroke-width="1.2" />
+      <line x1="110" y1="20" x2="110" y2="140" stroke="#1e3a8a" stroke-dasharray="4 4" stroke-width="1.2" />
+      <line x1="150" y1="20" x2="150" y2="140" stroke="#1e3a8a" stroke-dasharray="4 4" stroke-width="1.2" />
+      <line x1="30" y1="60" x2="190" y2="60" stroke="#1e3a8a" stroke-dasharray="4 4" stroke-width="1.2" />
+      <line x1="30" y1="100" x2="190" y2="100" stroke="#1e3a8a" stroke-dasharray="4 4" stroke-width="1.2" />
+      <text x="105" y="152" fill="#1e3a8a" font-size="12">Δx</text>
+      <text x="18" y="85" fill="#1e3a8a" font-size="12" transform="rotate(-90 18 85)">Δy</text>
+    </svg>
+    <p>長方形領域を格子で細分し、各小領域の代表値と面積要素を掛け合わせて総和を取るイメージ。</p>
+  </div>
+
+  <table aria-label="逐次積分の順序の比較">
+    <thead>
+      <tr>
+        <th scope="col">順序</th>
+        <th scope="col">内積分の意味</th>
+        <th scope="col">使いやすい状況</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>$ \displaystyle \int_c^d\!\bigl(\int_a^b f(x,y)\,dx\bigr)\,dy $</td>
+        <td>$y$ を固定し $x$ 方向に面積を積み上げる。</td>
+        <td>$x$ 範囲が一定で $x$ に関する原始関数が取りやすいとき。</td>
+      </tr>
+      <tr>
+        <td>$ \displaystyle \int_a^b\!\bigl(\int_c^d f(x,y)\,dy\bigr)\,dx $</td>
+        <td>$x$ を固定し $y$ 方向に積分してから $x$ 全体を集計する。</td>
+        <td>$y$ 範囲が一定で $y$ 積分が簡単なとき。</td>
+      </tr>
+      <tr>
+        <td>交換の判断</td>
+        <td colspan="2">対称性（偶奇性）や境界の形、計算の容易さを点検して順序を選ぶ。</td>
+      </tr>
+    </tbody>
+  </table>
+</section>
+
+<section>
+  <h3> 一般領域での逐次積分（縦に切る型）</h3>
+  <p>
+    $$D=\{(x,y):\ a\le x\le b,\ \phi(x)\le y\le \psi(x)\}$$
+    とする（$\phi,\psi$ は区間 $[a,b]$ 上の関数、$\phi(x)\le\psi(x)$）。
+    指示関数 $\tilde f=f\cdot \mathbf{1}_D$ を $K=[a,b]\times[c,d]$ 上に延長すると、
+  </p>
+  <div class="definition">
+    <strong>縦に切る型（Type I）領域</strong>
+    <p>$a\le x\le b$ の各 $x$ に対して $y$ の範囲が $\phi(x)\le y\le\psi(x)$ で抑えられる領域。
+      $x$ を固定すると縦線で切った断面の長さが単純に表せる。</p>
+    <ul>
+      <li>$\phi(x)$ が下側境界、$\psi(x)$ が上側境界を与える。</li>
+      <li>横に切る型（Type II）では役割が入れ替わり、$y$ を外側に取る。</li>
+    </ul>
+  </div>
+  $$\iint_D f(x,y)\,dx\,dy=\int_a^b\Bigl(\int_{\phi(x)}^{\psi(x)} f(x,y)\,dy\Bigr)\,dx.$$
+  <details>
+    <summary>証明のスケッチ</summary>
+    <p>
+      $D\subset K$ をとり、$\tilde f=f\mathbf{1}_D$ とすると
+      $$\iint_D f=\iint_K \tilde f
+        =\int_a^b\Bigl(\int_c^d \tilde f(x,y)\,dy\Bigr)\,dx
+        =\int_a^b\Bigl(\int_{\phi(x)}^{\psi(x)} f(x,y)\,dy\Bigr)\,dx.$$
+    </p>
+  </details>
+
+  <h4>例 3（三角形領域）</h4>
+  <p>
+    $D=\{(x,y): 0\le x\le 1,\ 0\le y\le x\}$、$f(x,y)=x$ として次を計算せよ：
+  </p>
+  $$\iint_D x\,dx\,dy$$
+  <details class="toggle-solution">
+    <summary>計算を表示</summary>
+    <div>
+      $$\iint_D x\,dx\,dy = \int_0^1\Bigl(\int_0^x x\,dy\Bigr)dx
+        = \int_0^1 x\cdot x\,dx = \int_0^1 x^2\,dx=\frac{1}{3}.$$
+    </div>
+  </details>
+  <div class="graph">
+    <svg viewBox="0 0 220 180" role="img" aria-label="三角形領域 D の図">
+      <line x1="40" y1="150" x2="200" y2="150" stroke="#1f2937" stroke-width="2" />
+      <line x1="40" y1="150" x2="40" y2="30" stroke="#1f2937" stroke-width="2" />
+      <polygon points="40,150 160,150 160,30" fill="#bfdbfe" fill-opacity="0.7" stroke="#1e3a8a" stroke-width="2" />
+      <line x1="40" y1="150" x2="160" y2="30" stroke="#1d4ed8" stroke-width="2" stroke-dasharray="6 4" />
+      <text x="198" y="166" fill="#1f2937" font-size="12">x</text>
+      <text x="26" y="38" fill="#1f2937" font-size="12">y</text>
+      <text x="165" y="32" fill="#1d4ed8" font-size="12">y=x</text>
+      <text x="125" y="115" fill="#1e3a8a" font-size="12">D</text>
+    </svg>
+    <p>縦に切ると $x$ ごとに $0\le y\le x$ の範囲が得られ、積分順序を自然に決められる。</p>
+  </div>
+
+  <p>
+    一般の集合 $D$ は、有限個（または可算個）の「縦に切る型」「横に切る型」の単純領域に分割し、
+    各部分で上の定理を適用して総和を取るのが基本手順。
+  </p>
+</section>
+
+<!-- 演習セクションを削除しました -->
+
+
 </main>
 </body>
 </html>
