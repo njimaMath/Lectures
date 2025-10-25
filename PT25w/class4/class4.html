@@ -382,11 +382,10 @@
         <header class="hero">
             <span class="hero-label">Lecture 04</span>
             <h1>Kolmogorovの拡張定理</h1>
-            <p>整合的な有限次元分布を与えるだけで無限次元の確率測度が一意に構成できることを示し，無限コイントスや確率過程の厳密なモデル化に備える。</p>
         </header>
 
         <section class="outline-section">
-            <h2>1 可積分性と収束の準備</h2>
+            <h2> 可積分性と収束の準備</h2>
             <div class="definition">
                 <h3>定義（可積分性）</h3>
                 <p>確率変数 \(X\) に対し，正部 \(X_+=\max\{X,0\}\)，負部 \(X_-=\max\{-X,0\}\) とおく。このとき
@@ -394,21 +393,21 @@
             </div>
             <div class="theorem">
                 <h3>命題（単調収束）</h3>
-                <p>確率変数列 \(X_n:\Omega\to\mathbb{R}\) がフィルトレーション \((\mathcal{F}_n)\) に関し \(\mathcal{F}_n\subseteq\mathcal{F}_{n+1}\) を満たし，
-                    \((X_0)_-\) が可積分で \(X_n\uparrow X\) が成立するならば
+                <p>確率変数列 \(X_n:\Omega\to\mathbb{R}\) 
+について、                    \((X_0)_-\) が可積分で \(X_n\uparrow X\) が成立するならば
                     \(\mathbb{E}[\lim_{n\to\infty} X_n]=\lim_{n\to\infty}\mathbb{E}[X_n]\) が成り立つ。</p>
                 <div class="proof">
-                    <p>単調収束定理（Beppo–Levi）を適用する。負の部分を制御する条件が期待値の極限交換を保証する。</p>
+                    <p>ルベーグ測度論の単調収束定理（Beppo–Levi）の特別な場合である。</p>
                 </div>
             </div>
             <div class="focus-card">
                 <h3>優収束定理の補足</h3>
-                <p>さらに \(X_n\to X\) ほぼ確実かつ \(|X_n|\le Y\) を満たす可積分な支配変数 \(Y\) が存在するなら
-                    \(\mathbb{E}[\lim X_n]=\mathbb{E}[X]\) が従う。Kolmogorov の拡張ではこの「有限次元分布の整合性」から得られる界が重要になる。</p>
+                <p>確率変数列\(X_n,X\)について \(X_n\to X\quad a.s.\) かつ \(|X_n|\le Y\) を満たす可積分な確率変数 \(Y\) が存在するなら
+                    \(\mathbb{E}[\lim X_n]=\mathbb{E}[X]\) が従う。</p>
             </div>
         </section>
         <section class="outline-section">
-            <h2>2 有限回コイントスの復習</h2>
+            <h2>有限回コイントスの復習</h2>
             <div class="definition">
                 <h3>定義（有限試行の確率空間）</h3>
                 <p>公平なコインを \(n\) 回投げるとき
@@ -423,12 +422,12 @@
             </div>
             <div class="focus-card">
                 <h3>有限モデルの役割</h3>
-                <p>Kolmogorov の拡張定理では，これら有限次元の確率構造を無限次数に拡張する。有限次元分布が整合的であれば，無限列全体の確率測度が一意に定まる。</p>
+                <p>Kolmogorov の拡張定理では，これら有限次元の確率構造を無限次数に拡張する。</p>
             </div>
         </section>
 
         <section class="outline-section">
-            <h2>3 無限試行とKolmogorovの枠組み</h2>
+            <h2>無限試行とKolmogorovの枠組み</h2>
             <div class="focus-card">
                 <h3>無限回コイントスの課題</h3>
                 <p>無限回コインを投げたいが，単純に試行回数 \(n\) を \(n \to \infty\) とするだけでは各事象の確率
