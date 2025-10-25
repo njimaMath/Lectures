@@ -42,59 +42,219 @@ F=σ(¥mathcal{S}),  P(A)=¥inf_{(B_k)∈¥mathcal{S}, A⊆¥cup B}¥sum µ(B_k)
 
 Thm: P は (¥Omega,F) 上の確率測度である。
 
-section 3 / 定理の証明
+Throughout, $\triangle$ denotes symmetric difference.
+\begin{lemma}
+Let $(E_n)_{n=1}^N$ be a finite family of pairwise disjoint sets in $\mathcal{S}$.  
+Then
+\[
+\mu\!\Bigl(\bigcup_{n=1}^N E_n\Bigr) = \sum_{n=1}^N \mu(E_n)
+\]
+holds. Moreover,
+\[
+\mu(\Omega) = 1, \qquad \mu(A^c) = 1 - \mu(A) \quad (A \in \mathcal{S}).
+\]
+In this case, $\mu$ is called a finitely additive measure on $\mathcal{S}$.
+\end{lemma}
 
-Step 1.
-Lem. 任意の A_n⊆¥Omega について P(¥cup^¥infty A_n)≤¥sum^¥infty P(A_n). In particular, P(A¥setminus B) ¥geq P(A)-P(B)
+\begin{proof}
+There exists $M \in \mathbb{N}$ such that each $E_n$ belongs to $\mathcal{F}_M$.  
+Hence, there exist sets $A_n \subseteq \Omega_M$ such that
+\[
+E_n = \pi_M^{-1}(A_n) \qquad (1 \le n \le N).
+\]
+Since the $E_n$ are pairwise disjoint, the $A_n$ are also pairwise disjoint.  
+Therefore,
+\[
+\mu\!\Bigl(\bigcup_{n=1}^N E_n\Bigr)
+= P_M\!\Bigl(\bigcup_{n=1}^N A_n\Bigr)
+= \sum_{n=1}^N P_M(A_n)
+= \sum_{n=1}^N \mu(E_n).
+\]
+Moreover,
+\[
+\mu(\Omega) = P_M(\Omega_M) = 1.
+\]
+Finally, for $E = \pi_M^{-1}(A) \in \mathcal{F}_M$, we have
+\[
+\mu(E^c) = P_M(A^c) = 1 - P_M(A) = 1 - \mu(E).
+\]
+This completes the proof.
+\end{proof}
 
-{Proof.}
+\begin{lemma}[Agreement with $\mu$ on cylinders]\label{lem:agreement}
+For every $E\in\mathcal{S}$, $P(E)=\mu(E)$.
+\end{lemma}
 
-ε>0 を与える。各 n について A_n⊆B_n かつ ¥sum P(B_n,k)≤P(A_n)+ε/2^n を満たす (B_n,k)∈¥mathcal{S} が存在する。S=¥cup B_n,k とおくと、¥cup A_k⊆S であり P(¥cup A_k)≤P(S)≤¥sum µ(B_n,k)≤¥sum^¥infty (P(A_k)+ε/2^k)=¥sum^N P(A_k)+ε. ε 任意より主張が従う。
+\begin{proof}
+Let $(S_n \in \mathcal{S})$ be such that $E \subset \bigcup_{n} S_n$.  
+Define $E_n := E \setminus \bigcup_{k=1}^n S_k$; then $(E_n)$ is monotonically decreasing.  
+If $(E_n \neq \varnothing)$ occurs infinitely many times, this contradicts compactness.  
+Hence, there exists some $N$ such that $E \subset \bigcup_{k=1}^N S_k$.  
+Therefore, $\sum_{k=1}^N \mu(S_k) \ge \mu(E)$.  
+Taking the infimum, we obtain $P(E) \geq \mu(E)$. The coverse inequality is given by taking $S_1=E$ and $S_k=\emptyset$ for $k\geq 2$. 
 
-Lem2. For any E¥in ¥kS, P(E)=µ(E).
+\end{proof}
 
-Proof.
-Let S_n in ¥kS  be such that S¥subset ¥cup S_n. We take $E_n = E¥seminut ¥cup^n S_n$. Then, E_n¥in ¥kS and E_n is decreasing. Since E_n is compact, if ¥E_n¥neq empty, ¥cap E_n¥neq ¥emptyset, which derives a contradiction. Hence, E¥subset ¥cup^N S_n with some N. Therefore, ¥sum^N µ(S_n)¥geq mu(E). Taking infimum over all such (S_n), we get P(E)= µ(E). 
-Step 2.
+\begin{lemma}[Subadditivity and a useful corollary]\label{lem:subadd}
+For arbitrary sets $A_1,A_2,\dots\subseteq\Omega$,
+\[
+P\Bigl(\bigcup_{n=1}^\infty A_n\Bigr)\le \sum_{n=1}^\infty P(A_n).
+\]
+In particular, for any $A,B\subseteq\Omega$,
+\[
+P(A\setminus B)\ \ge\ P(A)-P(B).
+\]
+\end{lemma}
 
-補題 1. (カラテオドリの拡張定理)
+\begin{proof}
+Fix $\varepsilon>0$. For each $n$ choose a covering $\{B_{n,k}\}_{k\ge 1}\subset\mathcal{S}$ of $A_n$ with
+\[
+\sum_{k=1}^\infty \mu(B_{n,k})\le P(A_n)+\frac{\varepsilon}{2^n}.
+\]
+Then $\bigcup_n A_n\subseteq \bigcup_{n,k} B_{n,k}$, so by the definition of $P$,
+\[
+P\Bigl(\bigcup_{n=1}^\infty A_n\Bigr)\le \sum_{n=1}^\infty\sum_{k=1}^\infty \mu(B_{n,k})
+\le \sum_{n=1}^\infty\Bigl(P(A_n)+\frac{\varepsilon}{2^n}\Bigr)
+= \sum_{n=1}^\infty P(A_n)+\varepsilon.
+\]
 
-¥mathcal{F}'=¥{A⊆¥Omega : 任意の ε>0 に対し、ある (B_k),(C_k)∈¥mathcal{S} が存在して P(A△(¥cup B_k))<ε,P(A^c △(¥cup C_k))<ε¥} とする。このとき ¥mathcal{F}⊆¥mathcal{F}'。また ¥mathcal{F}' は σ-下方族であり ¥mathcal{F}⊆¥mathcal{F}'。
+For the ``in particular'' part, observe $A\subseteq (A\setminus B)\cup B$, hence by subadditivity
+\[
+P(A)\le P(A\setminus B)+P(B)\quad\Rightarrow\quad P(A\setminus B)\ge P(A)-P(B).
+\]
+\end{proof}
 
-Proof:
+\begin{lemma}\label{lem:Fprime}
+Define
+\[
+\mathcal{F}'=\Bigl\{A\subseteq \Omega:\ \forall \varepsilon>0\ \exists\ B,C\in \mathcal{S}\ \text{such that}\ 
+P\bigl(A\triangle \textstyle B\bigr)<\varepsilon,\ \ 
+P\bigl(A^c\triangle \textstyle C\bigr)<\varepsilon
+\Bigr\}.
+\]
+Then $\mathcal{S}\subseteq \mathcal{F}'$, and $\mathcal{F}'$ is a $\sigma$-algebra.
+\end{lemma}
 
-¥Omega∈¥mathcal{F}' なのは P(¥Omega△¥Omega)=0 より明らか。
+\begin{proof}
+First, $\Omega\in\mathcal{F}'$ since $P(\Omega\triangle\Omega)=0$ and $P(\emptyset\triangle\emptyset)=0$.
 
-A∈¥mathcal{F}' ならば A^c∈¥mathcal{F}'も定義から明らか。
+If $A\in\mathcal{F}'$, then $A^c\in\mathcal{F}'$ follows directly from the definition by swapping the roles of the two approximations.
 
-さらに A_n∈¥mathcal{F}' とする。¥eps>0を任意に取る。各 n について P(A_n△B_n),P(A^c_n△C_n)<ε/2^n を満たす B_n∈¥mathcal{S} を取る。A=¥cup A_n,、B= ¥cup B_n, C=¥cup C_n とおく。
-P(A¥triangle B)≤¥sum P(A_n△B_n)< ¥eps.
-同様にP(A¥triangle C)<¥eps. よって A∈¥mathcal{F}'。 
-¥end{proof}
+Let $\{A_n\}_{n\ge 1}\subset\mathcal{F}'$ and set $A=\bigcup_{n\ge 1}A_n$.
+Fix $\varepsilon>0$. For each $n$ choose $B_n,C_n\in\mathcal{S}$ so that
+\[
+P(A_n\triangle B_n)<\frac{\varepsilon}{2^{n+1}},\qquad
+P(A_n^c\triangle C_n)<\frac{\varepsilon}{2^{n+1}}.
+\]
+Let $\tilde{B}_n:=B_n\setminus \cup^{n-1}_{j=1} B_j$ and  $\tilde{C}_n:= \Big(\cap^{n-1}_{j=1} C_j\Big)\setminus C_n$. Then $(\tilde{B}_n)$ is disjoint sets in $\mathcal{S}$; is $(\tilde{C}_n)$  so. For any fixed $N\in \mathbb N$, 
+\[\sum^N_{n=1} \mu(\tilde{B}_n) = \mu(\cup_{j=1}^n \tilde{B}_j)\leq 1.\]
+Hence, $\sum^\infty_{n=1} \mu(\tilde{B}_n)\leq 1$. Similarly, $\sum^\infty_{n=1} \mu(\tilde{C}_n)\leq 1$. Thus, there exists $N\in \mathbb N$ such that 
+\[\sum^{\infty}_{n=N+1} \mu(\tilde{B}_n)+\sum^\infty_{n=N+1} \mu(\tilde{C}_n)<\varepsilon.\]
+Using the inclusion
+\[
+\Bigl(\bigcup_{n=1}^{\infty} A_n\Bigr)\triangle \Bigl(\bigcup_{n=1}^N B_n\Bigr)\ \subseteq\ \bigcup_{n=1}^\infty (A_n\triangle B_n) \cup \Big(\cup_{n=N+1}^\infty \tilde{B}_n \Big), 
+\]
+and Lemma~\ref{lem:subadd},
+\[
+P\Bigl(A\triangle \bigcap_{n=1}^N B_n\Bigr)\le \sum_{n=1}^\infty P(A_n\triangle B_n) +\sum_{n=N+1}^\infty P(\tilde{B}_n  )<\varepsilon.
+\]
+For the complement, note that $A^c=\bigcap_{n} A_n^c$ and use
+\[
+\Bigl(\bigcap_{n=1}^\infty A_n^c\Bigr)\triangle \Bigl(\bigcap_{n=1}^N C_n\Bigr) \subseteq\Big(\bigcup_{n=
+1}^\infty (A_n^c\triangle C_n)\Big)\cup \Big(\cup_{n=N+1}^\infty \tilde{C}_n \Big),
+\]
+to obtain
+\[
+P\Bigl(A^c\triangle \bigcap_{n=1}^N C_n\Bigr)\le \sum_{n=1}^\infty P(A_n^c\triangle C_n)+\sum_{n=N+1}^\infty P(\tilde{C}_n )< \varepsilon.
+\]
+Thus $A\in\mathcal{F}'$. We have shown that $\mathcal{F}'$ contains $\Omega$, is closed under complements, and is closed under countable unions; hence $\mathcal{F}'$ is a $\sigma$-algebra.
 
-Proof of thm: P(¥Omega)=1、かつ P(A)∈[0,1] は自明。
+Finally, $\mathcal{S}\subseteq \mathcal{F}'$ because if $A\in\mathcal{S}$, we can take $B_1=A$ (and $B_k=\emptyset$ for $k\ge 2$) and $C_1=A^c$ to get zero errors. Therefore $\sigma(\mathcal{S})=\mathcal{F}\subseteq \mathcal{F}'$.
+\end{proof}
 
-互いに交わらない A_n∈¥mathcal{F} に対し、P(A:=¥cup A_n)=¥sum P(A_n) を示す。補題より, ¥leqは成り立つ. P(A)¥egq ¥sum P(A_n)を示す.
+\begin{lemma}[Value on $\Omega$]\label{lem:POmega}
+$P(\Omega)=1$, and therefore $0\le P(A)\le 1$ for all $A\subseteq\Omega$.
+\end{lemma}
 
-N¥in ¥Nを一つ固定する. ε>0 を与える。補題より P(A_n△B_n)<ε を満たす B_n を取れる。B_n = ¥cup B_{n,k}ただし(B_{n,k})_kは互いに素とすると, 任意のrについて, ¥sum^r_{k=1} P(B_{n,k}) = P(¥cup^r B_{  n,k}) ¥leq P(B_n). したがって,  ¥sum^¥infty_{k=1} P(B_{n,k})<¥infty. 以上より, あるN_nが存在して, ¥sum_{k>N_n} P(B_{n,k})<ε. Let B_n' = ¥cup^{Nn} B_{n,k}.
+\begin{proof}
+For each $n$, $\Omega=\pi_n^{-1}(\Omega_n)\in\mathcal{S}$ and by definition of $\mu$,
+$\mu(\Omega)=P_n(\Omega_n)=1$. Hence by Lemma~\ref{lem:agreement}, $P(\Omega)=\mu(\Omega)=1$.
+Monotonicity (which follows from the definition of $P$) gives $0\le P(A)\le P(\Omega)=1$.
+\end{proof}
 
+\begin{lemma}[Countable additivity on $\mathcal{F}$]\label{lem:sigmaadd}
+If $\{A_n\}_{n\ge 1}\subset\mathcal{F}$ are pairwise disjoint, then
+\[
+P\Bigl(\bigcup_{n=1}^\infty A_n\Bigr)=\sum_{n=1}^\infty P(A_n).
+\]
+\end{lemma}
 
-一方 P(A)≥P(¥cup_{n=1}^N A_n)≥ P(¥cup B_n') - P(¥cup B_n¥setminus B_n') - ¥sum P(A_n△B_n) ¥geq P(¥cup B_n') - Nε - Nε.
+\begin{proof}
+By Lemma~\ref{lem:subadd} we already have ``$\le$'' for arbitrary families. It remains to prove the reverse inequality for disjoint families in $\mathcal{F}$.
 
-D_n = B_n'¥setminus (¥cup^{n-1}_j B_{j}') とすると,
-\begin{equation}\label{eq:incl}
-A_n\ \subset\ D_n\ \cup\ (A_n\triangle B_n')\ \cup\ \bigcup_{j=1}^{n-1}(B_j'\triangle A_j).
+Fix $N\in\mathbb{N}$ and $\varepsilon>0$. Since $\mathcal{F}\subseteq \mathcal{F}'$ (Lemma~\ref{lem:Fprime}), for each $1\le n\le N$ choose $B_n\in\mathcal{S}$ with
+\[
+P(A_n\triangle B_n)<\frac{\varepsilon}{2N}.
+\]
+We have 
+\[
+\bigcup_{n=1}^N B_n\setminus \bigcup_{n=1}^N A_n\ \subseteq\ \bigcup_{n=1}^N\bigl(B_n\triangle  A_n\bigr)
+.
+\]
+By Lemma~\ref{lem:subadd} and the choice of $B_n$,
+\[
+P\bigl(\bigcup_{n=1}^N B_n\setminus \bigcup_{n=1}^N A_n\bigr)\le \sum_{n=1}^N P(B_n\triangle A_n)
+\le \frac{\varepsilon}{2}.
+\]
+Using $P(A)\ge P(B)-P(B\setminus A)$ with $A=\bigcup_{n=1}^N A_n$ and $B=\bigcup_{n=1}^N B_n$ gives
+\begin{equation}\label{eq:AN-lower-1}
+P\bigl(\bigcup_{n=1}^N A_n\bigr)\ \ge\ P\bigl(\bigcup_{n=1}^N B_n\bigr)-\frac{\varepsilon}{2}.
 \end{equation}
-Indeed, take $x\in A_n$. If $x\notin B_n'$, then $x\in A_n\setminus B_n'\subset A_n\triangle B_n'$.
-If $x\in B_n'$ but $x\notin D_n$, then $x\in B_j'$ for some $j<n$. Since the $A_i$ are pairwise disjoint and $x\in A_n$, we have $x\notin A_j$, hence $x\in B_j'\setminus A_j\subset B_j'\triangle A_j$.
-This proves \eqref{eq:incl}. Applying monotonicity and subadditivity of $P$ to \eqref{eq:incl} yields
-[
-P(A_n)\ \le\ P(D_n)\ +\ P(A_n\triangle B_n')\ +\ \sum_{j=1}^{n-1} P(B_j'\triangle A_j),
-]
-書き換えると
-P(D_n)¥geq P(A_n) - P(A_n ¥triangle B_n') - ¥sum_{j=1}^{n-1}P(B_j'¥triangle A_j) ¥geq P(A_n) - 4 N ¥eps. よって
 
-P(¥cup B_n') = ¥sum P(D_n) ¥geq ¥sum^N P(A_n) - 2 N ¥eps. よって
-P(¥cup^N A_n) ¥geq ¥sum^N P(A_n) - 3Nε. ¥epsは任意より
+Define disjoint sets
+\[
+D_1=B_1,\qquad D_n=B_n\setminus \bigcup_{j=1}^{n-1} B_j\quad (2\le n\le N).
+\]
+Then $\bigcup_{n=1}^N B_n=\bigsqcup_{n=1}^N D_n$, so $P(\bigcup_{n=1}^N B_n)=\sum_{n=1}^N P(D_n)$.
+For each $n$ we have the inclusion
+\[
+A_n\ \subset D_n  \cup\ \bigcup_{j=1}^{n}(A_j\triangle B_j),
+\]
+because if $x\in A_n\cap B_n$ but $x\notin D_n$, then $x\in B_j$ for some $j<n$; since the $A_i$ are disjoint and $x\in A_n$, we must have $x\notin A_j$, hence $x\in B_j\setminus A_j\subset A_j\triangle B_j$.
+Applying $P$ and subadditivity,
+\[
+P(A_n)\le P(D_n)+\sum_{j=1}^{n} P(A_j\triangle B_j).
+\]
+Rearrange and sum over $n=1,\dots,N$:
+\[
+\sum_{n=1}^N P(D_n)\ \ge\ \sum_{n=1}^N P(A_n)  - \sum_{n=1}^N\sum_{j=1}^{n} P(A_j\triangle B_j).
+\]
+Note  that 
+\[
+\sum_{n=1}^N\sum_{j=1}^{n} P(A_j\triangle B_j)
+=\sum_{j=1}^{N}(N-j+1)\,P(A_j\triangle B_j)
+\le N\sum_{j=1}^{N} P(A_j\triangle B_j)
+\le N\cdot \frac{\varepsilon}{2N}=\frac{\varepsilon}{2}.
+\]
+Therefore,
+\[
+P\bigl(\cup^N_{j=1}B_j\bigr)=\sum_{n=1}^N P(D_n)\ \ge\ \sum_{n=1}^N P(A_n)\ -\ \frac{\varepsilon}{2}.
+\]
+Combining with \eqref{eq:AN-lower-1} gives
+\[
+P\Bigl(\bigcup_{n=1}^N A_n\Bigr)\ \ge\ \sum_{n=1}^N P(A_n)-\varepsilon.
+\]
+Since $\varepsilon>0$ is arbitrary, we conclude
+\[
+P\Bigl(\bigcup_{n=1}^N A_n\Bigr)\ \ge\ \sum_{n=1}^N P(A_n).
+\]
+Finally, the sequence $\bigcup_{n=1}^N A_n$ is increasing in $N$, so by monotonicity and the definition of $P$,
+\[
+P\Bigl(\bigcup_{n=1}^{\infty} A_n\Bigr)=\lim_{N\to\infty} P\Bigl(\bigcup_{n=1}^{N} A_n\Bigr)\ \ge\ \lim_{N\to\infty}\sum_{n=1}^{N} P(A_n)=\sum_{n=1}^{\infty} P(A_n),
+\]
+which, together with subadditivity, yields equality.
+\end{proof}
 
-P(¥cup^N A_n) ¥geq ¥sum^N P(A_n). N¥to ¥inftｙとすると, 主張が従う。
+\paragraph{Conclusion of the theorem.}
+By Lemma~\ref{lem:POmega}, $P(\Omega)=1$ and $0\le P\le 1$. By Lemma~\ref{lem:sigmaadd}, $P$ is countably additive on $\mathcal{F}$ for disjoint sequences, hence a probability measure on $(\Omega,\mathcal{F})$.
+\qed

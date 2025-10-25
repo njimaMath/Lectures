@@ -455,7 +455,7 @@
 </div>
             </div>
             
-
+        <section class="outline-section">
                 <h2>定理の証明</h2>
                 <div class="proof">
                     <p>証明は，前測度の性質と，Carathéodory の拡張定理に分かれる。</p>
@@ -489,6 +489,143 @@
                 <p>結果として，有限次元分布が整合的であれば無限列全体の確率測度 \(P\) が一意に存在し，
                     無限コイントスや確率過程の厳密なモデル化が可能になる。</p>
             </blockquote>
+        <section>
+
+        <section class="outline-section"> 
+            <h2>別証明</h2>
+
+            <div class="definition projection-setup">
+                <h3>設定（円筒集合と射影）</h3>
+                <p>\(\Omega_n = \{0,1\}^n\) とし，\(\Omega = \{0,-1\}^{\mathbb{N}}\) とおく。各 \(n\in\mathbb{N}\) に対し射影
+                    \[\pi_n: \Omega \to \Omega_n,\qquad \pi_n(\omega) = (\omega_1,\dots,\omega_n).\]
+                    さらに
+                    \[\mathcal{F}_n = \bigl\{\pi_n^{-1}(A): A\subseteq \Omega_n\bigr\}\quad (n\in\mathbb{N}),\qquad \mathcal{S} = \bigcup_{n\in\mathbb{N}} \mathcal{F}_n.\]
+                </p>
+                <div class="inline-note">以後，\(\triangle\) は対称差を表す。</div>
+            </div>
+
+            <div class="definition">
+                <h3>補題（\(\mathcal{S}\) は有限加法族）</h3>
+                <p>\(\mathcal{S}\) は次をみたす： (1) \(\Omega\in\mathcal{S}\)，(2) \(E\in\mathcal{S}\Rightarrow E^c\in\mathcal{S}\)，(3) \(E_1,E_2\in\mathcal{S}\Rightarrow E_1\cup E_2\in\mathcal{S}\)。</p>
+                <div class="proof">
+                    <p>\(E_i=\pi_{n_i}^{-1}(A_i)\in\mathcal{S}\ (i=1,2)\) とし，\(m=\max\{n_1,n_2\}\) とする。すると各 \(E_i\) は
+                        \(A_i' := A_i\times \Omega_{m-n_i}\subseteq \Omega_m\) を用いて \(E_i = \pi_m^{-1}(A_i')\) と書ける。ゆえに
+                        \(E_1\cup E_2 = \pi_m^{-1}(A_1'\cup A_2')\) も \(m\) 次の円筒集合である。従って \(\mathcal{S}\) は有限加法族である。</p>
+                </div>
+            </div>
+
+            <div class="definition">
+                <h3>円筒族上の前測度と外測度</h3>
+                <p>円筒族 \(\mathcal{S}\) 上で
+                    \[\mu\bigl(\pi_n^{-1}(A)\bigr) = P_n(A)\qquad (A\subseteq \Omega_n)\]
+                    と定める。\(\mathcal{F} = \sigma(\mathcal{S})\) を \(\mathcal{S}\) の生成する \(\sigma\)-加法族とし，任意の部分集合 \(A\subseteq\Omega\) に対し
+                    \[P(A) = \inf\Bigl\{\,\sum_{k=1}^{\infty} \mu(B_k):\ A\subseteq \bigcup_{k=1}^{\infty} B_k,\ B_k\in\mathcal{S}\Bigr\}\]
+                    とおく。</p>
+            </div>
+
+            <div class="theorem">
+                <h3>定理</h3>
+                <p>\(P\) は \((\Omega,\mathcal{F})\) 上の確率測度である。</p>
+            </div>
+
+            <div class="definition">
+                <h3>補題（有限加法性）</h3>
+                <p>\(E,(E_n)_{n=1}^N\) を \(\mathcal{S}\) に属する互いに素な有限族とする。このとき
+                    \[\mu(\Omega)=1,\qquad \mu(E^c)=1-\mu(E),\qquad \mu\!\Bigl(\bigcup_{n=1}^N E_n\Bigr)=\sum_{n=1}^N \mu(E_n).\]
+                    すなわち \(\mu\) は \(\mathcal{S}\) 上の有限加法測度である。</p>
+                <div class="proof">
+                    <p>ある \(M\in\mathbb{N}\) が存在して各 \(E_n\in\mathcal{F}_M\)。よって \(A_n\subseteq\Omega_M\) があって
+                        \(E_n=\pi_M^{-1}(A_n)\ (1\le n\le N)\)。互いに素性から \(A_n\) も互いに素。
+                        したがって
+                        \[\mu\!\Bigl(\bigcup_{n=1}^N E_n\Bigr)=P_M\!\Bigl(\bigcup_{n=1}^N A_n\Bigr)=\sum_{n=1}^N P_M(A_n)=\sum_{n=1}^N \mu(E_n).\]
+                        また \(\mu(\Omega)=P_M(\Omega_M)=1\)。さらに \(E=\pi_M^{-1}(A)\) に対し \(\mu(E^c)=P_M(A^c)=1-P_M(A)=1-\mu(E)\)。</p>
+                </div>
+            </div>
+
+            <div class="definition">
+                <h3>補題（円筒上での一致）</h3>
+                <p>任意の \(E\in\mathcal{S}\) に対し \(P(E)=\mu(E)\)。</p>
+                <div class="proof">
+                    <p>\(S_n\in\mathcal{S}\) を \(E\subset \bigcup_n S_n\) をみたす被覆とする。\(E_n:=E\setminus \bigcup_{k=1}^n S_k\) とおくと \((E_n)\) は単調減少。
+                        \(E_n\neq\varnothing\) が無限回起こるなら，円筒集合が生成する位相でのコンパクト性より \(\bigcap_{n=1}^{\infty}E_n\neq\emptyset\) となり矛盾。
+                        よってある \(N\) があって \(E\subset \bigcup_{k=1}^N S_k\)。したがって \(\sum_{k=1}^N\mu(S_k)\ge \mu(E)\)。下限をとって \(P(E)\ge \mu(E)\)。逆向きは \(S_1=E, S_{k\ge2}=\emptyset\) をとれば従う。</p>
+                </div>
+            </div>
+
+            <p>Carathéodory の拡張定理の条件は既に確認済みだが，ここでは完全に自己完結的な証明を与える。</p>
+
+            <div class="definition">
+                <h3>補題（劣加法性と有用な系）</h3>
+                <p>任意の集合列 \(A_1,A_2,\dots\subseteq\Omega\) に対して
+                    \[P\Bigl(\bigcup_{n=1}^{\infty} A_n\Bigr)\le \sum_{n=1}^{\infty} P(A_n).\]</p>
+                <div class="proof">
+                    <p>\(\varepsilon&gt;0\) を任意にとる。各 \(n\) について \(A_n\) の \(\mathcal{S}\) による被覆 \(\{B_{n,k}\}_{k\ge1}\subset\mathcal{S}\) で
+                        \(\sum_{k=1}^{\infty}\mu(B_{n,k})\le P(A_n)+\varepsilon/2^n\) をみたすものを選ぶ。すると
+                        \(\bigcup_n A_n\subseteq \bigcup_{n,k} B_{n,k}\) より定義から
+                        \[P\Bigl(\bigcup_{n=1}^{\infty} A_n\Bigr)\le \sum_{n=1}^{\infty}\sum_{k=1}^{\infty}\mu(B_{n,k})\le \sum_{n=1}^{\infty}\Bigl(P(A_n)+\tfrac{\varepsilon}{2^n}\Bigr)=\sum_{n=1}^{\infty}P(A_n)+\varepsilon.\]
+                        \(\varepsilon\downarrow0\) として主張を得る。</p>
+                </div>
+            </div>
+
+            <div class="definition">
+                <h3>補題（近似可能性による \(\sigma\)-加法族 \(\mathcal{F}'\)）</h3>
+                <p>次で定める集合族
+                    \[\mathcal{F}'=\Bigl\{A\subseteq\Omega:\ \forall\varepsilon&gt;0\ \exists\ B,C\in\mathcal{S}\ \text{s.t.}\ P(A\triangle B)&lt;\varepsilon,\ \ P(A^c\triangle C)&lt;\varepsilon\Bigr\}\]
+                    は \(\mathcal{S}\subseteq\mathcal{F}'\) を満たし，さらに \(\mathcal{F}'\) は \(\sigma\)-加法族である。</p>
+                <div class="proof">
+                    <p>まず \(\Omega\in\mathcal{F}'\)。また \(A\in\mathcal{F}'\Rightarrow A^c\in\mathcal{F}'\) は定義から明らか。\(\{A_n\}\subset\mathcal{F}'\) とし
+                        \(A=\bigcup_n A_n\)。\(\varepsilon&gt;0\) に対し，各 \(n\) で \(B_n,C_n\in\mathcal{S}\) を選び
+                        \(P(A_n\triangle B_n)&lt;\varepsilon/2^{n+1},\ P(A_n^c\triangle C_n)&lt;\varepsilon/2^{n+1}\) を満たすとする。
+                        \(\tilde B_n:=B_n\setminus \cup_{j=1}^{n-1}B_j\)，\(\tilde C_n:= (\cap_{j=1}^{n-1}C_j)\setminus C_n\) とおけば，いずれも互いに素。部分和の単調性より \(\sum_n \mu(\tilde B_n)\le1\)，\(\sum_n \mu(\tilde C_n)\le1\)。ゆえにある \(N\) が存在して
+                        \(\sum_{n&gt;N}\mu(\tilde B_n)+\sum_{n&gt;N}\mu(\tilde C_n)&lt;\varepsilon\)。
+                        包含関係
+                        \[\Bigl(\bigcup_{n\ge1}A_n\Bigr)\triangle \Bigl(\bigcup_{n=1}^N B_n\Bigr)\ \subseteq\ \bigcup_{n\ge1}(A_n\triangle B_n)\ \cup\ \Bigl(\bigcup_{n&gt;N}\tilde B_n\Bigr)\]
+                        と劣加法性から
+                        \[P\Bigl(A\triangle \bigcup_{n=1}^N B_n\Bigr)\le \sum_{n\ge1}P(A_n\triangle B_n)+\sum_{n&gt;N}P(\tilde B_n)&lt;\varepsilon.\]
+                        同様に \(A^c=\cap_n A_n^c\) として
+                        \[\Bigl(\bigcap_{n\ge1}A_n^c\Bigr)\triangle \Bigl(\bigcap_{n=1}^N C_n\Bigr)\ \subseteq\ \Bigl(\bigcup_{n\ge1}(A_n^c\triangle C_n)\Bigr)\cup\Bigl(\bigcup_{n&gt;N}\tilde C_n\Bigr)\]
+                        から
+                        \[P\Bigl(A^c\triangle \bigcap_{n=1}^N C_n\Bigr)\le \sum_{n\ge1}P(A_n^c\triangle C_n)+\sum_{n&gt;N}P(\tilde C_n)&lt;\varepsilon.\]
+                        ゆえに \(A\in\mathcal{F}'\)。したがって \(\mathcal{F}'\) は \(\Omega\) を含み，補集合および可算和で閉じているから \(\sigma\)-加法族である。最後に，\(A\in\mathcal{S}\) なら \(B_1=A, C_1=A^c\) と取れば誤差は 0 なので \(\mathcal{S}\subseteq\mathcal{F}'\)。よって \(\mathcal{F}=\sigma(\mathcal{S})\subseteq\mathcal{F}'\)。</p>
+                </div>
+            </div>
+
+            <div class="definition">
+                <h3>補題（\(\Omega\) の値）</h3>
+                <p>\(P(\Omega)=1\)。従って任意の \(A\subseteq\Omega\) について \(0\le P(A)\le 1\)。</p>
+                <div class="proof">
+                    <p>各 \(n\) に対し \(\Omega=\pi_n^{-1}(\Omega_n)\in\mathcal{S}\) であり，\(\mu(\Omega)=P_n(\Omega_n)=1\)。補題「円筒上の一致」から
+                        \(P(\Omega)=\mu(\Omega)=1\)。単調性より \(0\le P(A)\le P(\Omega)=1\)。</p>
+                </div>
+            </div>
+
+            <div class="definition">
+                <h3>補題（\(\mathcal{F}\) 上の可算加法性）</h3>
+                <p>\(\{A_n\}_{n\ge1}\subset\mathcal{F}\) が互いに素なら
+                    \[P\Bigl(\bigcup_{n=1}^{\infty} A_n\Bigr)=\sum_{n=1}^{\infty} P(A_n).\]</p>
+                <div class="proof">
+                    <p>劣加法性より常に「\(\le\)」は成り立つ。よって \(\mathcal{F}\) の互いに素な族に対して「\(\ge\)」を示せばよい。\(N\in\mathbb{N}\)，\(\varepsilon&gt;0\)。補題より \(\mathcal{F}\subseteq\mathcal{F}'\) だから，各 \(1\le n\le N\) について
+                        \(P(A_n\triangle B_n)&lt;\varepsilon/(2N^2)\) を満たす \(B_n\in\mathcal{S}\) をとる。包含
+                        \[\bigcup_{n=1}^N B_n\setminus \bigcup_{n=1}^N A_n\ \subseteq\ \bigcup_{n=1}^N (B_n\triangle A_n)\]
+                        と劣加法性から
+                        \[P\Bigl(\bigcup_{n=1}^N B_n\setminus \bigcup_{n=1}^N A_n\Bigr)\le \sum_{n=1}^N P(B_n\triangle A_n)\le \varepsilon/2.\]
+                        よって \(P(A)\ge P(B)-P(B\setminus A)\)（\(A=\cup_{n=1}^N A_n\), \(B=\cup_{n=1}^N B_n\)）から
+                        \[P\Bigl(\bigcup_{n=1}^N A_n\Bigr)\ge P\Bigl(\bigcup_{n=1}^N B_n\Bigr)-\varepsilon/2.\tag{*}\]
+                        次に互いに素な集合 \(D_1=B_1\), \(D_n=B_n\setminus \cup_{j=1}^{n-1}B_j\ (2\le n\le N)\) を定めると，\(\cup_{n=1}^N B_n=\bigsqcup_{n=1}^N D_n\) なので
+                        \(P(\cup_{n=1}^N B_n)=\sum_{n=1}^N P(D_n)\)。さらに各 \(n\) について
+                        \[A_n\ \subset\ D_n\ \cup\ \bigcup_{j=1}^{n}(A_j\triangle B_j)\]
+                        が成り立つ（もし \(x\in A_n\cap B_n\) で \(x\notin D_n\) なら，ある \(j&lt;n\) で \(x\in B_j\)。互いに素性より \(x\notin A_j\)，よって \(x\in B_j\setminus A_j\subset A_j\triangle B_j\)）。
+                        劣加法性から
+                        \[P(A_n)\le P(D_n)+\sum_{j=1}^{n}P(A_j\triangle B_j).\]
+                        これを整理して \(n=1,\dots,N\) で総和し，さらに \(N\sum_{j=1}^N P(A_j\triangle B_j)\le N^2\cdot \varepsilon/(2N^2)=\varepsilon/2\) を用いると
+                        \[P\Bigl(\bigcup_{n=1}^N B_n\Bigr)=\sum_{n=1}^N P(D_n)\ge \sum_{n=1}^N P(A_n)-\varepsilon/2.\]
+                        これを (*) と併せて
+                        \[P\Bigl(\bigcup_{n=1}^{\infty} A_n\Bigr)\ge P\Bigl(\bigcup_{n=1}^{N} A_n\Bigr)\ge \sum_{n=1}^{N} P(A_n)-\varepsilon.\]
+                        \(N\) と \(\varepsilon\) の任意性から主張が従う。</p>
+                </div>
+            </div>
+
+            <p><strong>定理の結論.</strong> 補題より \(P(\Omega)=1\) かつ \(0\le P\le 1\)。また互いに素な列に対する可算加法性が \(\mathcal{F}\) 上で成り立つから，\(P\) は \((\Omega,\mathcal{F})\) 上の確率測度である。</p>
         </section>
 
         <section class="outline-section">
