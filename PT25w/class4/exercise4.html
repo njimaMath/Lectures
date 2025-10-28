@@ -1,99 +1,158 @@
 <!DOCTYPE html>
-        <html lang="ja">
-        <head>
-            <meta charset="UTF-8">
-            <meta name="viewport" content="width=device-width, initial-scale=1.0">
-            <title>第4回 演習: 拡張定理</title>
-            <style>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>第4回 演習: 拡張定理</title>
+    <style>
+        body {
+            font-family: "Noto Sans JP", "Hiragino Sans", "Meiryo", sans-serif;
+            background: #f5f7fb;
+            margin: 0;
+            padding: 32px 12px;
+            color: #1f2933;
+        }
+        main {
+            max-width: 920px;
+            margin: 0 auto;
+            background: #ffffff;
+            border-radius: 20px;
+            box-shadow: 0 18px 45px -28px rgba(31, 41, 51, 0.35);
+            padding: 48px 56px;
+        }
+        header h1 {
+            margin: 0 0 6px;
+            font-size: 28px;
+            color: #23408f;
+            letter-spacing: 0.04em;
+        }
+        header p {
+            margin: 0 0 24px;
+            color: #516176;
+        }
+        section.problem {
+            margin: 28px 0;
+            padding: 22px 26px;
+            border-radius: 16px;
+            background: #f1f5ff;
+            border: 1px solid rgba(35, 64, 143, 0.15);
+        }
+        section.problem h2 {
+            margin: 0 0 12px;
+            font-size: 20px;
+            color: #1e3a8a;
+        }
+        section.problem ul {
+            padding-left: 20px;
+            margin: 12px 0 0;
+            color: #374151;
+        }
+        .note {
+            margin-top: 12px;
+            font-size: 14px;
+            color: #64748b;
+        }
+        .navigation {
+            margin-top: 36px;
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+        .navigation a {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 10px 18px;
+            border-radius: 999px;
+            background: #1e3a8a;
+            color: #ffffff;
+            text-decoration: none;
+            font-weight: 600;
+            letter-spacing: 0.02em;
+            transition: background 0.2s ease;
+        }
+        .navigation a:hover {
+            background: #3454c3;
+        }
 
-body {
-    font-family: "Noto Sans JP", "Hiragino Sans", "Meiryo", sans-serif;
-    background: #f5f7fb;
-    margin: 0;
-    padding: 32px 12px;
-    color: #1f2933;
-}
-main {
-    max-width: 920px;
-    margin: 0 auto;
-    background: #ffffff;
-    border-radius: 20px;
-    box-shadow: 0 18px 45px -28px rgba(31, 41, 51, 0.35);
-    padding: 48px 56px;
-}
-header h1 {
-    margin: 0 0 6px;
-    font-size: 28px;
-    color: #23408f;
-    letter-spacing: 0.04em;
-}
-header p {
-    margin: 0 0 24px;
-    color: #516176;
-}
-section.problem {
-    margin: 28px 0;
-    padding: 22px 26px;
-    border-radius: 16px;
-    background: #f1f5ff;
-    border: 1px solid rgba(35, 64, 143, 0.15);
-}
-section.problem h2 {
-    margin: 0 0 12px;
-    font-size: 20px;
-    color: #1e3a8a;
-}
-section.problem ul {
-    padding-left: 20px;
-    margin: 12px 0 0;
-    color: #374151;
-}
-.note {
-    margin-top: 12px;
-    font-size: 14px;
-    color: #64748b;
-}
-.navigation {
-    margin-top: 36px;
-    display: flex;
-    gap: 12px;
-    flex-wrap: wrap;
-}
-.navigation a {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    padding: 10px 18px;
-    border-radius: 999px;
-    background: #1e3a8a;
-    color: #ffffff;
-    text-decoration: none;
-    font-weight: 600;
-    letter-spacing: 0.02em;
-    transition: background 0.2s ease;
-}
-.navigation a:hover {
-    background: #3454c3;
-}
+        /* optional: answer block */
+        details.answer {
+            margin-top: 14px;
+            background: #fff;
+            border: 1px solid rgba(35, 64, 143, 0.15);
+            border-radius: 12px;
+            padding: 14px 16px;
+        }
+        details.answer > summary {
+            cursor: pointer;
+            font-weight: 700;
+            color: #1e3a8a;
+            outline: none;
+            list-style: none;
+        }
+    </style>
+</head>
+<body>
+<main>
+    <header>
+        <h1>第4回 演習: 拡張定理</h1>
+        <p>class4.html の内容に対応する演習です。</p>
+    </header>
 
-            </style>
-        </head>
-        <body>
-            <main>
-                <header>
-                    <h1>第4回 演習: 拡張定理</h1>
-                    <p>class4.html の内容に対応する演習です。</p>
-                </header>
-   <li>\(A_i\) は互いに素な \(\Omega\) の集合，\(B_i\) を一般の集合とする。\(D_n:= B_n\setminus \bigcup^{n-1}_{j=1}B_j\) とするとき次を示せ
-                        \[A_n\subset D_n \cup \bigcup^n_{j=1} \left(A_j\triangle B_j\right).\]
-                     </li>
+    <section class="problem">
+        <h2>問題</h2>
+        <ul>
+            <li>\(A_i\) は互いに素な \(\Omega\) の集合，\(B_i\) を一般の集合とする。\(D_n := B_n \setminus \bigcup_{j=1}^{n-1} B_j\) とするとき，次を示せ：
+                \[
+                    A_n \subset D_n \;\cup\; \bigcup_{j=1}^{n} \left( A_j \triangle B_j \right).
+                \]
+            </li>
+        </ul>
 
-                <div class="navigation">
-            <a href="../class3/exercise3.html">前の演習</a>
-            <a href="../index.html">ホームに戻る</a>
-            <a href="class4.html">講義ノートへ</a>
-            <a href="../class5/exercise5.html">次の演習</a>
-                </div>
-            </main>
-        </body>
-        </html>
+        <details class="answer">
+            <summary>解答を見る</summary>
+            <p>
+                任意の \(x \in A_n\) を取る。もし \(x \in D_n\) なら主張は直ちに成り立つ。以下では
+                \(x \notin D_n\) の場合を考える。
+            </p>
+            <p>
+                \(x \notin D_n\) とは，
+                \[
+                    x \notin B_n \quad\text{または}\quad x \in \bigcup_{j=1}^{n-1} B_j
+                \]
+                のいずれかが成り立つことを意味する。
+            </p>
+            <ul>
+                <li>
+                    場合1: \(x \notin B_n\)。このとき \(x \in A_n \setminus B_n \subset A_n \triangle B_n\) であるから，
+                    \(x \in \bigcup_{j=1}^{n} (A_j \triangle B_j)\)。
+                </li>
+                <li>
+                    場合2: \(x \in \bigcup_{j=1}^{n-1} B_j\)。ある \(j \le n-1\) が存在して \(x \in B_j\)。
+                    一方 \(A_i\) は互いに素なので \(x \in A_n\) から \(x \notin A_j\) が従う。よって
+                    \(x \in B_j \setminus A_j \subset A_j \triangle B_j\)。したがって
+                    \(x \in \bigcup_{j=1}^{n} (A_j \triangle B_j)\)。
+                </li>
+            </ul>
+            <p>
+                以上より，任意の \(x \in A_n\) について \(x \in D_n\) もしくは
+                \(x \in \bigcup_{j=1}^{n} (A_j \triangle B_j)\) が成り立つ。従って
+                \[
+                    A_n \subset D_n \;\cup\; \bigcup_{j=1}^{n} \left( A_j \triangle B_j \right)
+                \]
+                が示された。
+            </p>
+            <p class="note">ポイント: \(A_i\) の互いに素であることを，場合2で
+                「\(x \in A_n\) なら \(x \notin A_j\)（\(j \ne n\)）」と使うのが肝要。</p>
+        </details>
+    </section>
+
+    <div class="navigation">
+        <a href="../class3/exercise3.html">前の演習</a>
+        <a href="../index.html">ホームに戻る</a>
+        <a href="class4.html">講義ノートへ</a>
+        <a href="../class5/exercise5.html">次の演習</a>
+    </div>
+</main>
+</body>
+</html>
