@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>様々な離散分布</title>
-  <!-- Base Styles -->
+  <title>様々な分布</title>
+  <!-- Base Styles (unchanged) -->
   <style>
     :root {
       --primary: #1a237e;
@@ -105,118 +105,203 @@
 <body>
   <div class="container">
     <header>
-      <h1>様々な分布と連続確率空間</h1>
+      <h1 id="top">様々な分布</h1>
     </header>
 
+    <main role="main">
+      <section id="measure">
+        <h2>分布測度</h2>
+        <article>
+          <p>
+            $(\Omega,\mathcal{F},\mathbb{P})$ を確率空間、$X:\Omega\to\mathbb{R}$ を確率変数とする。$B\in\mathcal{B}(\mathbb{R})$ に対し $X$ の分布測度を次で定める。
+          </p>
+          <div class="formula">$\,\mu_X(B)=\mathbb{P}(X\in B)\,$</div>
+          <p>分布関数は次で与えられる。</p>
+          <div class="formula">$\,F_X(x)=\mu_X((-\infty,x])=\mathbb{P}(X\le x)\,$</div>
 
-    <!-- ********** 二項分布 ********** -->
-    <section id="binomial">
-      <h2>二項分布</h2>
-      <article>
-        <h3>n回コイン投げ</h3>
-        <p>
-          $\Omega = \{(x_1, \ldots, x_n) \mid x_i \in \{\text{表},\text{裏}\}\}$ とし、$P(\omega) = 2^{-n}$ と定める。
-        </p>
-        <p>
-          $X_i(\omega) = \begin{cases}1 & (x_i = \text{表}) \\ 0 & (x_i = \text{裏}) \end{cases}$ と置く。
-        </p>
-        <p><strong>定理</strong>： $X_i \perp X_j$（$i \ne j$）.</p>
-        <div class="formula">
-          $$P(X_i = 1, X_j = 1) = \frac{2^{n-2}}{2^{n}} = \frac14 = P(X_i = 1) P(X_j = 1).$$
-        </div>
-        <p>同様に他の場合も独立性が成り立つ。</p>
-        <p>
-          $S_n(\omega) = \sum_{i=1}^n X_i(\omega)$ は表が出た回数を表す。
-        </p>
-        <div class="formula">
-          $$P(S_n = k) = \binom{n}{k} 2^{-n}.$$
-        </div>
-      </article>
+          <h3>分類（用語の整理）</h3>
+          <p>
+            「非原子的（連続分布）」とは $\,\mu_X(\{x\})=0\,$ が全ての $x\in\mathbb{R}$ で成り立つことを指す。一方、「連続型（絶対連続）」とは、ある非負可測関数 $f_X$ が存在して全ての $A\in\mathcal{B}(\mathbb{R})$ について
+          </p>
+          <div class="formula">$\,\mu_X(A)=\displaystyle\int_A f_X(x)\,dx\,$</div>
+          <p>
+            が成り立つ場合であり、このとき $f_X$ を確率密度関数という。可積分な $g$ に対しては
+          </p>
+          <div class="formula">$\,\mathbb{E}[g(X)]=\displaystyle\int_{\mathbb{R}} g(x)\,f_X(x)\,dx\,$</div>
+          <p>
+            と書ける（一般には $\,\mathbb{E}[g(X)]=\int g\,d\mu_X\,$）。
+          </p>
+        </article>
+      </section>
 
-      <article>
-        <h3>偏りのあるコイン投げ</h3>
+      <!-- ********** 二項分布 ********** -->
+      <section id="binomial">
+        <h2>二項分布</h2>
+
+        <article>
+          <h3>偏りのあるコイン投げ</h3>
+          <p>
+            1 回の試行で表が出る確率を $p\in(0,1)$ とする。独立に $n$ 回投げたとき、$S_n$ を表の総数とすると
+          </p>
+          <div class="formula">$\,\mathbb{P}(S_n=k)=\binom{n}{k}p^k(1-p)^{n-k}\quad(k=0,1,\dots,n)\,$</div>
+          <p>である。</p>
+        </article>
+
+        <article>
+          <h3>二項分布 $\mathrm{Bin}(n,p)$</h3>
+          <p>確率変数 $X$ が次を満たすとき $X\sim\mathrm{Bin}(n,p)$ という。</p>
+          <div class="formula">$\,\mathbb{P}(X=k)=\binom{n}{k}p^k(1-p)^{n-k}\quad(k=0,1,\dots,n)\,$</div>
+          <div class="formula">$\,\mathbb{E}[X]=np,\qquad \mathrm{Var}(X)=np(1-p)\,$</div>
+          <p>（正規近似）$\,np(1-p)$ が十分大きいとき、連続補正付きで</p>
+          <div class="formula">$\,\dfrac{X-np}{\sqrt{np(1-p)}}\approx \mathcal{N}(0,1)\,$</div>
+          <p>がしばしば精度良く成り立つ。</p>
+        </article>
+      </section>
+
+      <!-- ********** ポアソン分布 ********** -->
+      <section id="poisson">
+        <h2>ポアソン分布</h2>
+        <p>$\lambda>0$ に対し、$X$ が次を満たすとき $X\sim\mathrm{Poi}(\lambda)$ と書く。</p>
+        <div class="formula">$\,\mathbb{P}(X=k)=e^{-\lambda}\dfrac{\lambda^k}{k!}\quad(k=0,1,2,\dots)\,$</div>
+        <div class="formula">$\,\mathbb{E}[X]=\lambda,\qquad \mathrm{Var}(X)=\lambda\,$</div>
+
+        <h3>ポアソン近似</h3>
+        <p>$n\to\infty$ で $p=\lambda/n$ とすると</p>
+        <div class="formula">$\,\displaystyle\lim_{n\to\infty}\mathbb{P}\bigl(\mathrm{Bin}(n,\tfrac{\lambda}{n})=k\bigr)=e^{-\lambda}\dfrac{\lambda^k}{k!}\,$</div>
+        <p>が成り立つ。</p>
+
+        <h3>身近な例</h3>
+        <ul>
+          <li>一定時間内の電話着信件数</li>
+          <li>道路上の事故発生件数</li>
+          <li>一定期間内の地震発生回数</li>
+        </ul>
+      </section>
+
+      <!-- ********** 一様分布 ********** -->
+      <section id="uniform">
+        <h2>一様分布</h2>
         <p>
-          表が出る確率を $p \in (0,1)$ とするとき、$P(\omega) = p^{\sharp\{i : x_i = \text{表}\}} (1 - p)^{\sharp\{i : x_i = \text{裏}\}}$ と定義する。
+          $\Omega=[0,1]$、可測集合 $A\subset[0,1]$ に対し $\,\mathbb{P}(A)=\int_A 1\,d\omega\,$ とする。$X(\omega)=\omega$ とおくと、$0\le s\le t\le1$ で
         </p>
-        <div class="formula">
-          $$P(S_n = k) = \binom{n}{k} p^{k} (1 - p)^{n - k}.$$
-        </div>
-      </article>
+        <div class="formula">$\,\mathbb{P}(s\le X\le t)=t-s\,$</div>
+        <p>期待値と分散は</p>
+        <div class="formula">$\,\mathbb{E}[X]=\dfrac{1}{2},\qquad \mathrm{Var}(X)=\dfrac{1}{12}\,$</div>
 
-      <article>
-        <h3>二項分布 $\mathrm{Bin}(n,p)$</h3>
+        <h3>区間 $[a,b]$ 上の一様分布</h3>
+        <p>$b>a$ に対し、$X\sim \mathrm{U}(a,b)$ は密度</p>
+        <div class="formula">$\,f_X(x)=\dfrac{1}{b-a}\,(a\le x\le b),\quad\text{他では }0\,$</div>
+        <div class="formula">$\,\mathbb{E}[X]=\dfrac{a+b}{2},\qquad \mathrm{Var}(X)=\dfrac{(b-a)^2}{12}\,$</div>
+      </section>
+
+      <!-- ********** 指数分布 ********** -->
+      <section id="exponential">
+        <h2>指数分布</h2>
+        <p>$\lambda>0$ に対し、$X\sim\mathrm{Exp}(\lambda)$ は密度</p>
+        <div class="formula">$\,f_X(x)=\lambda e^{-\lambda x}\quad(x\ge0),\quad\text{他では }0\,$</div>
+        <div class="formula">$\,\mathbb{E}[X]=\dfrac{1}{\lambda},\qquad \mathrm{Var}(X)=\dfrac{1}{\lambda^2}\,$</div>
         <p>
-          確率変数 $X$ が
-          $$P(X = k) = \binom{n}{k} p^{k} (1 - p)^{n - k}, \quad k = 0,1,\dots,n$$
-          を満たすとき、$X$ は母数 $(n,p)$ の二項分布に従うという。
+          記憶なし性質：$\,\mathbb{P}(X>t+s\mid X>t)=\mathbb{P}(X>s)\,$。ポアソン過程の待ち時間として現れる。
         </p>
-        <div class="formula">
-          $$\mathbb{E}[X] = np, \qquad \mathrm{Var}(X) = np(1 - p).$$
-        </div>
-      </article>
-    </section>
+      </section>
 
-    <!-- ********** 幾何分布 ********** -->
-    <section id="geometric">
-      <h2>幾何分布</h2>
-      <p>
-        失敗が続いたのち最初の成功が現れる試行回数 $X$ は幾何分布 $\mathrm{Geo}(p)$ に従う：
-      </p>
-      <div class="formula">
-        $$P(X = k) = (1 - p)^{k - 1} p, \quad k = 1,2,\dots.$$
-      </div>
-      <div class="formula">
-        $$\mathbb{E}[X] = \frac{1}{p}, \qquad \mathrm{Var}(X) = \frac{1 - p}{p^{2}}.$$
-      </div>
-      <p>
-        幾何分布は<strong>記憶なし性質</strong>を持ち、$P(X > m + n \mid X > m) = P(X > n)$ が成り立つ。
-      </p>
-    </section>
+      <!-- ********** 正規分布 ********** -->
+      <section id="normal">
+        <h2>正規分布</h2>
+        <p>$\mu\in\mathbb{R},\,\sigma>0$ に対し、$X\sim\mathcal{N}(\mu,\sigma^2)$ は密度</p>
+        <div class="formula">$\,f_X(x)=\dfrac{1}{\sqrt{2\pi}\sigma}\exp\!\bigl(-\dfrac{(x-\mu)^2}{2\sigma^2}\bigr)\,$</div>
+        <div class="formula">$\,\mathbb{E}[X]=\mu,\qquad \mathrm{Var}(X)=\sigma^2\,$</div>
+        <p>
+          標準化すると <span class="formula">$\,Z=\dfrac{X-\mu}{\sigma}\sim\mathcal{N}(0,1)\,$</span>。独立な正規の和は正規であり、中心極限定理により多くの分布の和は近似的に正規に従う。
+        </p>
+      </section>
 
-    <!-- ********** ポアソン分布 ********** -->
-    <section id="poisson">
-      <h2>ポアソン分布</h2>
-      <p>$\lambda > 0$ を取る。確率変数 $X$ が次を満たすとき、$X \sim \mathrm{Poi}(\lambda)$ と書く：</p>
-      <div class="formula">
-        $$P(X = k) = \frac{e^{-\lambda} \lambda^{k}}{k!}, \quad k \in \mathbb{N}.$$
-      </div>
-      <div class="formula">
-        $$\mathbb{E}[X] = \lambda, \qquad \mathrm{Var}(X) = \lambda.$$
-      </div>
-      <h3>ポアソン近似</h3>
-      <p>二項分布 $\mathrm{Bin}(n, \lambda / n)$ の極限として現れる：</p>
-      <div class="formula">
-        $$\lim_{n \to \infty} P(\mathrm{Bin}(n, \tfrac{\lambda}{n}) = k) = \frac{e^{-\lambda} \lambda^{k}}{k!}.$$
-      </div>
-      <h3>身近な例</h3>
-      <ul>
-        <li>一定時間内の電話着信件数</li>
-        <li>道路上の交通事故発生件数</li>
-        <li>ウェブサイトへのアクセス数（短時間スパン）</li>
-        <li>製造ラインでの不良品発生数</li>
-        <li>一定期間内の地震発生回数</li>
-      </ul>
-      <p><strong>なぜポアソン分布が現れるか（地震の例）：</strong><br>
-        1年間の地震の発生回数を表す確率変数を $S$ とする。<br>
-        $$X_n = \begin{cases}1 & n\text{日目に地震が起きる} \\\\ 0 & n\text{日目に地震が起きない} \end{cases}$$
-        とすれば、<br>
-        $$S = \sum_{n=1}^{365} X_n.$$ 
-        ここで $X_n$ は独立な $\mathrm{Ber}(\lambda/365)$ に従うと仮定すると、
-        ポアソンの少数の法則より
-        $$P(S = k) = P\left(\sum X_n = k\right) \approx e^{-\lambda} \frac{\lambda^k}{k!}.$$
-      </p>
-    </section>
+      <!-- ********** 幾何分布 ********** -->
+      <section id="geometric">
+        <h2>幾何分布</h2>
+        <article>
+          <p>
+            各試行が成功確率 $p\in(0,1)$ の独立反復試行で、最初の成功が現れるまでの試行回数を $X$ とする。すると
+          </p>
+          <div class="formula">$\,\mathbb{P}(X=k)=(1-p)^{k-1}p\quad(k=1,2,\dots)\,$</div>
+          <p>であり、$X\sim\mathrm{Geo}(p)$ という。</p>
+          <div class="formula">$\,\mathbb{E}[X]=\dfrac{1}{p},\qquad \mathrm{Var}(X)=\dfrac{1-p}{p^2}\,$</div>
+          <p>
+            記憶なし性質：<span class="formula">$\,\mathbb{P}(X>m+n\mid X>m)=\mathbb{P}(X>n)\,$</span> が成り立つ。
+          </p>
+        </article>
+      </section>
+
+      <!-- ********** ガンマ分布 ********** -->
+      <section id="gamma">
+        <h2>ガンマ分布</h2>
+        <article>
+          <p>
+            形状母数 $\alpha>0$、率（レート）母数 $\beta>0$ に対し、$X\sim\mathrm{Gamma}(\alpha,\beta)$ は密度
+          </p>
+          <div class="formula">$\,f_X(x)=\dfrac{\beta^\alpha}{\Gamma(\alpha)}x^{\alpha-1}e^{-\beta x}\quad(x\ge0)\,$</div>
+          <p>（尺度 $\theta=1/\beta$ の表示もよく用いられる）。</p>
+          <div class="formula">$\,\mathbb{E}[X]=\dfrac{\alpha}{\beta},\qquad \mathrm{Var}(X)=\dfrac{\alpha}{\beta^2}\,$</div>
+          <p>モーメント母関数は</p>
+          <div class="formula">$\,M_X(t)=\bigl(1-\tfrac{t}{\beta}\bigr)^{-\alpha}\quad(t<\beta)\,$</div>
+          <p>
+            指数分布は $\alpha=1$ の特別な場合であり、独立な指数分布の和はガンマ分布に従う。
+          </p>
+        </article>
+      </section>
+
+      <!-- ********** レポート ********** -->
+      <section id="report">
+        <h2>レポート</h2>
+        <ol>
+          <li>
+            <strong>幾何分布に関する問題</strong>
+            </strong>
+            <p>
+              $X\sim\mathrm{Geo}(p)$ (つまり$\mathbb P(X=k)=(1-p)^{k-1}p$) の期待値と分散を求めよ。さらに、記憶なし性質
+            </p>
+            <div class="formula">$\,\mathbb{P}(X>m+n\mid X>m)=\mathbb{P}(X>n)\,$</div>
+            <p>が成り立つことを示せ。</p>
+          </li>
+          <li>
+            <strong>ガンマ分布に関する問題</strong>
+            <strong>ガンマ分布（定義と計算問題）</strong>
+
+<p> 母数 $\alpha>0$、率（レート）母数 $\beta>0$ に対し、$X\sim\mathrm{Gamma}(\alpha,\beta)$ とは、密度を</p>
+<div class="formula">
+$\,f_X(x)=\dfrac{\beta^\alpha}{\Gamma(\alpha)}\,x^{\alpha-1}e^{-\beta x}\quad(x\ge0),\quad\text{他では }0\,$
+</div>
+<p>とする分布である（尺度表示は $\theta=1/\beta$）。</p>
+
+<ol>
+  <!-- 既存の3問（そのまま） -->
+  <li>$N\mid\Lambda\sim\mathrm{Poi}(\Lambda)$、$\Lambda\sim\mathrm{Gamma}(\alpha,\beta)$ とする。事後分布 $\Lambda\mid N$ を求め、ガンマ分布がポアソンの共役事前分布であることを確認せよ。</li>
+  <!-- 追加の計算問題 -->
+  <li>（正規化）上の密度 $f_X$ が $\int_0^\infty f_X(x)\,dx=1$ を満たすことを示せ（ガンマ関数の定義を用いてよい）。</li>
+  <li>（r 次モーメント）$r>-\,\alpha$ に対し $\mathbb{E}[X^r]=\dfrac{\Gamma(\alpha+r)}{\beta^r\,\Gamma(\alpha)}$ を導け。特に $\mathbb{E}[X]=\dfrac{\alpha}{\beta}$、$\mathrm{Var}(X)=\dfrac{\alpha}{\beta^2}$ を与えよ。</li>
+  <li>（スケーリング）$c>0$ とし $Y=cX$ とおくとき、$Y\sim\mathrm{Gamma}(\alpha,\beta/c)$ となることを示せ。</li>
+  <li>ガンマ分布が記憶なし性質をもつのは $\alpha=1$ のときに限ることを示せ。</li>
+</ol>
+
+          </li>
+        </ol>
+      </section>
+    </main>
 
     <!-- Navigation -->
-    <nav class="navigation">
-      <a href="class4.html">← 前のクラス</a>
+    <nav class="navigation" aria-label="ページナビゲーション">
+      <a href="class4.html" rel="prev">← 前のクラス</a>
       <a href="../index.html">ホーム</a>
-      <a href="class6.html">次のクラス →</a>
+      <a href="class6.html" rel="next">次のクラス →</a>
     </nav>
 
     <footer>
       <p>© 2025 確率論講義 — All rights reserved.</p>
     </footer>
   </div>
+
+  <noscript>
+    <p style="text-align:center">数式の表示には JavaScript が必要です（MathJax を読み込んでください）。</p>
+  </noscript>
 </body>
 </html>
