@@ -4,11 +4,9 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>第2回 有理関数の積分</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <style>
-      /* --- same CSS as before, unchanged --- */
       @import url('https://fonts.googleapis.com/css2?family=Cabin:wght@500&family=Noto+Sans+JP:wght@400;500;700&display=swap');
+
       :root {
           --background: radial-gradient(120% 120% at 20% 20%, #1e3a8a 0%, #0f172a 55%, #020617 100%);
           --card-bg: rgba(255, 255, 255, 0.88);
@@ -21,7 +19,11 @@
           --highlight: #facc15;
           --shadow: 0 18px 45px -25px rgba(15, 23, 42, 0.75);
       }
-      *, *::before, *::after { box-sizing: border-box; }
+
+      *, *::before, *::after {
+          box-sizing: border-box;
+      }
+
       body {
           font-family: 'Noto Sans JP', 'Hiragino Sans', 'Meiryo', sans-serif;
           line-height: 1.7;
@@ -30,19 +32,21 @@
           padding: 60px 24px;
           color: var(--text-primary);
           background: var(--background);
+          position: relative;
           display: flex;
           justify-content: center;
           align-items: flex-start;
-          position: relative;
       }
+
       body::before {
           content: "";
           position: fixed;
           inset: 0;
-          background: repeating-linear-gradient(135deg, rgba(255,255,255,0.04) 0, rgba(255,255,255,0.04) 12px, transparent 12px, transparent 24px);
+          background: repeating-linear-gradient(135deg, rgba(255, 255, 255, 0.04) 0, rgba(255, 255, 255, 0.04) 12px, transparent 12px, transparent 24px);
           pointer-events: none;
           z-index: 0;
       }
+
       main {
           width: min(960px, 100%);
           background: var(--card-bg);
@@ -50,15 +54,18 @@
           border: 1px solid var(--card-border);
           border-radius: 28px;
           padding: 56px 64px;
+          position: relative;
           z-index: 1;
           box-shadow: var(--shadow);
       }
+
       header.hero {
           text-align: center;
           margin-bottom: 48px;
           display: grid;
           gap: 18px;
       }
+
       .hero-label {
           display: inline-flex;
           align-items: center;
@@ -73,18 +80,21 @@
           background: var(--accent-soft);
           font-family: 'Cabin', sans-serif;
       }
+
       h1 {
           font-size: clamp(32px, 4vw, 44px);
           margin: 0;
           color: var(--accent-strong);
           letter-spacing: 0.05em;
       }
+
       header.hero p {
           margin: 0 auto;
           max-width: 620px;
           color: var(--text-secondary);
           font-size: 17px;
       }
+
       section.outline-section {
           background: rgba(255, 255, 255, 0.78);
           border: 1px solid rgba(148, 163, 184, 0.25);
@@ -93,6 +103,11 @@
           margin-bottom: 32px;
           box-shadow: 0 24px 40px -32px rgba(15, 23, 42, 0.35);
       }
+
+      section.outline-section:last-of-type {
+          margin-bottom: 0;
+      }
+
       h2 {
           display: flex;
           align-items: center;
@@ -101,54 +116,237 @@
           margin: 0 0 24px;
           color: var(--accent-strong);
       }
+
       h2::before {
           content: "";
           width: 42px;
           height: 4px;
           border-radius: 999px;
-          background: linear-gradient(90deg, var(--accent) 0%, rgba(76,110,245,0.2) 100%);
+          background: linear-gradient(90deg, var(--accent) 0%, rgba(76, 110, 245, 0.2) 100%);
       }
-      h3 { font-size: 19px; margin-top: 28px; color: var(--accent-strong); }
-      p { margin: 0 0 16px; color: var(--text-secondary); }
-      ol, ul { margin: 0 0 18px; padding-left: 24px; color: var(--text-secondary); }
-      .concept-card,.theorem,.definition,.proof,.note,.example {
+
+      h3 {
+          font-size: 19px;
+          margin-top: 28px;
+          color: var(--accent-strong);
+      }
+
+      p {
+          margin: 0 0 16px;
+          color: var(--text-secondary);
+      }
+
+      ol, ul {
+          margin: 0 0 18px;
+          padding-left: 24px;
+          color: var(--text-secondary);
+      }
+
+      .concept-card,
+      .theorem,
+      .definition,
+      .proof,
+      .note,
+      .example {
           margin: 18px 0;
           padding: 18px 22px;
           border-radius: 18px;
-          background: rgba(248,250,252,0.86);
-          border: 1px solid rgba(148,163,184,0.25);
+          background: rgba(248, 250, 252, 0.86);
+          border: 1px solid rgba(148, 163, 184, 0.25);
+          box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.55);
           color: var(--text-secondary);
       }
-      .theorem { border-left: 6px solid rgba(76,110,245,0.65); }
-      .definition { border-left: 6px solid rgba(34,197,94,0.65); }
-      .proof { border-left: 6px solid rgba(148,163,184,0.65); }
-      .note { border-left: 6px solid rgba(250,204,21,0.7); background: rgba(250,204,21,0.08); }
-      .example { border-left: 6px solid rgba(14,165,233,0.7); background: rgba(14,165,233,0.08); }
+
+      .focus-card {
+          background: rgba(76, 110, 245, 0.08);
+          border: 1px solid rgba(76, 110, 245, 0.22);
+          box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.4), 0 20px 32px -28px rgba(76, 110, 245, 0.55);
+      }
+
+      .theorem {
+          border-left: 6px solid rgba(76, 110, 245, 0.65);
+      }
+
+      .definition {
+          border-left: 6px solid rgba(34, 197, 94, 0.65);
+      }
+
+      .proof {
+          border-left: 6px solid rgba(148, 163, 184, 0.65);
+      }
+
+      .note {
+          border-left: 6px solid rgba(250, 204, 21, 0.7);
+          background: rgba(250, 204, 21, 0.08);
+      }
+
+      .example {
+          border-left: 6px solid rgba(14, 165, 233, 0.7);
+          background: rgba(14, 165, 233, 0.08);
+      }
+
+      .concept-card strong,
+      .theorem strong,
+      .definition strong,
+      .proof strong,
+      .note strong,
+      .example strong {
+          display: block;
+          font-family: 'Cabin', sans-serif;
+          font-weight: 600;
+          color: var(--accent-strong);
+          letter-spacing: 0.04em;
+          margin-bottom: 8px;
+      }
+
       .formula {
-          background: rgba(76,110,245,0.08);
+          background: rgba(76, 110, 245, 0.08);
           padding: 18px;
           border-radius: 16px;
           margin: 18px 0;
+          overflow-x: auto;
           text-align: center;
           font-size: 1.05rem;
           font-family: 'Latin Modern Math', 'Cambria Math', serif;
           color: var(--accent-strong);
-          border: 1px solid rgba(76,110,245,0.2);
+          border: 1px solid rgba(76, 110, 245, 0.2);
+          box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.35);
+      }
+
+      table {
+          width: 100%;
+          border-collapse: collapse;
+          margin: 18px 0;
+          background: rgba(255, 255, 255, 0.92);
+          border-radius: 18px;
+          overflow: hidden;
+          border: 1px solid rgba(148, 163, 184, 0.3);
+          box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.4);
+      }
+
+      th, td {
+          border-bottom: 1px solid rgba(148, 163, 184, 0.25);
+          padding: 12px 16px;
+          text-align: center;
+          color: var(--text-secondary);
+      }
+
+      th {
+          background: rgba(76, 110, 245, 0.1);
+          font-weight: 600;
+          color: var(--accent-strong);
+          font-family: 'Cabin', sans-serif;
+          letter-spacing: 0.04em;
+      }
+
+      tr:last-child td {
+          border-bottom: 0;
+      }
+
+      .graph {
+          text-align: center;
+          margin: 24px 0;
+      }
+
+      .graph svg {
+          max-width: 100%;
+          height: auto;
+          border-radius: 16px;
+          background: rgba(255, 255, 255, 0.92);
+          border: 1px solid rgba(148, 163, 184, 0.25);
+          box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.4), 0 16px 28px -24px rgba(15, 23, 42, 0.6);
+      }
+
+      .exercise-list {
+          background: rgba(250, 204, 21, 0.12);
+          border: 1px solid rgba(250, 204, 21, 0.32);
+          padding: 22px 24px;
+          border-radius: 18px;
+          margin: 22px 0;
+          box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.4);
+          color: var(--text-secondary);
+      }
+
+      code {
+          font-family: 'Source Code Pro', 'Courier New', monospace;
+          background: rgba(15, 23, 42, 0.12);
+          padding: 2px 6px;
+          border-radius: 6px;
+          color: var(--accent-strong);
+      }
+
+      .nav-buttons {
+          display: flex;
+          justify-content: center;
+          gap: 16px;
+          margin-top: 48px;
+          padding-top: 32px;
+          border-top: 2px solid rgba(148, 163, 184, 0.2);
+      }
+
+      .nav-buttons a {
+          display: inline-flex;
+          align-items: center;
+          gap: 8px;
+          padding: 12px 24px;
+          background: var(--accent);
+          color: white;
+          text-decoration: none;
+          border-radius: 12px;
+          font-weight: 600;
+          font-family: 'Cabin', sans-serif;
+          transition: all 0.3s ease;
+          box-shadow: 0 4px 12px rgba(76, 110, 245, 0.3);
+      }
+
+      .nav-buttons a:hover {
+          background: var(--accent-strong);
+          transform: translateY(-2px);
+          box-shadow: 0 6px 16px rgba(76, 110, 245, 0.4);
+      }
+
+      @media (max-width: 768px) {
+          body {
+              padding: 32px 16px;
+          }
+
+          main {
+              padding: 36px 24px;
+              border-radius: 22px;
+          }
+
+          section.outline-section {
+              padding: 28px 24px;
+          }
+
+          h2 {
+              font-size: 22px;
+          }
+
+          h3 {
+              font-size: 18px;
+          }
       }
   </style>
 
-  <!-- MathJax v3 -->
+  <!-- MathJax configuration (uses $...$ and $$...$$) -->
   <script>
-  MathJax = {
+  window.MathJax = {
     tex: {
       inlineMath: [['$', '$'], ['\\(', '\\)']],
       displayMath: [['$$', '$$'], ['\\[', '\\]']],
-      processEscapes: true
+      processEscapes: true,
+      processEnvironments: true
     },
-    svg: { fontCache: 'global' }
+    options: {
+      skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code', 'svg', 'math'],
+      ignoreHtmlClass: 'no-mathjax',
+      processHtmlClass: 'mathjax-process'
+    }
   };
   </script>
-  <script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+  <script id="MathJax-script" async
+    src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
 </head>
 <body>
   <main>
@@ -227,6 +425,12 @@
         に一意的に分解できる。</p>
       </div>
     </section>
+
+    <div class="nav-buttons">
+      <a href="../class1/class1.html">← Previous</a>
+      <a href="../index.html">🏠 Home</a>
+      <a href="../class3/class3.html">Next →</a>
+    </div>
   </main>
 </body>
 </html>

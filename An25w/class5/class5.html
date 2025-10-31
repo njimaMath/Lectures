@@ -275,9 +275,34 @@
             color: var(--accent-strong);
         }
 
-        .katex-display {
-            overflow-x: auto;
-            overflow-y: hidden;
+        .nav-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 16px;
+            margin-top: 48px;
+            padding-top: 32px;
+            border-top: 2px solid rgba(148, 163, 184, 0.2);
+        }
+
+        .nav-buttons a {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 12px 24px;
+            background: var(--accent);
+            color: white;
+            text-decoration: none;
+            border-radius: 12px;
+            font-weight: 600;
+            font-family: 'Cabin', sans-serif;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 12px rgba(76, 110, 245, 0.3);
+        }
+
+        .nav-buttons a:hover {
+            background: var(--accent-strong);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(76, 110, 245, 0.4);
         }
 
         @media (max-width: 768px) {
@@ -303,78 +328,121 @@
             }
         }
     </style>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.10/dist/katex.min.css" integrity="sha384-wcIxkf4k558fYv3mQPFEpCREUQueRFCZrCXCtiKU8aNVbN9ODdVcN3BwCAJ6pcBb" crossorigin="anonymous">
-    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.10/dist/katex.min.js" integrity="sha384-hIoBPJpTUs74ddyc4bFZSM1TVlQDA60VBbJS0oA934VSz82sBx1X7kSx2ATBDIyd" crossorigin="anonymous"></script>
-    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.10/dist/contrib/auto-render.min.js" integrity="sha384-43gviWU0YVjaDtb/GhzOouOXtZMP/7XUzwPTstBeZFe/+rCMvRwr4yROQP43s0Xk" crossorigin="anonymous"
-        onload="renderMathInElement(document.body);"></script>
+
+    <!-- MathJax configuration (uses $...$ and $$...$$) -->
     <script>
-        document.addEventListener("DOMContentLoaded", function() {
-            renderMathInElement(document.body, {
-                delimiters: [
-                    {left: '$$', right: '$$', display: true},
-                    {left: '$', right: '$', display: false}
-                ],
-                throwOnError : false
-            });
-        });
+    window.MathJax = {
+      tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']],
+        displayMath: [['$$', '$$'], ['\\[', '\\]']],
+        processEscapes: true,
+        processEnvironments: true
+      },
+      options: {
+        skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code', 'svg', 'math'],
+        ignoreHtmlClass: 'no-mathjax',
+        processHtmlClass: 'mathjax-process'
+      }
+    };
     </script>
+    <script id="MathJax-script" async
+      src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
 </head>
 <body>
-    <main>
     <main>
         <header class="hero">
             <span class="hero-label">Lecture 5</span>
             <h1>第5回 広義積分</h1>
-            <p>無限区間や特異点を含む積分を扱い、収束・発散の基準を整理します。</p>
+            <p>無限区間や特異点を含む積分を極限を用いて解析し、収束・発散の判断基準を整理します。</p>
         </header>
 
         <section class="outline-section">
-            <h2>Section 1. 講義概要</h2>
-            <div class="note">
-                <strong>テーマ:</strong> 積分の拡張と収束判定
-            </div>
+            <h2>広義積分の導入</h2>
+            <p><strong>広義積分とは？</strong> 積分区間の端点が無限遠に飛ぶ場合や、区間内部で被積分関数が発散する場合に極限を使って定義される積分のことを広義積分と呼ぶ。</p>
+
             <div class="definition">
-                <strong>到達目標:</strong>
-                <ul>
-                    <li>広義積分の定義と逐次極限の取り方を理解する</li><li>比較判定法・ディリクレ判定法など代表的な基準を使いこなす</li><li>重積分における広義性の扱いを把握する</li>
-                </ul>
+                <strong>定義1（上限が無限大の場合）</strong>
+                <p>関数 $f$ が区間 $[a, y]$ 上で可積分であるとき、</p>
+                <div class="formula">
+                    $$ F(y) = \int_a^y f(x)\,dx $$
+                </div>
+                <p>とおく。$F(y)$ が $y \to \infty$ で有限の極限をもつならば、</p>
+                <div class="formula">
+                    $$ \int_a^{\infty} f(x)\,dx := \lim_{y \to \infty} F(y) $$
+                </div>
+                <p>を広義積分という。</p>
             </div>
-        </section>
 
-        <section class="outline-section">
-            <h2>Section 2. 重要な公式・キーポイント</h2>
-            <div class="formula">$$ \int_a^{\infty} f(x)\,dx = \lim_{b\to\infty} \int_a^{b} f(x)\,dx $$</div><div class="formula">$$ \int_a^{b} f(x)\,dx \quad (x \to b^-)\; \text{特異点の扱い} $$</div>
-            <div class="proof">
-                <strong>チェックリスト:</strong>
-                <ul class="highlight-list">
-                    <li>公式の導出過程を説明できるか。</li>
-                    <li>適用条件や必要な仮定を記憶しているか。</li>
-                    <li>例題に当てはめて計算できるか。</li>
-                </ul>
-            </div>
-        </section>
-
-        <section class="outline-section">
-            <h2>Section 3. 演習課題</h2>
             <div class="example">
-                <strong>練習問題:</strong>
-                <ol>
-                    <li>(1) $\int_1^{\infty} \frac{1}{x^p}\,dx$の収束条件を調べる</li><li>(2) 比較判定法を使い$\int_0^1 x^{-1/2}\,dx$の扱いを確認する</li><li>(3) 広義積分が発散する例を示し、理由を説明する</li>
-                </ol>
+                <strong>例1</strong>
+                <p>$$ \int_1^{\infty} x^{-2}\,dx $$ を計算する。</p>
+                <div class="formula">
+                    $$ F(y) = \int_1^{y} x^{-2}\,dx = \Bigl[ -x^{-1} \Bigr]_1^{y}
+                    = -\frac{1}{y} + 1 $$
+                </div>
+                <p>したがって</p>
+                <div class="formula">
+                    $$ \int_1^{\infty} x^{-2}\,dx = \lim_{y \to \infty} F(y) = 1. $$
+                </div>
             </div>
-            <div class="note">
-                <strong>アドバイス:</strong> 重積分で広義性が現れる場合は積分順序に注意が必要です。
+
+            <div class="definition">
+                <strong>定義2（下限が無限小の場合）</strong>
+                <p>関数 $f$ が区間 $[y, a]$ 上で可積分であるとき、</p>
+                <div class="formula">
+                    $$ F(y) = \int_y^a f(x)\,dx $$
+                </div>
+                <p>とおく。$F(y)$ が $y \to -\infty$ で有限の極限をもつならば、</p>
+                <div class="formula">
+                    $$ \int_{-\infty}^{a} f(x)\,dx := \lim_{y \to -\infty} F(y) $$
+                </div>
+                <p>を広義積分という。</p>
+            </div>
+
+            <div class="example">
+                <strong>例2</strong>
+                <p>$$ \int_{-\infty}^{0} e^{x}\,dx $$ を計算する。</p>
+                <div class="formula">
+                    $$ F(y) = \int_y^{0} e^{x}\,dx = \Bigl[ e^{x} \Bigr]_y^{0}
+                    = 1 - e^{y} $$
+                </div>
+                <p>極限を取ると</p>
+                <div class="formula">
+                    $$ \int_{-\infty}^{0} e^{x}\,dx = \lim_{y \to -\infty} F(y) = 1. $$
+                </div>
+            </div>
+
+            <div class="definition">
+                <strong>定義3（無限区間全体の場合）</strong>
+                <p>関数 $f$ が対称区間 $[-a, a]$ ごとに可積分であるとき、</p>
+                <div class="formula">
+                    $$ \int_{-\infty}^{\infty} f(x)\,dx := \lim_{a \to \infty} \int_{-a}^{a} f(x)\,dx $$
+                </div>
+                <p>が存在すれば、これを広義積分と定める。</p>
+            </div>
+
+            <div class="example">
+                <strong>例3</strong>
+                <p>$$ \int_{-\infty}^{\infty} \frac{1}{x^2+1}\,dx $$ を計算する。</p>
+                <div class="formula">
+                    $$ \int_{-a}^{a} \frac{1}{x^2+1}\,dx
+                    = \Bigl[ \arctan x \Bigr]_{-a}^{a}
+                    = \arctan a - \arctan(-a)
+                    = 2\,\arctan a $$
+                </div>
+                <p>よって</p>
+                <div class="formula">
+                    $$ \int_{-\infty}^{\infty} \frac{1}{x^2+1}\,dx
+                    = \lim_{a \to \infty} 2\,\arctan a = \pi. $$
+                </div>
             </div>
         </section>
 
-        <section class="outline-section">
-            <h2>Section 4. 次回までに</h2>
-            <ul>
-                <li>ノートを整理し、重要な定理と例題をまとめ直す。</li>
-                <li>不明点があれば授業冒頭で質問できるよう準備する。</li>
-                <li>関連する教科書の該当ページを読み、例題を一度自力で解く。</li>
-            </ul>
-        </section>
-</main>
+        <div class="nav-buttons">
+            <a href="../class4/class4.html">← Previous</a>
+            <a href="../index.html">🏠 Home</a>
+            <a href="../class6/class6.html">Next →</a>
+        </div>
+    </main>
 </body>
 </html>

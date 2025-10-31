@@ -295,6 +295,36 @@
             overflow-y: hidden;
         }
 
+        .nav-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 16px;
+            margin-top: 48px;
+            padding-top: 32px;
+            border-top: 2px solid rgba(148, 163, 184, 0.2);
+        }
+
+        .nav-buttons a {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 12px 24px;
+            background: var(--accent);
+            color: white;
+            text-decoration: none;
+            border-radius: 12px;
+            font-weight: 600;
+            font-family: 'Cabin', sans-serif;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 12px rgba(76, 110, 245, 0.3);
+        }
+
+        .nav-buttons a:hover {
+            background: var(--accent-strong);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(76, 110, 245, 0.4);
+        }
+
         @media (max-width: 768px) {
             body {
                 padding: 32px 16px;
@@ -453,7 +483,12 @@
                 <p>$n\to\infty$ とすればはさみうちの原理により両極限は $S$ に一致する。よって積分は定義できる。</p>
             </div>
         </section>
-        
+
+        <div class="nav-buttons">
+            <a href="../class2/class2.html">← Previous</a>
+            <a href="../index.html">🏠 Home</a>
+            <a href="../class4/class4.html">Next →</a>
+        </div>
     </main>
 </body>
 </html>
