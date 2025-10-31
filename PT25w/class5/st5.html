@@ -1,3 +1,4 @@
+```html
 <!DOCTYPE html>
 <html lang="ja">
 <head>
@@ -254,8 +255,8 @@
   <script>
     window.MathJax = {
       tex: {
-        inlineMath: [['$', '$'], ['\(', '\)']],
-        displayMath: [['$$','$$'], ['\[','\]']],
+        inlineMath: [['$', '$'], ['\\(', '\\)']],
+        displayMath: [['$$','$$'], ['\\[','\\]']],
         tags: 'none'
       },
       svg: {fontCache: 'global'}
@@ -283,70 +284,83 @@
 
     <article>
       <p class="lead">
-        一年間の地震回数がポアソン分布に従う理由を、離散時間と連続時間の二つの視点で整理する。前半では授業で扱った「二項分布の少数の法則」を復習し、後半では微小時間での仮定を手がかりにポアソン過程を導出する。
+        一年間の地震回数がポアソン分布に従う理由を、離散時間と連続時間の二つの視点で整理する。前半は講義で触れた「二項分布の少数の法則」を確認し、後半は微小時間の仮定からポアソン過程を導く。
       </p>
+
+      <div class="pull">
+        要点は三つ。① 試行回数を増やし成功確率を下げて平均を一定に保つ極限がポアソン分布を生む。② 連続時間では「独立増分」「定常性」「微小時間で二回以上は無視」の三条件が同じ結論に通じる。③ 実データでは余震連鎖が独立性を壊すため、モデルの適用範囲を吟味する。
+      </div>
 
       <h2>1. 二項分布の少数の法則（復習）</h2>
       <p>
-        1 年間を等間隔に <span class="math">$n$</span> 個の区間に分け、各区間で「少なくとも 1 回地震が起きる」事象を成功とみなす。成功確率を <span class="math">$p_n$</span> とし、区間ごとに独立と仮定すると、年間の回数 <span class="math">$X_n$</span> は二項分布に従う。
+        1 年間を等間隔に <span class="math">$n$</span> 個の区間に分け、各区間で「少なくとも 1 回地震が起きる」を成功とみなす。成功確率を <span class="math">$p_n$</span>、区間間の独立を仮定すると、年間回数 <span class="math">$X_n$</span> は二項分布に従う。
       </p>
       <div class="eq">
-        X_n \sim \mathrm{Bin}(n,p_n)
+        $$X_n \sim \mathrm{Bin}(n,p_n)$$
+      </div>
+      <div class="theorem">
+        <div class="label">定理（少数の法則）</div>
+        平均回数が <span class="math">$\lambda$</span> に収束するよう <span class="math">$n p_n \to \lambda$</span> とおくと、二項分布の極限としてポアソン分布が得られる。
+        <div class="eq">
+          $$\Pr(X_n=k)=\binom{n}{k}p_n^k(1-p_n)^{\,n-k}\xrightarrow[n\to\infty]{}e^{-\lambda}\frac{\lambda^k}{k!}.$$
+        </div>
       </div>
       <p>
-        平均回数が <span class="math">$\lambda$</span> に収束するように <span class="math">$p_n$</span> を選ぶと、二項分布の極限としてポアソン分布が現れる。
-      </p>
-      <div class="eq">
-        \Pr(X_n=k)=\binom{n}{k}p_n^k(1-p_n)^{n-k}\xrightarrow[n\to\infty]{}e^{-\lambda}\frac{\lambda^k}{k!}.
-      </div>
-      <p>
-        つまり「試行回数 <span class="math">$\uparrow$</span>・成功確率 <span class="math">$\downarrow$</span>・平均一定」という極限操作がポアソン分布を生む。
+        すなわち「試行回数 <span class="math">$\uparrow$</span>・成功確率 <span class="math">$\downarrow$</span>・平均一定」の極限操作がポアソン分布を生む。
       </p>
 
       <h2>2. 微小時間の仮定からの導出（連続時間）</h2>
       <p>
-        時刻 <span class="math">$t$</span> までの地震回数を <span class="math">$N(t)$</span> とし、以下の 3 つを仮定する。
+        時刻 <span class="math">$t$</span> までの地震回数を <span class="math">$N(t)$</span> とし、以下を置く。
       </p>
       <ol>
-        <li><strong>定常性</strong>：任意の <span class="math">$s,t\ge0$</span> で <span class="math">$N(t+s)-N(s)\stackrel{d}{=}N(t)$</span>、すなわち平均回数は一定の <span class="math">$\lambda$</span>。</li>
-        <li><strong>独立増分</strong>：重ならない時間区間での増分が独立。</li>
-        <li><strong>微小時間の振る舞い</strong>：<span class="math">$h\downarrow0$</span> のとき
-          <span class="math">$\Pr(N(h)=1)=\lambda h+o(h)$</span>、<span class="math">$\Pr(N(h)\ge2)=o(h)$</span>。</li>
+        <li><strong>定常性</strong>：任意の <span class="math">$s,t\ge 0$</span> で <span class="math">$N(t+s)-N(s)\stackrel{d}{=}N(t)$</span>。平均発生率は一定 <span class="math">$\lambda$</span>。</li>
+        <li><strong>独立増分</strong>：重ならない時間区間の増分は独立。</li>
+        <li><strong>微小時間の振る舞い</strong>：<span class="math">$h\downarrow 0$</span> のとき
+          <span class="math">$\Pr(N(h)=1)=\lambda h+o(h)$</span>、<span class="math">$\Pr(N(h)\ge 2)=o(h)$</span>。
+        </li>
       </ol>
       <p>
-        ここで <span class="math">$p_k(t):=\Pr(N(t)=k)$</span> と置く。小さな <span class="math">$h&gt;0$</span> に対し、直前区間で 0 回・1 回発生した場合を分け、独立増分を用いると次の差分方程式が得られる。
+        <span class="math">$p_k(t):=\Pr(N(t)=k)$</span> とおく。小 <span class="math">$h&gt;0$</span> に対して直前区間の発生回数で分割し独立増分を用いると
       </p>
       <div class="eq">
-        p_k(t+h)=p_k(t)\Pr(N(h)=0)+p_{k-1}(t)\Pr(N(h)=1)+o(h).
+        $$p_k(t+h)=p_k(t)\Pr(N(h)=0)+p_{k-1}(t)\Pr(N(h)=1)+o(h).$$
       </div>
       <p>
-brace}$</span> から順に解くと、
-  これを両辺 <span class="math">$h$</span> で割って極限をとると、<span class="math">$k\ge1$</span> で <span class="math">$p_k'(t)=-\lambda p_k(t)+\lambda p_{k-1}(t)$</span>、また <span class="math">$p_0'(t)=-\lambda p_0(t)$</span> となる。初期条件 <span class="math">$p_k(0)=\mathbf{1}_{\{k=0\}}$</span> から順に解くと、
+        微小時間の近似 <span class="math">$\Pr(N(h)=0)=1-\lambda h+o(h)$</span>、<span class="math">$\Pr(N(h)=1)=\lambda h+o(h)$</span> を代入する。
       </p>
       <div class="eq">
-        p_k(t)=e^{-\lambda t}\frac{(\lambda t)^k}{k!}\quad(k=0,1,2,\dots)
+        $$\Pr(N(h)=0)=1-\lambda h+o(h),\qquad \Pr(N(h)=1)=\lambda h+o(h).$$
+      </div>
+      <p>
+        両辺から <span class="math">$p_k(t)$</span> を引き、<span class="math">$h$</span> で割って <span class="math">$h\downarrow 0$</span> をとると
+        <span class="math">$p_0'(t)=-\lambda p_0(t)$</span>、<span class="math">$k\ge 1$</span> で
+        <span class="math">$p_k'(t)=-\lambda p_k(t)+\lambda p_{k-1}(t)$</span> を得る。初期条件 <span class="math">$p_k(0)=\mathbf{1}_{\{k=0\}}$</span> から順に解けば
+      </p>
+      <div class="eq">
+        $$p_k(t)=e^{-\lambda t}\frac{(\lambda t)^k}{k!}\quad(k=0,1,2,\dots)$$
       </div>
       <p>
         よって <span class="math">$N(t)\sim \mathrm{Po}(\lambda t)$</span>、特に 1 年間では <span class="math">$N(1)\sim \mathrm{Po}(\lambda)$</span> となる。
       </p>
 
-      <h2>3. <span class="math">$\Pr(N(h)\ge2)=o(h)$</span> とおく直観</h2>
+      <h2>3. <span class="math">$\Pr(N(h)\ge 2)=o(h)$</span> とおく直観</h2>
       <p>
-        区間 <span class="math">$[0,h]$</span> をさらに <span class="math">$m$</span> 分割し、各サブ区間での発生確率を <span class="math">$p\approx\lambda h/m$</span> とみなすと、二回以上起こる確率は
+        区間 <span class="math">$[0,h]$</span> を <span class="math">$m$</span> 等分し、各サブ区間の発生確率を <span class="math">$p\approx \lambda h/m$</span> とみなすと、二回以上起こる確率は
       </p>
       <div class="eq">
-        \binom{m}{2}p^2+O(p^3)\approx\frac{m^2}{2}\left(\frac{\lambda h}{m}\right)^2=O(h^2).
+        $$\binom{m}{2}p^2+O(p^3)\approx \frac{m^2}{2}\left(\frac{\lambda h}{m}\right)^2=O(h^2).$$
       </div>
       <p>
-        一年を <span class="math">$h^{-1}$</span> 個の区間に分ければ二回以上起きる確率は <span class="math">$h^{-1}O(h^2)=O(h)$</span> まで落ち、<span class="math">$h\to0$</span> で無視できる。
+        一年を <span class="math">$h^{-1}$</span> 個に分けた総和でも <span class="math">$h^{-1}O(h^2)=O(h)$</span> にとどまり、<span class="math">$h\to 0$</span> で無視できる。
       </p>
 
       <h2>4. イベント時刻の均一性</h2>
       <p>
-        上記の仮定のもとでは、区間 <span class="math">$[0,t]$</span> に <span class="math">$k$</span> 回発生したとき、順序統計 <span class="math">$(T_1&lt;\dots&lt;T_k)$</span> は <span class="math">$[0,t]$</span> 上で一様に並ぶ。この性質からも
+        上の仮定のもとで、<span class="math">$[0,t]$</span> に <span class="math">$k$</span> 回発生したとき、順序統計 <span class="math">$(T_1&lt;\dots&lt;T_k)$</span> は <span class="math">$[0,t]$</span> 上の一様乱数の順序統計に一致する（同時分布は単体上で密度 <span class="math">$k!/t^k$</span>）。この性質と独立増分からも
       </p>
       <div class="eq">
-        \Pr(N(t)=k)=e^{-\lambda t}\frac{(\lambda t)^k}{k!}
+        $$\Pr(N(t)=k)=e^{-\lambda t}\frac{(\lambda t)^k}{k!}$$
       </div>
       <p>
         が確認でき、離散モデルと同じ分布式に到達する。
@@ -354,14 +368,19 @@ brace}$</span> から順に解くと、
 
       <h2>5. 二つの説明の対応</h2>
       <p>
-        二項モデルでは「試行回数を増やしつつ成功確率を減らす」極限操作がポアソン分布を導く。連続時間モデルでは「微小区間で 0 回が主、1 回が一次、2 回以上は二次以下」という仮定と独立増分が同じ分布を与える。<span class="math">$h=1/n$</span> と対応づければ、両者は同一の極限原理の離散／連続バージョンと捉えられる。
+        二項モデルは「試行回数を増やし成功確率を下げる」極限であり、連続時間モデルは「微小区間で 0 回が主、1 回が一次、2 回以上は二次以下」という仮定と独立増分で同じ極限を記述する。<span class="math">$h=1/n$</span> と対応づければ、両者は同一原理の離散／連続の表現である。
       </p>
 
       <h2>6. 実データへの適用と限界</h2>
       <p>
-        平均回数 <span class="math">$\lambda$</span> は長期観測データから推定する（例：標本平均による最大尤度推定）。ただし余震が連鎖する期間は独立仮定が崩れるため、主震のみを抽出するか、時間依存強度 <span class="math">$\lambda(t)$</span> を許す非一様ポアソン過程や Hawkes 過程など、より柔軟なモデルを使う必要がある。
+        平均回数 <span class="math">$\lambda$</span> は長期観測から推定する。年ごとの観測回数 <span class="math">$X_1,\dots,X_T$</span> を用いれば標本平均 <span class="math">$\hat\lambda=\frac{1}{T}\sum_{t=1}^T X_t$</span> が最尤推定量になる。もっとも、余震が連鎖する期間では独立仮定が崩れる。主震のみを抽出する前処理、あるいは時間依存強度 <span class="math">$\lambda(t)$</span> を許す非一様ポアソン過程や Hawkes 過程の採用が要る。
       </p>
+
+      <div class="footer-note">
+        記述は講義用メモに基づく。式は <span class="math">$\,/\,</span> 証明ともに最小限に留め、直観と前提条件を明示した。
+      </div>
     </article>
   </main>
 </body>
 </html>
+```
