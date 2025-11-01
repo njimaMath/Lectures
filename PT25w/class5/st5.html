@@ -314,7 +314,7 @@
       </p>
       <ol>
         <li><strong>定常性</strong>：任意の <span class="math">$s,t\ge 0$</span> で <span class="math">$N(t+s)-N(s)\stackrel{d}{=}N(t)$</span>。平均発生率は一定 <span class="math">$\lambda$</span>。</li>
-        <li><strong>独立増分</strong>：重ならない時間区間の増分は独立。</li>
+        <li><strong>独立増分</strong>：重ならない時間区間の増分は独立。つまり$t_0<t_1<t_2<t_3$に対して、$N(t_1)-N(t_0)$と$N(t_3)-N(t_2)$は独立</li>
         <li><strong>微小時間の振る舞い</strong>：<span class="math">$h\downarrow 0$</span> のとき
           <span class="math">$\Pr(N(h)=1)=\lambda h+o(h)$</span>、<span class="math">$\Pr(N(h)\ge 2)=o(h)$</span>。
         </li>
@@ -354,30 +354,6 @@
         一年を <span class="math">$h^{-1}$</span> 個に分けた総和でも <span class="math">$h^{-1}O(h^2)=O(h)$</span> にとどまり、<span class="math">$h\to 0$</span> で無視できる。
       </p>
 
-      <h2>4. イベント時刻の均一性</h2>
-      <p>
-        上の仮定のもとで、<span class="math">$[0,t]$</span> に <span class="math">$k$</span> 回発生したとき、順序統計 <span class="math">$(T_1&lt;\dots&lt;T_k)$</span> は <span class="math">$[0,t]$</span> 上の一様乱数の順序統計に一致する（同時分布は単体上で密度 <span class="math">$k!/t^k$</span>）。この性質と独立増分からも
-      </p>
-      <div class="eq">
-        $$\Pr(N(t)=k)=e^{-\lambda t}\frac{(\lambda t)^k}{k!}$$
-      </div>
-      <p>
-        が確認でき、離散モデルと同じ分布式に到達する。
-      </p>
-
-      <h2>5. 二つの説明の対応</h2>
-      <p>
-        二項モデルは「試行回数を増やし成功確率を下げる」極限であり、連続時間モデルは「微小区間で 0 回が主、1 回が一次、2 回以上は二次以下」という仮定と独立増分で同じ極限を記述する。<span class="math">$h=1/n$</span> と対応づければ、両者は同一原理の離散／連続の表現である。
-      </p>
-
-      <h2>6. 実データへの適用と限界</h2>
-      <p>
-        平均回数 <span class="math">$\lambda$</span> は長期観測から推定する。年ごとの観測回数 <span class="math">$X_1,\dots,X_T$</span> を用いれば標本平均 <span class="math">$\hat\lambda=\frac{1}{T}\sum_{t=1}^T X_t$</span> が最尤推定量になる。もっとも、余震が連鎖する期間では独立仮定が崩れる。主震のみを抽出する前処理、あるいは時間依存強度 <span class="math">$\lambda(t)$</span> を許す非一様ポアソン過程や Hawkes 過程の採用が要る。
-      </p>
-
-      <div class="footer-note">
-        記述は講義用メモに基づく。式は <span class="math">$\,/\,</span> 証明ともに最小限に留め、直観と前提条件を明示した。
-      </div>
     </article>
   </main>
 </body>
