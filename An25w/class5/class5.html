@@ -353,88 +353,102 @@
         <header class="hero">
             <span class="hero-label">Lecture 5</span>
             <h1>第5回 広義積分</h1>
-            <p>無限区間や特異点を含む積分を極限を用いて解析し、収束・発散の判断基準を整理します。</p>
+            <p>無限区間や特異点を含む積分を極限を用いて解析し、収束・発散の判断基準を整理する。</p>
         </header>
 
         <section class="outline-section">
             <h2>広義積分の導入</h2>
-            <p><strong>広義積分とは？</strong> 積分区間の端点が無限遠に飛ぶ場合や、区間内部で被積分関数が発散する場合に極限を使って定義される積分のことを広義積分と呼ぶ。</p>
+            <p>無限区間や積分区間上の特異点に対して極限を用いて積分を定義し直し、従来の定積分の枠組みを拡張する。</p>
+            <div class="concept-card focus-card">
+                <strong>考え方のポイント</strong>
+                <p>一旦問題のある点や無限遠を避けて積分を計算し、最後に極限をとって値を確定させる。この極限が存在すれば「収束」、存在しない場合は「発散」と判断する。</p>
+                <p><strong>ポイント:</strong> 初めに安全な領域で定積分を求め、極限操作によって元の積分を復元する。</p>
+            </div>
+        </section>
 
+        <section class="outline-section">
+            <h2>一変数の広義積分</h2>
+            <div class="concept-card">
+                <strong>端点で発散する関数</strong>
+                <p>$\displaystyle \int_{0}^{1} \frac{1}{\sqrt{1-x}}\,dx$ のように積分区間の端点で発散する場合でも、特異点を避けた区間で積分した後に極限をとることで値を定める。</p>
+                <p><strong>ポイント:</strong> 端点で発散する場合は可積分な範囲を切り出し、最後に極限で広義積分を決める。</p>
+                <div class="note">
+                    <strong>Remark</strong>
+                    <p>$\displaystyle \lim_{x\to 1-}\frac{1}{\sqrt{1-x}} = \infty$ なので、そのままでは定積分が定義できない。</p>
+                </div>
+                <p>まず $0 \le x \le 1-\dfrac{1}{n}$ 上での原始関数を用いて</p>
+                <div class="formula">
+                    $F(n) = \displaystyle \int_{0}^{1-\frac{1}{n}} \frac{1}{\sqrt{1-x}}\,dx$
+                </div>
+                <p>とおき、$\displaystyle \lim_{n\to \infty} F(n)$ の極限を調べる。極限が有限値に収束すれば広義積分は収束と判定できる。</p>
+                <div class="exercise-list">
+                    <strong>練習</strong>
+                    <p>$\displaystyle \int_{0}^{1} \frac{1}{\sqrt{x}}\,dx$ の収束・発散を同じ手続きで確認してみよう。</p>
+                </div>
+            </div>
+
+            <div class="concept-card">
+                <strong>無限区間での積分</strong>
+                <p>積分区間が無限大に広がる場合は、上端を一旦有限の文字 $R$ に置き換えて積分し、$R\to\infty$ の極限を取る。</p>
+                <p><strong>ポイント:</strong> 無限遠を仮の境界 $R$ で置き換え、最後に $R\to\infty$ の極限で収束を判定する。</p>
+                <div class="formula">
+                    $\displaystyle \int_{1}^{\infty} \frac{1}{x^{2}}\,dx = \lim_{R\to\infty} \int_{1}^{R} \frac{1}{x^{2}}\,dx$
+                </div>
+                <p>原始関数は $-\dfrac{1}{x}$ なので $\displaystyle \lim_{R\to\infty} \Bigl(1 - \dfrac{1}{R}\Bigr) = 1$ に収束する。</p>
+                <div class="example">
+                    <strong>例</strong>
+                    <p>$\displaystyle \int_{1}^{\infty} \frac{1}{x^{3}}\,dx$ を計算し、べき指数によって収束判定がどのように変わるかを確認してみよう。</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="outline-section">
+            <h2>二変数の広義積分</h2>
+            <div class="concept-card focus-card">
+                <strong>積分領域内で発散する場合</strong>
+                <p>$\displaystyle \iint_{[0,1]\times[0,1]} \frac{1}{\sqrt{xy}}\,dx\,dy$ のように、積分領域の内部で特異点が生じるときは、特異点を避けた領域 $[\tfrac{1}{n},1]\times[\tfrac{1}{n},1]$ を用いて近似する。</p>
+                <div class="formula">
+                    $F(n) = \displaystyle \iint_{[\tfrac{1}{n},1]\times[\tfrac{1}{n},1]} \frac{1}{\sqrt{xy}}\,dx\,dy$
+                </div>
+                <p>最後に $n \to \infty$ の極限を取り、値が安定すれば収束とみなせる。</p>
+                <p><strong>ポイント:</strong> 特異点を含まない領域 $D_{1/n}$ を設定し、$n \to \infty$ の極限で広義重積分を定義する。</p>
+                <div class="example">
+                    <strong>例題</strong>
+                    <p>$\displaystyle \iint_{[0,1]\times[0,2]} \frac{y}{\sqrt{1-x}}\,dx\,dy$ を同様に処理して収束可否を判断してみよう。</p>
+                </div>
+            </div>
+
+            <div class="concept-card">
+                <strong>無限領域での重積分</strong>
+                <p>領域が無限に広がる場合も、有限な領域 $[1,R)\times[1,R)$ などで切り取りながら極限を考える。</p>
+                <p><strong>ポイント:</strong> 無限領域を段階的に拡大し、切り出した領域での積分値の極限によって収束を判定する。</p>
+                <div class="formula">
+                    $F(R) = \displaystyle \iint_{[1,R)\times[1,R)} \frac{1}{xy}\,dx\,dy$
+                </div>
+                <p>無限大に向かう極限が存在するかどうかで広義重積分の収束が決まる。</p>
+                <div class="exercise-list">
+                    <strong>練習</strong>
+                    <p>$\displaystyle \iint_{(-\infty,\infty)^{2}} \frac{1}{(x^{2}+1)(y^{2}+1)}\,dx\,dy$ の収束を判定してみよう。</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="outline-section">
+            <h2>より厳密な定義</h2>
             <div class="definition">
-                <strong>定義1（上限が無限大の場合）</strong>
-                <p>関数 $f$ が区間 $[a, y]$ 上で可積分であるとき、</p>
-                <div class="formula">
-                    $$ F(y) = \int_a^y f(x)\,dx $$
-                </div>
-                <p>とおく。$F(y)$ が $y \to \infty$ で有限の極限をもつならば、</p>
-                <div class="formula">
-                    $$ \int_a^{\infty} f(x)\,dx := \lim_{y \to \infty} F(y) $$
-                </div>
-                <p>を広義積分という。</p>
+                <strong>広義積分の定義</strong>
+                <p>領域 $D$ 上で関数 $f$ が発散したり、$D$ が無限体積をもつ場合には、適切な近似領域列 $(D_n)$ を用いて広義積分を定める。</p>
+                <ol>
+                    <li>$D_n$ はある有限な長方形に含まれる。</li>
+                    <li>$f$ は $D_n$ 上で有限値かつ連続である。</li>
+                    <li>$\bigcup_{n=1}^{\infty} D_n = D$ を満たす。</li>
+                </ol>
+                <p>このとき $\displaystyle \iint_{D} f\,dx\,dy = \lim_{n\to\infty} \iint_{D_n} f\,dx\,dy$ が極限として定義される。</p>
+                <p><strong>ポイント:</strong> 取り方が異なる近似領域列でも極限値が一致するかを確認することが広義積分の正当化につながる。</p>
             </div>
-
-            <div class="example">
-                <strong>例1</strong>
-                <p>$$ \int_1^{\infty} x^{-2}\,dx $$ を計算する。</p>
-                <div class="formula">
-                    $$ F(y) = \int_1^{y} x^{-2}\,dx = \Bigl[ -x^{-1} \Bigr]_1^{y}
-                    = -\frac{1}{y} + 1 $$
-                </div>
-                <p>したがって</p>
-                <div class="formula">
-                    $$ \int_1^{\infty} x^{-2}\,dx = \lim_{y \to \infty} F(y) = 1. $$
-                </div>
-            </div>
-
-            <div class="definition">
-                <strong>定義2（下限が無限小の場合）</strong>
-                <p>関数 $f$ が区間 $[y, a]$ 上で可積分であるとき、</p>
-                <div class="formula">
-                    $$ F(y) = \int_y^a f(x)\,dx $$
-                </div>
-                <p>とおく。$F(y)$ が $y \to -\infty$ で有限の極限をもつならば、</p>
-                <div class="formula">
-                    $$ \int_{-\infty}^{a} f(x)\,dx := \lim_{y \to -\infty} F(y) $$
-                </div>
-                <p>を広義積分という。</p>
-            </div>
-
-            <div class="example">
-                <strong>例2</strong>
-                <p>$$ \int_{-\infty}^{0} e^{x}\,dx $$ を計算する。</p>
-                <div class="formula">
-                    $$ F(y) = \int_y^{0} e^{x}\,dx = \Bigl[ e^{x} \Bigr]_y^{0}
-                    = 1 - e^{y} $$
-                </div>
-                <p>極限を取ると</p>
-                <div class="formula">
-                    $$ \int_{-\infty}^{0} e^{x}\,dx = \lim_{y \to -\infty} F(y) = 1. $$
-                </div>
-            </div>
-
-            <div class="definition">
-                <strong>定義3（無限区間全体の場合）</strong>
-                <p>関数 $f$ が対称区間 $[-a, a]$ ごとに可積分であるとき、</p>
-                <div class="formula">
-                    $$ \int_{-\infty}^{\infty} f(x)\,dx := \lim_{a \to \infty} \int_{-a}^{a} f(x)\,dx $$
-                </div>
-                <p>が存在すれば、これを広義積分と定める。</p>
-            </div>
-
-            <div class="example">
-                <strong>例3</strong>
-                <p>$$ \int_{-\infty}^{\infty} \frac{1}{x^2+1}\,dx $$ を計算する。</p>
-                <div class="formula">
-                    $$ \int_{-a}^{a} \frac{1}{x^2+1}\,dx
-                    = \Bigl[ \arctan x \Bigr]_{-a}^{a}
-                    = \arctan a - \arctan(-a)
-                    = 2\,\arctan a $$
-                </div>
-                <p>よって</p>
-                <div class="formula">
-                    $$ \int_{-\infty}^{\infty} \frac{1}{x^2+1}\,dx
-                    = \lim_{a \to \infty} 2\,\arctan a = \pi. $$
-                </div>
+            <div class="note">
+                <strong>注意</strong>
+                <p>極限値が $(D_n)$ の取り方によらず一定であるかを確認することが理論上重要だ。特に数学系コースではこの点を厳密に証明する。</p>
             </div>
         </section>
 

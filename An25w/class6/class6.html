@@ -1,416 +1,447 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>第6回 重積分の変数変換（ヤコビアン）</title>
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Cabin:wght@500&family=Noto+Sans+JP:wght@400;500;700&display=swap');
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>第6回 重積分の変数変換（ヤコビアン）—区分求積の立場</title>
 
-        :root {
-            --background: radial-gradient(120% 120% at 20% 20%, #1e3a8a 0%, #0f172a 55%, #020617 100%);
-            --card-bg: rgba(255, 255, 255, 0.88);
-            --card-border: rgba(255, 255, 255, 0.25);
-            --accent: #4c6ef5;
-            --accent-soft: rgba(76, 110, 245, 0.14);
-            --accent-strong: #2c3791;
-            --text-primary: #0f172a;
-            --text-secondary: #475569;
-            --highlight: #facc15;
-            --shadow: 0 18px 45px -25px rgba(15, 23, 42, 0.75);
-        }
+  <!-- Fonts & Base Style -->
+  <link href="https://fonts.googleapis.com/css2?family=Cabin:wght@500&family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet">
 
-        *, *::before, *::after {
-            box-sizing: border-box;
-        }
+  <style>
+    :root {
+      --background: radial-gradient(120% 120% at 20% 20%, #1e3a8a 0%, #0f172a 55%, #020617 100%);
+      --card-bg: rgba(255, 255, 255, 0.88);
+      --card-border: rgba(255, 255, 255, 0.25);
+      --accent: #4c6ef5;
+      --accent-soft: rgba(76, 110, 245, 0.14);
+      --accent-strong: #2c3791;
+      --text-primary: #0f172a;
+      --text-secondary: #475569;
+      --highlight: #facc15;
+      --shadow: 0 18px 45px -25px rgba(15, 23, 42, 0.75);
+    }
+    *, *::before, *::after { box-sizing: border-box; }
+    body {
+      font-family: 'Noto Sans JP', 'Hiragino Sans', 'Meiryo', sans-serif;
+      line-height: 1.7;
+      margin: 0; min-height: 100vh; padding: 60px 24px;
+      color: var(--text-primary); background: var(--background);
+      display: flex; justify-content: center; align-items: flex-start;
+    }
+    body::before {
+      content: ""; position: fixed; inset: 0;
+      background: repeating-linear-gradient(135deg, rgba(255,255,255,0.04) 0, rgba(255,255,255,0.04) 12px, transparent 12px, transparent 24px);
+      pointer-events: none; z-index: 0;
+    }
+    main {
+      width: min(960px, 100%); background: var(--card-bg); backdrop-filter: blur(18px);
+      border: 1px solid var(--card-border); border-radius: 28px;
+      padding: 56px 64px; position: relative; z-index: 1; box-shadow: var(--shadow);
+    }
+    header.hero { text-align: center; margin-bottom: 48px; display: grid; gap: 18px; }
+    .hero-label {
+      display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+      padding: 6px 16px; border-radius: 999px; font-size: 14px; letter-spacing: 0.08em; text-transform: uppercase;
+      color: var(--accent-strong); background: var(--accent-soft); font-family: 'Cabin', sans-serif;
+    }
+    h1 { font-size: clamp(32px, 4vw, 44px); margin: 0; color: var(--accent-strong); letter-spacing: 0.05em; }
+    header.hero p { margin: 0 auto; max-width: 680px; color: var(--text-secondary); font-size: 17px; }
 
-        body {
-            font-family: 'Noto Sans JP', 'Hiragino Sans', 'Meiryo', sans-serif;
-            line-height: 1.7;
-            margin: 0;
-            min-height: 100vh;
-            padding: 60px 24px;
-            color: var(--text-primary);
-            background: var(--background);
-            position: relative;
-            display: flex;
-            justify-content: center;
-            align-items: flex-start;
-        }
+    section.outline-section {
+      background: rgba(255,255,255,0.78); border: 1px solid rgba(148,163,184,0.25);
+      padding: 32px 36px; border-radius: 22px; margin-bottom: 32px;
+      box-shadow: 0 24px 40px -32px rgba(15,23,42,0.35);
+    }
+    section.outline-section:last-of-type { margin-bottom: 0; }
 
-        body::before {
-            content: "";
-            position: fixed;
-            inset: 0;
-            background: repeating-linear-gradient(135deg, rgba(255, 255, 255, 0.04) 0, rgba(255, 255, 255, 0.04) 12px, transparent 12px, transparent 24px);
-            pointer-events: none;
-            z-index: 0;
-        }
+    h2 {
+      display: flex; align-items: center; gap: 14px; font-size: 24px; margin: 0 0 24px; color: var(--accent-strong);
+    }
+    h2::before { content: ""; width: 42px; height: 4px; border-radius: 999px;
+      background: linear-gradient(90deg, var(--accent) 0%, rgba(76,110,245,0.2) 100%);
+    }
+    h3 { font-size: 19px; margin-top: 28px; color: var(--accent-strong); }
+    p, ol, ul { color: var(--text-secondary); }
+    p { margin: 0 0 16px; }
+    ol, ul { margin: 0 0 18px; padding-left: 24px; }
 
-        main {
-            width: min(960px, 100%);
-            background: var(--card-bg);
-            backdrop-filter: blur(18px);
-            border: 1px solid var(--card-border);
-            border-radius: 28px;
-            padding: 56px 64px;
-            position: relative;
-            z-index: 1;
-            box-shadow: var(--shadow);
-        }
+    .concept-card, .theorem, .definition, .proof, .note, .example {
+      margin: 18px 0; padding: 18px 22px; border-radius: 18px;
+      background: rgba(248,250,252,0.86); border: 1px solid rgba(148,163,184,0.25);
+      box-shadow: inset 0 1px 0 rgba(255,255,255,0.55);
+    }
+    .focus-card { background: rgba(76,110,245,0.08); border: 1px solid rgba(76,110,245,0.22);
+      box-shadow: inset 0 1px 0 rgba(255,255,255,0.4), 0 20px 32px -28px rgba(76,110,245,0.55);
+    }
+    .theorem { border-left: 6px solid rgba(76,110,245,0.65); }
+    .definition { border-left: 6px solid rgba(34,197,94,0.65); }
+    .proof { border-left: 6px solid rgba(148,163,184,0.65); }
+    .note { border-left: 6px solid rgba(250,204,21,0.7); background: rgba(250,204,21,0.08); }
+    .example { border-left: 6px solid rgba(14,165,233,0.7); background: rgba(14,165,233,0.08); }
 
-        header.hero {
-            text-align: center;
-            margin-bottom: 48px;
-            display: grid;
-            gap: 18px;
-        }
+    .concept-card strong,
+    .theorem strong,
+    .definition strong,
+    .proof strong,
+    .note strong,
+    .example strong {
+      display: block; font-family: 'Cabin', sans-serif; font-weight: 600;
+      color: var(--accent-strong); letter-spacing: 0.04em; margin-bottom: 8px;
+    }
 
-        .hero-label {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-            padding: 6px 16px;
-            border-radius: 999px;
-            font-size: 14px;
-            letter-spacing: 0.08em;
-            text-transform: uppercase;
-            color: var(--accent-strong);
-            background: var(--accent-soft);
-            font-family: 'Cabin', sans-serif;
-        }
+    .formula {
+      background: rgba(76,110,245,0.08); padding: 18px; border-radius: 16px; margin: 18px 0;
+      overflow-x: auto; text-align: center; font-size: 1.05rem; color: var(--accent-strong);
+      border: 1px solid rgba(76,110,245,0.2); box-shadow: inset 0 1px 0 rgba(255,255,255,0.35);
+      font-family: 'Latin Modern Math', 'Cambria Math', serif;
+    }
 
-        h1 {
-            font-size: clamp(32px, 4vw, 44px);
-            margin: 0;
-            color: var(--accent-strong);
-            letter-spacing: 0.05em;
-        }
+    /* Figure & SVG */
+    .figure {
+      margin: 22px 0; padding: 18px; border-radius: 16px;
+      background: rgba(255,255,255,0.92); border: 1px solid rgba(148,163,184,0.25);
+      box-shadow: inset 0 1px 0 rgba(255,255,255,0.4);
+    }
+    .figure .caption {
+      margin-top: 10px; font-size: 14px; color: var(--text-secondary); text-align: center;
+    }
+    .svg-wrap { width: 100%; overflow-x: auto; text-align: center; }
+    svg { max-width: 100%; height: auto; }
 
-        header.hero p {
-            margin: 0 auto;
-            max-width: 620px;
-            color: var(--text-secondary);
-            font-size: 17px;
-        }
+    table { width: 100%; border-collapse: collapse; margin: 18px 0;
+      background: rgba(255,255,255,0.92); border-radius: 18px; overflow: hidden;
+      border: 1px solid rgba(148,163,184,0.3);
+    }
+    th, td { border-bottom: 1px solid rgba(148,163,184,0.25); padding: 12px 16px; text-align: center; color: var(--text-secondary); }
+    th { background: rgba(76,110,245,0.1); font-weight: 600; color: var(--accent-strong); font-family: 'Cabin', sans-serif; letter-spacing: 0.04em; }
+    tr:last-child td { border-bottom: 0; }
 
-        section.outline-section {
-            background: rgba(255, 255, 255, 0.78);
-            border: 1px solid rgba(148, 163, 184, 0.25);
-            padding: 32px 36px;
-            border-radius: 22px;
-            margin-bottom: 32px;
-            box-shadow: 0 24px 40px -32px rgba(15, 23, 42, 0.35);
-        }
+    .nav-buttons { display: flex; justify-content: center; gap: 16px; margin-top: 48px; padding-top: 32px; border-top: 2px solid rgba(148,163,184,0.2); }
+    .nav-buttons a {
+      display: inline-flex; align-items: center; gap: 8px; padding: 12px 24px;
+      background: var(--accent); color: #fff; text-decoration: none; border-radius: 12px; font-weight: 600; font-family: 'Cabin', sans-serif;
+      transition: all 0.3s ease; box-shadow: 0 4px 12px rgba(76,110,245,0.3);
+    }
+    .nav-buttons a:hover { background: var(--accent-strong); transform: translateY(-2px); box-shadow: 0 6px 16px rgba(76,110,245,0.4); }
 
-        section.outline-section:last-of-type {
-            margin-bottom: 0;
-        }
+    @media (max-width: 768px) {
+      body { padding: 32px 16px; }
+      main { padding: 36px 24px; border-radius: 22px; }
+      section.outline-section { padding: 28px 24px; }
+      h2 { font-size: 22px; }
+      h3 { font-size: 18px; }
+    }
+  </style>
 
-        h2 {
-            display: flex;
-            align-items: center;
-            gap: 14px;
-            font-size: 24px;
-            margin: 0 0 24px;
-            color: var(--accent-strong);
-        }
-
-        h2::before {
-            content: "";
-            width: 42px;
-            height: 4px;
-            border-radius: 999px;
-            background: linear-gradient(90deg, var(--accent) 0%, rgba(76, 110, 245, 0.2) 100%);
-        }
-
-        h3 {
-            font-size: 19px;
-            margin-top: 28px;
-            color: var(--accent-strong);
-        }
-
-        p {
-            margin: 0 0 16px;
-            color: var(--text-secondary);
-        }
-
-        ol, ul {
-            margin: 0 0 18px;
-            padding-left: 24px;
-            color: var(--text-secondary);
-        }
-
-        .concept-card,
-        .theorem,
-        .definition,
-        .proof,
-        .note,
-        .example {
-            margin: 18px 0;
-            padding: 18px 22px;
-            border-radius: 18px;
-            background: rgba(248, 250, 252, 0.86);
-            border: 1px solid rgba(148, 163, 184, 0.25);
-            box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.55);
-            color: var(--text-secondary);
-        }
-
-        .focus-card {
-            background: rgba(76, 110, 245, 0.08);
-            border: 1px solid rgba(76, 110, 245, 0.22);
-            box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.4), 0 20px 32px -28px rgba(76, 110, 245, 0.55);
-        }
-
-        .theorem {
-            border-left: 6px solid rgba(76, 110, 245, 0.65);
-        }
-
-        .definition {
-            border-left: 6px solid rgba(34, 197, 94, 0.65);
-        }
-
-        .proof {
-            border-left: 6px solid rgba(148, 163, 184, 0.65);
-        }
-
-        .note {
-            border-left: 6px solid rgba(250, 204, 21, 0.7);
-            background: rgba(250, 204, 21, 0.08);
-        }
-
-        .example {
-            border-left: 6px solid rgba(14, 165, 233, 0.7);
-            background: rgba(14, 165, 233, 0.08);
-        }
-
-        .concept-card strong,
-        .theorem strong,
-        .definition strong,
-        .proof strong,
-        .note strong,
-        .example strong {
-            display: block;
-            font-family: 'Cabin', sans-serif;
-            font-weight: 600;
-            color: var(--accent-strong);
-            letter-spacing: 0.04em;
-            margin-bottom: 8px;
-        }
-
-        .formula {
-            background: rgba(76, 110, 245, 0.08);
-            padding: 18px;
-            border-radius: 16px;
-            margin: 18px 0;
-            overflow-x: auto;
-            text-align: center;
-            font-size: 1.05rem;
-            font-family: 'Latin Modern Math', 'Cambria Math', serif;
-            color: var(--accent-strong);
-            border: 1px solid rgba(76, 110, 245, 0.2);
-            box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.35);
-        }
-
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin: 18px 0;
-            background: rgba(255, 255, 255, 0.92);
-            border-radius: 18px;
-            overflow: hidden;
-            border: 1px solid rgba(148, 163, 184, 0.3);
-            box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.4);
-        }
-
-        th, td {
-            border-bottom: 1px solid rgba(148, 163, 184, 0.25);
-            padding: 12px 16px;
-            text-align: center;
-            color: var(--text-secondary);
-        }
-
-        th {
-            background: rgba(76, 110, 245, 0.1);
-            font-weight: 600;
-            color: var(--accent-strong);
-            font-family: 'Cabin', sans-serif;
-            letter-spacing: 0.04em;
-        }
-
-        tr:last-child td {
-            border-bottom: 0;
-        }
-
-        .graph {
-            text-align: center;
-            margin: 24px 0;
-        }
-
-        .graph svg {
-            max-width: 100%;
-            height: auto;
-            border-radius: 16px;
-            background: rgba(255, 255, 255, 0.92);
-            border: 1px solid rgba(148, 163, 184, 0.25);
-            box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.4), 0 16px 28px -24px rgba(15, 23, 42, 0.6);
-        }
-
-        .exercise-list {
-            background: rgba(250, 204, 21, 0.12);
-            border: 1px solid rgba(250, 204, 21, 0.32);
-            padding: 22px 24px;
-            border-radius: 18px;
-            margin: 22px 0;
-            box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.4);
-            color: var(--text-secondary);
-        }
-
-        code {
-            font-family: 'Source Code Pro', 'Courier New', monospace;
-            background: rgba(15, 23, 42, 0.12);
-            padding: 2px 6px;
-            border-radius: 6px;
-            color: var(--accent-strong);
-        }
-
-        .katex-display {
-            overflow-x: auto;
-            overflow-y: hidden;
-        }
-
-        .nav-buttons {
-            display: flex;
-            justify-content: center;
-            gap: 16px;
-            margin-top: 48px;
-            padding-top: 32px;
-            border-top: 2px solid rgba(148, 163, 184, 0.2);
-        }
-
-        .nav-buttons a {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            padding: 12px 24px;
-            background: var(--accent);
-            color: white;
-            text-decoration: none;
-            border-radius: 12px;
-            font-weight: 600;
-            font-family: 'Cabin', sans-serif;
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 12px rgba(76, 110, 245, 0.3);
-        }
-
-        .nav-buttons a:hover {
-            background: var(--accent-strong);
-            transform: translateY(-2px);
-            box-shadow: 0 6px 16px rgba(76, 110, 245, 0.4);
-        }
-
-        @media (max-width: 768px) {
-            body {
-                padding: 32px 16px;
-            }
-
-            main {
-                padding: 36px 24px;
-                border-radius: 22px;
-            }
-
-            section.outline-section {
-                padding: 28px 24px;
-            }
-
-            h2 {
-                font-size: 22px;
-            }
-
-            h3 {
-                font-size: 18px;
-            }
-        }
-    </style>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.10/dist/katex.min.css" integrity="sha384-wcIxkf4k558fYv3mQPFEpCREUQueRFCZrCXCtiKU8aNVbN9ODdVcN3BwCAJ6pcBb" crossorigin="anonymous">
-    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.10/dist/katex.min.js" integrity="sha384-hIoBPJpTUs74ddyc4bFZSM1TVlQDA60VBbJS0oA934VSz82sBx1X7kSx2ATBDIyd" crossorigin="anonymous"></script>
-    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.10/dist/contrib/auto-render.min.js" integrity="sha384-43gviWU0YVjaDtb/GhzOouOXtZMP/7XUzwPTstBeZFe/+rCMvRwr4yROQP43s0Xk" crossorigin="anonymous"
-        onload="renderMathInElement(document.body);"></script>
-    <script>
-        document.addEventListener("DOMContentLoaded", function() {
-            renderMathInElement(document.body, {
-                delimiters: [
-                    {left: '$$', right: '$$', display: true},
-                    {left: '$', right: '$', display: false}
-                ],
-                throwOnError : false
-            });
-        });
-    </script>
+  <!-- MathJax (use $..$ and $$..$$) -->
+  <script>
+    window.MathJax = {
+      tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']],
+        displayMath: [['$$','$$'], ['\\[','\\]']],
+        packages: {'[+]': ['noerrors']}
+      },
+      options: { skipHtmlTags: ['script','noscript','style','textarea','pre','code'] }
+    };
+  </script>
+  <script id="MathJax-script" async
+    src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
 </head>
+
 <body>
-    <main>
-    <main>
-        <header class="hero">
-            <span class="hero-label">Lecture 6</span>
-            <h1>第6回 重積分の変数変換（ヤコビアン）</h1>
-            <p>変数変換による積分の簡略化とヤコビアン決定の意味を学びます。</p>
-        </header>
+<main>
+  <header class="hero">
+    <span class="hero-label">Lecture 6</span>
+    <h1>第6回 重積分の変数変換（ヤコビアン）</h1>
+    <p>区分求積（リーマン和）の観点から、座標変換で面積・体積要素がどのように伸縮するかを把握し、変数変換公式の意味を明確にします。</p>
+  </header>
 
-        <section class="outline-section">
-            <h2>Section 1. 講義概要</h2>
-            <div class="note">
-                <strong>テーマ:</strong> 座標変換とヤコビアンの役割
-            </div>
-            <div class="definition">
-                <strong>到達目標:</strong>
-                <ul>
-                    <li>座標変換の一般形とヤコビアンの定義を理解する</li><li>極座標・円柱座標・球面座標への変換を計算する</li><li>変換で生じる領域の写り方を図示する</li>
-                </ul>
-            </div>
-        </section>
+  <!-- Section 1 -->
+  <section class="outline-section">
+    <h2>Section 1. 講義概要</h2>
+    <div class="note">
+      <strong>テーマ</strong>
+      座標変換 $\phi(x,y)=(f(x,y),g(x,y))$ とヤコビアン $J_\phi(x,y)=\bigl|\det D\phi(x,y)\bigr|$ の幾何的意味。
+    </div>
+    <div class="definition">
+      <strong>到達目標</strong>
+      <ul>
+        <li>$C^1$ 級写像の微分 $D\phi$ と $|\det D\phi|$ を面積伸縮率として説明できる。</li>
+        <li>区分求積に基づく二重積分の変数変換公式を述べられる。</li>
+        <li>極座標変換で $J_\phi=r$ となる理由を図と式で説明できる。</li>
+      </ul>
+    </div>
+  </section>
 
-        <section class="outline-section">
-            <h2>Section 2. 重要な公式・キーポイント</h2>
-            <div class="formula">$$ \iint_{R} f(x,y)\,dA = \iint_{S} f(x(u,v), y(u,v))\, \left|\det \frac{\partial(x,y)}{\partial(u,v)}\right| du\,dv $$</div><div class="formula">$$ \det \frac{\partial(x,y)}{\partial(r,\theta)} = r $$</div>
-            <div class="proof">
-                <strong>チェックリスト:</strong>
-                <ul class="highlight-list">
-                    <li>公式の導出過程を説明できるか。</li>
-                    <li>適用条件や必要な仮定を記憶しているか。</li>
-                    <li>例題に当てはめて計算できるか。</li>
-                </ul>
-            </div>
-        </section>
+  <!-- Section 2: From Riemann sums -->
+  <section class="outline-section">
+    <h2>Section 2. 区分求積からみた変数変換とヤコビアン</h2>
 
-        <section class="outline-section">
-            <h2>Section 3. 演習課題</h2>
-            <div class="example">
-                <strong>練習問題:</strong>
-                <ol>
-                    <li>(1) 極座標により円板上の二重積分を計算する</li><li>(2) ヤコビアン$\left|\det \frac{\partial(x,y)}{\partial(u,v)}\right|$を具体例で求める</li><li>(3) 変数変換後の領域Sを図示する練習をする</li>
-                </ol>
-            </div>
-            <div class="note">
-                <strong>アドバイス:</strong> ヤコビアンは面積・体積の伸縮率。必ず絶対値を取り、領域の対応を確認しましょう。
-            </div>
-        </section>
+    <div class="definition">
+      <strong>定義と記法</strong>
+      <p>開集合 $U\subset\mathbb{R}^2$ 上の $C^1$ 級写像 $\phi=(f,g):U\to\mathbb{R}^2$ に対し、
+      $$D\phi(x,y)=\begin{pmatrix}\partial_x f & \partial_y f\\[2pt]\partial_x g & \partial_y g\end{pmatrix},\qquad
+      J_\phi(x,y)=\bigl|\det D\phi(x,y)\bigr|.$$
+      </p>
+    </div>
 
-        <section class="outline-section">
-            <h2>Section 4. 次回までに</h2>
-            <ul>
-                <li>ノートを整理し、重要な定理と例題をまとめ直す。</li>
-                <li>不明点があれば授業冒頭で質問できるよう準備する。</li>
-                <li>関連する教科書の該当ページを読み、例題を一度自力で解く。</li>
-            </ul>
-        </section>
+    <div class="concept-card focus-card">
+      <strong>微小長方形の面積変化</strong>
+      <p>$z_0=(a,b)\in U$、微小長方形 $Q_\Delta=[0,\Delta x]\times[0,\Delta y]$ の $z_0$ への平行移動 $z_0+Q_\Delta$ を考える。微分可能性より
+      $$\phi(a+\Delta x,b+\Delta y)-\phi(a,b)=\partial_x\phi(a,b)\,\Delta x+\partial_y\phi(a,b)\,\Delta y+o(\sqrt{(\Delta x)^2+(\Delta y)^2}).$$
+      辺の像は $v_x\approx \partial_x\phi(a,b)\,\Delta x,\ v_y\approx \partial_y\phi(a,b)\,\Delta y$ で張る平行四辺形になり、
+      $$\operatorname{area}\bigl(\phi(z_0+Q_\Delta)\bigr)=J_\phi(a,b)\,\Delta x\,\Delta y+o(\Delta x\,\Delta y).$$
+      </p>
 
-        <div class="nav-buttons">
-            <a href="../class5/class5.html">← Previous</a>
-            <a href="../index.html">🏠 Home</a>
-            <a href="../class7/class7.html">Next →</a>
+      <!-- Figure 1: Micro-rectangle -> Parallelogram -->
+      <div class="figure" aria-label="微小長方形の像の近似（平行四辺形）">
+        <div class="svg-wrap">
+          <svg viewBox="0 0 880 260" role="img" aria-labelledby="fig1title fig1desc">
+            <title id="fig1title">微小長方形の像の近似</title>
+            <desc id="fig1desc">左：$(x,y)$ 平面の微小長方形。右：$\phi$ の像としての平行四辺形。中矢印は写像を示す。</desc>
+            <!-- Left panel: domain -->
+            <rect x="30" y="20" width="360" height="220" rx="10" ry="10" fill="rgba(14,165,233,0.06)" stroke="rgba(14,165,233,0.35)"/>
+            <text x="40" y="40" font-size="12" fill="#475569">$(x,y)$ 平面</text>
+
+            <!-- small rectangle at (a,b) -->
+            <rect x="120" y="130" width="110" height="60" fill="rgba(76,110,245,0.10)" stroke="#4c6ef5" stroke-width="1.5"/>
+            <circle cx="120" cy="190" r="3" fill="#2c3791"/>
+            <text x="126" y="204" font-size="12" fill="#475569">$(a,b)$</text>
+
+            <!-- Δx and Δy labels -->
+            <line x1="120" y1="206" x2="230" y2="206" stroke="#2c3791" stroke-width="1"/>
+            <polygon points="230,206 225,203 225,209" fill="#2c3791"/>
+            <text x="168" y="222" font-size="12" fill="#475569">$\Delta x$</text>
+
+            <line x1="104" y1="190" x2="104" y2="130" stroke="#2c3791" stroke-width="1"/>
+            <polygon points="104,130 101,135 107,135" fill="#2c3791"/>
+            <text x="70" y="165" font-size="12" fill="#475569">$\Delta y$</text>
+
+            <!-- Middle arrow -->
+            <line x1="410" y1="130" x2="470" y2="130" stroke="#94a3b8" stroke-width="1.5"/>
+            <polygon points="470,130 464,126 464,134" fill="#94a3b8"/>
+            <text x="420" y="120" font-size="12" fill="#475569">$\phi$</text>
+
+            <!-- Right panel: codomain -->
+            <rect x="490" y="20" width="360" height="220" rx="10" ry="10" fill="rgba(34,197,94,0.06)" stroke="rgba(34,197,94,0.35)"/>
+            <text x="500" y="40" font-size="12" fill="#475569">$\phi(x,y)$ 平面</text>
+
+            <!-- Parallelogram -->
+            <circle cx="600" cy="170" r="3" fill="#2c3791"/>
+            <text x="606" y="184" font-size="12" fill="#475569">$\phi(a,b)$</text>
+            <!-- vectors vx and vy -->
+            <line x1="600" y1="170" x2="720" y2="150" stroke="#2c3791" stroke-width="2"/>
+            <polygon points="720,150 714,147 714,153" fill="#2c3791"/>
+            <text x="660" y="145" font-size="12" fill="#475569">$v_x\approx \partial_x\phi\,\Delta x$</text>
+
+            <line x1="600" y1="170" x2="640" y2="85" stroke="#2c3791" stroke-width="2"/>
+            <polygon points="640,85 635,88 641,92" fill="#2c3791"/>
+            <text x="618" y="82" font-size="12" fill="#475569">$v_y\approx \partial_y\phi\,\Delta y$</text>
+
+            <!-- Parallelogram edges -->
+            <line x1="640" y1="85" x2="760" y2="65" stroke="#64748b" stroke-dasharray="4 3"/>
+            <line x1="720" y1="150" x2="760" y2="65" stroke="#64748b" stroke-dasharray="4 3"/>
+            <line x1="600" y1="170" x2="640" y2="85" stroke="#64748b" stroke-dasharray="4 3"/>
+            <line x1="600" y1="170" x2="720" y2="150" stroke="#64748b" stroke-dasharray="4 3"/>
+
+            <text x="538" y="210" font-size="12" fill="#475569">面積 $\approx J_\phi(a,b)\,\Delta x\,\Delta y$</text>
+          </svg>
         </div>
+        <div class="caption">図1. 微小長方形の像は平行四辺形で近似でき、面積は $J_\phi(a,b)$ 倍。</div>
+      </div>
+    </div>
+
+    <div class="proof">
+      <strong>区分求積による変数変換公式（スケッチ）</strong>
+      <p>$K=[\alpha,\beta]\times[\gamma,\delta]\subset U$ を細分 $\{Q_{ij}\}$ し、標本点 $z_{ij}\in Q_{ij}$ を取る。$f$ を連続関数とすると
+      $$\operatorname{area}\bigl(\phi(Q_{ij})\bigr)=J_\phi(z_{ij})\,\operatorname{area}(Q_{ij})+\varepsilon_{ij},\qquad \sum_{i,j}|\varepsilon_{ij}| \to 0,$$
+      $$\int_{\phi(Q_{ij})} f(y)\,dy=f(\phi(z_{ij}))\,\operatorname{area}\bigl(\phi(Q_{ij})\bigr)+\eta_{ij},\qquad \sum_{i,j}|\eta_{ij}|\to 0.$$
+      総和すると
+      $$\int_{\phi(K)} f(y)\,dy=\sum_{i,j} f(\phi(z_{ij}))\,J_\phi(z_{ij})\,\operatorname{area}(Q_{ij})+o(1),$$
+      メッシュを細かくすると右辺は $\int_K f(\phi(x,y))\,J_\phi(x,y)\,dx\,dy$ に収束する。</p>
+
+      <div class="figure" aria-label="分割の像とリーマン和のイメージ">
+        <div class="svg-wrap">
+          <svg viewBox="0 0 880 300" role="img" aria-labelledby="fig2title fig2desc">
+            <title id="fig2title">分割の像とリーマン和</title>
+            <desc id="fig2desc">左：長方形領域 K の格子分割。右：像領域 φ(K) と各小部分の像。総和が面積分へ。</desc>
+
+            <!-- Left: grid partition -->
+            <rect x="40" y="30" width="340" height="240" rx="10" ry="10" fill="rgba(14,165,233,0.06)" stroke="rgba(14,165,233,0.35)"/>
+            <text x="50" y="48" font-size="12" fill="#475569">領域 $K$ と分割</text>
+            <!-- grid lines -->
+            <g stroke="#94a3b8" stroke-width="0.8">
+              <line x1="40" y1="90" x2="380" y2="90"/>
+              <line x1="40" y1="150" x2="380" y2="150"/>
+              <line x1="40" y1="210" x2="380" y2="210"/>
+              <line x1="120" y1="30" x2="120" y2="270"/>
+              <line x1="200" y1="30" x2="200" y2="270"/>
+              <line x1="280" y1="30" x2="280" y2="270"/>
+            </g>
+            <!-- one highlighted cell -->
+            <rect x="200" y="150" width="80" height="60" fill="rgba(76,110,245,0.15)" stroke="#4c6ef5"/>
+
+            <!-- Middle arrow -->
+            <line x1="420" y1="160" x2="460" y2="160" stroke="#94a3b8" stroke-width="1.5"/>
+            <polygon points="460,160 454,156 454,164" fill="#94a3b8"/>
+            <text x="424" y="150" font-size="12" fill="#475569">$\phi$</text>
+
+            <!-- Right: image region -->
+            <rect x="500" y="30" width="340" height="240" rx="10" ry="10" fill="rgba(34,197,94,0.06)" stroke="rgba(34,197,94,0.35)"/>
+            <text x="510" y="48" font-size="12" fill="#475569">$\phi(K)$ と各像</text>
+
+            <!-- blob boundary -->
+            <path d="M 530 230 C 520 170, 560 70, 640 60 C 720 50, 780 120, 820 160 C 790 220, 730 260, 660 250 C 600 240, 560 250, 530 230 Z"
+                  fill="rgba(76,110,245,0.10)" stroke="#64748b" stroke-width="1.2"/>
+
+            <!-- small parallelograms as images (schematic) -->
+            <g fill="rgba(14,165,233,0.12)" stroke="#4c6ef5" stroke-width="1">
+              <polygon points="590,190 640,185 655,215 605,220"/>
+              <polygon points="660,175 705,170 720,205 675,210"/>
+              <polygon points="605,145 650,140 665,165 620,170"/>
+              <polygon points="700,135 740,130 758,160 718,165"/>
+            </g>
+
+            <text x="560" y="270" font-size="12" fill="#475569">総和 $\sum f(\phi(z_{ij}))\,\operatorname{area}(\phi(Q_{ij}))$</text>
+          </svg>
+        </div>
+        <div class="caption">図2. 分割片の像の面積を足し合わせると、像領域の積分に一致する。</div>
+      </div>
+    </div>
+
+    <div class="theorem">
+      <strong>変数変換公式（面積）</strong>
+      <div class="formula">
+        $$\int_{\phi(K)} f(y)\,dy=\int_{K} f(\phi(x,y))\,J_\phi(x,y)\,dx\,dy.$$
+      </div>
+      <ul>
+        <li>$\phi$ は $K$ 上 $C^1$、$\det D\phi\neq 0$、単射（像の測度 0 の境界を除く）。</li>
+        <li>向き付き面積で扱う場合は $J_\phi$ の絶対値を外し $\det D\phi$ を用いる。</li>
+        <li>$\phi$ が $k$ 対 $1$ の場合は重複度 $N_\phi(y)$ を数えて
+          $$\int_{K} f(\phi(x))\,J_\phi(x)\,dx=\int_{\phi(K)} f(y)\,N_\phi(y)\,dy.$$</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- Section 3: Polar example -->
+  <section class="outline-section">
+    <h2>Section 3. 例：極座標のヤコビアンと図解</h2>
+
+    <div class="example">
+      <strong>極座標変換</strong>
+      <p>$\phi(r,\theta)=(r\cos\theta,r\sin\theta)$ とすると
+      $$D\phi=\begin{pmatrix}\cos\theta & -r\sin\theta\\ \sin\theta & r\cos\theta\end{pmatrix},\qquad
+      J_\phi(r,\theta)=\bigl|\det D\phi\bigr|=r.$$
+      よって
+      $$\iint_{R}F(x,y)\,dx\,dy=\int_{\phi^{-1}(R)} F(r\cos\theta,r\sin\theta)\,r\,dr\,d\theta.$$
+      </p>
+
+      <!-- Figure 3: Polar area element -->
+      <div class="figure" aria-label="極座標の面積要素 r dr dθ">
+        <div class="svg-wrap">
+          <svg viewBox="0 0 720 260" role="img" aria-labelledby="fig3title fig3desc">
+            <title id="fig3title">極座標の面積要素</title>
+            <desc id="fig3desc">半径 r と角度 θ の微小変化で作る小扇形の面積は r dr dθ。</desc>
+
+            <!-- circle frame -->
+            <rect x="20" y="20" width="320" height="220" rx="10" ry="10" fill="rgba(14,165,233,0.06)" stroke="rgba(14,165,233,0.35)"/>
+            <text x="30" y="40" font-size="12" fill="#475569">$(x,y)$ 平面（極座標）</text>
+
+            <!-- circle and wedge -->
+            <g transform="translate(180,130)">
+              <!-- circle -->
+              <circle cx="0" cy="0" r="90" fill="none" stroke="#94a3b8"/>
+              <!-- wedge between θ and θ+dθ with thickness dr -->
+              <!-- inner radius r -->
+              <path d="M 70 0 A 70 70 0 0 1 64 27 L 80 31 A 80 80 0 0 0 90 0 Z"
+                    fill="rgba(76,110,245,0.18)" stroke="#4c6ef5"/>
+
+              <!-- radii lines -->
+              <line x1="0" y1="0" x2="70" y2="0" stroke="#2c3791" stroke-width="1.5"/>
+              <line x1="0" y1="0" x2="64" y2="27" stroke="#2c3791" stroke-width="1.5"/>
+
+              <!-- r and r+dr labels -->
+              <text x="38" y="-6" font-size="12" fill="#475569">$r$</text>
+              <line x1="0" y1="0" x2="80" y2="31" stroke="#64748b" stroke-dasharray="4 3"/>
+              <text x="50" y="38" font-size="12" fill="#475569">$r+\Delta r$</text>
+
+              <!-- dθ arc tick -->
+              <path d="M 46 0 A 46 46 0 0 1 42 18" fill="none" stroke="#2c3791" stroke-width="1.2"/>
+              <text x="44" y="12" font-size="12" fill="#475569">$\Delta\theta$</text>
+            </g>
+
+            <!-- Right panel: formula -->
+            <rect x="380" y="20" width="320" height="220" rx="10" ry="10" fill="rgba(34,197,94,0.06)" stroke="rgba(34,197,94,0.35)"/>
+            <text x="390" y="40" font-size="12" fill="#475569">面積要素</text>
+
+            <text x="400" y="90" font-size="16" fill="#2c3791">
+              小扇形の面積 $\approx$ 円弧長 $\bigl(r\,\Delta\theta\bigr)$ $\times$ 厚さ $\Delta r$
+            </text>
+            <text x="400" y="125" font-size="18" fill="#2c3791">
+              $\Rightarrow\ \Delta A \approx r\,\Delta r\,\Delta\theta \ \ (\Delta r,\Delta\theta\to 0)$
+            </text>
+            <text x="400" y="165" font-size="16" fill="#475569">
+              したがって $J_\phi=r$（半径方向に $r$ 倍の伸び）。
+            </text>
+          </svg>
+        </div>
+        <div class="caption">図3. 極座標での微小面積要素は $r\,dr\,d\theta$。</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Section 4: Key formulas -->
+  <section class="outline-section">
+    <h2>Section 4. 重要な公式・キーポイント</h2>
+    <div class="formula">
+      $$ \iint_{R} f(x,y)\,dx\,dy = \iint_{S} f\!\bigl(\phi(u,v)\bigr)\, \left|\det \frac{\partial(x,y)}{\partial(u,v)}\right|\, du\,dv, \quad S=\phi^{-1}(R). $$
+    </div>
+    <div class="formula">
+      $$ \det \frac{\partial(x,y)}{\partial(r,\theta)} = r. $$
+    </div>
+    <div class="note">
+      <strong>チェック</strong>
+      <ul>
+        <li>$\phi$ の仮定（$C^1$、ヤコビ行列の正則性、単射性）を明記したか。</li>
+        <li>向き付きの議論か、通常の面積（絶対値）かを区別したか。</li>
+        <li>領域対応 $R\leftrightarrow S$ が正しく記述されているか。</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- Section 5: Exercises -->
+  <section class="outline-section">
+    <h2>Section 5. 演習課題</h2>
+    <div class="example">
+      <strong>練習問題</strong>
+      <ol>
+        <li>極座標で単位円板上の $\iint_{x^2+y^2\le 1} (x^2+y^2)\,dx\,dy$ を計算せよ。</li>
+        <li>$\phi(u,v)=(u^2-v^2,\,2uv)$ に対し、$J_\phi(u,v)$ を求め、領域の対応に注意して $\iint f(x,y)\,dx\,dy$ を $u,v$ で表せ。</li>
+        <li>線形写像 $\phi(x,y)=A(x,y)^{\mathsf T}$ の場合、$J_\phi=|\det A|$ を図1の観点で説明せよ。</li>
+      </ol>
+    </div>
+    <div class="note">
+      <strong>アドバイス</strong>
+      ヤコビアンは面積（体積）の局所的な伸縮率。必ず領域対応と単射性、境界の扱いを確認する。
+    </div>
+  </section>
+
+  <!-- Section 6: Next -->
+  <section class="outline-section">
+    <h2>Section 6. 次回までに</h2>
+    <ul>
+      <li>本ページの「区分求積スケッチ」を自分の言葉で要約する。</li>
+      <li>極座標・円柱座標・球面座標で $J_\phi$ を計算・図解できるようにする。</li>
+      <li>可逆ではない例（多対1）での重複度 $N_\phi$ の役割を整理する。</li>
+    </ul>
+  </section>
+
+  <div class="nav-buttons">
+    <a href="../class5/class5.html">← Previous</a>
+    <a href="../index.html">🏠 Home</a>
+    <a href="../class7/class7.html">Next →</a>
+  </div>
 </main>
 </body>
 </html>

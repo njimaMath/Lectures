@@ -9,9 +9,9 @@ section 1. 一変数の広義積分
 
 Remark: 1/¥sqrt{1-x}|_{x=0}=¥infty
 
-F(¥eps)=¥int_0^{1-¥eps} 1/¥sqrt{1-x} dx
+F(n)=¥int_0^{1-1/n} 1/¥sqrt{1-x} dx
 
-¥int_0^1 1/¥sqrt{1-x} dx = ¥lim_{x¥to 1} F(x) = ..
+¥int_0^1 1/¥sqrt{1-x} dx = ¥lim_{n¥to ¥infty} F(n) = ..
 
 ポイント: 端点で発散する場合は、発散しない領域で積分を考えて、最後に極限を考える
 
@@ -33,10 +33,10 @@ section 1. 二変数の広義積分
 
 ¥int_{[0,1]¥times [0,1]} 1/¥sqrt{xy} dxdy
 
-F(¥eps) = ¥int_{[¥eps,1]¥times [¥eps,1]} 1/¥sqrt{xy} dxdy
+F(n) = ¥int_{[1/n,1]¥times [1/n,1]} 1/¥sqrt{xy} dxdy
 =...
 
-F(¥eps) ¥to ..
+F(n) ¥to ..
 
 例題: 
 ¥int_{[0,1]¥times [0,2]} y/¥sqrt{1-x} dxdy = 
@@ -56,7 +56,7 @@ section 3
 
 より厳密な定義:
 
-D上でfが発散したり、Dが体積の場合の広義積分の定義
+D上でfが発散したり、Dが無限体積の場合の広義積分の定義
 
 次を満たす領域の列: D_n¥subset Dをとる
 (1) D_nはある長方形に含まれる
@@ -65,7 +65,6 @@ D上でfが発散したり、Dが体積の場合の広義積分の定義
 このとき、¥¥int_D f dxdy=¥lim ¥iint_{D_n} f dx dyと定義する。
 
 （数理科学科では、極限がD_nのとりかたによらないことを確かめなければいかない）
-
 
 
 
