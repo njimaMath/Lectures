@@ -1,0 +1,72 @@
+広義積分
+
+section 1. 一変数の広義積分
+
+
+¥square 端点で発散する関数の積分
+
+¥int_0^1 1/¥sqrt{1-x} dx
+
+Remark: 1/¥sqrt{1-x}|_{x=0}=¥infty
+
+F(¥eps)=¥int_0^{1-¥eps} 1/¥sqrt{1-x} dx
+
+¥int_0^1 1/¥sqrt{1-x} dx = ¥lim_{x¥to 1} F(x) = ..
+
+ポイント: 端点で発散する場合は、発散しない領域で積分を考えて、最後に極限を考える
+
+
+問: ¥int_0^1 1/¥sqrt{x} dx
+
+¥square 一変数無限区間の積分
+
+¥int^¥infty_1 1/x^2 dx
+
+ポイント: 無限を文字に置き換えて計算し最後に無限の極限を考える.
+
+例: ¥int^¥infty_1 1/x^3 dxを求めよ
+
+
+section 1. 二変数の広義積分
+
+¥square 積分する範囲で発散する関数の重積分
+
+¥int_{[0,1]¥times [0,1]} 1/¥sqrt{xy} dxdy
+
+F(¥eps) = ¥int_{[¥eps,1]¥times [¥eps,1]} 1/¥sqrt{xy} dxdy
+=...
+
+F(¥eps) ¥to ..
+
+例題: 
+¥int_{[0,1]¥times [0,2]} y/¥sqrt{1-x} dxdy = 
+
+¥square 無限領域での重積分
+
+¥int_{1,¥infty)¥times [1,¥infty)]]} 1/xy dxdy 
+
+F(r)= ¥int_{1,r)¥times [1,r)]]} 1/xy dxdy =...
+¥lim_r F(r)
+
+ポイント: 無限を文字に置き換えて計算し最後に無限の極限を考える.
+
+問: ¥int_{(-¥infty,¥infty)^2} 1/(x^2+1)(y^2+1) dxdy 
+
+section 3
+
+より厳密な定義:
+
+D上でfが発散したり、Dが体積の場合の広義積分の定義
+
+次を満たす領域の列: D_n¥subset Dをとる
+(1) D_nはある長方形に含まれる
+(2) fはD_n上で有限値かつ連続
+(3) ¥lim D_n = D (¥cup D_n = D)
+このとき、¥¥int_D f dxdy=¥lim ¥iint_{D_n} f dx dyと定義する。
+
+（数理科学科では、極限がD_nのとりかたによらないことを確かめなければいかない）
+
+
+
+
+
