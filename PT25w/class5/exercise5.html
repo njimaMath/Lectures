@@ -1,120 +1,161 @@
 <!DOCTYPE html>
-        <html lang="ja">
-        <head>
-            <meta charset="UTF-8">
-            <meta name="viewport" content="width=device-width, initial-scale=1.0">
-            <title>第5回 演習: 様々な離散分布</title>
-            <style>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>第5回 演習（様々な分布の基本性質）</title>
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script id="MathJax-script" async
+    src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
+  </script>
+  <style>
+    body{
+      font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif;
+      max-width:900px;margin:0 auto;padding:20px;line-height:1.6;
+      background-color:#f5f5f5;
+    }
+    .container{
+      background:#fff;padding:30px;border-radius:8px;
+      box-shadow:0 2px 4px rgba(0,0,0,.1);
+    }
+    h1{color:#2c3e50;border-bottom:3px solid #3498db;padding-bottom:10px;}
+    h2{color:#34495e;margin-top:30px;}
+    .problem{
+      background:#ecf0f1;padding:20px;margin:20px 0;border-left:4px solid #3498db;border-radius:4px;
+    }
+    .answer{
+      background:#e8f5e9;padding:20px;margin:20px 0;border-left:4px solid #4caf50;border-radius:4px;display:none;
+    }
+    .answer.show{display:block;}
+    button{
+      background:#3498db;color:#fff;padding:12px 30px;border:none;border-radius:5px;
+      cursor:pointer;font-size:16px;margin:20px 0;transition:background-color .3s;
+    }
+    button:hover{background:#2980b9;}
+    .answer-label{font-weight:bold;color:#2e7d32;margin-bottom:10px;}
+    .note{font-size:.95em;color:#555;margin-top:8px;}
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>第5回 演習（様々な分布の基本性質）</h1>
 
-body {
-    font-family: "Noto Sans JP", "Hiragino Sans", "Meiryo", sans-serif;
-    background: #f5f7fb;
-    margin: 0;
-    padding: 32px 12px;
-    color: #1f2933;
-}
-main {
-    max-width: 920px;
-    margin: 0 auto;
-    background: #ffffff;
-    border-radius: 20px;
-    box-shadow: 0 18px 45px -28px rgba(31, 41, 51, 0.35);
-    padding: 48px 56px;
-}
-header h1 {
-    margin: 0 0 6px;
-    font-size: 28px;
-    color: #23408f;
-    letter-spacing: 0.04em;
-}
-header p {
-    margin: 0 0 24px;
-    color: #516176;
-}
-section.problem {
-    margin: 28px 0;
-    padding: 22px 26px;
-    border-radius: 16px;
-    background: #f1f5ff;
-    border: 1px solid rgba(35, 64, 143, 0.15);
-}
-section.problem h2 {
-    margin: 0 0 12px;
-    font-size: 20px;
-    color: #1e3a8a;
-}
-section.problem ul {
-    padding-left: 20px;
-    margin: 12px 0 0;
-    color: #374151;
-}
-.note {
-    margin-top: 12px;
-    font-size: 14px;
-    color: #64748b;
-}
-.navigation {
-    margin-top: 36px;
-    display: flex;
-    gap: 12px;
-    flex-wrap: wrap;
-}
-.navigation a {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    padding: 10px 18px;
-    border-radius: 999px;
-    background: #1e3a8a;
-    color: #ffffff;
-    text-decoration: none;
-    font-weight: 600;
-    letter-spacing: 0.02em;
-    transition: background 0.2s ease;
-}
-.navigation a:hover {
-    background: #3454c3;
-}
+    <!-- 問題1 -->
+    <div class="problem">
+      <h2>問題1（指数分布の分散と記憶なし）</h2>
+      <p>
+        \(X\sim\mathrm{Exp}(\lambda)\)（密度 \(f(x)=\lambda e^{-\lambda x}\ (x\ge 0)\)）とする。次を示せ。
+      </p>
+      <ul>
+        <li>\(\mathrm{Var}(X)=1/\lambda^2\).</li>
+        <li>記憶なし性質：\(\mathbb{P}(X>t+s\mid X>t)=\mathbb{P}(X>s)\).</li>
+      </ul>
+    </div>
 
-            </style>
-        </head>
-        <body>
-            <main>
-                <header>
-                    <h1>第5回 演習: 様々な離散分布</h1>
-                    <p>class5.html の各離散分布について、母数の解釈や極限挙動を確認します。</p>
-                </header>
+    <!-- 問題2 -->
+    <div class="problem">
+      <h2>問題2（連続な分布関数は非原子的）</h2>
+      <p>
+        分布関数 \(F_X(x)=\mathbb{P}(X\le x)\) が連続関数であるとき，任意の \(x\in\mathbb{R}\) で \(\mu_X(\{x\})=\mathbb{P}(X=x)=0\) を示せ。
+      </p>
+    </div>
 
-<section class="problem">
-    <h2>問題1: 二項分布からポアソン分布への極限</h2>
-    <ul>
-<li>二項分布 \(\mathrm{Bin}(n, p_n)\) で \(n p_n 	o \lambda\) とする。</li>
-<li>確率質量関数を用いて \(n 	o \infty\) で確率 \(\mathbb{P}(X = k)\) が \(\mathrm{Poi}(\lambda)\) に収束することを示せ。</li>
-    </ul>
-</section>
+    <!-- 問題3 -->
+    <div class="problem">
+      <h2>問題3（ガンマ分布の期待値と分散）</h2>
+      <p>
+        \(X\sim\mathrm{Gamma}(\alpha,\beta)\)（密度 \(f(x)=\tfrac{\beta^{\alpha}}{\Gamma(\alpha)}x^{\alpha-1}e^{-\beta x}\ (x\ge0)\)）とする。次を計算せよ。
+      </p>
+      <ul>
+        <li>\(E[X]=\alpha/\beta\).</li>
+        <li>\(\mathrm{Var}(X)=\alpha/\beta^2\).</li>
+      </ul>
+    </div>
 
-<section class="problem">
-    <h2>問題2: 幾何分布と負の二項分布</h2>
-    <ul>
-<li>幾何分布 \(\mathrm{Geo}(p)\) の期待値と分散を導出せよ。</li>
-<li>負の二項分布 \(\mathrm{NB}(r, p)\) が、「成功までに必要な試行回数」という視点からどのように構成されるか説明し、期待値を求めよ。</li>
-    </ul>
-</section>
+    <!-- 問題4 -->
+    <div class="problem">
+      <h2>問題4（記憶なし性質は \(\alpha=1\) に限る）</h2>
+      <p>
+        \(X\sim\mathrm{Gamma}(\alpha,\beta)\) が記憶なし性質 \(\mathbb{P}(X>t+s\mid X>t)=\mathbb{P}(X>s)\) を満たすのは \(\alpha=1\)（指数分布）の場合に限ることを示せ。
+      </p>
+    </div>
 
-<section class="problem">
-    <h2>問題3: 多項分布の共分散</h2>
-    <ul>
-<li>多項分布 \(\mathrm{Mult}(n; p_1, \ldots, p_m)\) の各成分 \(X_i\) について \(\mathrm{Cov}(X_i, X_j)\) を計算せよ。</li>
-<li>得られた式の符号から、カテゴリ間の負の相関について解釈を述べよ。</li>
-    </ul>
-</section>
+    <div class="note">
+      <a href="../class4/exercise4.html">前の演習</a> /
+      <a href="../index.html">ホームに戻る</a> /
+      <a href="class5.html">講義ノートへ</a> /
+      <a href="../class6/exercise6.html">次の演習</a>
+    </div>
 
-                <div class="navigation">
-            <a href="../class4/exercise4.html">前の演習</a>
-            <a href="../index.html">ホームに戻る</a>
-            <a href="class5.html">講義ノートへ</a>
-            <a href="../class6/exercise6.html">次の演習</a>
-                </div>
-            </main>
-        </body>
-        </html>
+    <button onclick="toggleAnswers()">解答を表示/非表示</button>
+
+    <!-- 解答1 -->
+    <div class="answer" id="ans1">
+      <div class="answer-label">解答1</div>
+      <p><strong>分散</strong></p>
+      <p>
+        \(E[X]=\int_0^{\infty} x\,\lambda e^{-\lambda x}\,dx=1/\lambda\)。さらに
+        \(E[X^2]=\int_0^{\infty} x^2\,\lambda e^{-\lambda x}\,dx=2/\lambda^2\)。
+        よって \(\mathrm{Var}(X)=E[X^2]-E[X]^2=2/\lambda^2-1/\lambda^2=1/\lambda^2\)。
+      </p>
+      <p><strong>記憶なし性質</strong></p>
+      <p>
+        \(t,s\ge0\) として
+      </p>
+      \[\mathbb{P}(X>t+s\mid X>t)=\frac{\mathbb{P}(X>t+s)}{\mathbb{P}(X>t)}=\frac{e^{-\lambda(t+s)}}{e^{-\lambda t}}=e^{-\lambda s}=\mathbb{P}(X>s).\]
+    </div>
+
+    <!-- 解答2 -->
+    <div class="answer" id="ans2">
+      <div class="answer-label">解答2</div>
+      <p>
+        \(F_X(x)=\mathbb{P}(X\le x)=\mu_X(({-}\infty,x])\) とし，左極限 \(F_X(x-)\)=\(\lim_{t\uparrow x}F_X(t)=\mu_X(({-}\infty,x))\) に注意する。
+        点 \(x\) の質量は
+      </p>
+      \[\mu_X(\{x\})=\mu_X(({-}\infty,x])-\mu_X(({-}\infty,x))=F_X(x)-F_X(x-).\]
+      <p>
+        したがって \(F_X\) が各点で連続ならば \(F_X(x)=F_X(x-)\) であり，\(\mu_X(\{x\})=0\) が任意の \(x\) で成り立つ。
+      </p>
+    </div>
+
+    <!-- 解答3 -->
+    <div class="answer" id="ans3">
+      <div class="answer-label">解答3</div>
+      <p><strong>期待値</strong></p>
+      <p>
+        ガンマ関数の性質 \(\Gamma(\alpha+1)=\alpha\,\Gamma(\alpha)\) と
+        \(\int_0^{\infty} x^{\alpha} e^{-\beta x}\,dx=\Gamma(\alpha+1)/\beta^{\alpha+1}\) を用いて
+      </p>
+      \[E[X]=\int_0^{\infty} x\,f(x)\,dx=\frac{\beta^{\alpha}}{\Gamma(\alpha)}\int_0^{\infty} x^{\alpha}e^{-\beta x}\,dx
+        =\frac{\beta^{\alpha}}{\Gamma(\alpha)}\cdot\frac{\Gamma(\alpha+1)}{\beta^{\alpha+1}}=\frac{\alpha}{\beta}.\]
+      <p><strong>分散</strong></p>
+      <p>
+        同様に \(E[X^2]=\dfrac{\Gamma(\alpha+2)}{\Gamma(\alpha)}\cdot\dfrac{1}{\beta^2}=\dfrac{\alpha(\alpha+1)}{\beta^2}\)。
+        よって
+      </p>
+      \[\mathrm{Var}(X)=E[X^2]-E[X]^2=\frac{\alpha(\alpha+1)}{\beta^2}-\frac{\alpha^2}{\beta^2}=\frac{\alpha}{\beta^2}.\]
+    </div>
+
+    <!-- 解答4 -->
+    <div class="answer" id="ans4">
+      <div class="answer-label">解答4</div>
+      <p>
+        記憶なし性質は生存関数 \(S(t)=\mathbb{P}(X>t)\) に対し \(S(t+s)=S(t)S(s)\)（\(t,s\ge0\)）を意味する。
+        連続かつ単調減少な \(S\) に対し，\(g(t)=\log S(t)\) とおくと \(g(t+s)=g(t)+g(s)\)。
+        連続加法的関数の標準結果(または微分方程式の一意性）)より \(g(t)=-\lambda t\ (\lambda>0)\)，すなわち \(S(t)=e^{-\lambda t}\)。
+      </p>
+      <p>
+        よって記憶なしを持つ連続分布は指数分布に限る。\(X\sim\mathrm{Gamma}(\alpha,\beta)\) でこの形になるのは
+        \(\alpha=1\) のとき（\(f(x)=\beta e^{-\beta x}\)）のみであり，\(\alpha\ne1\) では \(S(t)\) は指数関数にならない。
+      </p>
+    </div>
+
+  </div>
+
+  <script>
+    function toggleAnswers(){
+      document.querySelectorAll('.answer').forEach(el=>el.classList.toggle('show'));
+    }
+  </script>
+</body>
+</html>

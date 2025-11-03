@@ -1,375 +1,399 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>連続確率空間と確率分布の性質</title>
-    <style>
-        body{font-family:"Helvetica Neue",Helvetica,Arial,sans-serif;line-height:1.7;color:#212121;margin:0;background:#fafafa;}
-        .container{max-width:960px;margin:0 auto;padding:2rem 1rem 4rem;background:#fff;box-shadow:0 4px 12px rgba(0,0,0,.05);border-radius:12px;}
-        h1,h2,h3{color:#1a237e;margin-top:1.2em;margin-bottom:.6em;}
-        h1{font-size:1.9rem;text-align:center;}
-        h2{font-size:1.45rem;border-left:6px solid #1a237e;padding-left:.55rem;}
-        h3{font-size:1.2rem;}
-        .formula{background:#f3f4ff;border-left:4px solid #5c6bc0;padding:.8rem 1.2rem;margin:1.2rem 0;border-radius:8px;overflow-x:auto;}
-        .proof{background:#e8f5e9;border-left:4px solid #43a047;padding:.8rem 1.2rem;margin:1.2rem 0;border-radius:8px;overflow-x:auto;}
-        details{margin-bottom:1rem;}
-        details summary{cursor:pointer;font-weight:600;}
-        ul{margin:0 0 1rem 1.2rem;}
-        .navigation{display:flex;justify-content:center;gap:.8rem;margin:2.2rem 0;border-top:1px solid #e0e0e0;padding-top:1.5rem;flex-wrap:wrap;}
-        .navigation a{padding:.65rem 1.5rem;background:#1a237e;color:#fff;text-decoration:none;border-radius:6px;transition:opacity .2s;}
-        .navigation a:hover{opacity:.85;}
-        footer{margin-top:3rem;color:#777;text-align:center;font-size:.9rem;}
-        code{background:#eceff1;padding:2px 4px;border-radius:4px;}
-    </style>
-    <!-- MathJax configuration -->
-    <script>
-        MathJax = {
-          tex: {
-            inlineMath: [['$', '$'], ['\\(', '\\)']],
-            displayMath: [['$$','$$'], ['\\[','\\]']],
-            tags: 'ams' // 数式番号のため
-          },
-          svg: {
-            fontCache: 'global'
-          }
-        };
-    </script>
-    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>二項分布と中心極限定理</title>
+  <!-- Base Styles -->
+  <style>
+    :root {
+      --primary: #1a237e;
+      --surface: rgba(255, 255, 255, 0.92);
+      --surface-strong: rgba(247, 248, 255, 0.94);
+      --border: rgba(26, 35, 126, 0.12);
+      --shadow: 0 22px 48px -32px rgba(26, 35, 126, 0.35);
+    }
+    html {
+      box-sizing: border-box;
+    }
+    *, *::before, *::after {
+      box-sizing: inherit;
+    }
+    body {
+      margin: 0;
+      font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+      line-height: 1.8;
+      color: #1f2230;
+      background:
+        radial-gradient(circle at 20% 20%, rgba(63, 81, 181, 0.16), transparent 55%),
+        radial-gradient(circle at 80% 0%, rgba(26, 35, 126, 0.12), transparent 55%),
+        linear-gradient(180deg, #f6f7ff 0%, #fafafa 60%, #f1f3ff 100%);
+    }
+    .container {
+      max-width: 960px;
+      margin: 0 auto;
+      padding: 2.5rem 1.2rem 4rem;
+      background: var(--surface);
+      border-radius: 20px;
+      box-shadow: 0 22px 60px -35px rgba(33, 33, 33, 0.45);
+      backdrop-filter: blur(6px);
+    }
+    header h1 {
+      margin: 0 0 1.6rem;
+      font-size: clamp(1.9rem, 2.6vw, 2.3rem);
+      text-align: center;
+      color: var(--primary);
+      letter-spacing: 0.05em;
+    }
+    main {
+      display: grid;
+      gap: 2.6rem;
+      padding: 0.5rem 0 0;
+    }
+    h2 {
+      font-size: 1.55rem;
+      color: var(--primary);
+      letter-spacing: 0.02em;
+    }
+    h3 {
+      font-size: 1.2rem;
+      margin: 0;
+      color: var(--primary);
+    }
+    .topic {
+      background: linear-gradient(135deg, rgba(26, 35, 126, 0.1) 0%, rgba(26, 35, 126, 0) 65%);
+      border-radius: 22px;
+      border: 1px solid var(--border);
+      box-shadow: var(--shadow);
+      overflow: hidden;
+      position: relative;
+    }
+    .topic > h2 {
+      margin: 0;
+      padding: 1.15rem 1.6rem;
+      background: rgba(255, 255, 255, 0.88);
+      border-bottom: 1px solid rgba(26, 35, 126, 0.14);
+    }
+    .section-body {
+      padding: 1.9rem 1.7rem 2.1rem;
+      display: grid;
+      gap: 1.5rem;
+      background: var(--surface-strong);
+    }
+    .section-body article {
+      background: rgba(255, 255, 255, 0.9);
+      border: 1px solid rgba(63, 81, 181, 0.14);
+      border-radius: 16px;
+      padding: 1.25rem 1.4rem;
+      display: grid;
+      gap: 0.95rem;
+      box-shadow: 0 16px 30px -28px rgba(63, 81, 181, 0.6);
+    }
+    .section-body article.theorem {
+      border-left: 6px solid #3949ab;
+      background: linear-gradient(135deg, rgba(63, 81, 181, 0.22) 0%, rgba(255, 255, 255, 0.9) 55%);
+      box-shadow: 0 18px 34px -30px rgba(39, 67, 170, 0.75);
+    }
+    .section-body article.example {
+      border-left: 6px solid #43a047;
+      background: linear-gradient(135deg, rgba(76, 175, 80, 0.18) 0%, rgba(255, 255, 255, 0.9) 55%);
+    }
+    .section-body article.theorem h3 {
+      font-size: 1.2rem;
+      margin-bottom: 0.2rem;
+    }
+    .section-body p {
+      margin: 0;
+    }
+    .section-body p + p {
+      margin-top: 0.9rem;
+    }
+    .formula {
+      background: rgba(63, 81, 181, 0.08);
+      border-left: 4px solid #5c6bc0;
+      padding: 0.85rem 1.2rem;
+      border-radius: 10px;
+      overflow-x: auto;
+      font-size: 1.03rem;
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.7);
+    }
+    .note {
+      background: rgba(255, 193, 7, 0.1);
+      border-left: 4px solid #ffa000;
+      padding: 0.85rem 1.2rem;
+      border-radius: 10px;
+    }
+    ul, ol {
+      margin: 0;
+      padding-left: 1.4rem;
+      display: grid;
+      gap: 0.6rem;
+    }
+    details {
+      background: rgba(63, 81, 181, 0.05);
+      border-radius: 12px;
+      padding: 1rem 1.2rem;
+      margin: 1rem 0;
+    }
+    details summary {
+      cursor: pointer;
+      font-weight: 600;
+      color: var(--primary);
+    }
+    details[open] summary {
+      margin-bottom: 0.8rem;
+    }
+    nav.navigation {
+      display: flex;
+      justify-content: center;
+      gap: 0.9rem;
+      margin: 2.8rem 0;
+      padding-top: 1.8rem;
+      border-top: 1px solid rgba(26, 35, 126, 0.15);
+      flex-wrap: wrap;
+    }
+    nav.navigation a {
+      padding: 0.7rem 1.6rem;
+      background: var(--primary);
+      color: #fff;
+      text-decoration: none;
+      border-radius: 999px;
+      box-shadow: 0 14px 28px -18px rgba(26, 35, 126, 0.58);
+      transition: transform 0.2s, box-shadow 0.2s, opacity 0.2s;
+    }
+    nav.navigation a:hover {
+      opacity: 0.9;
+      transform: translateY(-2px);
+      box-shadow: 0 18px 32px -22px rgba(26, 35, 126, 0.62);
+    }
+    footer {
+      margin-top: 3rem;
+      font-size: 0.9rem;
+      color: #646b8a;
+      text-align: center;
+    }
+    code {
+      background: #eceff1;
+      padding: 2px 4px;
+      border-radius: 4px;
+    }
+    @media (max-width: 720px) {
+      .container {
+        padding: 1.8rem 1rem 3rem;
+        border-radius: 16px;
+      }
+      .topic > h2 {
+        padding: 1rem 1.2rem;
+      }
+      .section-body {
+        padding: 1.4rem 1.2rem 1.6rem;
+      }
+      nav.navigation {
+        gap: 0.6rem;
+      }
+      nav.navigation a {
+        padding: 0.6rem 1.3rem;
+      }
+    }
+  </style>
+  <!-- MathJax -->
+  <script>
+    MathJax = {
+      tex: {
+        inlineMath: [['$', '$']],
+        displayMath: [['$$', '$$']]
+      },
+      chtml: { matchFontHeight: false }
+    };
+  </script>
+  <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
 </head>
 <body>
-    <div class="container">
-        <h1>連続確率空間と確率分布の性質</h1>
-        <p>本節では連続確率分布の基本的な概念と代表例を取り上げ、それぞれの定義・性質・関連事項を整理します。以降 $X, Y$ は確率変数、$\mu$ は期待値、$\sigma^2$ は分散を表します。</p>
+  <div class="container">
+    <header>
+      <h1 id="top">二項分布と中心極限定理</h1>
+    </header>
 
-      <!-- ********** 連続確率空間の一般形 ********** -->
-      <section id="continuous-space">
-        <h2>連続確率空間の一般形</h2>
-        <p>基本的な記法として、$P(\text{条件}) := P(\{\omega \in \Omega : \text{条件を満たす}\})$ のように書くことがあります。</p>
-        <div class="formula">
+    <main role="main">
+      <!-- ********** 二項分布モデル ********** -->
+      <section class="topic" id="binomial-model">
+        <h2>二項分布モデル</h2>
+        <div class="section-body">
+          <article>
             <p>
-                指示関数を次で定義: $A\subset \mathbb{R}^d$について,
-              $$\mathbf{1}_A(x) := \begin{cases}
-                1 & (x \in A), \\
-                0 & (x \notin A).
-              \end{cases}$$
-              さらに
-              $$\int_A f(x)\,dx := \int_{\mathbb{R}^d} f(x)\,\mathbf{1}_A(x)\,dx.$$
+              $X_1,\dots,X_n$ を独立なベルヌーイ($p$)確率変数とする。つまり $\mathbb P(X_i=1)=p$ かつ $\mathbb P(X_i=0)=1-p=:q$ である。
+              成功回数の和を次のように定義する:
             </p>
-          </div>
+            <div class="formula">$$S_n:=X_1+\cdots+X_n$$</div>
+            <p>このとき $S_n$ は二項分布に従う:</p>
+            <div class="formula">$$\mathbb P(S_n=k)=\binom{n}{k}p^{k}q^{n-k}\quad(k=0,1,\dots,n)$$</div>
+            <p>期待値と分散は線形性と独立性から得られる:</p>
+            <div class="formula">$$\mathbb E[S_n]=np,\qquad \operatorname{Var}(S_n)=npq$$</div>
+          </article>
 
-        <p>$\Omega \subset \mathbb R^{d}$ を可測集合、確率密度関数 $p : \Omega \to \mathbb R$ を</p>
-        <div class="formula">
-          $$\int_{\Omega} p(x)\, \mathrm d x = 1$$
-        </div>
-        <p>を満たす関数とする。</p>
-        <p>可測集合 $A \subset \Omega$ の確率は</p>
-        <div class="formula">
-          $$\mathbb P(A) = \int_{A} p(x_1,\ldots,x_d)  {\rm d}x_1\cdots {\rm d}x_d.$$
-        </div>
-        <p>
-          よって $(\Omega, \mathcal B(\Omega), \mathbb P)$ を<strong>連続確率空間</strong>と呼ぶ。可測写像 $X : \Omega \to \mathbb R$ を確率変数とする時,
-          $$\mathbb{E}[X] = \int_{\Omega} X(x_1,\ldots,x_d) p(x_1,\ldots,x_d) {\rm d}x_1\cdots {\rm d}x_d $$
-        </p>
-        <div class="formula">
-            $\mathbb{P}(X\in I) = \displaystyle\int_{I} p_X(x)\,\mathrm d x$ と定義できる $p_X(x)$ が存在する時、$p_X(x)$ を $X$ の確率密度関数と呼ぶ。このとき、
-            $$\mathbb{E}[X] = \int_{\mathbb{R}} x\,p_X(x)\,\mathrm d x $$
-        </div>
-        <div class="proof">
+          <article>
+            <h3>形状の直感</h3>
             <p>
-            まず、$X(x_1,\dots,x_d)=\mathbf{1}_A(x_1,\dots,x_d)$ の場合には、
-            $$
-              \mathbb{E}[X]
-              =\int_{\Omega} \mathbf{1}_A(x)\,p_X(x)\,\mathrm d x
-              =\mathbb{P}(X\in A)
-              =\int_A p_X(x)\,\mathrm d x,
-            $$
-            すなわち定義どおり成り立つ。
+              $\mathbb P(S_n=k)$ のヒストグラムは $np$ を中心とし、$p=\tfrac12$ のとき対称である。
+              標準偏差が $\sqrt{npq}$ であるため $n$ が大きくなるにつれて集中する。
             </p>
-            <p>
-            次に、一般の非負可測関数 $X$ は単関数列
-            $$
-              X_n(x) \;=\;\sum_{k=1}^{N_n} a_k^{(n)}\,\mathbf{1}_{A_k^{(n)}}(x)
-              \quad(a_k^{(n)}\ge0)
-            $$
-            で下から単調増加に近似できるので、単調収束定理より
-            \begin{align*}
-              \mathbb{E}[X]
-              &=\lim_{n\to\infty}\mathbb{E}[X_n] \\
-              &=\lim_{n\to\infty}\sum_{k=1}^{N_n}a_k^{(n)}\,
-                \mathbb{P}(X\in A_k^{(n)}) \\
-              &=\lim_{n\to\infty}\sum_{k=1}^{N_n}a_k^{(n)}
-                \int_{A_k^{(n)}}p_X(x)\,\mathrm d x \\
-              &=\int_{\mathbb{R}}x\,p_X(x)\,\mathrm d x.
-            \end{align*}
-            最後に、符号付き関数も正負分解 $X=X^+-X^-$ と単関数近似を組み合わせることで同様に示せる。
-            </p>
+          </article>
         </div>
       </section>
 
-      <section id="definition-of-distribution">
-        <h2>分布とは？ 📊</h2>
-        <p>
-            確率空間 $(\Omega, \mathcal{F}, P)$ 上の確率変数 $X$ を考えます。
-            任意の（ボレル）集合 $A \subset \mathbb{R}$ に対して、$X$ が $A$ に値を取る確率 $P(X \in A)$ を考えることができます。
-            この対応 $A \mapsto P(X \in A)$ を $X$ の<strong>分布</strong> (または確率法則) と呼びます。
-        </p>
-        <p>
-            2つの確率変数 $X$ と $Y$ (これらは異なる確率空間で定義されていても構いません) が、
-            任意の（ボレル）集合 $A$ に対して $P(X \in A) = P(Y \in A)$ を満たすとき、$X$ と $Y$ は<strong>同じ分布を持つ</strong> (または同一分布に従う) といい、$X \overset{d}{=} Y$ と書きます。
-        </p>
-      </section>
-
-      <section id="joint-pdf">
-        <h2>同時確率密度関数</h2>
-        <p>同一の確率空間で定義された2つの連続型確率変数 $X, Y$ を考えます。
-        ある非負関数 $p_{X,Y}(x,y)$ が存在し、任意の（ボレル）集合 $C \subset \mathbb{R}^2$ に対して</p>
-        <div class="formula">
-            $$P((X,Y) \in C) = \iint_C p_{X,Y}(x,y) \,dx\,dy$$
-        </div>
-        <p>が成り立ち、かつ $\iint_{\mathbb{R}^2} p_{X,Y}(x,y) \,dx\,dy = 1$ であるとき、$p_{X,Y}(x,y)$ を $(X,Y)$ の<strong>同時確率密度関数</strong>と呼びます。</p>
-      </section>
-
-      <section id="definition-of-independence">
-          <h2>独立の定義 🔗</h2>
-          <p>2つの確率変数 $X, Y$ が<strong>独立</strong>であるとは、任意の（ボレル）集合 $A, B \subset \mathbb{R}$ に対して次が成り立つことをいいます。</p>
-          <div class="formula">
-              $$P(X \in A, Y \in B) = P(X \in A) P(Y \in B)$$
-          </div>
-      </section>
-
-      <section id="proof-independence-factorization">
-        <h2>確率密度関数の分解による独立性の証明</h2>
-        <p>
-            2つの連続型確率変数 $X, Y$ の同時確率密度関数を $p_{X,Y}(x,y)$ とします。
-            もし、$p_{X,Y}(x,y)$ が2つの非負関数 $h_X(x)$ と $h_Y(y)$ の積として $p_{X,Y}(x,y) = h_X(x)h_Y(y)$ と書けるならば、$X$ と $Y$ は独立であることを示します。
-            ここで、$h_X(x)$ や $h_Y(y)$ がそれぞれ積分して1になるとは限りません（つまり、これら自体が $X, Y$ の周辺確率密度関数であるとは限りません）。
-            この証明は、ユーザーの指示「$p_{X,Y}(x,y) = p_X(x) p_Y(y)$とかけるときXとYが独立であることを示せ。その際$\int p_X=1$であることは仮定しない」に基づいています。ここで $p_X(x), p_Y(y)$ を $h_X(x), h_Y(y)$ と読み替えています。
-        </p>
-        <div class="proof">
+      <!-- ********** スターリングの公式 ********** -->
+      <section class="topic" id="stirling">
+        <h2>スターリングの公式</h2>
+        <div class="section-body">
+          <article>
+            <p>階乗の大きな $n$ での近似:</p>
+            <div class="formula">$$n!\sim \sqrt{2\pi n}\,\left(\frac{n}{e}\right)^n$$</div>
+            <p>対数形式では:</p>
+            <div class="formula">$$\log n!=n\log n-n+\tfrac12\log(2\pi n)+o(1)$$</div>
             <p>
-                $X$ の周辺確率密度関数 $p_X(x)$ と $Y$ の周辺確率密度関数 $p_Y(y)$ は、同時確率密度関数 $p_{X,Y}(x,y)$ から次のように定義されます。
-                $$p_X(x) = \int_{-\infty}^{\infty} p_{X,Y}(x,y) \,dy$$
-                $$p_Y(y) = \int_{-\infty}^{\infty} p_{X,Y}(x,y) \,dx$$
-                仮定 $p_{X,Y}(x,y) = h_X(x)h_Y(y)$ を用いると、
-                $$p_X(x) = \int_{-\infty}^{\infty} h_X(x)h_Y(y) \,dy = h_X(x) \int_{-\infty}^{\infty} h_Y(y) \,dy$$
-                $$p_Y(y) = \int_{-\infty}^{\infty} h_X(x)h_Y(y) \,dx = h_Y(y) \int_{-\infty}^{\infty} h_X(x) \,dx$$
-                ここで、$C_Y = \int_{-\infty}^{\infty} h_Y(y) \,dy$ および $C_X = \int_{-\infty}^{\infty} h_X(x) \,dx$ とおくと、
-                $p_X(x) = C_Y h_X(x)$ および $p_Y(y) = C_X h_Y(y)$ となります。
-                $p_{X,Y}(x,y)$ が確率密度関数であることから $h_X(x) \ge 0, h_Y(y) \ge 0$ であり、$C_X > 0, C_Y > 0$ となります（そうでなければ $p_X(x) \equiv 0$ または $p_Y(y) \equiv 0$ となり不適）。
+              主要項 $n\log n-n$ と $\sqrt{2\pi n}$ の因子を覚えておく。この定数 $\sqrt{2\pi}$ が正規分布の密度関数にも現れる。
             </p>
-            <p>
-                $p_{X,Y}(x,y)$ は同時確率密度関数なので、その全空間での積分は1です。
-                $$\iint_{\mathbb{R}^2} p_{X,Y}(x,y) \,dx\,dy = \iint_{\mathbb{R}^2} h_X(x)h_Y(y) \,dx\,dy = 1$$
-                この積分は次のように分離できます（フビニの定理より）。
-                $$\left(\int_{-\infty}^{\infty} h_X(x) \,dx\right) \left(\int_{-\infty}^{\infty} h_Y(y) \,dy\right) = C_X C_Y = 1$$
-            </p>
-            <p>
-                さて、$X$ と $Y$ が独立であることを示すために、$P(X \in A, Y \in B)$ を計算します。
-                任意の（ボレル）集合 $A, B \subset \mathbb{R}$ に対して、
-                \begin{align*}
-                P(X \in A, Y \in B) &= \iint_{A \times B} p_{X,Y}(x,y) \,dx\,dy \\
-                &= \iint_{A \times B} h_X(x)h_Y(y) \,dx\,dy \\
-                &= \left(\int_A h_X(x) \,dx\right) \left(\int_B h_Y(y) \,dy\right)
-                \end{align*}
-                一方、$P(X \in A)$ と $P(Y \in B)$ は、
-                $$P(X \in A) = \int_A p_X(x) \,dx = \int_A C_Y h_X(x) \,dx = C_Y \int_A h_X(x) \,dx$$
-                $$P(Y \in B) = \int_B p_Y(y) \,dy = \int_B C_X h_Y(y) \,dy = C_X \int_B h_Y(y) \,dy$$
-                したがって、
-                $$P(X \in A)P(Y \in B) = \left(C_Y \int_A h_X(x) \,dx\right) \left(C_X \int_B h_Y(y) \,dy\right) = C_X C_Y \left(\int_A h_X(x) \,dx\right) \left(\int_B h_Y(y) \,dy\right)$$
-                $C_X C_Y = 1$ であるから、
-                $$P(X \in A)P(Y \in B) = \left(\int_A h_X(x) \,dx\right) \left(\int_B h_Y(y) \,dy\right)$$
-                よって、$P(X \in A, Y \in B) = P(X \in A)P(Y \in B)$ が成り立ち、$X$ と $Y$ は独立です。
-            </p>
-            <p>
-                この証明では、$p_{X,Y}(x,y)$ が $h_X(x)h_Y(y)$ と分解できるという事実のみを用い、$h_X(x)$ や $h_Y(y)$ 自体が正規化されている（積分すると1になる）ことは仮定していません。
-                それらが正規化されていなくても、$X$ と $Y$ の周辺確率密度関数 $p_X(x), p_Y(y)$ は、それぞれ $C_Y h_X(x), C_X h_Y(y)$ となり、正規化定数の積 $C_X C_Y = 1$ が成り立つため、独立性が示されます。
-            </p>
+          </article>
         </div>
       </section>
 
-      <section id="theorem-expectation-independent-rv">
-        <h2>定理：独立な確率変数の関数の期待値 📜</h2>
-        <p>確率変数 $X$ と $Y$ が独立 ($X \perp Y$) であるならば、任意の（可測な）関数 $f, g$ に対して次が成り立ちます。</p>
-        <div class="formula">
-            $$E[f(X)g(Y)] = E[f(X)]E[g(Y)]$$
+      <!-- ********** 局所正規近似 ********** -->
+      <section class="topic" id="local-approximation">
+        <h2>局所ド・モアブル–ラプラス近似</h2>
+        <div class="section-body">
+          <article class="theorem">
+            <h3>定理(局所近似)</h3>
+            <p>$q=1-p$ とし、$\sigma^2:=npq$ とおく。$\sqrt{n}$ のスケールで $np$ に近い $k$ について:</p>
+            <div class="formula">$$k = np + x\,\sqrt{npq}\quad\text{(ただし }x=O(1)\text{)}$$</div>
+            <p>とすると、次の近似が成り立つ:</p>
+            <div class="formula">$$\mathbb P(S_n=k)\approx\frac{1}{\sqrt{2\pi\,npq}}\,\exp\left(-\frac{(k-np)^2}{2\,npq}\right)$$</div>
+          </article>
+
+          <article>
+            <h3>証明の概略</h3>
+            <p>二項分布の質量関数の対数をとり、スターリング展開を適用する:</p>
+            <div class="formula">$$\log \mathbb P(S_n=k)= \log n! - \log k! - \log(n-k)! + k\log p + (n-k)\log q$$</div>
+            <p>$t:=k/n$ とおき、関数</p>
+            <div class="formula">$$G(t) := -t\log\left(\frac{t}{p}\right) -(1-t)\log\left(\frac{1-t}{q}\right)$$</div>
+            <p>を定義すると、スターリング展開により</p>
+            <div class="formula">$$\log \mathbb P(S_n=k)= n\,G(t)+\tfrac12\log\left(\frac{1}{2\pi n\,t(1-t)}\right)+o(1)$$</div>
+            <p>$t=p$ の周りでテイラー展開すると:</p>
+            <div class="formula">$$G(p)=0,\quad G'(p)=0,\quad G''(p)=-\frac{1}{pq}$$</div>
+            <p>したがって $t=p+x\sqrt{pq/n}$ に対して</p>
+            <div class="formula">$$n\,G(t) = -\,\frac{x^2}{2} + o(1)$$</div>
+            <p>また $t(1-t)=pq+o(1)$ より、指数をとって定理の式が得られる。$\square$</p>
+          </article>
+
+          <article class="example">
+            <h3>数値例</h3>
+            <p>$n=100$, $p=q=\tfrac12$ に対して中心点 $k=50$ での確率:</p>
+            <div class="formula">$$\mathbb P(S_{100}=50)\approx \frac{1}{\sqrt{2\pi\cdot 100\cdot 1/4}}=\frac{1}{\sqrt{50\pi}}\approx 0.0798$$</div>
+            <p>厳密な値 $\binom{100}{50}/2^{100}\approx 0.0796$ と非常に近い。</p>
+          </article>
         </div>
-        <p>（ただし、各期待値が存在する場合）。</p>
-        <div class="proof">
-            <p><strong>証明の概略：</strong></p>
-            <p>1. $f(x) = \mathbf{1}_A(x)$（指示関数）、$g(y) = \mathbf{1}_B(y)$ の場合：<br>
-            $E[f(X)g(Y)] = E[\mathbf{1}_A(X)\mathbf{1}_B(Y)] = E[\mathbf{1}_{A \times B}(X,Y)] = P(X \in A, Y \in B)$.<br>
-            $X \perp Y$ より $P(X \in A, Y \in B) = P(X \in A)P(Y \in B)$.<br>
-            また、$E[f(X)] = E[\mathbf{1}_A(X)] = P(X \in A)$、$E[g(Y)] = E[\mathbf{1}_B(Y)] = P(Y \in B)$.<br>
-            よって、$E[f(X)g(Y)] = E[f(X)]E[g(Y)]$ が成り立つ。</p>
-            <p>2. $f, g$ が単関数の場合：<br>
-            $f(x) = \sum_i a_i \mathbf{1}_{A_i}(x)$, $g(y) = \sum_j b_j \mathbf{1}_{B_j}(y)$ と書ける。期待値の線形性と上記の結果より成り立つ。</p>
-            <p>3. $f, g$ が非負の可測関数の場合：<br>
-            それぞれを近似する非負単関数列 $\{f_n\}, \{g_n\}$ を考える。単調収束定理を用いて示すことができる。</p>
-            <p>4. 一般の可測関数の場合：<br>
-            関数を正部分と負部分に分け ($f = f^+ - f^-$、$g = g^+ - g^-$)、上記の結果を適用する。</p>
+      </section>
+
+      <!-- ********** 中心極限定理 ********** -->
+      <section class="topic" id="clt">
+        <h2>中心極限定理への拡張</h2>
+        <div class="section-body">
+          <article>
+            <h3>標準化</h3>
+            <p>標準化された和を定義する:</p>
+            <div class="formula">$$Z_n := \frac{S_n-np}{\sqrt{npq}}$$</div>
+            <p>$Z_n$ がとる値は格子 $x_k = \frac{k-np}{\sqrt{npq}}$ を形成し、その間隔は $\Delta x=\frac{1}{\sqrt{npq}}$ である。</p>
+          </article>
+
+          <article>
+            <h3>リーマン和による議論</h3>
+            <p>局所近似は次のように書き換えられる:</p>
+            <div class="formula">$$\mathbb P(Z_n=x_k)\approx \varphi(x_k)\,\Delta x,\qquad \varphi(x)=\frac{1}{\sqrt{2\pi}}e^{-x^2/2}$$</div>
+            <p>分布関数を近似するには質量を和する:</p>
+            <div class="formula">$$\mathbb P(Z_n\le t)=\sum_{x_k\le t}\mathbb P(Z_n=x_k)\approx \sum_{x_k\le t}\varphi(x_k)\,\Delta x$$</div>
+            <p>右辺は $\int_{-\infty}^{t}\varphi(x)\,dx=\Phi(t)$ のリーマン和である。</p>
+          </article>
+
+          <article class="theorem">
+            <h3>定理(ド・モアブル–ラプラス)</h3>
+            <p>次の収束が成り立つ:</p>
+            <div class="formula">$$\boxed{\mathbb P\left(\frac{S_n-np}{\sqrt{npq}}\le t\right)\longrightarrow \Phi(t)\quad (n\to\infty)}$$</div>
+            <p>ここで $\Phi(t)=\int_{-\infty}^t \frac{1}{\sqrt{2\pi}}e^{-x^2/2}\,dx$ は標準正規分布の分布関数である。</p>
+          </article>
+
+          <article>
+            <h3>正当化</h3>
+            <ul>
+              <li><strong>中心領域:</strong> 固定された $R>0$ に対し、$|x_k|\le R$ で近似が一様に成り立つ(局所定理)。</li>
+              <li><strong>裾:</strong> チェビシェフの不等式により $\mathbb P(|Z_n|>R)\le R^{-2}$ なので、$R$ を大きくとれば裾は無視できる。</li>
+            </ul>
+          </article>
         </div>
-    </section>
+      </section>
+      <!-- ********** まとめ ********** -->
 
-    <!-- ********** 一様分布 ********** -->
-        <!-- -------------------------------------------------------------- -->
-        <section id="normal">
-            <h2>正規分布 (Normal Distribution)</h2>
-            <p>$X\sim \mathcal{N}(\mu,\sigma^2)$ の確率密度関数（pdf）は</p>
-            <div class="formula">
-                $$f_{X}(x)= \frac{1}{\sqrt{2\pi\sigma^{2}}}\exp\left(-\frac{(x-\mu)^{2}}{2\sigma^{2}}\right), \qquad x\in \mathbb{R}.$$
-            </div>
-            <ul>
-                <li>平均：$\mathbb{E}[X]=\mu$</li>
-                <li>分散：$\mathrm{Var}(X)=\sigma^{2}$</li>
-                <li>モーメント母関数：$M_{X}(t)=\exp\left(\mu t+\frac{1}{2}\sigma^{2}t^{2}\right)$</li>
-                <li>標準化：$Z=\dfrac{X-\mu}{\sigma}\sim \mathcal{N}(0,1)$</li>
-            </ul>
-            <p>特に、平均 $\mu=0$, 分散 $\sigma^2=1$ の場合を<strong>標準正規分布</strong> $\mathcal{N}(0,1)$ といい、その確率密度関数は以下で与えられます。</p>
-            <div class="formula">
-                $$p(z) = \frac{1}{\sqrt{2\pi}} e^{-\frac{z^2}{2}}, \qquad z \in \mathbb{R}$$
-            </div>
-            <p>この積分 $\int_{-\infty}^{\infty} e^{-x^2} dx = \sqrt{\pi}$ はガウス積分として知られています（これが正規化定数の導出に用いられます）。</p>
-            <p>正規分布は多くの自然現象や社会現象における誤差の分布として現れます（中心極限定理により説明されることが多いです）。また、株価の変動モデル（例：幾何ブラウン運動）や量子力学など、多岐にわたる分野で基本的な分布として利用されます。</p>
-            <details>
-                <summary>平均と分散の導出（標準正規分布からのスケーリング）</summary>
-                <div class="proof">
-                    <p>$Z=\dfrac{X-\mu}{\sigma}$ は標準正規分布に従うので $\mathbb{E}[Z]=0$, $\mathrm{Var}(Z)=1$。よって
-                    $$\mathbb{E}[X]=\mathbb{E}[\mu+\sigma Z]=\mu+\sigma\mathbb{E}[Z]=\mu,$$
-                    $$\mathrm{Var}(X)=\mathrm{Var}(\mu+\sigma Z)=\sigma^{2}\mathrm{Var}(Z)=\sigma^{2}.$$
-                    </p>
-                </div>
-            </details>
-            <details>
-                <summary>演習: 標準正規分布の期待値と分散の直接計算</summary>
-                <div class="proof">
-                    <p>標準正規分布 $Z \sim \mathcal{N}(0,1)$ の確率密度関数は $p(z) = \frac{1}{\sqrt{2\pi}} e^{-z^2/2}$ です。</p>
-                    <p>1. 期待値 $\mathbb{E}[Z]$ を求めよ。</p>
-                    <p>$\mathbb{E}[Z] = \int_{-\infty}^{\infty} z \frac{1}{\sqrt{2\pi}} e^{-z^2/2} dz$. 被積分関数 $z e^{-z^2/2}$ は奇関数（$f(-z)=-f(z)$）なので、対称区間 $(-\infty, \infty)$ での積分は0です。よって $\mathbb{E}[Z]=0$。</p>
-                    <p>2. 二乗期待値 $\mathbb{E}[Z^2]$ を求めよ。</p>
-                    <p>$\mathbb{E}[Z^2] = \int_{-\infty}^{\infty} z^2 \frac{1}{\sqrt{2\pi}} e^{-z^2/2} dz$. 部分積分を用います。 $u=z$, $dv = z e^{-z^2/2} dz$ とすると $v = -e^{-z^2/2}$。
-                    \begin{align*} \mathbb{E}[Z^2] &= \frac{1}{\sqrt{2\pi}} \left[ -z e^{-z^2/2} \right]_{-\infty}^{\infty} - \frac{1}{\sqrt{2\pi}} \int_{-\infty}^{\infty} (1)(-e^{-z^2/2}) dz \\ &= 0 + \frac{1}{\sqrt{2\pi}} \int_{-\infty}^{\infty} e^{-z^2/2} dz \end{align*}
-                    $\int_{-\infty}^{\infty} \frac{1}{\sqrt{2\pi}} e^{-z^2/2} dz = 1$ (確率密度関数の全積分) なので、$\int_{-\infty}^{\infty} e^{-z^2/2} dz = \sqrt{2\pi}$。
-                    よって $\mathbb{E}[Z^2] = \frac{1}{\sqrt{2\pi}} \cdot \sqrt{2\pi} = 1$。</p>
-                    <p>したがって、$\mathrm{Var}(Z) = \mathbb{E}[Z^2] - (\mathbb{E}[Z])^2 = 1 - 0^2 = 1$。</p>
-                </div>
-            </details>
-        </section>
+      <!-- ********** レポート課題 ********** -->
+      <section class="topic" id="report">
+        <h2>レポート課題</h2>
+        <div class="section-body">
+          <article>
+            <h3>課題: サイコロ投げのシミュレーションと正規近似の検証</h3>
+            <p>
+              公正なサイコロを $n$ 回投げたとき、出た目の合計 $S_n$ の分布を調べる。
+              各回の出目を $X_i$ とすると、$X_i$ は $\{1,2,3,4,5,6\}$ 上の一様分布に従う独立な確率変数である。
+            </p>
+            
+            <h3>課題内容</h3>
+            <ol>
+              <li><strong>理論計算:</strong>
+                <ul>
+                  <li>$X_i$ の期待値 $\mathbb E[X_i]$ と分散 $\operatorname{Var}(X_i)$ を計算せよ。</li>
+                  <li>$S_n = X_1 + \cdots + X_n$ の期待値と分散を求めよ。</li>
+                  <li>中心極限定理により、標準化された $\frac{S_n - \mathbb E[S_n]}{\sqrt{\operatorname{Var}(S_n)}}$ が従う分布を述べよ。</li>
+                </ul>
+              </li>
+              
+              <li><strong>シミュレーション:</strong>
+                <ul>
+                  <li>$n=60$ として、サイコロを60回投げる試行を10000回繰り返すシミュレーションを実装せよ。</li>
+                  <li>得られた $S_n$ の値のヒストグラムを作成せよ。</li>
+                  <li>同じグラフ上に、理論的な正規分布の密度関数(平均 $\mathbb E[S_n]$、分散 $\operatorname{Var}(S_n)$)を重ねて描け。</li>
+                  <li>連続性補正を適用した正規近似と、適用しない場合の違いを可視化せよ。</li>
+                </ul>
+              </li>
+              
+              <li><strong>考察:</strong>
+                <ul>
+                  <li>シミュレーション結果と正規近似がどの程度一致しているか評価せよ。</li>
+                  <li>$n$ の値を変えた場合(例: $n=10, 30, 100$)に正規近似の精度がどう変化するか調べよ。</li>
+                  <li>連続性補正の効果について論じよ。</li>
+                </ul>
+              </li>
+            </ol>
 
-        <!-- -------------------------------------------------------------- -->
-        <section id="gamma">
-            <h2>ガンマ分布 (Gamma Distribution)</h2>
-            <p>形状パラメータ $k>0$、尺度パラメータ $\theta>0$ のとき $X\sim \mathrm{Gamma}(k,\theta)$ の pdf は</p>
-            <div class="formula">
-                $$f_{X}(x)=\frac{1}{\Gamma(k)\theta^{k}} x^{k-1} e^{-x/\theta}, \qquad x>0.$$
+            <div class="note">
+              <strong>ヒント:</strong> Python, R, MATLAB などのプログラミング言語を使用してよい。
+              乱数生成には各言語の標準ライブラリを利用すること。
+              グラフは見やすく、軸ラベルや凡例を適切に付けること。
             </div>
-            <p>この分布の定義にはガンマ関数 $\Gamma(k)$ が用いられます。ガンマ関数は以下で定義されます。</p>
-            <div class="formula">
-                $$\Gamma(k) = \int_0^\infty t^{k-1} e^{-t} dt, \qquad k > 0$$
-            </div>
-            <p>ガンマ関数は階乗の一般化であり、$\Gamma(k+1) = k\Gamma(k)$ や $\Gamma(n) = (n-1)!$ (nが正整数の場合) といった性質を持ちます。</p>
-            <ul>
-                <li>平均：$\mathbb{E}[X]=k\theta$</li>
-                <li>分散：$\mathrm{Var}(X)=k\theta^{2}$</li>
-                <li>加法性：独立な $X_{1}\sim \mathrm{Gamma}(k_{1},\theta)$, $X_{2}\sim \mathrm{Gamma}(k_{2},\theta)$ に対し $X_{1}+X_{2}\sim \mathrm{Gamma}(k_{1}+k_{2},\theta)$</li>
-            </ul>
-            <p><strong>関連する分布:</strong></p>
-            <ul>
-                <li>形状パラメータ $k=1$ のとき、ガンマ分布 $\mathrm{Gamma}(1, \theta)$ はレートパラメータ $\lambda = 1/\theta$ の指数分布 $\mathrm{Exp}(1/\theta)$ と一致します。</li>
-                <li>もし $Z_1, \dots, Z_\nu$ が互いに独立な標準正規分布 $\mathcal{N}(0,1)$ に従う確率変数であるとき、その二乗和 $Q = \sum_{i=1}^\nu Z_i^2$ は自由度 $\nu$ のカイ二乗分布 $\chi^2(\nu)$ に従います。カイ二乗分布 $\chi^2(\nu)$ はガンマ分布 $\mathrm{Gamma}(\nu/2, 2)$ と同じ分布です。特に、$Z \sim \mathcal{N}(0,1)$ ならば、$Z^2 \sim \chi^2(1) \equiv \mathrm{Gamma}(1/2, 2)$ となります。</li>
-            </ul>
-            <details>
-                <summary>平均の導出</summary>
-                <div class="proof">
-                    \begin{align*}
-                    \mathbb{E}[X] &= \int_{0}^{\infty} x f_{X}(x)\,dx = \int_{0}^{\infty} x \frac{1}{\Gamma(k)\theta^{k}} x^{k-1} e^{-x/\theta}\,dx \\
-                    &= \frac{1}{\Gamma(k)\theta^{k}}\int_{0}^{\infty} x^{k} e^{-x/\theta}\,dx
-                    \end{align*}
-                    ここで $y = x/\theta$ と置換すると、$x = y\theta, dx = \theta dy$。
-                    \begin{align*}
-                    \mathbb{E}[X] &= \frac{1}{\Gamma(k)\theta^{k}}\int_{0}^{\infty} (y\theta)^{k} e^{-y} \theta\,dy \\
-                    &= \frac{\theta^{k+1}}{\Gamma(k)\theta^{k}}\int_{0}^{\infty} y^{k} e^{-y}\,dy \\
-                    &= \frac{\theta}{\Gamma(k)} \Gamma(k+1) = \frac{\theta}{\Gamma(k)} k\Gamma(k) = k\theta.
-                    \end{align*}
-                </div>
-            </details>
-            <details>
-                <summary>演習: ガンマ分布の二乗期待値と分散</summary>
-                <div class="proof">
-                    <p>$X \sim \mathrm{Gamma}(k, \theta)$ のとき、$\mathbb{E}[X]=k\theta$ でした。$\mathbb{E}[X^2]$ を求め、分散 $\mathrm{Var}(X)=k\theta^2$ を確認せよ。</p>
-                    <p>$\mathbb{E}[X^2] = \int_0^\infty x^2 f_X(x) dx = \int_0^\infty x^2 \frac{1}{\Gamma(k)\theta^k} x^{k-1} e^{-x/\theta} dx$
-                    \begin{align*} \mathbb{E}[X^2] &= \frac{1}{\Gamma(k)\theta^k} \int_0^\infty x^{k+1} e^{-x/\theta} dx \end{align*}
-                    ここで、$y = x/\theta$ と置換すると $x=y\theta, dx=\theta dy$。
-                    \begin{align*} \mathbb{E}[X^2] &= \frac{1}{\Gamma(k)\theta^k} \int_0^\infty (y\theta)^{k+1} e^{-y} \theta dy \\ &= \frac{\theta^{k+2}}{\Gamma(k)\theta^k} \int_0^\infty y^{k+1} e^{-y} dy \\ &= \frac{\theta^2}{\Gamma(k)} \Gamma(k+2) \end{align*}
-                    $\Gamma(k+2) = (k+1)\Gamma(k+1) = (k+1)k\Gamma(k)$ なので、
-                    $$\mathbb{E}[X^2] = \frac{\theta^2}{\Gamma(k)} (k+1)k\Gamma(k) = k(k+1)\theta^2$$
-                    分散は、$\mathrm{Var}(X) = \mathbb{E}[X^2] - (\mathbb{E}[X])^2 = k(k+1)\theta^2 - (k\theta)^2 = (k^2\theta^2 + k\theta^2) - k^2\theta^2 = k\theta^2$。</p>
-                </div>
-            </details>
-        </section>
-
-        <!-- -------------------------------------------------------------- -->
-        <section id="exponential">
-            <h2>指数分布 (Exponential Distribution)</h2>
-            <p>レートパラメータ $\lambda>0$ のとき $X\sim \mathrm{Exp}(\lambda)$ の pdf は</p>
-            <div class="formula">
-                $$f_{X}(x)=\lambda e^{-\lambda x}, \qquad x>0.$$
-            </div>
-            <ul>
-                <li>平均：$\mathbb{E}[X]=1/\lambda$</li>
-                <li>分散：$\mathrm{Var}(X)=1/\lambda^{2}$</li>
-                <li>無記憶性：$\mathbb{P}(X>s+t \mid X>t)=\mathbb{P}(X>s)$ for $s,t > 0$</li>
-                <li>$\mathrm{Exp}(\lambda)$ は $\mathrm{Gamma}(1,1/\lambda)$ に一致 (形状パラメータ $k=1$, 尺度パラメータ $\theta=1/\lambda$)</li>
-            </ul>
-        </section>
-
-        <section id="bivariate-normal">
-            <h2>2次元正規分布 (Bivariate Normal Distribution) 🌌</h2>
-            <p>多変量正規分布の最も簡単な例として2次元正規分布があります。
-            特に、2つの確率変数 $X, Y$ の同時確率密度関数が以下で与えられる場合を考えます。</p>
-            <div class="formula">
-                $$p(x,y) = \frac{1}{2\pi} e^{-\frac{x^2+y^2}{2}}$$
-            </div>
-            <p>このとき、$X$ と $Y$ は独立であり、それぞれ標準正規分布 $\mathcal{N}(0,1)$ に従うことを示します。</p>
-            <div class="proof">
-                <p>$X$ の周辺確率密度関数 $p_X(x)$ は次のように計算できます。
-                \begin{align*}
-                p_X(x) &= \int_{-\infty}^{\infty} p(x,y) \,dy = \int_{-\infty}^{\infty} \frac{1}{2\pi} e^{-\frac{x^2+y^2}{2}} \,dy \\
-                &= \frac{1}{\sqrt{2\pi}} e^{-\frac{x^2}{2}} \int_{-\infty}^{\infty} \frac{1}{\sqrt{2\pi}} e^{-\frac{y^2}{2}} \,dy
-                \end{align*}
-                ここで、積分 $\int_{-\infty}^{\infty} \frac{1}{\sqrt{2\pi}} e^{-\frac{y^2}{2}} \,dy$ は標準正規分布の確率密度関数の全積分なので 1 です。
-                したがって、$p_X(x) = \frac{1}{\sqrt{2\pi}} e^{-\frac{x^2}{2}}$ となり、これは標準正規分布 $\mathcal{N}(0,1)$ の確率密度関数です。
-                同様に、$Y$ の周辺確率密度関数 $p_Y(y) = \frac{1}{\sqrt{2\pi}} e^{-\frac{y^2}{2}}$ となり、$Y \sim \mathcal{N}(0,1)$ です。
-                </p>
-                <p>
-                与えられた同時確率密度関数は $p(x,y) = \left(\frac{1}{\sqrt{2\pi}} e^{-\frac{x^2}{2}}\right) \left(\frac{1}{\sqrt{2\pi}} e^{-\frac{y^2}{2}}\right) = p_X(x)p_Y(y)$ と書けます。
-                同時確率密度関数が周辺確率密度関数の積で書けるため、「確率密度関数の分解による独立性の証明」セクションの結果より、$X$ と $Y$ は独立です。
-                </p>
-            </div>
-        </section>
-
-        <section id="other-multivariate">
-            <h2>他の多次元分布の例 🌐</h2>
-            <p>同時確率密度関数が次のように与えられる分布を考えます。</p>
-            <div class="formula">
-                $$p(x,y) = \frac{1}{4} e^{-|x+y|-|y|}$$
-            </div>
-            <p><strong>課題例:</strong></p>
-            <ul>
-                <li>この分布に従う確率変数 $(X,Y)$ を考えます。変数変換 $U = X+Y, V = Y$ を行い、$U, V$ の同時確率密度関数 $p_{U,V}(u,v)$ を求めなさい。</li>
-                <li>$U$ と $V$ が独立である ($U \perp V$) ことを示しなさい。</li>
-                <li>上記の独立性を用いて $E[XY]$ を計算しなさい。ヒント: $X=U-V, Y=V$。</li>
-            </ul>
-        </section>
-
-        <!-- -------------------------------------------------------------- -->
-        <div class="navigation">
-            <a href="class5.html">前のクラス</a>
-            <a href="../index.html">ホーム</a>
-            <a href="class7.html">次のクラス &rarr;</a>
+          </article>
         </div>
+      </section>
+    </main>
 
-        <footer>&copy; 2025 確率論講義 - すべての権利を留保します</footer>
-    </div>
+    <!-- Navigation -->
+    <nav class="navigation" aria-label="ページナビゲーション">
+      <a href="class5.html" rel="prev">← 前のクラス</a>
+      <a href="../index.html">ホーム</a>
+      <a href="class7.html" rel="next">次のクラス →</a>
+    </nav>
+
+    <footer>
+      <p>© 2025 確率論講義 — All rights reserved.</p>
+    </footer>
+  </div>
+
+  <noscript>
+    <p style="text-align:center">数式の表示には JavaScript が必要です(MathJax を読み込んでください)。</p>
+  </noscript>
 </body>
 </html>

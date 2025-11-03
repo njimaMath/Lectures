@@ -301,7 +301,7 @@
         <div class="label">定理（少数の法則）</div>
         平均回数が <span class="math">$\lambda$</span> に収束するよう <span class="math">$n p_n \to \lambda$</span> とおくと、二項分布の極限としてポアソン分布が得られる。
         <div class="eq">
-          $$\Pr(X_n=k)=\binom{n}{k}p_n^k(1-p_n)^{\,n-k}\xrightarrow[n\to\infty]{}e^{-\lambda}\frac{\lambda^k}{k!}.$$
+          $$P(X_n=k)=\binom{n}{k}p_n^k(1-p_n)^{\,n-k}\xrightarrow[n\to\infty]{}e^{-\lambda}\frac{\lambda^k}{k!}.$$
         </div>
       </div>
       <p>
@@ -313,23 +313,23 @@
         時刻 <span class="math">$t$</span> までの地震回数を <span class="math">$N(t)$</span> とし、以下を置く。
       </p>
       <ol>
-        <li><strong>定常性</strong>：任意の <span class="math">$s,t\ge 0$</span> で <span class="math">$N(t+s)-N(s)\stackrel{d}{=}N(t)$</span>。平均発生率は一定 <span class="math">$\lambda$</span>。</li>
-        <li><strong>独立増分</strong>：重ならない時間区間の増分は独立。つまり$t_0<t_1<t_2<t_3$に対して、$N(t_1)-N(t_0)$と$N(t_3)-N(t_2)$は独立</li>
+        <li><strong>定常性</strong>：任意の <span class="math">$s,t\ge 0$</span> で <span class="math">$N(t+s)-N(s)\stackrel{d}{=}N(t)$</span>。</li>
+        <li><strong>独立増分</strong>：重ならない時間区間の増分は独立。つまり\(t_0 < t_1 < t_2 < t_3\)に対して、$N(t_1)-N(t_0)$と$N(t_3)-N(t_2)$は独立</li>
         <li><strong>微小時間の振る舞い</strong>：<span class="math">$h\downarrow 0$</span> のとき
-          <span class="math">$\Pr(N(h)=1)=\lambda h+o(h)$</span>、<span class="math">$\Pr(N(h)\ge 2)=o(h)$</span>。
+          <span class="math">$P(N(h)=1)=\lambda h+o(h)$</span>、<span class="math">$P(N(h)\ge 2)=o(h)$</span>。
         </li>
       </ol>
       <p>
-        <span class="math">$p_k(t):=\Pr(N(t)=k)$</span> とおく。小 <span class="math">$h&gt;0$</span> に対して直前区間の発生回数で分割し独立増分を用いると
+        <span class="math">$p_k(t):=P(N(t)=k)$</span> とおく。十分小さな <span class="math">$h>0$</span> に対して独立増分の性質を用いると
       </p>
       <div class="eq">
-        $$p_k(t+h)=p_k(t)\Pr(N(h)=0)+p_{k-1}(t)\Pr(N(h)=1)+o(h).$$
+        $$p_k(t+h)=p_k(t)P(N(h)=0)+p_{k-1}(t)P(N(h)=1)+o(h).$$
       </div>
       <p>
-        微小時間の近似 <span class="math">$\Pr(N(h)=0)=1-\lambda h+o(h)$</span>、<span class="math">$\Pr(N(h)=1)=\lambda h+o(h)$</span> を代入する。
+        微小時間の近似 <span class="math">$P(N(h)=0)=1-\lambda h+o(h)$</span>、<span class="math">$P(N(h)=1)=\lambda h+o(h)$</span> を代入すると
       </p>
       <div class="eq">
-        $$\Pr(N(h)=0)=1-\lambda h+o(h),\qquad \Pr(N(h)=1)=\lambda h+o(h).$$
+        $$P(N(h)=0)=1-\lambda h+o(h),\qquad P(N(h)=1)=\lambda h+o(h).$$
       </div>
       <p>
         両辺から <span class="math">$p_k(t)$</span> を引き、<span class="math">$h$</span> で割って <span class="math">$h\downarrow 0$</span> をとると
@@ -340,10 +340,10 @@
         $$p_k(t)=e^{-\lambda t}\frac{(\lambda t)^k}{k!}\quad(k=0,1,2,\dots)$$
       </div>
       <p>
-        よって <span class="math">$N(t)\sim \mathrm{Po}(\lambda t)$</span>、特に 1 年間では <span class="math">$N(1)\sim \mathrm{Po}(\lambda)$</span> となる。
+        よって <span class="math">$N(t)\sim \mathrm{Poi}(\lambda t)$</span>、特に 1 年間では <span class="math">$N(1)\sim \mathrm{Poi}(\lambda)$</span> となる。
       </p>
 
-      <h2>3. <span class="math">$\Pr(N(h)\ge 2)=o(h)$</span> とおく直観</h2>
+      <h2>3. <span class="math">$P(N(h)\ge 2)=o(h)$</span> とおく直観</h2>
       <p>
         区間 <span class="math">$[0,h]$</span> を <span class="math">$m$</span> 等分し、各サブ区間の発生確率を <span class="math">$p\approx \lambda h/m$</span> とみなすと、二回以上起こる確率は
       </p>

@@ -8,7 +8,10 @@
   <style>
     :root {
       --primary: #1a237e;
-      --light-bg: #fafafa;
+      --surface: rgba(255, 255, 255, 0.92);
+      --surface-strong: rgba(247, 248, 255, 0.94);
+      --border: rgba(26, 35, 126, 0.12);
+      --shadow: 0 22px 48px -32px rgba(26, 35, 126, 0.35);
     }
     html {
       box-sizing: border-box;
@@ -19,75 +22,160 @@
     body {
       margin: 0;
       font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-      line-height: 1.7;
-      color: #212121;
-      background: var(--light-bg);
+      line-height: 1.8;
+      color: #1f2230;
+      background:
+        radial-gradient(circle at 20% 20%, rgba(63, 81, 181, 0.16), transparent 55%),
+        radial-gradient(circle at 80% 0%, rgba(26, 35, 126, 0.12), transparent 55%),
+        linear-gradient(180deg, #f6f7ff 0%, #fafafa 60%, #f1f3ff 100%);
     }
     .container {
       max-width: 960px;
       margin: 0 auto;
-      padding: 2rem 1rem 4rem;
-      background: #fff;
-      border-radius: 12px;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+      padding: 2.5rem 1.2rem 4rem;
+      background: var(--surface);
+      border-radius: 20px;
+      box-shadow: 0 22px 60px -35px rgba(33, 33, 33, 0.45);
+      backdrop-filter: blur(6px);
     }
     header h1 {
-      margin: 0 0 1rem;
-      font-size: 1.9rem;
+      margin: 0 0 1.6rem;
+      font-size: clamp(1.9rem, 2.6vw, 2.3rem);
       text-align: center;
       color: var(--primary);
+      letter-spacing: 0.05em;
+    }
+    main {
+      display: grid;
+      gap: 2.6rem;
+      padding: 0.5rem 0 0;
     }
     h2 {
-      font-size: 1.45rem;
-      margin-top: 2.2rem;
-      margin-bottom: 0.8rem;
-      padding-left: 0.55rem;
-      border-left: 6px solid var(--primary);
+      font-size: 1.55rem;
       color: var(--primary);
+      letter-spacing: 0.02em;
     }
     h3 {
       font-size: 1.2rem;
-      margin: 1.6rem 0 0.6rem;
+      margin: 0;
       color: var(--primary);
     }
+    .topic {
+      background: linear-gradient(135deg, rgba(26, 35, 126, 0.1) 0%, rgba(26, 35, 126, 0) 65%);
+      border-radius: 22px;
+      border: 1px solid var(--border);
+      box-shadow: var(--shadow);
+      overflow: hidden;
+      position: relative;
+    }
+    .topic > h2 {
+      margin: 0;
+      padding: 1.15rem 1.6rem;
+      background: rgba(255, 255, 255, 0.88);
+      border-bottom: 1px solid rgba(26, 35, 126, 0.14);
+    }
+    .section-body {
+      padding: 1.9rem 1.7rem 2.1rem;
+      display: grid;
+      gap: 1.5rem;
+      background: var(--surface-strong);
+    }
+    .section-body article {
+      background: rgba(255, 255, 255, 0.9);
+      border: 1px solid rgba(63, 81, 181, 0.14);
+      border-radius: 16px;
+      padding: 1.25rem 1.4rem;
+      display: grid;
+      gap: 0.95rem;
+      box-shadow: 0 16px 30px -28px rgba(63, 81, 181, 0.6);
+    }
+    .section-body article.theorem {
+      border-left: 6px solid #3949ab;
+      background: linear-gradient(135deg, rgba(63, 81, 181, 0.22) 0%, rgba(255, 255, 255, 0.9) 55%);
+      box-shadow: 0 18px 34px -30px rgba(39, 67, 170, 0.75);
+    }
+    .section-body article.theorem h3 {
+      font-size: 1.2rem;
+      margin-bottom: 0.2rem;
+    }
+    .section-body article.theorem .proof {
+      border-top: 1px solid rgba(63, 81, 181, 0.2);
+      padding-top: 0.9rem;
+      display: grid;
+      gap: 0.75rem;
+    }
+    .section-body p {
+      margin: 0;
+    }
+    .section-body p + p {
+      margin-top: 0.9rem;
+    }
     .formula {
-      background: #f3f4ff;
+      background: rgba(63, 81, 181, 0.08);
       border-left: 4px solid #5c6bc0;
-      padding: 0.8rem 1.2rem;
-      margin: 1.2rem 0;
-      border-radius: 8px;
+      padding: 0.85rem 1.2rem;
+      border-radius: 10px;
       overflow-x: auto;
+      font-size: 1.03rem;
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.7);
+    }
+    ul, ol {
+      margin: 0;
+      padding-left: 1.4rem;
+      display: grid;
+      gap: 0.6rem;
     }
     nav.navigation {
       display: flex;
       justify-content: center;
-      gap: 0.8rem;
-      margin: 2.2rem 0;
-      padding-top: 1.5rem;
-      border-top: 1px solid #e0e0e0;
+      gap: 0.9rem;
+      margin: 2.8rem 0;
+      padding-top: 1.8rem;
+      border-top: 1px solid rgba(26, 35, 126, 0.15);
       flex-wrap: wrap;
     }
     nav.navigation a {
-      padding: 0.65rem 1.5rem;
+      padding: 0.7rem 1.6rem;
       background: var(--primary);
       color: #fff;
       text-decoration: none;
-      border-radius: 6px;
-      transition: opacity 0.2s;
+      border-radius: 999px;
+      box-shadow: 0 14px 28px -18px rgba(26, 35, 126, 0.58);
+      transition: transform 0.2s, box-shadow 0.2s, opacity 0.2s;
     }
     nav.navigation a:hover {
-      opacity: 0.85;
+      opacity: 0.9;
+      transform: translateY(-2px);
+      box-shadow: 0 18px 32px -22px rgba(26, 35, 126, 0.62);
     }
     footer {
       margin-top: 3rem;
       font-size: 0.9rem;
-      color: #777;
+      color: #646b8a;
       text-align: center;
     }
     code {
       background: #eceff1;
       padding: 2px 4px;
       border-radius: 4px;
+    }
+    @media (max-width: 720px) {
+      .container {
+        padding: 1.8rem 1rem 3rem;
+        border-radius: 16px;
+      }
+      .topic > h2 {
+        padding: 1rem 1.2rem;
+      }
+      .section-body {
+        padding: 1.4rem 1.2rem 1.6rem;
+      }
+      nav.navigation {
+        gap: 0.6rem;
+      }
+      nav.navigation a {
+        padding: 0.6rem 1.3rem;
+      }
     }
   </style>
   <!-- MathJax -->
@@ -116,13 +204,27 @@
             $(\Omega,\mathcal{F},\mathbb{P})$ を確率空間、$X:\Omega\to\mathbb{R}$ を確率変数とする。$B\in\mathcal{B}(\mathbb{R})$ に対し $X$ の分布測度を次で定める。
           </p>
           <div class="formula">$\,\mu_X(B)=\mathbb{P}(X\in B)\,$</div>
+          <p>
+            <strong>定理.</strong> もし確率変数 $X,Y$ の分布測度が一致し $\mu_X=\mu_Y$ が成り立つならば、任意の可積分な可測関数 $g:\mathbb{R}\to\mathbb{R}$ について
+          </p>
+          <div class="formula">$$\mathbb{E}[g(X)]=\mathbb{E}[g(Y)]$$</div>
+          <p>が成立する。</p>
+          <p>
+            <strong>証明.</strong> まず単純関数 $g=\sum_{i=1}^{\infty} \alpha_i 1_{A_i}$ を考える。このとき
+          </p>
+          <div class="formula">$\,\mathbb{E}[g(X)]=\sum_{i=1}^{\infty} \alpha_i\,\mathbb{P}(X\in A_i)=\sum_{i=1}^{\infty} \alpha_i\,\mu_X(A_i)\,$</div>
+          <p>
+            が成り立つ。$\mu_X=\mu_Y$ より各 $A_i$ について $\mu_X(A_i)=\mu_Y(A_i)$ であるから同じ計算が $Y$ でも成り立ち、単純関数に対して主張が従う。
+          </p>
+          <p>
+            次に非負可測関数 $g$ を単純関数の単調増加列 $(g_n)$ で近似し、単調収束定理を用いると $\mathbb{E}[g(X)]=\mathbb{E}[g(Y)]$ が得られる。一般の可積分関数は $g=g_+-g_-$ と正負部分に分解でき、両者は非負可測かつ可積分であるから前段の議論を各々に適用すれば主張が示される。$\square$
+          </p>
           <p>分布関数は次で与えられる。</p>
           <div class="formula">$\,F_X(x)=\mu_X((-\infty,x])=\mathbb{P}(X\le x)\,$</div>
-
-          <h3>分類（用語の整理）</h3>
-          <p>
-            「非原子的（連続分布）」とは $\,\mu_X(\{x\})=0\,$ が全ての $x\in\mathbb{R}$ で成り立つことを指す。一方、「連続型（絶対連続）」とは、ある非負可測関数 $f_X$ が存在して全ての $A\in\mathcal{B}(\mathbb{R})$ について
+          <p>F が連続関数であるとき、$\mu_X(\{x\})=0$ が任意の $x\in\mathbb{R}$ で成り立つ。この時、$X$は連続分布をもつと呼ぶ。
           </p>
+          <h3>分類（用語の整理）</h3>
+          <p>さらに、ある非負可測関数 $f_X$ が存在して全ての $A\in\mathcal{B}(\mathbb{R})$ について</p>
           <div class="formula">$\,\mu_X(A)=\displaystyle\int_A f_X(x)\,dx\,$</div>
           <p>
             が成り立つ場合であり、このとき $f_X$ を確率密度関数という。可積分な $g$ に対しては
@@ -152,9 +254,6 @@
           <p>確率変数 $X$ が次を満たすとき $X\sim\mathrm{Bin}(n,p)$ という。</p>
           <div class="formula">$\,\mathbb{P}(X=k)=\binom{n}{k}p^k(1-p)^{n-k}\quad(k=0,1,\dots,n)\,$</div>
           <div class="formula">$\,\mathbb{E}[X]=np,\qquad \mathrm{Var}(X)=np(1-p)\,$</div>
-          <p>（正規近似）$\,np(1-p)$ が十分大きいとき、連続補正付きで</p>
-          <div class="formula">$\,\dfrac{X-np}{\sqrt{np(1-p)}}\approx \mathcal{N}(0,1)\,$</div>
-          <p>がしばしば精度良く成り立つ。</p>
         </article>
       </section>
 
@@ -205,16 +304,6 @@
         </p>
       </section>
 
-      <!-- ********** 正規分布 ********** -->
-      <section id="normal">
-        <h2>正規分布</h2>
-        <p>$\mu\in\mathbb{R},\,\sigma>0$ に対し、$X\sim\mathcal{N}(\mu,\sigma^2)$ は密度</p>
-        <div class="formula">$\,f_X(x)=\dfrac{1}{\sqrt{2\pi}\sigma}\exp\!\bigl(-\dfrac{(x-\mu)^2}{2\sigma^2}\bigr)\,$</div>
-        <div class="formula">$\,\mathbb{E}[X]=\mu,\qquad \mathrm{Var}(X)=\sigma^2\,$</div>
-        <p>
-          標準化すると <span class="formula">$\,Z=\dfrac{X-\mu}{\sigma}\sim\mathcal{N}(0,1)\,$</span>。独立な正規の和は正規であり、中心極限定理により多くの分布の和は近似的に正規に従う。
-        </p>
-      </section>
 
       <!-- ********** 幾何分布 ********** -->
       <section id="geometric">
@@ -242,9 +331,6 @@
           <div class="formula">$\,f_X(x)=\dfrac{\beta^\alpha}{\Gamma(\alpha)}x^{\alpha-1}e^{-\beta x}\quad(x\ge0)\,$</div>
           <p>（尺度 $\theta=1/\beta$ の表示もよく用いられる）。</p>
           <div class="formula">$\,\mathbb{E}[X]=\dfrac{\alpha}{\beta},\qquad \mathrm{Var}(X)=\dfrac{\alpha}{\beta^2}\,$</div>
-          <p>モーメント母関数は</p>
-          <div class="formula">$\,M_X(t)=\bigl(1-\tfrac{t}{\beta}\bigr)^{-\alpha}\quad(t<\beta)\,$</div>
-          <p>
             指数分布は $\alpha=1$ の特別な場合であり、独立な指数分布の和はガンマ分布に従う。
           </p>
         </article>
@@ -255,6 +341,11 @@
         <h2>レポート</h2>
         <ol>
           <li>
+            <strong>ポアソン分布に関する問題</strong>
+            <p>
+              $X\sim\mathrm{Poi}(\lambda)$ の期待値と分散を求めよ。また、$X_1\sim\mathrm{Poi}(\lambda_1)$、$X_2\sim\mathrm{Poi}(\lambda_2)$ が独立であるとき、$X_1+X_2$ の分布を求めよ。
+            </p>
+          <li>
             <strong>幾何分布に関する問題</strong>
             </strong>
             <p>
@@ -263,26 +354,7 @@
             <div class="formula">$\,\mathbb{P}(X>m+n\mid X>m)=\mathbb{P}(X>n)\,$</div>
             <p>が成り立つことを示せ。</p>
           </li>
-          <li>
-            <strong>ガンマ分布に関する問題</strong>
-            <strong>ガンマ分布（定義と計算問題）</strong>
-
-<p> 母数 $\alpha>0$、率（レート）母数 $\beta>0$ に対し、$X\sim\mathrm{Gamma}(\alpha,\beta)$ とは、密度を</p>
-<div class="formula">
-$\,f_X(x)=\dfrac{\beta^\alpha}{\Gamma(\alpha)}\,x^{\alpha-1}e^{-\beta x}\quad(x\ge0),\quad\text{他では }0\,$
-</div>
-<p>とする分布である（尺度表示は $\theta=1/\beta$）。</p>
-
-<ol>
-  <!-- 既存の3問（そのまま） -->
-  <li>$N\mid\Lambda\sim\mathrm{Poi}(\Lambda)$、$\Lambda\sim\mathrm{Gamma}(\alpha,\beta)$ とする。事後分布 $\Lambda\mid N$ を求め、ガンマ分布がポアソンの共役事前分布であることを確認せよ。</li>
-  <!-- 追加の計算問題 -->
-  <li>（正規化）上の密度 $f_X$ が $\int_0^\infty f_X(x)\,dx=1$ を満たすことを示せ（ガンマ関数の定義を用いてよい）。</li>
-  <li>（r 次モーメント）$r>-\,\alpha$ に対し $\mathbb{E}[X^r]=\dfrac{\Gamma(\alpha+r)}{\beta^r\,\Gamma(\alpha)}$ を導け。特に $\mathbb{E}[X]=\dfrac{\alpha}{\beta}$、$\mathrm{Var}(X)=\dfrac{\alpha}{\beta^2}$ を与えよ。</li>
-  <li>（スケーリング）$c>0$ とし $Y=cX$ とおくとき、$Y\sim\mathrm{Gamma}(\alpha,\beta/c)$ となることを示せ。</li>
-  <li>ガンマ分布が記憶なし性質をもつのは $\alpha=1$ のときに限ることを示せ。</li>
-</ol>
-
+            <li>ガンマ分布がどのような応用を持つか調べて記述せよ</li>
           </li>
         </ol>
       </section>
