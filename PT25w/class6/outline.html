@@ -1,0 +1,53 @@
+1. Gauss integral
+
+Thm int_R e^{-x^2} dx = sqrt(pi)
+Proof: (int_R e^{-x^2} dx)^2 = int_R int_R e^{-(x^2+y^2)} dx dy
+= int_0^{2pi} int_0^infty e^{-r^2} r dr dtheta = 2pi * 1/2 = pi
+
+2. Standard normal distribution N(m,¥sigma^2)
+
+Def: X ~ N(m,¥sigma^2) if 
+P(X¥in B) = int_B 1/(¥sqrt{2pi}¥sigma) e^{-(x-m)^2/(2¥sigma^2)} dx for any Borel set B ¥subset ¥R
+
+Properties: 
+(1) ¥int_R f_X(x) dx = 1
+(2) E[X] = m, Var(X) = ¥sigma^2
+(3) Sum of independent normals is normal: if X_i ~ N(m_i, ¥sigma_i^2) independent, then ¥sum X_i ~ N(¥sum m_i, ¥sum ¥sigma_i^2)
+(We will check 3 in next class using characteristic functions.)
+
+3. Coin flip and normal approximation
+
+Def (coin flip) P(X_i = +1)=1/2, P(X_i = -1)=1/2, i.i.d.
+S_n = ¥sum_{i=1}^n X_i
+
+Thm: E[S_n] = 0, Var(S_n) = n
+Proof: E[S_n] = ¥sum E[X_i] = 0, E(S_n^2) = ¥sum E(X_i X_j) = n
+
+Thereby, S_n  is of order ¥sqrt n.
+
+Thm (De Moivre-Laplace theorem) For any a < b,
+P(a ¥le S_n/¥sqrt{n} ¥le b) ¥to ¥int_a^b 1/¥sqrt{2pi} e^{-x^2/2} dx as n ¥to ¥infty
+
+4. Proof
+
+Stirling formula
+n! ¥sim ¥sqrt{2pi n} (n/e)^n as n ¥to ¥infty
+
+Distr of S_n
+Assume that a¥sqrt{n} ¥leq k ¥leq b¥sqrt{n}.
+
+P(S_n = k) = n C ((n+k)/2) (1/2)^n for k = -n, -n+2, ..., n-2, n
+= ¥frac{n!}{((n-k)/2)! ((n+k)/2)!} (1/2)^n
+¥sim ¥frac{¥sqrt{2pi n} (n/e)^n}{¥sqrt{2pi ((n-k)/2)} (((n-k)/2)/e)^{(n-k)/2} ¥sqrt{2pi ((n+k)/2)} (((n+k)/2)/e)^{(n+k)/2}} (1/2)^n
+= ¥frac{2}{¥sqrt{2pi n (1-(k/n)^2)}} ¥cdot ¥frac{n^n}{2^n ((n-k)/2)^{(n-k)/2} ((n+k)/2)^{(n+k)/2}}
+= ¥frac{2}{¥sqrt{2pi n (1-(k/n)^2)}} ¥cdot ¥frac{1}{((1-(k/n))/2)^{n(1-(k/n))/2} ((1+(k/n))/2)^{n(1+(k/n))/2}}
+= ¥frac{2}{¥sqrt{2pi n (1-(k/n)^2)}} ¥cdot ¥frac{1}{(1-(k/n))^{n(1-(k/n))/2} (1+(k/n))^{n(1+(k/n))/2}}
+= ¥frac{2}{¥sqrt{2pi n (1-(k/n)^2)}} ¥cdot ¥exp ¥Bigl[-¥frac{n}{2} ¥Bigl((1-(k/n)) ¥log(1-(k/n)) + (1+(k/n)) ¥log(1+(k/n)) ¥Bigr) ¥Bigr]
+Let x = k/¥sqrt{n}. For k = O(¥sqrt{n}),
+P(S_n = k) ¥sim ¥frac{1}{¥sqrt{2pi}} e^{-x^2/2} ¥cdot ¥frac{2}{¥sqrt{n}}  (grid spacing ¥Delta x = 2/¥sqrt{n}).
+
+Therefore,
+P(a¥leq S_n/¥sqrt{n}¥leq b)
+ = ¥sum_{k: a¥sqrt{n} ¥leq k ¥leq b¥sqrt{n}} P(S_n = k)
+   ¥sim ¥sum_{k: a¥sqrt{n} ¥leq k ¥leq b¥sqrt{n}} ¥frac{1}{¥sqrt{2pi}} e^{-(k/¥sqrt{n})^2/2} ¥cdot ¥frac{2}{¥sqrt{n}}
+ ¥to ¥int_a^b ¥frac{1}{¥sqrt{2pi}} e^{-x^2/2} dx \ (n¥to¥infty).
