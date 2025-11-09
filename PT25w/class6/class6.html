@@ -3,30 +3,29 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>二項分布と中心極限定理</title>
-  <!-- Base Styles -->
+  <title>二項分布と中心極限定理（p=1/2）</title>
+  <!-- Base Styles (readable, calm) -->
   <style>
     :root {
       --primary: #1a237e;
-      --surface: rgba(255, 255, 255, 0.92);
-      --surface-strong: rgba(247, 248, 255, 0.94);
-      --border: rgba(26, 35, 126, 0.12);
-      --shadow: 0 22px 48px -32px rgba(26, 35, 126, 0.35);
+      --surface: rgba(255, 255, 255, 0.96);
+      --surface-strong: rgba(247, 248, 255, 0.97);
+      --border: rgba(26, 35, 126, 0.15);
+      --shadow: 0 22px 48px -32px rgba(26, 35, 126, 0.28);
+      --note: rgba(255, 193, 7, 0.12);
+      --theorem: rgba(63, 81, 181, 0.12);
+      --example: rgba(76, 175, 80, 0.12);
     }
-    html {
-      box-sizing: border-box;
-    }
-    *, *::before, *::after {
-      box-sizing: inherit;
-    }
+    html { box-sizing: border-box; }
+    *, *::before, *::after { box-sizing: inherit; }
     body {
       margin: 0;
-      font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+      font-family: "Noto Sans JP","Helvetica Neue",Helvetica,Arial,sans-serif;
       line-height: 1.8;
       color: #1f2230;
       background:
-        radial-gradient(circle at 20% 20%, rgba(63, 81, 181, 0.16), transparent 55%),
-        radial-gradient(circle at 80% 0%, rgba(26, 35, 126, 0.12), transparent 55%),
+        radial-gradient(circle at 20% 20%, rgba(63, 81, 181, 0.12), transparent 55%),
+        radial-gradient(circle at 80% 0%, rgba(26, 35, 126, 0.09), transparent 55%),
         linear-gradient(180deg, #f6f7ff 0%, #fafafa 60%, #f1f3ff 100%);
     }
     .container {
@@ -35,33 +34,40 @@
       padding: 2.5rem 1.2rem 4rem;
       background: var(--surface);
       border-radius: 20px;
-      box-shadow: 0 22px 60px -35px rgba(33, 33, 33, 0.45);
+      box-shadow: 0 22px 60px -35px rgba(33, 33, 33, 0.35);
       backdrop-filter: blur(6px);
     }
     header h1 {
-      margin: 0 0 1.6rem;
+      margin: 0 0 0.8rem;
       font-size: clamp(1.9rem, 2.6vw, 2.3rem);
       text-align: center;
       color: var(--primary);
       letter-spacing: 0.05em;
     }
-    main {
+    header p.lead {
+      margin: 0 auto 1.6rem;
+      text-align: center;
+      color: #3d4060;
+      max-width: 720px;
+    }
+    .quick-facts {
+      margin: 1.2rem auto 0;
       display: grid;
-      gap: 2.6rem;
-      padding: 0.5rem 0 0;
+      gap: 0.6rem;
+      max-width: 680px;
+      padding: 0.9rem 1.1rem;
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      background: #fff;
+      box-shadow: 0 10px 24px -20px rgba(26,35,126,0.45);
+      font-size: 0.98rem;
     }
-    h2 {
-      font-size: 1.55rem;
-      color: var(--primary);
-      letter-spacing: 0.02em;
-    }
-    h3 {
-      font-size: 1.2rem;
-      margin: 0;
-      color: var(--primary);
-    }
+    .quick-facts b { color: var(--primary); }
+    main { display: grid; gap: 2.6rem; padding: 0.5rem 0 0; }
+    h2 { font-size: 1.55rem; color: var(--primary); letter-spacing: 0.02em; }
+    h3 { font-size: 1.2rem; margin: 0; color: var(--primary); }
     .topic {
-      background: linear-gradient(135deg, rgba(26, 35, 126, 0.1) 0%, rgba(26, 35, 126, 0) 65%);
+      background: linear-gradient(135deg, rgba(26, 35, 126, 0.06) 0%, rgba(26, 35, 126, 0) 65%);
       border-radius: 22px;
       border: 1px solid var(--border);
       box-shadow: var(--shadow);
@@ -70,139 +76,106 @@
     }
     .topic > h2 {
       margin: 0;
-      padding: 1.15rem 1.6rem;
-      background: rgba(255, 255, 255, 0.88);
-      border-bottom: 1px solid rgba(26, 35, 126, 0.14);
+      padding: 1.05rem 1.4rem;
+      background: rgba(255, 255, 255, 0.9);
+      border-bottom: 1px solid rgba(26, 35, 126, 0.12);
     }
     .section-body {
-      padding: 1.9rem 1.7rem 2.1rem;
+      padding: 1.6rem 1.4rem 2rem;
       display: grid;
-      gap: 1.5rem;
+      gap: 1.2rem;
       background: var(--surface-strong);
     }
     .section-body article {
-      background: rgba(255, 255, 255, 0.9);
-      border: 1px solid rgba(63, 81, 181, 0.14);
+      background: rgba(255, 255, 255, 0.98);
+      border: 1px solid rgba(63, 81, 181, 0.12);
       border-radius: 16px;
-      padding: 1.25rem 1.4rem;
+      padding: 1.05rem 1.2rem;
       display: grid;
-      gap: 0.95rem;
-      box-shadow: 0 16px 30px -28px rgba(63, 81, 181, 0.6);
+      gap: 0.85rem;
+      box-shadow: 0 16px 30px -28px rgba(63, 81, 181, 0.5);
     }
     .section-body article.theorem {
       border-left: 6px solid #3949ab;
-      background: linear-gradient(135deg, rgba(63, 81, 181, 0.22) 0%, rgba(255, 255, 255, 0.9) 55%);
-      box-shadow: 0 18px 34px -30px rgba(39, 67, 170, 0.75);
+      background: linear-gradient(135deg, var(--theorem) 0%, rgba(255,255,255,0.98) 55%);
+      box-shadow: 0 18px 34px -30px rgba(39, 67, 170, 0.6);
     }
     .section-body article.example {
       border-left: 6px solid #43a047;
-      background: linear-gradient(135deg, rgba(76, 175, 80, 0.18) 0%, rgba(255, 255, 255, 0.9) 55%);
+      background: linear-gradient(135deg, var(--example) 0%, rgba(255,255,255,0.98) 55%);
     }
-    .section-body article.theorem h3 {
-      font-size: 1.2rem;
-      margin-bottom: 0.2rem;
-    }
-    .section-body p {
-      margin: 0;
-    }
-    .section-body p + p {
-      margin-top: 0.9rem;
-    }
+    .section-body p { margin: 0; }
+    .section-body p + p { margin-top: 0.7rem; }
     .formula {
-      background: rgba(63, 81, 181, 0.08);
+      background: rgba(63, 81, 181, 0.06);
       border-left: 4px solid #5c6bc0;
-      padding: 0.85rem 1.2rem;
+      padding: 0.75rem 1.05rem;
       border-radius: 10px;
       overflow-x: auto;
       font-size: 1.03rem;
-      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.7);
     }
     .note {
-      background: rgba(255, 193, 7, 0.1);
+      background: var(--note);
       border-left: 4px solid #ffa000;
-      padding: 0.85rem 1.2rem;
+      padding: 0.75rem 1.05rem;
       border-radius: 10px;
     }
     ul, ol {
       margin: 0;
-      padding-left: 1.4rem;
+      padding-left: 1.3rem;
       display: grid;
-      gap: 0.6rem;
+      gap: 0.5rem;
     }
     details {
       background: rgba(63, 81, 181, 0.05);
       border-radius: 12px;
-      padding: 1rem 1.2rem;
-      margin: 1rem 0;
+      padding: 0.9rem 1.1rem;
+      margin: 0.7rem 0 0.2rem;
     }
-    details summary {
-      cursor: pointer;
-      font-weight: 600;
-      color: var(--primary);
-    }
-    details[open] summary {
-      margin-bottom: 0.8rem;
-    }
+    details summary { cursor: pointer; font-weight: 600; color: var(--primary); }
+    details[open] summary { margin-bottom: 0.6rem; }
     nav.navigation {
       display: flex;
       justify-content: center;
       gap: 0.9rem;
-      margin: 2.8rem 0;
-      padding-top: 1.8rem;
+      margin: 2.2rem 0;
+      padding-top: 1.6rem;
       border-top: 1px solid rgba(26, 35, 126, 0.15);
       flex-wrap: wrap;
     }
     nav.navigation a {
-      padding: 0.7rem 1.6rem;
+      padding: 0.65rem 1.5rem;
       background: var(--primary);
       color: #fff;
       text-decoration: none;
       border-radius: 999px;
-      box-shadow: 0 14px 28px -18px rgba(26, 35, 126, 0.58);
+      box-shadow: 0 14px 28px -18px rgba(26, 35, 126, 0.5);
       transition: transform 0.2s, box-shadow 0.2s, opacity 0.2s;
     }
     nav.navigation a:hover {
-      opacity: 0.9;
+      opacity: 0.95;
       transform: translateY(-2px);
-      box-shadow: 0 18px 32px -22px rgba(26, 35, 126, 0.62);
+      box-shadow: 0 18px 32px -22px rgba(26, 35, 126, 0.55);
     }
     footer {
-      margin-top: 3rem;
+      margin-top: 2.6rem;
       font-size: 0.9rem;
       color: #646b8a;
       text-align: center;
     }
-    code {
-      background: #eceff1;
-      padding: 2px 4px;
-      border-radius: 4px;
-    }
+    code { background: #eceff1; padding: 2px 4px; border-radius: 4px; }
     @media (max-width: 720px) {
-      .container {
-        padding: 1.8rem 1rem 3rem;
-        border-radius: 16px;
-      }
-      .topic > h2 {
-        padding: 1rem 1.2rem;
-      }
-      .section-body {
-        padding: 1.4rem 1.2rem 1.6rem;
-      }
-      nav.navigation {
-        gap: 0.6rem;
-      }
-      nav.navigation a {
-        padding: 0.6rem 1.3rem;
-      }
+      .container { padding: 1.8rem 1rem 3rem; border-radius: 16px; }
+      .topic > h2 { padding: 1rem 1.2rem; }
+      .section-body { padding: 1.2rem 1.1rem 1.4rem; }
+      nav.navigation { gap: 0.6rem; }
+      nav.navigation a { padding: 0.55rem 1.2rem; }
     }
   </style>
   <!-- MathJax -->
   <script>
     MathJax = {
-      tex: {
-        inlineMath: [['$', '$']],
-        displayMath: [['$$', '$$']]
-      },
+      tex: { inlineMath: [['$', '$']], displayMath: [['$$', '$$']] },
       chtml: { matchFontHeight: false }
     };
   </script>
@@ -211,31 +184,41 @@
 <body>
   <div class="container">
     <header>
-      <h1 id="top">二項分布と中心極限定理</h1>
+      <h1 id="top">二項分布と中心極限定理（$p=\tfrac12$）</h1>
+      <p class="lead">コイントス（成功確率 $p=\tfrac12$）を例に、二項分布の形と正規近似（ド・モアブル–ラプラス、中心極限定理）を確認する。</p>
+      <div class="quick-facts" aria-label="このページの要点">
+        <div>• $S_n=\sum_{i=1}^n X_i$（$X_i\sim \mathrm{CF}(\tfrac12)$ 独立同分布）。</div>
+        <div>• $\displaystyle \mathbb P(S_n=k)=\binom{n}{(n+k)/2}\,2^{-n}$（$k\equiv n\pmod2$）、対称性 $\mathbb P(S_n=k)=\mathbb P(S_n=-k)$。</div>
+        <div>• $\displaystyle \mathbb E[S_n]=0,\quad \operatorname{Var}(S_n)=n,\quad \sigma=\sqrt n$。</div>
+        <div>• 近似：$\displaystyle \mathbb P(S_n=k)\approx \sqrt{\tfrac{2}{\pi n}}\,\exp\!\left(-\tfrac{k^2}{2n}\right)$（$k=x\sqrt n,\ |x|=O(1)$ の局所近似）。</div>
+        <div>• CLT：$\displaystyle \frac{S_n}{\sqrt{n}}\ \Rightarrow\ \mathcal N(0,1)$。</div>
+      </div>
     </header>
 
     <main role="main">
       <!-- ********** 二項分布モデル ********** -->
       <section class="topic" id="binomial-model">
-        <h2>二項分布モデル</h2>
+        <h2>二項分布モデル（±1 コーディング）</h2>
         <div class="section-body">
           <article>
             <p>
-              $X_1,\dots,X_n$ を独立なベルヌーイ($p$)確率変数とする。つまり $\mathbb P(X_i=1)=p$ かつ $\mathbb P(X_i=0)=1-p=:q$ である。
-              成功回数の和を次のように定義する:
+              $X_1,\dots,X_n$ を独立に $X_i\sim \mathrm{CF}(\tfrac12)$ とし、和を（CF$(p)$ は $\{-1,1\}$ 上のコインフリップで $\mathbb P(X=1)=p$, $\mathbb P(X=-1)=1-p$）
             </p>
             <div class="formula">$$S_n:=X_1+\cdots+X_n$$</div>
-            <p>このとき $S_n$ は二項分布に従う:</p>
-            <div class="formula">$$\mathbb P(S_n=k)=\binom{n}{k}p^{k}q^{n-k}\quad(k=0,1,\dots,n)$$</div>
-            <p>期待値と分散は線形性と独立性から得られる:</p>
-            <div class="formula">$$\mathbb E[S_n]=np,\qquad \operatorname{Var}(S_n)=npq$$</div>
+            <p>と定義する。このとき $S_n$ の分布は</p>
+            <div class="formula">$$\mathbb P(S_n=k)=\binom{n}{\frac{n+k}{2}}\,2^{-n}\quad \bigl(k=-n,-n+2,\dots,n-2,n\bigr)$$</div>
+            <p>期待値と分散は</p>
+            <div class="formula">$$\mathbb E[S_n]=0,\qquad \operatorname{Var}(S_n)=n$$</div>
+            <details>
+              <summary>なぜ $\mathbb E[S_n]=0$, $\operatorname{Var}(S_n)=n$ ？（ワンライン）</summary>
+              <p>$\mathbb E[X_i]=0$、$\operatorname{Var}(X_i)=1$、独立ゆえ線形性と分散の加法性で $\sum$ に引き継がれる。</p>
+            </details>
           </article>
 
           <article>
-            <h3>形状の直感</h3>
+            <h3>形のイメージ</h3>
             <p>
-              $\mathbb P(S_n=k)$ のヒストグラムは $np$ を中心とし、$p=\tfrac12$ のとき対称である。
-              標準偏差が $\sqrt{npq}$ であるため $n$ が大きくなるにつれて集中する。
+              ヒストグラムは中央 $k=0$ を中心に左右対称。標準偏差は $\sigma=\sqrt n$ なので、$n$ が大きいほど原点付近に集中する。
             </p>
           </article>
         </div>
@@ -243,139 +226,128 @@
 
       <!-- ********** スターリングの公式 ********** -->
       <section class="topic" id="stirling">
-        <h2>スターリングの公式</h2>
+        <h2>スターリングの公式（中心の大きさの見積もり）</h2>
         <div class="section-body">
           <article>
-            <p>階乗の大きな $n$ での近似:</p>
-            <div class="formula">$$n!\sim \sqrt{2\pi n}\,\left(\frac{n}{e}\right)^n$$</div>
-            <p>対数形式では:</p>
-            <div class="formula">$$\log n!=n\log n-n+\tfrac12\log(2\pi n)+o(1)$$</div>
-            <p>
-              主要項 $n\log n-n$ と $\sqrt{2\pi n}$ の因子を覚えておく。この定数 $\sqrt{2\pi}$ が正規分布の密度関数にも現れる。
-            </p>
+            <p>大きな $n$ の階乗近似：</p>
+            <div class="formula">$$n!\sim \sqrt{2\pi n}\,\left(\frac{n}{e}\right)^n,\qquad
+            \log n!=n\log n-n+\tfrac12\log(2\pi n)+o(1)$$</div>
+            <p>特に中心 $\binom{n}{n/2}$ は（CF$(\tfrac12)$ における $k=0$ に対応し、$\mathbb P(S_n=0)=\binom{n}{n/2}2^{-n}$）</p>
+            <div class="formula">$$\binom{n}{n/2}\ \sim\ \frac{2^n}{\sqrt{\pi n/2}}\ =\ 2^n\sqrt{\frac{2}{\pi n}}$$</div>
+            <p>となる（$p=\tfrac12$ の“最も起きやすい”点の規模）。</p>
           </article>
         </div>
       </section>
 
       <!-- ********** 局所正規近似 ********** -->
       <section class="topic" id="local-approximation">
-        <h2>局所ド・モアブル–ラプラス近似</h2>
+        <h2>局所ド・モアブル–ラプラス近似（$\pm1$ コーディング）</h2>
         <div class="section-body">
           <article class="theorem">
-            <h3>定理(局所近似)</h3>
-            <p>$q=1-p$ とし、$\sigma^2:=npq$ とおく。$\sqrt{n}$ のスケールで $np$ に近い $k$ について:</p>
-            <div class="formula">$$k = np + x\,\sqrt{npq}\quad\text{(ただし }x=O(1)\text{)}$$</div>
-            <p>とすると、次の近似が成り立つ:</p>
-            <div class="formula">$$\mathbb P(S_n=k)\approx\frac{1}{\sqrt{2\pi\,npq}}\,\exp\left(-\frac{(k-np)^2}{2\,npq}\right)$$</div>
+            <h3>定理（中心付近の近似）</h3>
+            <p>$k$ が $0$ から $\sqrt n$ の範囲でずれるとき、$k= x\,\sqrt n$（$x=O(1)$）とおくと</p>
+            <div class="formula">$$\mathbb P(S_n=k)\ \approx\ \sqrt{\frac{2}{\pi n}}\,\exp\!\left(-\frac{k^2}{2n}\right)\ =\ \frac{1}{\sqrt{2\pi}}\exp\!\left(-\frac{x^2}{2}\right)\cdot\frac{2}{\sqrt{n}}$$</div>
+            <p>有効範囲：$k=x\sqrt n$ として $|x|\le R$ 固定で $n\to\infty$（相対誤差 $o(1)$）。</p>
           </article>
 
           <article>
-            <h3>証明の概略</h3>
-            <p>二項分布の質量関数の対数をとり、スターリング展開を適用する:</p>
-            <div class="formula">$$\log \mathbb P(S_n=k)= \log n! - \log k! - \log(n-k)! + k\log p + (n-k)\log q$$</div>
-            <p>$t:=k/n$ とおき、関数</p>
-            <div class="formula">$$G(t) := -t\log\left(\frac{t}{p}\right) -(1-t)\log\left(\frac{1-t}{q}\right)$$</div>
-            <p>を定義すると、スターリング展開により</p>
-            <div class="formula">$$\log \mathbb P(S_n=k)= n\,G(t)+\tfrac12\log\left(\frac{1}{2\pi n\,t(1-t)}\right)+o(1)$$</div>
-            <p>$t=p$ の周りでテイラー展開すると:</p>
-            <div class="formula">$$G(p)=0,\quad G'(p)=0,\quad G''(p)=-\frac{1}{pq}$$</div>
-            <p>したがって $t=p+x\sqrt{pq/n}$ に対して</p>
-            <div class="formula">$$n\,G(t) = -\,\frac{x^2}{2} + o(1)$$</div>
-            <p>また $t(1-t)=pq+o(1)$ より、指数をとって定理の式が得られる。$\square$</p>
+            <h3>考え方（最短ルート）</h3>
+            <p>$\log\binom{n}{(n+k)/2}$ にスターリングを当て、$t=\dfrac{(n+k)/2}{n}$ を $t=1/2$ の周りで二次まで展開する。$t(1-t)=1/4+o(1)$、二次の曲率が正規の指数に一致する。</p>
           </article>
 
           <article class="example">
             <h3>数値例</h3>
-            <p>$n=100$, $p=q=\tfrac12$ に対して中心点 $k=50$ での確率:</p>
-            <div class="formula">$$\mathbb P(S_{100}=50)\approx \frac{1}{\sqrt{2\pi\cdot 100\cdot 1/4}}=\frac{1}{\sqrt{50\pi}}\approx 0.0798$$</div>
-            <p>厳密な値 $\binom{100}{50}/2^{100}\approx 0.0796$ と非常に近い。</p>
+            <p>$n=100$ で中央 $k=0$ の確率は</p>
+            <div class="formula">$$\mathbb P(S_{100}=0)\approx \sqrt{\frac{2}{\pi\cdot 100}}\approx 0.0798,\quad
+            \text{厳密値 } \binom{100}{50}/2^{100}\approx 0.0796$$</div>
           </article>
         </div>
       </section>
 
       <!-- ********** 中心極限定理 ********** -->
       <section class="topic" id="clt">
-        <h2>中心極限定理への拡張</h2>
+        <h2>中心極限定理（CLT）</h2>
         <div class="section-body">
           <article>
             <h3>標準化</h3>
-            <p>標準化された和を定義する:</p>
-            <div class="formula">$$Z_n := \frac{S_n-np}{\sqrt{npq}}$$</div>
-            <p>$Z_n$ がとる値は格子 $x_k = \frac{k-np}{\sqrt{npq}}$ を形成し、その間隔は $\Delta x=\frac{1}{\sqrt{npq}}$ である。</p>
+            <p>標準化された和</p>
+            <div class="formula">$$Z_n := \frac{S_n}{\sqrt{n}}$$</div>
+            <p>の取りうる値は間隔 $\Delta x=\dfrac{2}{\sqrt n}$ の格子になる（$k$ は偶奇により 2 刻み）。</p>
           </article>
 
           <article>
-            <h3>リーマン和による議論</h3>
-            <p>局所近似は次のように書き換えられる:</p>
-            <div class="formula">$$\mathbb P(Z_n=x_k)\approx \varphi(x_k)\,\Delta x,\qquad \varphi(x)=\frac{1}{\sqrt{2\pi}}e^{-x^2/2}$$</div>
-            <p>分布関数を近似するには質量を和する:</p>
-            <div class="formula">$$\mathbb P(Z_n\le t)=\sum_{x_k\le t}\mathbb P(Z_n=x_k)\approx \sum_{x_k\le t}\varphi(x_k)\,\Delta x$$</div>
-            <p>右辺は $\int_{-\infty}^{t}\varphi(x)\,dx=\Phi(t)$ のリーマン和である。</p>
+            <h3>リーマン和の発想</h3>
+            <p>局所近似は</p>
+            <div class="formula">$$\mathbb P(Z_n=x_k)\ \approx\ \varphi(x_k)\,\Delta x,\qquad \varphi(x)=\frac{1}{\sqrt{2\pi}}e^{-x^2/2}$$</div>
+            <p>となるので、分布関数は和をとると</p>
+            <div class="formula">$$\mathbb P(Z_n\le t)=\sum_{x_k\le t}\mathbb P(Z_n=x_k)\ \approx\ \sum_{x_k\le t}\varphi(x_k)\,\Delta x\ \to\ \int_{-\infty}^t\varphi(x)\,dx=\Phi(t)$$</div>
           </article>
 
           <article class="theorem">
-            <h3>定理(ド・モアブル–ラプラス)</h3>
-            <p>次の収束が成り立つ:</p>
-            <div class="formula">$$\boxed{\mathbb P\left(\frac{S_n-np}{\sqrt{npq}}\le t\right)\longrightarrow \Phi(t)\quad (n\to\infty)}$$</div>
-            <p>ここで $\Phi(t)=\int_{-\infty}^t \frac{1}{\sqrt{2\pi}}e^{-x^2/2}\,dx$ は標準正規分布の分布関数である。</p>
+            <h3>定理（ド・モアブル–ラプラス）</h3>
+            <div class="formula">$$\boxed{\ \mathbb P\!\left(\frac{S_n}{\sqrt{n}}\le t\right)\ \longrightarrow\ \Phi(t)\quad (n\to\infty)\ }$$</div>
           </article>
 
           <article>
-            <h3>正当化</h3>
+            <h3>正当化のポイント</h3>
             <ul>
-              <li><strong>中心領域:</strong> 固定された $R>0$ に対し、$|x_k|\le R$ で近似が一様に成り立つ(局所定理)。</li>
-              <li><strong>裾:</strong> チェビシェフの不等式により $\mathbb P(|Z_n|>R)\le R^{-2}$ なので、$R$ を大きくとれば裾は無視できる。</li>
+              <li><b>中心領域：</b>$|x|\le R$ の範囲で局所近似は一様に良い。</li>
+              <li><b>裾：</b>$\mathbb P(|Z_n|>R)\le R^{-2}$（チェビシェフ）で無視できる。</li>
             </ul>
           </article>
         </div>
       </section>
+
       <!-- ********** まとめ ********** -->
+      <section class="topic" id="summary">
+        <h2>まとめ</h2>
+        <div class="section-body">
+          <article>
+            <ul>
+              <li>$X_i\in\{-1,1\}$ の和 $S_n$ は $\mathbb E[S_n]=0$、$\operatorname{Var}(S_n)=n$。</li>
+              <li>中心付近は正規密度でよく近似でき、格子幅を掛けると確率質量が得られる。</li>
+              <li>標準化 $\displaystyle \frac{S_n}{\sqrt n}$ は $\mathcal N(0,1)$ に近づく。</li>
+            </ul>
+          </article>
+        </div>
+      </section>
 
       <!-- ********** レポート課題 ********** -->
       <section class="topic" id="report">
         <h2>レポート課題</h2>
         <div class="section-body">
           <article>
-            <h3>課題: サイコロ投げのシミュレーションと正規近似の検証</h3>
+            <h3>課題: コイントスのシミュレーションと正規近似の検証</h3>
             <p>
-              公正なサイコロを $n$ 回投げたとき、出た目の合計 $S_n$ の分布を調べる。
-              各回の出目を $X_i$ とすると、$X_i$ は $\{1,2,3,4,5,6\}$ 上の一様分布に従う独立な確率変数である。
+              公正なコインを $n$ 回投げる。各回の結果を $X_i\in\{+1,-1\}$ とし、$\mathbb P(X_i=1)=\mathbb P(X_i=-1)=\tfrac12$ の独立同分布、$S_n=\sum_{i=1}^n X_i$ とする。
             </p>
-            
+
             <h3>課題内容</h3>
             <ol>
-              <li><strong>理論計算:</strong>
+              <li><strong>理論計算（一般 $p$）：</strong>
                 <ul>
-                  <li>$X_i$ の期待値 $\mathbb E[X_i]$ と分散 $\operatorname{Var}(X_i)$ を計算せよ。</li>
-                  <li>$S_n = X_1 + \cdots + X_n$ の期待値と分散を求めよ。</li>
-                  <li>中心極限定理により、標準化された $\frac{S_n - \mathbb E[S_n]}{\sqrt{\operatorname{Var}(S_n)}}$ が従う分布を述べよ。</li>
+                  <li>$X_i\sim \mathrm{CF}(p)$（すなわち $\mathbb P(X_i=1)=p$, $\mathbb P(X_i=-1)=1-p$）とし、$S_n$ の期待値 $\mathbb E[S_n]$ と分散 $\operatorname{Var}(S_n)$ を求めよ。</li>
                 </ul>
               </li>
-              
+
               <li><strong>シミュレーション:</strong>
                 <ul>
-                  <li>$n=60$ として、サイコロを60回投げる試行を10000回繰り返すシミュレーションを実装せよ。</li>
-                  <li>得られた $S_n$ の値のヒストグラムを作成せよ。</li>
-                  <li>同じグラフ上に、理論的な正規分布の密度関数(平均 $\mathbb E[S_n]$、分散 $\operatorname{Var}(S_n)$)を重ねて描け。</li>
-                  <li>連続性補正を適用した正規近似と、適用しない場合の違いを可視化せよ。</li>
+                  <li>$n=100$ として、コイントスを 100 回投げる試行を 10000 回繰り返すシミュレーションを実装せよ。</li>
+                  <li>得られた $S_n$ のヒストグラムを作成せよ。</li>
+                  <li>同じグラフ上に、（$p=\tfrac12$ のとき）平均 $0$・分散 $n$ の正規分布密度を重ねて描け（必要なら連続性補正も可視化）。</li>
                 </ul>
               </li>
-              
+
               <li><strong>考察:</strong>
                 <ul>
-                  <li>シミュレーション結果と正規近似がどの程度一致しているか評価せよ。</li>
-                  <li>$n$ の値を変えた場合(例: $n=10, 30, 100$)に正規近似の精度がどう変化するか調べよ。</li>
+                  <li>シミュレーション結果と正規近似の一致度を評価せよ（中心と裾の両方）。</li>
+                  <li>$n=20, 50, 200$ などに変えたときの精度の違いを述べよ。</li>
                   <li>連続性補正の効果について論じよ。</li>
                 </ul>
               </li>
             </ol>
 
-            <div class="note">
-              <strong>ヒント:</strong> Python, R, MATLAB などのプログラミング言語を使用してよい。
-              乱数生成には各言語の標準ライブラリを利用すること。
-              グラフは見やすく、軸ラベルや凡例を適切に付けること。
-            </div>
-          </article>
+           </article>
         </div>
       </section>
     </main>
@@ -393,7 +365,7 @@
   </div>
 
   <noscript>
-    <p style="text-align:center">数式の表示には JavaScript が必要です(MathJax を読み込んでください)。</p>
+    <p style="text-align:center">数式の表示には JavaScript が必要（MathJax を読み込むこと）。</p>
   </noscript>
 </body>
 </html>
