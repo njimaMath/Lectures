@@ -243,6 +243,9 @@
     letter-spacing: 0.04em;
    }
    .details-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
     border: none;
     border-radius: 999px;
     padding: 0.5rem 1.35rem;
@@ -253,6 +256,7 @@
     cursor: pointer;
     transition: transform 0.2s ease, box-shadow 0.2s ease;
     box-shadow: 0 12px 30px rgba(82, 196, 255, 0.45);
+    text-decoration: none;
    }
    .details-btn:hover {
     transform: translateY(-2px) scale(1.01);
@@ -502,9 +506,9 @@
       <p>
        Does the weight‑w space dim Q Z w follow the simple recursion from 1/(1 − t² − t³)?
       </p>
-      <button class="details-btn" data-target="detail-01" type="button">
+      <a class="details-btn" href="#detail-01">
        Details
-      </button>
+      </a>
      </li>
      <li class="summary-item">
       <h3>
@@ -513,9 +517,9 @@
       <p>
        Do extended shuffle + stuffle relations generate all Q-linear relations among classical MZVs?
       </p>
-      <button class="details-btn" data-target="detail-02" type="button">
+      <a class="details-btn" href="#detail-02">
        Details
-      </button>
+      </a>
      </li>
      <li class="summary-item">
       <h3>
@@ -524,9 +528,9 @@
       <p>
        Can every MZV be expressed using only indices 2 and 3?
       </p>
-      <button class="details-btn" data-target="detail-03" type="button">
+      <a class="details-btn" href="#detail-03">
        Details
-      </button>
+      </a>
      </li>
      <li class="summary-item">
       <h3>
@@ -535,9 +539,9 @@
       <p>
        Do the BK series coefficients match the number of depth‑d primitives for each weight?
       </p>
-      <button class="details-btn" data-target="detail-04" type="button">
+      <a class="details-btn" href="#detail-04">
        Details
-      </button>
+      </a>
      </li>
      <li class="summary-item">
       <h3>
@@ -546,9 +550,9 @@
       <p>
        Is the canonical map from finite MZVs to symmetric MZVs mod π² an algebra isomorphism?
       </p>
-      <button class="details-btn" data-target="detail-05" type="button">
+      <a class="details-btn" href="#detail-05">
        Details
-      </button>
+      </a>
      </li>
      <li class="summary-item">
       <h3>
@@ -557,9 +561,9 @@
       <p>
        Exhibit one explicit positive-depth finite MZV that is provably nonzero.
       </p>
-      <button class="details-btn" data-target="detail-06" type="button">
+      <a class="details-btn" href="#detail-06">
        Details
-      </button>
+      </a>
      </li>
      <li class="summary-item">
       <h3>
@@ -568,9 +572,9 @@
       <p>
        Give a basis and dimension formula for MZVs at N-th roots of unity (start with N = 2,3,4,6).
       </p>
-      <button class="details-btn" data-target="detail-07" type="button">
+      <a class="details-btn" href="#detail-07">
        Details
-      </button>
+      </a>
      </li>
      <li class="summary-item">
       <h3>
@@ -579,9 +583,9 @@
       <p>
        Which p-adic MZVs are nonzero and what relations do they satisfy?
       </p>
-      <button class="details-btn" data-target="detail-08" type="button">
+      <a class="details-btn" href="#detail-08">
        Details
-      </button>
+      </a>
      </li>
      <li class="summary-item">
       <h3>
@@ -590,9 +594,9 @@
       <p>
        Do natural q-models follow a Zagier-style dimension recursion and are their q-double-shuffle relations complete?
       </p>
-      <button class="details-btn" data-target="detail-09" type="button">
+      <a class="details-btn" href="#detail-09">
        Details
-      </button>
+      </a>
      </li>
      <li class="summary-item">
       <h3>
@@ -601,9 +605,9 @@
       <p>
        Can we prove that ζ(3,5) is irrational or that ζ(3), ζ(5), ζ(3,5) are linearly independent?
       </p>
-      <button class="details-btn" data-target="detail-10" type="button">
+      <a class="details-btn" href="#detail-10">
        Details
-      </button>
+      </a>
      </li>
      <li class="summary-item">
       <h3>
@@ -612,9 +616,9 @@
       <p>
        Is the period map injective on the motivic MZV algebra?
       </p>
-      <button class="details-btn" data-target="detail-11" type="button">
+      <a class="details-btn" href="#detail-11">
        Details
-      </button>
+      </a>
      </li>
      <li class="summary-item">
       <h3>
@@ -623,9 +627,9 @@
       <p>
        When do weight–depth parity constraints force lower-depth expressions (cyclotomic or q-models)?
       </p>
-      <button class="details-btn" data-target="detail-12" type="button">
+      <a class="details-btn" href="#detail-12">
        Details
-      </button>
+      </a>
      </li>
      <li class="summary-item">
       <h3>
@@ -634,9 +638,9 @@
       <p>
        Double-zeta relations are controlled by period polynomials; is there an equally clean depth‑3 picture?
       </p>
-      <button class="details-btn" data-target="detail-13" type="button">
+      <a class="details-btn" href="#detail-13">
        Details
-      </button>
+      </a>
      </li>
      <li class="summary-item">
       <h3>
@@ -645,9 +649,9 @@
       <p>
        Which exceptional generators appear, and how do they match modular-form data by weight?
       </p>
-      <button class="details-btn" data-target="detail-14" type="button">
+      <a class="details-btn" href="#detail-14">
        Details
-      </button>
+      </a>
      </li>
      <li class="summary-item">
       <h3>
@@ -656,9 +660,9 @@
       <p>
        Produce a reproducible database of all Q-relations among MZVs up to weight 30 (or higher) and label the provenance.
       </p>
-      <button class="details-btn" data-target="detail-15" type="button">
+      <a class="details-btn" href="#detail-15">
        Details
-      </button>
+      </a>
      </li>
      <li class="summary-item">
       <h3>
@@ -667,9 +671,9 @@
       <p>
        For each composition of a small weight, compute both finite and symmetric MZVs and test the conjectured map.
       </p>
-      <button class="details-btn" data-target="detail-16" type="button">
+      <a class="details-btn" href="#detail-16">
        Details
-      </button>
+      </a>
      </li>
     </ul>
    </section>
@@ -2022,14 +2026,5 @@
     </article>
    </section>
   </main>
-  <script>
-   document.addEventListener("click", function (event) {
-      const target = event.target.closest("[data-target]");
-      if (!target) return;
-      const id = target.getAttribute("data-target");
-      const section = document.getElementById(id);
-      if (section) { section.scrollIntoView({ behavior: "smooth", block: "start" }); }
-    });
-  </script>
  </body>
 </html>
