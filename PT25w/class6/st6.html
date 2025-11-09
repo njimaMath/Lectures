@@ -369,17 +369,17 @@
       <!-- 1. SRW -->
       <h2 id="srw">1. 単純ランダムウォーク（SRW）</h2>
       <p>
-        $\\{X_i\\}_{i\\ge1}$ を独立同分布な $\\{\\pm1\\}$ 値確率変数とし、$\\mathbb P(X_i=1)=p$, $\\mathbb P(X_i=-1)=1-p$ とする。和 $S_n=\\sum_{i=1}^n X_i$ によりランダムウォーク $(S_n)_{n\\ge0}$ を定める（$S_0=0$）。とくに $p=\\tfrac12$ のときを対称 SRW と呼ぶ。
+        $\{X_i\}_{i\ge1}$ を独立同分布な $\{\pm1\}$ 値確率変数とし、$\mathbb P(X_i=1)=p$, $\mathbb P(X_i=-1)=1-p$ とする。和 $S_n=\sum_{i=1}^n X_i$ によりランダムウォーク $(S_n)_{n\ge0}$ を定める（$S_0=0$）。とくに $p=\tfrac12$ のときを対称 SRW と呼ぶ。
       </p>
       <div class="eq">
-        $\\mathbb E[X_1]=2p-1,\\quad \\mathrm{Var}(X_1)=1-(2p-1)^2=4p(1-p),\\quad
-        \\mathbb E[S_n]=n(2p-1),\\quad \\mathrm{Var}(S_n)=4np(1-p).$
+        $\mathbb E[X_1]=2p-1,\quad \mathrm{Var}(X_1)=1-(2p-1)^2=4p(1-p),\quad
+        \mathbb E[S_n]=n(2p-1),\quad \mathrm{Var}(S_n)=4np(1-p).$
       </div>
       <p>
-        分布は二項分布を通じて次で与えられる（$k\\equiv n\\pmod2$ のときのみ正の確率）:
+        分布は二項分布を通じて次で与えられる（$k\equiv n\pmod2$ のときのみ正の確率）:
       </p>
       <div class="eq">
-        $\\mathbb P(S_n=k)=\\binom{n}{(n+k)/2}p^{(n+k)/2}(1-p)^{(n-k)/2}.$
+        $\mathbb P(S_n=k)=\binom{n}{(n+k)/2}p^{(n+k)/2}(1-p)^{(n-k)/2}.$
       </div>
 
       <div class="sim-card" id="srw-sim">
@@ -411,7 +411,7 @@
       <!-- 2. BM -->
       <h2 id="bm">2. ブラウン運動（BM）</h2>
       <p>
-        ブラウン運動 $(B_t)_{t\\ge0}$ は、$B_0=0$、独立で定常な増分、$B_t-B_s\\sim\\mathcal N(0,t-s)$（$0\\le s&lt;t$）、そして連続軌跡をもつガウス過程として特徴づけられる。観察（Brown, 1827）と理論（Einstein, 1905; Wiener, 1923）から整備された基本モデルである。
+        ブラウン運動 $(B_t)_{t\ge0}$ は、$B_0=0$、独立で定常な増分、$B_t-B_s\sim\mathcal N(0,t-s)$（$0\le s&lt;t$）、そして連続軌跡をもつガウス過程として特徴づけられる。観察（Brown, 1827）と理論（Einstein, 1905; Wiener, 1923）から整備された基本モデルである。
       </p>
       <div class="sim-card" id="bm-sim">
         <div class="sim-title">
@@ -444,10 +444,10 @@
       <div class="theorem">
         <div class="label">機能的中心極限定理（Donsker の不変原理）</div>
         <p>
-          $\\{X_i\\}$ を平均 $\\mu$, 分散 $\\sigma^2\\in(0,\\infty)$ の独立同分布列とし、$Y_i=(X_i-\\mu)/\\sigma$、
-          $W^{(n)}_t=\\frac1{\\sqrt{n}}\\sum_{i=1}^{\\lfloor nt\\rfloor} Y_i$（$t\\in[0,1]$）とおく。
+          $\{X_i\}$ を平均 $\mu$, 分散 $\sigma^2\in(0,\infty)$ の独立同分布列とし、$Y_i=(X_i-\mu)/\sigma$、
+          $W^{(n)}_t=\frac1{\sqrt{n}}\sum_{i=1}^{\lfloor nt\rfloor} Y_i$（$t\in[0,1]$）とおく。
           すると Skorokhod 空間 $D[0,1]$ で
-          $$W^{(n)} \\Rightarrow B,$$
+          $$W^{(n)} \Rightarrow B,$$
           すなわち $W^{(n)}$ は標準ブラウン運動に弱収束する。
         </p>
       </div>
@@ -456,13 +456,13 @@
         連続極限に必要な緊密性（tightness）を確保する。SRW の場合、増分が有界なので Lindeberg 条件は自動的に満たされる。
       </div>
       <p class="note">
-        対称 SRW（$p=\\tfrac12$）では $\\mu=0,\\ \\sigma^2=1$、よって $\\tfrac1{\\sqrt n}S_{\\lfloor nt\\rfloor}\\Rightarrow B_t$。
+        対称 SRW（$p=\tfrac12$）では $\mu=0,\ \sigma^2=1$、よって $\tfrac1{\sqrt n}S_{\lfloor nt\rfloor}\Rightarrow B_t$。
       </p>
 
       <div class="sim-card" id="scaling-sim">
         <div class="sim-title">
           <span class="badge">スケーリング極限の可視化</span>
-          <span class="note">$W^{(n)}_t=\\frac{1}{\\sqrt n}S_{\\lfloor nt\\rfloor}$ と $B_t$ を重ね描き</span>
+          <span class="note">$W^{(n)}_t=\frac{1}{\sqrt n}S_{\lfloor nt\rfloor}$ と $B_t$ を重ね描き</span>
         </div>
         <div class="controls">
           <div class="row">
@@ -483,9 +483,9 @@
       <!-- 4. まとめ -->
       <h2 id="summary">4. まとめ</h2>
       <ul>
-        <li>SRW は二項分布の和として計算でき、$\\mathbb E[S_n],\\ \\mathrm{Var}(S_n)$ は直ちに求まる。</li>
-        <li>CLT により $\\dfrac{S_n-n(2p-1)}{2\\sqrt{np(1-p)}}\\Rightarrow \\mathcal N(0,1)$。</li>
-        <li>過程レベルの極限は Donsker の不変原理：$\\dfrac{1}{\\sqrt n}\\sum_{i\\le nt}\\dfrac{X_i-\\mu}{\\sigma}\\Rightarrow B_t$。</li>
+        <li>SRW は二項分布の和として計算でき、$\mathbb E[S_n],\ \mathrm{Var}(S_n)$ は直ちに求まる。</li>
+        <li>CLT により $\dfrac{S_n-n(2p-1)}{2\sqrt{np(1-p)}}\Rightarrow \mathcal N(0,1)$。</li>
+        <li>過程レベルの極限は Donsker の不変原理：$\dfrac{1}{\sqrt n}\sum_{i\le nt}\dfrac{X_i-\mu}{\sigma}\Rightarrow B_t$。</li>
         <li>シミュレーションでは $n$ を増やすとスケーリングした SRW と BM が視覚的に近づく。</li>
       </ul>
 
