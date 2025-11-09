@@ -1,0 +1,2035 @@
+<!DOCTYPE html>
+<html lang="en">
+ <head>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width, initial-scale=1" name="viewport"/>
+  <title>
+   Multiple Zeta Value Conjectures
+  </title>
+  <style>
+   @import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600&display=swap");
+   :root {
+    --bg: #040713;
+    --bg-2: #0b1230;
+    --card: rgba(8, 12, 34, 0.78);
+    --card-border: rgba(255, 255, 255, 0.08);
+    --text: #f8fbff;
+    --muted: #9fb3d9;
+    --accent: #7dd3fc;
+    --accent-2: #f472b6;
+    --accent-3: #c084fc;
+    --radius: 26px;
+    --shadow: 0 35px 70px rgba(3, 5, 24, 0.65);
+   }
+   * { box-sizing: border-box; }
+   html { scroll-behavior: smooth; }
+   body {
+    margin: 0;
+    min-height: 100vh;
+    font-family: "Inter", "Space Grotesk", system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+    background: radial-gradient(circle at 15% 20%, #111944, #050712 65%);
+    color: var(--text);
+    line-height: 1.75;
+    padding: 3rem clamp(1rem, 5vw, 4rem) 5rem;
+    position: relative;
+    overflow-x: hidden;
+   }
+   body::before,
+   body::after {
+    content: "";
+    position: fixed;
+    inset: -15% -5% -5%;
+    z-index: 0;
+    pointer-events: none;
+    background: radial-gradient(circle at 15% 25%, rgba(125, 211, 252, 0.3), transparent 50%),
+     radial-gradient(circle at 85% 15%, rgba(244, 114, 182, 0.22), transparent 45%);
+    filter: blur(18px);
+    opacity: 0.7;
+    animation: aurora 22s linear infinite;
+   }
+   body::after {
+    background: radial-gradient(circle at 80% 70%, rgba(192, 132, 252, 0.28), transparent 45%),
+     radial-gradient(circle at 20% 80%, rgba(56, 189, 248, 0.2), transparent 40%);
+    animation-duration: 28s;
+    opacity: 0.45;
+   }
+   main {
+    position: relative;
+    z-index: 1;
+    max-width: 1200px;
+    margin: 0 auto;
+    background: rgba(3, 5, 22, 0.55);
+    border: 1px solid var(--card-border);
+    border-radius: 36px;
+    padding: clamp(1.5rem, 4vw, 3.25rem);
+    box-shadow: var(--shadow);
+    backdrop-filter: blur(18px);
+   }
+   header {
+    text-align: center;
+    margin-bottom: 3rem;
+   }
+   header h1 {
+    margin: 0;
+    font-family: "Space Grotesk", "Inter", -apple-system, BlinkMacSystemFont, sans-serif;
+    font-size: clamp(2.4rem, 6vw, 3.9rem);
+    letter-spacing: 0.04em;
+    background-image: linear-gradient(120deg, var(--accent), var(--accent-3));
+    -webkit-background-clip: text;
+    color: transparent;
+    text-shadow: 0 0 35px rgba(125, 211, 252, 0.35);
+   }
+   header p {
+    margin: 0.9rem auto 0;
+    max-width: 720px;
+    color: var(--muted);
+    font-size: 1.05rem;
+   }
+   a {
+    color: var(--accent);
+    text-decoration: none;
+    transition: color 0.2s ease, opacity 0.2s ease;
+   }
+   a:hover {
+    color: var(--accent-2);
+   }
+   .hero-stats {
+    margin-top: 2rem;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    gap: 1.1rem;
+   }
+   .stat-card {
+    position: relative;
+    border-radius: var(--radius);
+    padding: 1.1rem 1.3rem;
+    background: var(--card);
+    border: 1px solid var(--card-border);
+    box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.04), 0 25px 45px rgba(4, 6, 26, 0.6);
+    overflow: hidden;
+   }
+   .stat-card::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    background: radial-gradient(circle at 20% 25%, rgba(125, 211, 252, 0.3), transparent 60%);
+    opacity: 0;
+    transition: opacity 0.35s ease;
+   }
+   .stat-card:hover::after { opacity: 1; }
+   .stat-value {
+    display: block;
+    font-size: 2rem;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    color: var(--accent-2);
+   }
+   .stat-label {
+    display: block;
+    text-transform: uppercase;
+    font-size: 0.78rem;
+    letter-spacing: 0.25em;
+    color: rgba(255, 255, 255, 0.65);
+    margin-top: 0.4rem;
+   }
+   .summary-panel {
+    margin: 2rem 0 3rem;
+    padding: 2.35rem;
+    border-radius: 40px;
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    background: linear-gradient(145deg, rgba(8, 10, 28, 0.9), rgba(3, 6, 23, 0.82));
+    box-shadow: 0 30px 70px rgba(3, 0, 14, 0.55);
+   }
+   .summary-panel h2 {
+    margin-top: 0;
+    margin-bottom: 0.6rem;
+    font-size: clamp(1.8rem, 4vw, 2.6rem);
+    font-family: "Space Grotesk", "Inter", sans-serif;
+   }
+   .summary-panel p { color: var(--muted); margin-bottom: 1.2rem; }
+   .summary-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 1rem;
+   }
+   .summary-card {
+    border-radius: 26px;
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    padding: 1.2rem 1.4rem;
+    background: rgba(7, 5, 22, 0.92);
+    box-shadow: 0 18px 40px rgba(4, 0, 18, 0.35);
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+   }
+   .summary-card button {
+    align-self: flex-start;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    background: transparent;
+    color: var(--text);
+    border-radius: 999px;
+    padding: 0.35rem 0.9rem;
+    font-size: 0.85rem;
+    letter-spacing: 0.08em;
+    cursor: pointer;
+    transition: background 0.2s ease, transform 0.2s ease;
+   }
+   .summary-card button:hover { background: rgba(255, 255, 255, 0.1); transform: translateY(-2px); }
+   .card-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+    margin-bottom: 0.9rem;
+   }
+   .meta-chip {
+    font-size: 0.75rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    border-radius: 999px;
+    padding: 0.2rem 0.75rem;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    background: rgba(255, 255, 255, 0.05);
+    color: var(--accent-2);
+   }
+   .summary-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 1.35rem;
+   }
+   .summary-item {
+    position: relative;
+    background: linear-gradient(145deg, rgba(10, 17, 40, 0.9), rgba(4, 6, 25, 0.82));
+    border: 1px solid var(--card-border);
+    border-radius: var(--radius);
+    padding: 1.5rem;
+    box-shadow: 0 22px 45px rgba(2, 5, 19, 0.55);
+    overflow: hidden;
+    transition: transform 0.35s ease, border-color 0.35s ease;
+   }
+   .summary-item::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    background: linear-gradient(120deg, rgba(125, 211, 252, 0.2), rgba(244, 114, 182, 0.16));
+    opacity: 0;
+    transition: opacity 0.35s ease;
+   }
+   .summary-item > * { position: relative; }
+   .summary-item:hover {
+    transform: translateY(-6px);
+    border-color: rgba(125, 211, 252, 0.45);
+   }
+   .summary-item:hover::before { opacity: 1; }
+   .summary-item h3 {
+    margin: 0 0 0.5rem;
+    font-size: 1.15rem;
+    font-family: "Space Grotesk", "Inter", sans-serif;
+    color: #ffffff;
+   }
+   .summary-item p {
+    margin: 0 0 0.75rem;
+    color: var(--muted);
+   }
+   .summary-item small {
+    display: block;
+    color: rgba(255, 255, 255, 0.65);
+    margin-bottom: 0.85rem;
+    font-size: 0.85rem;
+    letter-spacing: 0.04em;
+   }
+   .details-btn {
+    border: none;
+    border-radius: 999px;
+    padding: 0.5rem 1.35rem;
+    background-image: linear-gradient(120deg, var(--accent), var(--accent-2));
+    color: #020617;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    cursor: pointer;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    box-shadow: 0 12px 30px rgba(82, 196, 255, 0.45);
+   }
+   .details-btn:hover {
+    transform: translateY(-2px) scale(1.01);
+    box-shadow: 0 15px 38px rgba(82, 196, 255, 0.55);
+   }
+   .details-section {
+    margin-top: 4rem;
+    padding: clamp(1.75rem, 4vw, 2.75rem);
+    border-radius: 40px;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    background: rgba(6, 8, 26, 0.85);
+    box-shadow: var(--shadow);
+   }
+   .details-section h2 {
+    margin-top: 0;
+    margin-bottom: 1.5rem;
+    color: #e0e7ff;
+    font-size: clamp(1.8rem, 4vw, 2.7rem);
+    font-family: "Space Grotesk", "Inter", sans-serif;
+   }
+   article {
+    position: relative;
+    background: rgba(1, 3, 14, 0.75);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 28px;
+    padding: 1.75rem;
+    margin-bottom: 1.6rem;
+    box-shadow: 0 25px 45px rgba(2, 5, 23, 0.55);
+    overflow: hidden;
+   }
+   article::before {
+    content: "";
+    position: absolute;
+    inset: auto -20% 70% 35%;
+    height: 220px;
+    background: radial-gradient(circle, rgba(125, 211, 252, 0.25), transparent 60%);
+    opacity: 0.6;
+    pointer-events: none;
+   }
+   article h3 {
+    margin-top: 0;
+    font-size: 1.35rem;
+    letter-spacing: 0.01em;
+    color: #ffffff;
+    font-family: "Space Grotesk", "Inter", sans-serif;
+   }
+   article p {
+    color: var(--muted);
+    margin: 0.4rem 0;
+   }
+   article ul {
+    margin: 0.5rem 0 1rem 1.25rem;
+    color: var(--muted);
+   }
+   article li { margin-bottom: 0.35rem; }
+   article strong {
+    color: var(--accent);
+    font-weight: 600;
+   }
+   .detail-panel {
+    margin-top: 4rem;
+    padding: 2.5rem;
+    border-radius: 32px;
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    background: rgba(6, 4, 22, 0.92);
+    box-shadow: 0 35px 80px rgba(2, 0, 11, 0.55);
+   }
+   .detail-panel h2 {
+    margin-top: 0;
+    margin-bottom: 0.5rem;
+    font-size: clamp(1.6rem, 3vw, 2.4rem);
+   }
+   .detail-panel p.intro {
+    color: var(--muted);
+    margin-bottom: 1.5rem;
+   }
+   .detail-grid {
+    display: grid;
+    gap: 1.5rem;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+   }
+   .detail-card {
+    border-radius: 24px;
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    padding: 1.8rem;
+    background: rgba(4, 2, 18, 0.9);
+    box-shadow: 0 22px 40px rgba(3, 0, 15, 0.4);
+    scroll-margin-top: 120px;
+    transition: box-shadow 0.3s ease, border-color 0.3s ease;
+   }
+   .detail-card.highlight {
+    border-color: var(--accent-2);
+    box-shadow: 0 0 0 2px rgba(99, 213, 255, 0.4), 0 30px 60px rgba(4, 0, 18, 0.55);
+   }
+   .detail-card h3 { margin-top: 0; }
+   .back-link {
+    margin-top: 0.75rem;
+    display: inline-flex;
+    gap: 0.35rem;
+    align-items: center;
+    color: var(--accent-2);
+    text-decoration: none;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+    position: relative;
+   }
+   .back-link::before {
+    content: "←";
+    font-size: 1rem;
+   }
+   .back-link:hover { color: var(--accent); }
+   .primer-section {
+    margin-top: 4rem;
+    padding: clamp(1.75rem, 4vw, 3rem);
+    border-radius: 44px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    background: linear-gradient(145deg, rgba(2, 4, 18, 0.95), rgba(4, 6, 22, 0.88));
+    box-shadow: 0 40px 90px rgba(2, 0, 10, 0.6);
+    backdrop-filter: blur(18px);
+   }
+   .primer-intro {
+    font-size: 1.08rem;
+    color: var(--muted);
+    max-width: 900px;
+    margin: 0 auto;
+    text-align: center;
+   }
+   .primer-divider {
+    margin: 2.25rem 0;
+    height: 1px;
+    width: 100%;
+    background: linear-gradient(90deg, transparent, rgba(125, 211, 252, 0.65), transparent);
+   }
+   .primer-article {
+    margin-top: 2.25rem;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 32px;
+    padding: clamp(1.5rem, 3vw, 2.35rem);
+    background: rgba(4, 6, 28, 0.9);
+    box-shadow: 0 25px 60px rgba(3, 0, 12, 0.55);
+   }
+   .primer-article h2 {
+    margin-top: 0;
+    font-size: clamp(1.5rem, 3vw, 2.3rem);
+    font-family: "Space Grotesk", "Inter", sans-serif;
+    color: #f1f5ff;
+   }
+   .primer-subsection {
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 24px;
+    padding: 1.5rem;
+    background: rgba(8, 10, 35, 0.65);
+    margin-top: 1.5rem;
+   }
+   .primer-subsection:first-of-type { margin-top: 1rem; }
+   .primer-subsection h3 {
+    margin: 0 0 0.6rem;
+    font-size: 1.25rem;
+    font-family: "Space Grotesk", "Inter", sans-serif;
+    color: #ffffff;
+   }
+   .primer-subsection p {
+    margin: 0.45rem 0;
+    color: var(--muted);
+   }
+   .primer-list {
+    list-style: none;
+    margin: 1.35rem 0 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 1.2rem;
+   }
+   .primer-list li {
+    padding: 1.2rem 1.35rem;
+    border-radius: 24px;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    background: rgba(3, 6, 25, 0.85);
+    color: var(--muted);
+   }
+   .math-block {
+    margin: 0.8rem 0;
+    padding: 0.85rem 1rem;
+    border-radius: 20px;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px dashed rgba(148, 163, 184, 0.4);
+    font-family: "Space Grotesk", "Fira Code", ui-monospace, SFMono-Regular, "Roboto Mono", monospace;
+    font-size: 0.95rem;
+    color: #e0f2fe;
+    overflow-x: auto;
+   }
+   .primer-checklist {
+    margin: 0.65rem 0 0;
+    padding-left: 1.35rem;
+    color: var(--muted);
+   }
+   .primer-checklist li { margin-bottom: 0.4rem; }
+   .source-list {
+    margin: 1rem 0 0;
+    padding-left: 1.2rem;
+    color: var(--muted);
+   }
+   .source-list li { margin-bottom: 0.4rem; }
+   .primer-highlight {
+    color: #f8fafc;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+   }
+   .primer-note {
+    font-style: italic;
+    color: var(--muted);
+   }
+   @media (max-width: 900px) {
+    body { padding: 2.5rem 1.25rem 4rem; }
+    main { border-radius: 28px; }
+   }
+   @media (max-width: 640px) {
+    header { text-align: left; }
+    header h1 { font-size: clamp(2rem, 9vw, 3rem); }
+    .summary-list { grid-template-columns: 1fr; }
+    article { padding: 1.35rem; }
+    .details-section { padding: 1.5rem; border-radius: 28px; }
+   }
+   @keyframes aurora {
+    0% { transform: translate3d(0, 0, 0) scale(1); }
+    50% { transform: translate3d(-4%, -3%, 0) scale(1.05); }
+    100% { transform: translate3d(3%, 4%, 0) scale(1); }
+   }
+  </style>
+ </head>
+ <body id="top">
+  <main>
+   <header>
+    <h1>
+     Multiple Zeta Value Research Map
+    </h1>
+    <p>
+     Scan the summary list, tap “Details” for any problem, and you’ll jump to the expanded notes.
+    </p>
+   </header>
+   <section id="summary">
+    <ul class="summary-list">
+     <li class="summary-item">
+      <h3>
+       Zagier’s dimension conjecture
+      </h3>
+      <p>
+       Does the weight‑w space dim Q Z w follow the simple recursion from 1/(1 − t² − t³)?
+      </p>
+      <button class="details-btn" data-target="detail-01" type="button">
+       Details
+      </button>
+     </li>
+     <li class="summary-item">
+      <h3>
+       Completeness of double-shuffle relations
+      </h3>
+      <p>
+       Do extended shuffle + stuffle relations generate all Q-linear relations among classical MZVs?
+      </p>
+      <button class="details-btn" data-target="detail-02" type="button">
+       Details
+      </button>
+     </li>
+     <li class="summary-item">
+      <h3>
+       Hoffman’s 2–3 basis
+      </h3>
+      <p>
+       Can every MZV be expressed using only indices 2 and 3?
+      </p>
+      <button class="details-btn" data-target="detail-03" type="button">
+       Details
+      </button>
+     </li>
+     <li class="summary-item">
+      <h3>
+       Depth-graded dimensions (Broadhurst–Kreimer)
+      </h3>
+      <p>
+       Do the BK series coefficients match the number of depth‑d primitives for each weight?
+      </p>
+      <button class="details-btn" data-target="detail-04" type="button">
+       Details
+      </button>
+     </li>
+     <li class="summary-item">
+      <h3>
+       Kaneko–Zagier finite MZVs
+      </h3>
+      <p>
+       Is the canonical map from finite MZVs to symmetric MZVs mod π² an algebra isomorphism?
+      </p>
+      <button class="details-btn" data-target="detail-05" type="button">
+       Details
+      </button>
+     </li>
+     <li class="summary-item">
+      <h3>
+       Nonvanishing in the finite world
+      </h3>
+      <p>
+       Exhibit one explicit positive-depth finite MZV that is provably nonzero.
+      </p>
+      <button class="details-btn" data-target="detail-06" type="button">
+       Details
+      </button>
+     </li>
+     <li class="summary-item">
+      <h3>
+       Cyclotomic MZVs (roots of unity)
+      </h3>
+      <p>
+       Give a basis and dimension formula for MZVs at N-th roots of unity (start with N = 2,3,4,6).
+      </p>
+      <button class="details-btn" data-target="detail-07" type="button">
+       Details
+      </button>
+     </li>
+     <li class="summary-item">
+      <h3>
+       p-adic multiple zeta values
+      </h3>
+      <p>
+       Which p-adic MZVs are nonzero and what relations do they satisfy?
+      </p>
+      <button class="details-btn" data-target="detail-08" type="button">
+       Details
+      </button>
+     </li>
+     <li class="summary-item">
+      <h3>
+       q-analogues of MZVs
+      </h3>
+      <p>
+       Do natural q-models follow a Zagier-style dimension recursion and are their q-double-shuffle relations complete?
+      </p>
+      <button class="details-btn" data-target="detail-09" type="button">
+       Details
+      </button>
+     </li>
+     <li class="summary-item">
+      <h3>
+       Irrationality / independence at depth 2
+      </h3>
+      <p>
+       Can we prove that ζ(3,5) is irrational or that ζ(3), ζ(5), ζ(3,5) are linearly independent?
+      </p>
+      <button class="details-btn" data-target="detail-10" type="button">
+       Details
+      </button>
+     </li>
+     <li class="summary-item">
+      <h3>
+       Period-map injectivity for MZVs
+      </h3>
+      <p>
+       Is the period map injective on the motivic MZV algebra?
+      </p>
+      <button class="details-btn" data-target="detail-11" type="button">
+       Details
+      </button>
+     </li>
+     <li class="summary-item">
+      <h3>
+       Depth-drop &amp; parity beyond the classical case
+      </h3>
+      <p>
+       When do weight–depth parity constraints force lower-depth expressions (cyclotomic or q-models)?
+      </p>
+      <button class="details-btn" data-target="detail-12" type="button">
+       Details
+      </button>
+     </li>
+     <li class="summary-item">
+      <h3>
+       From double to triple zetas via modular forms
+      </h3>
+      <p>
+       Double-zeta relations are controlled by period polynomials; is there an equally clean depth‑3 picture?
+      </p>
+      <button class="details-btn" data-target="detail-13" type="button">
+       Details
+      </button>
+     </li>
+     <li class="summary-item">
+      <h3>
+       Exceptional generators in the depth-graded Lie algebra
+      </h3>
+      <p>
+       Which exceptional generators appear, and how do they match modular-form data by weight?
+      </p>
+      <button class="details-btn" data-target="detail-14" type="button">
+       Details
+      </button>
+     </li>
+     <li class="summary-item">
+      <h3>
+       Complete relation tables in a new weight range
+      </h3>
+      <p>
+       Produce a reproducible database of all Q-relations among MZVs up to weight 30 (or higher) and label the provenance.
+      </p>
+      <button class="details-btn" data-target="detail-15" type="button">
+       Details
+      </button>
+     </li>
+     <li class="summary-item">
+      <h3>
+       Finite–symmetric bridge checks
+      </h3>
+      <p>
+       For each composition of a small weight, compute both finite and symmetric MZVs and test the conjectured map.
+      </p>
+      <button class="details-btn" data-target="detail-16" type="button">
+       Details
+      </button>
+     </li>
+    </ul>
+   </section>
+   <section class="details-section" id="details">
+    <h2>
+     Detailed explanations
+    </h2>
+    <article id="detail-01">
+     <h3>
+      Zagier’s dimension conjecture
+     </h3>
+     <p>
+      <strong>
+       Question.
+      </strong>
+      Does the weight‑w space dim
+      <sub>
+       Q
+      </sub>
+      Z
+      <sub>
+       w
+      </sub>
+      follow the simple recursion from 1/(1 − t² − t³)?
+     </p>
+     <p>
+      <strong>
+       Starter.
+      </strong>
+      Enumerate all relations up to a fresh weight bound with regularized double shuffle + PSLQ and compare counts to the predicted sequence.
+      <a href="https://webusers.imj-prg.fr/~michel.waldschmidt/articles/pdf/MZV2011IMSc.pdf?utm_source=chatgpt.com">
+       Notes ↗
+      </a>
+     </p>
+     <a class="back-link" href="#summary">
+      Back to list
+     </a>
+    </article>
+    <article id="detail-02">
+     <h3>
+      Completeness of double-shuffle relations
+     </h3>
+     <p>
+      <strong>
+       Question.
+      </strong>
+      Do extended shuffle + stuffle relations generate
+      <em>
+       all
+      </em>
+      Q-linear relations among classical MZVs?
+     </p>
+     <p>
+      <strong>
+       Starter.
+      </strong>
+      Fix weight and depth, compute the span coming from double shuffle, and hunt for leftover relations numerically.
+      <a href="https://people.mpim-bonn.mpg.de/zagier/files/doi/10.1112/S0010437X0500182X/fulltext.pdf?utm_source=chatgpt.com">
+       Paper ↗
+      </a>
+     </p>
+     <a class="back-link" href="#summary">
+      Back to list
+     </a>
+    </article>
+    <article id="detail-03">
+     <h3>
+      Hoffman’s 2–3 basis
+     </h3>
+     <p>
+      <strong>
+       Question.
+      </strong>
+      Can every MZV be expressed using only indices 2 and 3?
+     </p>
+     <p>
+      <strong>
+       Starter.
+      </strong>
+      Reduce every MZV with weight ≤ 30 into the 2–3 family and log where extra relations are forced.
+      <a href="https://annals.math.princeton.edu/wp-content/uploads/annals-v175-n2-p10-p.pdf?utm_source=chatgpt.com">
+       Annals ↗
+      </a>
+     </p>
+     <a class="back-link" href="#summary">
+      Back to list
+     </a>
+    </article>
+    <article id="detail-04">
+     <h3>
+      Depth-graded dimensions (Broadhurst–Kreimer)
+     </h3>
+     <p>
+      <strong>
+       Question.
+      </strong>
+      Do the BK series coefficients match the number of depth‑d primitives for each weight?
+     </p>
+     <p>
+      <strong>
+       Starter.
+      </strong>
+      Extend computer checks of the BK generating series in a new (w, d) range and compare with modular-form dimensions.
+      <a href="https://www.maths.dur.ac.uk/users/herbert.gangl/Carr-Gangl-Schneps_PM2012-revised-final.pdf?utm_source=chatgpt.com">
+       Guide ↗
+      </a>
+     </p>
+     <a class="back-link" href="#summary">
+      Back to list
+     </a>
+    </article>
+    <article id="detail-05">
+     <h3>
+      Kaneko–Zagier finite MZVs
+     </h3>
+     <p>
+      <strong>
+       Question.
+      </strong>
+      Is the canonical map from finite MZVs to symmetric MZVs mod π² an algebra isomorphism?
+     </p>
+     <p>
+      <strong>
+       Starter.
+      </strong>
+      Lift relations coming from q-harmonic sums at q → 1 to prove the map is well defined in new families.
+      <a href="https://pmb.centre-mersenne.org/articles/10.5802/pmb.31/?utm_source=chatgpt.com">
+       Article ↗
+      </a>
+     </p>
+     <a class="back-link" href="#summary">
+      Back to list
+     </a>
+    </article>
+    <article id="detail-06">
+     <h3>
+      Nonvanishing in the finite world
+     </h3>
+     <p>
+      <strong>
+       Question.
+      </strong>
+      Exhibit one explicit positive-depth finite MZV that is provably nonzero.
+     </p>
+     <p>
+      <strong>
+       Starter.
+      </strong>
+      Attack small weights via congruence tools and Bernoulli identities to rule out trivial vanishing.
+      <a href="https://www.henrikbachmann.com/uploads/7/7/6/3/77634444/gadep_talk_bachmann.pdf?utm_source=chatgpt.com">
+       Slides ↗
+      </a>
+     </p>
+     <a class="back-link" href="#summary">
+      Back to list
+     </a>
+    </article>
+    <article id="detail-07">
+     <h3>
+      Cyclotomic MZVs (roots of unity)
+     </h3>
+     <p>
+      <strong>
+       Question.
+      </strong>
+      Give a basis and dimension formula for MZVs at N-th roots of unity (start with N = 2,3,4,6).
+     </p>
+     <p>
+      <strong>
+       Starter.
+      </strong>
+      Compute the depth-graded for N = 2 (Euler sums) and test parity/depth-drop patterns experimentally.
+      <a href="https://arxiv.org/abs/2402.11539?utm_source=chatgpt.com">
+       Preprint ↗
+      </a>
+     </p>
+     <a class="back-link" href="#summary">
+      Back to list
+     </a>
+    </article>
+    <article id="detail-08">
+     <h3>
+      p-adic multiple zeta values
+     </h3>
+     <p>
+      <strong>
+       Question.
+      </strong>
+      Which p-adic MZVs are nonzero and what relations do they satisfy?
+     </p>
+     <p>
+      <strong>
+       Starter.
+      </strong>
+      Relate p-adic MZVs to Volkenborn integrals or p-adic polylogarithms to control new infinite families.
+      <a href="https://mysite.ku.edu.tr/sunver/wp-content/uploads/sites/328/2023/04/CNTP_09_04_A02.pdf?utm_source=chatgpt.com">
+       Note ↗
+      </a>
+     </p>
+     <a class="back-link" href="#summary">
+      Back to list
+     </a>
+    </article>
+    <article id="detail-09">
+     <h3>
+      q-analogues of MZVs
+     </h3>
+     <p>
+      <strong>
+       Question.
+      </strong>
+      Do natural q-models follow a Zagier-style dimension recursion and are their q-double-shuffle relations complete?
+     </p>
+     <p>
+      <strong>
+       Starter.
+      </strong>
+      Pick a model (e.g., Bachmann–Kühn) and compute graded dimensions via linear algebra on q-double-shuffle relations.
+      <a href="https://arxiv.org/abs/1708.07464?utm_source=chatgpt.com">
+       Preprint ↗
+      </a>
+     </p>
+     <a class="back-link" href="#summary">
+      Back to list
+     </a>
+    </article>
+    <article id="detail-10">
+     <h3>
+      Irrationality / independence at depth 2
+     </h3>
+     <p>
+      <strong>
+       Question.
+      </strong>
+      Can we prove that ζ(3,5) is irrational or that ζ(3), ζ(5), ζ(3,5) are linearly independent?
+     </p>
+     <p>
+      <strong>
+       Starter.
+      </strong>
+      Adapt hypergeometric linear-form constructions so the resulting forms kill all but one chosen pair (a, b).
+      <a href="https://www.imo.universite-paris-saclay.fr/~stephane.fischler/zeta.pdf?utm_source=chatgpt.com">
+       Survey ↗
+      </a>
+     </p>
+     <a class="back-link" href="#summary">
+      Back to list
+     </a>
+    </article>
+    <article id="detail-11">
+     <h3>
+      Period-map injectivity for MZVs
+     </h3>
+     <p>
+      <strong>
+       Question.
+      </strong>
+      Is the period map injective on the motivic MZV algebra?
+     </p>
+     <p>
+      <strong>
+       Starter.
+      </strong>
+      Work conditionally: assume injectivity, build canonical bases at new weights, and search numerically for contradictions.
+      <a href="https://arxiv.org/abs/1301.3053?utm_source=chatgpt.com">
+       arXiv ↗
+      </a>
+     </p>
+     <a class="back-link" href="#summary">
+      Back to list
+     </a>
+    </article>
+    <article id="detail-12">
+     <h3>
+      Depth-drop &amp; parity beyond the classical case
+     </h3>
+     <p>
+      <strong>
+       Question.
+      </strong>
+      When do weight–depth parity constraints force lower-depth expressions (cyclotomic or q-models)?
+     </p>
+     <p>
+      <strong>
+       Starter.
+      </strong>
+      Use coaction or generating-series methods to prove new families of depth-drop identities.
+      <a href="https://www.sciencedirect.com/science/article/pii/S0022314X16302128?utm_source=chatgpt.com">
+       Journal ↗
+      </a>
+     </p>
+     <a class="back-link" href="#summary">
+      Back to list
+     </a>
+    </article>
+    <article id="detail-13">
+     <h3>
+      From double to triple zetas via modular forms
+     </h3>
+     <p>
+      <strong>
+       Question.
+      </strong>
+      Double-zeta relations are controlled by period polynomials; is there an equally clean depth‑3 picture?
+     </p>
+     <p>
+      <strong>
+       Starter.
+      </strong>
+      Build GKZ-inspired generating functions in depth 3 and compare with period-polynomial data.
+      <a href="https://people.mpim-bonn.mpg.de/zagier/files/mpim/05-96/fulltext.pdf?utm_source=chatgpt.com">
+       Notes ↗
+      </a>
+     </p>
+     <a class="back-link" href="#summary">
+      Back to list
+     </a>
+    </article>
+    <article id="detail-14">
+     <h3>
+      Exceptional generators in the depth-graded Lie algebra
+     </h3>
+     <p>
+      <strong>
+       Question.
+      </strong>
+      Which exceptional generators appear, and how do they match modular-form data by weight?
+     </p>
+     <p>
+      <strong>
+       Starter.
+      </strong>
+      Compute the depth-graded in weights 12–30 and match against cusp-form multiplicities.
+      <a href="https://www.cambridge.org/core/services/aop-cambridge-core/content/view/9409F07DDAF8C4F82F4A71700035B321/S0010437X20007654a.pdf/depthgraded_motivic_multiple_zeta_values.pdf?utm_source=chatgpt.com">
+       Study ↗
+      </a>
+     </p>
+     <a class="back-link" href="#summary">
+      Back to list
+     </a>
+    </article>
+    <article id="detail-15">
+     <h3>
+      Complete relation tables in a new weight range
+     </h3>
+     <p>
+      <strong>
+       Task.
+      </strong>
+      Produce a reproducible database of all Q-relations among MZVs up to weight 30 (or higher) and label the provenance.
+     </p>
+     <p>
+      <strong>
+       Starter.
+      </strong>
+      Automate the pipeline, export annotated tables, and compare dimension counts with BK / Zagier predictions.
+      <a href="https://www.nikhef.nl/~form/datamine/publications/math-ph.pdf?utm_source=chatgpt.com">
+       Data mine ↗
+      </a>
+     </p>
+     <a class="back-link" href="#summary">
+      Back to list
+     </a>
+    </article>
+    <article id="detail-16">
+     <h3>
+      Finite–symmetric bridge checks
+     </h3>
+     <p>
+      <strong>
+       Task.
+      </strong>
+      For each composition of a small weight, compute both finite and symmetric MZVs and test the conjectured map.
+     </p>
+     <p>
+      <strong>
+       Starter.
+      </strong>
+      Script symbolic + numeric comparisons with rigorous error control and flag resistant compositions.
+      <a href="https://pmb.centre-mersenne.org/articles/10.5802/pmb.31/?utm_source=chatgpt.com">
+       Guide ↗
+      </a>
+     </p>
+    <a class="back-link" href="#summary">
+      Back to list
+     </a>
+    </article>
+   </section>
+   <section class="primer-section" id="starter-kit">
+    <p class="primer-intro">
+     Below is a friendly starter kit: quick glossary, structured problem list, concrete experiments, and sources so each question can mature into a project-ready brief.
+    </p>
+    <div aria-hidden="true" class="primer-divider">
+    </div>
+    <article class="primer-article" id="primer-glossary">
+     <h2>
+      0) Glossary and basic notation
+     </h2>
+     <ul class="primer-list">
+      <li>
+       <strong>
+        Multiple zeta values (MZVs).
+       </strong>
+       <p>
+        For positive integers r and indices n
+        <sub>
+         1
+        </sub>
+        , …, n
+        <sub>
+         r
+        </sub>
+        with n
+        <sub>
+         1
+        </sub>
+        ≥ 2,
+       </p>
+       <div class="math-block">
+        <code>\zeta(n_1,\dots,n_r)=\sum_{1\le k_1&lt;\cdots&lt;k_r}\frac{1}{k_1^{n_1}\cdots k_r^{n_r}}.</code>
+       </div>
+       <p>
+        Here r is the depth and w = n
+        <sub>
+         1
+        </sub>
+        + ⋯ + n
+        <sub>
+         r
+        </sub>
+        the weight. Depth‑1 values coincide with the classical ζ(n). Waldschmidt’s lecture notes remain a gentle entry point.
+        <a href="https://webusers.imj-prg.fr/~michel.waldschmidt/articles/pdf/MZV2011IMSc.pdf?utm_source=chatgpt.com">
+         Notes ↗
+        </a>
+       </p>
+      </li>
+      <li>
+       <strong>
+        Admissible indices and regularization.
+       </strong>
+       <p>
+        The constraint n
+        <sub>
+         1
+        </sub>
+        ≥ 2 guarantees convergence. When n
+        <sub>
+         1
+        </sub>
+        = 1 is unavoidable, one passes to shuffle/stuffle regularization so algebraic identities stay valid after limits, as worked out by Ihara–Kaneko–Zagier.
+        <a href="https://people.mpim-bonn.mpg.de/zagier/files/doi/10.1112/S0010437X0500182X/fulltext.pdf?utm_source=chatgpt.com">
+         IKZ ↗
+        </a>
+       </p>
+      </li>
+      <li>
+       <strong>
+        The algebra
+        <span class="primer-highlight">
+         𝓩
+        </span>
+        .
+       </strong>
+       <p>
+        Let 𝓩 be the ℚ-vector space spanned by all MZVs and 𝓩
+        <sub>
+         w
+        </sub>
+        its weight-w part. Determining dim
+        <sub>
+         ℚ
+        </sub>
+        𝓩
+        <sub>
+         w
+        </sub>
+        is the basic “how many true generators?” question.
+       </p>
+      </li>
+      <li>
+       <strong>
+        Shuffle vs. stuffle.
+       </strong>
+       <p>
+        Series products give the (quasi-)shuffle or stuffle relations while iterated integrals supply shuffle relations. Together with regularization they form the extended double-shuffle relations—the most accessible source of identities.
+        <a href="https://people.mpim-bonn.mpg.de/zagier/files/doi/10.1112/S0010437X0500182X/fulltext.pdf?utm_source=chatgpt.com">
+         IKZ ↗
+        </a>
+       </p>
+      </li>
+      <li>
+       <strong>
+        Motivic MZVs and the period map.
+       </strong>
+       <p>
+        Motivic lifts ζ
+        <sup>
+         𝔪
+        </sup>
+        (⋯) live in a graded Hopf algebra where powerful structural theorems hold. The period map sends motivic classes to real numbers; proving its injectivity on 𝓩
+        <sup>
+         𝔪
+        </sup>
+        would transfer motivic statements back to actual numbers.
+        <a href="https://annals.math.princeton.edu/wp-content/uploads/annals-v175-n2-p10-p.pdf?utm_source=chatgpt.com">
+         Brown ↗
+        </a>
+       </p>
+      </li>
+      <li>
+       <strong>
+        Depth grading and primitives.
+       </strong>
+       <p>
+        After modding out products by depth, the remaining primitive generators encode where genuinely new periods appear. Broadhurst–Kreimer predicted a generating series governing their distribution by (w, d).
+       </p>
+      </li>
+      <li>
+       <strong>
+        PSLQ.
+       </strong>
+       <p>
+        The PSLQ algorithm detects integer relations between high-precision evaluations and is the experimental workhorse for spotting hidden linear dependencies.
+       </p>
+      </li>
+     </ul>
+    </article>
+    <article class="primer-article" id="core-structure">
+     <h2>
+      A) Core structure of classical MZVs
+     </h2>
+     <div class="primer-subsection" id="zagier-kit">
+      <h3>
+       1) Zagier’s dimension conjecture (numbers)
+      </h3>
+      <p>
+       <strong>
+        Statement.
+       </strong>
+       If d
+       <sub>
+        w
+       </sub>
+       is the coefficient of t
+       <sup>
+        w
+       </sup>
+       in
+      </p>
+      <div class="math-block">
+       <code>\frac{1}{1-t^2-t^3}=1+t^2+t^3+t^4+2t^5+2t^6+3t^7+\cdots,</code>
+      </div>
+      <p>
+       then d
+       <sub>
+        0
+       </sub>
+       = 1, d
+       <sub>
+        1
+       </sub>
+       = 0, and d
+       <sub>
+        w
+       </sub>
+       = d
+       <sub>
+        w-2
+       </sub>
+       + d
+       <sub>
+        w-3
+       </sub>
+       for w ≥ 3. Zagier conjectured dim
+       <sub>
+        ℚ
+       </sub>
+       𝓩
+       <sub>
+        w
+       </sub>
+       = d
+       <sub>
+        w
+       </sub>
+       for all w.
+      </p>
+      <div class="math-block">
+       <code>d_w: 1,0,1,1,1,2,2,3,4,5,7,9,12,16,21,28,37,49,65,86,114,\dots</code>
+      </div>
+      <p>
+       <strong>
+        What is known.
+       </strong>
+       Brown proved the full motivic analogue, so the recursion holds inside the motivic Hopf algebra; equality for actual numbers remains open.
+       <a href="https://annals.math.princeton.edu/wp-content/uploads/annals-v175-n2-p10-p.pdf?utm_source=chatgpt.com">
+        Annals ↗
+       </a>
+      </p>
+      <p>
+       <strong>
+        Why it matters.
+       </strong>
+       A true two-term recursion would make the space of MZVs startlingly small and would lock every basis to size d
+       <sub>
+        w
+       </sub>
+       .
+      </p>
+      <p>
+       <strong>
+        Hands-on starter.
+       </strong>
+       Implement extended double-shuffle relations (with regularization) and reduce every MZV up to weight 20–30. Count the survivors, compare with the sequence above, and back your guesses with PSLQ.
+       <a href="https://webusers.imj-prg.fr/~michel.waldschmidt/articles/pdf/MZV2011IMSc.pdf?utm_source=chatgpt.com">
+        Waldschmidt ↗
+       </a>
+      </p>
+     </div>
+     <div class="primer-subsection" id="double-shuffle-kit">
+      <h3>
+       2) Are regularized double-shuffle relations complete?
+      </h3>
+      <p>
+       <strong>
+        Statement.
+       </strong>
+       Do all ℚ-linear relations among the numbers ζ(n
+       <sub>
+        1
+       </sub>
+       , …, n
+       <sub>
+        r
+       </sub>
+       ) follow from extended shuffle + stuffle (plus regularization)?
+      </p>
+      <p>
+       <strong>
+        What is known.
+       </strong>
+       Motivically, the linearized double-shuffle Lie algebra is central to Brown’s depth-graded picture, but for actual numbers no completeness proof exists.
+       <a href="https://people.mpim-bonn.mpg.de/zagier/files/doi/10.1112/S0010437X0500182X/fulltext.pdf?utm_source=chatgpt.com">
+        IKZ ↗
+       </a>
+      </p>
+      <p>
+       <strong>
+        Why it matters.
+       </strong>
+       A positive answer would mean every “mysterious” relation arises from known algebraic manipulations.
+      </p>
+      <p>
+       <strong>
+        Hands-on starter.
+       </strong>
+       For fixed weight w and depth d, generate all admissible indices, impose every double-shuffle relation you can write down, row-reduce, and compare the resulting dimension with d
+       <sub>
+        w
+       </sub>
+       or BK predictions. Any leftover numerical relation would be revolutionary.
+      </p>
+     </div>
+     <div class="primer-subsection" id="hoffman-kit">
+      <h3>
+       3) Hoffman’s 2–3 basis (numbers)
+      </h3>
+      <p>
+       <strong>
+        Statement.
+       </strong>
+       Every MZV should be a ℚ-linear combination of ζ(n
+       <sub>
+        1
+       </sub>
+       , …, n
+       <sub>
+        r
+       </sub>
+       ) with n
+       <sub>
+        i
+       </sub>
+       ∈
+       {
+        2, 3
+       }
+       .
+      </p>
+      <p>
+       <strong>
+        What is known.
+       </strong>
+       The motivic version is proven; injectivity of the period map would transfer it to numbers.
+       <a href="https://annals.math.princeton.edu/wp-content/uploads/annals-v175-n2-p10-p.pdf?utm_source=chatgpt.com">
+        Brown ↗
+       </a>
+      </p>
+      <p>
+       <strong>
+        Why it matters.
+       </strong>
+       A minimal alphabet {2,3} would give a highly explicit spanning set for all classical MZVs.
+      </p>
+      <p>
+       <strong>
+        Hands-on starter.
+       </strong>
+       Within each weight w ≤ 30, aggressively reduce arbitrary MZVs into the 2–3 family using your double-shuffle engine plus PSLQ witnesses. Log which reductions truly need motivic input.
+      </p>
+     </div>
+     <div class="primer-subsection" id="bk-kit">
+      <h3>
+       4) Depth-graded dimensions (Broadhurst–Kreimer)
+      </h3>
+      <p>
+       <strong>
+        Statement.
+       </strong>
+       BK predict a generating series that counts primitive generators in each (weight, depth) bidegree once products are removed.
+      </p>
+      <p>
+       <strong>
+        What is known.
+       </strong>
+       Brown’s motivic depth-graded theory matches BK across a large range; equality for actual numbers is unproven. Computations by Carr–Gangl–Schneps illuminate the modular-form link.
+      </p>
+      <p>
+       <strong>
+        Hands-on starter.
+       </strong>
+       Extend computer checks of the BK series to fresh weights/depths, compare with cusp-form multiplicities, and flag every place where an “exceptional” generator must emerge.
+      </p>
+     </div>
+    </article>
+    <article class="primer-article" id="variants">
+     <h2>
+      B) Variants and generalizations
+     </h2>
+     <div class="primer-subsection" id="kaneko-zagier-kit">
+      <h3>
+       5) Kaneko–Zagier finite MZVs
+      </h3>
+      <p>
+       <strong>
+        Setting.
+       </strong>
+       Truncate harmonic sums modulo p and project to
+      </p>
+      <div class="math-block">
+       <code>\mathcal A=\left(\prod_p \mathbb Z/p\mathbb Z\right)\Big/\left(\bigoplus_p \mathbb Z/p\mathbb Z\right).</code>
+      </div>
+      <p>
+       Kaneko–Zagier define finite MZVs ζ
+       <sub>
+        𝓐
+       </sub>
+       (k
+       <sub>
+        1
+       </sub>
+       , …, k
+       <sub>
+        r
+       </sub>
+       ) and symmetric MZVs modulo π²; the conjecture states their canonical map is an algebra isomorphism.
+       <a href="https://pmb.centre-mersenne.org/articles/10.5802/pmb.31/?utm_source=chatgpt.com">
+        Kaneko–Zagier ↗
+       </a>
+      </p>
+      <p>
+       <strong>
+        Status.
+       </strong>
+       Only partial families are known; the global isomorphism is open.
+      </p>
+      <p>
+       <strong>
+        Starter.
+       </strong>
+       Verify the map on new classes by lifting q-harmonic relations (q → 1) and transporting them into the finite world. Bachmann’s slides provide an approachable blueprint.
+       <a href="https://www.henrikbachmann.com/uploads/7/7/6/3/77634444/gadep_talk_bachmann.pdf?utm_source=chatgpt.com">
+        Bachmann ↗
+       </a>
+      </p>
+     </div>
+     <div class="primer-subsection" id="finite-nonzero-kit">
+      <h3>
+       6) Nonvanishing in the finite world
+      </h3>
+      <p>
+       <strong>
+        Question.
+       </strong>
+       Exhibit one explicit positive-depth finite MZV that is provably nonzero in 𝓐.
+      </p>
+      <p>
+       <strong>
+        Status.
+       </strong>
+       No concrete r ≥ 2 example is known despite overwhelming evidence.
+      </p>
+      <p>
+       <strong>
+        Starter.
+       </strong>
+       Attack low weights with congruences, Bernoulli identities, and combinatorial reductions; document where obstructions arise to focus future attempts.
+       <a href="https://www.henrikbachmann.com/uploads/7/7/6/3/77634444/gadep_talk_bachmann.pdf?utm_source=chatgpt.com">
+        Bachmann ↗
+       </a>
+      </p>
+     </div>
+     <div class="primer-subsection" id="cyclotomic-kit">
+      <h3>
+       7) Cyclotomic MZVs (values at roots of unity)
+      </h3>
+      <p>
+       <strong>
+        Setting.
+       </strong>
+       Allow logarithmic poles at N-th roots of unity (Euler sums when N = 2). A uniform basis for small N ∈
+       {
+        2, 3, 4, 6
+       }
+       in characteristic 0 is unfinished, though positive-characteristic analogues offer guidance.
+       <a href="https://arxiv.org/abs/2402.11539?utm_source=chatgpt.com">
+        Positive characteristic ↗
+       </a>
+      </p>
+      <p>
+       <strong>
+        Starter.
+       </strong>
+       For N = 2, compute the depth-graded data and test parity/depth-drop phenomena using Panzer’s parity theorem for multiple polylogarithms.
+       <a href="https://arxiv.org/abs/1512.04482?utm_source=chatgpt.com">
+        Panzer ↗
+       </a>
+      </p>
+     </div>
+     <div class="primer-subsection" id="padic-kit">
+      <h3>
+       8) p-adic multiple zeta values
+      </h3>
+      <p>
+       <strong>
+        Setting.
+       </strong>
+       Build ζ-like quantities via p-adic iterated integrals or polylogarithms; even nonvanishing is largely mysterious.
+      </p>
+      <p>
+       <strong>
+        Starter.
+       </strong>
+       Relate p-adic MZVs to explicit Volkenborn integrals to exhibit infinite families that you can control algebraically, following Ünver’s framework.
+       <a href="https://mysite.ku.edu.tr/sunver/wp-content/uploads/sites/328/2023/04/CNTP_09_04_A02.pdf?utm_source=chatgpt.com">
+        Ünver ↗
+       </a>
+      </p>
+     </div>
+     <div class="primer-subsection" id="q-analog-kit">
+      <h3>
+       9) q-analogues of MZVs
+      </h3>
+      <p>
+       <strong>
+        Setting.
+       </strong>
+       Several q-models tend to classical MZVs as q → 1. One asks whether their graded dimensions follow a Zagier-style recursion and whether q-double-shuffle relations are complete.
+      </p>
+      <p>
+       <strong>
+        Status.
+       </strong>
+       Dimension conjectures exist (e.g., Bachmann–Kühn–Takeyama), but proofs remain open.
+      </p>
+      <p>
+       <strong>
+        Starter.
+       </strong>
+       Pick a model, run linear algebra on q-double-shuffle relations to high weight, and compare with the conjectured generating series.
+       <a href="https://arxiv.org/abs/1708.07464?utm_source=chatgpt.com">
+        Dimension conjecture ↗
+       </a>
+      </p>
+     </div>
+    </article>
+    <article class="primer-article" id="diophantine">
+     <h2>
+      C) Diophantine questions
+     </h2>
+     <div class="primer-subsection" id="irrationality-kit">
+      <h3>
+       10) Irrationality / independence at depth 2
+      </h3>
+      <p>
+       <strong>
+        Goals.
+       </strong>
+       Prove ζ(3,5) is irrational or establish ℚ-linear independence of ζ(3), ζ(5), ζ(3,5).
+      </p>
+      <p>
+       <strong>
+        Status.
+       </strong>
+       Rivoal–Zudilin give infinite families of irrational odd ζ(2k+1), but depth ≥ 2 cases remain untouched.
+      </p>
+      <p>
+       <strong>
+        Starter.
+       </strong>
+       Adapt hypergeometric linear-form constructions so specializations annihilate all but one target pair (a, b); bound denominators/heights to push Baker-style arguments through.
+      </p>
+     </div>
+     <div class="primer-subsection" id="period-kit">
+      <h3>
+       11) Period-map injectivity restricted to MZVs
+      </h3>
+      <p>
+       <strong>
+        Statement.
+       </strong>
+       Is the period map injective on the motivic MZV algebra (a special case of the Kontsevich–Zagier period conjecture)?
+      </p>
+      <p>
+       <strong>
+        Status.
+       </strong>
+       Motivic structures are beautifully understood; injectivity would transfer every motivic statement (items 1–4) to numbers.
+       <a href="https://annals.math.princeton.edu/wp-content/uploads/annals-v175-n2-p10-p.pdf?utm_source=chatgpt.com">
+        Brown ↗
+       </a>
+       <a href="https://arxiv.org/abs/1301.3053?utm_source=chatgpt.com">
+        Depth-graded ↗
+       </a>
+      </p>
+      <p>
+       <strong>
+        Starter.
+       </strong>
+       Run “conditional” computations: assume injectivity, pick canonical bases in new weights, and search numerically for contradictions. Agreement lends credence; any counterexample would be sensational.
+      </p>
+     </div>
+    </article>
+    <article class="primer-article" id="depth-parity">
+     <h2>
+      D) Depth, parity, and modular connections
+     </h2>
+     <div class="primer-subsection" id="parity-kit">
+      <h3>
+       12) Depth-drop and parity beyond the classical case
+      </h3>
+      <p>
+       <strong>
+        Classical parity.
+       </strong>
+       When weight and depth have opposite parity, many classical MZVs drop to smaller depth; the same behavior extends to multiple polylogarithms and cyclotomic settings.
+       <a href="https://arxiv.org/abs/1512.04482?utm_source=chatgpt.com">
+        Panzer ↗
+       </a>
+      </p>
+      <p>
+       <strong>
+        Starter.
+       </strong>
+       Use coaction/generating-series methods (inspired by Panzer) to produce new depth-drop identities for cyclotomic or q-models.
+      </p>
+     </div>
+     <div class="primer-subsection" id="triple-kit">
+      <h3>
+       13) From double to triple zetas via modular forms
+      </h3>
+      <p>
+       <strong>
+        Depth-2 case.
+       </strong>
+       For odd weight k, depth-2 relations correspond to period polynomials of cusp forms (Gangl–Kaneko–Zagier).
+       <a href="https://people.mpim-bonn.mpg.de/zagier/files/mpim/05-96/fulltext.pdf?utm_source=chatgpt.com">
+        GKZ ↗
+       </a>
+      </p>
+      <p>
+       <strong>
+        Open problem.
+       </strong>
+       Find an equally clean depth-3 description guided by GKZ-style generating functions.
+      </p>
+      <p>
+       <strong>
+        Starter.
+       </strong>
+       Build candidate depth-3 generating series, compare with modular-form data, and cross-check against your computed relation tables.
+      </p>
+     </div>
+     <div class="primer-subsection" id="exceptional-kit">
+      <h3>
+       14) Exceptional generators in the depth-graded Lie algebra
+      </h3>
+      <p>
+       <strong>
+        Statement.
+       </strong>
+       Determine exactly which exceptional generators occur and how they align with modular-form multiplicities (first predicted case: weight 12, depth 4).
+      </p>
+      <p>
+       <strong>
+        Starter.
+       </strong>
+       Compute the depth-graded for weights 12–30, compare with cusp-form data, and pinpoint degrees where exceptional classes are forced.
+      </p>
+     </div>
+    </article>
+    <article class="primer-article" id="projects">
+     <h2>
+      E) Concrete computational projects
+     </h2>
+     <div class="primer-subsection" id="tables-kit">
+      <h3>
+       15) Complete relation tables in a new range
+      </h3>
+      <p>
+       <strong>
+        Task.
+       </strong>
+       Produce a reproducible database of all ℚ-relations up to (say) weight 30, tagging each relation by provenance (shuffle, stuffle, regularization, experimental) and comparing counts with BK/Zagier predictions.
+      </p>
+      <p>
+       <strong>
+        Tip.
+       </strong>
+       Use the Multiple Zeta Value Data Mine format as inspiration for schemas, naming, and cross-checks.
+       <a href="https://arxiv.org/abs/0907.2557?utm_source=chatgpt.com">
+        Data Mine ↗
+       </a>
+      </p>
+     </div>
+     <div class="primer-subsection" id="bridge-kit">
+      <h3>
+       16) Finite–symmetric bridge checks
+      </h3>
+      <p>
+       <strong>
+        Task.
+       </strong>
+       For each composition (k
+       <sub>
+        1
+       </sub>
+       , …, k
+       <sub>
+        r
+       </sub>
+       ) of a small weight, compute the finite MZV ζ
+       <sub>
+        𝓐
+       </sub>
+       and the symmetric MZV modulo π², then compare symbolically/numerically to stress-test the Kaneko–Zagier map.
+      </p>
+      <p>
+       <strong>
+        Starter.
+       </strong>
+       Script the pipeline with rigorous error control and log any resistant compositions.
+       <a href="https://pmb.centre-mersenne.org/articles/10.5802/pmb.31/?utm_source=chatgpt.com">
+        Kaneko–Zagier ↗
+       </a>
+      </p>
+     </div>
+    </article>
+    <article class="primer-article" id="quick-start">
+     <h2>
+      1) How to get started quickly
+     </h2>
+     <div class="primer-subsection">
+      <h3>
+       Practical checklist
+      </h3>
+      <p>
+       <strong>
+        Tooling.
+       </strong>
+       Implement shuffle/stuffle plus regularization in Sage, PARI/GP, or your CAS of choice; bolt on PSLQ with 300–2000 digits of precision for safety.
+      </p>
+      <ul class="primer-checklist">
+       <li>
+        IKZ is perfect for explicit double-shuffle formulas.
+        <a href="https://people.mpim-bonn.mpg.de/zagier/files/doi/10.1112/S0010437X0500182X/fulltext.pdf?utm_source=chatgpt.com">
+         IKZ ↗
+        </a>
+       </li>
+       <li>
+        Waldschmidt’s notes supply many worked reductions.
+        <a href="https://webusers.imj-prg.fr/~michel.waldschmidt/articles/pdf/MZV2011IMSc.pdf?utm_source=chatgpt.com">
+         Notes ↗
+        </a>
+       </li>
+      </ul>
+      <p>
+       <strong>
+        Cross-checks.
+       </strong>
+       Compare dim 𝓩
+       <sub>
+        w
+       </sub>
+       against 1/(1 − t² − t³); in fixed depth compare primitive counts with BK and modular-form predictions (Carr–Gangl–Schneps).
+      </p>
+      <p>
+       <strong>
+        Reading path.
+       </strong>
+      </p>
+      <ul class="primer-checklist">
+       <li>
+        Zudilin’s
+        <em>
+         Multiple zeta values — Tasting Notes
+        </em>
+        (Release 2025) for a panoramic survey.
+        <a href="https://www.math.ru.nl/~zudilin/PS/MZV.pdf?utm_source=chatgpt.com">
+         Survey ↗
+        </a>
+       </li>
+       <li>
+        Brown’s motivic papers for the conceptual backbone.
+        <a href="https://annals.math.princeton.edu/wp-content/uploads/annals-v175-n2-p10-p.pdf?utm_source=chatgpt.com">
+         Brown ↗
+        </a>
+       </li>
+       <li>
+        Ihara–Kaneko–Zagier for double-shuffle foundations.
+        <a href="https://people.mpim-bonn.mpg.de/zagier/files/doi/10.1112/S0010437X0500182X/fulltext.pdf?utm_source=chatgpt.com">
+         IKZ ↗
+        </a>
+       </li>
+       <li>
+        For finite and q-analogues: Kaneko–Zagier plus Bachmann–Kühn–Takeyama; Panzer for parity at roots of unity.
+        <a href="https://pmb.centre-mersenne.org/articles/10.5802/pmb.31/?utm_source=chatgpt.com">
+         Finite primer ↗
+        </a>
+        <a href="https://arxiv.org/abs/1708.07464?utm_source=chatgpt.com">
+         q-dim ↗
+        </a>
+        <a href="https://arxiv.org/abs/1512.04482?utm_source=chatgpt.com">
+         Parity ↗
+        </a>
+       </li>
+      </ul>
+     </div>
+    </article>
+    <article class="primer-article" id="micro-examples">
+     <h2>
+      2) Worked micro-examples for newcomers
+     </h2>
+     <div class="primer-subsection">
+      <h3>
+       Shuffle–stuffle identity
+      </h3>
+      <p>
+       Using stuffle (series products) one obtains
+      </p>
+      <div class="math-block">
+       <code>\zeta(2)\zeta(3)=\zeta(2,3)+\zeta(3,2)+\zeta(5).</code>
+      </div>
+      <p>
+       Shuffle (iterated-integral) formulas give a different expression for the same product; subtracting yields a genuine weight-5 relation.
+      </p>
+     </div>
+     <div class="primer-subsection">
+      <h3>
+       Depth-drop in odd weight
+      </h3>
+      <div class="math-block">
+       <code>\zeta(2,1)=\zeta(3).</code>
+      </div>
+      <p>
+       A depth-2 value collapses to depth 1, illustrating the parity phenomenon guiding many reductions.
+      </p>
+     </div>
+     <div class="primer-subsection">
+      <h3>
+       Reading the Zagier sequence
+      </h3>
+      <div class="math-block">
+       <code>d_w=1,0,1,1,1,2,2,3,4,5,7,9,12,16,21,28,37,49,65,86,114,\dots</code>
+      </div>
+      <p>
+       Hence the conjecture predicts, for example, dim
+       <sub>
+        ℚ
+       </sub>
+       𝓩
+       <sub>
+        10
+       </sub>
+       = 7 and dim
+       <sub>
+        ℚ
+       </sub>
+       𝓩
+       <sub>
+        12
+       </sub>
+       = 12.
+      </p>
+     </div>
+    </article>
+    <article class="primer-article" id="conclusion">
+     <h2>
+      Concluding remark
+     </h2>
+     <p>
+      The motivic theory already offers a coherent blueprint; the challenge is to match it numerically, p-adically, and mod p. Tell me your preferred subarea (algebraic, computational, p-adic, finite, or q-analogues) and we can draft a 2–3 month project with milestones plus a focused reading stack.
+     </p>
+     <p class="primer-note">
+      If you would like a compact worksheet that implements shuffle, stuffle, and regularization (with PSLQ hooks) I can share one for real-time experiments.
+     </p>
+    </article>
+    <article class="primer-article" id="sources">
+     <h2>
+      Sources and pointers
+     </h2>
+     <ul class="source-list">
+      <li>
+       Waldschmidt,
+       <em>
+        Lectures on Multiple Zeta Values
+       </em>
+       — definitions and first structure results.
+       <a href="https://webusers.imj-prg.fr/~michel.waldschmidt/articles/pdf/MZV2011IMSc.pdf?utm_source=chatgpt.com">
+        PDF ↗
+       </a>
+      </li>
+      <li>
+       Ihara–Kaneko–Zagier,
+       <em>
+        Derivation and double shuffle relations for MZVs
+       </em>
+       — extended double-shuffle foundations.
+       <a href="https://people.mpim-bonn.mpg.de/zagier/files/doi/10.1112/S0010437X0500182X/fulltext.pdf?utm_source=chatgpt.com">
+        PDF ↗
+       </a>
+      </li>
+      <li>
+       Brown,
+       <em>
+        Mixed Tate motives over ℤ
+       </em>
+       / depth-graded motivic MZVs — motivic backbone.
+       <a href="https://annals.math.princeton.edu/wp-content/uploads/annals-v175-n2-p10-p.pdf?utm_source=chatgpt.com">
+        Annals ↗
+       </a>
+       <a href="https://arxiv.org/abs/1301.3053?utm_source=chatgpt.com">
+        Depth-graded ↗
+       </a>
+      </li>
+      <li>
+       Carr–Gangl–Schneps,
+       <em>
+        On the Broadhurst–Kreimer generating series
+       </em>
+       — depth-graded counts & modular connections.
+      </li>
+      <li>
+       Kaneko–Zagier,
+       <em>
+        An introduction to classical and finite MZVs
+       </em>
+       — finite/symmetric bridge.
+       <a href="https://pmb.centre-mersenne.org/articles/10.5802/pmb.31/?utm_source=chatgpt.com">
+        PMB ↗
+       </a>
+      </li>
+      <li>
+       Bachmann, slides on finite MZVs.
+       <a href="https://www.henrikbachmann.com/uploads/7/7/6/3/77634444/gadep_talk_bachmann.pdf?utm_source=chatgpt.com">
+        Slides ↗
+       </a>
+      </li>
+      <li>
+       Panzer,
+       <em>
+        The parity theorem for multiple polylogarithms
+       </em>
+       — parity/depth-drop toolkit.
+       <a href="https://arxiv.org/abs/1512.04482?utm_source=chatgpt.com">
+        arXiv ↗
+       </a>
+      </li>
+      <li>
+       Ünver,
+       <em>
+        A note on the algebra of p-adic multi-zeta values
+       </em>
+       — p-adic control.
+       <a href="https://mysite.ku.edu.tr/sunver/wp-content/uploads/sites/328/2023/04/CNTP_09_04_A02.pdf?utm_source=chatgpt.com">
+        PDF ↗
+       </a>
+      </li>
+      <li>
+       Bachmann–Kühn–Takeyama et al.,
+       <em>
+        A dimension conjecture for q-analogues of MZVs
+       </em>
+       — q-world recursion experiments.
+       <a href="https://arxiv.org/abs/1708.07464?utm_source=chatgpt.com">
+        arXiv ↗
+       </a>
+      </li>
+      <li>
+       Gangl–Kaneko–Zagier,
+       <em>
+        Double zeta values and modular forms
+       </em>
+       — period-polynomial viewpoint.
+       <a href="https://people.mpim-bonn.mpg.de/zagier/files/mpim/05-96/fulltext.pdf?utm_source=chatgpt.com">
+        Notes ↗
+       </a>
+      </li>
+      <li>
+       Blümlein–Broadhurst–Vermaseren,
+       <em>
+        The Multiple Zeta Value Data Mine
+       </em>
+       — reproducible datasets and relation tables.
+       <a href="https://arxiv.org/abs/0907.2557?utm_source=chatgpt.com">
+        arXiv ↗
+       </a>
+      </li>
+      <li>
+       Zudilin,
+       <em>
+        Multiple zeta values — Tasting Notes
+       </em>
+       — broad modern survey.
+       <a href="https://www.math.ru.nl/~zudilin/PS/MZV.pdf?utm_source=chatgpt.com">
+        PDF ↗
+       </a>
+      </li>
+      <li>
+       Chen–Deligne–Glanois,
+       <em>
+        Zagier–Hoffman conjectures in positive characteristic II
+       </em>
+       — cyclotomic intuition from char p.
+       <a href="https://arxiv.org/abs/2402.11539?utm_source=chatgpt.com">
+        arXiv ↗
+       </a>
+      </li>
+     </ul>
+    </article>
+   </section>
+  </main>
+  <script>
+   document.addEventListener("click", function (event) {
+      const target = event.target.closest("[data-target]");
+      if (!target) return;
+      const id = target.getAttribute("data-target");
+      const section = document.getElementById(id);
+      if (section) { section.scrollIntoView({ behavior: "smooth", block: "start" }); }
+    });
+  </script>
+ </body>
+</html>
