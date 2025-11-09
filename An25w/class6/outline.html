@@ -1,0 +1,86 @@
+\\int_{[0,1]\times [0,1]} x^{-1/2} y^{-1/3} dxdy
+\\int_{\R\times [1,\infty)} 1/(1+x^{2}) y^{-2} dxdy
+
+
+1. 変数変換とヤコビアン（復習）
+
+x(u,v),y(u,v)を２変数関数とする.
+phi(u,v)=(x(u,v),y(u,v))を(u,v)から(x,y)への変数(座標)変換と呼ぶ。
+
+例: phi(u,v)=(u+v,u-v)ならばx(u,v)=u+v, y(u,v)=u-vとおいている.
+
+J_\phi(u,v) = |det(
+\partial_u x,\partial_v x \\
+\partial_u y, \partial_v y
+)| = |\partial_u \phi \times \partial_v \phi|
+
+x(u+h,v)-x(u,v)\approx h \partial_u x(u,v),
+x(u,v+h)-x(u,v)\approx h \partial_v x(u,v)
+
+Def: Dを領域とする. 
+phiがD上単射 <=> 
+\forall (u,v),(u',v')\in D, \phi(u,v)=\phi(u',v') => (u,v)=(u',v').
+
+2. 変換公式
+
+\phiがD上微分可能かつ単射であるとき, 
+\int_{\phi(D)} f(x,y)  dxdy =  \int_{(D)} f(\phi(u,v)) J_\phi(u,v) dudv
+
+応用のポイント: Dの形が複雑な時, phi(D)が長方形となるようにphiをうまく選ぶ
+
+例 D = \{(u,v): 0\leq u+v\leq1, 0\leq u-v\leq1\}
+
+\iint_D u du dv
+
+単射性は必要:
+D = [-1,1]\times [0,1], phi(u,v) = (u^2,v)とすると,  phi(D)=[0,1]\times [0,1], J_\phi(u,v)=|2u|.
+\int_{[0,1]\times [0,1]} x  dxdy=1/2
+\int_{[-1,1]\times [0,1]} 2 u^2 |u|  du dv= 4 \times \int_{[0,1]\times [0,1]} 2 u^3  du dv=1.
+
+Point: 変数変換でD=\{(x,y):...\}となってる場合は一旦, u,vの文字に書きなおす.
+単射出ない場合は、単射になるようにDを分割してそれぞれに対して変数変換を適用する。
+
+演習:
+
+例 1.  D = \{(u,v): 0\leq 2u+v\leq1, -1\leq u-3v\leq1\}
+
+\iint_D 1 dx dy
+
+例 2.  D' = \{(x,y):  x^2+y^2\leq1\}
+
+\iint_D x dx dy
+
+\iint_D \sqrt{1-x^2-y^2} dx dy
+
+
+
+微小空間の体積変化
+
+２変数関数 fを考える。
+長方形 K_\Delta= [0,\Delta_x]\times [0,\Delta_y]がfによってどのような形に映るかを考える。
+
+\phi(0,\Delta_y) -\phi(0,0)=\phi(0,\Delta)-\phi(0,0) \approx \Delta \partial_y \phi(0,0)
+ \phi(\Delta_x,0) -\phi(0,0)=\phi(\Delta,0)-\phi(0,0) \aprox \Delta \partial_x \phi(0,0)
+ \phi(\Delta_x, \Delta_y) -\phi(0,0)\approx \Delta \partial_x \phi(0,0) + \Delta \partial_y \phi(0,0),  
+
+したがって、Kは近似的に平行四辺形...にうつる。この平行四辺形の面積は\Delta_x \Delta_y J_\phi(x,y)となる. どうようのことは平行移動しても成り立つ: \phi((a,b)+K)の体積は\Delta_x \Delta_y J_\phi(x,y)
+
+区分求積と変数変換公式
+
+K=[a,b]^2= \bigcup K_{ij}とおく。K_{ij}'= phi(K_{ij})と定義する. 
+
+\iint_{K} f(\phi(x,y)) J_\phi(x,y) dxdy = \iint_{\phi(K)} f(x,y)  dxdy 
+
+S_{N,M} = \Delta_N \Delta_M \sum_{i,j} f(\phi(x_i,y_j)) J_\phi(x_i,y_j)とする。
+
+ここで, \Delta_N \Delta_M J_\phi(x_i,y_j) \approx vol(K_{ij}'))であるので
+S_{N,M}\approx  \sum_{i,j} f(\phi(x_i,y_j)) vol(K_{ij}')) \approx \iint_{\phi(K)} f(x,y)  dxdy.
+
+S_{N,M} \to \iint_{K} f(\phi(x,y)) J_\phi(x,y) dxdy であるので証明の概略を得る。
+
+
+
+
+
+
+
