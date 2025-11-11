@@ -187,38 +187,38 @@
       <h1 id="top">二項分布と中心極限定理（$p=\tfrac12$）</h1>
       <p class="lead">コイントス（成功確率 $p=\tfrac12$）を例に、二項分布の形と正規近似（ド・モアブル–ラプラス、中心極限定理）を確認する。</p>
       <div class="quick-facts" aria-label="このページの要点">
-        <div>• $S_n=\sum_{i=1}^n X_i$（$X_i\sim \mathrm{CF}(\tfrac12)$ 独立同分布）。</div>
-        <div>• $\displaystyle \mathbb P(S_n=k)=\binom{n}{(n+k)/2}\,2^{-n}$（$k\equiv n\pmod2$）、対称性 $\mathbb P(S_n=k)=\mathbb P(S_n=-k)$。</div>
-        <div>• $\displaystyle \mathbb E[S_n]=0,\quad \operatorname{Var}(S_n)=n,\quad \sigma=\sqrt n$。</div>
-        <div>• 近似：$\displaystyle \mathbb P(S_n=k)\approx \sqrt{\tfrac{2}{\pi n}}\,\exp\!\left(-\tfrac{k^2}{2n}\right)$（$k=x\sqrt n,\ |x|=O(1)$ の局所近似）。</div>
-        <div>• CLT：$\displaystyle \frac{S_n}{\sqrt{n}}\ \Rightarrow\ \mathcal N(0,1)$。</div>
+        <div>• $S_n=\sum_{i=1}^n X_i$（$X_i\sim \mathrm{CF}(\tfrac12)$ 独立同分布、値域は $\{0,1\}$）。</div>
+        <div>• $\displaystyle \mathbb P(S_n=k)=\binom{n}{k}\,2^{-n}$（$k=0,1,\dots,n$）。</div>
+        <div>• $\displaystyle \mathbb E[S_n]=\tfrac{n}{2},\quad \operatorname{Var}(S_n)=\tfrac{n}{4},\quad \sigma=\tfrac{\sqrt n}{2}$。</div>
+        <div>• 近似：$\displaystyle \mathbb P(S_n=k)\approx \frac{1}{\sqrt{2\pi}}e^{-x^2/2}\cdot \frac{2}{\sqrt n}$（$k=\tfrac{n}{2}+\tfrac{x}{2}\sqrt n,\ |x|=O(1)$ の局所近似）。</div>
+        <div>• CLT：$\displaystyle \frac{S_n-\tfrac{n}{2}}{\sqrt{n}/2}\ \Rightarrow\ \mathcal N(0,1)$。</div>
       </div>
     </header>
 
     <main role="main">
       <!-- ********** 二項分布モデル ********** -->
       <section class="topic" id="binomial-model">
-        <h2>二項分布モデル（±1 コーディング）</h2>
+        <h2>二項分布モデル（0/1 コーディング）</h2>
         <div class="section-body">
           <article>
             <p>
-              $X_1,\dots,X_n$ を独立に $X_i\sim \mathrm{CF}(\tfrac12)$ とし、和を（CF$(p)$ は $\{-1,1\}$ 上のコインフリップで $\mathbb P(X=1)=p$, $\mathbb P(X=-1)=1-p$）
+              $X_1,\dots,X_n$ を独立に $X_i\sim \mathrm{CF}(\tfrac12)$ とし、和を（CF$(p)$ は $\{0,1\}$ 上のコインフリップで $\mathbb P(X=1)=p$, $\mathbb P(X=0)=1-p$）
             </p>
             <div class="formula">$$S_n:=X_1+\cdots+X_n$$</div>
             <p>と定義する。このとき $S_n$ の分布は</p>
-            <div class="formula">$$\mathbb P(S_n=k)=\binom{n}{\frac{n+k}{2}}\,2^{-n}\quad \bigl(k=-n,-n+2,\dots,n-2,n\bigr)$$</div>
+            <div class="formula">$$\mathbb P(S_n=k)=\binom{n}{k}\,2^{-n}\quad (k=0,1,\dots,n)$$</div>
             <p>期待値と分散は</p>
-            <div class="formula">$$\mathbb E[S_n]=0,\qquad \operatorname{Var}(S_n)=n$$</div>
+            <div class="formula">$$\mathbb E[S_n]=\tfrac{n}{2},\qquad \operatorname{Var}(S_n)=\tfrac{n}{4}$$</div>
             <details>
-              <summary>なぜ $\mathbb E[S_n]=0$, $\operatorname{Var}(S_n)=n$ ？（ワンライン）</summary>
-              <p>$\mathbb E[X_i]=0$、$\operatorname{Var}(X_i)=1$、独立ゆえ線形性と分散の加法性で $\sum$ に引き継がれる。</p>
+              <summary>なぜ $\mathbb E[S_n]=\tfrac{n}{2}$, $\operatorname{Var}(S_n)=\tfrac{n}{4}$ ？（ワンライン）</summary>
+              <p>$\mathbb E[X_i]=\tfrac12$、$\operatorname{Var}(X_i)=\tfrac14$、独立ゆえ線形性と分散の加法性で $\sum$ に引き継がれる。</p>
             </details>
           </article>
 
           <article>
             <h3>形のイメージ</h3>
             <p>
-              ヒストグラムは中央 $k=0$ を中心に左右対称。標準偏差は $\sigma=\sqrt n$ なので、$n$ が大きいほど原点付近に集中する。
+              ヒストグラムは中央 $k=\tfrac{n}{2}$ を中心に左右対称。標準偏差は $\sigma=\tfrac{\sqrt n}{2}$ なので、$n$ が大きいほど中心付近に集中する。
             </p>
           </article>
         </div>
@@ -232,7 +232,7 @@
             <p>大きな $n$ の階乗近似：</p>
             <div class="formula">$$n!\sim \sqrt{2\pi n}\,\left(\frac{n}{e}\right)^n,\qquad
             \log n!=n\log n-n+\tfrac12\log(2\pi n)+o(1)$$</div>
-            <p>特に中心 $\binom{n}{n/2}$ は（CF$(\tfrac12)$ における $k=0$ に対応し、$\mathbb P(S_n=0)=\binom{n}{n/2}2^{-n}$）</p>
+            <p>特に中心 $\binom{n}{n/2}$ は（CF$(\tfrac12)$ で $k=n/2$ に対応し、$\mathbb P(S_n=n/2)=\binom{n}{n/2}2^{-n}$）</p>
             <div class="formula">$$\binom{n}{n/2}\ \sim\ \frac{2^n}{\sqrt{\pi n/2}}\ =\ 2^n\sqrt{\frac{2}{\pi n}}$$</div>
             <p>となる（$p=\tfrac12$ の“最も起きやすい”点の規模）。</p>
           </article>
@@ -241,24 +241,24 @@
 
       <!-- ********** 局所正規近似 ********** -->
       <section class="topic" id="local-approximation">
-        <h2>局所ド・モアブル–ラプラス近似（$\pm1$ コーディング）</h2>
+        <h2>局所ド・モアブル–ラプラス近似（0/1 コーディング）</h2>
         <div class="section-body">
           <article class="theorem">
             <h3>定理（中心付近の近似）</h3>
-            <p>$k$ が $0$ から $\sqrt n$ の範囲でずれるとき、$k= x\,\sqrt n$（$x=O(1)$）とおくと</p>
-            <div class="formula">$$\mathbb P(S_n=k)\ \approx\ \sqrt{\frac{2}{\pi n}}\,\exp\!\left(-\frac{k^2}{2n}\right)\ =\ \frac{1}{\sqrt{2\pi}}\exp\!\left(-\frac{x^2}{2}\right)\cdot\frac{2}{\sqrt{n}}$$</div>
+            <p>$k$ が中心 $n/2$ から $\sqrt n$ の範囲でずれるとき、$k=\tfrac{n}{2}+ \tfrac{x}{2}\sqrt n$（$x=O(1)$）とおくと</p>
+            <div class="formula">$$\mathbb P(S_n=k)\ \approx\ \frac{1}{\sqrt{2\pi}}\exp\!\left(-\frac{x^2}{2}\right)\cdot\frac{2}{\sqrt{n}}$$</div>
             <p>有効範囲：$k=x\sqrt n$ として $|x|\le R$ 固定で $n\to\infty$（相対誤差 $o(1)$）。</p>
           </article>
 
           <article>
             <h3>考え方（最短ルート）</h3>
-            <p>$\log\binom{n}{(n+k)/2}$ にスターリングを当て、$t=\dfrac{(n+k)/2}{n}$ を $t=1/2$ の周りで二次まで展開する。$t(1-t)=1/4+o(1)$、二次の曲率が正規の指数に一致する。</p>
+            <p>$\log\binom{n}{k}$ にスターリングを当て、$t=\dfrac{k}{n}$ を $t=1/2$ の周りで二次まで展開する。$t(1-t)=1/4+o(1)$、二次の曲率が正規の指数に一致する。</p>
           </article>
 
           <article class="example">
             <h3>数値例</h3>
-            <p>$n=100$ で中央 $k=0$ の確率は</p>
-            <div class="formula">$$\mathbb P(S_{100}=0)\approx \sqrt{\frac{2}{\pi\cdot 100}}\approx 0.0798,\quad
+            <p>$n=100$ で中心 $k=50$ の確率は</p>
+            <div class="formula">$$\mathbb P(S_{100}=50)\approx \sqrt{\frac{2}{\pi\cdot 100}}\approx 0.0798,\quad
             \text{厳密値 } \binom{100}{50}/2^{100}\approx 0.0796$$</div>
           </article>
         </div>
@@ -271,8 +271,8 @@
           <article>
             <h3>標準化</h3>
             <p>標準化された和</p>
-            <div class="formula">$$Z_n := \frac{S_n}{\sqrt{n}}$$</div>
-            <p>の取りうる値は間隔 $\Delta x=\dfrac{2}{\sqrt n}$ の格子になる（$k$ は偶奇により 2 刻み）。</p>
+            <div class="formula">$$Z_n := \frac{S_n-\tfrac{n}{2}}{\sqrt{n}/2}$$</div>
+            <p>の取りうる値は間隔 $\Delta x=\dfrac{2}{\sqrt n}$ の格子になる（$k$ は 1 刻み）。</p>
           </article>
 
           <article>
@@ -285,7 +285,7 @@
 
           <article class="theorem">
             <h3>定理（ド・モアブル–ラプラス）</h3>
-            <div class="formula">$$\boxed{\ \mathbb P\!\left(\frac{S_n}{\sqrt{n}}\le t\right)\ \longrightarrow\ \Phi(t)\quad (n\to\infty)\ }$$</div>
+            <div class="formula">$$\boxed{\ \mathbb P\!\left(\frac{S_n-\tfrac{n}{2}}{\sqrt{n}/2}\le t\right)\ \longrightarrow\ \Phi(t)\quad (n\to\infty)\ }$$</div>
           </article>
 
           <article>
@@ -304,9 +304,9 @@
         <div class="section-body">
           <article>
             <ul>
-              <li>$X_i\in\{-1,1\}$ の和 $S_n$ は $\mathbb E[S_n]=0$、$\operatorname{Var}(S_n)=n$。</li>
+              <li>$X_i\in\{0,1\}$ の和 $S_n$ は $\mathbb E[S_n]=\tfrac{n}{2}$、$\operatorname{Var}(S_n)=\tfrac{n}{4}$。</li>
               <li>中心付近は正規密度でよく近似でき、格子幅を掛けると確率質量が得られる。</li>
-              <li>標準化 $\displaystyle \frac{S_n}{\sqrt n}$ は $\mathcal N(0,1)$ に近づく。</li>
+              <li>標準化 $\displaystyle \frac{S_n-\tfrac{n}{2}}{\sqrt n/2}$ は $\mathcal N(0,1)$ に近づく。</li>
             </ul>
           </article>
         </div>
@@ -317,16 +317,12 @@
         <h2>レポート課題</h2>
         <div class="section-body">
           <article>
-            <h3>課題: コイントスのシミュレーションと正規近似の検証</h3>
-            <p>
-              公正なコインを $n$ 回投げる。各回の結果を $X_i\in\{+1,-1\}$ とし、$\mathbb P(X_i=1)=\mathbb P(X_i=-1)=\tfrac12$ の独立同分布、$S_n=\sum_{i=1}^n X_i$ とする。
-            </p>
-
-            <h3>課題内容</h3>
+      
+          <h3>課題内容</h3>
             <ol>
               <li><strong>理論計算（一般 $p$）：</strong>
                 <ul>
-                  <li>$X_i\sim \mathrm{CF}(p)$（すなわち $\mathbb P(X_i=1)=p$, $\mathbb P(X_i=-1)=1-p$）とし、$S_n$ の期待値 $\mathbb E[S_n]$ と分散 $\operatorname{Var}(S_n)$ を求めよ。</li>
+                  <li>$X_i\sim \mathrm{CF}(p)$（すなわち $\mathbb P(X_i=1)=p$, $\mathbb P(X_i=0)=1-p$）とし、$S_n$ の期待値 $\mathbb E[S_n]$ と分散 $\operatorname{Var}(S_n)$ を求めよ。</li>
                 </ul>
               </li>
 
@@ -334,7 +330,7 @@
                 <ul>
                   <li>$n=100$ として、コイントスを 100 回投げる試行を 10000 回繰り返すシミュレーションを実装せよ。</li>
                   <li>得られた $S_n$ のヒストグラムを作成せよ。</li>
-                  <li>同じグラフ上に、（$p=\tfrac12$ のとき）平均 $0$・分散 $n$ の正規分布密度を重ねて描け（必要なら連続性補正も可視化）。</li>
+                  <li>同じグラフ上に、（$p=\tfrac12$ のとき）平均 $\tfrac{n}{2}$・分散 $\tfrac{n}{4}$ の正規分布密度を重ねて描け（必要なら連続性補正も可視化）。</li>
                 </ul>
               </li>
 
