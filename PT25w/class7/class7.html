@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>積率母関数</title>
+    <title>特性関数</title>
     <style>
         body{font-family:"Helvetica Neue",Helvetica,Arial,sans-serif;line-height:1.7;color:#212121;margin:0;background:#fafafa;}
         .container{max-width:960px;margin:0 auto;padding:2rem 1rem 4rem;background:#fff;box-shadow:0 4px 12px rgba(0,0,0,.05);border-radius:12px;}
@@ -35,79 +35,136 @@
 </head>
 <body>
     <div class="container">
-        <h1>積率母関数</h1>
+        <header>
+            <h1>分布と特性関数</h1>
+            <p>第7回講義では、特性関数がどのように分布を特徴づけ、収束や一意性に関する強力なツールになるかを整理します。</p>
+        </header>
 
-
-        <section id="def">
-            <h2>1. 母関数の定義</h2>
-            <p>
-                確率変数 $X$ の <em>母関数</em>（Moment Generating Function, 以下 MGF）$M_X(t)$ は、$t$ が原点周りの近傍において次式で定義される：
-            </p>
-            <div class="formula">$$ M_X(t) = \mathbb{E}[e^{tX}] \quad (t \in \mathbb{R},\; \text{存在する範囲で}) $$</div>
-            <p>
-                $\mathbb{E}$ は期待値を表す。指数関数のテイラー展開により MGF は $X$ のモーメントを集約した関数となる。一般に $M_X(0)=1$ であり、$t$ が小さい範囲で解析関数となることが知られている。
-            </p>
+        <section>
+            <h2>1. 特性関数の基礎</h2>
+            <p>確率変数 \(X\) の特性関数は複素指数関数を介して分布の全情報をエンコードする。</p>
+            <div class="formula">
+                $$\varphi_X(\xi)=\mathbb{E}\left[e^{i\xi X}\right]$$
+            </div>
+            <ul>
+                <li>二項・ポアソン・指数・正規分布など、主要な分布の特性関数は閉じた形で計算できる。</li>
+                <li>常に \(|\varphi_X(\xi)| \le 1\)。この有界性は特性関数列の緊密性を議論する際に便利。</li>
+            </ul>
         </section>
 
-        <section id="moment">
-            <h2>2. モーメントとの関係</h2>
-            <p>
-                $M_X$ を $t=0$ で微分すると、$X$ の各階モーメントが得られる：
-            </p>
-            <div class="formula">$$ \frac{d^k}{dt^k}M_X(t)\Big|_{t=0} = \mathbb{E}[X^k] \quad (k\in\mathbb{N}). $$</div>
-            <p>
-                例えば平均（一次モーメント）と分散（二次中心モーメント）は
-            </p>
-            <div class="formula">$$ \mathbb{E}[X] = M'_X(0), \quad \mathrm{Var}(X) = M''_X(0) - (M'_X(0))^2. $$</div>
+        <section>
+            <h2>2. 特性関数による分布の特徴づけ</h2>
+            <p>特性関数が一致すれば分布が一致する。より一般的には任意の有界連続関数に対する期待値が一致するかどうかで判定できる。</p>
+            <div class="formula">
+                $$\mathbb{E}[f(X)]=\mathbb{E}[f(Y)] \;\;(\forall f\in C_b(\mathbb{R}))\quad\Longleftrightarrow\quad \mu_X=\mu_Y$$
+            </div>
+            <details>
+                <summary>証明スケッチ</summary>
+                <ol>
+                    <li>\(\mathcal{F}=\{A:\mathbb{P}(X\in A)=\mathbb{P}(Y\in A)\}\) とおくと、区間 \((a,b)\) が \(\mathcal{F}\) に属することを示す。単調増加列 \(f_n \uparrow 1_{(a,b)}\) を用いる。</li>
+                    <li>任意の開集合 \(A\) は互いに素な開区間の可算和で表せるので、\(\mu_X(A)=\mu_Y(A)\) が従う。</li>
+                    <li>各ボレル集合 \(B\) に対して開集合系列 \(A_n\) を取って \(B\triangle A_n\) の測度を制御し、近似の極限で \(\mu_X(B)=\mu_Y(B)\) を結論づける。</li>
+                </ol>
+            </details>
         </section>
 
-        <section id="unique">
-            <h2>3. 一意性定理</h2>
-            <p>
-                <strong>母関数が原点近傍で一致すれば分布が一致する</strong> という一意性定理がある。
-            </p>
-            <p>
-                証明は<strong>フーリエ変換（特性関数）の一意性</strong>に基づく。MGF の複素拡張が特性関数の解析接続とみなせるため、MGF の一致は分布の一致を導く。
-            </p>
+        <section>
+            <h2>3. 特性関数の収束と弱収束</h2>
+            <div class="formula">
+                $$\varphi_{X_n}(\xi)\to\varphi_X(\xi)\quad\Rightarrow\quad\mu_{X_n}\Rightarrow\mu_X$$
+            </div>
+            <p>特性関数の点収束は測度の弱収束を含意する。証明の鍵は有界台をもつ連続関数での収束を確立する補題である。</p>
+            <h3>補題 (フーリエ逆変換)</h3>
+            <div class="formula">
+                $$\hat f(\xi)=\int_{\mathbb{R}} f(x)e^{-i x\xi}\,dx,\qquad
+                f(x)=\frac{1}{2\pi}\int_{\mathbb{R}} \hat f(\xi)e^{i x\xi}\,d\xi$$
+            </div>
+            <p>よって</p>
+            <div class="formula">
+                \[
+                \mathbb{E}[f(X_n)]=\frac{1}{2\pi}\int_{\mathbb{R}}\hat f(\xi)\varphi_{X_n}(\xi)\,d\xi
+                \longrightarrow
+                \frac{1}{2\pi}\int_{\mathbb{R}}\hat f(\xi)\varphi_{X}(\xi)\,d\xi=\mathbb{E}[f(X)].
+                \]
+            </div>
+            <p>任意の \(f\in C_c(\mathbb{R})\) に対して上の収束が成り立つため、ポートマントーの定理より \(\mu_{X_n}\Rightarrow\mu_X\)。</p>
         </section>
 
-        <section id="examples">
-            <h2>4. 代表的な分布の母関数</h2>
+        <section>
+            <h2>レポート課題：ガウス核を用いたフーリエ逆変換の証明</h2>
+            <p>以降、フーリエ変換を
+            <span class="formula">$$\hat f(\xi):=\int_{\mathbb R} f(x)\,e^{-i x\xi}\,dx$$</span>
+            と定める。目標は
+            <span class="formula">$$f(x)=\frac{1}{2\pi}\int_{\mathbb R} \hat f(\xi)\,e^{i x\xi}\,d\xi\qquad(x\in\mathbb R)$$</span>
+            を、ガウス核による正則化で 3 ステップに分けて証明することである。既知としてよい積分は
+            <span class="formula">$$\int_{\mathbb R} e^{-\delta x^2}\,dx=\sqrt{\tfrac{\pi}{\delta}},\qquad
+            \int_{\mathbb R} e^{-\delta x^2}e^{-i x\xi}\,dx=\sqrt{\tfrac{\pi}{\delta}}\,e^{-\xi^2/(4\delta)}\quad(\delta>0)$$</span>
+            である。</p>
 
-            <h3>4.1 ベルヌーイ分布 $\operatorname{Bernoulli}(p)$</h3>
-            <div class="formula">$$ M(t) = (1-p) + p e^{t}. $$</div>
+            <h3>Step 1. 近似恒等写像（ガウス）</h3>
+            <div class="formula">$$\phi_\delta(x):=\sqrt{\tfrac{\delta}{\pi}}\,e^{-\delta x^2}\qquad(\delta>0)$$</div>
+            <ol>
+                <li>任意の \(\delta>0\) で \(\displaystyle \int_{\mathbb R} \phi_\delta(x)\,dx=1\) を示せ。</li>
+                <li>畳み込み \(\displaystyle (f*\phi_\delta)(x):=\int_{\mathbb R} f(y)\,\phi_\delta(x-y)\,dy\) を定める。<br>
+                    (a) \(f*\phi_\delta\in C^\infty(\mathbb R)\) を示せ。 (b) \(\displaystyle \lim_{\delta\to 0^+}\|f*\phi_\delta-f\|_\infty=0\) を示せ。
+                </li>
+            </ol>
+            <details>
+                <summary>ヒント（Step 1）</summary>
+                <div class="proof">
+                    <ul>
+                        <li>\(f\in C_c^\infty\) は一様連続かつ有界台。\(\phi_\delta\) は \(\delta\to 0^+\) で 0 の近傍に集中（近似恒等写像）。</li>
+                        <li>導関数は積分と微分の交換で得る。支配関数を用いて正当化する。</li>
+                    </ul>
+                </div>
+            </details>
 
-            <h3>4.2 二項分布 $\operatorname{Binomial}(n,p)$</h3>
-            <div class="formula">$$ M(t) = (1-p + p e^{t})^{n}. $$</div>
+            <h3>Step 2. 周波数側での表現</h3>
+            <ol>
+                <li>\(\widehat{\phi_\delta}(\xi)=\int_{\mathbb R}\phi_\delta(x)e^{-i x\xi}\,dx\) を計算して
+                    <div class="formula">$$\widehat{\phi_\delta}(\xi)=e^{-\xi^2/(4\delta)}$$</div>
+                    を示せ（既知のガウス積分を用いてよい）。
+                </li>
+                <li>フビニの定理を正当化して
+                    <div class="formula">$$\widehat{f*\phi_\delta}(\xi)=\hat f(\xi)\,\widehat{\phi_\delta}(\xi)=\hat f(\xi)\,e^{-\xi^2/(4\delta)}$$</div>
+                    を示せ。
+                </li>
+                <li>良い関数 \(f*\phi_\delta\) に対して逆変換公式が適用できることを用いて、任意の \(x\in\mathbb R\) で
+                    <div class="formula">$$(f*\phi_\delta)(x)=\frac{1}{2\pi}\int_{\mathbb R}\widehat{f*\phi_\delta}(\xi)e^{i x\xi}\,d\xi=\frac{1}{2\pi}\int_{\mathbb R}\hat f(\xi)e^{-\xi^2/(4\delta)}e^{i x\xi}\,d\xi.$$</div>
+                </li>
+            </ol>
+            <details>
+                <summary>メモ（可換順序の正当化）</summary>
+                <div class="proof">
+                    <ul>
+                        <li>\(\int\!\int |f(y)|\,\phi_\delta(x-y)\,dy\,dx<\infty\) が成り立つ（\(f\) は有界台、\(\phi_\delta\) は可積分）。</li>
+                        <li>よってフビニ（トネリ）により積分順序交換が可能。</li>
+                    </ul>
+                </div>
+            </details>
 
-            <h3>4.3 ポアソン分布 $\operatorname{Poisson}(\lambda)$</h3>
-            <div class="formula">$$ M(t) = \exp\{\lambda(e^{t}-1)\}. $$</div>
+            <h3>Step 3. \(\delta\to 0^+\) の極限で逆変換を得る</h3>
+            <ol>
+                <li>Step 1 より \((f*\phi_\delta)(x)\to f(x)\) が一様に成り立つ。</li>
+                <li>Step 2 の式から
+                    <div class="formula">$$(f*\phi_\delta)(x)=\frac{1}{2\pi}\int_{\mathbb R}\hat f(\xi)\,e^{-\xi^2/(4\delta)}e^{i x\xi}\,d\xi$$</div>
+                    を得る。優収束定理を正当化して極限を積分内に通し、目標の逆変換公式を示せ。
+                </li>
+            </ol>
+            <details>
+                <summary>ヒント（支配関数の構成）</summary>
+                <div class="proof">
+                    <ul>
+                        <li>\(f\in C_c^\infty\Rightarrow \hat f\) は急減少：任意の \(N\) で \(|\hat f(\xi)|\le C_N(1+|\xi|)^{-N}\)。</li>
+                        <li>各 \(\xi\) で \(e^{-\xi^2/(4\delta)}\to 1\)。しかも \(|\hat f(\xi)e^{-\xi^2/(4\delta)}|\le C_N(1+|\xi|)^{-N}\in L^1\)。</li>
+                        <li>よって優収束定理により極限と積分の交換が正当化される。</li>
+                    </ul>
+                </div>
+            </details>
 
-            <h3>4.4 正規分布 $\mathcal{N}(\mu,\sigma^2)$</h3>
-            <div class="formula">$$ M(t) = \exp\big( \mu t + \tfrac{1}{2}\sigma^2 t^2 \big). $$</div>
-
-            <h3>4.5 指数分布 $\operatorname{Exp}(\lambda)$</h3>
-            <div class="formula">$$ M(t) = \frac{\lambda}{\lambda - t}\quad (t<\lambda). $$</div>
-
-            <h3>4.6 ガンマ分布 $\operatorname{Gamma}(k,\theta)$</h3>
-            <div class="formula">$$ M(t) = (1-\theta t)^{-k}\quad (t<1/\theta). $$</div>
         </section>
 
-        <section id="clt">
-            <h2>5. 中心極限定理への応用（概略）</h2>
-            <p>
-                独立同分布（i.i.d.）な確率変数 $\{X_i\}_{i=1}^{n}$（平均 $\mu$, 分散 $\sigma^2>0$）について、中心化・標準化和 $S_n := \frac{1}{\sqrt{n}}\sum_{i=1}^{n}(X_i-\mu)$ の MGF は
-            </p>
-            <div class="formula">$$ M_{S_n}(t) = \big(M_{X_1-\mu}(t/\sqrt{n})\big)^n. $$</div>
-            <p>
-                $n\to\infty$ とすると
-            </p>
-            <div class="formula">$$ \log M_{S_n}(t) = \tfrac{n}{2}\sigma^2 \tfrac{t^2}{n} + o(1) \longrightarrow \tfrac{1}{2}\sigma^2 t^2. $$</div>
-            <p>
-                右辺は正規分布 $\mathcal{N}(0,\sigma^2)$ の MGF の対数に一致するため、中心極限定理が導かれる。
-            </p>
-        </section>
-                <nav class="navigation">
+        <nav class="navigation">
             <a href="class4.html">← 前のクラス</a>
             <a href="../index.html">ホーム</a>
             <a href="class6.html">次のクラス →</a>

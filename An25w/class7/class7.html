@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>第回 重積分の応用</title>
+    <title>第7回 重積分の応用</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Cabin:wght@500&family=Noto+Sans+JP:wght@400;500;700&display=swap');
 
@@ -351,59 +351,75 @@
 </head>
 <body>
     <main>
-    <main>
         <header class="hero">
             <span class="hero-label">Lecture 7</span>
             <h1>第7回 重積分の応用</h1>
-            <p>重積分を用いて物理量（質量・重心・モーメントなど）を計算する方法を学びます。</p>
+            <p>変数変換・体積・密度と質量など、重積分の代表的な応用を扱います。</p>
         </header>
 
         <section class="outline-section">
-            <h2>Section 1. 講義概要</h2>
+            <h2>Section 1. Change of variables</h2>
             <div class="note">
-                <strong>テーマ:</strong> 質量・重心・エネルギーへの応用
+                <strong>ポイント</strong>
+                <p>変数変換ではヤコビアンと像の領域を明示し，極座標などの便利な座標も活用する。</p>
             </div>
+        </section>
+
+        <section class="outline-section">
+            <h2>Section 2. Volume（体積）</h2>
             <div class="definition">
-                <strong>到達目標:</strong>
-                <ul>
-                    <li>面密度・体積密度を用いた質量計算を重積分で表す</li><li>重心や慣性モーメントの公式を導く</li><li>応用問題を通じてモデル化の流れを理解する</li>
-                </ul>
+                <strong>定義:</strong>
+                <p>$D\subset\mathbb{R}^2$，二変数関数 $\varphi,\psi$ に対し</p>
+                <div class="formula">$$ V = \{(x,y,z)\mid (x,y)\in D,\ \varphi(x,y)\le z\le \psi(x,y)\} $$</div>
+                <p>で囲まれる集合の体積を</p>
+                <div class="formula">$$ \mathrm{Vol}(V)=\int_D\bigl(\psi(x,y)-\varphi(x,y)\bigr)\,dx\,dy $$</div>
+                <p>と定義する。</p>
             </div>
-        </section>
 
-        <section class="outline-section">
-            <h2>Section 2. 重要な公式・キーポイント</h2>
-            <div class="formula">$$ M = \iint_{R} \rho(x,y)\,dA $$</div><div class="formula">$$ \bar{x} = \frac{1}{M} \iint_{R} x\rho(x,y)\,dA, \quad \bar{y} = \frac{1}{M} \iint_{R} y\rho(x,y)\,dA $$</div>
-            <div class="proof">
-                <strong>チェックリスト:</strong>
-                <ul class="highlight-list">
-                    <li>公式の導出過程を説明できるか。</li>
-                    <li>適用条件や必要な仮定を記憶しているか。</li>
-                    <li>例題に当てはめて計算できるか。</li>
-                </ul>
-            </div>
-        </section>
-
-        <section class="outline-section">
-            <h2>Section 3. 演習課題</h2>
             <div class="example">
-                <strong>練習問題:</strong>
+                <strong>例 1: 球の体積</strong>
+                <p>半径 $R>0$ の球 $x^2+y^2+z^2\le R^2$ の体積を，上の定義を用いて求めよ。</p>
+                <p>ヒント：$D=\{(x,y)\mid x^2+y^2\le R^2\}$，$\varphi(x,y)=-\sqrt{R^2-x^2-y^2}$，$\psi(x,y)=\sqrt{R^2-x^2-y^2}$ とおき，極座標に変換する。</p>
+            </div>
+
+            
+        </section>
+
+        <section class="outline-section">
+            <h2>Section 3. Mass（質量と密度）</h2>
+            <div class="definition">
+                <strong>定義:</strong>
+                <p>$V$ を
+                <span class="formula">$$ V=\{(x,y,z)\mid (x,y)\in D,\ \varphi(x,y)\le z\le \psi(x,y)\} $$</span>
+                の形とし，密度 $\rho$ が与えられているとき</p>
+                <div class="formula">$$ \int_V \rho(x,y,z)\,dx\,dy\,dz = \int_D \left(\int_{\varphi(x,y)}^{\psi(x,y)} \rho(x,y,z)\,dz\right)\,dx\,dy $$</div>
+                <p>で定義する。</p>
+            </div>
+
+            <div class="concept-card">
+                <strong>物理量の対応例</strong>
+                <ul>
+                    <li>$\rho$ が 質量密度（単位体積あたりの質量）の場合：$\displaystyle \int_V \rho\,dxdydz$ は $V$ の総質量</li>
+                    <li>$\rho$ が 電荷密度（単位体積あたりの電荷量）の場合：$\displaystyle \int_V \rho\,dxdydz$ は $V$ に含まれる全電荷量</li>
+                    <li>$\rho$ が エネルギー密度（単位体積あたりのエネルギー）の場合：$\displaystyle \int_V \rho\,dxdydz$ は $V$ に蓄えられた全エネルギー</li>
+                </ul>
+            </div>
+
+            <div class="example">
+                <strong>例 1</strong>
+                <p>半径 1，高さ 2 の円柱
+                <span class="formula">$$ V=\{(x,y,z)\mid x^2+y^2\le 1,\ 0\le z\le 2\} $$</span>
+                を考える。密度が一様で $\rho(x,y,z)=\rho_0$（定数）とする。</p>
                 <ol>
-                    <li>(1) 面密度が$\rho(x,y)=x+y$の薄板の質量を求める</li><li>(2) 半円板の重心座標を計算する</li><li>(3) 物理的解釈を含む応用問題を1題選び、解法をまとめる</li>
+                    <li>$V$ の質量 $M$ を三重積分で表せ。</li>
+                    <li>実際に積分を計算して $M$ を求めよ。ヒント：極座標 $x=r\cos\theta,\ y=r\sin\theta$ を用いると
+                        <div class="formula">$$ M=\int_0^{2\pi}\int_0^1\int_0^2 \rho_0\,r\,dz\,dr\,d\theta $$</div>
+                        となる。
+                    </li>
                 </ol>
             </div>
-            <div class="note">
-                <strong>アドバイス:</strong> 単位と物理的意味を必ず添えて計算の妥当性を確認しましょう。
-            </div>
-        </section>
 
-        <section class="outline-section">
-            <h2>Section 4. 次回までに</h2>
-            <ul>
-                <li>ノートを整理し、重要な定理と例題をまとめ直す。</li>
-                <li>不明点があれば授業冒頭で質問できるよう準備する。</li>
-                <li>関連する教科書の該当ページを読み、例題を一度自力で解く。</li>
-            </ul>
+            
         </section>
 
         <div class="nav-buttons">
@@ -411,6 +427,6 @@
             <a href="../index.html">🏠 Home</a>
             <a href="../class8/class8.html">Next →</a>
         </div>
-</main>
+    </main>
 </body>
 </html>
