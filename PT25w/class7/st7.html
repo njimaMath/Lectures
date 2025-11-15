@@ -281,57 +281,62 @@
     </div>
 
     <article>
-      <p class="lead">第7回では、分布の収束と<strong>特性関数</strong>の関係（レヴィの連続性定理）を学びました。分布を直接扱う代わりに特性関数の極限を見ることで、収束判定や中心極限定理（CLT）の証明が簡潔になります。</p>
+  <p class="lead">第7回では、分布収束と<strong>特性関数</strong>の対応（レヴィの連続性定理）を扱った。分布そのものではなく特性関数の極限を調べることで、収束の判定や中心極限定理（CLT）の証明をすっきりと整理できる。</p>
 
       <h2>特性関数の基本</h2>
-      <p>実数値確率変数 $X$ の特性関数は</p>
+  <p>実数値確率変数 $X$ の特性関数は次で定義する。</p>
       <div class="eq">$$
-        \varphi_X(t) = \mathbb{E}[e^{itX}], \qquad t\in\mathbb{R}.
+        \varphi_X(t)=\mathbb{E}[e^{itX}],\qquad t\in\mathbb{R}.
       $$</div>
-      <p>常に存在し、$|\varphi_X(t)|\le 1$, $\varphi_X(0)=1$, 一様連続です。さらに、特性関数は分布を一意に定めます（同じ $\varphi$ なら同じ分布）。</p>
+  <p>特性関数は常に存在し、$|\varphi_X(t)|\le 1$、$\varphi_X(0)=1$、しかも一様連続である。また、特性関数は分布を一意に定める（同じ $\varphi$ であれば同じ分布）。</p>
 
       <div class="theorem">
         <div class="label">定理（レヴィの連続性定理）</div>
-        <p>$X_n\Rightarrow X$ であることと、全ての $t\in\mathbb{R}$ で</p>
+        <p>$X_n\Rightarrow X$（分布収束）であることと、すべての $t\in\mathbb{R}$ で</p>
         <div class="eq">$$
           \varphi_{X_n}(t)\longrightarrow \varphi_X(t)
         $$</div>
-        <p>が成り立つことは同値です。特に極限 $\varphi(t)$ が特性関数ならば、その分布に $X_n$ は分布収束します。</p>
+  <p>が成り立つことは同値である。特に、極限 $\varphi(t)$ が特性関数であれば、$X_n$ はその特性関数に対応する分布へ分布収束する。</p>
       </div>
 
       <h2>CLT のスケッチ（特性関数による証明）</h2>
-      <p>独立同分布 $\{X_i\}$（平均 $0$, 分散 $1$）とし、$S_n=\frac{1}{\sqrt{n}}\sum_{i=1}^n X_i$。このとき</p>
+  <p>平均 $0$・分散 $1$ の独立同分布 $\{X_i\}$ をとり、$S_n=\frac{1}{\sqrt{n}}\sum_{i=1}^n X_i$ とおく。このとき</p>
       <div class="eq">$$
-        \varphi_{S_n}(t) = \big(\varphi_{X_1}(t/\sqrt{n})\big)^n,\qquad
-        \log \varphi_{X_1}(u) = -\tfrac{1}{2}u^2 + o(u^2)\ (u\to0).
+        \varphi_{S_n}(t)=\big(\varphi_{X_1}(t/\sqrt{n})\big)^n,\qquad
+        \log\varphi_{X_1}(u)=-\tfrac{1}{2}u^2+o(u^2)\ \ (u\to0).
       $$</div>
-      <p>ゆえに $\log\varphi_{S_n}(t) = n\,(-\tfrac{1}{2}(t/\sqrt{n})^2 + o(n^{-1})) \to -\tfrac{t^2}{2}$、したがって</p>
+      <p>したがって</p>
       <div class="eq">$$
-        \varphi_{S_n}(t) \to e^{-t^2/2} \quad (\mathcal{N}(0,1) \text{ の特性関数})
+        \log\varphi_{S_n}(t)=n\log\varphi_{X_1}(t/\sqrt{n})
+        =-\tfrac{t^2}{2}+o(1)\ \ (n\to\infty),
       $$</div>
-      <p>より $S_n\Rightarrow \mathcal{N}(0,1)$。</p>
+      <p>ゆえに</p>
+      <div class="eq">$$
+        \varphi_{S_n}(t)\to e^{-t^2/2}\quad(\mathcal{N}(0,1)\ \text{の特性関数}),
+      $$</div>
+  <p>レヴィの連続性定理より $S_n\Rightarrow \mathcal{N}(0,1)$ となる。</p>
 
-      <h2>MGF との関係・注意点</h2>
-      <p>MGF（積率母関数）$M_X(t)=\mathbb{E}[e^{tX}]$ は便利ですが、$t\ne0$ で発散する分布もあります（例：標準コーシー）。一方、特性関数は常に存在し、分布の一意性・収束判定に安定して使えます。</p>
-      <div class="pull">例：標準コーシー $\mathrm{Cauchy}(0,1)$ は $M_X(t)$ 不存在（$t\ne0$）だが、特性関数は $\varphi_X(t)=e^{-|t|}$。</div>
+      <h2>MGF との関係と注意点</h2>
+  <p>MGF（積率母関数）$M_X(t)=\mathbb{E}[e^{tX}]$ は有用だが、$t\ne0$ で有限にならない分布もある（例：標準コーシー分布）。一方、特性関数は常に存在し、分布の一意性の確認や収束判定に安定して用いることができる。</p>
+      <div class="pull">例：標準コーシー分布 $\mathrm{Cauchy}(0,1)$ では $M_X(t)$ は $t\ne0$ で有限にならないが、特性関数は $\varphi_X(t)=e^{-|t|}$。</div>
 
       <h2>実用メモ</h2>
       <ul>
-        <li>分布収束を示したいときは、特性関数の極限を計算してレヴィの定理を使う。</li>
-        <li>和や独立性が絡むときは、特性関数の積の公式が有効。</li>
-        <li>MGF は存在域に注意。存在しないときは特性関数で置き換える。</li>
+        <li>分布収束を示すときは、特性関数の極限を計算してレヴィの連続性定理を用いる。</li>
+        <li>独立な和では、特性関数が積に分解できる事実が強力。</li>
+        <li>MGF は収束域に注意。使えないときは特性関数に切り替える。</li>
       </ul>
 
       <h2>まとめ</h2>
       <ul>
-        <li>$X_n\Rightarrow X$ ⇔ $\varphi_{X_n}(t)\to\varphi_X(t)$（全ての $t$）。</li>
-        <li>特性関数は常に存在し分布を一意に決める。</li>
-        <li>CLT の証明は特性関数で極めて簡潔になる。</li>
+        <li>$X_n\Rightarrow X$ ⇔ $\varphi_{X_n}(t)\to\varphi_X(t)$（すべての $t$）。</li>
+        <li>特性関数は常に存在し、分布を一意に定める。</li>
+        <li>CLT は特性関数を使うと簡潔に導ける。</li>
       </ul>
 
-      <p class="footer-note">誤植や補足の希望があれば、次回の講義までにお知らせください。式は MathJax で整形表示されます。</p>
     </article>
   </main>
 </body>
+
 </html>
 
