@@ -275,9 +275,17 @@
             color: var(--accent-strong);
         }
 
-        .katex-display {
+        mjx-container {
             overflow-x: auto;
             overflow-y: hidden;
+        }
+
+        mjx-container[display="true"] {
+            margin: 18px 0;
+        }
+
+        .formula mjx-container {
+            margin: 0 auto;
         }
 
         .nav-buttons {
@@ -333,32 +341,33 @@
             }
         }
     </style>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.10/dist/katex.min.css" integrity="sha384-wcIxkf4k558fYv3mQPFEpCREUQueRFCZrCXCtiKU8aNVbN9ODdVcN3BwCAJ6pcBb" crossorigin="anonymous">
-    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.10/dist/katex.min.js" integrity="sha384-hIoBPJpTUs74ddyc4bFZSM1TVlQDA60VBbJS0oA934VSz82sBx1X7kSx2ATBDIyd" crossorigin="anonymous"></script>
-    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.10/dist/contrib/auto-render.min.js" integrity="sha384-43gviWU0YVjaDtb/GhzOouOXtZMP/7XUzwPTstBeZFe/+rCMvRwr4yROQP43s0Xk" crossorigin="anonymous"
-        onload="renderMathInElement(document.body);"></script>
     <script>
-        document.addEventListener("DOMContentLoaded", function() {
-            renderMathInElement(document.body, {
-                delimiters: [
-                    {left: '$$', right: '$$', display: true},
-                    {left: '$', right: '$', display: false}
-                ],
-                throwOnError : false
-            });
-        });
+        window.MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\\[', '\\]']],
+                processEscapes: true
+            },
+            options: {
+                skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+            },
+            chtml: {
+                matchFontHeight: false
+            }
+        };
     </script>
+    <script defer src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js" crossorigin="anonymous"></script>
 </head>
 <body>
     <main>
         <header class="hero">
-            <span class="hero-label">Lecture 7</span>
+            <span class="hero-label">第7回</span>
             <h1>第7回 重積分の応用</h1>
             <p>変数変換・体積・密度と質量など、重積分の代表的な応用を扱います。</p>
         </header>
 
         <section class="outline-section">
-            <h2>Section 1. Change of variables</h2>
+            <h2>第1節 変数変換</h2>
             <div class="note">
                 <strong>ポイント</strong>
                 <p>変数変換ではヤコビアンと像の領域を明示し，極座標などの便利な座標も活用する。</p>
@@ -366,11 +375,11 @@
         </section>
 
         <section class="outline-section">
-            <h2>Section 2. Volume（体積）</h2>
+            <h2>第2節 体積</h2>
             <div class="definition">
                 <strong>定義:</strong>
                 <p>$D\subset\mathbb{R}^2$，二変数関数 $\varphi,\psi$ に対し</p>
-                <div class="formula">$$ V = \{(x,y,z)\mid (x,y)\in D,\ \varphi(x,y)\le z\le \psi(x,y)\} $$</div>
+                <div class="formula">$$ V = \left\{(x,y,z)\mid (x,y)\in D,\ \varphi(x,y)\le z\le \psi(x,y)\right\} $$</div>
                 <p>で囲まれる集合の体積を</p>
                 <div class="formula">$$ \mathrm{Vol}(V)=\int_D\bigl(\psi(x,y)-\varphi(x,y)\bigr)\,dx\,dy $$</div>
                 <p>と定義する。</p>
@@ -386,12 +395,12 @@
         </section>
 
         <section class="outline-section">
-            <h2>Section 3. Mass（質量と密度）</h2>
+            <h2>第3節 質量と密度</h2>
             <div class="definition">
                 <strong>定義:</strong>
-                <p>$V$ を
-                <span class="formula">$$ V=\{(x,y,z)\mid (x,y)\in D,\ \varphi(x,y)\le z\le \psi(x,y)\} $$</span>
-                の形とし，密度 $\rho$ が与えられているとき</p>
+                <p>$V$ を</p>
+                <div class="formula">$$ V=\left\{(x,y,z)\mid (x,y)\in D,\ \varphi(x,y)\le z\le \psi(x,y)\right\} $$</div>
+                <p>の形とし，密度 $\rho$ が与えられているとき</p>
                 <div class="formula">$$ \int_V \rho(x,y,z)\,dx\,dy\,dz = \int_D \left(\int_{\varphi(x,y)}^{\psi(x,y)} \rho(x,y,z)\,dz\right)\,dx\,dy $$</div>
                 <p>で定義する。</p>
             </div>
@@ -407,9 +416,9 @@
 
             <div class="example">
                 <strong>例 1</strong>
-                <p>半径 1，高さ 2 の円柱
-                <span class="formula">$$ V=\{(x,y,z)\mid x^2+y^2\le 1,\ 0\le z\le 2\} $$</span>
-                を考える。密度が一様で $\rho(x,y,z)=\rho_0$（定数）とする。</p>
+                <p>半径 1，高さ 2 の円柱</p>
+                <div class="formula">$$ V=\left\{(x,y,z)\mid x^2+y^2\le 1,\ 0\le z\le 2\right\} $$</div>
+                <p>を考える。密度が一様で $\rho(x,y,z)=\rho_0$（定数）とする。</p>
                 <ol>
                     <li>$V$ の質量 $M$ を三重積分で表せ。</li>
                     <li>実際に積分を計算して $M$ を求めよ。ヒント：極座標 $x=r\cos\theta,\ y=r\sin\theta$ を用いると
@@ -423,9 +432,9 @@
         </section>
 
         <div class="nav-buttons">
-            <a href="../class6/class6.html">← Previous</a>
-            <a href="../index.html">🏠 Home</a>
-            <a href="../class8/class8.html">Next →</a>
+            <a href="../class6/class6.html">← 前回</a>
+            <a href="../index.html">🏠 ホーム</a>
+            <a href="../class8/class8.html">次へ →</a>
         </div>
     </main>
 </body>
