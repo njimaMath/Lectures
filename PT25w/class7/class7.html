@@ -73,17 +73,17 @@
         </section>
 
         <section>
-            <h2>3. 特性関数の収束と弱収束</h2>
+            <h2>3. 特性関数の収束と分布収束</h2>
             <div class="formula">
-                $$\varphi_{X_n}(\xi)\to\varphi_X(\xi)\quad\Rightarrow\quad\mu_{X_n}\Rightarrow\mu_X$$
+                $$\varphi_{X_n}(\xi)\to\varphi_X(\xi)\quad\Rightarrow\quad X_n\overset{d}{\Rightarrow} X$$
             </div>
-            <p>証明のために、まず有界な台をもつ連続関数に対するフーリエ解析の補題を用いる。</p>
-            <h3>補題 (フーリエ逆変換)</h3>
+            <p>証明の流れ: まず有界な台をもつ連続関数に対するフーリエ逆変換の公式を使う。</p>
+            <h3>補題（フーリエ逆変換）</h3>
             <div class="formula">
                 $$\hat f(\xi)=\int_{\mathbb{R}} f(x)e^{-i x\xi}\,dx,\qquad
                 f(x)=\frac{1}{2\pi}\int_{\mathbb{R}} \hat f(\xi)e^{i x\xi}\,d\xi$$
             </div>
-            <p>したがって</p>
+            <p>これを \(f\) に適用すると</p>
             <div class="formula">
                 \[
                 \mathbb{E}[f(X_n)]
@@ -93,17 +93,27 @@
                 =\mathbb{E}[f(X)].
                 \]
             </div>
+            <p>すなわち、有界な台をもつ任意の連続関数 \(f\) に対して積分が収束する：</p>
             <div class="formula">
                 \[
                 \int f\,d\mu_{X_n}\ \longrightarrow\ \int f\,d\mu_X
                 \]
             </div>
+            <p>このため確率変数の列そのものが分布収束する：</p>
             <div class="formula">
                 \[
-                \mu_{X_n}\Rightarrow \mu_X.
+                X_n\overset{d}{\Rightarrow} X.
                 \qquad\square
                 \]
             </div>
+        </section>
+
+        <section>
+            <h2>4. 特性関数の一意性</h2>
+            <div class="formula">
+                $$\varphi_X(\xi)=\varphi_Y(\xi)\ \ (\forall\,\xi\in\mathbb{R})\quad\Longrightarrow\quad \mu_X=\mu_Y$$
+            </div>
+            <p>特性関数が全ての \(\xi\) で一致するならフーリエ逆変換により分布も一致する。逆も真なので、特性関数は分布を一意に特徴づける。</p>
         </section>
 
         <section>
