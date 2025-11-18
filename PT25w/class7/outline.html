@@ -1,6 +1,9 @@
 1. 特性関数
 Def:phi_X(\xi) = E[e^{i \xi X}] 二項分布, ポアソン分布, 指数分布, 正規分布
 |¥phi_X(¥xi)|¥leq 1.
+phi_{X+Y}(¥xi)= phi_{X}(¥xi) phi_{Y}(¥xi) (独立なRVs X,Yの場合)
+phi_X(0)=1.
+
 2. 期待値と特性関数による分布の特徴づけX,YをRVsとする.
 Thm:任意の有界連続関数fに対し, E[f(X)]=E[f(Y)] <=>  \mu_X =\mu_Y.Proof: <= はすでに示した. =>を示す\kF = \{A\subset \Omega: P(X\in A)=(Y\in A)\}とおく. Step 1: (a,b)\in \kF. (f_n \uparrow 1_{x\in (a,b)} monotone, pointwise)Step 2: 任意の開集合Aは互いに素な開区間(a_n,b_n)の加算和でかける: A= \cup (a_n,b_n).mu_X(A) = \sum_n \mu_X((a_n,b_n))  = \sum_n \mu_Y((a_n,b_n)) = mu_Y(A)Step 3: ルベーグ測度論の一般論で任意のボレル集合に対し、ある開集合A_nが存在し, mu_X(A \triangle A_n)+ mu_Y(A \triangle A_n) < 1/n. この時, |\mu_X(A)-\mu_X(A_n)|\leq mu_X(A \triangle A_n) \to 0,|\mu_Y(A)-\mu_Y(A_n)|\leq mu_Y(A \triangle A_n) \to 0であるので, \mu_X(A) = \lim \mu_X(A_n) = \lim \mu_Y(A_n) = \mu_Y(A).
 

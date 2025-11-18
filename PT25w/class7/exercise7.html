@@ -3,7 +3,7 @@
         <head>
             <meta charset="UTF-8">
             <meta name="viewport" content="width=device-width, initial-scale=1.0">
-            <title>第7回 演習: 積率母関数</title>
+            <title>第7回 演習: ガウス核を用いたフーリエ逆変換</title>
             <style>
 
 body {
@@ -48,10 +48,41 @@ section.problem ul {
     margin: 12px 0 0;
     color: #374151;
 }
+section.problem h3 {
+    margin: 16px 0 8px;
+    font-size: 17px;
+    color: #1f2933;
+}
+.formula {
+    margin: 12px 0;
+    text-align: center;
+    line-height: 1.6;
+}
 .note {
     margin-top: 12px;
     font-size: 14px;
     color: #64748b;
+}
+.answer-toggle {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 16px;
+    margin: 12px 0 4px;
+    border: none;
+    border-radius: 999px;
+    background: #1e3a8a;
+    color: #ffffff;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+    cursor: pointer;
+    transition: background 0.2s ease;
+}
+.answer-toggle:hover {
+    background: #3454c3;
+}
+.hidden {
+    display: none;
 }
 .navigation {
     margin-top: 36px;
@@ -77,36 +108,133 @@ section.problem ul {
 }
 
             </style>
+            <script>
+                MathJax = {
+                    tex: {
+                        inlineMath: [['$', '$'], ['\\(', '\\)']],
+                        displayMath: [['$$', '$$'], ['\\[', '\\]']]
+                    }
+                };
+            </script>
+            <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
         </head>
         <body>
             <main>
                 <header>
-                    <h1>第7回 演習: 積率母関数</h1>
-                    <p>class7.html の積率母関数 (MGF) を用いて、分布の特徴付けと和の性質を確認します。</p>
+                    <h1>第7回 演習: ガウス核を用いたフーリエ逆変換</h1>
+                    <p>ガウス核による正則化を通して逆フーリエ公式を確認するレポート課題です。</p>
                 </header>
 
 <section class="problem">
-    <h2>問題1: ポアソン分布の MGF</h2>
-    <ul>
-<li>ポアソン分布 \(\mathrm{Poi}(\lambda)\) の積率母関数 \(M_X(t)\) を導出せよ。</li>
-<li>MGF を用いて期待値と分散を再確認せよ。</li>
-    </ul>
+  <h2>レポート課題：ガウス核を用いたフーリエ逆変換（正則化）</h2>
+
+  <p>フーリエ変換を</p>
+  <div class="formula">$$\hat f(\xi):=\int_{\mathbb R} f(x)\,e^{-i x\xi}\,dx$$</div>
+  <p>と定める。</p>
+
+  <p><strong>目標（正則化版）</strong>：次を示せ（\(f\in C_c(\mathbb R)\)）。</p>
+  <div class="formula">
+    $$f(x)=\lim_{\delta\to\infty}\frac{1}{2\pi}\int_{\mathbb R} \hat f(\xi)\,e^{-\xi^2/(4\delta)}\,e^{i x\xi}\,d\xi\qquad(x\in\mathbb R).$$
+  </div>
+
+  <p>既知としてよい積分は</p>
+  <div class="formula">
+    $$\int_{\mathbb R} e^{-\delta x^2}\,dx=\sqrt{\tfrac{\pi}{\delta}},\qquad
+      \int_{\mathbb R} e^{-\delta x^2}e^{-i x\xi}\,dx=\sqrt{\tfrac{\pi}{\delta}}\,e^{-\xi^2/(4\delta)}\quad(\delta>0).$$
+  </div>
+  <p>優収束定理やフビニの定理などの正当化は仮定してよい。<strong>ただし \(f*\phi_\delta\to f\) の一様収束だけは厳密に示すこと。</strong></p>
+
+  <h3>Step 1. ガウス核と近似恒等写像（ここは厳密証明）</h3>
+  <div class="formula">
+    $$\phi_\delta(x):=\sqrt{\tfrac{\delta}{\pi}}\,e^{-\delta x^2}\qquad(\delta>0).$$
+  </div>
+  <p>畳み込み \((f*\phi_\delta)(x):=\int_{\mathbb R} f(y)\,\phi_\delta(x-y)\,dy\) を定める。
+     有界台をもつ連続関数 \(f\) に対し、
+     $$\lim_{\delta\to\infty}\|f*\phi_\delta-f\|_\infty=0$$
+     を厳密に示せ（\(f\) が一様連続であることと \(\int_{\mathbb R}\phi_\delta=1\)、および
+     \(\displaystyle\int_{|u|\ge \eta}\phi_\delta(u)\,du=\frac{2}{\sqrt\pi}\int_{\eta\sqrt\delta}^\infty e^{-v^2}\,dv\to 0\ (\delta\to\infty)\)
+     を用いてよい）。</p>
+
+  <h3>Step 2. ガウス核のフーリエ変換と逆表示</h3>
+  <p>\(\widehat{\phi_\delta}(\xi)=\int_{\mathbb R}\phi_\delta(x)e^{-i x\xi}\,dx\) を計算して</p>
+  <div class="formula">
+    $$\widehat{\phi_\delta}(\xi)=e^{-\xi^2/(4\delta)}$$
+  </div>
+  <p>を示せ。さらに同じガウス積分を用いて、任意の \(z\in\mathbb R\) に対し</p>
+  <div class="formula">
+    $$\phi_\delta(z)=\frac{1}{2\pi}\int_{\mathbb R}e^{-\xi^2/(4\delta)}\,e^{i z\xi}\,d\xi$$
+  </div>
+  <p>も確かめよ（この等式は一般の「逆変換定理」ではなくガウス積分の直接計算で示すこと）。</p>
+
+  <h3>Step 3. 畳み込みのフーリエ像</h3>
+  <p>フビニの定理を仮定して</p>
+  <div class="formula">
+    $$\widehat{f*\phi_\delta}(\xi)=\hat f(\xi)\,\widehat{\phi_\delta}(\xi)=\hat f(\xi)\,e^{-\xi^2/(4\delta)}$$
+  </div>
+  <p>を示せ（\(f,\phi_\delta\in L^1\) により計算は正当化される）。</p>
+
+  <h3>Step 4. 二重積分で表して極限から正則化逆変換を得る</h3>
+  <p>Step 2 の逆表示
+    \(\displaystyle \phi_\delta(x-y)=\frac{1}{2\pi}\int_{\mathbb R}e^{-\xi^2/(4\delta)}e^{i(x-y)\xi}\,d\xi\) と
+    フビニの定理を用いて、次の等式を直接計算で示せ：</p>
+  <div class="formula">
+    $$(f*\phi_\delta)(x)=\frac{1}{2\pi}\int_{\mathbb R}\hat f(\xi)\,e^{-\xi^2/(4\delta)}\,e^{i x\xi}\,d\xi.$$
+  </div>
+  <p>最後に Step 1 の一様収束を用いて \(\delta\to\infty\) とすれば、冒頭の正則化逆変換公式が従う。</p>
+
+  <hr/>
+
+  <h3>Step 5. 古典的な逆変換公式の導出</h3>
+  <p>もし \(\hat f\in L^1(\mathbb R)\)（例えば \(f\in C_c^2(\mathbb R)\) など）を仮定できるなら、
+     優収束定理を用いてガウス因子を外し、古典的な逆変換公式</p>
+  <div class="formula">
+    $$f(x)=\frac{1}{2\pi}\int_{\mathbb R}\hat f(\xi)\,e^{i x\xi}\,d\xi$$
+  </div>
+  <p>を導け。</p>
 </section>
 
-<section class="problem">
-    <h2>問題2: MGF による分布の同定</h2>
-    <ul>
-<li>独立な確率変数 \(X_i \sim \mathrm{Exp}(\lambda)\) の和 \(S_n = \sum_{i=1}^n X_i\) を考える。</li>
-<li>MGF を用いて \(S_n\) がガンマ分布に従うことを示せ。</li>
-    </ul>
-</section>
+            <button class="answer-toggle" id="toggle-answer">解答を表示</button>
 
-<section class="problem">
-    <h2>問題3: 一意性定理の活用</h2>
-    <ul>
-<li>MGF が存在する 2 つの確率変数で、MGF が一致すれば分布が一致することを要約し、自分の言葉で説明せよ。</li>
-<li>簡単な例を 1 つ挙げて、一意性の確認計算を行え。</li>
-    </ul>
+<section class="problem hidden" id="answer-section">
+  <h2>解答：ガウス核を用いたフーリエ逆変換（正則化）</h2>
+  <p>フーリエ変換を \(\hat f(\xi)=\displaystyle\int_{\mathbb R} f(x)e^{-i x\xi}\,dx\) とし、ガウス核を</p>
+  <div class="formula">$$\phi_\delta(x):=\sqrt{\tfrac{\delta}{\pi}}\,e^{-\delta x^2}\qquad(\delta>0)$$</div>
+  <p>とおく。</p>
+
+  <h3>補題 1（ガウス核の基本性質）</h3>
+  <p>\(\phi_\delta\in L^1(\mathbb R)\) で \(\displaystyle\int_{\mathbb R}\phi_\delta(x)\,dx=1\)。任意の \(\eta>0\) に対し</p>
+  <div class="formula">$$\int_{|u|\ge \eta}\phi_\delta(u)\,du=\frac{2}{\sqrt{\pi}}\int_{\eta\sqrt{\delta}}^\infty e^{-v^2}\,dv \xrightarrow[\delta\to\infty]{} 0.$$</div>
+  <p><strong>証明.</strong> 置換 \(u=\sqrt{\delta}\,x\) を用いれば \(\int_{\mathbb R}\phi_\delta=1\)、同じ置換で後半も従う。□</p>
+
+  <h3>命題 1（近似恒等写像としての一様収束）</h3>
+  <p>\(f\in C_c(\mathbb R)\) とするとき</p>
+  <div class="formula">$$\lim_{\delta\to\infty}\|f*\phi_\delta-f\|_\infty=0.$$</div>
+  <p><strong>証明.</strong> \(f\) は一様連続かつ有界とし \(M=\|f\|_\infty\)。任意の \(\varepsilon>0\) について一様連続性より \(|f(x-u)-f(x)|<\varepsilon/3\) となる \(\eta>0\) がある。分割積分で</p>
+  <div class="formula">$$\bigl|(f*\phi_\delta)(x)-f(x)\bigr|\le \tfrac{\varepsilon}{3} + 2M\int_{|u|\ge \eta}\phi_\delta(u)\,du.$$</div>
+  <p>補題 1 より十分大きな \(\delta\) で右辺が \(\varepsilon\) 未満となる。□</p>
+
+  <h3>補題 2（ガウス核のフーリエ変換と逆表示）</h3>
+  <div class="formula">$$\widehat{\phi_\delta}(\xi)=\int_{\mathbb R}\phi_\delta(x)e^{-ix\xi}\,dx=e^{-\xi^2/(4\delta)}\qquad(\xi\in\mathbb R).$$</div>
+  <div class="formula">$$\phi_\delta(z)=\frac{1}{2\pi}\int_{\mathbb R} e^{-\xi^2/(4\delta)}\,e^{iz\xi}\,d\xi\qquad(z\in\mathbb R).$$</div>
+  <p><strong>証明.</strong> 既知のガウス積分から前半は直ちに従う。後半は平方完成公式 \(\int_{\mathbb R}e^{-a\xi^2+b\xi}\,d\xi=\sqrt{\frac{\pi}{a}}e^{b^2/(4a)}\) を \(a=1/(4\delta),\,b=iz\) に適用する。□</p>
+
+  <h3>命題 2（畳み込みのフーリエ像）</h3>
+  <div class="formula">$$\widehat{f*\phi_\delta}(\xi)=\hat f(\xi)\,\widehat{\phi_\delta}(\xi)=\hat f(\xi)\,e^{-\xi^2/(4\delta)}\qquad(f,\phi_\delta\in L^1).$$</div>
+  <p><strong>証明.</strong> \(|e^{-ix\xi}|=1\) から \(\int\!\!\int |f(y)|\phi_\delta(x-y)\,dy\,dx<\infty\)、フビニの定理で積分を交換して計算する。補題 2 を代入して得る。□</p>
+
+  <h3>定理（正則化逆変換）</h3>
+  <p>\(f\in C_c(\mathbb R)\) に対し各 \(x\in\mathbb R\) で</p>
+  <div class="formula">$$
+  (f*\phi_\delta)(x)=\frac{1}{2\pi}\int_{\mathbb R}\hat f(\xi)\,e^{-\xi^2/(4\delta)}\,e^{ix\xi}\,d\xi,
+  \qquad
+  f(x)=\lim_{\delta\to\infty}\frac{1}{2\pi}\int_{\mathbb R}\hat f(\xi)\,e^{-\xi^2/(4\delta)}\,e^{ix\xi}\,d\xi.
+  $$</div>
+  <p><strong>証明.</strong> 補題 2 の逆表示を畳み込みの定義に代入し、フビニの定理で順序交換して上式を得る。命題 1 で一様収束 \(f*\phi_\delta\to f\) を示したので右式が従う。□</p>
+
+  <h3>系（古典的逆変換）</h3>
+  <p>もし \(\hat f\in L^1(\mathbb R)\)（例: \(f\in C_c^2(\mathbb R)\)）なら</p>
+  <div class="formula">$$f(x)=\frac{1}{2\pi}\int_{\mathbb R}\hat f(\xi)\,e^{ix\xi}\,d\xi\qquad(x\in\mathbb R).$$</div>
+  <p><strong>証明.</strong> 定理の被積分関数は \(\hat f(\xi)e^{-\xi^2/(4\delta)}e^{ix\xi}\to \hat f(\xi)e^{ix\xi}\)、上から \(|\hat f(\xi)|\) で押さえられる。優収束定理で極限を交換し結論を得る。□</p>
 </section>
 
                 <div class="navigation">
@@ -115,6 +243,16 @@ section.problem ul {
             <a href="class7.html">講義ノートへ</a>
             <a href="../class8/exercise8.html">次の演習</a>
                 </div>
+                <script>
+                    const toggleBtn = document.getElementById('toggle-answer');
+                    const answerSection = document.getElementById('answer-section');
+                    if (toggleBtn && answerSection) {
+                        toggleBtn.addEventListener('click', () => {
+                            const isHidden = answerSection.classList.toggle('hidden');
+                            toggleBtn.textContent = isHidden ? '解答を表示' : '解答を隠す';
+                        });
+                    }
+                </script>
             </main>
         </body>
         </html>

@@ -42,28 +42,32 @@
 
         <section>
             <h2>1. 特性関数の基礎</h2>
-            <p>確率変数 \(X\) の特性関数は複素指数関数を介して分布の全情報をエンコードする。</p>
+            <p>確率変数 \(X\) の特性関数を</p>
             <div class="formula">
                 $$\varphi_X(\xi)=\mathbb{E}\left[e^{i\xi X}\right]$$
             </div>
-            <ul>
-                <li>二項・ポアソン・指数・正規分布など、主要な分布の特性関数は閉じた形で計算できる。</li>
-                <li>常に \(|\varphi_X(\xi)| \le 1\)。この有界性は特性関数列の緊密性を議論する際に便利。</li>
-            </ul>
+            <p>と定める。二項分布，ポアソン分布，指数分布，正規分布などの具体例で計算できる。</p>
+            <p>また常に \(|\varphi_X(\xi)|\le 1\) が成り立つ。</p>
         </section>
 
         <section>
             <h2>2. 期待値による分布の特徴づけ</h2>
-            <p>期待値が一致すれば分布が一致する。より一般的には任意のコンパクトな台をもつ連続関数に対する期待値が一致するかどうかで判定できる。</p>
+            <p>\(X,Y\) を確率変数とする。任意の有界連続関数 \(f\) に対して期待値が一致するかどうかで分布が一致するかを特徴づける。</p>
             <div class="formula">
                 $$\mathbb{E}[f(X)]=\mathbb{E}[f(Y)] \;\;(\forall f\in C_b(\mathbb{R}))\quad\Longleftrightarrow\quad \mu_X=\mu_Y$$
             </div>
             <details>
                 <summary>証明スケッチ</summary>
+                <p>「\(\Leftarrow\)」はすでに示したので「\(\Rightarrow\)」を示す。</p>
                 <ol>
-                    <li>\(\mathcal{F}=\{A:\mathbb{P}(X\in A)=\mathbb{P}(Y\in A)\}\) とおくと、区間 \((a,b)\) が \(\mathcal{F}\) に属することを示す。単調増加列 \(f_n \uparrow 1_{(a,b)}\) を用いる。</li>
-                    <li>任意の開集合 \(A\) は互いに素な開区間の可算和で表せるので、\(\mu_X(A)=\mu_Y(A)\) が従う。</li>
-                    <li>各ボレル集合 \(B\) に対して開集合系列 \(A_n\) を取って \(B\triangle A_n\) の測度を制御し、近似の極限で \(\mu_X(B)=\mu_Y(B)\) を結論づける。</li>
+                    <li>\(\mathcal{F}=\{A\subset\Omega:\mathbb{P}(X\in A)=\mathbb{P}(Y\in A)\}\) とおく。\((a,b)\in\mathcal{F}\) を、単調増加列 \(f_n\uparrow 1_{(a,b)}\)（各点かつ単調）を用いて示す。</li>
+                    <li>任意の開集合 \(A\) は互いに素な開区間 \((a_n,b_n)\) の可算和で表せるので、\(A=\bigcup_n(a_n,b_n)\) と書ける。したがって
+                        \(\mu_X(A)=\sum_n\mu_X((a_n,b_n))=\sum_n\mu_Y((a_n,b_n))=\mu_Y(A)\) が従う。</li>
+                    <li>ルベーグ測度論の一般論より、任意のボレル集合 \(B\) に対して開集合 \(A_n\) が存在し
+                        \(\mu_X(B\triangle A_n)+\mu_Y(B\triangle A_n)<1/n\) を満たす。すると
+                        \(|\mu_X(B)-\mu_X(A_n)|\le\mu_X(B\triangle A_n)\to 0\),
+                        \(|\mu_Y(B)-\mu_Y(A_n)|\le\mu_Y(B\triangle A_n)\to 0\) であるから
+                        \(\mu_X(B)=\lim_n\mu_X(A_n)=\lim_n\mu_Y(A_n)=\mu_Y(B)\) が従う。</li>
                 </ol>
             </details>
         </section>
@@ -73,95 +77,47 @@
             <div class="formula">
                 $$\varphi_{X_n}(\xi)\to\varphi_X(\xi)\quad\Rightarrow\quad\mu_{X_n}\Rightarrow\mu_X$$
             </div>
-            <p>特性関数の点収束は測度の弱収束を含意する。証明の鍵は有界台をもつ連続関数での収束を確立する補題である。</p>
+            <p>証明のために、まず有界な台をもつ連続関数に対するフーリエ解析の補題を用いる。</p>
             <h3>補題 (フーリエ逆変換)</h3>
             <div class="formula">
                 $$\hat f(\xi)=\int_{\mathbb{R}} f(x)e^{-i x\xi}\,dx,\qquad
                 f(x)=\frac{1}{2\pi}\int_{\mathbb{R}} \hat f(\xi)e^{i x\xi}\,d\xi$$
             </div>
-            <p>よって</p>
+            <p>したがって</p>
             <div class="formula">
                 \[
-                \mathbb{E}[f(X_n)]=\frac{1}{2\pi}\int_{\mathbb{R}}\hat f(\xi)\varphi_{X_n}(\xi)\,d\xi
+                \mathbb{E}[f(X_n)]
+                =\frac{1}{2\pi}\int_{\mathbb{R}} \hat f(\xi)\,\varphi_{X_n}(\xi)\,d\xi
                 \longrightarrow
-                \frac{1}{2\pi}\int_{\mathbb{R}}\hat f(\xi)\varphi_{X}(\xi)\,d\xi=\mathbb{E}[f(X)].
+                \frac{1}{2\pi}\int_{\mathbb{R}} \hat f(\xi)\,\varphi_{X}(\xi)\,d\xi
+                =\mathbb{E}[f(X)].
                 \]
             </div>
-            <p>任意の \(f\in C_c(\mathbb{R})\) に対して上の収束が成り立つため、ポートマントーの定理より \(\mu_{X_n}\Rightarrow\mu_X\)。</p>
+            <div class="formula">
+                \[
+                \int f\,d\mu_{X_n}\ \longrightarrow\ \int f\,d\mu_X
+                \]
+            </div>
+            <div class="formula">
+                \[
+                \mu_{X_n}\Rightarrow \mu_X.
+                \qquad\square
+                \]
+            </div>
         </section>
 
         <section>
-            <h2>レポート課題：ガウス核を用いたフーリエ逆変換の証明</h2>
-            <p>以降、フーリエ変換を
-            <span class="formula">$$\hat f(\xi):=\int_{\mathbb R} f(x)\,e^{-i x\xi}\,dx$$</span>
-            と定める。目標は
-            <span class="formula">$$f(x)=\frac{1}{2\pi}\int_{\mathbb R} \hat f(\xi)\,e^{i x\xi}\,d\xi\qquad(x\in\mathbb R)$$</span>
-            を、ガウス核による正則化で 3 ステップに分けて証明することである。既知としてよい積分は
-            <span class="formula">$$\int_{\mathbb R} e^{-\delta x^2}\,dx=\sqrt{\tfrac{\pi}{\delta}},\qquad
-            \int_{\mathbb R} e^{-\delta x^2}e^{-i x\xi}\,dx=\sqrt{\tfrac{\pi}{\delta}}\,e^{-\xi^2/(4\delta)}\quad(\delta>0)$$</span>
-            である。</p>
+            <h2>レポート課題</h2>
+            <h3>1. 幾何分布とガンマ分布の特性関数</h3>
+            <p>次の分布（定義を以下に再掲）について特性関数 \(\varphi_X(\xi)=\mathbb{E}[e^{i\xi X}]\) を計算せよ。(わからなかったら調べて導出法を書け)</p>
+            <ul>
+                <li>成功確率 \(p\in(0,1)\) の幾何分布（試行回数型）。\(\mathbb{P}(X=k)=p(1-p)^{k-1}\)（\(k=1,2,\dots\)）。</li>
+                <li>形状 \(k>0\)、スケール \(\theta>0\) のガンマ分布。密度 \(f(x)=\dfrac{1}{\Gamma(k)\theta^k}x^{k-1}e^{-x/\theta}\)（\(x>0\)）。</li>
+            </ul>
 
-            <h3>Step 1. 近似恒等写像（ガウス）</h3>
-            <div class="formula">$$\phi_\delta(x):=\sqrt{\tfrac{\delta}{\pi}}\,e^{-\delta x^2}\qquad(\delta>0)$$</div>
-            <ol>
-                <li>任意の \(\delta>0\) で \(\displaystyle \int_{\mathbb R} \phi_\delta(x)\,dx=1\) を示せ。</li>
-                <li>畳み込み \(\displaystyle (f*\phi_\delta)(x):=\int_{\mathbb R} f(y)\,\phi_\delta(x-y)\,dy\) を定める。<br>
-                    (a) \(f*\phi_\delta\in C^\infty(\mathbb R)\) を示せ。 (b) \(\displaystyle \lim_{\delta\to 0^+}\|f*\phi_\delta-f\|_\infty=0\) を示せ。
-                </li>
-            </ol>
-            <details>
-                <summary>ヒント（Step 1）</summary>
-                <div class="proof">
-                    <ul>
-                        <li>\(f\in C_c^\infty\) は一様連続かつ有界台。\(\phi_\delta\) は \(\delta\to 0^+\) で 0 の近傍に集中（近似恒等写像）。</li>
-                        <li>導関数は積分と微分の交換で得る。支配関数を用いて正当化する。</li>
-                    </ul>
-                </div>
-            </details>
-
-            <h3>Step 2. 周波数側での表現</h3>
-            <ol>
-                <li>\(\widehat{\phi_\delta}(\xi)=\int_{\mathbb R}\phi_\delta(x)e^{-i x\xi}\,dx\) を計算して
-                    <div class="formula">$$\widehat{\phi_\delta}(\xi)=e^{-\xi^2/(4\delta)}$$</div>
-                    を示せ（既知のガウス積分を用いてよい）。
-                </li>
-                <li>フビニの定理を正当化して
-                    <div class="formula">$$\widehat{f*\phi_\delta}(\xi)=\hat f(\xi)\,\widehat{\phi_\delta}(\xi)=\hat f(\xi)\,e^{-\xi^2/(4\delta)}$$</div>
-                    を示せ。
-                </li>
-                <li>良い関数 \(f*\phi_\delta\) に対して逆変換公式が適用できることを用いて、任意の \(x\in\mathbb R\) で
-                    <div class="formula">$$(f*\phi_\delta)(x)=\frac{1}{2\pi}\int_{\mathbb R}\widehat{f*\phi_\delta}(\xi)e^{i x\xi}\,d\xi=\frac{1}{2\pi}\int_{\mathbb R}\hat f(\xi)e^{-\xi^2/(4\delta)}e^{i x\xi}\,d\xi.$$</div>
-                </li>
-            </ol>
-            <details>
-                <summary>メモ（可換順序の正当化）</summary>
-                <div class="proof">
-                    <ul>
-                        <li>\(\int\!\int |f(y)|\,\phi_\delta(x-y)\,dy\,dx<\infty\) が成り立つ（\(f\) は有界台、\(\phi_\delta\) は可積分）。</li>
-                        <li>よってフビニ（トネリ）により積分順序交換が可能。</li>
-                    </ul>
-                </div>
-            </details>
-
-            <h3>Step 3. \(\delta\to 0^+\) の極限で逆変換を得る</h3>
-            <ol>
-                <li>Step 1 より \((f*\phi_\delta)(x)\to f(x)\) が一様に成り立つ。</li>
-                <li>Step 2 の式から
-                    <div class="formula">$$(f*\phi_\delta)(x)=\frac{1}{2\pi}\int_{\mathbb R}\hat f(\xi)\,e^{-\xi^2/(4\delta)}e^{i x\xi}\,d\xi$$</div>
-                    を得る。優収束定理を正当化して極限を積分内に通し、目標の逆変換公式を示せ。
-                </li>
-            </ol>
-            <details>
-                <summary>ヒント（支配関数の構成）</summary>
-                <div class="proof">
-                    <ul>
-                        <li>\(f\in C_c^\infty\Rightarrow \hat f\) は急減少：任意の \(N\) で \(|\hat f(\xi)|\le C_N(1+|\xi|)^{-N}\)。</li>
-                        <li>各 \(\xi\) で \(e^{-\xi^2/(4\delta)}\to 1\)。しかも \(|\hat f(\xi)e^{-\xi^2/(4\delta)}|\le C_N(1+|\xi|)^{-N}\in L^1\)。</li>
-                        <li>よって優収束定理により極限と積分の交換が正当化される。</li>
-                    </ul>
-                </div>
-            </details>
-
+            <h3>2. 弱法則の向きから見る特性関数の収束</h3>
+            <p>独立同分布な確率変数 \(X_i\)（\(i\ge 1\)）が \(\mathbb{E}[X_i]=0\) かつ \(\mathbb{E}[X_i^2]<\infty\) を満たすとする。\(S_n := \tfrac{1}{n}\sum_{i=1}^n X_i\) とおくと、\(\varphi_{S_n}(\xi)\to 1\)（各 \(\xi\) に対して）を示せ。(授業の定理から, $S_n$が$0$に分布収束していることがわかる)</p>
+            <p><strong>ヒント:</strong> テイラーの定理を用いて \(e^{i\xi X_i/n}=1+\tfrac{i\xi X_i}{n}+\bigl(\tfrac{i\xi \theta X_i}{n}\bigr)^2\)（\(\theta\in[0,1]\)）と書き、期待値を取って評価する。有限分散条件から二乗項は \(n^{-2}\) オーダーで消えることを確かめよ</p>
         </section>
 
         <nav class="navigation">
