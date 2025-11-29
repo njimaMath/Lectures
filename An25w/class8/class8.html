@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>第8回 中間試験およびまとめ</title>
+    <title>第8回 前半まとめ（1〜7回）</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Cabin:wght@500&family=Noto+Sans+JP:wght@400;500;700&display=swap');
 
@@ -213,73 +213,6 @@
             box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.35);
         }
 
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin: 18px 0;
-            background: rgba(255, 255, 255, 0.92);
-            border-radius: 18px;
-            overflow: hidden;
-            border: 1px solid rgba(148, 163, 184, 0.3);
-            box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.4);
-        }
-
-        th, td {
-            border-bottom: 1px solid rgba(148, 163, 184, 0.25);
-            padding: 12px 16px;
-            text-align: center;
-            color: var(--text-secondary);
-        }
-
-        th {
-            background: rgba(76, 110, 245, 0.1);
-            font-weight: 600;
-            color: var(--accent-strong);
-            font-family: 'Cabin', sans-serif;
-            letter-spacing: 0.04em;
-        }
-
-        tr:last-child td {
-            border-bottom: 0;
-        }
-
-        .graph {
-            text-align: center;
-            margin: 24px 0;
-        }
-
-        .graph svg {
-            max-width: 100%;
-            height: auto;
-            border-radius: 16px;
-            background: rgba(255, 255, 255, 0.92);
-            border: 1px solid rgba(148, 163, 184, 0.25);
-            box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.4), 0 16px 28px -24px rgba(15, 23, 42, 0.6);
-        }
-
-        .exercise-list {
-            background: rgba(250, 204, 21, 0.12);
-            border: 1px solid rgba(250, 204, 21, 0.32);
-            padding: 22px 24px;
-            border-radius: 18px;
-            margin: 22px 0;
-            box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.4);
-            color: var(--text-secondary);
-        }
-
-        code {
-            font-family: 'Source Code Pro', 'Courier New', monospace;
-            background: rgba(15, 23, 42, 0.12);
-            padding: 2px 6px;
-            border-radius: 6px;
-            color: var(--accent-strong);
-        }
-
-        mjx-container[display="true"] {
-            overflow-x: auto;
-            overflow-y: hidden;
-        }
-
         .nav-buttons {
             display: flex;
             justify-content: center;
@@ -308,6 +241,11 @@
             background: var(--accent-strong);
             transform: translateY(-2px);
             box-shadow: 0 6px 16px rgba(76, 110, 245, 0.4);
+        }
+
+        mjx-container[display="true"] {
+            overflow-x: auto;
+            overflow-y: hidden;
         }
 
         @media (max-width: 768px) {
@@ -348,48 +286,119 @@
 </head>
 <body>
     <main>
-    <main>
         <header class="hero">
-            <span class="hero-label">Lecture 8</span>
-            <h1>第8回 中間試験およびまとめ</h1>
-            <p>前半の内容を総合的に振り返り、中間試験に備えます。</p>
+            <span class="hero-label">第8回</span>
+            <h1>第8回 前半まとめ（1〜7回）</h1>
+            <p>逆関数から重積分の応用まで、これまで学んだ核心を一気に整理します。</p>
         </header>
 
         <section class="outline-section">
-            <h2>Section 1. 講義概要</h2>
-            <div class="note">
-                <strong>テーマ:</strong> ここまでの総復習
-            </div>
-            <div class="definition">
-                <strong>到達目標:</strong>
+            <h2>第1節 1〜7回のハイライト</h2>
+            <div class="concept-card">
+                <strong>第1回 逆関数と逆三角関数</strong>
                 <ul>
-                    <li>これまでの主要トピックを再確認する</li><li>代表的な演習問題を通じて理解度をチェックする</li><li>試験の注意事項と学習戦略を共有する</li>
+                    <li>単射・全射・逆写像の復習と、逆関数の導出方法。</li>
+                    <li>$\arcsin x,\arccos x,\arctan x$ の定義域・値域と基本公式。</li>
+                    <li>逆三角関数の微分：$\dfrac{d}{dx}\arcsin x=\dfrac{1}{\sqrt{1-x^2}}$、$\dfrac{d}{dx}\arctan x=\dfrac{1}{1+x^2}$ など。</li>
+                </ul>
+            </div>
+            <div class="concept-card">
+                <strong>第2回 有理関数の積分</strong>
+                <ul>
+                    <li>有理関数（多項式の比）の定義と部分分数分解の手順。</li>
+                    <li>一次因子・二次因子ごとの分解形と係数決定のコツ。</li>
+                    <li>積分公式の組み合わせで有理関数を処理する流れを確認。</li>
+                </ul>
+            </div>
+            <div class="concept-card">
+                <strong>第3回 重積分の定義</strong>
+                <ul>
+                    <li>リーマン和を二変数に拡張し、長方形領域 $K=[a,b]\times[c,d]$ 上の重積分を定義。</li>
+                    <li>可積分性（連続なら存在）と重積分の図形的イメージ。</li>
+                    <li>一般領域への拡張に向けた指示関数の考え方。</li>
+                </ul>
+            </div>
+            <div class="concept-card">
+                <strong>第4回 重積分の計算と累次積分</strong>
+                <ul>
+                    <li>フビニ（トネリ）定理で順序を入れ替えた累次積分を正当化。</li>
+                    <li>Type I/II（縦切り・横切り）領域の記述と積分設定。</li>
+                    <li>対称性を利用した計算簡略化のポイント。</li>
+                </ul>
+            </div>
+            <div class="concept-card">
+                <strong>第5回 広義積分</strong>
+                <ul>
+                    <li>区間の端点が無限大・特異点を含むときの広義積分の定義。</li>
+                    <li>$p$ 判定など収束判定の目安と、二変数の場合の扱い方。</li>
+                    <li>「積分値」だけでなく「収束するか」を常に確認する姿勢。</li>
+                </ul>
+            </div>
+            <div class="concept-card">
+                <strong>第6回 変数変換とヤコビアン</strong>
+                <ul>
+                    <li>区分求積に基づく変数変換公式の導出とヤコビアン $\dfrac{\partial(x,y)}{\partial(u,v)}$。</li>
+                    <li>極座標変換：$x=r\cos\theta,\ y=r\sin\theta,\ |J|=r$ の再確認。</li>
+                    <li>写像の像・定義域対応を図で押さえ、積分の範囲を正しく移す。</li>
+                </ul>
+            </div>
+            <div class="concept-card">
+                <strong>第7回 重積分の応用</strong>
+                <ul>
+                    <li>変数変換の実践（極座標ほか）と計算手順の整理。</li>
+                    <li>体積の表現：$V=\int_D (\psi-\varphi)\,dx\,dy$ で立体の体積を求める。</li>
+                    <li>密度からの総量計算：$\displaystyle \int_V \rho(x,y,z)\,dx\,dy\,dz$ で質量・電荷・エネルギーを評価。</li>
                 </ul>
             </div>
         </section>
 
         <section class="outline-section">
-            <h2>Section 2. 重要な公式・キーポイント</h2>
-            <div class="formula">$$ 重積分・広義積分・変数変換で扱った主要公式を整理する $$</div>
-            <div class="proof">
-                <strong>チェックリスト:</strong>
-                <ul class="highlight-list">
-                    <li>公式の導出過程を説明できるか。</li>
-                    <li>適用条件や必要な仮定を記憶しているか。</li>
-                    <li>例題に当てはめて計算できるか。</li>
-                </ul>
+            <h2>第2節 主要な公式と手順</h2>
+            <div class="formula">
+                $$\iint_{K=[a,b]\times[c,d]} f(x,y)\,dx\,dy
+                =\int_c^d\!\left(\int_a^b f(x,y)\,dx\right)dy
+                =\int_a^b\!\left(\int_c^d f(x,y)\,dy\right)dx$$
+            </div>
+            <div class="formula">
+                $$\iint_{R} f(x,y)\,dx\,dy
+                =\iint_{R'} f\bigl(x(u,v),y(u,v)\bigr)\,
+                \left|\frac{\partial(x,y)}{\partial(u,v)}\right|\,du\,dv$$
             </div>
             <div class="note">
-                <strong>アドバイス:</strong> 試験範囲は第1回〜第6回。自分の弱点を洗い出し、資料を整理してください。
+                <strong>使い方の要点</strong>
+                <ul>
+                    <li>変数変換は「範囲の写し替え」「ヤコビアン」「元の関数の置き換え」の3点セット。</li>
+                    <li>広義積分は必ず「極限の存在」を確認し、必要なら比較・極座標で判定する。</li>
+                    <li>逆三角関数や部分分数分解など一変数の道具は、多変数計算の途中でも頻出。</li>
+                </ul>
             </div>
         </section>
 
+        <section class="outline-section">
+            <h2>第3節 中間試験に向けた確認ポイント</h2>
+            <div class="definition">
+                <strong>理解しておきたいこと</strong>
+                <ul>
+                    <li>定義レベルで説明できるか（重積分の可積分性、広義積分、ヤコビアンの意味など）。</li>
+                    <li>計算手順を文章で述べられるか（領域の記述→積分の設定→計算）。</li>
+                    <li>図を使って領域や変換の対応を描けるか（特に Type I/II と極座標）。</li>
+                </ul>
+            </div>
+            <div class="proof">
+                <strong>資料整理のヒント</strong>
+                <ul>
+                    <li>各回の代表公式を一枚にまとめ、使用条件と典型的な組み合わせを書き添える。</li>
+                    <li>「どこでつまずいたか」をメモし、似た計算手順を並べて共通点を確認する。</li>
+                    <li>計算の途中で登場する一変数積分も含め、符号・範囲・定義域の確認を習慣にする。</li>
+                </ul>
+            </div>
+        </section>
 
         <div class="nav-buttons">
-            <a href="../class7/class7.html">← Previous</a>
-            <a href="../index.html">🏠 Home</a>
-            <a href="../class9/class9.html">Next →</a>
+            <a href="../class7/class7.html">← 前回</a>
+            <a href="../index.html">🏠 ホーム</a>
+            <a href="../class9/class9.html">次へ →</a>
         </div>
-</main>
+    </main>
 </body>
 </html>

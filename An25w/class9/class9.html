@@ -213,45 +213,15 @@
             box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.35);
         }
 
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin: 18px 0;
-            background: rgba(255, 255, 255, 0.92);
-            border-radius: 18px;
-            overflow: hidden;
-            border: 1px solid rgba(148, 163, 184, 0.3);
-            box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.4);
-        }
-
-        th, td {
-            border-bottom: 1px solid rgba(148, 163, 184, 0.25);
-            padding: 12px 16px;
-            text-align: center;
-            color: var(--text-secondary);
-        }
-
-        th {
-            background: rgba(76, 110, 245, 0.1);
-            font-weight: 600;
-            color: var(--accent-strong);
-            font-family: 'Cabin', sans-serif;
-            letter-spacing: 0.04em;
-        }
-
-        tr:last-child td {
-            border-bottom: 0;
-        }
-
         .graph {
             text-align: center;
-            margin: 24px 0;
+            margin: 18px 0;
         }
 
         .graph svg {
             max-width: 100%;
             height: auto;
-            border-radius: 16px;
+            border-radius: 12px;
             background: rgba(255, 255, 255, 0.92);
             border: 1px solid rgba(148, 163, 184, 0.25);
             box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.4), 0 16px 28px -24px rgba(15, 23, 42, 0.6);
@@ -278,36 +248,6 @@
         mjx-container[display="true"] {
             overflow-x: auto;
             overflow-y: hidden;
-        }
-
-        .nav-buttons {
-            display: flex;
-            justify-content: center;
-            gap: 16px;
-            margin-top: 48px;
-            padding-top: 32px;
-            border-top: 2px solid rgba(148, 163, 184, 0.2);
-        }
-
-        .nav-buttons a {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            padding: 12px 24px;
-            background: var(--accent);
-            color: white;
-            text-decoration: none;
-            border-radius: 12px;
-            font-weight: 600;
-            font-family: 'Cabin', sans-serif;
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 12px rgba(76, 110, 245, 0.3);
-        }
-
-        .nav-buttons a:hover {
-            background: var(--accent-strong);
-            transform: translateY(-2px);
-            box-shadow: 0 6px 16px rgba(76, 110, 245, 0.4);
         }
 
         @media (max-width: 768px) {
@@ -348,66 +288,125 @@
 </head>
 <body>
     <main>
-    <main>
         <header class="hero">
-            <span class="hero-label">Lecture 9</span>
+            <span class="hero-label">第9回</span>
             <h1>第9回 空間内の曲面・曲面積</h1>
-            <p>空間内の曲面をパラメータ表示し、面積計算の基本公式を導きます。</p>
+            <p>外積で面積をとらえ、グラフ状の曲面の面積公式を導きます。</p>
         </header>
 
         <section class="outline-section">
-            <h2>Section 1. 講義概要</h2>
-            <div class="note">
-                <strong>テーマ:</strong> パラメータ表示と面積計算
-            </div>
+            <h2>第1節 平行四辺形の面積と外積</h2>
             <div class="definition">
-                <strong>到達目標:</strong>
-                <ul>
-                    <li>曲面のパラメータ表示と正規ベクトルを求める</li><li>面積要素$\|\mathbf{r}_u \times \mathbf{r}_v\|$の意味を理解する</li><li>典型的な曲面（球・円柱など）の面積を計算する</li>
-                </ul>
+                <strong>外積の定義</strong>
+                <div class="formula">
+                    $$a\times b=
+                    \begin{vmatrix}
+                    \mathbf{i} & \mathbf{j} & \mathbf{k}\\
+                    a_1 & a_2 & a_3\\
+                    b_1 & b_2 & b_3
+                    \end{vmatrix}
+                    =(a_2b_3-a_3b_2,\ a_3b_1-a_1b_3,\ a_1b_2-a_2b_1)$$
+                </div>
             </div>
-        </section>
-
-        <section class="outline-section">
-            <h2>Section 2. 重要な公式・キーポイント</h2>
-            <div class="formula">$$ S = \iint_{D} \left\| \frac{\partial \mathbf{r}}{\partial u} \times \frac{\partial \mathbf{r}}{\partial v} \right\| du\,dv $$</div><div class="formula">$$ \mathbf{n} = \frac{\mathbf{r}_u \times \mathbf{r}_v}{\|\mathbf{r}_u \times \mathbf{r}_v\|} $$</div>
+            <div class="concept-card focus-card">
+                <strong>平行四辺形の面積</strong>
+                <p>ベクトル $a,b$ が張る平行四辺形の面積 $S$ は $S=|a\times b|$。</p>
+            </div>
             <div class="proof">
-                <strong>チェックリスト:</strong>
-                <ul class="highlight-list">
-                    <li>公式の導出過程を説明できるか。</li>
-                    <li>適用条件や必要な仮定を記憶しているか。</li>
-                    <li>例題に当てはめて計算できるか。</li>
+                <strong>証明の流れ</strong>
+                <ul>
+                    <li>$\theta$ を $a,b$ のなす角とすると $S=|a||b|\sin\theta$。</li>
+                    <li>$\cos\theta=\dfrac{a\cdot b}{|a||b|}$ より $\sin\theta=\sqrt{1-\dfrac{(a\cdot b)^2}{|a|^2|b|^2}}$。</li>
+                    <li>展開すると $S^2=|a|^2|b|^2-(a\cdot b)^2$。</li>
+                    <li>同じ式が $|a\times b|^2$ の展開からも得られるため $S=|a\times b|$。</li>
                 </ul>
             </div>
         </section>
 
         <section class="outline-section">
-            <h2>Section 3. 演習課題</h2>
+            <h2>第2節 グラフで与えられる曲面</h2>
+            <div class="definition">
+                <strong>曲面の定義</strong>
+                <p>有界領域 $D\subset\mathbb{R}^2$ と連続関数 $f:D\to\mathbb{R}$ に対し</p>
+                <div class="formula">$$S=\{(x,y,f(x,y))\mid (x,y)\in D\}$$</div>
+                <p>で曲面を定める。</p>
+            </div>
             <div class="example">
-                <strong>練習問題:</strong>
+                <strong>例 1: $f(x,y)=x^2+y^2$ の等高線</strong>
+                <div class="graph" aria-label="f(x,y)=x^2+y^2 の等高線">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="-1 -1 2 2">
+                        <line x1="-1" y1="0" x2="1" y2="0" stroke="#0f172a" stroke-width="0.02" />
+                        <line x1="0" y1="-1" x2="0" y2="1" stroke="#0f172a" stroke-width="0.02" />
+                        <circle cx="0" cy="0" r="0.3" fill="none" stroke="#1e3a8a" stroke-width="0.02" />
+                        <circle cx="0" cy="0" r="0.6" fill="none" stroke="#1e3a8a" stroke-width="0.02" />
+                        <circle cx="0" cy="0" r="0.9" fill="none" stroke="#1e3a8a" stroke-width="0.02" />
+                    </svg>
+                </div>
+            </div>
+            <div class="example">
+                <strong>例 2: $f(x,y)=|x+y|$ の等高線</strong>
+                <div class="graph" aria-label="f(x,y)=|x+y| の等高線">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="-1 -1 2 2">
+                        <line x1="-1" y1="0" x2="1" y2="0" stroke="#0f172a" stroke-width="0.02" />
+                        <line x1="0" y1="-1" x2="0" y2="1" stroke="#0f172a" stroke-width="0.02" />
+                        <line x1="-1" y1="0" x2="0" y2="1" stroke="#1e3a8a" stroke-width="0.02" />
+                        <line x1="-1" y1="-0.5" x2="0.5" y2="1" stroke="#1e3a8a" stroke-width="0.02" />
+                        <line x1="-0.5" y1="-1" x2="1" y2="0.5" stroke="#1e3a8a" stroke-width="0.02" />
+                    </svg>
+                </div>
+            </div>
+        </section>
+
+        <section class="outline-section">
+            <h2>第3節 曲面の面積公式</h2>
+            <div class="definition">
+                <strong>面積要素</strong>
+                <p>曲面 $S$ の面積は</p>
+                <div class="formula">
+                    $$\operatorname{Area}(S)
+                    =\iint_D \sqrt{1+\bigl(f_x(x,y)\bigr)^2+\bigl(f_y(x,y)\bigr)^2}\,dx\,dy$$
+                </div>
+                <p>で与えられる（$f_x,f_y$ は偏微分）。</p>
+            </div>
+            <div class="exercise-list">
+                <strong>演習</strong>
                 <ol>
-                    <li>(1) 球面$u(\theta, \phi)$の面積要素を計算する</li><li>(2) 円柱面の一部の面積を曲面積公式で求める</li><li>(3) パラメータ表示の選び方による計算量の違いを比較する</li>
+                    <li>$f(x,y)=x^2+y^2$，$(x,y)\in[0,1]\times[0,1]$ の面積を求めよ。</li>
+                    <li>$f(x,y)=xy$，$(x,y)\in[0,1]\times[0,1]$ の面積を求めよ。</li>
+                    <li>$f(x,y)=x+y$，$(x,y)\in[0,1]\times[0,1]$ の面積を求めよ。</li>
                 </ol>
             </div>
-            <div class="note">
-                <strong>アドバイス:</strong> 曲面の図を描き、向きとパラメータ領域の対応を確認しましょう。
-            </div>
         </section>
 
         <section class="outline-section">
-            <h2>Section 4. 次回までに</h2>
-            <ul>
-                <li>ノートを整理し、重要な定理と例題をまとめ直す。</li>
-                <li>不明点があれば授業冒頭で質問できるよう準備する。</li>
-                <li>関連する教科書の該当ページを読み、例題を一度自力で解く。</li>
-            </ul>
+            <h2>第4節 面積公式の解釈（リーマン和）</h2>
+            <p>$D=[a,b]\times[c,d]$ を $N,M$ 分割し、$\Delta x=\dfrac{b-a}{N}$，$\Delta y=\dfrac{d-c}{M}$ とする。</p>
+            <p>格子点 $x_i=a+i\Delta x,\ y_j=c+j\Delta y$ を用い、$D_{ij}=[x_{i-1},x_i]\times[y_{j-1},y_j]$ で分割する。</p>
+            <div class="definition">
+                <strong>曲面上の近似平行四辺形</strong>
+                <p>$A_1'=(x_{i-1},y_{j-1},f(x_{i-1},y_{j-1}))$ に対し</p>
+                <div class="formula">
+                    $$A_2'-A_1'=(\Delta x,0,\delta_1),\quad
+                    A_4'-A_1'=(0,\Delta y,\delta_2)$$
+                </div>
+                <p>ただし $\delta_1=f(x_i,y_{j-1})-f(x_{i-1},y_{j-1})$, $\delta_2=f(x_{i-1},y_j)-f(x_{i-1},y_{j-1})$。</p>
+            </div>
+            <div class="proof">
+                <strong>面積近似</strong>
+                <p>平行四辺形の面積は外積で与えられ</p>
+                <div class="formula">
+                    $$|(A_2'-A_1')\times(A_4'-A_1')|
+                    =\Delta x\,\Delta y\,\sqrt{1+\left(\frac{\delta_1}{\Delta x}\right)^2+\left(\frac{\delta_2}{\Delta y}\right)^2}$$
+                </div>
+                <p>$\Delta x,\Delta y\to 0$ で差商が偏微分に近づき、リーマン和が上の面積公式に収束する。</p>
+            </div>
         </section>
 
         <div class="nav-buttons">
-            <a href="../class8/class8.html">← Previous</a>
-            <a href="../index.html">🏠 Home</a>
-            <a href="../class10/class10.html">Next →</a>
+            <a href="../class8/class8.html">← 前回</a>
+            <a href="../index.html">🏠 ホーム</a>
+            <a href="../class10/class10.html">次へ →</a>
         </div>
-</main>
+    </main>
 </body>
 </html>
