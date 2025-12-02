@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>第8回 補講メモ</title>
+  <title>収束概念の反例と便利な道具</title>
 
   <!-- Softer tone / relaxed magazine style -->
   <style>
@@ -267,7 +267,7 @@
   <header>
     <div class="masthead">
       <div class="brand">雑記・確率</div>
-      <div class="section">補講</div>
+      <div class="section">コラム</div>
     </div>
   </header>
 
@@ -275,39 +275,48 @@
     <nav class="back-nav">
       <a class="back-link" href="../index.html">&larr; ホームに戻る</a>
     </nav>
-    <h1>第8回 補講メモ</h1>
+    <h1>収束概念の反例と便利な道具</h1>
     <div class="meta">
       <div>寄稿：中島秀太</div>
-      <div>更新日：2025年11月1日</div>
+      <div>2025年11月1日</div>
     </div>
 
     <article>
-<p class="lead">前回（第8回）は、確率変数列における代表的な収束概念（分布収束・確率収束・概収束）の関係性を整理しました。今回は補足として、それらの違いを理解するための「反例」と、理論解析で役立つ「便利な道具（スコロホッド表現・Borel–Cantelli）」を要約します。</p>
+<p class="lead">前回（第8回）では、確率変数列の代表的な収束概念――分布収束・確率収束・概収束――の関係を整理した。本稿ではその補足として、各収束の違いを浮き彫りにする「反例」と、解析で重宝する道具（スコロホッド表現・Borel–Cantelli 補題）を紹介する。</p>
 
 <h2>1. 分布収束しても、概収束するとは限らない</h2>
-<p>分布収束はあくまで「確率分布の形」が近づくことであり、確率変数の「値そのもの」が近づくこととは別物です。</p>
-<p>例えば、$X_n$ が確率 $1/2$ で $0$ または $1$ をとる変数だとします。分布の形が変わらなければ、$X_n$ は分布収束しています。</p>
-<p>しかし、ある $\omega \in (0,1)$ に対して値が次のように交互に変化し続ける状況を考えてみましょう。</p>
+<p>分布収束とは「分布の形」が近づくことであり、確率変数の「値そのもの」が近づくこととは本質的に異なる。</p>
+<p>確率空間を $([0,1], \mathcal{B}, \mathrm{Leb})$（ルベーグ測度）とし、確率変数列 $X_n$ を次のように定める。</p>
 <div class="eq">$$
-  X_1(\omega)=1,\ \; X_2(\omega)=0,\ \; X_3(\omega)=1,\ \; X_4(\omega)=0,\ \;\dots
+  X_n(\omega) = \begin{cases}
+    \mathbf{1}_{\{\omega < 1/2\}} & (n \text{ が奇数}) \\[4pt]
+    \mathbf{1}_{\{\omega > 1/2\}} & (n \text{ が偶数})
+  \end{cases}
 $$</div>
-<p>この場合、極限値は存在しません。したがって、$X_n$ は概収束（almost sure convergence）しません。</p>
+<p>各 $X_n$ は確率 $1/2$ で $0$ か $1$ をとり、分布は Bernoulli$(1/2)$ で一定である。したがって $X_n$ は分布収束する。</p>
+<p>ところが $\omega \ne 1/2$ のとき、$X_n(\omega)$ は $0$ と $1$ の間を交互に振動し続ける。</p>
+<div class="eq">$$
+  X_1(\omega)=1,\ \; X_2(\omega)=0,\ \; X_3(\omega)=1,\ \; X_4(\omega)=0,\ \;\dots \quad (\omega < 1/2 \text{ の場合})
+$$</div>
+<p>極限が存在しないため、$X_n$ は概収束しない。</p>
+
+  <p>一方で、「確率空間を取り替える」ことを許せば両者を橋渡しできる。</p>
 
 <div class="theorem">
   <div class="label">定理（スコロホッドの表現定理：実数値）</div>
-  <p>分布収束と概収束にはギャップがありますが、「確率空間（舞台）を取り替える」ことさえ許されれば、両者を繋ぐことができます。</p>
-  <p>すなわち、$X_n \Rightarrow X$（分布収束）するとき、別の確率空間 $(\tilde{\Omega},\tilde{\mathcal{F}},\tilde{\mathbb{P}})$ 上に、分布の法則を変えずにコピーした確率変数 $\tilde{X}_n,\tilde{X}$ をうまく作ることができ、そこでは</p>
+  <p>$X_n \Rightarrow X$ のとき、別の確率空間 $(\tilde{\Omega},\tilde{\mathcal{F}},\tilde{\mathbb{P}})$ 上に分布を保ったまま $\tilde{X}_n, \tilde{X}$ を構成でき、</p>
   <div class="eq">$$
     \tilde{X}_n \stackrel{d}{=} X_n, \quad
     \tilde{X} \stackrel{d}{=} X, \quad
     \tilde{X}_n \to \tilde{X} \text{ a.s.}
   $$</div>
-  <p>という強い収束（概収束）を実現できます。</p>
+  <p>という概収束を達成できる。</p>
+  <p class="note">証明は [1] を参照。</p>
 </div>
 
 <h2>2. 確率収束しても、概収束するとは限らない</h2>
-<p>確率収束は「誤差 $|X_n-X|>\varepsilon$ が生じる確率が $0$ に近づく」という概念ですが、これはあくまで「ある時点での確率」の話であり、すべての $\omega$ で値が収束先にとどまり続ける（概収束する）ことは保証しません。</p>
-<p>しかし、誤差の確率が「十分に速く」 $0$ に収束するならば、概収束が従います。これを判定するのが次の補題です。</p>
+<p>確率収束は「$|X_n - X| > \varepsilon$ となる確率が $0$ へ向かう」ことを意味するが、各時点での確率の話にすぎず、すべての $\omega$ で値が収束先に留まり続けること（概収束）は保証されない。</p>
+<p>ただし、誤差の確率が十分速く $0$ へ落ちれば概収束が従う。その判定基準が次の補題である。</p>
 
 <div class="theorem">
   <div class="label">命題（十分条件：Borel–Cantelli の補題）</div>
@@ -315,51 +324,53 @@ $$</div>
   <div class="eq">$$
     \sum_{n=1}^\infty \mathbb{P}(|X_n - X|>\varepsilon) < \infty
   $$</div>
-  <p>ならば、$X_n \to X$ は almost surely に成り立ちます。</p>
-  <p class="note"><strong>証明の直感：</strong>「失敗する確率」をすべて足しても有限であるということは、Borel–Cantelli の第一補題より「無限回失敗する確率は 0」となります。つまり、ある番号以降は常に成功する（$|X_n-X| \le \varepsilon$ となる）ため、概収束します。</p>
+  <p>ならば $X_n \to X$ a.s. が成り立つ。</p>
 </div>
 
-<h2>3. 確率収束すれば、概収束する部分列がとれる</h2>
-<p>確率収束の条件だけでは概収束は言えませんが、数列全体ではなく「選りすぐりの部分列」を取れば、概収束させることが可能です。</p>
-<p>実際、$X_n \xrightarrow{\mathbb{P}} X$ ならば、収束が速くなるような番号 $n_k$ を選んで</p>
+<p><strong>証明.</strong> 任意の $\varepsilon > 0$ を固定する。仮定より級数 $\sum_{n=1}^\infty \mathbb{P}(|X_n - X| \ge \varepsilon)$ は収束するから、</p>
 <div class="eq">$$
-  \mathbb{P}(|X_{n_k}-X|>2^{-k}) < 2^{-k}
+  \mathbb{P}\bigl(\exists n > N : |X_n - X| \ge \varepsilon\bigr)
+  \le \sum_{n=N+1}^\infty \mathbb{P}(|X_n - X| \ge \varepsilon)
+  \to 0 \quad (N \to \infty).
 $$</div>
-<p>とできます。この右辺の和は $\sum 2^{-k} < \infty$ となるため、</p>
+<p>したがって、</p>
 <div class="eq">$$
-  \sum_{k=1}^{\infty} \mathbb{P}(|X_{n_k}-X|>2^{-k}) < \infty
+  \mathbb{P}\bigl(\forall N,\, \exists n > N : |X_n - X| \ge \varepsilon\bigr) = 0.
 $$</div>
-<p>となり、先ほどの Borel–Cantelli の議論によって $X_{n_k}\to X$ a.s. が導かれます。</p>
+<p>これは「$|X_n - X| \ge \varepsilon$ が無限回起こる確率が $0$」を意味する。ここで $\varepsilon = 1/m$（$m \in \mathbb{N}$）とおけば、union bound より</p>
+<div class="eq">$$
+  \mathbb{P}\bigl(X_n \not\to X\bigr)
+  = \mathbb{P}\Bigl(\bigcup_{m=1}^\infty \bigl\{\forall N,\, \exists n > N : |X_n - X| \ge 1/m\bigr\}\Bigr)
+  \le \sum_{m=1}^\infty 0 = 0.
+$$</div>
+<p>よって $X_n \to X$ a.s. が得られる。 $\square$</p>
 
-<h2>4. 有名な反例（タイプライタ列）</h2>
-<p>「確率は $0$ に行くが、概収束はしない」典型例として、区間が動くタイプライタ列（Dancing functions）があります。</p>
-<p>確率空間 $(0,1)$（ルベーグ測度）上で、$n=2^k+j\ (0\le j<2^k)$ として、幅が $1/2^k$ の区間 $I_n$ を定義します。</p>
-<div class="eq">$$
-  I_n = \Big[\tfrac{j}{2^k},\tfrac{j+1}{2^k}\Big), \qquad X_n = \mathbf{1}_{I_n}
-$$</div>
-<p>このとき、区間の幅は狭くなっていくため、</p>
-<div class="eq">$$
-  \mathbb{P}(X_n=1) = \text{長さ}(I_n) = 2^{-k} \to 0
-$$</div>
-<p>となり、確率収束 $X_n\xrightarrow{\mathbb{P}}0$ は成り立ちます。</p>
-<p>しかし、この小さな区間 $I_n$ は $(0,1)$ 上を左から右へ何度も繰り返し通過します。そのため、どんな点 $\omega$ を見ても、区間 $I_n$ がその $\omega$ を覆う（$X_n(\omega)=1$ となる）回数は無限にあります。結果として値は $0, 0, \dots, 1, \dots, 0$ と振動し続け、決して $0$ に収束しません。</p>
 
 <h2>まとめ</h2>
-<p>各収束概念の包含関係は以下の通りです。</p>
+<p>収束概念の包含関係をまとめると次のようになる。</p>
 <div class="eq">$$
   \text{概収束} \implies \text{確率収束} \implies \text{分布収束}
 $$</div>
-<p>逆は一般には成り立ちません。</p>
+<p>逆は一般には成り立たない。</p>
 <div class="eq">$$
   \text{分布収束} \kern 0.2em \nRightarrow \kern 0.2em \text{確率収束, 概収束},\qquad
   \text{確率収束} \kern 0.2em \nRightarrow \kern 0.2em \text{概収束}
 $$</div>
 <ul>
-  <li><strong>分布収束 $\to$ 概収束：</strong> 同一空間上では一般に不可ですが、スコロホッド表現を使えば別空間上で実現可能です。</li>
-  <li><strong>確率収束 $\to$ 概収束：</strong> 収束スピードが速い場合（確率の総和が有限）は成立します（Borel-Cantelli）。</li>
-  <li><strong>部分列の性質：</strong> 確率収束していれば、必ず概収束する部分列を取り出せます。</li>
+  <li><strong>分布収束 → 概収束：</strong> 同一空間上では一般に不可。ただしスコロホッド表現により別空間上で実現できる。</li>
+  <li><strong>確率収束 → 概収束：</strong> 確率の総和が有限なら成立（Borel–Cantelli）。</li>
+  <li><strong>部分列：</strong> 確率収束すれば、概収束する部分列が必ず取れる。</li>
 </ul>
-     </article>
+
+<h2>参考文献</h2>
+<ul>
+  <li>[1] P. Billingsley, <em>Convergence of Probability Measures</em>, 2nd ed., Wiley, 1999. — スコロホッド表現定理や各種収束概念を厳密に扱う標準的参考書。</li>
+</ul>
+
+      <p class="footer-note">
+        注）本稿は第8回講義の補足資料である。
+      </p>
+    </article>
   </main>
 </body>
 </html>
