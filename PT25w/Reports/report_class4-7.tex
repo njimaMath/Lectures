@@ -1,0 +1,114 @@
+\documentclass[a4paper,11pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage[margin=2.5cm]{geometry}
+\usepackage{enumitem}
+
+% 日本語対応（必要に応じてコメントアウト）
+% \usepackage[japanese]{babel}
+% \usepackage{luatexja}
+
+\newtheorem{problem}{問題}
+\newcommand{\E}{\mathbb{E}}
+\newcommand{\Var}{\operatorname{Var}}
+\newcommand{\Prob}{\mathbb{P}}
+
+\title{確率論講義 レポート課題集\\（第4回〜第7回）}
+\author{}
+\date{2025年度}
+
+\begin{document}
+\maketitle
+
+%==============================
+\section*{第4回：Kolmogorovの拡張定理}
+%==============================
+
+\begin{problem}
+$\mu$ が well-defined であることを確かめよ。具体的には $\pi_n^{-1}(A_n)=\pi_m^{-1}(A_m)$ となる $A_n, A_m \in \mathcal{S}$ について、$P_n(A_n)=P_m(A_m)$ が成り立つことを示せ。
+\end{problem}
+
+\begin{problem}
+授業の証明では $\Omega_1 = \{-1,1\}$ における一様確率測度の無限直積を扱った。全く同じ証明は $[0,1]$ 上の一様測度の無限直積の構成では成り立たない。なぜか述べよ。（拡張するためには、より複雑な議論が必要になる）
+\end{problem}
+
+\bigskip
+
+%==============================
+\section*{第5回：様々な分布}
+%==============================
+
+\begin{problem}[ポアソン分布に関する問題]
+$X \sim \mathrm{Poi}(\lambda)$ の期待値と分散を求めよ。また、$X_1 \sim \mathrm{Poi}(\lambda_1)$、$X_2 \sim \mathrm{Poi}(\lambda_2)$ が独立であるとき、$X_1 + X_2$ の分布を求めよ。
+\end{problem}
+
+\begin{problem}[幾何分布に関する問題]
+$X \sim \mathrm{Geo}(p)$（つまり $\Prob(X=k) = (1-p)^{k-1}p$）の期待値と分散を求めよ。さらに、記憶なし性質
+\[
+\Prob(X > m+n \mid X > m) = \Prob(X > n)
+\]
+が成り立つことを示せ。
+\end{problem}
+
+\begin{problem}
+ガンマ分布がどのような応用を持つか調べて記述せよ。
+\end{problem}
+
+\bigskip
+
+%==============================
+\section*{第6回：二項分布と中心極限定理（$p=\frac{1}{2}$）}
+%==============================
+
+\begin{problem}[理論計算（一般 $p$）]
+$X_i \sim \mathrm{CF}(p)$（すなわち $\Prob(X_i=1)=p$, $\Prob(X_i=0)=1-p$）とし、$S_n = \sum_{i=1}^n X_i$ の期待値 $\E[S_n]$ と分散 $\Var(S_n)$ を求めよ。
+\end{problem}
+
+\begin{problem}[シミュレーション（生成AIを用いよ）]
+\begin{enumerate}[label=(\alph*)]
+  \item $n=100$ として、コイントスを 100 回投げる試行を 10000 回繰り返すシミュレーションを実装せよ。
+  \item 得られた $S_n$ のヒストグラムを作成せよ。
+  \item 同じグラフ上に、（$p=\tfrac{1}{2}$ のとき）平均 $\tfrac{n}{2}$・分散 $\tfrac{n}{4}$ の正規分布密度を重ねて描け（必要なら連続性補正も可視化）。
+\end{enumerate}
+\end{problem}
+
+\begin{problem}[考察]
+\begin{enumerate}[label=(\alph*)]
+  \item シミュレーション結果と正規近似の一致度を評価せよ（中心と裾の両方）。
+  \item $n=20, 50, 200$ などに変えたときの精度の違いを述べよ。
+  \item 連続性補正の効果について論じよ。
+\end{enumerate}
+\end{problem}
+
+\bigskip
+
+%==============================
+\section*{第7回：特性関数}
+%==============================
+
+\begin{problem}[幾何分布とガンマ分布の特性関数]
+次の分布（定義を以下に再掲）について特性関数 $\varphi_X(\xi) = \E[e^{i\xi X}]$ を計算せよ。（わからなかったら調べて導出法を書け）
+\begin{enumerate}[label=(\alph*)]
+  \item 成功確率 $p \in (0,1)$ の幾何分布（試行回数型）。$\Prob(X=k) = p(1-p)^{k-1}$（$k=1,2,\dots$）。
+  \item 形状 $k > 0$、スケール $\theta > 0$ のガンマ分布。密度
+  \[
+  f(x) = \frac{1}{\Gamma(k)\theta^k} x^{k-1} e^{-x/\theta} \quad (x > 0).
+  \]
+\end{enumerate}
+\end{problem}
+
+\begin{problem}[弱法則の向きから見る特性関数の収束]
+独立同分布な確率変数 $X_i$（$i \ge 1$）が $\E[X_i]=0$ かつ $\E[X_i^2] < \infty$ を満たすとする。$S_n := \tfrac{1}{n}\sum_{i=1}^n X_i$ とおくと、$\varphi_{S_n}(\xi) \to 1$（各 $\xi$ に対して）を示せ。
+
+（授業の定理から、$S_n$ が $0$ に分布収束していることがわかる）
+
+\medskip
+\noindent\textbf{ヒント：} テイラーの定理を用いて
+\[
+e^{i\xi X_i/n} = 1 + \frac{i\xi X_i}{n} + \left(\frac{i\xi \theta X_i}{n}\right)^2 \quad (\theta \in [0,1])
+\]
+と書き、期待値を取って評価する。有限分散条件から二乗項は $n^{-2}$ オーダーで消えることを確かめよ。
+\end{problem}
+
+\end{document}
