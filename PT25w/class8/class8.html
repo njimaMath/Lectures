@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>大数の法則</title>
+  <title>確率変数列の収束</title>
   <style>
     body {
       font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
@@ -45,6 +45,22 @@
       border-radius: 8px;
       overflow-x: auto;
     }
+    .section-lead {
+      font-size: 1.05rem;
+      color: #424242;
+      margin-top: -0.3rem;
+    }
+    .example, .note {
+      background: #fff8e1;
+      border-left: 4px solid #fb8c00;
+      padding: .75rem 1rem;
+      margin: 1rem 0;
+      border-radius: 8px;
+    }
+    .note {
+      background: #e3f2fd;
+      border-left-color: #1e88e5;
+    }
     footer {
       margin-top: 3rem;
       color: #777;
@@ -64,47 +80,72 @@
 </head>
 <body>
   <div class="container">
-    <h1>大数の法則</h1>
+    <h1>確率変数列の収束概念</h1>
+    <p class="section-lead">概収束・確率収束・分布収束 の3種類の収束を整理し、それらの関係を押さえます。</p>
 
-    <h2>1. コイントスによる導入</h2>
-    <p>コインを $n$ 回投げる。表を $1$, 裏を $0$ とし、$X_i$ を $i$ 回目の表の指示関数とする：</p>
+    <h2>1. 概収束 (Almost sure convergence)</h2>
+    <p>$(X_n)_{n\ge 1}$ と $X$ が同じ確率空間上に定義されているとき、次を満たすならば $X_n \to X$ 概収束 という。</p>
     <div class="formula">
-      $$ S_n(\omega) = \sum_{i=1}^n X_i(\omega) $$
+      $$
+      \mathbb P\Big(\big\{\omega : \lim_{n\to\infty} X_n(\omega) = X(\omega)\big\}\Big) = 1.
+      $$
     </div>
-    <p>これは表の総数。確率空間は $\Omega = \{0,1\}^n$, 各 $\omega$ に対して $\mathbb{P}(\omega) = 2^{-n}$ とする。</p>
-
-    <h2>2. 厳密な主張（大数の法則）</h2>
-    <p>独立同分布な確率変数列 $(X_i)_{i \in \mathbb{N}}$ を考える。$\mathbb{E}[X_i] = \mu$, $\mathrm{Var}(X_i) = \sigma^2 < \infty$ と仮定する。</p>
-    <p>そのとき：</p>
-    <div class="formula">
-      $$ \frac{1}{n} \sum_{i=1}^n X_i \xrightarrow{\mathbb{P}} \mu \quad (n \to \infty) $$
+    <div class="example">
+      <strong>例（指示関数バンプ）:</strong> $[0,1]$ 上の一様分布で
+      $$
+      X_n(\omega) = \begin{cases} 1, & \omega < \tfrac{1}{n}, \\ 0, & \omega \ge \tfrac{1}{n}. \end{cases}
+      $$
+      とおくと、任意の $\omega > 0$ で $X_n(\omega) \to 0$ なので $X_n \to 0$ 概収束。
     </div>
-    <p>（平均への収束）</p>
-
-    <h2>3. 証明の構成</h2>
-    <h3>ステップ1: マルコフの不等式</h3>
-    <p>非負の確率変数 $Y$ に対して：</p>
-    <div class="formula">
-      $$ \mathbb{P}(Y \geq a) \leq \frac{\mathbb{E}[Y]}{a} $$
+    <div class="note">
+      <strong>安定性:</strong> $X_n \to X$ 概収束 かつ $Y_n \to Y$ 概収束 なら、総和と積も概収束で極限に一致する：$X_n+Y_n \to X+Y$, $X_nY_n \to XY$。
     </div>
 
-    <h3>ステップ2: チェビシェフの不等式</h3>
-    <p>$X$ の平均を $\mu$, 分散を $\sigma^2$ として：</p>
+    <h2>2. 確率収束 (Convergence in probability)</h2>
+    <p>$X_n \xrightarrow{\mathbb P} X$ とは、任意の $\varepsilon>0$ について次が成り立つこと。</p>
     <div class="formula">
-      $$ \mathbb{P}(|X - \mu| \geq \varepsilon) \leq \frac{\sigma^2}{\varepsilon^2} $$
+      $$
+      \lim_{n\to\infty} \mathbb P\big(|X_n - X| > \varepsilon\big) = 0.
+      $$
     </div>
-    <p>これはマルコフの不等式に $Y = (X - \mu)^2$ を適用することで導かれる。</p>
+    <p>先ほどの指示関数はすでに概収束を持つので、確率収束も従う。</p>
+    <div class="note">
+      <strong>和の法則:</strong> $X_n \xrightarrow{\mathbb P} X$, $Y_n \xrightarrow{\mathbb P} Y$ なら
+      $$
+      \mathbb P\big(|(X_n+Y_n)-(X+Y)|>\varepsilon\big) \le \mathbb P\big(|X_n-X|>\tfrac{\varepsilon}{2}\big) + \mathbb P\big(|Y_n-Y|>\tfrac{\varepsilon}{2}\big) \to 0.
+      $$
+    </div>
 
-    <h3>ステップ3: 大数の法則の証明</h3>
-    <p>確率変数 $X_1, \dots, X_n$ は独立で同分布、$\mathbb{E}[X_i] = \mu$、$\mathrm{Var}(X_i) = \sigma^2$ とすると、平均の分布の分散は：</p>
+    <h2>3. 分布収束 (Convergence in distribution)</h2>
+    <p>$X_n \Rightarrow X$ は、有界連続関数 $f$ に対して期待値が一致することを意味する。</p>
     <div class="formula">
-      $$ \mathrm{Var}\left(\frac{1}{n} \sum_{i=1}^n X_i\right) = \frac{\sigma^2}{n} $$
+      $$
+      \lim_{n\to\infty} \mathbb E[f(X_n)] = \mathbb E[f(X)] \quad (\text{すべての有界連続 } f).
+      $$
     </div>
-    <p>チェビシェフの不等式により：</p>
-    <div class="formula">
-      $$ \mathbb{P}\left(\left|\frac{1}{n} \sum_{i=1}^n X_i - \mu\right| \geq \varepsilon\right) \leq \frac{\sigma^2}{n \varepsilon^2} \to 0 $$
+    <p>確率収束が成り立てば分布収束も従うので、指示関数バンプは $X_n \Rightarrow 0$ でもある。</p>
+    <div class="example">
+      <strong>和に関する非閉性:</strong> $([0,1], \mathcal B, \text{Leb})$ で $U \sim \text{Unif}[0,1]$ をとり
+      $X = \mathbf 1_{\{U \le 1/2\}}$, $Y=X$ とする。$X_n = X$、$Y_n = X$ ($n$ が奇数), $Y_n = 1-X$ ($n$ が偶数) とすると
+      $X_n \Rightarrow X$, $Y_n \Rightarrow Y$ だが $X_n+Y_n$ の分布は奇数と偶数で $\{0,2\}$, $\{1\}$ の間を振動し、極限を持たない。
     </div>
-    <p>したがって、$\frac{1}{n} \sum_{i=1}^n X_i$ は確率収束で $\mu$ に収束する。</p>
+
+    <h2>4. 確率収束 ⇒ 分布収束</h2>
+    <p>$X_n \xrightarrow{\mathbb P} X$ なら $X_n \Rightarrow X$. コンパクト台を持つ連続関数 $f$ をとり、良い事象 $G = \{|X_n-X| \le \delta\}$ に分ける。</p>
+    <div class="proof">
+      <ol>
+        <li>$f$ は $[-M,M]$ 上で一様連続なので、適当な $\delta>0$ が取れる。</li>
+        <li>$G$ 上では $|f(X_n)-f(X)| < \varepsilon/2$、補集合では $2\|f\|_\infty$ で抑えられる。</li>
+        <li>$\mathbb P(G^c) \to 0$ だから $|\mathbb E[f(X_n)]-\mathbb E[f(X)]| \le 2\|f\|_\infty \mathbb P(G^c) + \varepsilon/2 \to 0$.</li>
+      </ol>
+    </div>
+
+    <h2>レポート課題</h2>
+    <ol>
+      <li>授業で上げた確率変数例を数式で定式化せよ。</li>
+      <li>（授業で上げたもの以外で）概収束するが確率収束しない例を挙げ、理由を簡潔に説明せよ。</li>
+      <li>$X_n \xrightarrow{\mathbb P} X$, $Y_n \xrightarrow{\mathbb P} Y$ を仮定して $X_nY_n \xrightarrow{\mathbb P} XY$ を証明せよ。</li>
+    </ol>
 
     <footer>
       <p style="text-align: center; margin-top: 40px; color: #666;">© 2025 確率論講義 - すべての権利を留保します</p>
