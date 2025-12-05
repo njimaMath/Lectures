@@ -215,26 +215,16 @@
 
         .graph {
             text-align: center;
-            margin: 18px 0;
+            margin: 24px 0;
         }
 
         .graph svg {
             max-width: 100%;
             height: auto;
-            border-radius: 12px;
+            border-radius: 16px;
             background: rgba(255, 255, 255, 0.92);
             border: 1px solid rgba(148, 163, 184, 0.25);
             box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.4), 0 16px 28px -24px rgba(15, 23, 42, 0.6);
-        }
-
-        .exercise-list {
-            background: rgba(250, 204, 21, 0.12);
-            border: 1px solid rgba(250, 204, 21, 0.32);
-            padding: 22px 24px;
-            border-radius: 18px;
-            margin: 22px 0;
-            box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.4);
-            color: var(--text-secondary);
         }
 
         code {
@@ -245,9 +235,47 @@
             color: var(--accent-strong);
         }
 
-        mjx-container[display="true"] {
+        mjx-container {
             overflow-x: auto;
             overflow-y: hidden;
+        }
+
+        mjx-container[display="true"] {
+            margin: 18px 0;
+        }
+
+        .formula mjx-container {
+            margin: 0 auto;
+        }
+
+        .nav-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 16px;
+            margin-top: 48px;
+            padding-top: 32px;
+            border-top: 2px solid rgba(148, 163, 184, 0.2);
+        }
+
+        .nav-buttons a {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 12px 24px;
+            background: var(--accent);
+            color: white;
+            text-decoration: none;
+            border-radius: 12px;
+            font-weight: 600;
+            font-family: 'Cabin', sans-serif;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 12px rgba(76, 110, 245, 0.3);
+        }
+
+        .nav-buttons a:hover {
+            background: var(--accent-strong);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(76, 110, 245, 0.4);
         }
 
         @media (max-width: 768px) {
@@ -277,14 +305,18 @@
         window.MathJax = {
             tex: {
                 inlineMath: [['$', '$'], ['\\(', '\\)']],
-                displayMath: [['$$', '$$'], ['\\[', '\\]']]
+                displayMath: [['$$', '$$'], ['\\[', '\\]']],
+                processEscapes: true
             },
             options: {
                 skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+            },
+            chtml: {
+                matchFontHeight: false
             }
         };
     </script>
-    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js" crossorigin="anonymous"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js" crossorigin="anonymous"></script>
 </head>
 <body>
     <main>
@@ -295,9 +327,10 @@
         </header>
 
         <section class="outline-section">
-            <h2>第1節 平行四辺形の面積と外積</h2>
+            <h2>第1節 平行四辺形の面積</h2>
             <div class="definition">
                 <strong>外積の定義</strong>
+                <p>ベクトル $a=(a_1,a_2,a_3)$，$b=(b_1,b_2,b_3)$ に対して，外積 $a\times b$ を次のように定義する．</p>
                 <div class="formula">
                     $$a\times b=
                     \begin{vmatrix}
@@ -308,35 +341,49 @@
                     =(a_2b_3-a_3b_2,\ a_3b_1-a_1b_3,\ a_1b_2-a_2b_1)$$
                 </div>
             </div>
-            <div class="concept-card focus-card">
+            <div class="theorem">
                 <strong>平行四辺形の面積</strong>
-                <p>ベクトル $a,b$ が張る平行四辺形の面積 $S$ は $S=|a\times b|$。</p>
+                <p>ベクトル $a,b$ が張る平行四辺形の面積 $S$ は</p>
+                <div class="formula">$$S=|a\times b|$$</div>
+                <p>で与えられる。</p>
             </div>
             <div class="proof">
-                <strong>証明の流れ</strong>
-                <ul>
-                    <li>$\theta$ を $a,b$ のなす角とすると $S=|a||b|\sin\theta$。</li>
-                    <li>$\cos\theta=\dfrac{a\cdot b}{|a||b|}$ より $\sin\theta=\sqrt{1-\dfrac{(a\cdot b)^2}{|a|^2|b|^2}}$。</li>
-                    <li>展開すると $S^2=|a|^2|b|^2-(a\cdot b)^2$。</li>
-                    <li>同じ式が $|a\times b|^2$ の展開からも得られるため $S=|a\times b|$。</li>
-                </ul>
+                <strong>証明</strong>
+                <p>$a,b$ のなす角を $\theta$ とすると</p>
+                <div class="formula">$$\cos\theta=\frac{a\cdot b}{|a||b|}$$</div>
+                <p>であり，平行四辺形の面積は</p>
+                <div class="formula">$$S=|a||b|\sin\theta$$</div>
+                <p>である．ここで</p>
+                <div class="formula">$$\sin\theta=\sqrt{1-\cos^2\theta}=\sqrt{1-\frac{(a\cdot b)^2}{|a|^2|b|^2}}$$</div>
+                <p>だから</p>
+                <div class="formula">$$S=|a||b|\sqrt{1-\frac{(a\cdot b)^2}{|a|^2|b|^2}}=\sqrt{|a|^2|b|^2-(a\cdot b)^2}$$</div>
+                <p>一方，$a=(a_1,a_2,a_3)$，$b=(b_1,b_2,b_3)$ とおくと，</p>
+                <div class="formula">$$a\times b=(a_2b_3-a_3b_2,\ a_3b_1-a_1b_3,\ a_1b_2-a_2b_1)$$</div>
+                <p>なので</p>
+                <div class="formula">$$|a\times b|^2=(a_2b_3-a_3b_2)^2+(a_3b_1-a_1b_3)^2+(a_1b_2-a_2b_1)^2$$</div>
+                <p>を展開して整理すると</p>
+                <div class="formula">$$|a\times b|^2=|a|^2|b|^2-(a\cdot b)^2$$</div>
+                <p>となる．したがって</p>
+                <div class="formula">$$S^2=|a|^2|b|^2-(a\cdot b)^2=|a\times b|^2$$</div>
+                <p>より $S=|a\times b|$ が従う．</p>
             </div>
         </section>
 
         <section class="outline-section">
-            <h2>第2節 グラフで与えられる曲面</h2>
+            <h2>第2節 曲面</h2>
             <div class="definition">
                 <strong>曲面の定義</strong>
-                <p>有界領域 $D\subset\mathbb{R}^2$ と連続関数 $f:D\to\mathbb{R}$ に対し</p>
+                <p>有界な領域 $D\subset\mathbb{R}^2$ と連続関数 $f:D\to\mathbb{R}$ をとる．曲面 $S$ を</p>
                 <div class="formula">$$S=\{(x,y,f(x,y))\mid (x,y)\in D\}$$</div>
-                <p>で曲面を定める。</p>
+                <p>で与える。</p>
             </div>
             <div class="example">
-                <strong>例 1: $f(x,y)=x^2+y^2$ の等高線</strong>
+                <strong>例 1: $f(x,y)=x^2+y^2$</strong>
+                <p>等高線は原点を中心とする同心円になる。</p>
                 <div class="graph" aria-label="f(x,y)=x^2+y^2 の等高線">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="-1 -1 2 2">
-                        <line x1="-1" y1="0" x2="1" y2="0" stroke="#0f172a" stroke-width="0.02" />
-                        <line x1="0" y1="-1" x2="0" y2="1" stroke="#0f172a" stroke-width="0.02" />
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="-1.2 -1.2 2.4 2.4" width="240" height="240">
+                        <line x1="-1.1" y1="0" x2="1.1" y2="0" stroke="#0f172a" stroke-width="0.02" />
+                        <line x1="0" y1="-1.1" x2="0" y2="1.1" stroke="#0f172a" stroke-width="0.02" />
                         <circle cx="0" cy="0" r="0.3" fill="none" stroke="#1e3a8a" stroke-width="0.02" />
                         <circle cx="0" cy="0" r="0.6" fill="none" stroke="#1e3a8a" stroke-width="0.02" />
                         <circle cx="0" cy="0" r="0.9" fill="none" stroke="#1e3a8a" stroke-width="0.02" />
@@ -344,61 +391,90 @@
                 </div>
             </div>
             <div class="example">
-                <strong>例 2: $f(x,y)=|x+y|$ の等高線</strong>
+                <strong>例 2: $f(x,y)=|x+y|$</strong>
+                <p>等高線は $x+y=\text{const}$ の直線群になる。</p>
                 <div class="graph" aria-label="f(x,y)=|x+y| の等高線">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="-1 -1 2 2">
-                        <line x1="-1" y1="0" x2="1" y2="0" stroke="#0f172a" stroke-width="0.02" />
-                        <line x1="0" y1="-1" x2="0" y2="1" stroke="#0f172a" stroke-width="0.02" />
-                        <line x1="-1" y1="0" x2="0" y2="1" stroke="#1e3a8a" stroke-width="0.02" />
-                        <line x1="-1" y1="-0.5" x2="0.5" y2="1" stroke="#1e3a8a" stroke-width="0.02" />
-                        <line x1="-0.5" y1="-1" x2="1" y2="0.5" stroke="#1e3a8a" stroke-width="0.02" />
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="-1.2 -1.2 2.4 2.4" width="240" height="240">
+                        <line x1="-1.1" y1="0" x2="1.1" y2="0" stroke="#0f172a" stroke-width="0.02" />
+                        <line x1="0" y1="-1.1" x2="0" y2="1.1" stroke="#0f172a" stroke-width="0.02" />
+                        <line x1="-1" y1="1" x2="1" y2="-1" stroke="#1e3a8a" stroke-width="0.02" />
+                        <line x1="-1" y1="0.5" x2="0.5" y2="-1" stroke="#1e3a8a" stroke-width="0.02" />
+                        <line x1="-0.5" y1="1" x2="1" y2="-0.5" stroke="#1e3a8a" stroke-width="0.02" />
+                        <line x1="-1" y1="0" x2="0" y2="-1" stroke="#1e3a8a" stroke-width="0.02" />
+                        <line x1="0" y1="1" x2="1" y2="0" stroke="#1e3a8a" stroke-width="0.02" />
                     </svg>
                 </div>
             </div>
         </section>
 
         <section class="outline-section">
-            <h2>第3節 曲面の面積公式</h2>
+            <h2>第3節 曲面の面積</h2>
             <div class="definition">
-                <strong>面積要素</strong>
-                <p>曲面 $S$ の面積は</p>
+                <strong>曲面の面積公式</strong>
+                <p>上で定義された曲面 $S$ の面積を</p>
                 <div class="formula">
                     $$\operatorname{Area}(S)
                     =\iint_D \sqrt{1+\bigl(f_x(x,y)\bigr)^2+\bigl(f_y(x,y)\bigr)^2}\,dx\,dy$$
                 </div>
-                <p>で与えられる（$f_x,f_y$ は偏微分）。</p>
-            </div>
-            <div class="exercise-list">
-                <strong>演習</strong>
-                <ol>
-                    <li>$f(x,y)=x^2+y^2$，$(x,y)\in[0,1]\times[0,1]$ の面積を求めよ。</li>
-                    <li>$f(x,y)=xy$，$(x,y)\in[0,1]\times[0,1]$ の面積を求めよ。</li>
-                    <li>$f(x,y)=x+y$，$(x,y)\in[0,1]\times[0,1]$ の面積を求めよ。</li>
-                </ol>
+                <p>で与える（ここで $f_x,f_y$ はそれぞれ $x,y$ に関する偏微分）。</p>
             </div>
         </section>
 
         <section class="outline-section">
-            <h2>第4節 面積公式の解釈（リーマン和）</h2>
-            <p>$D=[a,b]\times[c,d]$ を $N,M$ 分割し、$\Delta x=\dfrac{b-a}{N}$，$\Delta y=\dfrac{d-c}{M}$ とする。</p>
-            <p>格子点 $x_i=a+i\Delta x,\ y_j=c+j\Delta y$ を用い、$D_{ij}=[x_{i-1},x_i]\times[y_{j-1},y_j]$ で分割する。</p>
-            <div class="definition">
-                <strong>曲面上の近似平行四辺形</strong>
-                <p>$A_1'=(x_{i-1},y_{j-1},f(x_{i-1},y_{j-1}))$ に対し</p>
-                <div class="formula">
-                    $$A_2'-A_1'=(\Delta x,0,\delta_1),\quad
-                    A_4'-A_1'=(0,\Delta y,\delta_2)$$
-                </div>
-                <p>ただし $\delta_1=f(x_i,y_{j-1})-f(x_{i-1},y_{j-1})$, $\delta_2=f(x_{i-1},y_j)-f(x_{i-1},y_{j-1})$。</p>
+            <h2>第4節 解釈</h2>
+            <p>$D=[a,b]\times[c,d]$ の場合を考える．$x$ 軸を $N$ 等分，$y$ 軸を $M$ 等分する．</p>
+            <div class="formula">$$\Delta x=\frac{b-a}{N},\quad \Delta y=\frac{d-c}{M}$$</div>
+            <p>$x_i=a+i\Delta x\ (i=0,1,\dots,N)$，$y_j=c+j\Delta y\ (j=0,1,\dots,M)$ とする．</p>
+            <p>$D_{ij}=[x_{i-1},x_i]\times[y_{j-1},y_j]$ とする．</p>
+
+            <div class="concept-card">
+                <strong>曲面上の点の対応</strong>
+                <p>各点 $(x,y)\in D_{ij}$ に対して，$S$ 上の点 $(x,y,f(x,y))$ を対応させる．$D_{ij}$ の 4 頂点を</p>
+                <div class="formula">$$A_1=(x_{i-1},y_{j-1}),\ A_2=(x_i,y_{j-1}),\ A_3=(x_i,y_j),\ A_4=(x_{i-1},y_j)$$</div>
+                <p>とし，対応する曲面上の点を</p>
+                <div class="formula">$$A_k'=(x_k,y_k,f(x_k,y_k))\quad (k=1,2,3,4)$$</div>
+                <p>と書く．</p>
             </div>
+
+            <div class="note">
+                <strong>近似の考え方</strong>
+                <p>$D_{ij}$ に対応する曲面の部分</p>
+                <div class="formula">$$S_{ij}=\{(x,y,f(x,y))\mid (x,y)\in D_{ij}\}$$</div>
+                <p>は，$A_1',A_2',A_3',A_4'$ を頂点とする平行四辺形で近似できると考えられる．したがって，$S_{ij}$ の面積は，ベクトル $A_2'-A_1'$ と $A_4'-A_1'$ が張る平行四辺形の面積で近似できる．</p>
+            </div>
+
+            <div class="definition">
+                <strong>差分ベクトル</strong>
+                <div class="formula">$$A_2'-A_1'=(\Delta x,\ 0,\ f(x_i,y_{j-1})-f(x_{i-1},y_{j-1}))$$</div>
+                <div class="formula">$$A_4'-A_1'=(0,\ \Delta y,\ f(x_{i-1},y_j)-f(x_{i-1},y_{j-1}))$$</div>
+                <p>ここで</p>
+                <div class="formula">$$\delta_1 = f(x_i,y_{j-1})-f(x_{i-1},y_{j-1}),\quad \delta_2 = f(x_{i-1},y_j)-f(x_{i-1},y_{j-1})$$</div>
+                <p>とおくと</p>
+                <div class="formula">$$A_2'-A_1'=(\Delta x,0,\delta_1),\quad A_4'-A_1'=(0,\Delta y,\delta_2)$$</div>
+            </div>
+
             <div class="proof">
-                <strong>面積近似</strong>
-                <p>平行四辺形の面積は外積で与えられ</p>
-                <div class="formula">
-                    $$|(A_2'-A_1')\times(A_4'-A_1')|
-                    =\Delta x\,\Delta y\,\sqrt{1+\left(\frac{\delta_1}{\Delta x}\right)^2+\left(\frac{\delta_2}{\Delta y}\right)^2}$$
-                </div>
-                <p>$\Delta x,\Delta y\to 0$ で差商が偏微分に近づき、リーマン和が上の面積公式に収束する。</p>
+                <strong>面積の計算</strong>
+                <p>$S_{ij}$ の面積は</p>
+                <div class="formula">$$S_{ij}\approx |(A_2'-A_1')\times(A_4'-A_1')|$$</div>
+                <p>で与えられる．外積を計算すると</p>
+                <div class="formula">$$(A_2'-A_1')\times(A_4'-A_1')=(-\delta_1\Delta y,\ -\Delta x\delta_2,\ \Delta x\Delta y)$$</div>
+                <p>となり，</p>
+                <div class="formula">$$|(A_2'-A_1')\times(A_4'-A_1')|^2=\Delta x^2\Delta y^2\left\{1+\left(\frac{\delta_1}{\Delta x}\right)^2+\left(\frac{\delta_2}{\Delta y}\right)^2\right\}$$</div>
+                <p>したがって</p>
+                <div class="formula">$$S_{ij}\approx\Delta x\,\Delta y\,\sqrt{1+\alpha_{ij}^2+\beta_{ij}^2}$$</div>
+                <p>ただし</p>
+                <div class="formula">$$\alpha_{ij}=\frac{f(x_i,y_{j-1})-f(x_{i-1},y_{j-1})}{\Delta x},\quad \beta_{ij}=\frac{f(x_{i-1},y_j)-f(x_{i-1},y_{j-1})}{\Delta y}$$</div>
+                <p>であり，これらは $f_x,f_y$ の差商になっている．</p>
+            </div>
+
+            <div class="theorem">
+                <strong>リーマン和からの導出</strong>
+                <p>曲面全体の面積 $S$ は</p>
+                <div class="formula">$$S\approx\sum_{i=1}^{N}\sum_{j=1}^{M} S_{ij}\approx\sum_{i=1}^{N}\sum_{j=1}^{M}\Delta x\,\Delta y\,\sqrt{1+\alpha_{ij}^2+\beta_{ij}^2}$$</div>
+                <p>となる．$\Delta x\to 0,\ \Delta y\to 0$（すなわち $N,M\to\infty$）の極限をとると，$\alpha_{ij}\to f_x(x,y)$，$\beta_{ij}\to f_y(x,y)$ となり，この和は</p>
+                <div class="formula">$$S=\iint_D \sqrt{1+(f_x(x,y))^2+(f_y(x,y))^2}\,dx\,dy$$</div>
+                <p>という面積の公式に対応するリーマン和になっていることが分かる．</p>
             </div>
         </section>
 
