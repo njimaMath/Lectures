@@ -348,66 +348,216 @@
 </head>
 <body>
     <main>
-    <main>
         <header class="hero">
-            <span class="hero-label">Lecture 10</span>
+            <span class="hero-label">第10回</span>
             <h1>第10回 スカラー場とベクトル場の解析</h1>
-            <p>勾配・発散などの微分演算子を導入し、場の性質を解析します。</p>
+            <p>スカラー場・ベクトル場に対し、勾配・発散・回転（カール）・ポテンシャルを用いて性質を調べます。</p>
         </header>
 
         <section class="outline-section">
-            <h2>Section 1. 講義概要</h2>
-            <div class="note">
-                <strong>テーマ:</strong> 勾配と発散の基本操作
-            </div>
+            <h2>第1節 スカラー場</h2>
             <div class="definition">
-                <strong>到達目標:</strong>
-                <ul>
-                    <li>勾配、発散、回転の定義を理解する</li><li>物理的イメージ（流れ・強さ）を掴む</li><li>簡単なベクトル場で計算できるようになる</li>
-                </ul>
+                <strong>定義</strong>
+                <p>各点 $(x,y,z)\in\mathbb{R}^3$ に 1 つの数値を対応させる写像</p>
+                <div class="formula">$$f:\mathbb{R}^3\to\mathbb{R},\quad (x,y,z)\mapsto f(x,y,z)$$</div>
+                <p>を <em>スカラー場</em> という。</p>
             </div>
-        </section>
-
-        <section class="outline-section">
-            <h2>Section 2. 重要な公式・キーポイント</h2>
-            <div class="formula">$$ \nabla f = \left( \frac{\partial f}{\partial x}, \frac{\partial f}{\partial y}, \frac{\partial f}{\partial z} \right) $$</div><div class="formula">$$ \nabla \cdot \mathbf{F} = \frac{\partial P}{\partial x} + \frac{\partial Q}{\partial y} + \frac{\partial R}{\partial z} $$</div>
-            <div class="proof">
-                <strong>チェックリスト:</strong>
-                <ul class="highlight-list">
-                    <li>公式の導出過程を説明できるか。</li>
-                    <li>適用条件や必要な仮定を記憶しているか。</li>
-                    <li>例題に当てはめて計算できるか。</li>
-                </ul>
-            </div>
-        </section>
-
-        <section class="outline-section">
-            <h2>Section 3. 演習課題</h2>
             <div class="example">
-                <strong>練習問題:</strong>
+                <strong>例</strong>
+                <ul>
+                    <li>室内の温度分布：$T(x,y,z)$。</li>
+                    <li>質量密度：$\rho(x,y,z)$。</li>
+                    <li>気圧・濃度・電位などもスカラー場として表せる。</li>
+                </ul>
+            </div>
+        </section>
+
+        <section class="outline-section">
+            <h2>第2節 ベクトル場</h2>
+            <div class="definition">
+                <strong>定義</strong>
+                <p>各点 $(x,y,z)\in\mathbb{R}^3$ にベクトルを対応させる写像</p>
+                <div class="formula">$$\mathbf{F}:\mathbb{R}^3\to\mathbb{R}^3,\quad \mathbf{F}(x,y,z)=\bigl(P(x,y,z),Q(x,y,z),R(x,y,z)\bigr)$$</div>
+                <p>を <em>ベクトル場</em> という。成分 $P,Q,R$ はスカラー場である。</p>
+            </div>
+            <div class="example">
+                <strong>例</strong>
+                <ul>
+                    <li>流体の速度場：$\mathbf{v}(x,y,z)=(u(x,y,z),v(x,y,z),w(x,y,z))$。</li>
+                    <li>力の場（重力・電場など）：位置により力の向きと大きさが変わる。</li>
+                </ul>
+            </div>
+        </section>
+
+        <section class="outline-section">
+            <h2>第3節 勾配（gradient）</h2>
+            <div class="definition">
+                <strong>定義</strong>
+                <p>スカラー場 $f$ の <em>勾配</em> を</p>
+                <div class="formula">$$\nabla f=\left(\frac{\partial f}{\partial x},\frac{\partial f}{\partial y},\frac{\partial f}{\partial z}\right)$$</div>
+                <p>で定める。これはベクトル場である。</p>
+            </div>
+            <div class="concept-card focus-card">
+                <strong>意味（最も増える方向）</strong>
+                <p>単位ベクトル $\mathbf{u}$ 方向の増加率（方向微分）は $D_{\mathbf{u}}f=\nabla f\cdot \mathbf{u}$。</p>
+                <p>特に $|\mathbf{u}|=1$ のとき、最大値は $|\nabla f|$ で、$\mathbf{u}$ が $\nabla f$ と同方向のときに達する。</p>
+            </div>
+            <div class="proof">
+                <strong>曲線に沿う変化率（連鎖律）</strong>
+                <p>$\mathbf{r}(t)=(x(t),y(t),z(t))$ を曲線とすると</p>
+                <div class="formula">$$\frac{d}{dt}f(\mathbf{r}(t))=\nabla f(\mathbf{r}(t))\cdot \mathbf{r}'(t)$$</div>
+                <p>が成り立つ（連鎖律）。</p>
+            </div>
+            <div class="example">
+                <strong>計算例</strong>
+                <ul>
+                    <li>$f(x,y,z)=x^2+y^2+z^2$ のとき $\nabla f=(2x,2y,2z)$。</li>
+                    <li>$f(x,y,z)=xyz$ のとき $\nabla f=(yz,xz,xy)$。</li>
+                    <li>$f(x,y,z)=e^{x+y+z}$ のとき $\nabla f=(e^{x+y+z},e^{x+y+z},e^{x+y+z})$。</li>
+                </ul>
+            </div>
+        </section>
+
+        <section class="outline-section">
+            <h2>第4節 発散（divergence）</h2>
+            <div class="definition">
+                <strong>定義</strong>
+                <p>$\mathbf{F}=(P,Q,R)$ の <em>発散</em> を</p>
+                <div class="formula">$$\nabla\cdot \mathbf{F}=\frac{\partial P}{\partial x}+\frac{\partial Q}{\partial y}+\frac{\partial R}{\partial z}$$</div>
+                <p>で定める。これはスカラー場である。</p>
+            </div>
+            <div class="note">
+                <strong>覚え方</strong>
+                <p>$\nabla=(\partial_x,\partial_y,\partial_z)$ と見て、$\nabla\cdot\mathbf{F}$（内積）をとる。</p>
+            </div>
+            <div class="concept-card focus-card">
+                <strong>物理的意味（湧き出し・吸い込み）</strong>
+                <p>流体を例にすると、発散は「その点付近でどれくらい外へ流れ出すか」を表す。</p>
+                <p>発散が正なら湧き出し、負なら吸い込み、0 なら（局所的には）体積保存的な流れの目安になる。</p>
+            </div>
+            <div class="example">
+                <strong>計算例</strong>
+                <ul>
+                    <li>$\mathbf{F}(x,y,z)=(x,y,z)$ のとき $\nabla\cdot\mathbf{F}=1+1+1=3$。</li>
+                    <li>$\mathbf{F}(x,y,z)=(yz,xz,xyz)$ のとき $\nabla\cdot\mathbf{F}=0+0+xy=xy$。</li>
+                    <li>$\mathbf{F}(x,y,z)=(e^x,e^y,e^z)$ のとき $\nabla\cdot\mathbf{F}=e^x+e^y+e^z$。</li>
+                </ul>
+            </div>
+        </section>
+
+        <section class="outline-section">
+            <h2>第5節 回転（curl）</h2>
+            <div class="definition">
+                <strong>定義</strong>
+                <p>$\mathbf{F}=(P,Q,R)$ の <em>回転</em> を</p>
+                <div class="formula">$$\nabla\times \mathbf{F}=\left(\frac{\partial R}{\partial y}-\frac{\partial Q}{\partial z},\ \frac{\partial P}{\partial z}-\frac{\partial R}{\partial x},\ \frac{\partial Q}{\partial x}-\frac{\partial P}{\partial y}\right)$$</div>
+                <p>で定める。これはベクトル場である。</p>
+            </div>
+            <div class="note">
+                <strong>覚え方</strong>
+                <p>$\nabla=(\partial_x,\partial_y,\partial_z)$ と見て、$\nabla\times\mathbf{F}$（外積）をとる。</p>
+            </div>
+            <div class="concept-card focus-card">
+                <strong>物理的意味（局所的な回転）</strong>
+                <p>流体の速度場なら、回転は渦の強さ（渦度）の指標になる。</p>
+            </div>
+            <div class="example">
+                <strong>計算例</strong>
+                <ul>
+                    <li>$\mathbf{F}(x,y,z)=(y,-x,0)$ のとき $\nabla\times\mathbf{F}=(0,0,-2)$。</li>
+                    <li>$\mathbf{F}(x,y,z)=(xz,yz,xy)$ のとき $\nabla\times\mathbf{F}=(x-y,x-y,0)$。</li>
+                    <li>$\mathbf{F}(x,y,z)=(e^x,e^y,e^z)$ のとき $\nabla\times\mathbf{F}=(0,0,0)$。</li>
+                </ul>
+            </div>
+        </section>
+
+        <section class="outline-section">
+            <h2>第6節 ポテンシャル</h2>
+            <div class="definition">
+                <strong>定義</strong>
+                <p>ベクトル場 $\mathbf{F}$ に対して、あるスカラー場 $f$ が存在して</p>
+                <div class="formula">$$\mathbf{F}=\nabla f$$</div>
+                <p>と書けるとき、$f$ を $\mathbf{F}$ の <em>ポテンシャル関数</em> という。</p>
+                <p>また、あるベクトル場 $\mathbf{A}$ が存在して</p>
+                <div class="formula">$$\mathbf{F}=\nabla\times \mathbf{A}$$</div>
+                <p>と書けるとき、$\mathbf{A}$ を <em>ベクトルポテンシャル</em> という（電磁気学で重要）。</p>
+            </div>
+            <div class="note">
+                <strong>重要な恒等式</strong>
+                <div class="formula">$$\nabla\times(\nabla f)=\mathbf{0},\qquad \nabla\cdot(\nabla\times \mathbf{A})=0$$</div>
+                <p>したがって $\mathbf{F}=\nabla f$ なら必ず $\nabla\times\mathbf{F}=\mathbf{0}$ が成り立つ。</p>
+            </div>
+            <div class="example">
+                <strong>例</strong>
+                <p>$\mathbf{F}=(2x,2y,2z)$ は $f=x^2+y^2+z^2$ の勾配なので、$\mathbf{F}=\nabla f$（ポテンシャル場）。</p>
+            </div>
+        </section>
+
+        <section class="outline-section">
+            <h2>第7節 まとめ：演算子の対応</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>入力</th>
+                        <th>演算</th>
+                        <th>出力</th>
+                        <th>定義</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>スカラー場 $f$</td>
+                        <td>勾配 $\nabla f$</td>
+                        <td>ベクトル場</td>
+                        <td>$\left(f_x,f_y,f_z\right)$</td>
+                    </tr>
+                    <tr>
+                        <td>ベクトル場 $\mathbf{F}=(P,Q,R)$</td>
+                        <td>発散 $\nabla\cdot\mathbf{F}$</td>
+                        <td>スカラー場</td>
+                        <td>$P_x+Q_y+R_z$</td>
+                    </tr>
+                    <tr>
+                        <td>ベクトル場 $\mathbf{F}=(P,Q,R)$</td>
+                        <td>回転 $\nabla\times\mathbf{F}$</td>
+                        <td>ベクトル場</td>
+                        <td>$(R_y-Q_z,\ P_z-R_x,\ Q_x-P_y)$</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+        <section class="outline-section">
+            <h2>第8節 演習課題</h2>
+            <div class="exercise-list">
+                <strong>練習問題</strong>
                 <ol>
-                    <li>(1) $f(x,y,z)=x^2+y^2+z^2$の勾配を求める</li><li>(2) ベクトル場$\mathbf{F}=(xy, yz, zx)$の発散・回転を計算する</li><li>(3) 勾配がゼロとなる点の意味を考える</li>
+                    <li>$f(x,y,z)=x^2+y^2+z^2$ の勾配を求めよ。</li>
+                    <li>ベクトル場 $\mathbf{F}=(xy,yz,zx)$ の発散と回転を計算せよ。</li>
+                    <li>$\nabla f=\mathbf{0}$ となる点は、関数 $f$ のグラフや等位面に対してどんな意味をもつか考えよ。</li>
+                    <li>$\mathbf{F}=(2x,2y,2z)$ がポテンシャル場であることを示し、ポテンシャル関数を 1 つ求めよ。</li>
                 </ol>
             </div>
             <div class="note">
-                <strong>アドバイス:</strong> 演算子の記号に慣れ、ベクトル場の図示と併せてイメージを固めましょう。
+                <strong>アドバイス</strong>
+                <p>まずは定義どおりに偏微分を計算し、次に「結果がスカラーかベクトルか」を必ず確認しましょう。</p>
             </div>
         </section>
 
         <section class="outline-section">
-            <h2>Section 4. 次回までに</h2>
+            <h2>次回までに</h2>
             <ul>
-                <li>ノートを整理し、重要な定理と例題をまとめ直す。</li>
-                <li>不明点があれば授業冒頭で質問できるよう準備する。</li>
-                <li>関連する教科書の該当ページを読み、例題を一度自力で解く。</li>
+                <li>勾配・発散・回転の定義を暗記するのではなく、入力と出力の型（スカラー/ベクトル）を意識して整理する。</li>
+                <li>例題を手計算し、偏微分のミスがないか確認する。</li>
+                <li>（余裕があれば）$\nabla\times(\nabla f)=\mathbf{0}$ の意味を言葉で説明できるようにする。</li>
             </ul>
         </section>
 
         <div class="nav-buttons">
-            <a href="../class9/class9.html">← Previous</a>
-            <a href="../index.html">🏠 Home</a>
-            <a href="../class11/class11.html">Next →</a>
+            <a href="../class9/class9.html">← 前回</a>
+            <a href="../index.html">🏠 ホーム</a>
+            <a href="../class11/class11.html">次へ →</a>
         </div>
-</main>
+    </main>
 </body>
 </html>

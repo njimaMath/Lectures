@@ -1,0 +1,75 @@
+1. Scalar field
+
+Given a point (x,y,z)¥in R^3, a value f(x,y,z) is assigned. 
+
+Example 1) Temperature distribution in a room, where each point in the room has a specific temperature value.
+f(x,y,z) =
+2) Mass density:  
+
+
+
+2. Vector field
+
+
+Given a point (x,y,z)¥in R^3, a vector F(x,y,z) = (f_1(),f_2,f_3) is assigned.
+Here, f_1,f_2,f_3 are scalar fields.
+
+Example: 1) Velocity field of a fluid flow, where each point in the fluid has a velocity vector indicating the speed and direction of the flow.
+F(x,y,z) = (u(x,y,z), v(x,y,z), w(x,y,z))
+2) Force field Electro magnetic field:
+
+3. Gradient
+
+Let f be a scalar
+field. The gradient of f, denoted by ∇f, is a vector field defined as:
+∇f = (∂f/∂x, ∂f/∂y, ∂f/∂z)
+
+Remark: nabla f is a vector field
+
+Examples: 1) If f(x,y,z) = x^2 + y^2 + z^2, then
+∇f = (2x, 2y, 2z)
+2) If f(x,y,z) = xyz, then
+∇f = (yz, xz, xy)
+3) If f(x,y,z) = e^(x+y+z), then
+∇f = (e^(x+y+z), e^(x+y+z).
+
+Use: Let r(t)=(x(t),y(t),z(t)) be a curve in R^3. The rate of change of f along the curve is given by the dot product of the gradient and the tangent vector to the curve:
+
+df/dt = ∇f · r'(t) <-> chnge = nabla f dot velocity
+
+Under the condition |r'(t)| = 1, df/dt is maximized when r'(t) is in the direction of ∇f. 
+
+4. Divergence
+
+Given a vector field F=(f_1,f_2,f_3), the divergence of F, denoted by ∇·F, is a scalar field defined as:
+∇·F = ∂f_1/∂x + ∂f_2/∂y + ∂f_3/∂z
+
+How to remember? nabla = (¥paritial_x, ¥partial_y, ¥partial_z), dot product with F = (f_1,f_2,f_3)
+
+Remark: nabla dot F is a scalar field
+
+Examples: 1) If F(x,y,z) = (x,y,z), then
+∇·F = 1 + 1 + 1 = 3
+2) If F(x,y,z) = (yz, xz, xyz), then
+∇·F = 0 + 0 + xy = xy
+3) If F(x,y,z) = (e^x, e^y, e^z), then
+∇·F = e^x + e^y + e^z
+
+5. Curl
+Given a vector field F=(f_1,f_2,f_3), the curl of F, denoted by ∇×F, is a vector field defined as:
+∇×F = ( ∂f_3/∂y - ∂f_2/∂z, ∂f_1/∂z - ∂f_3/∂x, ∂f_2/∂x - ∂f_1/∂y )
+
+How to remember? nabla = (¥paritial_x, ¥partial_y, ¥partial_z), cross product with F = (f_1,f_2,f_3)
+
+Example: 1) If F(x,y,z) = (y, -x, 0), then
+∇×F = (0 - 0, 0 - 0, -1 - (-1)) = (0, 0, -2)
+2) If F(x,y,z) = (xz, yz, xy), then
+∇×F = (y -z, x - x, z - z) = (y - z, 0, 0)
+3) If F(x,y,z) = (e^x, e^y, e^z), then
+∇×F = (0 - 0, 0 - 0, 0 - 0) = (0, 0, 0)
+
+7: Potential
+
+Def: Let F be a vector field. If there exists a scalar field f such that F = ∇f, then f is called a potential function for F. If there exists a vector field A such that F=∇×A, then A is called a vector potential for F.
+
+(電磁気学において重要)
