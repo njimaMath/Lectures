@@ -1,6 +1,487 @@
-1. ¥mu_n -> ¥mu <->  mu_n(F) ¥leq ¥mu(F) for any closed
+1. ¥mu_n -> ¥mu (i.e. for any compactly supported function f, 
+mu_n[f] \to \mu[f]) <->  \limsup mu_n(F) ¥leq ¥mu(F) for any closed
+
+
+Direction $\Rightarrow$
+
+Assume $\mu_n\Rightarrow\mu$.
+
+Open-set inequality. Let $A$ be open. By your first allowed fact, pick $f_k\in C_c(S)$ such that for every $x$,
+[
+0\le f_k(x)\uparrow 1_A(x)\qquad (k\to\infty).
+]
+Then by monotone convergence,
+[
+\int f_k,d\mu \uparrow \int 1_A,d\mu=\mu(A),
+\qquad
+\int f_k,d\mu_n \uparrow \int 1_A,d\mu_n=\mu_n(A)\ \ \text{for each fixed }n.
+]
+Also, for each fixed $k$, weak convergence gives $\int f_k,d\mu_n\to \int f_k,d\mu$. Hence for every $k$,
+[
+\liminf_{n\to\infty}\mu_n(A)
+\ \ge
+\liminf_{n\to\infty}\int f_k,d\mu_n
+\ =
+\int f_k,d\mu.
+]
+Taking $\sup_k$ and using $\sup_k\int f_k,d\mu=\mu(A)$ yields
+[
+\mu(A)\le \liminf_{n\to\infty}\mu_n(A).
+]
+
+Closed-set inequality. If $F$ is closed then $F^c$ is open, so
+[
+\limsup_{n\to\infty}\mu_n(F)
+============================
+
+1-\liminf_{n\to\infty}\mu_n(F^c)
+\le
+1-\mu(F^c)
+==========
+
+\mu(F).
+]
+
+---
+
+Direction $\Leftarrow$
+
+Assume
+[
+\limsup_{n\to\infty}\mu_n(F)\le \mu(F)\qquad\text{for every closed }F.
+]
+First note the open-set inequality follows immediately: for open $O$ the complement $O^c$ is closed, so
+[
+\liminf_{n\to\infty}\mu_n(O)
+============================
+
+1-\limsup_{n\to\infty}\mu_n(O^c)
+\ge
+1-\mu(O^c)
+==========
+
+\mu(O).
+]
+
+Now prove weak convergence.
+
+It suffices to show convergence of integrals for bounded continuous $f$. Fix such an $f$. By shifting and scaling, reduce to the case $0\le f\le 1$ (apply the argument to $(f-\inf f)/(\sup f-\inf f)$ and then undo the affine change).
+
+Fix $\varepsilon>0$. Choose a mesh $0=t_0<t_1<\cdots<t_K=1$ with $\max_j(t_j-t_{j-1})<\varepsilon$. Define two simple functions
+[
+f^+(x):=\sum_{j=1}^K (t_j-t_{j-1}),1_{{f(x)\ge t_{j-1}}},
+\qquad
+f^-(x):=\sum_{j=1}^{K-1} (t_j-t_{j-1}),1_{{f(x)> t_j}}.
+]
+Here each set ${f\ge t_{j-1}}$ is closed (since $f$ is continuous) and each set ${f>t_j}$ is open.
+
+A direct check gives the pointwise bounds
+[
+f^-(x)\le f(x)\le f^+(x)\le f(x)+\varepsilon
+\qquad \text{for all }x,
+]
+hence
+[
+\int f^-,d\nu \le \int f,d\nu \le \int f^+,d\nu \le \int f,d\nu+\varepsilon
+\quad\text{for any probability measure }\nu.
+]
+
+Apply the set inequalities termwise.
+
+For the upper bound (closed sets):
+[
+\limsup_{n\to\infty}\int f^+,d\mu_n
+===================================
+
+\limsup_{n\to\infty}\sum_{j=1}^K (t_j-t_{j-1}),\mu_n({f\ge t_{j-1}})
+\le
+\sum_{j=1}^K (t_j-t_{j-1}),\mu({f\ge t_{j-1}})
+==============================================
+
+\int f^+,d\mu.
+]
+Therefore
+[
+\limsup_{n\to\infty}\int f,d\mu_n
+\le
+\limsup_{n\to\infty}\int f^+,d\mu_n
+\le
+\int f^+,d\mu
+\le
+\int f,d\mu+\varepsilon.
+]
+
+For the lower bound (open sets):
+[
+\liminf_{n\to\infty}\int f^-,d\mu_n
+===================================
+
+\liminf_{n\to\infty}\sum_{j=1}^{K-1} (t_j-t_{j-1}),\mu_n({f> t_j})
+\ge
+\sum_{j=1}^{K-1} (t_j-t_{j-1}),\mu({f> t_j})
+============================================
+
+\int f^-,d\mu.
+]
+Hence
+[
+\liminf_{n\to\infty}\int f,d\mu_n
+\ge
+\liminf_{n\to\infty}\int f^-,d\mu_n
+\ge
+\int f^-,d\mu
+\ge
+\int f,d\mu-\varepsilon.
+]
+
+Combining,
+[
+\int f,d\mu-\varepsilon
+\le
+\liminf_{n\to\infty}\int f,d\mu_n
+\le
+\limsup_{n\to\infty}\int f,d\mu_n
+\le
+\int f,d\mu+\varepsilon.
+]
+Letting $\varepsilon\downarrow 0$ yields $\int f,d\mu_n\to\int f,d\mu$ for all bounded continuous $f$, i.e. $\mu_n\Rightarrow\mu$.
+
+
 
 2. Right continuous increasing function gives a distr.
- 
-3. Bochne's theorem
 
+Let $F:\mathbb R\to[0,1]$ be nondecreasing and right-continuous, and assume
+[
+\lim_{x\to-\infty}F(x)=0,\qquad \lim_{x\to+\infty}F(x)=1.
+]
+A probability measure $\mu$ on $(\mathbb R,\mathcal B(\mathbb R))$ is said to have distribution function $F$ if
+[
+F(x)=\mu((-\infty,x])\qquad(x\in\mathbb R).
+]
+I will construct such a $\mu$.
+
+Carathéodory (concise statement)
+Let $\mu^*$ be an outer measure on a set $X$ (so $\mu^*(\varnothing)=0$, $\mu^*$ is monotone, and countably subadditive). Define the class of $\mu^*$-measurable sets by
+[
+\mathcal M:=\Bigl{E\subset X:\ \mu^*(A)=\mu^*(A\cap E)+\mu^*(A\setminus E)\ \text{for all }A\subset X\Bigr}.
+]
+Then $\mathcal M$ is a $\sigma$-algebra, and $\mu:=\mu^*|_{\mathcal M}$ is a measure on $\mathcal M$.
+
+Construction of an outer measure from $F$
+For a half-open interval $I=(a,b]$ with $-\infty\le a<b\le\infty$, define
+[
+\lambda(I):=F(b)-F(a),
+]
+where we set $F(-\infty)=0$ and $F(\infty)=1$.
+
+For any set $E\subset\mathbb R$, define
+[
+\mu^*(E):=\inf\Bigl{\sum_{n=1}^\infty \lambda(I_n):\ E\subset \bigcup_{n=1}^\infty I_n,\ I_n\ \text{half-open intervals}\Bigr}.
+]
+Then $\mu^*$ is an outer measure:
+[
+\mu^*(\varnothing)=0,\qquad E\subset E'\Rightarrow \mu^*(E)\le \mu^*(E'),
+]
+and for $E_k\subset\mathbb R$,
+[
+\mu^*\Bigl(\bigcup_{k=1}^\infty E_k\Bigr)\le \sum_{k=1}^\infty \mu^*(E_k),
+]
+because any cover of each $E_k$ yields a combined cover of the union.
+
+Measurability of half-open intervals
+Fix a half-open interval $J=(a,b]$. Take any covering of a set $A\subset\mathbb R$ by intervals $I_n=(c_n,d_n]$. For each $n$, write the disjoint partition
+[
+I_n = (I_n\cap J)\ \sqcup\ (I_n\setminus J),
+]
+where $I_n\cap J$ is either empty or another half-open interval, and $I_n\setminus J$ is a disjoint union of at most two half-open intervals. By telescoping of $F$ across endpoints, one has exact additivity
+[
+\lambda(I_n)=\lambda(I_n\cap J)+\lambda(I_n\setminus J).
+]
+Hence
+[
+\sum_{n=1}^\infty \lambda(I_n)
+=\sum_{n=1}^\infty \lambda(I_n\cap J)+\sum_{n=1}^\infty \lambda(I_n\setminus J).
+]
+Since $(A\cap J)\subset \bigcup_n (I_n\cap J)$ and $(A\setminus J)\subset \bigcup_n (I_n\setminus J)$, taking infimum over all covers of $A$ gives
+[
+\mu^*(A)\ge \mu^*(A\cap J)+\mu^*(A\setminus J).
+]
+The reverse inequality always holds by subadditivity of $\mu^*$, so equality holds for all $A$. Thus every half-open interval $J$ is $\mu^*$-measurable. By Carathéodory’s theorem, the $\sigma$-algebra $\mathcal M$ of $\mu^*$-measurable sets contains all half-open intervals, hence contains $\mathcal B(\mathbb R)$ (since half-open intervals generate the Borel $\sigma$-algebra).
+
+Agreement on intervals: $\mu^*((a,b])=F(b)-F(a)$
+Fix $J=(a,b]$. The inequality $\mu^*(J)\le \lambda(J)$ is immediate (cover $J$ by itself). For the reverse inequality, let ${I_n}$ be any countable cover of $J$.
+
+Fix $\delta>0$. Consider the compact set $K=[a+\delta,b]$. For each $x\in K\setminus{b}$ choose some $I_{n(x)}=(c_{n(x)},d_{n(x)}]$ containing $x$. Since $x\not=c_{n(x)}$ (left endpoint is not included), there exists $r_x>0$ such that
+[
+(x-r_x,x+r_x)\subset (c_{n(x)},d_{n(x)}),
+]
+so these open intervals form an open cover of $K\setminus{b}$. By compactness, finitely many of them cover $K\setminus{b}$, and adding one interval that covers $b$ yields a finite subcollection $I_{n_1},\dots,I_{n_m}$ that covers $K$.
+
+Let $U:=\bigcup_{j=1}^m I_{n_j}$. Define $\lambda$ on finite unions by decomposing $U$ into disjoint half-open intervals and summing $\lambda$ over components; this is well-defined and finitely additive, hence subadditive:
+[
+\lambda(U)\le \sum_{j=1}^m \lambda(I_{n_j}).
+]
+Since $K\subset U$ and $(a+\delta,b]\subset K$, monotonicity gives
+[
+F(b)-F(a+\delta)=\lambda((a+\delta,b])\le \lambda(U)\le \sum_{j=1}^m \lambda(I_{n_j})
+\le \sum_{n=1}^\infty \lambda(I_n).
+]
+This holds for every countable cover ${I_n}$ of $J$, so
+[
+\mu^*(J)\ge F(b)-F(a+\delta)\qquad(\delta>0).
+]
+Letting $\delta\downarrow 0$ and using right-continuity of $F$ at $a$ gives
+[
+\mu^*(J)\ge F(b)-F(a)=\lambda(J).
+]
+Therefore $\mu^*(J)=\lambda(J)$ for all half-open intervals $J$.
+
+Define the measure on Borel sets and identify the distribution function
+Let $\mu$ be the restriction of $\mu^*$ to $\mathcal B(\mathbb R)$ (this is a measure because $\mathcal B(\mathbb R)\subset\mathcal M$). Then for all $x\in\mathbb R$,
+[
+\mu((-\infty,x])=\mu^*((-\infty,x])=\lambda((-\infty,x])=F(x)-F(-\infty)=F(x).
+]
+Also,
+[
+\mu(\mathbb R)=\mu((-\infty,\infty])=\lambda((-\infty,\infty])=F(\infty)-F(-\infty)=1,
+]
+so $\mu$ is a probability measure.
+
+This proves that every nondecreasing right-continuous $F$ with limits $0$ at $-\infty$ and $1$ at $+\infty$ is a distribution function of some probability measure.
+
+
+3. Tightness implies a weakly convergent subsequence
+ 
+Theorem (tightness gives a weakly convergent subsequence on $\mathbb R$).
+Let $(\mu_n)*{n\ge1}$ be a tight sequence of probability measures on $\mathbb R$. Then there exist a subsequence $(\mu*{n_k})*{k\ge1}$ and a probability measure $\mu$ on $\mathbb R$ such that $\mu*{n_k}\Rightarrow \mu$ (weak convergence).
+
+Proof.
+For each $n$, let
+[
+F_n(x):=\mu_n((-\infty,x]),\qquad x\in\mathbb R.
+]
+Each $F_n$ is nondecreasing, right-continuous, with $\lim_{x\to-\infty}F_n(x)=0$ and $\lim_{x\to+\infty}F_n(x)=1$.
+
+Tightness means: for every $\varepsilon>0$ there exists $M>0$ such that for all $n$,
+[
+\mu_n(\mathbb R\setminus[-M,M])<\varepsilon.
+]
+Equivalently, for all $n$,
+[
+F_n(-M)\le \varepsilon,\qquad 1-F_n(M)\le \varepsilon. \tag{1}
+]
+
+Choose a subsequence along which $F_n$ converges on all rationals.
+Enumerate $\mathbb Q={q_1,q_2,\dots}$. Since $F_n(q_1)\in[0,1]$, pick a subsequence $(n^{(1)}*k)$ such that $F*{n^{(1)}*k}(q_1)$ converges. From that subsequence, extract a further subsequence $(n^{(2)}*k)$ such that $F*{n^{(2)}*k}(q_2)$ converges, and continue. Taking the diagonal subsequence $n_k:=n^{(k)}*k$, we obtain that for every rational $q$ the limit
+[
+G(q):=\lim*{k\to\infty}F*{n_k}(q)
+]
+exists. Moreover, $G$ is nondecreasing on $\mathbb Q$ because each $F*{n_k}$ is.
+
+Define a candidate limit distribution function on $\mathbb R$ by
+[
+F(x):=\inf{G(q): q\in\mathbb Q,\ q>x}
+= \lim_{m\to\infty} G(q_m)
+]
+for any sequence of rationals $q_m\downarrow x$. This is well-defined since $G$ is monotone on $\mathbb Q$.
+
+Properties of $F$.
+Monotonicity is immediate from the definition. Right-continuity holds because
+[
+F(x)=\inf_{q>x}G(q)=\lim_{y\downarrow x}\inf_{q>y}G(q)=\lim_{y\downarrow x}F(y).
+]
+The limits at $\pm\infty$ follow from tightness: fix $\varepsilon>0$ and choose $M$ as in (1). For $x\le -M$ and any rational $q>x$, we have $q\le -M$ for some such $q$, hence
+[
+F(x)\le G(-M)=\lim_{k}F_{n_k}(-M)\le \varepsilon.
+]
+Similarly, for $x\ge M$ and any rational $q>x$ we have $q\ge M$, so $G(q)\ge G(M)\ge 1-\varepsilon$ and thus $F(x)\ge 1-\varepsilon$. Therefore
+[
+\lim_{x\to-\infty}F(x)=0,\qquad \lim_{x\to+\infty}F(x)=1.
+]
+
+By your allowed fact, since $F$ is increasing, right-continuous, and has limits $0$ at $-\infty$ and $1$ at $+\infty$, there exists a probability measure $\mu$ on $\mathbb R$ whose distribution function is $F$, meaning $F(x)=\mu((-\infty,x])$.
+
+Convergence of the subsequence at continuity points of $F$.
+Fix $x\in\mathbb R$. For any rationals $r<x<s$ we have for all $k$,
+[
+F_{n_k}(r)\le F_{n_k}(x)\le F_{n_k}(s).
+]
+Taking $\liminf$ and $\limsup$ in $k$ gives
+[
+G(r)\le \liminf_{k\to\infty}F_{n_k}(x)\le \limsup_{k\to\infty}F_{n_k}(x)\le G(s).
+]
+Now let $r\uparrow x$ through rationals and $s\downarrow x$ through rationals. Then
+[
+\sup_{r<x,,r\in\mathbb Q}G(r)=:F(x-),\qquad \inf_{s>x,,s\in\mathbb Q}G(s)=F(x),
+]
+so we obtain
+[
+F(x-)\le \liminf_{k}F_{n_k}(x)\le \limsup_{k}F_{n_k}(x)\le F(x).
+]
+If $x$ is a continuity point of $F$, then $F(x-)=F(x)$, hence $F_{n_k}(x)\to F(x)$.
+
+Weak convergence $\mu_{n_k}\Rightarrow \mu$.
+Let $f:\mathbb R\to\mathbb R$ be bounded and continuous. Fix $\varepsilon>0$ and choose $M$ so that (1) holds and also $\mu(\mathbb R\setminus[-M,M])<\varepsilon$ (this is true because $F(-M)\le\varepsilon$ and $1-F(M)\le\varepsilon$ by the same argument used above). On the compact interval $[-M,M]$, $f$ is uniformly continuous, so choose a partition
+[
+-M=t_0<t_1<\cdots<t_J=M
+]
+such that the oscillation of $f$ on each $(t_{j-1},t_j]$ is at most $\varepsilon$, and choose the $t_j$ among continuity points of $F$ (possible since $F$ has at most countably many discontinuities). Define the step function
+[
+s(x)=\sum_{j=1}^J c_j,\mathbf 1_{(t_{j-1},t_j]}(x)
+]
+with $c_j\in[f\text{ on }(t_{j-1},t_j]]$. Then $|f-s|\le \varepsilon$ on $[-M,M]$, and
+[
+\int s,d\mu_{n_k}=\sum_{j=1}^J c_j\bigl(F_{n_k}(t_j)-F_{n_k}(t_{j-1})\bigr)\to
+\sum_{j=1}^J c_j\bigl(F(t_j)-F(t_{j-1})\bigr)=\int s,d\mu,
+]
+because each $t_j$ is a continuity point of $F$.
+
+Finally,
+[
+\Bigl|\int f,d\mu_{n_k}-\int f,d\mu\Bigr|
+\le \Bigl|\int (f-s),d\mu_{n_k}\Bigr|+\Bigl|\int s,d\mu_{n_k}-\int s,d\mu\Bigr|+\Bigl|\int (s-f),d\mu\Bigr|.
+]
+The middle term tends to $0$. The first and last terms are bounded by
+[
+\varepsilon + 2|f|*\infty,\mu*{n_k}(\mathbb R\setminus[-M,M])
+\le \varepsilon + 2|f|*\infty,\varepsilon
+]
+and similarly for $\mu$, hence can be made arbitrarily small by first choosing $M$ (tightness) and then the partition (uniform continuity). Therefore $\int f,d\mu*{n_k}\to \int f,d\mu$ for all bounded continuous $f$, which is exactly $\mu_{n_k}\Rightarrow\mu$.
+
+This proves that tightness implies existence of a subsequential weak limit.
+
+
+4. Bochne's theorem
+
+Let $p_\delta$ be the heat kernel on $\R^d$,
+[
+p_\delta(x):=(2\pi\delta)^{-d/2}\exp\Bigl(-\frac{|x|^2}{2\delta}\Bigr),
+\qquad
+\widehat p_\delta(t)=\int_{\R^d} e^{i t\cdot x}p_\delta(x),dx
+=\exp\Bigl(-\frac{\delta|t|^2}{2}\Bigr).
+]
+Fix $\delta>0$ and define the smoothed function
+[
+\phi_\delta(t):=\phi(t),e^{-\delta|t|^2/2}.
+]
+This is the “heat regularization” in Fourier space; if a representing measure $\mu$ existed, then $\phi_\delta$ would be the characteristic function of the convolution $\mu*p_\delta$.
+
+Two facts about $\phi_\delta$.
+
+* $\phi_\delta(0)=1$.
+* $\phi_\delta$ is positive definite: $e^{-\delta|t|^2/2}$ is a characteristic function (Gaussian), hence positive definite, and the pointwise product of positive definite functions is positive definite (Schur product on the associated Gram matrices).
+* $\phi_\delta\in L^1(\R^d)$ because $|\phi_\delta(t)|\le e^{-\delta|t|^2/2}$.
+
+So for each $\delta$ we are in the “integrable positive definite” setting. The next lemma produces an honest probability measure from $\phi_\delta$.
+
+Lemma (integrable positive definite implies nonnegative Fourier transform).
+Let $\psi:\R^d\to\C$ be continuous, positive definite, and $\psi\in L^1(\R^d)$. Define
+[
+f(x):=(2\pi)^{-d}\int_{\R^d} e^{-i t\cdot x},\psi(t),dt .
+]
+Then $f$ is bounded and continuous, $f(x)\ge 0$ for almost every $x$, and
+[
+\psi(t)=\int_{\R^d} e^{i t\cdot x},f(x),dx.
+]
+In particular, $\mu(dx):=f(x),dx$ is a finite positive Borel measure and $\mu(\R^d)=\psi(0)$.
+
+Proof.
+Fix a Schwartz function $g\in\mathcal S(\R^d)$ and set $\tilde g(u):=\overline{g(-u)}$. By positive definiteness of $\psi$,
+[
+I:=\iint_{\R^d\times\R^d} g(s),\overline{g(t)},\psi(s-t),ds,dt\ge 0.
+]
+Write $u=s-t$ and use Fubini:
+[
+I=\int_{\R^d}\psi(u),(g*\tilde g)(u),du.
+]
+Take Fourier transforms with the convention $\widehat h(x)=\int_{\R^d}e^{-i t\cdot x}h(t),dt$. Then $\widehat{g*\tilde g}(x)=\widehat g(x),\widehat{\tilde g}(x)=|\widehat g(x)|^2$. Also, by the definition of $f$ we have $\widehat\psi=(2\pi)^d f$ in the classical $L^\infty$ sense. Parseval’s identity gives
+[
+I=(2\pi)^d\int_{\R^d} f(x),|\widehat g(x)|^2,dx.
+]
+Since $I\ge 0$ for all Schwartz $g$, it follows that $\int f |\widehat g|^2\ge 0$ for all such $g$. If $f$ were $<0$ on a set $A$ of positive measure, choose a nonzero $\eta\in C_c^\infty(A)$ and take $g$ to be the inverse Fourier transform of $\eta$ (this $g$ is Schwartz). Then $|\widehat g|^2=|\eta|^2$ is supported in $A$, giving $\int f|\widehat g|^2<0$, a contradiction. Hence $f\ge 0$ almost everywhere.
+
+Continuity and boundedness of $f$ follow from $\psi\in L^1$ by dominated convergence in the defining integral. The inversion formula $\psi(t)=\int e^{i t\cdot x} f(x),dx$ holds because $\psi\in L^1$ and $f$ is its inverse Fourier transform. Finally, evaluating at $t=0$ gives $\int f=\psi(0)$. ∎
+
+Apply the lemma with $\psi=\phi_\delta$. Then there exists a nonnegative integrable function $f_\delta$ such that
+[
+\phi_\delta(t)=\int_{\R^d} e^{i t\cdot x},f_\delta(x),dx,
+\qquad
+\int_{\R^d} f_\delta(x),dx=\phi_\delta(0)=1.
+]
+Define the probability measure
+[
+\mu_\delta(dx):=f_\delta(x),dx.
+]
+Its characteristic function is exactly $\widehat{\mu_\delta}(t)=\phi_\delta(t)$.
+
+Tightness of $(\mu_\delta)_{\delta\downarrow 0}$.
+
+Let $R>0$ and take the Gaussian cutoff
+[
+G_R(x):=\exp\Bigl(-\frac{|x|^2}{2R^2}\Bigr).
+]
+Then $0<G_R\le 1$ and, with $A:=\sqrt{2\log 2}$, one has $G_R(x)\le 1/2$ whenever $|x|\ge AR$. Hence for every probability measure $\nu$,
+[
+\nu(|x|\ge AR)\le 2\Bigl(1-\int_{\R^d} G_R(x),\nu(dx)\Bigr).
+]
+We now express $\int G_R,d\mu_\delta$ in terms of $\phi_\delta$. The Fourier transform of $G_R$ is
+[
+\widehat{G_R}(t)=(2\pi R^2)^{d/2}e^{-R^2|t|^2/2}.
+]
+A standard Fourier identity (valid here since $\mu_\delta$ has a density and $G_R\in L^1$) yields
+[
+\int_{\R^d} G_R(x),\mu_\delta(dx)
+=(2\pi)^{-d}\int_{\R^d} \widehat{G_R}(t),\widehat{\mu_\delta}(-t),dt
+=\int_{\R^d} w_R(t),\phi_\delta(t),dt,
+]
+where
+[
+w_R(t):=(2\pi)^{-d}\widehat{G_R}(t)
+=(2\pi)^{-d}(2\pi R^2)^{d/2}e^{-R^2|t|^2/2}
+]
+is a centered Gaussian density on $\R^d$ (so $\int w_R=1$) that concentrates near $0$ as $R\to\infty$.
+
+Because $w_R$ is even and $\phi_\delta(-t)=\overline{\phi_\delta(t)}$, the integral $\int w_R(t)\phi_\delta(t),dt$ is real. Also,
+[
+1-\int w_R(t)\phi_\delta(t),dt
+=\int w_R(t)\bigl(1-\Re\phi_\delta(t)\bigr),dt
+\le \int w_R(t),|1-\phi_\delta(t)|,dt.
+]
+For $\delta\in(0,1]$,
+[
+|1-\phi_\delta(t)|
+\le |1-\phi(t)| + \bigl(1-e^{-\delta|t|^2/2}\bigr)
+\le |1-\phi(t)| + \bigl(1-e^{-|t|^2/2}\bigr).
+]
+Given $\varepsilon>0$, pick $\eta>0$ such that
+[
+|1-\phi(t)|\le \varepsilon/8\ \text{and}\ 1-e^{-|t|^2/2}\le \varepsilon/8
+\quad\text{whenever }|t|\le \eta,
+]
+using continuity of $\phi$ at $0$. Then for $|t|\le \eta$, $|1-\phi_\delta(t)|\le \varepsilon/4$, while always $|1-\phi_\delta(t)|\le 2$. Hence
+[
+\int w_R(t),|1-\phi_\delta(t)|,dt
+\le \frac{\varepsilon}{4} + 2,w_R(|t|>\eta).
+]
+Choose $R$ so large that $w_R(|t|>\eta)\le \varepsilon/8$. This choice is possible since $w_R$ is Gaussian with variance $1/R^2$. Then for all $\delta\in(0,1]$,
+[
+1-\int_{\R^d} G_R,d\mu_\delta
+\le \frac{\varepsilon}{2},
+\qquad\text{so}\qquad
+\mu_\delta(|x|\ge AR)\le \varepsilon.
+]
+This proves tightness of $(\mu_\delta)_{\delta\downarrow 0}$.
+
+Extracting a weak limit and identifying its characteristic function.
+
+Take any sequence $\delta_n\downarrow 0$ (for instance $\delta_n=1/n$). By tightness and Prokhorov’s theorem, there is a subsequence $\delta_{n_k}$ and a Borel probability measure $\mu$ on $\R^d$ such that $\mu_{\delta_{n_k}}\Rightarrow \mu$ weakly.
+
+For each fixed $t\in\R^d$, the map $x\mapsto e^{i t\cdot x}$ is bounded and continuous, so weak convergence gives
+[
+\int_{\R^d} e^{i t\cdot x},\mu_{\delta_{n_k}}(dx)\to \int_{\R^d} e^{i t\cdot x},\mu(dx).
+]
+But the left side equals $\widehat{\mu_{\delta_{n_k}}}(t)=\phi_{\delta_{n_k}}(t)=\phi(t)e^{-\delta_{n_k}|t|^2/2}$, which converges to $\phi(t)$ as $k\to\infty$. Therefore
+[
+\phi(t)=\int_{\R^d} e^{i t\cdot x},\mu(dx)\qquad\text{for all }t\in\R^d.
+]
+This is Bochner’s theorem, obtained by heat-kernel smoothing plus tightness and subsequential weak convergence.

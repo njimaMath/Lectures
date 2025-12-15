@@ -1,8 +1,9 @@
-<!DOCTYPE html><html lang="ja">
+<!DOCTYPE html>
+<html lang="ja">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Bochonorの定理</title>
+  <title>Bochner の定理</title>
   <style>
     body {
       font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
@@ -33,12 +34,12 @@
       border-left: 6px solid #1a237e;
       padding-left: .55rem;
     }
-    h3 {
-      font-size: 1.25rem;
-    }
-    h4 {
-      font-size: 1.1rem;
-      color: #3949ab;
+    h3 { font-size: 1.25rem; }
+    h4 { font-size: 1.1rem; color: #3949ab; margin-top: 1.2em; }
+    .section-lead {
+      font-size: 1.05rem;
+      color: #424242;
+      margin-top: -0.25rem;
     }
     .formula {
       background: #f3f4ff;
@@ -49,6 +50,8 @@
       overflow-x: auto;
       text-align: center;
     }
+    details { margin-bottom: 1rem; }
+    details summary { cursor: pointer; font-weight: 600; }
     .proof {
       background: #e8f5e9;
       border-left: 4px solid #43a047;
@@ -57,31 +60,47 @@
       border-radius: 8px;
       overflow-x: auto;
     }
-    details {
-      margin-bottom: 1rem;
+    .example, .note {
+      border-radius: 8px;
+      padding: .75rem 1rem;
+      margin: 1rem 0;
     }
-    details summary {
-      cursor: pointer;
-      font-weight: 600;
+    .example {
+      background: #fff8e1;
+      border-left: 4px solid #fb8c00;
     }
+    .note {
+      background: #e3f2fd;
+      border-left: 4px solid #1e88e5;
+    }
+    .toc {
+      background: #fafafa;
+      border: 1px solid #eee;
+      border-radius: 10px;
+      padding: 12px 14px;
+      margin: 1rem 0 1.2rem;
+    }
+    .toc a { color: #1a237e; text-decoration: none; }
+    .toc a:hover { text-decoration: underline; }
+    ul { margin: 0 0 1rem 1.2rem; }
     .navigation {
       display: flex;
-      justify-content: space-between;
-      margin: 20px 0;
-      padding: 15px 0;
-      border-top: 1px solid #eee;
+      justify-content: center;
+      gap: .8rem;
+      margin: 2.2rem 0;
+      border-top: 1px solid #e0e0e0;
+      padding-top: 1.5rem;
+      flex-wrap: wrap;
     }
     .navigation a {
-      padding: 10px 20px;
+      padding: .65rem 1.5rem;
       background: #1a237e;
       color: #fff;
       text-decoration: none;
-      border-radius: 5px;
+      border-radius: 6px;
       transition: opacity .2s;
     }
-    .navigation a:hover {
-      opacity: .85;
-    }
+    .navigation a:hover { opacity: .85; }
     footer {
       margin-top: 3rem;
       color: #777;
@@ -92,8 +111,8 @@
   <script>
     MathJax = {
       tex: {
-        inlineMath: [['$', '$'], ['\', '\']],
-        displayMath: [['$$', '$$'], ['\', '\']]
+        inlineMath: [['$', '$'], ['\\(', '\\)']],
+        displayMath: [['$$','$$'], ['\\[','\\]']]
       }
     };
   </script>
@@ -102,150 +121,352 @@
 <body>
   <div class="container">
     <header>
-      <h1>確率論における収束の概念</h1>
-    </header><!-- ============================================================= -->
-<h2>1. 各点収束（Pointwise Convergence）</h2>
-<p>
-  <strong>定義：</strong> 確率空間 $(\Omega,\mathcal F,\mathbf P)$ 上の確率変数列 $(X_n)_{n\in\mathbb N}$ と確率変数 $X$ に対し、
-  任意の $\omega\in\Omega$ について $\displaystyle\lim_{n\to\infty} X_n(\omega)=X(\omega)$ であれば、
-  <em>X<sub>n</sub> は X に<strong>各点収束</strong>する</em>と呼ぶ。
-</p>
-<ul>
-  <li>各点収束は解析的には直感的で強い概念だが、確率論ではしばしば扱いづらく、他の収束概念の方が利用される。</li>
-</ul>
+      <h1>Bochner の定理</h1>
+      <p class="section-lead">
+        「どんな関数が特性関数（確率分布のフーリエ変換）になれるのか？」に答える定理だ。
+        証明の流れは <strong>正定値性 → 平滑化 → 密度の構成 → tightness → 弱収束</strong> である。
+      </p>
+    </header>
 
-<h3>例 1：コイントスの列</h3>
-<p>
-  $\Omega=\{(\omega_i)_{i\ge 1}\mid\omega_i\in\{\text{表},\text{裏}\}\}$ とし、$X_i(\omega):=\mathbf 1_{\{\omega_i=\text{表}\}}$、
-  $S_n:=\sum_{i=1}^n X_i$ と定める。大数の弱法則より
-  $$
-    \mathbf P\Bigl(\bigl|\tfrac{S_n}{n}-\tfrac12\bigr|>\varepsilon\Bigr)\longrightarrow 0\quad(n\to\infty).
-  $$
-  しかし各点収束は成り立たない。たとえば $\omega=(\text{裏},\text{裏},\dots)$ とすると $S_n(\omega)=0$ であり $
-  \tfrac{S_n(\omega)}{n}\to 0\ne \tfrac12$。
-</p>
+    <div class="toc">
+      <strong>目次</strong>
+      <ul>
+        <li><a href="#portmanteau">1. 弱収束とポートマンテール（Portmanteau）</a></li>
+        <li><a href="#cdf">2. 分布関数から確率測度を作る</a></li>
+        <li><a href="#tightness">3. Tightness と部分列弱収束</a></li>
+        <li><a href="#bochner">4. Bochner の定理（主定理）</a></li>
+      </ul>
+    </div>
 
-<h3>例 2：区間 [0,1] 上の指標関数列</h3>
-<p>
-  $\Omega=[0,1]$、$\mathbf P$ をルベーグ測度とし、$n\in\mathbb N$ について $m,k\in\mathbb N$ を
-  $2^{m}+k\le n<2^{m}+(k+1)$ となるように取る。区間 $I_{m,k}:=[k2^{-m},(k+1)2^{-m})$ として
-  $$
-    X_n(\omega):=\mathbf 1_{I_{m,k}}(\omega).
-  $$
-  このとき $X_n$ は任意の確率変数に各点収束しない。事実、$n=2^{m}$ のとき $X_{2^{m}}(\omega)\to \mathbf 1_{\{0\}}(\omega)$ だが、
-  $n=2^{m}+1$ のとき $X_{2^{m}+1}(\omega)\to 0$ となり、一貫しない。
-</p>
+    <!-- ============================================================= -->
+    <section id="portmanteau">
+      <h2>1. 弱収束とポートマンテール（Portmanteau）</h2>
+      <p>
+        ここでは確率測度の列 $(\mu_n)$ が「分布として近づく」ことを、いくつか同値な形で言い換える。
+        Bochner の定理の証明で、極限測度を作るときに使う。
+      </p>
 
-<!-- ============================================================= -->
-<h2>2. 確率収束（Convergence in Probability）</h2>
-<p>
-  <strong>定義：</strong> 確率空間 $(\Omega,\mathcal F,\mathbf P)$ 上の確率変数列 $(X_n)$ と確率変数 $X$ について、任意の $\varepsilon>0$ に対し
-  $$
-    \mathbf P\bigl(|X_n-X|>\varepsilon\bigr)\longrightarrow 0\quad(n\to\infty)
-  $$
-  が成り立つとき、<em>$X_n$ は $X$ に<strong>確率収束</strong>する</em>と書き $X_n\xrightarrow{\mathbf P}X$ と表す。
-</p>
+      <h3>弱収束（= 分布収束）の定義</h3>
+      <p>
+        $\mathbb R^d$ 上の確率測度 $\mu_n,\mu$ について
+      </p>
+      <div class="formula">
+        $$
+        \mu_n \Rightarrow \mu
+        \quad\Longleftrightarrow\quad
+        \int_{\mathbb R^d} f\,d\mu_n \to \int_{\mathbb R^d} f\,d\mu
+        \ \ (\forall f\in C_b(\mathbb R^d)).
+        $$
+      </div>
+      <p>
+        ここで $C_b$ は有界連続関数全体である（講義で $C_c$ を使っていた場合も、本質は同じだ）。
+      </p>
 
-<h3>例 1 の続き</h3>
-<p>
-  大数の弱法則より $\tfrac{S_n}{n}\xrightarrow{\mathbf P}\tfrac12$ である。
-</p>
+      <h3>定理（ポートマンテールの不等式）</h3>
+      <div class="formula">
+        $$
+        \mu_n\Rightarrow\mu
+        \ \Rightarrow\
+        \begin{cases}
+          \mu(O)\le \liminf_{n\to\infty}\mu_n(O) & (\text{$O$ 開集合})\\[4pt]
+          \limsup_{n\to\infty}\mu_n(F)\le \mu(F) & (\text{$F$ 閉集合})
+        \end{cases}
+        $$
+      </div>
+      <p>
+        直感的には「開集合は少し太らせると連続関数で近似できるので、下からの極限が効く」「閉集合は補集合を使って上から押さえる」と理解できる。
+      </p>
 
-<h3>例 2 の続き</h3>
-<p>
-  $X_n\xrightarrow{\mathbf P}0$ が成り立つ。区間の長さが $2^{-m}\le 1/n$ 程度で縮小し、指標関数が 0 に近づくためである。
-</p>
+      <details>
+        <summary>証明スケッチ（クリックで展開）</summary>
+        <div class="proof">
+          <h4>(i) 開集合の不等式</h4>
+          <p>
+            開集合 $O$ に対し、$0\le f_k\le 1$ かつ $f_k\uparrow 1_O$ を満たす連続関数列 $f_k$ を用意する
+            （例えば $f_k(x)=\min\{1,\,k\,\mathrm{dist}(x,O^c)\}$）。
+            単調収束定理より
+          </p>
+          <div class="formula">
+            $$
+            \int f_k\,d\mu \uparrow \mu(O),\qquad
+            \int f_k\,d\mu_n \uparrow \mu_n(O)\ (\text{各 }n).
+            $$
+          </div>
+          <p>
+            弱収束から固定した $k$ について $\int f_k\,d\mu_n\to\int f_k\,d\mu$。よって
+          </p>
+          <div class="formula">
+            $$
+            \liminf_{n\to\infty}\mu_n(O)\ge \liminf_{n\to\infty}\int f_k\,d\mu_n=\int f_k\,d\mu.
+            $$
+          </div>
+          <p>
+            $k\to\infty$ で右辺が $\mu(O)$ に近づくので $\mu(O)\le\liminf_n \mu_n(O)$。
+          </p>
 
-<h3>例 3：指標関数の平行移動</h3>
-<p>
-  $\Omega=[0,1]$、$\mathbf P$ はルベーグ測度とし
-  $$
-    X_n(\omega):=\bigl(1+\tfrac1n\bigr)\,\mathbf 1_{[1/2+1/n,1]}(\omega),\qquad
-    X(\omega):=\mathbf 1_{[1/2,1]}(\omega).
-  $$
-  このとき $X_n\xrightarrow{\mathbf P}X$ であることを示せ。
-</p>
+          <h4>(ii) 閉集合の不等式</h4>
+          <p>
+            $F$ が閉集合なら $F^c$ は開集合。上の結果を $F^c$ に使うと
+          </p>
+          <div class="formula">
+            $$
+            1-\mu(F)=\mu(F^c)\le \liminf_n \mu_n(F^c)=1-\limsup_n \mu_n(F)
+            $$
+          </div>
+          <p>より $\limsup_n \mu_n(F)\le\mu(F)$。</p>
+        </div>
+      </details>
 
-<!-- ============================================================= -->
-<h2>3. 分布収束（Convergence in Distribution）</h2>
-<p>
-  確率変数列 $(X_n)$ と確率変数 $X$ を、それぞれ<strong>異なる</strong>確率空間上に定義してもよい。次のように定義する。
-</p>
-<p>
-  <strong>定義：</strong> 任意の有界連続関数 $f:\mathbb R\to\mathbb R$ について
-  $$
-    \mathbb E[f(X_n)]\longrightarrow \mathbb E[f(X)]\quad(n\to\infty)
-  $$
-  が成立するとき、$X_n$ は $X$ に<strong>分布収束</strong>し、$X_n\xrightarrow{d}X$ と書く。
-</p>
+      <details>
+        <summary>逆向き（閉集合の不等式 ⇒ 弱収束）のアイデア</summary>
+        <div class="proof">
+          <p>
+            逆向きも成り立ちます（ポートマンテールの定理）。ここでは「閉集合の不等式が全ての閉集合で成り立つ」から
+            $\int f\,d\mu_n\to\int f\,d\mu$ を導く考え方だけ書きます。
+          </p>
+          <ol>
+            <li>
+              有界連続 $f$ を $0\le f\le 1$ に正規化する（平行移動＋スケール変換）。
+            </li>
+            <li>
+              $[0,1]$ を細かく刻み、$f$ を「レベル集合」$\{f\ge t\}$（閉）と $\{f>t\}$（開）で作った階段関数 $f^+,f^-$ で上下から挟む。
+            </li>
+            <li>
+              階段関数の積分は集合の測度の和なので、閉集合／開集合の不等式を項ごとに適用して
+              $\limsup\int f\,d\mu_n\le\int f\,d\mu+\varepsilon$、
+              $\liminf\int f\,d\mu_n\ge\int f\,d\mu-\varepsilon$ を得る。
+            </li>
+            <li>$\varepsilon\downarrow 0$ で結論。</li>
+          </ol>
+        </div>
+      </details>
+    </section>
 
-<details>
-  <summary>なぜこの定義か（クリックで展開）</summary>
-  <p>
-    本来「$\mathbf P(X_n\in A)\to\mathbf P(X\in A)$」を望むが、集合 $A$ をそのまま指標関数 $\mathbf 1_A$ に置き換えると
-    連続性が失われ、収束が壊れる。<br>
-    <em>可測関数</em>のうち<strong>有界連続</strong>なものに限定することで、ポートマンテールの定理により一意な分布が定まり、
-    近似を通じて上記の確率収束を回復できる。
-  </p>
-</details>
+    <!-- ============================================================= -->
+    <section id="cdf">
+      <h2>2. 分布関数から確率測度を作る</h2>
+      <p>
+        次は「分布関数 $F$ が与えられたら、対応する確率測度 $\mu$ を作れる」ことです。後で「極限候補の分布関数」から測度を作るのに使います。
+      </p>
 
-<h3>演習 1</h3>
-<p>
-  例 3 で $X_n\xrightarrow{d}X$ も成り立つことを示せ。
-</p>
+      <h3>定理（分布関数の実現）</h3>
+      <div class="formula">
+        $$
+        \begin{aligned}
+          &F:\mathbb R\to[0,1]\ \text{が単調増加・右連続},\\
+          &\lim_{x\to-\infty}F(x)=0,\ \lim_{x\to+\infty}F(x)=1
+        \end{aligned}
+        \quad\Longrightarrow\quad
+        \exists\ \mu:\ F(x)=\mu((-\infty,x])\ (\forall x).
+        $$
+      </div>
 
-<h3>演習 2</h3>
-<p>
-  $\Omega_n=\{1,\dots,n\}$、確率測度 $\mathbf P_n(\{k\})=1/n$ とし、確率変数
-  $$
-    X_n(k):=\tfrac{k}{n},\qquad k\in\Omega_n.
-  $$
-  また $\Omega=[0,1]$、ルベーグ測度 $\mathbf P$ 上で $X(\omega):=\omega$ とする。このとき $X_n\xrightarrow{d}X$ を示せ。
-</p>
+      <details>
+        <summary>作り方（Carathéodory の外測度から）</summary>
+        <div class="proof">
+          <p>
+            半開区間 $(a,b]$ に対し「長さ」を $\lambda((a,b]) := F(b)-F(a)$ と定めます（$F(-\infty)=0,F(\infty)=1$ とする）。
+            次に任意の集合 $E\subset\mathbb R$ に対して外測度
+          </p>
+          <div class="formula">
+            $$
+            \mu^*(E):=
+            \inf\left\{
+              \sum_{n=1}^\infty \lambda(I_n)\ :\
+              E\subset \bigcup_{n=1}^\infty I_n,\ I_n\text{ は半開区間}
+            \right\}
+            $$
+          </div>
+          <p>
+            を定めると、$\mu^*$ は外測度になります。Carathéodory の定理より、$\mu^*$-可測集合全体は $\sigma$-代数をなし、
+            $\mu:=\mu^*|_{\mathcal B(\mathbb R)}$ はボレル集合上の測度になります。
+          </p>
+          <p class="note">
+            重要なのは「半開区間が可測で、しかも $\mu((a,b])=F(b)-F(a)$ が成り立つ」ことです。
+            そこまで分かれば $\mu((-\infty,x])=F(x)$、さらに $\mu(\mathbb R)=1$ が従います。
+          </p>
+        </div>
+      </details>
+    </section>
 
-<h3>定理：確率収束 ⇒ 分布収束</h3>
-<p>
-  もし $X_n\xrightarrow{\mathbf P}X$ ならば必ず $X_n\xrightarrow{d}X$ が成り立つ。
-</p>
+    <!-- ============================================================= -->
+    <section id="tightness">
+      <h2>3. Tightness と部分列弱収束</h2>
+      <p>
+        「確率が無限遠へ逃げない」ことを tightness と呼びます。tight なら部分列が弱収束する、というのが Prokhorov の定理です。
+        Bochner の証明では、平滑化して作った測度族 $(\mu_\delta)$ から極限測度を取り出すために使います。
+      </p>
 
-<details>
-  <summary>証明（スケッチ）</summary>
-  <div class="proof">
-    <p>
-      有界連続関数 $f$ と $\varepsilon>0$ を取る。有界性より $|f|_{\infty}<\infty$ を置く。
-    </p>
-    <ol>
-      <li>
-        十分大きい $M>0$ を選び、$\mathbf P(|X|>M)<\varepsilon/(4(|f|_{\infty}+1))$ となるようにする。
-      </li>
-      <li>
-        コンパクト $[-M-1,M+1]$ 上で $f$ は一様連続だから、ある $\delta>0$ で $|x-y|<\delta$ なら
-        $|f(x)-f(y)|<\varepsilon/4$。
-      </li>
-      <li>
-        $X_n\xrightarrow{\mathbf P}X$ だから、$n\ge N$ で $\mathbf P(|X_n-X|\ge\delta)<\varepsilon/(8(|f|_{\infty}+1))$。
-      </li>
-    </ol>
-    <p>
-      以上より分割評価を行うと
-      $$
-      |\mathbb E[f(X_n)]-\mathbb E[f(X)]|<\varepsilon.
-      $$
-      よって主張が従う。
-    </p>
-  </div>
-</details>
+      <h3>Tightness の定義</h3>
+      <div class="formula">
+        $$
+        (\mu_n)\ \text{が tight}
+        \quad\Longleftrightarrow\quad
+        \forall\varepsilon>0\ \exists\text{コンパクト }K:\ \inf_n \mu_n(K)\ge 1-\varepsilon.
+        $$
+      </div>
+      <p>
+        $\mathbb R^d$ なら「ある $R$ があって $\mu_n(B(0,R))\ge 1-\varepsilon$」という形で考えると分かりやすいです。
+      </p>
 
-<!-- ナビゲーション -->
-<div class="navigation">
-  <a href="class10.html">← ホーム</a>
-  <a href="../index.html">次のクラス →</a>
-</div>
+      <h3>定理（Prokhorov：tightness ⇒ 部分列弱収束）</h3>
+      <div class="formula">
+        $$
+        (\mu_n)\ \text{が tight} \ \Rightarrow\
+        \exists\ n_k,\ \exists\mu:\ \mu_{n_k}\Rightarrow\mu.
+        $$
+      </div>
 
-<footer>
-  <p>© 2025 確率論講義 - すべての権利を留保します</p>
-</footer>
+      <details>
+        <summary>（参考）$\mathbb R$ の場合の証明の骨格（分布関数＋対角線論法）</summary>
+        <div class="proof">
+          <p>
+            1 次元では、分布関数 $F_n(x)=\mu_n((-\infty,x])$ を使うと比較的具体的に示せます。
+            アイデアは「$\mathbb Q$ 上での収束を対角線論法で作り、そこから極限分布関数 $F$ を定義する」です。
+          </p>
+          <ol>
+            <li>tightness から $\pm\infty$ での端の挙動（$F_n(-M)\approx 0$, $F_n(M)\approx 1$）が一様に押さえられる。</li>
+            <li>有理数 $\mathbb Q=\{q_1,q_2,\dots\}$ を並べ、各 $q_j$ で $F_n(q_j)$ が収束する部分列を順に取り、対角線で 1 本にまとめる。</li>
+            <li>有理数上の極限 $G(q)$ から $F(x):=\inf_{q>x}G(q)$ を定義すると、$F$ は単調増加・右連続で端の極限も $0,1$。</li>
+            <li>前節の「分布関数から測度を作る」定理により、$F$ を分布関数にもつ確率測度 $\mu$ が作れる。</li>
+            <li>$F$ の連続点で $F_{n_k}(x)\to F(x)$ を示し、ポートマンテールの定理で $\mu_{n_k}\Rightarrow\mu$ を結論する。</li>
+          </ol>
+        </div>
+      </details>
+    </section>
 
+    <!-- ============================================================= -->
+    <section id="bochner">
+      <h2>4. Bochner の定理（主定理）</h2>
+
+      <h3>正定値（positive definite）関数</h3>
+      <p>
+        関数 $\varphi:\mathbb R^d\to\mathbb C$ が <strong>正定値</strong>であるとは、任意の $m$ と $t_1,\dots,t_m\in\mathbb R^d$、
+        $c_1,\dots,c_m\in\mathbb C$ に対して
+      </p>
+      <div class="formula">
+        $$
+        \sum_{i,j=1}^m c_i\,\overline{c_j}\,\varphi(t_i-t_j)\ge 0
+        $$
+      </div>
+      <p>
+        が成り立つことです（同値に、行列 $(\varphi(t_i-t_j))_{i,j}$ が半正定値）。
+      </p>
+
+      <div class="example">
+        <strong>特性関数は正定値：</strong>
+        $X$ の特性関数 $\varphi_X(t)=\mathbb E[e^{it\cdot X}]$ に対し
+        $$
+        \sum_{i,j} c_i\overline{c_j}\,\varphi_X(t_i-t_j)
+        =\mathbb E\left[\left|\sum_i c_i e^{it_i\cdot X}\right|^2\right]\ge 0.
+        $$
+      </div>
+
+      <h3>定理（Bochner）</h3>
+      <div class="formula">
+        $$
+        \varphi:\mathbb R^d\to\mathbb C\ \text{が連続・正定値・}\varphi(0)=1
+        \ \Longrightarrow\
+        \exists\ \mu\ \text{確率測度}:\ 
+        \varphi(t)=\int_{\mathbb R^d} e^{it\cdot x}\,\mu(dx).
+        $$
+      </div>
+      <p>
+        つまり「連続で正定値、かつ $\varphi(0)=1$」という性質が、特性関数であるための必要十分条件になります。
+      </p>
+
+      <details>
+        <summary>証明の流れ（クリックで展開）</summary>
+        <div class="proof">
+          <h4>Step 1：熱核（ガウス）で平滑化する</h4>
+          <p>
+            $\delta&gt;0$ とし、ガウスの特性関数 $e^{-\delta|t|^2/2}$ を掛けて
+          </p>
+          <div class="formula">
+            $$
+            \varphi_\delta(t):=\varphi(t)\,e^{-\delta|t|^2/2}
+            $$
+          </div>
+          <p>
+            と定める。正定値関数の積は正定値なので $\varphi_\delta$ も正定値。さらに $|\varphi_\delta(t)|\le e^{-\delta|t|^2/2}$ から
+            $\varphi_\delta\in L^1(\mathbb R^d)$。
+          </p>
+
+          <h4>Step 2：$L^1$ で正定値なら逆フーリエ変換は非負</h4>
+          <p>
+            連続・正定値で $L^1$ に属する $\psi$ に対して
+          </p>
+          <div class="formula">
+            $$
+            f(x):=(2\pi)^{-d}\int_{\mathbb R^d} e^{-it\cdot x}\,\psi(t)\,dt
+            $$
+          </div>
+          <p>
+            とおくと、$f$ は（ほとんど至る所で）$f(x)\ge 0$ を満たし、
+            $\psi(t)=\int e^{it\cdot x}f(x)\,dx$ が成り立つ（したがって $\mu(dx):=f(x)\,dx$ は正の有限測度）。
+          </p>
+          <p class="note">
+            証明は「正定値性 $\Rightarrow$ 二重積分が常に $\ge 0$」
+            を Schwartz 関数でテストし、Parseval を使って
+            $\int f|\widehat g|^2\ge 0$ を全ての $g$ で示し、$f$ の負の部分があり得ないことを導きます。
+          </p>
+
+          <h4>Step 3：$\mu_\delta$ を作る</h4>
+          <p>
+            Step 2 を $\psi=\varphi_\delta$ に適用すると、ある非負関数 $f_\delta$ が得られて
+            $\varphi_\delta(t)=\int e^{it\cdot x}f_\delta(x)\,dx$。
+            また $\int f_\delta=\varphi_\delta(0)=1$ なので
+            $\mu_\delta(dx):=f_\delta(x)\,dx$ は確率測度。
+          </p>
+
+          <h4>Step 4：$(\mu_\delta)_{\delta\downarrow 0}$ は tight</h4>
+          <p>
+            ガウス型のカットオフ $G_R(x)=\exp(-|x|^2/(2R^2))$ を使うと、
+            ある定数 $A&gt;0$ について
+          </p>
+          <div class="formula">
+            $$
+            \mu_\delta(|x|\ge AR)
+            \le
+            2\left(1-\int_{\mathbb R^d} G_R\,d\mu_\delta\right)
+            $$
+          </div>
+          <p>
+            と評価できます。一方で $\int G_R\,d\mu_\delta$ はフーリエ側で
+            「$0$ 近傍に集中するガウス重み $w_R$」を用いて
+            $\int w_R(t)\varphi_\delta(t)\,dt$ と書けます。
+            $\varphi$ の $0$ での連続性から $R$ を大きくするとこの積分が一様に $1$ に近づくので、
+            上の不等式から tightness が従います。
+          </p>
+
+          <h4>Step 5：部分列極限を取り、特性関数を同定する</h4>
+          <p>
+            tightness と Prokhorov の定理により、$\delta_k\downarrow 0$ と確率測度 $\mu$ が存在して
+            $\mu_{\delta_k}\Rightarrow \mu$。
+            任意の $t$ で $x\mapsto e^{it\cdot x}$ は有界連続なので弱収束から
+          </p>
+          <div class="formula">
+            $$
+            \int e^{it\cdot x}\,\mu_{\delta_k}(dx)\to \int e^{it\cdot x}\,\mu(dx).
+            $$
+          </div>
+          <p>
+            左辺は $\varphi_{\delta_k}(t)=\varphi(t)e^{-\delta_k|t|^2/2}\to\varphi(t)$ だから
+            $\varphi(t)=\int e^{it\cdot x}\,\mu(dx)$ が得られ、Bochner の定理が証明されます。
+          </p>
+        </div>
+      </details>
+    </section>
+
+    <nav class="navigation">
+      <a href="../class8/class8.html">前のクラス</a>
+      <a href="../index.html">ホーム</a>
+      <a href="../class10/class10.html">次のクラス</a>
+    </nav>
+
+    <footer>
+      <p>© 2025 確率論講義 - すべての権利を留保します</p>
+    </footer>
   </div>
 </body>
 </html>
