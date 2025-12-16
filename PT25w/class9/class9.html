@@ -168,8 +168,8 @@
         \mu_n\Rightarrow\mu
         \ \Rightarrow\
         \begin{cases}
-          \mu(O)\le \liminf_{n\to\infty}\mu_n(O) & (\text{$O$ 開集合})\\[4pt]
-          \limsup_{n\to\infty}\mu_n(F)\le \mu(F) & (\text{$F$ 閉集合})
+          \mu(O)\le \liminf_{n\to\infty}\mu_n(O) &amp; (\text{$O$ 開集合})\\[4pt]
+          \limsup_{n\to\infty}\mu_n(F)\le \mu(F) &amp; (\text{$F$ 閉集合})
         \end{cases}
         $$
       </div>
@@ -217,17 +217,16 @@
         </div>
       </details>
 
-      <details>
-        <summary>逆向き（閉集合の不等式 ⇒ 弱収束）のアイデア</summary>
-        <div class="proof">
-          <p>
-            逆向きも成り立ちます（ポートマンテールの定理）。ここでは「閉集合の不等式が全ての閉集合で成り立つ」から
-            $\int f\,d\mu_n\to\int f\,d\mu$ を導く考え方だけ書きます。
-          </p>
-          <ol>
-            <li>
-              有界連続 $f$ を $0\le f\le 1$ に正規化する（平行移動＋スケール変換）。
-            </li>
+	      <details>
+	        <summary>逆向き（閉集合の不等式 ⇒ 弱収束）のアイデア</summary>
+	        <div class="proof">
+	          <p>
+	            逆向きも成り立つ（ポートマンテールの定理）。
+	          </p>
+	          <ol>
+	            <li>
+	              有界連続 $f$ を $0\le f\le 1$ に正規化する（平行移動＋スケール変換）。
+	            </li>
             <li>
               $[0,1]$ を細かく刻み、$f$ を「レベル集合」$\{f\ge t\}$（閉）と $\{f>t\}$（開）で作った階段関数 $f^+,f^-$ で上下から挟む。
             </li>
@@ -243,59 +242,12 @@
     </section>
 
     <!-- ============================================================= -->
-    <section id="cdf">
-      <h2>2. 分布関数から確率測度を作る</h2>
-      <p>
-        次は「分布関数 $F$ が与えられたら、対応する確率測度 $\mu$ を作れる」ことです。後で「極限候補の分布関数」から測度を作るのに使います。
-      </p>
-
-      <h3>定理（分布関数の実現）</h3>
-      <div class="formula">
-        $$
-        \begin{aligned}
-          &F:\mathbb R\to[0,1]\ \text{が単調増加・右連続},\\
-          &\lim_{x\to-\infty}F(x)=0,\ \lim_{x\to+\infty}F(x)=1
-        \end{aligned}
-        \quad\Longrightarrow\quad
-        \exists\ \mu:\ F(x)=\mu((-\infty,x])\ (\forall x).
-        $$
-      </div>
-
-      <details>
-        <summary>作り方（Carathéodory の外測度から）</summary>
-        <div class="proof">
-          <p>
-            半開区間 $(a,b]$ に対し「長さ」を $\lambda((a,b]) := F(b)-F(a)$ と定めます（$F(-\infty)=0,F(\infty)=1$ とする）。
-            次に任意の集合 $E\subset\mathbb R$ に対して外測度
-          </p>
-          <div class="formula">
-            $$
-            \mu^*(E):=
-            \inf\left\{
-              \sum_{n=1}^\infty \lambda(I_n)\ :\
-              E\subset \bigcup_{n=1}^\infty I_n,\ I_n\text{ は半開区間}
-            \right\}
-            $$
-          </div>
-          <p>
-            を定めると、$\mu^*$ は外測度になります。Carathéodory の定理より、$\mu^*$-可測集合全体は $\sigma$-代数をなし、
-            $\mu:=\mu^*|_{\mathcal B(\mathbb R)}$ はボレル集合上の測度になります。
-          </p>
-          <p class="note">
-            重要なのは「半開区間が可測で、しかも $\mu((a,b])=F(b)-F(a)$ が成り立つ」ことです。
-            そこまで分かれば $\mu((-\infty,x])=F(x)$、さらに $\mu(\mathbb R)=1$ が従います。
-          </p>
-        </div>
-      </details>
-    </section>
-
-    <!-- ============================================================= -->
-    <section id="tightness">
-      <h2>3. Tightness と部分列弱収束</h2>
-      <p>
-        「確率が無限遠へ逃げない」ことを tightness と呼びます。tight なら部分列が弱収束する、というのが Prokhorov の定理です。
-        Bochner の証明では、平滑化して作った測度族 $(\mu_\delta)$ から極限測度を取り出すために使います。
-      </p>
+	    <section id="tightness">
+	      <h2>3. Tightness と部分列弱収束</h2>
+	      <p>
+	        「確率が無限遠へ逃げない」ことを tightness と呼ぶ。tight なら部分列が弱収束する、というのが Prokhorov の定理だ。
+	        Bochner の証明では、平滑化して作った測度族 $(\mu_\delta)$ から極限測度を取り出すために使う。
+	      </p>
 
       <h3>Tightness の定義</h3>
       <div class="formula">
@@ -304,10 +256,10 @@
         \quad\Longleftrightarrow\quad
         \forall\varepsilon>0\ \exists\text{コンパクト }K:\ \inf_n \mu_n(K)\ge 1-\varepsilon.
         $$
-      </div>
-      <p>
-        $\mathbb R^d$ なら「ある $R$ があって $\mu_n(B(0,R))\ge 1-\varepsilon$」という形で考えると分かりやすいです。
-      </p>
+	      </div>
+	      <p>
+	        $\mathbb R^d$ なら「ある $R$ があって $\mu_n(B(0,R))\ge 1-\varepsilon$」という形で考えると分かりやすい。
+	      </p>
 
       <h3>定理（Prokhorov：tightness ⇒ 部分列弱収束）</h3>
       <div class="formula">
@@ -318,13 +270,13 @@
       </div>
 
       <details>
-        <summary>（参考）$\mathbb R$ の場合の証明の骨格（分布関数＋対角線論法）</summary>
-        <div class="proof">
-          <p>
-            1 次元では、分布関数 $F_n(x)=\mu_n((-\infty,x])$ を使うと比較的具体的に示せます。
-            アイデアは「$\mathbb Q$ 上での収束を対角線論法で作り、そこから極限分布関数 $F$ を定義する」です。
-          </p>
-          <ol>
+	        <summary>（参考）$\mathbb R$ の場合の証明の骨格（分布関数＋対角線論法）</summary>
+	        <div class="proof">
+	          <p>
+	            1 次元では、分布関数 $F_n(x)=\mu_n((-\infty,x])$ を使うと比較的具体的に示せる。
+	            アイデアは「$\mathbb Q$ 上での収束を対角線論法で作り、そこから極限分布関数 $F$ を定義する」だ。
+	          </p>
+	          <ol>
             <li>tightness から $\pm\infty$ での端の挙動（$F_n(-M)\approx 0$, $F_n(M)\approx 1$）が一様に押さえられる。</li>
             <li>有理数 $\mathbb Q=\{q_1,q_2,\dots\}$ を並べ、各 $q_j$ で $F_n(q_j)$ が収束する部分列を順に取り、対角線で 1 本にまとめる。</li>
             <li>有理数上の極限 $G(q)$ から $F(x):=\inf_{q>x}G(q)$ を定義すると、$F$ は単調増加・右連続で端の極限も $0,1$。</li>
@@ -348,10 +300,10 @@
         $$
         \sum_{i,j=1}^m c_i\,\overline{c_j}\,\varphi(t_i-t_j)\ge 0
         $$
-      </div>
-      <p>
-        が成り立つことです（同値に、行列 $(\varphi(t_i-t_j))_{i,j}$ が半正定値）。
-      </p>
+	      </div>
+	      <p>
+	        が成り立つこと（同値に、行列 $(\varphi(t_i-t_j))_{i,j}$ が半正定値）。
+	      </p>
 
       <div class="example">
         <strong>特性関数は正定値：</strong>
@@ -370,103 +322,279 @@
         \exists\ \mu\ \text{確率測度}:\ 
         \varphi(t)=\int_{\mathbb R^d} e^{it\cdot x}\,\mu(dx).
         $$
-      </div>
-      <p>
-        つまり「連続で正定値、かつ $\varphi(0)=1$」という性質が、特性関数であるための必要十分条件になります。
-      </p>
+	      </div>
+	      <p>
+	        つまり「連続で正定値、かつ $\varphi(0)=1$」という性質が、特性関数であるための必要十分条件になる。
+	      </p>
 
       <details>
         <summary>証明の流れ（クリックで展開）</summary>
         <div class="proof">
-          <h4>Step 1：熱核（ガウス）で平滑化する</h4>
+          <h4>（逆向き）測度が存在すれば正定値</h4>
           <p>
-            $\delta&gt;0$ とし、ガウスの特性関数 $e^{-\delta|t|^2/2}$ を掛けて
-          </p>
-          <div class="formula">
+            逆に、ある確率測度 $\mu$ が存在して
             $$
-            \varphi_\delta(t):=\varphi(t)\,e^{-\delta|t|^2/2}
+              \varphi(t)=\int_{\mathbb R} e^{itx}\,\mu(dx)
             $$
-          </div>
-          <p>
-            と定める。正定値関数の積は正定値なので $\varphi_\delta$ も正定値。さらに $|\varphi_\delta(t)|\le e^{-\delta|t|^2/2}$ から
-            $\varphi_\delta\in L^1(\mathbb R^d)$。
+            と書けるとする。このとき $\varphi(0)=\int 1\,d\mu=1$ は明らかである。
+            また $t_n\to t$ なら各 $x$ で $e^{it_nx}\to e^{itx}$ かつ $|e^{it_nx}|\le 1$ なので、支配収束定理より $\varphi(t_n)\to\varphi(t)$、すなわち $\varphi$ は連続である。
           </p>
 
-          <h4>Step 2：$L^1$ で正定値なら逆フーリエ変換は非負</h4>
           <p>
-            連続・正定値で $L^1$ に属する $\psi$ に対して
-          </p>
-          <div class="formula">
+            さらに任意の $m$ と $t_1,\dots,t_m\in\mathbb R$、$c_1,\dots,c_m\in\mathbb C$ に対して
             $$
-            f(x):=(2\pi)^{-d}\int_{\mathbb R^d} e^{-it\cdot x}\,\psi(t)\,dt
+              \sum_{i,j=1}^m c_i\,\overline{c_j}\,\varphi(t_i-t_j)
+              =\int_{\mathbb R}\left|\sum_{i=1}^m c_i e^{it_ix}\right|^2\,\mu(dx)\ \ge\ 0
             $$
-          </div>
-          <p>
-            とおくと、$f$ は（ほとんど至る所で）$f(x)\ge 0$ を満たし、
-            $\psi(t)=\int e^{it\cdot x}f(x)\,dx$ が成り立つ（したがって $\mu(dx):=f(x)\,dx$ は正の有限測度）。
-          </p>
-          <p class="note">
-            証明は「正定値性 $\Rightarrow$ 二重積分が常に $\ge 0$」
-            を Schwartz 関数でテストし、Parseval を使って
-            $\int f|\widehat g|^2\ge 0$ を全ての $g$ で示し、$f$ の負の部分があり得ないことを導きます。
+            となるので、$\varphi$ は正定値である。
           </p>
 
-          <h4>Step 3：$\mu_\delta$ を作る</h4>
+          <h4>（順向き）連続・正定値 ⇒ 測度の構成</h4>
           <p>
-            Step 2 を $\psi=\varphi_\delta$ に適用すると、ある非負関数 $f_\delta$ が得られて
-            $\varphi_\delta(t)=\int e^{it\cdot x}f_\delta(x)\,dx$。
-            また $\int f_\delta=\varphi_\delta(0)=1$ なので
-            $\mu_\delta(dx):=f_\delta(x)\,dx$ は確率測度。
+            以下では一次元（$t,x\in\mathbb R$）で議論する。
+            $\varphi:\mathbb R\to\mathbb C$ は連続・正定値・$\varphi(0)=1$ とする。
+            平滑化として
+            $$
+              \varphi_n(t):=\varphi(t)e^{-t^2/(2n)}
+            $$
+            を用いる。
+            $e^{-t^2/(2n)}$ は $N(0,1/n)$ の特性関数なので正定値であり、正定値関数の積は正定値だから $\varphi_n$ も正定値である。
           </p>
 
-          <h4>Step 4：$(\mu_\delta)_{\delta\downarrow 0}$ は tight</h4>
+          <h4>|φ(t)|≤1 と L^1 性</h4>
           <p>
-            ガウス型のカットオフ $G_R(x)=\exp(-|x|^2/(2R^2))$ を使うと、
-            ある定数 $A&gt;0$ について
-          </p>
-          <div class="formula">
+            2点の正定値性（$t_1=0,t_2=t$）を使うと
             $$
-            \mu_\delta(|x|\ge AR)
-            \le
-            2\left(1-\int_{\mathbb R^d} G_R\,d\mu_\delta\right)
+              \begin{pmatrix}
+                \varphi(0) &amp; \varphi(t)\\
+                \varphi(-t) &amp; \varphi(0)
+              \end{pmatrix}
             $$
-          </div>
-          <p>
-            と評価できます。一方で $\int G_R\,d\mu_\delta$ はフーリエ側で
-            「$0$ 近傍に集中するガウス重み $w_R$」を用いて
-            $\int w_R(t)\varphi_\delta(t)\,dt$ と書けます。
-            $\varphi$ の $0$ での連続性から $R$ を大きくするとこの積分が一様に $1$ に近づくので、
-            上の不等式から tightness が従います。
+            が半正定値になる。したがって $\varphi(-t)=\overline{\varphi(t)}$ かつ
+            $$
+              0\le \det = 1-|\varphi(t)|^2
+              \quad\Rightarrow\quad
+              |\varphi(t)|\le 1
+            $$
+            が従う。よって
+            $$
+              |\varphi_n(t)|\le e^{-t^2/(2n)}
+            $$
+            となり、ガウス可積分性から $\varphi_n\in L^1(\mathbb R)$。
           </p>
 
-          <h4>Step 5：部分列極限を取り、特性関数を同定する</h4>
+          <h4>逆フーリエで $f_n$ を定義</h4>
           <p>
-            tightness と Prokhorov の定理により、$\delta_k\downarrow 0$ と確率測度 $\mu$ が存在して
-            $\mu_{\delta_k}\Rightarrow \mu$。
-            任意の $t$ で $x\mapsto e^{it\cdot x}$ は有界連続なので弱収束から
+            フーリエの正規化を
+            $$
+              f_n(x):=(2\pi)^{-1}\int_{\mathbb R} e^{-itx}\varphi_n(t)\,dt
+            $$
+            とする（$\varphi_n\in L^1$ なので $f_n$ は連続有界）。
+            反転公式により各 t で
+            $$
+              \varphi_n(t)=\int_{\mathbb R} e^{itx}f_n(x)\,dx
+            $$
+            が成り立つ。特に
+            $$
+              \int_{\mathbb R} f_n(x)\,dx=\varphi_n(0)=1.
+            $$
+            あとは $f_n(x)\ge 0$ を示せば $\mu_n(dx):=f_n(x)\,dx$ が確率測度になる。
           </p>
-          <div class="formula">
-            $$
-            \int e^{it\cdot x}\,\mu_{\delta_k}(dx)\to \int e^{it\cdot x}\,\mu(dx).
-            $$
-          </div>
+
+          <h4>二重積分から $f_n\ge 0$ を導く</h4>
           <p>
-            左辺は $\varphi_{\delta_k}(t)=\varphi(t)e^{-\delta_k|t|^2/2}\to\varphi(t)$ だから
-            $\varphi(t)=\int e^{it\cdot x}\,\mu(dx)$ が得られ、Bochner の定理が証明されます。
+            まず、任意の $g\in C_c(\mathbb R)$ に対して
+            $$
+              I_n(g):=\iint_{\mathbb R^2}\varphi_n(t-s)\,g(t)\overline{g(s)}\,dt\,ds \ge 0
+            $$
+            が成り立つことを示す。
+            これは「有限和の正定値性」からの極限として出る。
+            実際、$g$ の台を含む区間 $[-M,M]$ を取り、刻み幅 $h&gt;0$、格子点 $t_k=kh$ として
+            $$
+              c_k:=g(t_k)h
+            $$
+            と置くと、正定値性より任意の有限範囲で
+            $$
+              \sum_{k,\ell} c_k\overline{c_\ell}\,\varphi_n(t_k-t_\ell)\ge 0.
+            $$
+            左辺は Riemann 和であり、$g$ が連続かつ台がコンパクトで $\varphi_n$ が連続なので、
+            h→0 で
+            $$
+              \sum_{k,\ell} c_k\overline{c_\ell}\,\varphi_n(t_k-t_\ell)\to
+              \iint \varphi_n(t-s)\,g(t)\overline{g(s)}\,dt\,ds=I_n(g).
+            $$
+            非負量の極限なので $I_n(g)\ge 0$。
+          </p>
+
+          <p>
+            次に $I_n(g)$ を $f_n$ で書き換える。
+            反転公式を t−s に適用して
+            $$
+              \varphi_n(t-s)=\int_{\mathbb R} e^{i(t-s)x}f_n(x)\,dx
+            $$
+            を $I_n(g)$ に代入し、Fubini を使うと
+            $$
+              I_n(g)
+              =
+              \int_{\mathbb R} f_n(x)\left|\int_{\mathbb R} e^{itx}g(t)\,dt\right|^2 dx.
+            $$
+            ここで
+            $$
+              G(x):=\int_{\mathbb R} e^{itx}g(t)\,dt
+            $$
+            と置けば $I_n(g)=\int f_n(x)|G(x)|^2\,dx$ である。
+            $g\in C_c(\mathbb R)$ なら $G\in L^2(\mathbb R)$ に入り、さらに Plancherel により Fourier 変換は $L^2(\mathbb R)$ 上の全単射である。
+            よって
+            $$
+              \int_{\mathbb R} f_n(x)\,|H(x)|^2\,dx\ge 0
+              \quad(\forall H\in L^2(\mathbb R))
+            $$
+            が従う。
+          </p>
+
+          <p>
+            この不等式から $f_n\ge 0$ が従う。
+            もし $\{x:\,f_n(x)&lt;0\}$ が正の測度を持つなら、ある ε&gt;0 と有限測度集合
+            $$
+              B:=\{x:\ f_n(x)\le -\varepsilon\}\cap[-R,R]
+            $$
+            が取れる。すると $H:=\mathbf 1_B$ は $L^2$ に属し、
+            $$
+              0\le \int f_n(x)|1_B(x)|^2dx=\int_B f_n(x)\,dx \le -\varepsilon |B|&lt;0
+            $$
+            で矛盾。したがって $f_n(x)\ge 0$ が a.e. で成り立つ。
+            $f_n$ は連続なので結局すべての x で $f_n(x)\ge 0$。
+            よって $\mu_n(dx):=f_n(x)\,dx$ は確率測度で、特性関数は $\varphi_n$ である：
+            $$
+              \int e^{itx}\mu_n(dx)=\varphi_n(t).
+            $$
+          </p>
+
+          <h4>$(\mu_n)$ の tightness</h4>
+          <p>
+            tightness を示す。
+            ガウス型テスト関数
+            $$
+              G_R(x):=\exp\!\left(-\frac{x^2}{2R^2}\right)
+            $$
+            を用いる。$A:=\sqrt{2\log 2}$ とおくと $|x|\ge AR$ で $G_R(x)\le 1/2$。
+            したがって
+            $$
+              \int G_R\,d\mu_n
+              \le \mu_n(|x|&lt;AR)\cdot 1+\mu_n(|x|\ge AR)\cdot\frac12
+              =1-\frac12\,\mu_n(|x|\ge AR),
+            $$
+            よって
+            $$
+              \mu_n(|x|\ge AR)\le 2\left(1-\int G_R\,d\mu_n\right).
+            $$
+            あとは右辺の括弧を n によらず小さくすればよい。
+          </p>
+
+          <p>
+            いま $\mu_n(dx)=f_n(x)\,dx$ で、$f_n$ のフーリエ変換は
+            $\widehat f_n(-t)=\int e^{itx}f_n(x)dx=\varphi_n(t)$。
+            Parseval 型の公式より
+            $$
+              \int_{\mathbb R} G_R(x)f_n(x)\,dx
+              =(2\pi)^{-1}\int_{\mathbb R} \widehat G_R(t)\,\varphi_n(t)\,dt.
+            $$
+            ここで
+            $$
+              \widehat G_R(t)=\int_{\mathbb R}e^{-itx}G_R(x)\,dx
+              =\sqrt{2\pi}\,R\,e^{-R^2t^2/2}.
+            $$
+            よって
+            $$
+              \int G_R\,d\mu_n
+              =\frac{R}{\sqrt{2\pi}}\int_{\mathbb R}\varphi(t)\exp\!\left(-\frac{(R^2+1/n)t^2}{2}\right)dt.
+            $$
+            ガウス密度
+            $$
+              w_{n,R}(t):=\sqrt{\frac{R^2+1/n}{2\pi}}\exp\!\left(-\frac{(R^2+1/n)t^2}{2}\right)
+            $$
+            を使うと
+            $$
+              \int G_R\,d\mu_n
+              =\frac{R}{\sqrt{R^2+1/n}}\int_{\mathbb R}\varphi(t)\,w_{n,R}(t)\,dt.
+            $$
+          </p>
+
+          <p>
+            右辺が R→∞ で n 一様に 1 に近づくことを示す。
+            まず係数は
+            $$
+              \frac{R}{\sqrt{R^2+1/n}} \ge \frac{R}{\sqrt{R^2+1}}\to 1 \quad(R\to\infty).
+            $$
+            次に φ の 0 連続性より、任意の ε&gt;0 に対しある δ&gt;0 が存在して
+            |t|≤δ なら |φ(t)-1|≤ε。
+            また |φ(t)|≤1 なので
+            $$
+              \left|1-\int \varphi(t)w_{n,R}(t)dt\right|
+              \le \varepsilon +2\int_{|t|>\delta} w_{n,R}(t)dt.
+            $$
+            T∼N(0,1/(R^2+1/n)) とすれば右端は P(|T|&gt;\delta) であり、
+            Chebyshev により
+            $$
+              \int_{|t|>\delta} w_{n,R}(t)dt
+              =\mathbb P(|T|&gt;\delta)
+              \le \frac{\mathrm{Var}(T)}{\delta^2}
+              =\frac{1}{(R^2+1/n)\delta^2}
+              \le \frac{1}{R^2\delta^2}.
+            $$
+            よって R を十分大きく取れば
+            $$
+              \sup_n\left|1-\int \varphi(t)w_{n,R}(t)dt\right|
+              \le \varepsilon + \frac{2}{R^2\delta^2}
+            $$
+            を任意に小さくできる。以上より
+            $\inf_n \int G_R\,d\mu_n \to 1$ (R→∞)。
+            これを
+            $\mu_n(|x|\ge AR)\le 2(1-\int G_R d\mu_n)$
+            に代入して tightness が従う。
+          </p>
+
+          <h4>部分列極限と φ の同定</h4>
+          <p>
+            tightness から部分列 $\mu_{n_k}\Rightarrow\mu$ を取る。
+            各 $t$ で $x\mapsto e^{itx}$ は有界連続なので
+            $$
+              \int e^{itx}\mu_{n_k}(dx)\to \int e^{itx}\mu(dx).
+            $$
+            左辺は $\varphi_{n_k}(t)=\varphi(t)e^{-t^2/(2n_k)}\to\varphi(t)$ だから
+            $$
+              \varphi(t)=\int_{\mathbb R} e^{itx}\,\mu(dx)
+            $$
+            が得られる。
           </p>
         </div>
       </details>
     </section>
 
-    <nav class="navigation">
-      <a href="../class8/class8.html">前のクラス</a>
-      <a href="../index.html">ホーム</a>
-      <a href="../class10/class10.html">次のクラス</a>
-    </nav>
+	    <h2>レポート課題</h2>
+	    <ol>
+	      <li>
+	        開集合 $O\subset \mathbb R$ について、$f(x)=d(x,O^c)$ が連続関数であることを示せ。
+	        （ここで $d(x,A)=\inf\{|x-y|:y\in A\}$ とする。）
+	      </li>
+	      <li>
+	        $M\in\mathbb N$ とし
+	        $$
+	        f_M^+(x)=\sum_{j=1}^{\infty}\frac{1}{M}\,\mathbf 1_{\{f(x)>(j-1)/M\}}
+	        $$
+	        と定義するとき、$f(x)\le f_M^+(x)\le f(x)+\frac{1}{M}$ を示せ。
+	      </li>
+	    </ol>
 
-    <footer>
-      <p>© 2025 確率論講義 - すべての権利を留保します</p>
-    </footer>
-  </div>
-</body>
-</html>
+	    <nav class="navigation">
+	      <a href="../class8/class8.html">前のクラス</a>
+	      <a href="../index.html">ホーム</a>
+	      <a href="../class10/class10.html">次のクラス</a>
+	    </nav>
+
+	    <footer>
+	      <p>© 2025 確率論講義 - すべての権利を留保する</p>
+	    </footer>
+	  </div>
+	</body>
+	</html>
