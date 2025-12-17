@@ -332,85 +332,133 @@
                 font-size: 18px;
             }
         }
-    </style>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.10/dist/katex.min.css" integrity="sha384-wcIxkf4k558fYv3mQPFEpCREUQueRFCZrCXCtiKU8aNVbN9ODdVcN3BwCAJ6pcBb" crossorigin="anonymous">
-    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.10/dist/katex.min.js" integrity="sha384-hIoBPJpTUs74ddyc4bFZSM1TVlQDA60VBbJS0oA934VSz82sBx1X7kSx2ATBDIyd" crossorigin="anonymous"></script>
-    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.10/dist/contrib/auto-render.min.js" integrity="sha384-43gviWU0YVjaDtb/GhzOouOXtZMP/7XUzwPTstBeZFe/+rCMvRwr4yROQP43s0Xk" crossorigin="anonymous"
-        onload="renderMathInElement(document.body);"></script>
-    <script>
-        document.addEventListener("DOMContentLoaded", function() {
-            renderMathInElement(document.body, {
-                delimiters: [
-                    {left: '$$', right: '$$', display: true},
-                    {left: '$', right: '$', display: false}
-                ],
-                throwOnError : false
-            });
-        });
-    </script>
-</head>
-<body>
-    <main>
-    <main>
-        <header class="hero">
-            <span class="hero-label">Lecture 12</span>
-            <h1>第12回 面積分</h1>
-            <p>面積分の定義と計算、ベクトル場の流量との関係を扱います。</p>
-        </header>
+	    </style>
+	    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.10/dist/katex.min.css" integrity="sha384-wcIxkf4k558fYv3mQPFEpCREUQueRFCZrCXCtiKU8aNVbN9ODdVcN3BwCAJ6pcBb" crossorigin="anonymous">
+	    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.10/dist/katex.min.js" integrity="sha384-hIoBPJpTUs74ddyc4bFZSM1TVlQDA60VBbJS0oA934VSz82sBx1X7kSx2ATBDIyd" crossorigin="anonymous"></script>
+	    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.10/dist/contrib/auto-render.min.js" integrity="sha384-43gviWU0YVjaDtb/GhzOouOXtZMP/7XUzwPTstBeZFe/+rCMvRwr4yROQP43s0Xk" crossorigin="anonymous"></script>
+	    <script>
+	        document.addEventListener("DOMContentLoaded", function() {
+	            if (typeof renderMathInElement !== "function") return;
+	            renderMathInElement(document.body, {
+	                delimiters: [
+	                    { left: "$$", right: "$$", display: true },
+	                    { left: "$", right: "$", display: false }
+	                ],
+	                throwOnError: false
+	            });
+	        });
+	    </script>
+	</head>
+	<body>
+	    <main>
+	        <header class="hero">
+	            <span class="hero-label">第12回</span>
+	            <h1>第12回 面積分</h1>
+	            <p>曲面上でのスカラー場の面積分と、ベクトル場の流束（フラックス）を定義し、パラメータ表示で計算します。</p>
+	        </header>
 
-        <section class="outline-section">
-            <h2>Section 1. 講義概要</h2>
-            <div class="note">
-                <strong>テーマ:</strong> 曲面に対する積分と流量
-            </div>
-            <div class="definition">
-                <strong>到達目標:</strong>
-                <ul>
-                    <li>曲面の向きと面積要素$dS$の関係を整理する</li><li>スカラー場・ベクトル場に対する面積分を計算する</li><li>流量という物理的解釈を理解する</li>
-                </ul>
-            </div>
-        </section>
+	        <section class="outline-section">
+	            <h2>第1節 曲面のパラメータ表示と面積要素</h2>
+	            <div class="definition">
+	                <strong>曲面のパラメータ表示</strong>
+	                <p>領域 $D\subset\mathbb{R}^2$ と写像 $\mathbf{r}:D\to\mathbb{R}^3$ により</p>
+	                <div class="formula">$$S=\{\mathbf{r}(u,v)\mid (u,v)\in D\}$$</div>
+	                <p>と表せる曲面 $S$ を考える。</p>
+	            </div>
+	            <div class="definition">
+	                <strong>接ベクトルと法線</strong>
+	                <p>接ベクトルは $\mathbf{r}_u,\mathbf{r}_v$。これらに垂直なベクトルとして</p>
+	                <div class="formula">$$\mathbf{N}=\mathbf{r}_u\times \mathbf{r}_v$$</div>
+	                <p>が得られる。$\mathbf{N}$ の向きの選択が曲面の <em>向き</em> を決める。</p>
+	            </div>
+	            <div class="definition">
+	                <strong>面積要素</strong>
+	                <p>微小面積は</p>
+	                <div class="formula">$$dS=\|\mathbf{r}_u\times \mathbf{r}_v\|\,du\,dv$$</div>
+	                <p>で与えられる。</p>
+	            </div>
+	            <div class="note">
+	                <strong>向きの注意</strong>
+	                <p>$\mathbf{r}_u\times \mathbf{r}_v=-(\mathbf{r}_v\times \mathbf{r}_u)$ なので、順序を入れ替えると（後述の）流束の符号が反転する。</p>
+	            </div>
+	        </section>
 
-        <section class="outline-section">
-            <h2>Section 2. 重要な公式・キーポイント</h2>
-            <div class="formula">$$ \iint_S f(x,y,z)\,dS = \iint_D f(\mathbf{r}(u,v))\,\|\mathbf{r}_u \times \mathbf{r}_v\|\,du\,dv $$</div><div class="formula">$$ \iint_S \mathbf{F}\cdot \mathbf{n}\,dS = \iint_D \mathbf{F}(\mathbf{r}(u,v))\cdot(\mathbf{r}_u \times \mathbf{r}_v)\,du\,dv $$</div>
-            <div class="proof">
-                <strong>チェックリスト:</strong>
-                <ul class="highlight-list">
-                    <li>公式の導出過程を説明できるか。</li>
-                    <li>適用条件や必要な仮定を記憶しているか。</li>
-                    <li>例題に当てはめて計算できるか。</li>
-                </ul>
-            </div>
-        </section>
+	        <section class="outline-section">
+	            <h2>第2節 スカラー場の面積分</h2>
+	            <div class="definition">
+	                <strong>定義</strong>
+	                <p>スカラー場 $f$ に対し、曲面 $S$ 上の面積分を</p>
+	                <div class="formula">$$\iint_S f\,dS=\iint_D f(\mathbf{r}(u,v))\,\|\mathbf{r}_u\times \mathbf{r}_v\|\,du\,dv$$</div>
+	                <p>と定める。</p>
+	            </div>
+	            <div class="concept-card focus-card">
+	                <strong>グラフ $z=g(x,y)$ の場合</strong>
+	                <p>$S=\{(x,y,g(x,y))\mid (x,y)\in D\}$ とおくと</p>
+	                <div class="formula">$$dS=\sqrt{1+g_x^2+g_y^2}\,dx\,dy$$</div>
+	            </div>
+	            <div class="example">
+	                <strong>例：水平な円板上の $\iint_S z\,dS$</strong>
+	                <p>$S=\{(x,y,1)\mid x^2+y^2\le 1\}$ では $dS=dx\,dy$、$z=1$ だから</p>
+	                <div class="formula">$$\iint_S z\,dS=\iint_{x^2+y^2\le 1}1\,dx\,dy=\pi$$</div>
+	            </div>
+	        </section>
 
-        <section class="outline-section">
-            <h2>Section 3. 演習課題</h2>
-            <div class="example">
-                <strong>練習問題:</strong>
-                <ol>
-                    <li>(1) 平面上の面積分を計算して線積分との違いを確認する</li><li>(2) 球面におけるベクトル場の流量を求める</li><li>(3) 面積分の向きの違いが結果にどう影響するか考える</li>
-                </ol>
-            </div>
-            <div class="note">
-                <strong>アドバイス:</strong> 向きと正規ベクトルを統一し、符号ミスに注意しましょう。
-            </div>
-        </section>
+	        <section class="outline-section">
+	            <h2>第3節 ベクトル場の面積分（流束）</h2>
+	            <div class="definition">
+	                <strong>定義</strong>
+	                <p>ベクトル場 $\mathbf{F}$ と向き付けられた曲面 $S$ に対し、流束を</p>
+	                <div class="formula">$$\iint_S \mathbf{F}\cdot \mathbf{n}\,dS=\iint_D \mathbf{F}(\mathbf{r}(u,v))\cdot(\mathbf{r}_u\times \mathbf{r}_v)\,du\,dv$$</div>
+	                <p>と定める（$\mathbf{n}$ は単位法線）。</p>
+	            </div>
+	            <div class="proof">
+	                <strong>チェックポイント</strong>
+	                <ul>
+	                    <li>$dS$ と $\mathbf{n}\,dS$（向き付き面積要素）を区別できるか。</li>
+	                    <li>パラメータ表示から $\mathbf{r}_u\times \mathbf{r}_v$ を計算できるか。</li>
+	                    <li>向きを反転すると流束の符号が反転することを説明できるか。</li>
+	                </ul>
+	            </div>
+	            <div class="concept-card focus-card">
+	                <strong>グラフ $z=g(x,y)$ を上向きに向き付けると</strong>
+	                <p>$\mathbf{r}(x,y)=(x,y,g(x,y))$ なので</p>
+	                <div class="formula">$$\mathbf{r}_x\times \mathbf{r}_y=(-g_x,-g_y,1)$$</div>
+	                <p>したがって</p>
+	                <div class="formula">$$\iint_S \mathbf{F}\cdot \mathbf{n}\,dS=\iint_D \mathbf{F}(x,y,g(x,y))\cdot(-g_x,-g_y,1)\,dx\,dy$$</div>
+	            </div>
+	            <div class="example">
+	                <strong>例1：$\mathbf{F}=(0,0,1)$ の流束</strong>
+	                <p>上向きの場合 $\mathbf{F}\cdot(-g_x,-g_y,1)=1$ となるため</p>
+	                <div class="formula">$$\iint_S \mathbf{F}\cdot \mathbf{n}\,dS=\iint_D 1\,dx\,dy=\operatorname{Area}(D)$$</div>
+	            </div>
+	            <div class="example">
+	                <strong>例2：球面 $x^2+y^2+z^2=a^2$ と $\mathbf{F}=(x,y,z)$</strong>
+	                <p>外向き単位法線は $\mathbf{n}=\frac{1}{a}(x,y,z)$。よって $\mathbf{F}\cdot\mathbf{n}=a$ は一定。</p>
+	                <div class="formula">$$\iint_S \mathbf{F}\cdot\mathbf{n}\,dS=a\cdot 4\pi a^2=4\pi a^3$$</div>
+	            </div>
+	        </section>
 
-        <section class="outline-section">
-            <h2>Section 4. 次回までに</h2>
-            <ul>
-                <li>ノートを整理し、重要な定理と例題をまとめ直す。</li>
-                <li>不明点があれば授業冒頭で質問できるよう準備する。</li>
-                <li>関連する教科書の該当ページを読み、例題を一度自力で解く。</li>
-            </ul>
-        </section>
+	        <section class="outline-section">
+	            <h2>第4節 演習</h2>
+	            <div class="exercise-list">
+	                <strong>問題</strong>
+	                <ol>
+	                    <li>$S=\{(x,y,1)\mid x^2+y^2\le 4\}$ に対し $\iint_S (x^2+y^2)\,dS$ を求めよ。</li>
+	                    <li>グラフ $z=x^2+y^2$（$x^2+y^2\le 1$）を上向きに向き付けた曲面 $S$ について、$\mathbf{F}=(0,0,1)$ の流束を求めよ。</li>
+	                    <li>半径 $a$ の球面 $x^2+y^2+z^2=a^2$ を外向きに向き付けたとき、$\mathbf{F}=(x,y,z)$ の流束を求めよ。</li>
+	                </ol>
+	            </div>
+	            <div class="note">
+	                <strong>次回予告</strong>
+	                <p>線積分と面積分を結びつけるグリーンの定理を学ぶ。</p>
+	            </div>
+	        </section>
 
-        <div class="nav-buttons">
-            <a href="../class11/class11.html">← Previous</a>
-            <a href="../index.html">🏠 Home</a>
-            <a href="../class13/class13.html">Next →</a>
-        </div>
-</main>
-</body>
-</html>
+	        <div class="nav-buttons">
+	            <a href="../class11/class11.html">← 前回</a>
+	            <a href="../index.html">🏠 ホーム</a>
+	            <a href="../class13/class13.html">次へ →</a>
+	        </div>
+	    </main>
+	</body>
+	</html>

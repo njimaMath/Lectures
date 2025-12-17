@@ -335,82 +335,138 @@
     </style>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.10/dist/katex.min.css" integrity="sha384-wcIxkf4k558fYv3mQPFEpCREUQueRFCZrCXCtiKU8aNVbN9ODdVcN3BwCAJ6pcBb" crossorigin="anonymous">
     <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.10/dist/katex.min.js" integrity="sha384-hIoBPJpTUs74ddyc4bFZSM1TVlQDA60VBbJS0oA934VSz82sBx1X7kSx2ATBDIyd" crossorigin="anonymous"></script>
-    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.10/dist/contrib/auto-render.min.js" integrity="sha384-43gviWU0YVjaDtb/GhzOouOXtZMP/7XUzwPTstBeZFe/+rCMvRwr4yROQP43s0Xk" crossorigin="anonymous"
-        onload="renderMathInElement(document.body);"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.10/dist/contrib/auto-render.min.js" integrity="sha384-43gviWU0YVjaDtb/GhzOouOXtZMP/7XUzwPTstBeZFe/+rCMvRwr4yROQP43s0Xk" crossorigin="anonymous"></script>
     <script>
         document.addEventListener("DOMContentLoaded", function() {
+            if (typeof renderMathInElement !== "function") return;
             renderMathInElement(document.body, {
                 delimiters: [
-                    {left: '$$', right: '$$', display: true},
-                    {left: '$', right: '$', display: false}
+                    { left: "$$", right: "$$", display: true },
+                    { left: "$", right: "$", display: false }
                 ],
-                throwOnError : false
+                throwOnError: false
             });
         });
     </script>
 </head>
 <body>
     <main>
-    <main>
         <header class="hero">
-            <span class="hero-label">Lecture 13</span>
+            <span class="hero-label">第13回</span>
             <h1>第13回 グリーンの定理</h1>
-            <p>平面領域における線積分と面積分の関係式であるグリーンの定理を学びます。</p>
+            <p>平面領域の境界に沿う線積分と、領域内部の面積分を結びつける定理を学びます。</p>
         </header>
 
         <section class="outline-section">
-            <h2>Section 1. 講義概要</h2>
-            <div class="note">
-                <strong>テーマ:</strong> 線積分と面積分の橋渡し
+            <h2>第1節 ねらいと線積分の復習</h2>
+            <div class="definition">
+                <strong>到達目標</strong>
+                <ul>
+                    <li>グリーンの定理の主張と適用条件（領域・向き・滑らかさ）を説明できる。</li>
+                    <li>証明の流れ（積分の順序交換と微分積分学の基本定理）を追える。</li>
+                    <li>循環の計算や面積計算に適用できる。</li>
+                </ul>
             </div>
             <div class="definition">
-                <strong>到達目標:</strong>
-                <ul>
-                    <li>グリーンの定理の主張と適用条件を理解する</li><li>証明の概略を追い、用意する仮定を把握する</li><li>応用例（面積計算や循環の評価）を計算する</li>
-                </ul>
-            </div>
-        </section>
-
-        <section class="outline-section">
-            <h2>Section 2. 重要な公式・キーポイント</h2>
-            <div class="formula">$$ \oint_{\partial D} P\,dx + Q\,dy = \iint_D \left( \frac{\partial Q}{\partial x} - \frac{\partial P}{\partial y} \right) dA $$</div>
-            <div class="proof">
-                <strong>チェックリスト:</strong>
-                <ul class="highlight-list">
-                    <li>公式の導出過程を説明できるか。</li>
-                    <li>適用条件や必要な仮定を記憶しているか。</li>
-                    <li>例題に当てはめて計算できるか。</li>
-                </ul>
-            </div>
-        </section>
-
-        <section class="outline-section">
-            <h2>Section 3. 演習課題</h2>
-            <div class="example">
-                <strong>練習問題:</strong>
-                <ol>
-                    <li>(1) $D$が単純閉曲線で囲まれるときの面積をグリーンの定理で求める</li><li>(2) ベクトル場の循環を線積分と面積分で比較する</li><li>(3) 定理の適用できない例を挙げ、その理由を説明する</li>
-                </ol>
+                <strong>平面ベクトル場の線積分</strong>
+                <p>曲線 $C$ を $\mathbf{r}(t)=(x(t),y(t))$（$a\le t\le b$）とし、$\mathbf{F}(x,y)=(P(x,y),Q(x,y))$ とする。</p>
+                <div class="formula">$$\int_C P\,dx+Q\,dy=\int_a^b\Bigl(P(x(t),y(t))x'(t)+Q(x(t),y(t))y'(t)\Bigr)\,dt$$</div>
             </div>
             <div class="note">
-                <strong>アドバイス:</strong> 境界の向き（反時計回り）を必ず確認。面積計算に役立つ公式として覚えましょう。
+                <strong>向き（正の向き）</strong>
+                <p>領域 $D$ の境界 $\partial D$ は、領域が常に左側にくる向き（反時計回り）を <em>正の向き</em> とする。向きを逆にすると線積分の符号が反転する。</p>
             </div>
         </section>
 
         <section class="outline-section">
-            <h2>Section 4. 次回までに</h2>
+            <h2>第2節 グリーンの定理</h2>
+            <div class="theorem">
+                <strong>定理（グリーン）</strong>
+                <p>$D\subset\mathbb{R}^2$ を単純閉曲線 $C=\partial D$ で囲まれた領域（境界は区分的に滑らか）とし、$P,Q$ が $D$ を含む開集合上で $C^1$ 級とする。このとき</p>
+                <div class="formula">$$\oint_{\partial D} P\,dx+Q\,dy=\iint_D\left(\frac{\partial Q}{\partial x}-\frac{\partial P}{\partial y}\right)\,dA$$</div>
+                <p>が成り立つ（$C$ は正の向き）。</p>
+            </div>
+            <div class="note">
+                <strong>回転（2 次元の curl）</strong>
+                <p>平面ベクトル場 $\mathbf{F}=(P,Q)$ に対し</p>
+                <div class="formula">$$\operatorname{rot}\mathbf{F}=\frac{\partial Q}{\partial x}-\frac{\partial P}{\partial y}$$</div>
+                <p>とおけば、$\displaystyle \oint_{\partial D}\mathbf{F}\cdot d\mathbf{r}=\iint_D \operatorname{rot}\mathbf{F}\,dA$ と書ける。</p>
+            </div>
+            <div class="note">
+                <strong>穴のある領域</strong>
+                <p>境界が複数成分でも、境界全体を「正の向き」（外側は反時計回り・内側は時計回り）にとれば同様に成り立つ。</p>
+            </div>
+        </section>
+
+        <section class="outline-section">
+            <h2>第3節 証明の流れ（概略）</h2>
+            <div class="proof">
+                <strong>縦に切れる領域で示す</strong>
+                <p>たとえば</p>
+                <div class="formula">$$D=\{(x,y)\mid a\le x\le b,\ g_1(x)\le y\le g_2(x)\}$$</div>
+                <p>なら境界は上側 $y=g_2(x)$ と下側 $y=g_1(x)$ に分けられる。これらの寄与を比べると</p>
+                <div class="formula">$$\oint_{\partial D}P\,dx=-\iint_D\frac{\partial P}{\partial y}\,dA$$</div>
+                <p>が出る（$y$ についての微分積分学の基本定理）。同様に横に切れる形で</p>
+                <div class="formula">$$\oint_{\partial D}Q\,dy=\iint_D\frac{\partial Q}{\partial x}\,dA$$</div>
+                <p>を得て、足し合わせると主張が従う。一般の領域はこの形の領域の和に分割して処理する。</p>
+            </div>
+        </section>
+
+        <section class="outline-section">
+            <h2>第4節 応用1：循環の計算</h2>
+            <div class="concept-card focus-card">
+                <strong>回転が一定なら「面積×一定」</strong>
+                <p>$\operatorname{rot}\mathbf{F}$ が $D$ で一定 $c$ なら</p>
+                <div class="formula">$$\oint_{\partial D} P\,dx+Q\,dy=c\cdot\operatorname{Area}(D)$$</div>
+            </div>
+            <div class="example">
+                <strong>例：$\mathbf{F}=(-y,x)$ を単位円周で積分</strong>
+                <p>$P=-y,\ Q=x$ なので $\operatorname{rot}\mathbf{F}=1-(-1)=2$。単位円板の面積は $\pi$ だから</p>
+                <div class="formula">$$\oint_{\partial D}(-y)\,dx+x\,dy=\iint_D 2\,dA=2\pi$$</div>
+            </div>
+        </section>
+
+        <section class="outline-section">
+            <h2>第5節 応用2：面積公式</h2>
+            <div class="theorem">
+                <strong>面積を線積分で表す</strong>
+                <p>$\operatorname{Area}(D)=\iint_D 1\,dA$ に対し、$1=\frac{\partial Q}{\partial x}-\frac{\partial P}{\partial y}$ となる $(P,Q)$ を選べばよい。代表例：</p>
+                <div class="formula">$$\operatorname{Area}(D)=\oint_{\partial D}x\,dy=-\oint_{\partial D}y\,dx=\frac12\oint_{\partial D}(x\,dy-y\,dx)$$</div>
+            </div>
+            <div class="example">
+                <strong>例：楕円 $x=a\cos t,\ y=b\sin t$ の面積</strong>
+                <p>$x'=-a\sin t,\ y'=b\cos t$ より</p>
+                <div class="formula">$$\operatorname{Area}(D)=\frac12\int_0^{2\pi}\bigl(xy'-yx'\bigr)\,dt=\frac12\int_0^{2\pi}ab\,dt=\pi ab$$</div>
+            </div>
+        </section>
+
+        <section class="outline-section">
+            <h2>第6節 演習課題</h2>
+            <div class="exercise-list">
+                <strong>問題</strong>
+                <ol>
+                    <li>$D=[0,1]\times[0,2]$ の境界を正の向きに回るとき $\oint_{\partial D} (x^2-y)\,dx+(x+y^2)\,dy$ を求めよ（グリーンの定理で計算）。</li>
+                    <li>$C$ を半径 $R$ の円周（反時計回り）として $\oint_C (-y)\,dx+x\,dy$ を求めよ。</li>
+                    <li>単純閉曲線 $C$ が $(x(t),y(t))$（$0\le t\le 2\pi$）で与えられるとき、$\displaystyle \operatorname{Area}(D)=\frac12\int_0^{2\pi}(x y'-y x')\,dt$ を示せ。</li>
+                    <li>$\operatorname{rot}\mathbf{F}=0$ が成り立つとき、$D$ が単連結なら $\mathbf{F}$ が保存力場になることを説明せよ（既習事項と結びつけて）。</li>
+                </ol>
+            </div>
+        </section>
+
+        <section class="outline-section">
+            <h2>次回までに</h2>
             <ul>
-                <li>ノートを整理し、重要な定理と例題をまとめ直す。</li>
-                <li>不明点があれば授業冒頭で質問できるよう準備する。</li>
-                <li>関連する教科書の該当ページを読み、例題を一度自力で解く。</li>
+                <li>境界の正の向き（反時計回り）と符号を確認する。</li>
+                <li>$\operatorname{rot}\mathbf{F}$ を計算して面積分に落とす練習をする。</li>
+                <li>面積公式 $\frac12\oint(x\,dy-y\,dx)$ を使えるようにする。</li>
             </ul>
         </section>
 
         <div class="nav-buttons">
-            <a href="../class12/class12.html">← Previous</a>
-            <a href="../index.html">🏠 Home</a>
-            <a href="../class14/class14.html">Next →</a>
+            <a href="../class12/class12.html">← 前回</a>
+            <a href="../index.html">🏠 ホーム</a>
+            <a href="../class14/class14.html">次へ →</a>
         </div>
-</main>
+    </main>
 </body>
 </html>
