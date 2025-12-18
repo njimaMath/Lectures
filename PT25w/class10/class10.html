@@ -3,24 +3,110 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>中心極限定理</title>
+    <title>第10回 独立性 (Independence)</title>
     <style>
-        body{font-family:"Helvetica Neue",Helvetica,Arial,sans-serif;line-height:1.7;color:#212121;margin:0;background:#fafafa;}
-        .container{max-width:960px;margin:0 auto;padding:2rem 1rem 4rem;background:#fff;box-shadow:0 4px 12px rgba(0,0,0,.05);border-radius:12px;}
-        h1,h2,h3,h4{color:#1a237e;margin-top:1.2em;margin-bottom:.6em;}
-        h1{font-size:1.9rem;text-align:center;}
-        h2{font-size:1.5rem;border-left:6px solid #1a237e;padding-left:.55rem;}
-        h3{font-size:1.25rem;}
-        h4{font-size:1.1rem;color:#3949ab;margin-top:1.2em;}
-        .formula{background:#f3f4ff;border-left:4px solid #5c6bc0;padding:.8rem 1.2rem;margin:1.2rem 0;border-radius:8px;overflow-x:auto;text-align:center;}
-        details{margin-bottom:1rem;}
-        details summary{cursor:pointer;font-weight:600;}
-        .proof{background:#e8f5e9;border-left:4px solid #43a047;padding:.8rem 1.2rem;margin:1.2rem 0;border-radius:8px;overflow-x:auto;}
-        ul{margin:0 0 1rem 1.2rem;}
-        .navigation{display:flex;justify-content:center;gap:.8rem;margin:2.2rem 0;border-top:1px solid #e0e0e0;padding-top:1.5rem;flex-wrap:wrap;}
-        .navigation a{padding:.65rem 1.5rem;background:#1a237e;color:#fff;text-decoration:none;border-radius:6px;transition:opacity .2s;}
-        .navigation a:hover{opacity:.85;}
-        footer{margin-top:3rem;color:#777;text-align:center;font-size:.9rem;}
+        body {
+            font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+            line-height: 1.7;
+            color: #212121;
+            margin: 0;
+            background: #fafafa;
+        }
+        .container {
+            max-width: 960px;
+            margin: 0 auto;
+            padding: 2rem 1rem 4rem;
+            background: #fff;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+            border-radius: 12px;
+        }
+        h1, h2, h3, h4 {
+            color: #1a237e;
+            margin-top: 1.2em;
+            margin-bottom: .6em;
+        }
+        h1 {
+            font-size: 1.9rem;
+            text-align: center;
+        }
+        h2 {
+            font-size: 1.5rem;
+            border-left: 6px solid #1a237e;
+            padding-left: .55rem;
+        }
+        h3 { font-size: 1.25rem; }
+        h4 { font-size: 1.1rem; color: #3949ab; margin-top: 1.2em; }
+        .section-lead {
+            font-size: 1.05rem;
+            color: #424242;
+            margin-top: -0.3rem;
+        }
+        .formula {
+            background: #f3f4ff;
+            border-left: 4px solid #5c6bc0;
+            padding: .8rem 1.2rem;
+            margin: 1.2rem 0;
+            border-radius: 8px;
+            overflow-x: auto;
+            text-align: center;
+        }
+        details { margin-bottom: 1rem; }
+        details summary { cursor: pointer; font-weight: 600; }
+        .proof {
+            background: #e8f5e9;
+            border-left: 4px solid #43a047;
+            padding: .8rem 1.2rem;
+            margin: 1.2rem 0;
+            border-radius: 8px;
+            overflow-x: auto;
+        }
+        .example, .note {
+            border-radius: 8px;
+            padding: .75rem 1rem;
+            margin: 1rem 0;
+        }
+        .example {
+            background: #fff8e1;
+            border-left: 4px solid #fb8c00;
+        }
+        .note {
+            background: #e3f2fd;
+            border-left: 4px solid #1e88e5;
+        }
+        .toc {
+            background: #fafafa;
+            border: 1px solid #eee;
+            border-radius: 10px;
+            padding: 12px 14px;
+            margin: 1rem 0 1.2rem;
+        }
+        .toc a { color: #1a237e; text-decoration: none; }
+        .toc a:hover { text-decoration: underline; }
+        ul { margin: 0 0 1rem 1.2rem; }
+        .navigation {
+            display: flex;
+            justify-content: center;
+            gap: .8rem;
+            margin: 2.2rem 0;
+            border-top: 1px solid #e0e0e0;
+            padding-top: 1.5rem;
+            flex-wrap: wrap;
+        }
+        .navigation a {
+            padding: .65rem 1.5rem;
+            background: #1a237e;
+            color: #fff;
+            text-decoration: none;
+            border-radius: 6px;
+            transition: opacity .2s;
+        }
+        .navigation a:hover { opacity: .85; }
+        footer {
+            margin-top: 3rem;
+            color: #777;
+            text-align: center;
+            font-size: .9rem;
+        }
     </style>
     <script>
         MathJax = {
@@ -34,177 +120,240 @@
 </head>
 <body>
     <div class="container">
-        <h1>中心極限定理</h1>
+        <header>
+            <h1>第10回 独立性 (Independence)</h1>
+            <p class="section-lead">
+                独立性の定義、基本的な性質、分散・共分散との関係、そして pairwise / mutual の違いを整理する。
+            </p>
+        </header>
 
-        <h2>コイントス再考</h2>
-        <p>
-            $n$回のコイントスを考える。標本空間 $\Omega_n$ は、裏と表の可能なすべての列の集合である。
-        </p>
-        <div class="formula">
-            $\Omega_n:= \{裏, 表\}^n$
-        </div>
-        <p>
-            各試行が独立であると仮定すると、特定の結果 $\omega$ が生じる確率は $P(\omega) = 2^{-n}$ である。$i$回目のトスが表であった場合に1、そうでなければ0を取る確率変数を $X_i(\omega)$ とする。
-        </p>
-        <div class="formula">
-            $X_i(\omega) := \mathbf{1}_{\{\omega_i = \text{表}\}}$
-        </div>
-        <p>
-            $n$回中の表の総数を $S_n(\omega)$ とする。
-        </p>
-        <div class="formula">
-            $S_n(\omega) := \sum_{i=1}^{n} X_i(\omega)$
-        </div>
-        <h4>定理 (大数の法則)</h4>
-        <p>
-            大数の法則によれば、表の出る割合 $S_n/n$ は確率的に $1/2$ に収束する。
-        </p>
-        <div class="formula">
-             $S_n/n \to 1/2 \quad (\text{in probability})$
-        </div>
-        <p>これは、差 $|S_n - n/2|$ が $n$ に比べて非常に小さいことを意味する。</p>
-
-        <h4>Q. $|S_n - n/2|$ はどのくらいの大きさか?</h4>
-        <p>
-            $S_n$ の期待値は $E[S_n] = n/2$ である。ここで $n/2 = \sum_{i=1}^{n} E[X_i]$ となる。分散を計算する。
-        </p>
-        <div class="formula">
-            $E[(S_n - n/2)^2] = \sum_{i=1}^{n} E[(X_i - E[X_i])^2] = n/4$
-        </div>
-        <p>
-            この結果から、$|S_n - n/2|$ の大きさは $\sqrt{n}/2$ のオーダーであると予想できる。
-        </p>
-
-        <h4>コイントスの中心極限定理</h4>
-        <p>
-            この揺らぎの分布は、正規分布に収束する。
-        </p>
-        <div class="formula">
-            $\frac{S_n - n/2}{\sqrt{n/4}} = \frac{2(S_n - n/2)}{\sqrt{n}} \to N(0,1) \quad (\text{in distribution})$
+        <div class="toc">
+            <strong>目次</strong>
+            <ul>
+                <li><a href="#independence">1. Independence</a></li>
+                <li><a href="#properties">2. Properties</a></li>
+                <li><a href="#var-cov">3. Variance and Covariance</a></li>
+                <li><a href="#mutual-pairwise">4. Mutual vs Pairwise Independence</a></li>
+            </ul>
         </div>
 
-        <hr>
+        <!-- ============================================================= -->
+        <section id="independence">
+            <h2>1. Independence</h2>
 
-        <h2>特性関数</h2>
-        <h4>定義</h4>
-        <p>確率変数 $X$ に対して、その特性関数 $\phi_X(\xi)$ は次のように定義される。</p>
-        <div class="formula">
-            $\phi_X(\xi) := E[e^{i\xi X}]$
-        </div>
-        <h4>例: 標準正規分布</h4>
-        <p>$X \sim N(0,1)$ の場合、特性関数は次のようになる。</p>
-        <div class="formula">
-            $\phi_X(\xi) = e^{-\xi^2/2}$
-        </div>
-        <h4>定理 (レヴィの連続性定理)</h4>
-        <p>確率変数の列 $X_n$ が確率変数 $X$ に分布収束することと、その特性関数が各点で収束することは同値である。</p>
-        <div class="formula">
-            $\forall \xi \in \mathbb{R}, \phi_{X_n}(\xi) \to \phi_X(\xi) \iff X_n \to X \quad (\text{in distribution})$
-        </div>
-
-        <hr>
-
-        <h2>CLT (中心極限定理)</h2>
-        <h4>定理</h4>
-        <p>
-            $X_i$ を、平均 $E[X_i]$、分散 $\sigma^2 := \text{Var}(X_i) < \infty$ を持つ独立同分布 (i.i.d.) の確率変数列とする。このとき、適切に正規化された和は標準正規分布 $N(0,1)$ に分布収束する。
-        </p>
-        <div class="formula">
-            $U_n := \frac{1}{\sigma\sqrt{n}} \sum_{i=1}^n (X_i - E[X_i]) \to N(0,1)$
-        </div>
-
-        <div class="proof">
-            <h4>証明</h4>
-            <p>特性関数を用いて証明する。$U_n$ の特性関数 $\phi_{U_n}(\xi)$ を計算する。$X_i$ の独立性より、</p>
-            $$ \phi_{U_n}(\xi) = E\left[\exp\left(\frac{i\xi}{\sigma\sqrt{n}} \sum_{i=1}^n (X_i-E[X_i])\right)\right] = \left(E\left[\exp\left(\frac{i\xi}{\sigma\sqrt{n}} (X_1 - E[X_1])\right)\right]\right)^n $$
-            <p>ここで、指数関数をテイラー展開する。$Y = X_1 - E[X_1]$ とおくと、$E[Y]=0, E[Y^2]=\sigma^2$ である。</p>
-            $$ E\left[e^{\frac{i\xi}{\sigma\sqrt{n}} Y}\right] = E\left[1 + \frac{i\xi Y}{\sigma\sqrt{n}} - \frac{\xi^2 Y^2}{2\sigma^2 n} + o(n^{-1})\right] $$
-            $$ = 1 + \frac{i\xi E[Y]}{\sigma\sqrt{n}} - \frac{\xi^2 E[Y^2]}{2\sigma^2 n} + o(n^{-1}) = 1 - \frac{\xi^2 \sigma^2}{2\sigma^2 n} + o(n^{-1}) = 1 - \frac{\xi^2}{2n} + o(n^{-1}) $$
-            <p>したがって、$\phi_{U_n}(\xi)$ は次のようになる。</p>
-            $$ \phi_{U_n}(\xi) = \left(1 - \frac{\xi^2}{2n} + o(n^{-1})\right)^n $$
-            <p>以下の補題より、$n \to \infty$ のとき、これは $e^{-\xi^2/2}$ に収束する。これは標準正規分布の特性関数に他ならない。</p>
-        </div>
-
-        <div class="proof">
-            <h4>補題</h4>
-            <p>複素数列 $z_n$ が $z$ に収束するとき、次が成り立つ。</p>
+            <h4>Def</h4>
+            <p>
+                Let $X$ and $Y$ be random variables defined on a probability space
+                $(\Omega, \mathcal F, \mathbb P)$.
+                $X$ and $Y$ are said to be independent if for every pair of Borel sets
+                $A,B\subset \mathbb R$,
+            </p>
             <div class="formula">
-                $\left(1 + \frac{z_n}{n}\right)^n \to e^z$
+                $$
+                \mathbb P(X\in A,\ Y\in B)
+                = \mathbb P(X\in A)\,\mathbb P(Y\in B).
+                $$
             </div>
-            <h5>証明</h5>
-            <p>$(1 + z/n)^n \to e^z$ であることは既知とする。差を評価することで、$(1 + z_n/n)^n - (1 + z/n)^n \to 0$ を示す。</p>
+
+            <h4>Why independence?</h4>
             <p>
-                $a=1+z_n/n, b=1+z/n$ とおくと、$a^n - b^n = (a-b)\sum_{k=0}^{n-1} a^k b^{n-1-k}$ である。$|z_n| \to |z|$ なので、十分大きな $n$ に対して $|z_n| < |z|+1$ となる。
+                独立性は「$Y$ を知っても $X$ の分布は変わらない」という直感に対応する。
+                例えば $A,B$ を Borel 集合で $\mathbb P(Y\in B)>0$ とすると，
             </p>
-            $$ \left|\left(1+\frac{z_n}{n}\right)^n - \left(1+\frac{z}{n}\right)^n\right| \le \left|\frac{z_n-z}{n}\right| \sum_{k=0}^{n-1} \left|1+\frac{z_n}{n}\right|^k \left|1+\frac{z}{n}\right|^{n-1-k} $$
-            $$ \le \frac{|z_n-z|}{n} \cdot n \cdot \left(1 + \frac{|z|+1}{n}\right)^{n-1} = |z_n-z| \left(1 + \frac{|z|+1}{n}\right)^n \left(1 + \frac{|z|+1}{n}\right)^{-1} $$
-            <p>
-                $n\to\infty$ のとき、$|z_n-z| \to 0$ であり、$(1 + (|z|+1)/n)^n \to e^{|z|+1}$ なので、全体として0に収束する。
+            <div class="formula">
+                $$
+                \mathbb P(X\in A\mid Y\in B)
+                = \frac{\mathbb P(X\in A,\ Y\in B)}{\mathbb P(Y\in B)}
+                = \mathbb P(X\in A).
+                $$
+            </div>
+            <p class="note">
+                補足：教科書などで $\mathbb P(X\in A\mid Y=y)$ と書かれることがあるが，
+                厳密には $Y=y$ が確率 $0$ になる場合が多いので，上のように
+                $Y\in B$ の形で書くのが安全。
             </p>
-        </div>
+        </section>
 
         <hr>
 
-        <h2>CLTを用いた統計学</h2>
-        <p>
-            $X_i$ を、未知の平均 $\mu$ と既知の分散 $\sigma^2$ を持つi.i.d.の確率変数列とする。データ $X_1, \dots, X_n$ が与えられたとき、$\mu$ を推定したいと考える。
-        </p>
-        <h4>例: テストの点数</h4>
-        <p>
-            $X_1, \dots, X_n$ をテストの点数とする。点数はi.i.d.で、分散 $\sigma^2=25$ であると仮定する。標本和を $S_n := \sum_{i=1}^n X_i$、標本平均を $\bar{X}_n := S_n/n$ とする。
-        </p>
+        <!-- ============================================================= -->
+        <section id="properties">
+            <h2>2. Properties</h2>
 
-        <p>
-            任意の $\alpha > 0$ に対して、$z_\alpha$ を次のように定義する。これは標準正規分布の上側 $\alpha$ 点と呼ばれる。
-        </p>
-        <div class="formula">
-            $z_\alpha := \inf\{z > 0 : P(N(0,1) > z) < \alpha\}$
-        </div>
-        <p>これは $P(N(0,1) \in [-z_{\alpha/2}, z_{\alpha/2}]) = 1-\alpha$ と同値である。通常、$\alpha=0.05$ (5%) を用いることが多く、このとき $z_{0.025} \approx 1.96$ である。</p>
+            <h4>Thm (measurable maps preserve independence)</h4>
+            <p>
+                If $X$ and $Y$ are independent, then for any measurable functions
+                $f$ and $g$, the random variables $f(X)$ and $g(Y)$ are also independent.
+            </p>
+            <p>
+                In particular, whenever $f(X)$ and $g(Y)$ are integrable,
+            </p>
+            <div class="formula">
+                $$
+                \mathbb E[f(X)g(Y)]
+                = \mathbb E[f(X)]\,\mathbb E[g(Y)].
+                $$
+            </div>
 
-        <h4>信頼区間</h4>
-        <p>
-            中心極限定理より、次の近似が成り立つ。
-        </p>
-        <div class="formula">
-            $P\left(\frac{S_n - n\mu}{\sigma\sqrt{n}} \in [-z_{\alpha/2}, z_{\alpha/2}]\right) \approx 1-\alpha$
-        </div>
-        <p>
-            この式を $\mu$ について解くと、
-        </p>
-        <div class="formula">
-            $P\left(\mu \in \left[\bar{X}_n - \frac{\sigma z_{\alpha/2}}{\sqrt{n}}, \bar{X}_n + \frac{\sigma z_{\alpha/2}}{\sqrt{n}}\right]\right) \approx 1-\alpha$
-        </div>
-        <p>
-            この区間 $[\bar{X}_n - \sigma z_{\alpha/2}/\sqrt{n}, \bar{X}_n + \sigma z_{\alpha/2}/\sqrt{n}]$ は、真の平均 $\mu$ に対する <strong>$100(1-\alpha)\%$信頼区間</strong> と呼ばれる。
-        </p>
+            <details>
+                <summary>Proof (idea)</summary>
+                <div class="proof">
+                    <p>
+                        First assume $f$ and $g$ are simple functions. Write
+                    </p>
+                    <div class="formula">
+                        $$
+                        f(x)=\sum_{n=1}^{N}\alpha_n\,\mathbf 1_{A_n}(x),
+                        \qquad
+                        g(y)=\sum_{m=1}^{M}\beta_m\,\mathbf 1_{B_m}(y),
+                        $$
+                    </div>
+                    <p>
+                        where $(A_n)$ and $(B_m)$ are disjoint measurable sets and
+                        $\alpha_n,\beta_m\in\mathbb R$.
+                        Then by independence of $X$ and $Y$,
+                    </p>
+                    <div class="formula">
+                        $$
+                        \begin{aligned}
+                        \mathbb E[f(X)g(Y)]
+                        &= \sum_{n,m}\alpha_n\beta_m\,
+                        \mathbb P(X\in A_n,\ Y\in B_m)\\
+                        &= \sum_{n,m}\alpha_n\beta_m\,
+                        \mathbb P(X\in A_n)\mathbb P(Y\in B_m)
+                        = \mathbb E[f(X)]\,\mathbb E[g(Y)].
+                        \end{aligned}
+                        $$
+                    </div>
+                    <p>
+                        For general measurable functions, approximate by simple functions
+                        (recall the definition of expectation for general measurable functions).
+                    </p>
+                </div>
+            </details>
+        </section>
 
-        <h4>仮説検定</h4>
-        <p>
-            特定の $\mu_0 \in \mathbb{R}$ を固定し、「真の平均は $\mu_0$ である」という仮説 $(\mu = \mu_0)$ を考える。もしこの仮説が正しければ、標本平均 $\bar{X}_n$ は次の区間に約 $1-\alpha$ の確率で入るはずである。
-        </p>
-        <div class="formula">
-            $[\mu_0 - \sigma z_{\alpha/2}/\sqrt{n}, \mu_0 + \sigma z_{\alpha/2}/\sqrt{n}]$
-        </div>
+        <hr>
 
-        <h4>有意水準 $\alpha$ の検定</h4>
-        <p>
-            <strong>定義:</strong> 実際に観測された標本平均 $\bar{X}_n$ が上記の区間に入らない場合、つまり
-        </p>
-        <div class="formula">
-            $\bar{X}_n \notin [\mu_0 - \sigma z_{\alpha/2}/\sqrt{n}, \mu_0 + \sigma z_{\alpha/2}/\sqrt{n}]$
-        </div>
-        <p>
-            のとき、仮説 $\mu=\mu_0$ を棄却する。この判断基準を「有意水準 $\alpha$ の検定」と呼ぶ。
-        </p>
+        <!-- ============================================================= -->
+        <section id="var-cov">
+            <h2>3. Variance and Covariance</h2>
+
+            <h4>Def</h4>
+            <p>
+                The variance of a random variable $X$ and the covariance of $(X,Y)$ are defined by
+            </p>
+            <div class="formula">
+                $$
+                \mathrm{Var}(X) := \mathbb E[(X-\mathbb E[X])^2],
+                \qquad
+                \mathrm{Cov}(X,Y) := \mathbb E[(X-\mathbb E[X])(Y-\mathbb E[Y])].
+                $$
+            </div>
+
+            <h4>Thm</h4>
+            <p>
+                If $X$ and $Y$ are independent and have finite second moments, then
+                $\mathrm{Cov}(X,Y)=0$ and
+            </p>
+            <div class="formula">
+                $$
+                \mathrm{Var}(X+Y)=\mathrm{Var}(X)+\mathrm{Var}(Y).
+                $$
+            </div>
+
+            <details>
+                <summary>Proof</summary>
+                <div class="proof">
+                    <p>
+                        Independence implies $(X-\mathbb E[X])$ and $(Y-\mathbb E[Y])$ are independent, hence
+                    </p>
+                    <div class="formula">
+                        $$
+                        \mathrm{Cov}(X,Y)
+                        = \mathbb E[(X-\mathbb E[X])(Y-\mathbb E[Y])]
+                        = \mathbb E[X-\mathbb E[X]]\,\mathbb E[Y-\mathbb E[Y]]
+                        = 0.
+                        $$
+                    </div>
+                    <p>Then</p>
+                    <div class="formula">
+                        $$
+                        \begin{aligned}
+                        \mathrm{Var}(X+Y)
+                        &= \mathbb E\!\left[\bigl((X-\mathbb E[X])+(Y-\mathbb E[Y])\bigr)^2\right]\\
+                        &= \mathbb E[(X-\mathbb E[X])^2] + \mathbb E[(Y-\mathbb E[Y])^2]
+                        + 2\,\mathbb E[(X-\mathbb E[X])(Y-\mathbb E[Y])]\\
+                        &= \mathrm{Var}(X)+\mathrm{Var}(Y)+2\,\mathrm{Cov}(X,Y)
+                        = \mathrm{Var}(X)+\mathrm{Var}(Y).
+                        \end{aligned}
+                        $$
+                    </div>
+                </div>
+            </details>
+        </section>
+
+        <hr>
+
+        <!-- ============================================================= -->
+        <section id="mutual-pairwise">
+            <h2>4. Mutual and pairwise Independence</h2>
+
+            <h4>Def</h4>
+            <p>
+                A collection of random variables $\{X_i\}_{i\in I}$ is said to be
+                <strong>mutually independent</strong> if for every finite subset
+                $\{i_1,\dots,i_n\}\subset I$ and every choice of Borel sets
+                $A_1,\dots,A_n\subset\mathbb R$,
+            </p>
+            <div class="formula">
+                $$
+                \mathbb P(X_{i_1}\in A_1,\dots,X_{i_n}\in A_n)
+                = \prod_{k=1}^{n}\mathbb P(X_{i_k}\in A_k).
+                $$
+            </div>
+            <p>
+                The collection is said to be <strong>pairwise independent</strong> if the above holds for every pair
+                of distinct indices (i.e. only for $n=2$).
+                Mutual independence $\Rightarrow$ pairwise independence, but not conversely.
+            </p>
+
+            <h4>Example: pairwise independent but not mutually independent</h4>
+            <p>
+                Let $X$ and $Y$ be independent random variables taking values in $\{0,1\}$ with equal probability,
+                and define
+            </p>
+            <div class="formula">
+                $$
+                Z := (X+Y)\bmod 2 \quad (\text{equivalently } Z = X\oplus Y).
+                $$
+            </div>
+            <p>
+                Then $(X,Y)$, $(X,Z)$, and $(Y,Z)$ are independent pairs, but $(X,Y,Z)$ are not mutually independent.
+                Indeed, the only possible triples are
+            </p>
+            <div class="example">
+                <ul>
+                    <li>$(0,0,0)$, $(0,1,1)$, $(1,0,1)$, $(1,1,0)$, each with probability $1/4$.</li>
+                </ul>
+            </div>
+            <p>For example,</p>
+            <div class="formula">
+                $$
+                \mathbb P(X=0,Y=0,Z=0)=\tfrac14 \neq \tfrac18
+                =\mathbb P(X=0)\mathbb P(Y=0)\mathbb P(Z=0).
+                $$
+            </div>
+        </section>
 
         <div class="navigation">
-            <a href="../class9/class9.html">前のクラス</a>
-            <a href="../index.html">ホーム</a>
-            <a href="../class11/class11.html">次のクラス &rarr;</a>
+            <a href="../class9/class9.html">&larr; 前回</a>
+            <a href="../index.html">目次</a>
+            <a href="../class11/class11.html">次回 &rarr;</a>
         </div>
+
         <footer>
-            <p style="text-align: center; margin-top: 40px; color: #666;">© 2025 確率論講義 - すべての権利を留保します</p>
+            <p style="text-align: center; margin-top: 40px; color: #666;">c 2025 講義資料</p>
         </footer>
     </div>
 </body>

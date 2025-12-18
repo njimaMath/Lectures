@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>第14回 まとめ</title>
+    <title>第14回 ストークスとガウスの定理</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Cabin:wght@500&family=Noto+Sans+JP:wght@400;500;700&display=swap');
 
@@ -90,7 +90,7 @@
 
         header.hero p {
             margin: 0 auto;
-            max-width: 620px;
+            max-width: 720px;
             color: var(--text-secondary);
             font-size: 17px;
         }
@@ -351,65 +351,99 @@
 </head>
 <body>
     <main>
-    <main>
         <header class="hero">
             <span class="hero-label">Lecture 14</span>
-            <h1>第14回 まとめ</h1>
-            <p>講義全体を振り返り、次の科目へつながる視点を整理します。</p>
+            <h1>第14回 ストークスとガウスの定理</h1>
+            <p>線積分・面積分の総仕上げとして、ストークスの定理とガウスの発散定理を結び付け、場の性質と境界の関係を理解する。</p>
         </header>
 
         <section class="outline-section">
-            <h2>Section 1. 講義概要</h2>
+            <h2>Section 1. 今日のゴール</h2>
             <div class="note">
-                <strong>テーマ:</strong> 全範囲の統合と今後の展望
+                <strong>到達目標:</strong> 回転（curl）・発散（div）の幾何的意味を復習し、境界と内部を結ぶ2つの基本定理を使えるようになる。
             </div>
             <div class="definition">
-                <strong>到達目標:</strong>
+                <strong>キーポイント:</strong>
                 <ul>
-                    <li>主要概念・定理・公式を一覧化する</li><li>重積分・線積分・面積分の関連を再確認する</li><li>今後学ぶガウスの定理やストークスの定理への橋渡しを行う</li>
+                    <li>Greenの定理からストークスの定理への拡張イメージを押さえる。</li>
+                    <li>閉曲面上の流束と体積内の発散が等しいことを式で確認する。</li>
+                    <li>実際の計算で法線ベクトル・向き付けを丁寧に扱う。</li>
                 </ul>
             </div>
         </section>
 
         <section class="outline-section">
-            <h2>Section 2. 重要な公式・キーポイント</h2>
-            <div class="formula">$$ これまで扱った代表的な公式をハンドアウトにまとめる $$</div>
+            <h2>Section 2. ストークスの定理</h2>
+            <div class="formula">$$ \oint_{\partial S} \mathbf{F}\cdot d\mathbf{r} = \iint_{S} (\nabla \times \mathbf{F})\cdot \mathbf{n}\, dS $$</div>
             <div class="proof">
-                <strong>チェックリスト:</strong>
+                <strong>読み解きポイント:</strong>
                 <ul class="highlight-list">
-                    <li>公式の導出過程を説明できるか。</li>
-                    <li>適用条件や必要な仮定を記憶しているか。</li>
-                    <li>例題に当てはめて計算できるか。</li>
+                    <li>左辺は境界曲線 $\partial S$ 上の線積分（循環）。右辺は曲面上の回転の面積分。</li>
+                    <li>向きは「右ねじの法則」：境界の進む向きに右ねじを回すと、親指の向きが法線ベクトル。</li>
+                    <li>平面領域では Green の定理に一致する（$z=0$ 平面に乗っている場合）。</li>
                 </ul>
+            </div>
+            <div class="concept-card focus-card">
+                <strong>法線ベクトルのとり方:</strong>
+                <p>パラメータ表示 $\mathbf{r}(u,v)$ で $S$ を表すとき、$\mathbf{r}_u \times \mathbf{r}_v$ が向き付けを与える法線。境界の向きと整合しているか必ず確認する。</p>
             </div>
         </section>
 
         <section class="outline-section">
-            <h2>Section 3. 演習課題</h2>
-            <div class="example">
-                <strong>練習問題:</strong>
-                <ol>
-                    <li>(1) 自分のノートを整理し、重要例題の解答を書き直す</li><li>(2) 理解度チェック用のクイズを班で作成する</li><li>(3) 期末試験対策の計画を立てる</li>
-                </ol>
+            <h2>Section 3. ガウスの発散定理</h2>
+            <div class="formula">$$ \iint_{\partial V} \mathbf{F}\cdot \mathbf{n}\, dS = \iiint_{V} \nabla \cdot \mathbf{F}\, dV $$</div>
+            <div class="definition">
+                <strong>意味づけ:</strong>
+                <ul>
+                    <li>左辺：閉曲面 $\partial V$ を通過する流束（外向き法線）。</li>
+                    <li>右辺：体積 $V$ 内での発散の総和（湧き出し・吸い込みの量）。</li>
+                    <li>電磁気のガウスの法則や流体の質量保存則に直結する。</li>
+                </ul>
             </div>
             <div class="note">
-                <strong>アドバイス:</strong> ベクトル解析の基本操作と重積分との接点を意識し、全体像を俯瞰しましょう。
+                <strong>よくある落とし穴:</strong>
+                <p>法線が外向きか内向きかで符号が変わる。特に球や円筒では外向きを確認してから積分を組む。</p>
             </div>
         </section>
 
         <section class="outline-section">
-            <h2>Section 4. 次回までに</h2>
+            <h2>Section 4. 例題と練習</h2>
+            <div class="example">
+                <strong>例1: ストークスの定理</strong>
+                <ol>
+                    <li>$\mathbf{F}(x,y,z) = \langle yz,\ xz,\ xy \rangle$、曲面 $S$: $z=1$ 上の円 $x^2+y^2\le 1$。境界の線積分をストークスの定理で求める。</li>
+                    <li>手順: $\nabla\times\mathbf{F} = \langle x,\ y,\ 0\rangle$、法線 $\mathbf{n}=\langle 0,0,1\rangle$ を使って極座標で面積分。</li>
+                </ol>
+            </div>
+            <div class="example">
+                <strong>例2: 発散定理</strong>
+                <ol>
+                    <li>$\mathbf{F}(x,y,z)=\langle x^2,\ y^2,\ z^2\rangle$、体積 $V$: 半径1の球。表面積分を発散定理で計算。</li>
+                    <li>$\nabla\cdot\mathbf{F}=2x+2y+2z$ を球座標で体積積分し、直接の表面積分と一致することを確認。</li>
+                </ol>
+            </div>
+            <div class="exercise-list">
+                <strong>演習:</strong>
+                <ul>
+                    <li>ストークスの定理を使って、任意の平面上の三角形に対する線積分を面積分で計算してみる。</li>
+                    <li>発散定理を用いて、立方体 $0\le x,y,z\le 1$ で $\mathbf{F}=\langle xy,\ yz,\ zx\rangle$ の流束を求める。</li>
+                </ul>
+            </div>
+        </section>
+
+        <section class="outline-section">
+            <h2>Section 5. まとめ</h2>
             <ul>
-                <li>ノートを整理し、重要な定理と例題をまとめ直す。</li>
-                <li>不明点があれば授業冒頭で質問できるよう準備する。</li>
-                <li>関連する教科書の該当ページを読み、例題を一度自力で解く。</li>
+                <li>Green → Stokes → Gauss と「境界積分＝内部積分」の階層を把握した。</li>
+                <li>向き付け（法線・境界の向き）が定理適用の前提条件である。</li>
+                <li>応用分野（電磁気・流体）での物理的解釈を意識すると記憶に残る。</li>
             </ul>
         </section>
 
         <div class="nav-buttons">
-            <a href="../class13/class13.html">← Previous</a>
-            <a href="../index.html">🏠 Home</a>
+            <a href="../class13/class13.html">&larr; Previous</a>
+            <a href="../index.html">Home</a>
         </div>
-</main>
+    </main>
 </body>
 </html>

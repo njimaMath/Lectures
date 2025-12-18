@@ -1,0 +1,56 @@
+1. Independence
+
+Def: Let X and Y be two random variables defined on a probability space (Ω, F, P). X and Y are said to be independent if for every pair of Borel sets A and B in R, the following holds:
+P(X ∈ A, Y ∈ B) = P(X ∈ A) * P(Y ∈ B)
+
+Why independence? 
+P(X\in A| Y=y) := P(X\in A, Y=y)/P(Y=y) = P(X\in A)
+which is indep of the value of y.
+
+2. Properties
+Thm If X and Y are independent, then for any measurable functions f and g, the random variables f(X) and g(Y) are also independent.
+Proof: Let (A_n) be disjoint sets and (B_m) be disjoint sets. Let alpha_n and beta_m\in \R. Then, consdier
+simple functionis: f(x) =  \sum \alpha_n 1_{A_n}(x), g(y) = \sum beta_m 1_{B_m}(y).
+Then, by independence of X and Y,
+E[f(X)g(Y)] = E[ \sum_{n,m} \alpha_n beta_m 1_{A_n}(X) 1_{B_m}(Y)]
+= \sum_{n,m} \alpha_n beta_m P(X\in A_n, Y\in B_m)
+= \sum_{n,m} \alpha_n beta_m P(X\in A_n) P(Y\in B_m)
+= E[f(X)] E[g(Y)]
+
+For general measurable functions, approximate by simple functions. (recall the definitions of expectation for general measurable functions)
+
+3. Variance and Covariance
+Def: The variance of a random variable X is defined as Var(X) = E[(X - E[X])^2]. The covariance of two random variables X and Y is defined as Cov(X,Y) = E[(X - E[X])(Y - E[Y])].
+Thm If X and Y are independent, then Var(X + Y) = Var(X) + Var(Y). Moreover, Cov(X,Y) = 0.
+Proof: 
+By defnitnoi,
+Cov()X,Y) = E[(X - E[X])(Y - E[Y])]
+= E[X - E[X]] E[Y - E[Y]] = 0
+
+By definition, 
+Var(X + Y) = E[((X + Y) - E[X + Y])^2]
+= E[((X - E[X]) + (Y - E[Y]))^2]
+= E[(X - E[X])^2] + E[(Y - E[Y])^2] + 2E[(X - E[X])(Y - E[Y])]
+= Var(X) + Var(Y) + 2Cov(X,Y)
+= Var(X) + Var(Y).
+
+4. Mutual and pairwise Independence
+Def: A collection of random variables {X_i}_{i\in I} is said to be mutually independent if for every finite subset {i_1, i_2, ..., i_n} of I and for every collection of Borel sets {A_1, A_2, ..., A_n} in R, the following holds:
+P(X_{i_1} ∈ A_1, X_{i_2} ∈ A_2, ..., X_{i_n} ∈ A_n) = P(X_{i_1} ∈ A_1) * P(X_{i_2} ∈ A_2) * ... * P(X_{i_n} ∈ A_n)
+
+Def: A collection of random variables {X_i}_{i\in I} is said to be pairwise independent if for every pair of distinct indices i, j in I and for every pair of Borel sets A, B in R, the following holds:
+P(X_i ∈ A, X_j ∈ B) = P(X_i ∈ A) * P(X_j ∈ B)
+
+Example of pairwise independent but not mutually independent random variables:
+Consider three random variables X, Y, and Z defined on a probability space (Ω, F, P) such that:
+- X takes values in {0, 1} with equal probability.  
+- Y takes values in {0, 1} with equal probability.
+- Z is defined as Z = (X + Y) mod 2.
+Then, X, Y, and Z are pairwise independent but not mutually independent. For instance, knowing the values of X and Y determines the value of Z, violating mutual independence.
+
+
+
+
+
+
+
