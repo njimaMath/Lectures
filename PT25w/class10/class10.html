@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>第10回 独立性 (Independence)</title>
+    <title>独立性</title>
     <style>
         body {
             font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
@@ -121,32 +121,31 @@
 <body>
     <div class="container">
         <header>
-            <h1>第10回 独立性 (Independence)</h1>
+            <h1>独立性</h1>
             <p class="section-lead">
-                独立性の定義、基本的な性質、分散・共分散との関係、そして pairwise / mutual の違いを整理する。
+                独立性の定義、基本的な性質、分散・共分散との関係、そして
+                ペア独立と同時独立の違いを整理する。
             </p>
         </header>
 
         <div class="toc">
             <strong>目次</strong>
             <ul>
-                <li><a href="#independence">1. Independence</a></li>
-                <li><a href="#properties">2. Properties</a></li>
-                <li><a href="#var-cov">3. Variance and Covariance</a></li>
-                <li><a href="#mutual-pairwise">4. Mutual vs Pairwise Independence</a></li>
+                <li><a href="#independence">1. 独立性</a></li>
+                <li><a href="#properties">2. 基本性質</a></li>
+                <li><a href="#var-cov">3. 分散と共分散</a></li>
+                <li><a href="#mutual-pairwise">4. 同時独立とペア独立</a></li>
             </ul>
         </div>
 
         <!-- ============================================================= -->
         <section id="independence">
-            <h2>1. Independence</h2>
+            <h2>1. 独立性</h2>
 
-            <h4>Def</h4>
+            <h4>定義</h4>
             <p>
-                Let $X$ and $Y$ be random variables defined on a probability space
-                $(\Omega, \mathcal F, \mathbb P)$.
-                $X$ and $Y$ are said to be independent if for every pair of Borel sets
-                $A,B\subset \mathbb R$,
+                確率空間 $(\Omega, \mathcal F, \mathbb P)$ 上の確率変数 $X,Y$ をとる。
+                $X$ と $Y$ が独立であるとは、任意のボレル集合 $A,B\subset \mathbb R$ に対して
             </p>
             <div class="formula">
                 $$
@@ -155,10 +154,10 @@
                 $$
             </div>
 
-            <h4>Why independence?</h4>
+            <h4>独立性の意味</h4>
             <p>
-                独立性は「$Y$ を知っても $X$ の分布は変わらない」という直感に対応する。
-                例えば $A,B$ を Borel 集合で $\mathbb P(Y\in B)>0$ とすると，
+                独立性は「$Y$ に関する情報を得ても $X$ の分布は変わらない」という直感に対応する。
+                例えば $A,B$ をボレル集合で $\mathbb P(Y\in B)>0$ とすると，
             </p>
             <div class="formula">
                 $$
@@ -178,15 +177,14 @@
 
         <!-- ============================================================= -->
         <section id="properties">
-            <h2>2. Properties</h2>
+            <h2>2. 基本性質</h2>
 
-            <h4>Thm (measurable maps preserve independence)</h4>
+            <h4>定理（可測写像は独立性を保つ）</h4>
             <p>
-                If $X$ and $Y$ are independent, then for any measurable functions
-                $f$ and $g$, the random variables $f(X)$ and $g(Y)$ are also independent.
+                $X$ と $Y$ が独立なら、任意の可測関数 $f$ と $g$ に対して $f(X)$ と $g(Y)$ も独立である。
             </p>
             <p>
-                In particular, whenever $f(X)$ and $g(Y)$ are integrable,
+                特に $f(X)$ と $g(Y)$ が可積分なら
             </p>
             <div class="formula">
                 $$
@@ -196,10 +194,10 @@
             </div>
 
             <details>
-                <summary>Proof (idea)</summary>
+                <summary>証明（アイデア）</summary>
                 <div class="proof">
                     <p>
-                        First assume $f$ and $g$ are simple functions. Write
+                        まず $f$ と $g$ が単関数の場合を示す。例えば
                     </p>
                     <div class="formula">
                         $$
@@ -209,9 +207,9 @@
                         $$
                     </div>
                     <p>
-                        where $(A_n)$ and $(B_m)$ are disjoint measurable sets and
-                        $\alpha_n,\beta_m\in\mathbb R$.
-                        Then by independence of $X$ and $Y$,
+                        と書ける。ここで $(A_n)$ と $(B_m)$ は互いに素な可測集合で、
+                        $\alpha_n,\beta_m\in\mathbb R$ である。
+                        $X$ と $Y$ の独立性より，
                     </p>
                     <div class="formula">
                         $$
@@ -226,8 +224,8 @@
                         $$
                     </div>
                     <p>
-                        For general measurable functions, approximate by simple functions
-                        (recall the definition of expectation for general measurable functions).
+                        一般の可測関数については、単関数で近似して極限をとればよい
+                        （一般の可測関数に対する期待値の定義を参照）。
                     </p>
                 </div>
             </details>
@@ -237,11 +235,11 @@
 
         <!-- ============================================================= -->
         <section id="var-cov">
-            <h2>3. Variance and Covariance</h2>
+            <h2>3. 分散と共分散</h2>
 
-            <h4>Def</h4>
+            <h4>定義</h4>
             <p>
-                The variance of a random variable $X$ and the covariance of $(X,Y)$ are defined by
+                確率変数 $X$ の分散と $(X,Y)$ の共分散を次で定義する。
             </p>
             <div class="formula">
                 $$
@@ -251,10 +249,10 @@
                 $$
             </div>
 
-            <h4>Thm</h4>
+            <h4>定理</h4>
             <p>
-                If $X$ and $Y$ are independent and have finite second moments, then
-                $\mathrm{Cov}(X,Y)=0$ and
+                $X$ と $Y$ が独立で二次モーメントが有限（例：$\mathbb E[X^2],\mathbb E[Y^2]<\infty$）なら
+                $\mathrm{Cov}(X,Y)=0$ であり，さらに
             </p>
             <div class="formula">
                 $$
@@ -263,10 +261,10 @@
             </div>
 
             <details>
-                <summary>Proof</summary>
+                <summary>証明</summary>
                 <div class="proof">
                     <p>
-                        Independence implies $(X-\mathbb E[X])$ and $(Y-\mathbb E[Y])$ are independent, hence
+                        独立性より $(X-\mathbb E[X])$ と $(Y-\mathbb E[Y])$ も独立である。したがって
                     </p>
                     <div class="formula">
                         $$
@@ -276,7 +274,7 @@
                         = 0.
                         $$
                     </div>
-                    <p>Then</p>
+                    <p>また</p>
                     <div class="formula">
                         $$
                         \begin{aligned}
@@ -297,14 +295,12 @@
 
         <!-- ============================================================= -->
         <section id="mutual-pairwise">
-            <h2>4. Mutual and pairwise Independence</h2>
+            <h2>4. 同時独立とペア独立</h2>
 
-            <h4>Def</h4>
+            <h4>定義</h4>
             <p>
-                A collection of random variables $\{X_i\}_{i\in I}$ is said to be
-                <strong>mutually independent</strong> if for every finite subset
-                $\{i_1,\dots,i_n\}\subset I$ and every choice of Borel sets
-                $A_1,\dots,A_n\subset\mathbb R$,
+                確率変数族 $\{X_i\}_{i\in I}$ が <strong>同時独立</strong>であるとは，
+                任意の有限部分集合 $\{i_1,\dots,i_n\}\subset I$ と任意のボレル集合 $A_1,\dots,A_n\subset\mathbb R$ に対して
             </p>
             <div class="formula">
                 $$
@@ -313,31 +309,30 @@
                 $$
             </div>
             <p>
-                The collection is said to be <strong>pairwise independent</strong> if the above holds for every pair
-                of distinct indices (i.e. only for $n=2$).
-                Mutual independence $\Rightarrow$ pairwise independence, but not conversely.
+                また <strong>ペア独立</strong>とは，上式が任意の 2 つの指標の組（つまり $n=2$）について成り立つことをいう。
+                同時独立 $\Rightarrow$ ペア独立 だが，逆は一般に成り立たない。
             </p>
 
-            <h4>Example: pairwise independent but not mutually independent</h4>
+            <h4>例：ペア独立だが同時独立でない</h4>
             <p>
-                Let $X$ and $Y$ be independent random variables taking values in $\{0,1\}$ with equal probability,
-                and define
+                $\{0,1\}$ に値をとり、それぞれ確率 $1/2$ で起こる独立な確率変数 $X,Y$ をとり，
+                次で $Z$ を定める：
             </p>
             <div class="formula">
                 $$
-                Z := (X+Y)\bmod 2 \quad (\text{equivalently } Z = X\oplus Y).
+                Z := (X+Y)\bmod 2 \quad (\text{同値に } Z = X\oplus Y).
                 $$
             </div>
             <p>
-                Then $(X,Y)$, $(X,Z)$, and $(Y,Z)$ are independent pairs, but $(X,Y,Z)$ are not mutually independent.
-                Indeed, the only possible triples are
+                このとき $(X,Y)$, $(X,Z)$, $(Y,Z)$ はそれぞれ独立な組になるが，$(X,Y,Z)$ は同時独立ではない。
+                実際，取り得る三つ組は次の 4 通りだけである。
             </p>
             <div class="example">
                 <ul>
-                    <li>$(0,0,0)$, $(0,1,1)$, $(1,0,1)$, $(1,1,0)$, each with probability $1/4$.</li>
+                    <li>$(0,0,0)$, $(0,1,1)$, $(1,0,1)$, $(1,1,0)$（それぞれ確率 $1/4$）。</li>
                 </ul>
             </div>
-            <p>For example,</p>
+            <p>例えば</p>
             <div class="formula">
                 $$
                 \mathbb P(X=0,Y=0,Z=0)=\tfrac14 \neq \tfrac18
@@ -346,14 +341,14 @@
             </div>
         </section>
 
-        <div class="navigation">
-            <a href="../class9/class9.html">&larr; 前回</a>
-            <a href="../index.html">目次</a>
-            <a href="../class11/class11.html">次回 &rarr;</a>
-        </div>
+        <nav class="navigation">
+            <a href="../class9/class9.html">← 前のクラス</a>
+            <a href="../index.html">ホーム</a>
+            <a href="../class11/class11.html">次のクラス →</a>
+        </nav>
 
         <footer>
-            <p style="text-align: center; margin-top: 40px; color: #666;">c 2025 講義資料</p>
+            © 2025 確率論講義 ― すべての権利を留保します
         </footer>
     </div>
 </body>
