@@ -135,6 +135,7 @@
                 <li><a href="#properties">2. 基本性質</a></li>
                 <li><a href="#var-cov">3. 分散と共分散</a></li>
                 <li><a href="#mutual-pairwise">4. 同時独立とペア独立</a></li>
+                <li><a href="#report">5. レポート問題</a></li>
             </ul>
         </div>
 
@@ -145,7 +146,7 @@
             <h4>定義</h4>
             <p>
                 確率空間 $(\Omega, \mathcal F, \mathbb P)$ 上の確率変数 $X,Y$ をとる。
-                $X$ と $Y$ が独立であるとは、任意のボレル集合 $A,B\subset \mathbb R$ に対して
+                $X$ と $Y$ が独立であるとは、任意のボレル集合 $A,B\in \mathcal{F}$ に対して
             </p>
             <div class="formula">
                 $$
@@ -339,6 +340,24 @@
                 =\mathbb P(X=0)\mathbb P(Y=0)\mathbb P(Z=0).
                 $$
             </div>
+        </section>
+
+        <hr>
+
+        <!-- ============================================================= -->
+        <section id="report">
+            <h2>5. レポート問題</h2>
+            <ol>
+                <li>
+                    $X$ と $Y$ を独立な確率変数とする。$X+Y$ の積率母関数
+                    $f(t)=\mathbb E[e^{t(X+Y)}]$ を $X$ の積率母関数と $Y$ の積率母関数で表せ。
+                    また $f$ の定義域についても考察せよ（$X$ と $Y$ の積率母関数の定義域との関係を述べよ）。
+                </li>
+                <li>
+                    $X\sim\mathrm{Poisson}(\lambda)$, $Y\sim\mathrm{Poisson}(\mu)$ を独立とする。
+                    このとき $X+Y\sim\mathrm{Poisson}(\lambda+\mu)$ を特性関数を用いて証明せよ。
+                </li>
+            </ol>
         </section>
 
         <nav class="navigation">
