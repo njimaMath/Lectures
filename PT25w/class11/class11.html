@@ -1,66 +1,46 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>様々な分布と連続確率空間</title>
-
-    <!-- Base Styles -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>独立確率変数列に対する大数の法則と中心極限定理</title>
     <style>
-        :root {
-            --primary: #1a237e;
-            --light-bg: #fafafa;
-        }
-
-        html {
-            box-sizing: border-box;
-        }
-        *, *::before, *::after {
-            box-sizing: inherit;
-        }
-
         body {
-            margin: 0;
             font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
             line-height: 1.7;
             color: #212121;
-            background: var(--light-bg);
+            margin: 0;
+            background: #fafafa;
         }
-
-        .container { /* Renamed from main-container for clarity if needed, but existing class is main-container */
+        .container {
             max-width: 960px;
             margin: 0 auto;
             padding: 2rem 1rem 4rem;
             background: #fff;
-            border-radius: 12px;
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+            border-radius: 12px;
         }
-        /* The provided HTML uses .main-container for the overall content box, let's ensure the class is used or adapt styles.
-           The div in body uses class="main-container". So I'll use that.
-        */
-
-        header h1 {
-            margin: 0 0 1rem;
+        h1, h2, h3, h4 {
+            color: #1a237e;
+            margin-top: 1.2em;
+            margin-bottom: 0.6em;
+        }
+        h1 {
             font-size: 1.9rem;
             text-align: center;
-            color: var(--primary);
         }
-
         h2 {
-            font-size: 1.45rem;
-            margin-top: 2.2rem;
-            margin-bottom: 0.8rem;
+            font-size: 1.5rem;
+            border-left: 6px solid #1a237e;
             padding-left: 0.55rem;
-            border-left: 6px solid var(--primary);
-            color: var(--primary);
         }
-
-        h3 {
-            font-size: 1.2rem;
-            margin: 1.6rem 0 0.6rem;
-            color: var(--primary);
+        h3 { font-size: 1.25rem; }
+        h4 { font-size: 1.1rem; color: #3949ab; margin-top: 1.2em; }
+        .section-lead {
+            font-size: 1.05rem;
+            color: #424242;
+            margin-top: -0.3rem;
         }
-
         .formula {
             background: #f3f4ff;
             border-left: 4px solid #5c6bc0;
@@ -70,493 +50,290 @@
             overflow-x: auto;
             text-align: center;
         }
-
-        nav.navigation {
+        details { margin-bottom: 1rem; }
+        details summary { cursor: pointer; font-weight: 600; }
+        .proof {
+            background: #e8f5e9;
+            border-left: 4px solid #43a047;
+            padding: 0.8rem 1.2rem;
+            margin: 1.2rem 0;
+            border-radius: 8px;
+            overflow-x: auto;
+        }
+        .example, .note {
+            border-radius: 8px;
+            padding: 0.75rem 1rem;
+            margin: 1rem 0;
+        }
+        .example {
+            background: #fff8e1;
+            border-left: 4px solid #fb8c00;
+        }
+        .note {
+            background: #e3f2fd;
+            border-left: 4px solid #1e88e5;
+        }
+        .toc {
+            background: #fafafa;
+            border: 1px solid #eee;
+            border-radius: 10px;
+            padding: 12px 14px;
+            margin: 1rem 0 1.2rem;
+        }
+        .toc a { color: #1a237e; text-decoration: none; }
+        .toc a:hover { text-decoration: underline; }
+        ul { margin: 0 0 1rem 1.2rem; }
+        .navigation {
             display: flex;
             justify-content: center;
             gap: 0.8rem;
             margin: 2.2rem 0;
-            padding-top: 1.5rem;
             border-top: 1px solid #e0e0e0;
+            padding-top: 1.5rem;
             flex-wrap: wrap;
         }
-        nav.navigation a {
+        .navigation a {
             padding: 0.65rem 1.5rem;
-            background: var(--primary);
+            background: #1a237e;
             color: #fff;
             text-decoration: none;
             border-radius: 6px;
             transition: opacity 0.2s;
         }
-        nav.navigation a:hover {
-            opacity: 0.85;
-        }
-
+        .navigation a:hover { opacity: 0.85; }
         footer {
             margin-top: 3rem;
-            font-size: 0.9rem;
             color: #777;
             text-align: center;
-        }
-
-        code {
-            background: #eceff1;
-            padding: 2px 4px;
-            border-radius: 4px;
-        }
-
-        /* Simulation specific styles */
-        .simulation-container {
-            margin-top: 1.5rem;
-            padding: 1.5rem;
-            background-color: #f9f9f9;
-            border: 1px solid #e0e0e0;
-            border-radius: 8px;
-        }
-        .simulation-container label {
-            margin-right: 0.5rem;
-            font-weight: bold;
-            color: #333;
-        }
-        .simulation-container input[type="number"] {
-            padding: 0.5rem;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-            width: 80px;
-        }
-        .simulation-container button {
-            padding: 0.6rem 1.2rem;
-            background-color: var(--primary);
-            color: white;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-            margin-left: 0.8rem;
-            transition: background-color 0.2s;
-        }
-        .simulation-container button:hover {
-            background-color: #283593; /* A slightly darker shade of primary */
-        }
-        #eigenvalueHistogramCanvas { /* Changed ID to avoid conflict if any other element is eigenvalueHistogram */
-            margin-top: 1rem;
-            border: 1px solid #ccc;
-            background-color: white;
-        }
-        .simulation-container p { /* For status text like numEigenvalues */
-            margin-top: 0.5rem;
-            font-size: 0.95rem;
-            color: #555;
+            font-size: 0.9rem;
         }
     </style>
-
-    <!-- MathJax configuration -->
     <script>
         MathJax = {
           tex: {
             inlineMath: [['$', '$'], ['\\(', '\\)']],
-            displayMath: [['$$', '$$'], ['\\[', '\\]']]
+            displayMath: [['$$','$$'], ['\\[','\\]']]
           }
         };
     </script>
-    <script
-        id="MathJax-script"
-        async
-        src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"
-    ></script>
-    <!-- Numeric.js for matrix operations -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/numeric/1.2.6/numeric.min.js"></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
 </head>
-
 <body>
-    <div class="container"> <!-- Changed class from main-container to container to match CSS -->
+    <div class="container">
         <header>
-            <h1>Wignerの半円則</h1>
+            <h1>独立確率変数列に対する大数の法則と中心極限定理</h1>
+            <p class="section-lead">
+                Markov and Chebyshev inequalities, weak/strong LLN, and CLT via characteristic functions.
+            </p>
         </header>
 
-        <section class="section">
-            <h2>ランダム行列とは？</h2>
-            <p>
-              ランダム行列とは、その行列の各要素（成分）が何らかの確率分布に従う<strong>確率変数</strong>であるような行列である。
-              簡単に言えば、行列の中身がランダム（無作為）に選ばれた数値で構成されている行列である。
-              例えば、各要素がコイン投げで表なら1、裏なら0になるような \(2\times2\) 行列を考えると、それは一種のランダム行列となる。
-              ランダム行列は元々、物理学者ユージン・ウィグナーによって大型原子核中のエネルギー準位をモデル化するために導入された。
-              現在では物理や金融など様々な分野で、複雑な系の挙動を確率的に記述するための強力なツールとして活用されている。
-            </p>
-        </section>
-
-        <section class="section">
-            <h2>固有値とは何か？</h2>
-            <p>
-              行列には<strong>固有値</strong>と呼ばれる特別な数が存在することがある。
-              固有値とは、その行列をあるベクトルに作用させたとき、結果が元のベクトルのスカラー倍（伸び縮み）になるときのそのスカラー値を指す。
-              言い換えると、行列 \(A\) に対して固有ベクトル \(\boldsymbol{v}\) が存在し、
-              </p>
-              <div class="formula">
-                \[
-                  A\boldsymbol{v} = \lambda\,\boldsymbol{v}
-                \]
-              </div>
-              <p>
-              を満たすとき、この \(\lambda\) が固有値である。固有値は行列の持つ「変形の強さ」を表すものと見ることができ、行列の性質を理解する上で重要な役割を果たす。
-            </p>
-            <div class="formula">
-              \[
-                A = \begin{pmatrix}2 & 1 \\ 1 & 2\end{pmatrix},
-                \quad \lambda_1 = 3,\;\lambda_2 = 1
-              \]
-            </div>
-            <p>
-              （例：行列 \(A\) の固有値は \(\lambda_1=3,\;\lambda_2=1\)、対応する固有ベクトルはそれぞれ \((1,1)^T\), \((1,-1)^T\) である。）
-            </p>
-        </section>
-
-        <section class="section">
-            <h2>ウィグナー行列の例</h2>
-            <p>
-              数あるランダム行列の中でも、<strong>ウィグナー行列</strong>と呼ばれるものは最も基本的なモデルの一つである。
-              ウィグナー行列とは、対称なランダム行列で各要素が独立同分布（i.i.d.）であるようなものを指す。
-              典型的には、対角成分と非対角成分は平均0・分散一定の分布から生成され、非対角成分同士、および対角成分同士が互いに独立となる。
-              例えば、各非対角要素が確率 \(1/2\) で \(+1\) か \(-1\) をとるベルヌーイ分布の場合もウィグナー行列の一種である。
-            </p>
-            <p>
-              ウィグナー行列では分布の種類を問わないが、必ず「平均\(0\)」「分散\(1\)」という条件を満たす。
-              行列サイズが大きくなると、これらの条件だけで固有値分布に普遍的な性質が現れる。
-            </p>
-        </section>
-
-        <section class="section">
-            <h2>ウィグナーの半円則と半円分布</h2>
-            <p>
-              ウィグナー行列の固有値を並べたとき、大きな行列ほどそのヒストグラムは半円形に近づく。
-              この現象を<strong>ウィグナーの半円則</strong>（Wigner's semicircle law）と呼ぶ。
-            </p>
-            <div class="formula">
-              \[
-                f(x) = \frac{1}{2\pi}\,\sqrt{4 - x^2}, \quad -2 \le x \le 2,
-                \quad f(x)=0\;\text{(それ以外)}
-              \]
-            </div>
-            <p>
-              下図は、固有値のヒストグラム（棒グラフ）が大きな行列では半円形の理論曲線（赤線）に近づく様子を示している。横軸は固有値、縦軸は出現頻度（確率密度）である。棒グラフはサイズ \(N=500\) の対称ランダム行列（ウィグナー行列）の固有値分布をシミュレーションで得たものであり、赤い滑らかな曲線は理論上の半円分布を描いたものである。固有値は概ね \(-2\) から \(+2\) の範囲に収まり、その中で半円形の分布に従うことが視覚的に確認できる。
-            </p>
-            
-            <!-- ここからファイル2のシミュレーション部分を挿入 -->
-            <div class="simulation-container">
-                <div>
-                    <label for="matrixSizeInput">行列サイズ N:</label>
-                    <input type="number" id="matrixSizeInput" value="100" min="10" max="500" step="10">
-                    <button id="runSimulationButton">シミュレーション実行</button>
-                </div>
-                <p>計算された固有値の数: <span id="numEigenvaluesSpan">0</span></p>
-                <canvas id="eigenvalueHistogramCanvas" width="600" height="400"></canvas>
-                <p id="simulationStatus" style="color: var(--primary); font-style: italic;"></p>
-            </div>
-
-            <script>
-                document.addEventListener('DOMContentLoaded', function () {
-                    const matrixSizeInput = document.getElementById('matrixSizeInput');
-                    const runButton = document.getElementById('runSimulationButton');
-                    const numEigenvaluesSpan = document.getElementById('numEigenvaluesSpan');
-                    const canvas = document.getElementById('eigenvalueHistogramCanvas');
-                    const ctx = canvas.getContext('2d');
-                    const statusP = document.getElementById('simulationStatus');
-
-                    // Box-Muller transform to get N(0,1)
-                    function gaussianRandom() {
-                        let u = 0, v = 0;
-                        while (u === 0) u = Math.random(); //Converting [0,1) to (0,1)
-                        while (v === 0) v = Math.random();
-                        return Math.sqrt(-2.0 * Math.log(u)) * Math.cos(2.0 * Math.PI * v);
-                    }
-
-                    function generateWignerMatrix(N) {
-                        const matrix = new Array(N);
-                        for (let i = 0; i < N; i++) {
-                            matrix[i] = new Array(N);
-                        }
-
-                        for (let i = 0; i < N; i++) {
-                            for (let j = i; j < N; j++) {
-                                // For GOE, diagonal elements N(0,2), off-diagonal N(0,1)
-                                // Simpler Wigner: all elements N(0,1) before scaling. Let's use this.
-                                // $M_{ij} \sim N(0,1)$
-                                const randomVal = gaussianRandom();
-                                matrix[i][j] = randomVal;
-                                if (i !== j) {
-                                    matrix[j][i] = randomVal;
-                                }
-                            }
-                        }
-                        
-                        // Scale matrix by 1/sqrt(N)
-                        const scaledMatrix = new Array(N);
-                        const scaleFactor = 1 / Math.sqrt(N);
-                        for (let i = 0; i < N; i++) {
-                            scaledMatrix[i] = new Array(N);
-                            for (let j = 0; j < N; j++) {
-                                scaledMatrix[i][j] = matrix[i][j] * scaleFactor;
-                            }
-                        }
-                        return scaledMatrix;
-                    }
-
-                    function calculateEigenvalues(matrix) {
-                        if (!numeric || !numeric.eig) {
-                            console.error("Numeric.js or numeric.eig is not available.");
-                            statusP.textContent = "エラー: 数値計算ライブラリがロードされていません。";
-                            return null;
-                        }
-                        // For a real symmetric matrix, eigenvalues are real.
-                        // numeric.eig returns {lambda: {x: real_parts, y: imag_parts}, E: {x: real_parts, y: imag_parts}}
-                        try {
-                            const eigResult = numeric.eig(matrix);
-                            return eigResult.lambda.x; // Real parts of eigenvalues
-                        } catch (e) {
-                            console.error("Eigenvalue calculation error:", e);
-                            statusP.textContent = `エラー: 固有値計算中に問題が発生しました (${e.message})`;
-                            return null;
-                        }
-                    }
-
-                    function drawPlot(eigenvalues, N) {
-                        ctx.clearRect(0, 0, canvas.width, canvas.height);
-                        if (!eigenvalues || eigenvalues.length === 0) {
-                            statusP.textContent = "固有値データがありません。";
-                            return;
-                        }
-                        numEigenvaluesSpan.textContent = eigenvalues.length;
-
-                        const plotMinX = -3.0;
-                        const plotMaxX = 3.0;
-                        const numBins = 50; // Math.max(30, Math.min(100, Math.floor(N / 5)));
-                        const binWidth = (plotMaxX - plotMinX) / numBins;
-
-                        const bins = new Array(numBins).fill(0);
-                        eigenvalues.forEach(val => {
-                            const binIndex = Math.floor((val - plotMinX) / binWidth);
-                            if (binIndex >= 0 && binIndex < numBins) {
-                                bins[binIndex]++;
-                            }
-                        });
-
-                        // Determine max height for y-axis scaling (histogram density)
-                        let maxDensity = 0;
-                        for (let i = 0; i < numBins; i++) {
-                            const density = (bins[i] / N) / binWidth;
-                            if (density > maxDensity) {
-                                maxDensity = density;
-                            }
-                        }
-                        // Theoretical max density for semicircle law R=2 is 1/PI ~ 0.318
-                        const plotMaxY = Math.max(0.4, maxDensity * 1.1); // Ensure semicircle fits and add some padding
-
-                        // Plotting parameters
-                        const margin = { top: 20, right: 20, bottom: 40, left: 50 };
-                        const plotWidth = canvas.width - margin.left - margin.right;
-                        const plotHeight = canvas.height - margin.top - margin.bottom;
-
-                        function toCanvasX(x) {
-                            return margin.left + ((x - plotMinX) / (plotMaxX - plotMinX)) * plotWidth;
-                        }
-                        function toCanvasY(y) {
-                            return margin.top + plotHeight - ((y / plotMaxY) * plotHeight);
-                        }
-
-                        // Draw axes
-                        ctx.beginPath();
-                        ctx.strokeStyle = "#333";
-                        ctx.lineWidth = 1;
-                        // X-axis
-                        ctx.moveTo(margin.left, toCanvasY(0));
-                        ctx.lineTo(margin.left + plotWidth, toCanvasY(0));
-                        // Y-axis
-                        ctx.moveTo(toCanvasX(0), margin.top);
-                        ctx.lineTo(toCanvasX(0), margin.top + plotHeight);
-                        ctx.stroke();
-
-                        // Draw axis labels/ticks
-                        ctx.fillStyle = "#333";
-                        ctx.font = "10px Arial";
-                        ctx.textAlign = "center";
-                        ctx.textBaseline = "top";
-                        for (let xVal = -2; xVal <= 2; xVal += 1) { // Ticks for X axis
-                             if (xVal === 0 && plotMinX < 0 && plotMaxX > 0) continue; // Avoid overlap with Y axis numbers
-                            ctx.fillText(xVal.toString(), toCanvasX(xVal), toCanvasY(0) + 5);
-                        }
-                        ctx.textAlign = "right";
-                        ctx.textBaseline = "middle";
-                        for (let yVal = 0.1; yVal < plotMaxY; yVal += 0.1) { // Ticks for Y axis
-                            ctx.fillText(yVal.toFixed(1), margin.left - 5, toCanvasY(yVal));
-                        }
-                        ctx.fillText("0", margin.left - 5, toCanvasY(0)); // Origin label for Y
-
-                        ctx.fillText("Eigenvalue", margin.left + plotWidth / 2, margin.top + plotHeight + 25);
-                        ctx.save();
-                        ctx.rotate(-Math.PI/2);
-                        ctx.textAlign = "center";
-                        ctx.fillText("Density", -(margin.top + plotHeight / 2), margin.left - 35);
-                        ctx.restore();
-
-
-                        // Draw histogram bars
-                        ctx.fillStyle = "rgba(75, 192, 192, 0.6)"; // Teal-ish color
-                        for (let i = 0; i < numBins; i++) {
-                            const barX = plotMinX + i * binWidth;
-                            const density = (bins[i] / N) / binWidth;
-                            const canvasBarX = toCanvasX(barX);
-                            const canvasBarY = toCanvasY(density);
-                            const canvasBarWidth = (binWidth / (plotMaxX - plotMinX)) * plotWidth;
-                            const canvasBarHeight = toCanvasY(0) - canvasBarY;
-                            
-                            if (canvasBarHeight > 0) { // only draw if height is positive
-                                ctx.fillRect(canvasBarX, canvasBarY, canvasBarWidth -1, canvasBarHeight); // -1 for slight gap
-                            }
-                        }
-
-                        // Draw Wigner's semicircle curve
-                        ctx.beginPath();
-                        ctx.strokeStyle = "red";
-                        ctx.lineWidth = 2;
-                        const R = 2.0; // Radius of the semicircle
-                        let firstPoint = true;
-                        for (let i = 0; i <= 200; i++) {
-                            const x = -R + (2 * R * i) / 200;
-                            if (Math.abs(x) <= R) {
-                                const y = (1 / (Math.PI * R * R / 2)) * Math.sqrt(R * R - x * x); // PDF formula (2/(pi*R^2)) * sqrt(R^2-x^2)
-                                // The problem formula is 1/(2*pi) * sqrt(4-x^2), for R=2 this is 1/(2*pi) * sqrt(4-x^2).
-                                // This is $P(x) = \frac{1}{2\pi}\sqrt{4-x^2}$
-                                // Let's use the problem's formula. It is correct for R=2.
-                                // $P(x) = \frac{1}{2\pi}\sqrt{4-x^2}$
-                                const theoY = (1 / (2 * Math.PI)) * Math.sqrt(4 - x * x);
-                                if (x >= plotMinX && x <= plotMaxX) {
-                                    if (firstPoint) {
-                                        ctx.moveTo(toCanvasX(x), toCanvasY(theoY));
-                                        firstPoint = false;
-                                    } else {
-                                        ctx.lineTo(toCanvasX(x), toCanvasY(theoY));
-                                    }
-                                }
-                            }
-                        }
-                        ctx.stroke();
-                        statusP.textContent = `プロット完了 (N=${N}).`;
-                    }
-                    
-                    function initializePlot() {
-                        ctx.clearRect(0, 0, canvas.width, canvas.height);
-                        const margin = { top: 20, right: 20, bottom: 40, left: 50 };
-                        const plotWidth = canvas.width - margin.left - margin.right;
-                        const plotHeight = canvas.height - margin.top - margin.bottom;
-
-                        // Draw axes frame for empty plot
-                        ctx.beginPath();
-                        ctx.strokeStyle = "#ccc"; // Lighter color for placeholder
-                        ctx.lineWidth = 1;
-                         // X-axis
-                        ctx.moveTo(margin.left, margin.top + plotHeight);
-                        ctx.lineTo(margin.left + plotWidth, margin.top + plotHeight);
-                        // Y-axis
-                        ctx.moveTo(margin.left, margin.top);
-                        ctx.lineTo(margin.left, margin.top + plotHeight);
-                        ctx.stroke();
-
-                        ctx.fillStyle = "#aaa";
-                        ctx.font = "16px Arial";
-                        ctx.textAlign = "center";
-                        ctx.fillText("「シミュレーション実行」ボタンを押してください", canvas.width / 2, canvas.height / 2);
-                        statusP.textContent = "準備完了。";
-                    }
-
-
-                    runButton.addEventListener('click', function () {
-                        const N = parseInt(matrixSizeInput.value);
-                        if (isNaN(N) || N < 10 || N > 500) {
-                            alert("行列サイズ N は 10 から 500 の間の数値で指定してください。");
-                            return;
-                        }
-
-                        statusP.textContent = `計算中... (N=${N}) しばらくお待ちください。`;
-                        runButton.disabled = true;
-                        matrixSizeInput.disabled = true;
-
-                        // Run heavy computation in a timeout to allow UI update
-                        setTimeout(() => {
-                            const startTime = performance.now();
-                            const wignerMatrix = generateWignerMatrix(N);
-                            const eigenvalues = calculateEigenvalues(wignerMatrix);
-                            const endTime = performance.now();
-                            console.log(`Calculation time for N=${N}: ${(endTime - startTime).toFixed(2)} ms`);
-                            
-                            if (eigenvalues) {
-                                drawPlot(eigenvalues, N);
-                            } else {
-                                // Error message already set by calculateEigenvalues or handled if it returns null
-                                // If eigenvalues is null from catch block, drawPlot won't run.
-                                // If it's null because numeric.js is missing, initializePlot might be better or a specific message.
-                                // initializePlot(); // Or keep the error message from calculateEigenvalues
-                            }
-                            runButton.disabled = false;
-                            matrixSizeInput.disabled = false;
-                        }, 50); // Small delay to allow "計算中..." message to render
-                    });
-                    
-                    initializePlot(); // Draw an empty plot frame initially
-                });
-            </script>
-            <!-- /ファイル2のシミュレーション部分終了 -->
-            
-            <p>
-              なぜこのような半円形になるのか。厳密な証明には大学院レベルの高度な確率論が必要であるが、直感的な説明を述べる。行列サイズが大きい場合、各固有値は多数のランダムな要素の影響を受けて決まる。そのため、各固有値は中心（平均0）に集まる傾向と、分散して広がる傾向のバランスによって分布が決まる。このバランスの結果、半円形の分布が現れる。これは**中心極限定理**の行列版とも言える。個々の行列要素の分布に依存せず（例えば要素が二項分布でも正規分布でも）、固有値全体の分布が同じ半円形に収束するという普遍性が存在する。すなわち、多くの乱数の和が正規分布に収束する現象と類似している。
-            </p>
-        </section>
-
-        <section class="section">
-            <h2>演習問題</h2>
-            <details>
-              <summary>以下の問題に取り組んでみよう</summary>
-              <div class="details-content">
-                  <ol>
-                    <li>
-                      <strong>小さなウィグナー行列の固有値の確認</strong><br>
-                      次の対称ランダム行列を考える（各要素は平均0・分散1の分布とする）。
-                      <div class="formula">
-                        \[
-                          B = \begin{pmatrix}X & Y \\ Y & Z\end{pmatrix}
-                        \]
-                      </div>
-                      \(\lambda_1,\lambda_2\) を固有値とするとき、
-                      <ul>
-                        <li>
-                          (a) \(\mathbb{E}[\lambda_1 + \lambda_2]\) を行列のトレースと照らし合わせて求めよ。
-                        </li>
-                        <li>
-                          (b) \(\mathbb{E}[\lambda_1\lambda_2]\)（行列式の期待値）を計算せよ。（ヒント：\(\mathbb{E}[XZ - Y^2]\)）
-                        </li>
-                      </ul>
-                    </li>
-                    <li>
-                      <strong>固有値分布の対称性</strong><br>
-                      なぜ平均0・対称分布の要素からなる行列の固有値分布も0を中心に左右対称になるのか、直感的に説明せよ。
-                    </li>
-                    <li>
-                      <strong>スケーリングと固有値の範囲</strong><br>
-                      行列要素をすべて2倍すると固有値はどう変化するか？
-                      また、要素の分散が\(\sigma^2\)の場合、半円分布の半径\(R\)はどのようになるか考察せよ。
-                    </li>
-                  </ol>
-              </div>
-            </details>
-        </section>
-    
-       <div class="navigation" style="display: flex; justify-content: space-between; margin: 20px 0; padding: 15px 0; border-top: 1px solid #eee;">
-            <a href="class10.html" style="padding: 10px 20px; background-color: #1a237e; color: white; text-decoration: none; border-radius: 5px;">← 前のクラス</a>
-            <a href="../index.html" style="padding: 10px 20px; background-color: #1a237e; color: white; text-decoration: none; border-radius: 5px;">ホーム →</a>
+        <div class="toc">
+            <strong>目次</strong>
+            <ul>
+                <li><a href="#markov">1. Markov inequality</a></li>
+                <li><a href="#chebyshev">2. Chebyshev's inequality</a></li>
+                <li><a href="#lln">3. Law of Large Numbers</a></li>
+                <li><a href="#clt">4. Central Limit Theorem</a></li>
+            </ul>
         </div>
 
-    </div> <!-- This was .main-container, I changed it to .container in my thoughts. Reverting to main-container if it was intended. It seems the original file has .container, so this is fine. -->
+        <section id="markov">
+            <h2>1. Markov inequality</h2>
+            <p>
+                Let $X$ be a random variable such that $\mathbb P(X\ge 0)=1$. Then
+            </p>
+            <div class="formula">
+                $$
+                \mathbb P(X\ge 1) \le \mathbb E[X].
+                $$
+            </div>
+            <details>
+                <summary>Proof</summary>
+                <div class="proof">
+                    <p>
+                        Since $\mathbf 1_{\{X\ge 1\}} \le X\mathbf 1_{\{X\ge 1\}} \le X$, we have
+                    </p>
+                    <div class="formula">
+                        $$
+                        \mathbb P(X\ge 1)
+                        = \mathbb E[\mathbf 1_{\{X\ge 1\}}]
+                        \le \mathbb E[X].
+                        $$
+                    </div>
+                </div>
+            </details>
+        </section>
+
+        <hr>
+
+        <section id="chebyshev">
+            <h2>2. Chebyshev's inequality</h2>
+            <p>For any $t&gt;0$,</p>
+            <div class="formula">
+                $$
+                \mathbb P(|X-\mathbb E[X]|\ge t) \le \frac{\mathrm{Var}(X)}{t^2}.
+                $$
+            </div>
+            <details>
+                <summary>Proof</summary>
+                <div class="proof">
+                    <div class="formula">
+                        $$
+                        \mathbb P(|X-\mathbb E[X]|\ge t)
+                        = \mathbb P\left(\frac{|X-\mathbb E[X]|^2}{t^2}\ge 1\right)
+                        \le \frac{\mathbb E[(X-\mathbb E[X])^2]}{t^2}
+                        = \frac{\mathrm{Var}(X)}{t^2}.
+                        $$
+                    </div>
+                    <p>This is Markov's inequality applied to $(X-\mathbb E[X])^2$.</p>
+                </div>
+            </details>
+        </section>
+
+        <hr>
+
+        <section id="lln">
+            <h2>3. Law of Large Numbers</h2>
+            <p>Let</p>
+            <div class="formula">
+                $$
+                \bar{X}_n = \frac{1}{n}\sum_{i=1}^n X_i.
+                $$
+            </div>
+
+            <h3>Weak law</h3>
+            <p>
+                Let $X_1,\dots,X_n$ be i.i.d. with $\mathbb E[|X_1|]&lt;\infty$ and
+                $\mathrm{Var}(X_1)&lt;\infty$. Then $\bar{X}_n \to \mathbb E[X_1]$ in probability.
+            </p>
+            <details>
+                <summary>Proof</summary>
+                <div class="proof">
+                    <p>For $\varepsilon&gt;0$,</p>
+                    <div class="formula">
+                        $$
+                        \mathbb P(|\bar{X}_n-\mathbb E[X_1]|&gt;\varepsilon)
+                        = \mathbb P(|\bar{X}_n-\mathbb E[\bar{X}_n]|&gt;\varepsilon)
+                        \le \frac{\mathrm{Var}(\bar{X}_n)}{\varepsilon^2}.
+                        $$
+                    </div>
+                    <p>
+                        Since $\mathrm{Var}(\bar{X}_n)=\frac{1}{n^2}\sum_{i=1}^n \mathrm{Var}(X_i)
+                        = \frac{\mathrm{Var}(X_1)}{n}$, the bound tends to $0$.
+                    </p>
+                </div>
+            </details>
+
+            <h3>Strong law</h3>
+            <p>
+                Let $X_1,\dots,X_n$ be i.i.d. with $\mathbb E[X_1^4]&lt;\infty$. Then
+                $\bar{X}_n \to \mathbb E[X_1]$ almost surely.
+            </p>
+            <details>
+                <summary>Proof sketch (report)</summary>
+                <div class="proof">
+                    <p>There exists $C&gt;0$ such that</p>
+                    <div class="formula">
+                        $$
+                        \mathbb E[(\bar{X}_n-\mathbb E[\bar{X}_n])^4] \le C n^{-2}.
+                        $$
+                    </div>
+                    <p>Hence</p>
+                    <div class="formula">
+                        $$
+                        \sum_{n=1}^{\infty}\mathbb E[(\bar{X}_n-\mathbb E[\bar{X}_n])^4] &lt; \infty.
+                        $$
+                    </div>
+                    <p>Therefore</p>
+                    <div class="formula">
+                        $$
+                        \sum_{n=1}^{\infty}(\bar{X}_n-\mathbb E[\bar{X}_n])^4 &lt; \infty
+                        \quad \text{a.s.}
+                        $$
+                    </div>
+                    <p>
+                        Since $\sum |a_n|&lt;\infty$ implies $a_n\to 0$, we conclude
+                        $\bar{X}_n-\mathbb E[\bar{X}_n] \to 0$ a.s.
+                    </p>
+                </div>
+            </details>
+        </section>
+
+        <hr>
+
+        <section id="clt">
+            <h2>4. Central Limit Theorem</h2>
+            <p>
+                Let $X_1,\dots,X_n$ be i.i.d. with $m=\mathbb E[X_1]$ and
+                $v=\mathrm{Var}(X_1)&lt;\infty$. Then
+            </p>
+            <div class="formula">
+                $$
+                Y_n := \sqrt{n}(\bar{X}_n - m) \Rightarrow N(0,v).
+                $$
+            </div>
+
+            <h3>Lemma (report)</h3>
+            <div class="formula">
+                $$
+                a_n \to a \in \mathbb R
+                \quad \Longrightarrow \quad
+                \left(1-\frac{a_n}{n}\right)^n \to e^{-a}.
+                $$
+            </div>
+
+            <details>
+                <summary>Proof sketch via characteristic functions</summary>
+                <div class="proof">
+                    <p>
+                        Recall that $Y_n \Rightarrow N(0,v)$ iff $\phi_{Y_n}(\xi)\to e^{-v\xi^2/2}$.
+                        Moreover,
+                    </p>
+                    <div class="formula">
+                        $$
+                        \phi_{Y_n}(\xi)=\mathbb E\left[\exp\left(\frac{i\xi}{\sqrt{n}}
+                        \sum_{k=1}^n (X_k-m)\right)\right]
+                        = \left(\mathbb E\left[e^{\frac{i\xi}{\sqrt{n}}(X_1-m)}\right]\right)^n.
+                        $$
+                    </div>
+                    <p>Using the expansion</p>
+                    <div class="formula">
+                        $$
+                        e^x = 1 + x + \frac{x^2}{2}
+                        + \frac{1}{2}\int_0^1 x^3(1-t)^2 e^{tx}\,dt,
+                        $$
+                    </div>
+                    <p>and $\mathbb E[X_1-m]=0$, we obtain</p>
+                    <div class="formula">
+                        $$
+                        \mathbb E\left[e^{\frac{i\xi}{\sqrt{n}}(X_1-m)}\right]
+                        = 1 - \frac{\xi^2}{2n}\int_0^1
+                        \mathbb E\left[(X_1-m)^2 e^{\frac{i\xi t}{\sqrt{n}}(X_1-m)}\right]dt.
+                        $$
+                    </div>
+                    <p>
+                        By dominated convergence, the integral tends to
+                        $\mathbb E[(X_1-m)^2]=v$, hence
+                    </p>
+                    <div class="formula">
+                        $$
+                        \mathbb E\left[e^{\frac{i\xi}{\sqrt{n}}(X_1-m)}\right]
+                        = 1-\frac{v\xi^2}{2n}+o\!\left(\frac{1}{n}\right).
+                        $$
+                    </div>
+                    <p>Applying the lemma yields $\phi_{Y_n}(\xi)\to e^{-v\xi^2/2}$.</p>
+                </div>
+            </details>
+        </section>
+
+        <nav class="navigation">
+            <a href="../class10/class10.html">← 前のクラス</a>
+            <a href="../index.html">ホーム</a>
+        </nav>
 
         <footer>
-            <p style="text-align: center; margin-top: 40px; color: #666;">© 2025 確率論講義 - すべての権利を留保します</p>
+            © 2025 確率論講義 - すべての権利を留保します
         </footer>
+    </div>
 </body>
 </html>

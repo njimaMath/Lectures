@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>第13回 グリーンの定理</title>
+    <title>第13回 面積分とグリーンの定理</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Cabin:wght@500&family=Noto+Sans+JP:wght@400;500;700&display=swap');
 
@@ -333,39 +333,47 @@
             }
         }
     </style>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.10/dist/katex.min.css" integrity="sha384-wcIxkf4k558fYv3mQPFEpCREUQueRFCZrCXCtiKU8aNVbN9ODdVcN3BwCAJ6pcBb" crossorigin="anonymous">
-    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.10/dist/katex.min.js" integrity="sha384-hIoBPJpTUs74ddyc4bFZSM1TVlQDA60VBbJS0oA934VSz82sBx1X7kSx2ATBDIyd" crossorigin="anonymous"></script>
-    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.10/dist/contrib/auto-render.min.js" integrity="sha384-43gviWU0YVjaDtb/GhzOouOXtZMP/7XUzwPTstBeZFe/+rCMvRwr4yROQP43s0Xk" crossorigin="anonymous"></script>
     <script>
-        document.addEventListener("DOMContentLoaded", function() {
-            if (typeof renderMathInElement !== "function") return;
-            renderMathInElement(document.body, {
-                delimiters: [
-                    { left: "$$", right: "$$", display: true },
-                    { left: "$", right: "$", display: false }
-                ],
-                throwOnError: false
-            });
-        });
+        window.MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\\[', '\\]']],
+                processEscapes: true
+            },
+            options: {
+                skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+            },
+            chtml: {
+                matchFontHeight: false
+            }
+        };
     </script>
+    <script defer src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js" crossorigin="anonymous"></script>
 </head>
 <body>
     <main>
         <header class="hero">
             <span class="hero-label">第13回</span>
-            <h1>第13回 グリーンの定理</h1>
-            <p>平面領域の境界に沿う線積分と、領域内部の面積分を結びつける定理を学びます。</p>
+            <h1>第13回 面積分とグリーンの定理</h1>
+            <p>曲面上の面積分（スカラー場・ベクトル場）を定義し、平面領域ではグリーンの定理として線積分と面積分が結びつくことを確認します。</p>
         </header>
 
         <section class="outline-section">
-            <h2>第1節 ねらいと線積分の復習</h2>
+            <h2>第1節 平面上の曲線（線積分）</h2>
             <div class="definition">
                 <strong>到達目標</strong>
                 <ul>
-                    <li>グリーンの定理の主張と適用条件（領域・向き・滑らかさ）を説明できる。</li>
-                    <li>証明の流れ（積分の順序交換と微分積分学の基本定理）を追える。</li>
-                    <li>循環の計算や面積計算に適用できる。</li>
+                    <li>媒介変数表示から面積要素 $\lvert\partial_u\mathbf{r}\times\partial_v\mathbf{r}\rvert$ を作れる。</li>
+                    <li>スカラー場の曲面積 $\iint_S \phi\,dS$ を設定できる。</li>
+                    <li>ベクトル場の曲面積分（フラックス）$\iint_S \mathbf{F}\cdot d\mathbf{S}$ を計算できる。</li>
+                    <li>グリーンの定理の主張と向きの条件を説明できる。</li>
                 </ul>
+            </div>
+            <div class="definition">
+                <strong>平面上の曲線</strong>
+                <p>曲線 $\gamma$ を $\mathbf{r}(t)=(x(t),y(t))$（$a\le t\le b$）で表す。</p>
+                <div class="formula">$$\int_\gamma f(x,y)\,dx=\int_a^b f(x(t),y(t))\,x'(t)\,dt$$</div>
+                <div class="formula">$$\int_\gamma f(x,y)\,dy=\int_a^b f(x(t),y(t))\,y'(t)\,dt$$</div>
             </div>
             <div class="definition">
                 <strong>平面ベクトル場の線積分</strong>
@@ -379,7 +387,68 @@
         </section>
 
         <section class="outline-section">
-            <h2>第2節 グリーンの定理</h2>
+            <h2>第2節 スカラー場の曲面積</h2>
+            <div class="definition">
+                <strong>定義</strong>
+                <p>$D\subset\mathbb{R}^2$ 上の曲面 $\mathbf{r}(u,v)=(x(u,v),y(u,v),z(u,v))$ により $S=\{\mathbf{r}(u,v)\mid (u,v)\in D\}$ を与える。$S$ 上のスカラー場 $\phi:S\to\mathbb{R}$ に対し</p>
+                <div class="formula">$$\iint_S \phi\,dS=\iint_D \phi(\mathbf{r}(u,v))\left|\partial_u\mathbf{r}\times\partial_v\mathbf{r}\right|\,du\,dv$$</div>
+                <p>で定義する（$\partial_u\mathbf{r}\times\partial_v\mathbf{r}$ は外積）。</p>
+            </div>
+            <div class="note">
+                <strong>$z=f(u,v)$ の場合</strong>
+                <p>$x=u,\ y=v,\ z=f(u,v)$ とおくと</p>
+                <div class="formula">$$\partial_u\mathbf{r}\times\partial_v\mathbf{r}=(-\partial_u f,-\partial_v f,1)$$</div>
+                <p>よって $\phi\equiv1$ のとき曲面の面積は</p>
+                <div class="formula">$$\iint_S 1\,dS=\iint_D\sqrt{(\partial_u f)^2+(\partial_v f)^2+1}\,du\,dv$$</div>
+            </div>
+            <div class="example">
+                <strong>例1</strong>
+                <div class="formula">$$\mathbf{r}(u,v)=(\cos u\cos v,\ \cos u\sin v,\ \sin u),\quad 0\le u\le\pi,\ 0\le v<2\pi$$</div>
+                <p>$\phi=1$ と $\phi=x^2+y^2+z^2$ の曲面積分を考える。</p>
+                <div class="formula">$$\partial_u\mathbf{r}=(-\sin u\cos v,-\sin u\sin v,\cos u),\quad \partial_v\mathbf{r}=(-\cos u\sin v,\cos u\cos v,0)$$</div>
+                <div class="formula">$$\partial_u\mathbf{r}\times\partial_v\mathbf{r}=(-\cos^2 u\cos v,-\cos^2 u\sin v,-\sin u\cos u)$$</div>
+            </div>
+            <div class="example">
+                <strong>例2</strong>
+                <div class="formula">$$\mathbf{r}(u,v)=(u\cos v,\ u\sin v,\ v),\quad 0\le u\le1,\ 0\le v<2\pi$$</div>
+                <p>$\phi=1$ と $\phi=z$ の曲面積分を考える。</p>
+                <div class="formula">$$\partial_u\mathbf{r}=(\cos v,\sin v,0),\quad \partial_v\mathbf{r}=(-u\sin v,\ u\cos v,\ 1)$$</div>
+                <div class="formula">$$\partial_u\mathbf{r}\times\partial_v\mathbf{r}=(\sin v,-\cos v,u)$$</div>
+            </div>
+        </section>
+
+        <section class="outline-section">
+            <h2>第3節 ベクトル場の曲面積分</h2>
+            <div class="definition">
+                <strong>定義</strong>
+                <p>$S$ 上のベクトル場 $\mathbf{F}:S\to\mathbb{R}^3$ に対し</p>
+                <div class="formula">$$\iint_S \mathbf{F}\cdot d\mathbf{S}=\iint_D \mathbf{F}(\mathbf{r}(u,v))\cdot(\partial_u\mathbf{r}\times\partial_v\mathbf{r})\,du\,dv$$</div>
+                <p>で定義する（向きは媒介変数表示の外積で決まる）。</p>
+            </div>
+            <div class="note">
+                <strong>行列式表示</strong>
+                <p>$\mathbf{F}=(P,Q,R)$ のとき</p>
+                <div class="formula">$$\iint_S \mathbf{F}\cdot d\mathbf{S}=\iint_D
+\begin{vmatrix}
+P(\mathbf{r}(u,v)) & Q(\mathbf{r}(u,v)) & R(\mathbf{r}(u,v)) \\
+\partial_u x & \partial_u y & \partial_u z \\
+\partial_v x & \partial_v y & \partial_v z
+\end{vmatrix}\,du\,dv$$</div>
+            </div>
+            <div class="example">
+                <strong>例1</strong>
+                <p>第2節 例1 の $\mathbf{r}(u,v)$ を用い、$\mathbf{F}(x,y,z)=(x,y,z)$ とする。</p>
+                <div class="formula">$$\partial_u\mathbf{r}\times\partial_v\mathbf{r}=(-\cos^2 u\cos v,-\cos^2 u\sin v,-\sin u\cos u)$$</div>
+            </div>
+            <div class="example">
+                <strong>例2</strong>
+                <p>第2節 例2 の $\mathbf{r}(u,v)$ を用い、$\mathbf{F}(x,y,z)=(x,0,0)$ および $\mathbf{F}(x,y,z)=(0,0,z)$ の曲面積分を考える。</p>
+                <div class="formula">$$\partial_u\mathbf{r}\times\partial_v\mathbf{r}=(\sin v,-\cos v,u)$$</div>
+            </div>
+        </section>
+
+        <section class="outline-section">
+            <h2>第4節 グリーンの定理</h2>
             <div class="theorem">
                 <strong>定理（グリーン）</strong>
                 <p>$D\subset\mathbb{R}^2$ を単純閉曲線 $C=\partial D$ で囲まれた領域（境界は区分的に滑らか）とし、$P,Q$ が $D$ を含む開集合上で $C^1$ 級とする。このとき</p>
@@ -396,10 +465,15 @@
                 <strong>穴のある領域</strong>
                 <p>境界が複数成分でも、境界全体を「正の向き」（外側は反時計回り・内側は時計回り）にとれば同様に成り立つ。</p>
             </div>
+            <div class="note">
+                <strong>ストークスの定理へのつながり</strong>
+                <p>グリーンの定理はストークスの定理の 2 次元版として理解できる：</p>
+                <div class="formula">$$\oint_{\partial S}\mathbf{F}\cdot d\mathbf{r}=\iint_S(\nabla\times\mathbf{F})\cdot d\mathbf{S}$$</div>
+            </div>
         </section>
 
         <section class="outline-section">
-            <h2>第3節 証明の流れ（概略）</h2>
+            <h2>第5節 証明の流れ（概略）</h2>
             <div class="proof">
                 <strong>縦に切れる領域で示す</strong>
                 <p>たとえば</p>
@@ -410,10 +484,20 @@
                 <div class="formula">$$\oint_{\partial D}Q\,dy=\iint_D\frac{\partial Q}{\partial x}\,dA$$</div>
                 <p>を得て、足し合わせると主張が従う。一般の領域はこの形の領域の和に分割して処理する。</p>
             </div>
+            <div class="proof">
+                <strong>長方形 $D=[a,b]\times[c,d]$ の場合</strong>
+                <div class="formula">$$\begin{aligned}
+\oint_{\partial D} P\,dx+Q\,dy
+&= \int_a^b P(x,c)\,dx + \int_c^d Q(b,y)\,dy + \int_b^a P(x,d)\,dx + \int_d^c Q(a,y)\,dy \\
+&= \int_a^b\bigl(P(x,c)-P(x,d)\bigr)\,dx + \int_c^d\bigl(Q(b,y)-Q(a,y)\bigr)\,dy \\
+&= -\int_a^b\int_c^d \frac{\partial P}{\partial y}\,dy\,dx + \int_c^d\int_a^b \frac{\partial Q}{\partial x}\,dx\,dy \\
+&= \iint_D\left(\frac{\partial Q}{\partial x}-\frac{\partial P}{\partial y}\right)\,dx\,dy
+\end{aligned}$$</div>
+            </div>
         </section>
 
         <section class="outline-section">
-            <h2>第4節 応用1：循環の計算</h2>
+            <h2>第6節 応用1：循環の計算</h2>
             <div class="concept-card focus-card">
                 <strong>回転が一定なら「面積×一定」</strong>
                 <p>$\operatorname{rot}\mathbf{F}$ が $D$ で一定 $c$ なら</p>
@@ -427,7 +511,7 @@
         </section>
 
         <section class="outline-section">
-            <h2>第5節 応用2：面積公式</h2>
+            <h2>第7節 応用2：面積公式</h2>
             <div class="theorem">
                 <strong>面積を線積分で表す</strong>
                 <p>$\operatorname{Area}(D)=\iint_D 1\,dA$ に対し、$1=\frac{\partial Q}{\partial x}-\frac{\partial P}{\partial y}$ となる $(P,Q)$ を選べばよい。代表例：</p>
@@ -441,7 +525,7 @@
         </section>
 
         <section class="outline-section">
-            <h2>第6節 演習課題</h2>
+            <h2>第8節 演習課題</h2>
             <div class="exercise-list">
                 <strong>問題</strong>
                 <ol>

@@ -333,21 +333,22 @@
             }
         }
     </style>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.10/dist/katex.min.css" integrity="sha384-wcIxkf4k558fYv3mQPFEpCREUQueRFCZrCXCtiKU8aNVbN9ODdVcN3BwCAJ6pcBb" crossorigin="anonymous">
-    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.10/dist/katex.min.js" integrity="sha384-hIoBPJpTUs74ddyc4bFZSM1TVlQDA60VBbJS0oA934VSz82sBx1X7kSx2ATBDIyd" crossorigin="anonymous"></script>
-    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.10/dist/contrib/auto-render.min.js" integrity="sha384-43gviWU0YVjaDtb/GhzOouOXtZMP/7XUzwPTstBeZFe/+rCMvRwr4yROQP43s0Xk" crossorigin="anonymous"></script>
     <script>
-        document.addEventListener("DOMContentLoaded", function() {
-            if (typeof renderMathInElement !== "function") return;
-            renderMathInElement(document.body, {
-                delimiters: [
-                    { left: "$$", right: "$$", display: true },
-                    { left: "$", right: "$", display: false }
-                ],
-                throwOnError: false
-            });
-        });
+        window.MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\\[', '\\]']],
+                processEscapes: true
+            },
+            options: {
+                skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+            },
+            chtml: {
+                matchFontHeight: false
+            }
+        };
     </script>
+    <script defer src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js" crossorigin="anonymous"></script>
 </head>
 <body>
     <main>
@@ -361,12 +362,12 @@
             <h2>第1節 曲線のパラメータ表示と線素</h2>
             <div class="definition">
                 <strong>曲線の表し方</strong>
-                <p>曲線 $C$ を $\mathbf{r}(t)=(x(t),y(t),z(t))$（$a\le t\le b$）のようにパラメータ表示する。</p>
+                <p>曲線 \(C\) を \(\mathbf{r}(t)=(x(t),y(t),z(t))\)（\(a\le t\le b\)）のようにパラメータ表示する。</p>
             </div>
             <div class="definition">
                 <strong>線素（弧長要素）</strong>
-                <p>微小弧長は $ds=\|\mathbf{r}'(t)\|\,dt$ で与えられる。</p>
-                <div class="formula">$$ds=\sqrt{\left(\frac{dx}{dt}\right)^2+\left(\frac{dy}{dt}\right)^2+\left(\frac{dz}{dt}\right)^2}\,dt$$</div>
+                <p>微小弧長は \(ds=\|\mathbf{r}'(t)\|\,dt\) で与えられる。</p>
+                <div class="formula">\[ds=\sqrt{\left(\frac{dx}{dt}\right)^2+\left(\frac{dy}{dt}\right)^2+\left(\frac{dz}{dt}\right)^2}\,dt\]</div>
             </div>
             <div class="note">
                 <strong>向き</strong>
@@ -378,14 +379,14 @@
             <h2>第2節 スカラー場の線積分（弧長積分）</h2>
             <div class="definition">
                 <strong>定義</strong>
-                <p>スカラー場 $f$ に対し</p>
-                <div class="formula">$$\int_C f\,ds=\int_a^b f(\mathbf{r}(t))\,\|\mathbf{r}'(t)\|\,dt$$</div>
+                <p>スカラー場 \(f\) に対し</p>
+                <div class="formula">\[\int_C f\,ds=\int_a^b f(\mathbf{r}(t))\,\|\mathbf{r}'(t)\|\,dt\]</div>
                 <p>と定める（同じ向きを保つパラメータ変換に依らない）。</p>
             </div>
             <div class="example">
-                <strong>例：単位円周上の $\int_C x^2\,ds$</strong>
-                <p>$\mathbf{r}(t)=(\cos t,\sin t)$（$0\le t\le 2\pi$）とおくと $\|\mathbf{r}'(t)\|=1$。</p>
-                <div class="formula">$$\int_C x^2\,ds=\int_0^{2\pi}\cos^2 t\,dt=\pi$$</div>
+                <strong>例：単位円周上の \(\int_C x^2\,ds\)</strong>
+                <p>\(\mathbf{r}(t)=(\cos t,\sin t)\)（\(0\le t\le 2\pi\)）とおくと \(\|\mathbf{r}'(t)\|=1\)。</p>
+                <div class="formula">\[\int_C x^2\,ds=\int_0^{2\pi}\cos^2 t\,dt=\pi\]</div>
             </div>
         </section>
 
@@ -393,18 +394,18 @@
             <h2>第3節 ベクトル場の線積分（仕事）</h2>
             <div class="definition">
                 <strong>定義</strong>
-                <p>ベクトル場 $\mathbf{F}$ に対し</p>
-                <div class="formula">$$\int_C \mathbf{F}\cdot d\mathbf{r}=\int_a^b \mathbf{F}(\mathbf{r}(t))\cdot \mathbf{r}'(t)\,dt$$</div>
+                <p>ベクトル場 \(\mathbf{F}\) に対し</p>
+                <div class="formula">\[\int_C \mathbf{F}\cdot d\mathbf{r}=\int_a^b \mathbf{F}(\mathbf{r}(t))\cdot \mathbf{r}'(t)\,dt\]</div>
                 <p>と定める（向きに依存する）。</p>
             </div>
             <div class="concept-card focus-card">
                 <strong>物理的意味</strong>
-                <p>力 $\mathbf{F}$ が曲線 $C$ に沿って物体を動かすときの仕事を表す。</p>
+                <p>力 \(\mathbf{F}\) が曲線 \(C\) に沿って物体を動かすときの仕事を表す。</p>
             </div>
             <div class="example">
-                <strong>例：$\mathbf{F}=(-y,x)$ を単位円周（反時計回り）で積分</strong>
-                <p>$\mathbf{r}(t)=(\cos t,\sin t)$ なら $\mathbf{F}(\mathbf{r}(t))=(-\sin t,\cos t)$, $\mathbf{r}'(t)=(-\sin t,\cos t)$。</p>
-                <div class="formula">$$\int_C \mathbf{F}\cdot d\mathbf{r}=\int_0^{2\pi}1\,dt=2\pi$$</div>
+                <strong>例：\(\mathbf{F}=(-y,x)\) を単位円周（反時計回り）で積分</strong>
+                <p>\(\mathbf{r}(t)=(\cos t,\sin t)\) なら \(\mathbf{F}(\mathbf{r}(t))=(-\sin t,\cos t)\), \(\mathbf{r}'(t)=(-\sin t,\cos t)\)。</p>
+                <div class="formula">\[\int_C \mathbf{F}\cdot d\mathbf{r}=\int_0^{2\pi}1\,dt=2\pi\]</div>
             </div>
         </section>
 
@@ -412,20 +413,20 @@
             <h2>第4節 保存力場と線積分の基本定理</h2>
             <div class="definition">
                 <strong>保存力場（ポテンシャル）</strong>
-                <p>あるスカラー場 $\phi$ が存在して $\mathbf{F}=\nabla \phi$ と書けるとき，$\mathbf{F}$ を保存力場という。</p>
+                <p>あるスカラー場 \(\phi\) が存在して \(\mathbf{F}=\nabla \phi\) と書けるとき，\(\mathbf{F}\) を保存力場という。</p>
             </div>
             <div class="theorem">
                 <strong>線積分の基本定理</strong>
-                <p>$\mathbf{F}=\nabla\phi$ で $C$ が $A$ から $B$ への曲線なら</p>
-                <div class="formula">$$\int_C \mathbf{F}\cdot d\mathbf{r}=\phi(B)-\phi(A)$$</div>
-                <p>となり，経路に依存しない。特に $C$ が閉曲線なら</p>
-                <div class="formula">$$\oint_C \mathbf{F}\cdot d\mathbf{r}=0$$</div>
+                <p>\(\mathbf{F}=\nabla\phi\) で \(C\) が \(A\) から \(B\) への曲線なら</p>
+                <div class="formula">\[\int_C \mathbf{F}\cdot d\mathbf{r}=\phi(B)-\phi(A)\]</div>
+                <p>となり，経路に依存しない。特に \(C\) が閉曲線なら</p>
+                <div class="formula">\[\oint_C \mathbf{F}\cdot d\mathbf{r}=0\]</div>
             </div>
             <div class="note">
                 <strong>チェックポイント</strong>
                 <ul>
-                    <li>「$ds$ を使う積分」と「$d\mathbf{r}$ を使う積分」を区別できるか。</li>
-                    <li>向きを逆にすると $\int_C \mathbf{F}\cdot d\mathbf{r}$ の符号が反転することを説明できるか。</li>
+                    <li>「\(ds\) を使う積分」と「\(d\mathbf{r}\) を使う積分」を区別できるか。</li>
+                    <li>向きを逆にすると \(\int_C \mathbf{F}\cdot d\mathbf{r}\) の符号が反転することを説明できるか。</li>
                     <li>保存力場なら仕事が端点差だけで決まることを言葉で説明できるか。</li>
                 </ul>
             </div>
@@ -436,22 +437,14 @@
             <div class="exercise-list">
                 <strong>練習問題</strong>
                 <ol>
-                    <li>曲線 $\mathbf{r}(t)=(t,t^2)$（$0\le t\le 1$）に沿って $\int_C (x+y)\,ds$ を計算せよ。</li>
-                    <li>$\mathbf{F}=(x,y)$，$C$ を単位円周（反時計回り）として $\oint_C \mathbf{F}\cdot d\mathbf{r}$ を求めよ（ヒント：$\mathbf{F}=\nabla \phi$ を確認）。</li>
-                    <li>2 点 $A,B$ を結ぶ 2 つの異なる曲線で $\int_C \nabla\phi\cdot d\mathbf{r}$ を計算し，結果が一致することを確かめよ。</li>
+                    <li>曲線 \(\mathbf{r}(t)=(t,t^2)\)（\(0\le t\le 1\)）に沿って \(\int_C (x+y)\,ds\) を計算せよ。</li>
+                    <li>\(\mathbf{F}=(x,y)\)，\(C\) を単位円周（反時計回り）として \(\oint_C \mathbf{F}\cdot d\mathbf{r}\) を求めよ（ヒント：\(\mathbf{F}=\nabla \phi\) を確認）。</li>
+                    <li>2 点 \(A,B\) を結ぶ 2 つの異なる曲線で \(\int_C \nabla\phi\cdot d\mathbf{r}\) を計算し，結果が一致することを確かめよ。</li>
                 </ol>
             </div>
         </section>
 
-        <section class="outline-section">
-            <h2>次回までに</h2>
-            <ul>
-                <li>スカラー場の線積分とベクトル場の線積分の計算手順を整理する。</li>
-                <li>保存力場・ポテンシャルの概念を例とともに復習する。</li>
-                <li>（余裕があれば）経路に依らない条件の整理をする。</li>
-            </ul>
-        </section>
-
+        
         <div class="nav-buttons">
             <a href="../class10/class10.html">← 前回</a>
             <a href="../index.html">🏠 ホーム</a>
