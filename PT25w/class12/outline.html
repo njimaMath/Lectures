@@ -1,0 +1,84 @@
+(\Omega,F,P)を確率空間とする。
+1. 有限確率空間の条件付き確率
+X: ¥Omega ¥to ¥R を確率変数とする。このとき、X の値の集合を I_X と表す:
+I_X = ¥{X(omega): omega¥in ¥Omega¥}
+
+Def: X,Y_1,...,Y_nをOmega上の確率変数とする。 y_1¥in I_{Y_1},...,y_n¥in I_{Y_n}に対し、Xの条件付き確率分布を次で定義する:
+P(X=x | Y_1=y_1,...,Y_n=y_n) = P(X=x, Y_1=y_1,...,Y_n=y_n) / P(Y_1=y_1,...,Y_n=y_n)
+ただし、P(Y_1=y_1,...,Y_n=y_n) > 0 のときに限る。
+さらに
+E[X | Y_1=y_1,...,Y_n=y_n] = ¥sum_{x¥in I_X} x P(X=x | Y_1=y_1,...,Y_n=y_n)
+と定義する。
+
+P(Y_1=y_1,...,Y_n=y_n) > 0 のとき、Xの条件付き期待値を
+f_X(y_1,...,y_n) = E[X | Y_1=y_1,...,Y_n=y_n]
+と表す。P(Y_1=y_1,...,Y_n=y_n) = 0 のときは、f_X(y_1,...,y_n) =0と定める。(なんでもよい)
+ このときf_X:R^n¥to R. 
+
+ Def: E[X | Y_1,...,Y_n]:Omega¥to R を次で定義する:
+ E[X | Y_1,...,Y_n](omega) = f_X(Y_1(omega),...,Y_n(omega))
+ これをXのY_1,...,Y_nに関する条件付き期待値という。
+
+ 注意: E[X | Y_1,...,Y_n]は確率変数である。なぜなら、f_XはR^n¥to Rであり、Y_1,...,Y_nも確率変数であるからである。
+
+ 例: コインを2回投げる試行を考える。確率空間を(¥Omega,F,P)とする。ここで
+ ¥Omega = ¥{HH, HT, TH, TT¥}, F = P(¥Omega¥}, P(omega) = 1/4 (omega¥in ¥Omega)とする。
+ 確率変数X,Y:¥Omega¥to ¥Rを次で定める:
+    Y(HH) = 1, X(HT) = 1, X(TH) = 0, X(TT) = 0
+    Y(HH) = 2, Y(HT) = 1, Y(TH) = 1, Y(TT) = 0
+ このとき、XのYに関する条件付き期待値E[X | Y]:¥Omega¥to ¥Rは次で与えられる:
+ E[X | Y](HH) = E[X | Y=2] = 1
+ E[X | Y](HT) = E[X | Y=1] = 1/2
+ E[X | Y](TH) = E[X | Y=1] = 1/2
+ E[X | Y](TT) = E[X | Y=0] = 0  
+
+    
+定義: F_Y= ¥sigma(Y_1,...,Y_n)とする。このとき、E[X | Y_1,...,Y_n]はE[X | F_Y]とも書く。
+
+性質:
+1. E[X | Y_1,...,Y_n]はF_Y-可測
+2. 任意のA¥in ¥kF_Yに対し、
+E[X 1_{A}] = E[E[X | Y_1,...,Y_n] 1_{A}]
+
+証明: 1. f_XはR^n¥to Rであるから、E[X | Y_1,...,Y_n]はF_Y-可測である。
+2. A¥in ¥kF_Yとする。このとき、Aは次の形に書ける:
+A = ¥bigcup_{i} ¥{Y_1=y_{1,i},...,Y_n=y_{n,i}¥}
+ここで、y_{1,i}¥in I_{Y_1},...,y_{n,i}¥in I_{Y_n}であり、各々の集合は互いに素である。
+したがって、
+E[E[X | Y_1,...,Y_n] 1_{A}]
+= ¥sum_{i} E[E[X | Y_1,...,Y_n]
+    1_{¥{Y_1=y_{1,i},...,Y_n=y_{n,i}¥}}]
+= ¥sum_{i} E[X | Y_1=y_{1,i},...,Y_n=y_{n,i}] P(Y_1=y_{1,i},...,Y_n=y_{n,i})
+= ¥sum_{i} ¥sum_{x¥in I_X} x P(X=x | Y_1=y_{1,i},...,Y_n=y_{n,i}) P(Y_1=y_{1,i},...,Y_n=y_{n,i})
+= ¥sum_{i} ¥sum_{x¥in I_X} x P(X=x, Y_1=y_{1,i},...,Y_n=y_{n,i})
+= E[X 1_{A}]    
+
+
+2. 一般の場合
+
+(Omega,F,P) and G¥subset F be a sigma-algebra.
+Def: X:Omega¥to R be a random variable with E[|X|]<¥infty.
+The conditional expectation of X given G is a G-measurable random variable E[X | G] satisfying:
+For all A¥in G,
+E[X 1_{A}] = E[E[X | G] 1_{A}]
+Existence and Uniqueness:
+There exists a random variable E[X | G] satisfying the above definition.
+Proof Sketch:
+1. Define a set function μ on G by μ(A) = E[X 1_{A}] for A¥in G.
+2. Show that μ is a finite signed measure absolutely continuous with respect to P restricted to G.
+3. Apply the Radon-Nikodym theorem to obtain a G-measurable function E[X | G] such that for all A¥in G,
+E[X 1_{A}] = E[E[X | G] 1_{A}].
+
+Properties: 
+1) If Z_1 and Z_2 satisfiy the conditons of the definition, then P(E[X | G] = Z_1) = P(E[X | G] = Z_2) = 1.
+2) Linearity: For random variables X_1, X_2 with E[|X_1|]<¥infty, E[|X_2|]<¥infty, and constants a_1, a_2¥in R,
+E[a_1 X_1 + a_2 X_2 | G] = a_1 E[X_1 | G] + a_2 E[X_2 | G].
+3) If X is G-measurable, then E[X | G] = X almost surely.
+4) Taking expectation: E[E[X | G]] = E[X].
+
+
+Use case: Consider a family of rv (X_t) such as stock price. G = sigma(X_s: s<t). E[X_t | G] is the best estimate of X_t based on past information.
+
+レポート: サイコロ２つ投げるときの条件付き確率の問題
+2. E E[X|G] = E[X]の証明
+

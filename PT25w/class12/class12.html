@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>第12回 条件付き期待値</title>
+  <style>
+    :root {
+      --ink: #1e1b16;
+      --sub: #5a5348;
+      --accent: #0f766e;
+      --accent-2: #d97757;
+      --paper: #fff9f0;
+      --bg: #f3ede2;
+      --rule: #e7dfd2;
+      --shadow: 0 18px 50px -32px rgba(30, 27, 22, 0.35);
+      --serif: "Noto Serif JP", "Hiragino Mincho ProN", "Yu Mincho", "YuMincho", "Georgia", serif;
+      --sans: "Noto Sans JP", "Hiragino Kaku Gothic ProN", "Yu Gothic", "Meiryo", sans-serif;
+      --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+      --radius: 18px;
+      --max-width: 980px;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: var(--serif);
+      color: var(--ink);
+      background:
+        radial-gradient(circle at 12% 8%, rgba(15, 118, 110, 0.14), transparent 42%),
+        radial-gradient(circle at 82% 14%, rgba(217, 119, 87, 0.12), transparent 48%),
+        linear-gradient(180deg, #f6f1e8 0%, #f5efe6 45%, #efe7dc 100%);
+      min-height: 100vh;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      background:
+        repeating-linear-gradient(130deg, rgba(30, 27, 22, 0.025), rgba(30, 27, 22, 0.025) 1px, transparent 1px, transparent 12px);
+      pointer-events: none;
+      opacity: 0.35;
+    }
+
+    main {
+      position: relative;
+      max-width: var(--max-width);
+      margin: 40px auto 80px;
+      padding: 0 20px 40px;
+    }
+
+    .hero {
+      background: linear-gradient(120deg, rgba(255, 255, 255, 0.92), rgba(255, 255, 255, 0.75));
+      border: 1px solid var(--rule);
+      border-radius: calc(var(--radius) + 6px);
+      padding: 32px 36px 28px;
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(8px);
+    }
+
+    .hero-meta {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+      font-family: var(--sans);
+      font-size: 13px;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--sub);
+    }
+
+    .tag {
+      background: rgba(15, 118, 110, 0.12);
+      color: var(--accent);
+      padding: 6px 12px;
+      border-radius: 999px;
+      font-weight: 600;
+    }
+
+    .hero h1 {
+      margin: 16px 0 10px;
+      font-size: clamp(28px, 3vw, 40px);
+      letter-spacing: 0.04em;
+    }
+
+    .lead {
+      margin: 0 0 12px;
+      font-size: 17px;
+      line-height: 1.8;
+      color: var(--sub);
+      font-family: var(--sans);
+    }
+
+    .hero-note {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(217, 119, 87, 0.14);
+      color: #7a3c2d;
+      padding: 8px 14px;
+      border-radius: 12px;
+      font-family: var(--sans);
+      font-size: 14px;
+    }
+
+    section.block {
+      margin-top: 34px;
+    }
+
+    h2 {
+      margin: 0 0 12px;
+      font-size: 22px;
+      letter-spacing: 0.03em;
+      color: var(--accent);
+    }
+
+    h3 {
+      margin: 0 0 10px;
+      font-size: 18px;
+      color: var(--ink);
+      font-family: var(--sans);
+    }
+
+    p {
+      margin: 0 0 1em;
+      line-height: 1.85;
+    }
+
+    .card {
+      background: var(--paper);
+      border-radius: var(--radius);
+      border: 1px solid var(--rule);
+      padding: 22px 24px 20px;
+      box-shadow: 0 10px 30px -26px rgba(30, 27, 22, 0.5);
+      margin-bottom: 20px;
+    }
+
+    .card.definition {
+      border-left: 5px solid var(--accent);
+    }
+
+    .card.example {
+      border-left: 5px solid var(--accent-2);
+      background: #fff4ed;
+    }
+
+    .card.property {
+      border-left: 5px solid #3f8f8b;
+      background: #f1f8f7;
+    }
+
+    .card.proof {
+      border-left: 5px solid #8b5e34;
+      background: #f7f2ea;
+    }
+
+    .card.usecase {
+      border-left: 5px solid #2f5d50;
+      background: #edf5f1;
+    }
+
+    .math-block {
+      background: #ffffff;
+      border-radius: 12px;
+      padding: 14px 18px;
+      border: 1px dashed rgba(15, 118, 110, 0.4);
+      text-align: center;
+      font-family: var(--mono);
+      color: #1f2933;
+      margin: 12px 0 16px;
+      overflow-x: auto;
+    }
+
+    .note {
+      font-family: var(--sans);
+      font-size: 14px;
+      color: var(--sub);
+      margin-top: 12px;
+    }
+
+    ol,
+    ul {
+      margin: 0 0 0 18px;
+      padding: 0;
+      line-height: 1.8;
+    }
+
+    details.proof {
+      margin-top: 12px;
+      font-family: var(--sans);
+      color: var(--sub);
+    }
+
+    details.proof summary {
+      cursor: pointer;
+      font-weight: 600;
+      color: var(--accent);
+      margin-bottom: 8px;
+    }
+
+    .assignment ul {
+      margin-left: 24px;
+    }
+
+    .footer {
+      margin-top: 40px;
+      text-align: center;
+      font-family: var(--sans);
+      font-size: 13px;
+      color: var(--sub);
+    }
+
+    @media (max-width: 720px) {
+      .hero {
+        padding: 24px 22px;
+      }
+
+      h2 {
+        font-size: 20px;
+      }
+
+      .math-block {
+        font-size: 14px;
+      }
+    }
+  </style>
+  <script>
+    MathJax = {
+      tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']],
+        displayMath: [['$$', '$$'], ['\\[', '\\]']]
+      },
+      options: {
+        skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre']
+      }
+    };
+  </script>
+  <script
+    id="MathJax-script"
+    async
+    src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"
+  ></script>
+</head>
+<body>
+  <main>
+    <header class="hero">
+      <div class="hero-meta">
+        <span class="tag">Probability Theory</span>
+        <span>PT25w</span>
+        <span>第12回</span>
+      </div>
+      <h1>条件付き期待値</h1>
+      <p class="lead">有限確率空間の定義から一般の $\sigma$-代数まで、条件付き期待値の考え方を整理する。</p>
+      <div class="hero-note">講義ノート: 定義・性質・例・応用</div>
+    </header>
+
+    <section class="block">
+      <h2>0. 基本設定</h2>
+      <p>$(\Omega, \mathcal{F}, P)$ を確率空間とし、$X : \Omega \to \mathbb{R}$ を確率変数とする。$X$ の値の集合を $I_X$ で表す。</p>
+      <div class="math-block">
+        \[
+          I_X = \{ X(\omega) : \omega \in \Omega \}
+        \]
+      </div>
+    </section>
+
+    <section class="block">
+      <h2>1. 有限確率空間の条件付き確率</h2>
+
+      <article class="card definition">
+        <h3>定義: 条件付き確率分布</h3>
+        <p>$X, Y_1, \ldots, Y_n$ を $\Omega$ 上の確率変数とし、$y_i \in I_{Y_i}$ とする。$P(Y_1=y_1, \ldots, Y_n=y_n) &gt; 0$ のとき、</p>
+        <div class="math-block">
+          \[
+            P(X=x \mid Y_1=y_1,\ldots,Y_n=y_n)
+            = \frac{P(X=x, Y_1=y_1,\ldots,Y_n=y_n)}{P(Y_1=y_1,\ldots,Y_n=y_n)}
+          \]
+        </div>
+        <p>として条件付き確率分布を定義する。</p>
+        <div class="math-block">
+          \[
+            E[X \mid Y_1=y_1,\ldots,Y_n=y_n]
+            = \sum_{x \in I_X} x\,P(X=x \mid Y_1=y_1,\ldots,Y_n=y_n)
+          \]
+        </div>
+      </article>
+
+      <article class="card definition">
+        <h3>定義: 条件付き期待値（関数形）</h3>
+        <p>$P(Y_1=y_1,\ldots,Y_n=y_n)&gt;0$ のとき $f_X(y_1,\ldots,y_n)=E[X \mid Y_1=y_1,\ldots,Y_n=y_n]$ とし、0 のときは $f_X(y_1,\ldots,y_n)=0$ とおく。</p>
+        <div class="math-block">
+          \[
+            f_X(y_1,\ldots,y_n)=
+            \begin{cases}
+              E[X \mid Y_1=y_1,\ldots,Y_n=y_n], & P(Y_1=y_1,\ldots,Y_n=y_n) &gt; 0 \\
+              0, & P(Y_1=y_1,\ldots,Y_n=y_n)=0
+            \end{cases}
+          \]
+        </div>
+        <p>このとき $f_X : \mathbb{R}^n \to \mathbb{R}$ とみなせる。さらに</p>
+        <div class="math-block">
+          \[
+            E[X \mid Y_1,\ldots,Y_n](\omega) = f_X\bigl(Y_1(\omega),\ldots,Y_n(\omega)\bigr)
+          \]
+        </div>
+        <p class="note">$f_X$ が $\mathbb{R}^n$ 上の関数であり $Y_i$ が確率変数なので、$E[X \mid Y_1,\ldots,Y_n]$ は確率変数になる。</p>
+      </article>
+
+      <article class="card example">
+        <h3>例: コインを2回投げる</h3>
+        <p>$\Omega=\{HH, HT, TH, TT\}$、$P(\omega)=1/4$ とする。確率変数 $X, Y$ を次で定める:</p>
+        <div class="math-block">
+          \[
+            X(HH)=1,\; X(HT)=1,\; X(TH)=0,\; X(TT)=0 \\
+            Y(HH)=2,\; Y(HT)=1,\; Y(TH)=1,\; Y(TT)=0
+          \]
+        </div>
+        <p>すると条件付き期待値は次の通り。</p>
+        <div class="math-block">
+          \[
+            E[X \mid Y](HH)=E[X \mid Y=2]=1 \\
+            E[X \mid Y](HT)=E[X \mid Y=1]=\tfrac{1}{2} \\
+            E[X \mid Y](TH)=E[X \mid Y=1]=\tfrac{1}{2} \\
+            E[X \mid Y](TT)=E[X \mid Y=0]=0
+          \]
+        </div>
+      </article>
+
+      <article class="card property">
+        <h3>性質（有限確率空間）</h3>
+        <p>$\mathcal{F}_Y = \sigma(Y_1,\ldots,Y_n)$ とする。このとき $E[X \mid Y_1,\ldots,Y_n]$ は $E[X \mid \mathcal{F}_Y]$ とも書く。</p>
+        <ol>
+          <li>$E[X \mid Y_1,\ldots,Y_n]$ は $\mathcal{F}_Y$-可測。</li>
+          <li>任意の $A \in \mathcal{F}_Y$ に対し、$E[X 1_A] = E[E[X \mid Y_1,\ldots,Y_n] 1_A]$。</li>
+        </ol>
+        <details class="proof">
+          <summary>証明の流れ（概略）</summary>
+          <p>$A$ は互いに素な集合の和として書けるため、定義に基づいて各項を計算し直すと等式が成り立つ。</p>
+        </details>
+      </article>
+    </section>
+
+    <section class="block">
+      <h2>2. 一般の場合（$\sigma$-代数 $G$ での条件付き期待値）</h2>
+
+      <article class="card definition">
+        <h3>定義</h3>
+        <p>$(\Omega, \mathcal{F}, P)$ で $G \subset \mathcal{F}$ を $\sigma$-代数とし、$E[|X|]&lt;\infty$ を満たす確率変数 $X$ を考える。$G$-可測な確率変数 $E[X \mid G]$ が</p>
+        <div class="math-block">
+          \[
+            E[X 1_A] = E[E[X \mid G] 1_A] \quad (\forall A \in G)
+          \]
+        </div>
+        <p>を満たすとき、$E[X \mid G]$ を $X$ の $G$ に関する条件付き期待値と呼ぶ。</p>
+      </article>
+
+      <article class="card proof">
+        <h3>存在と一意性（Radon-Nikodym 定理）</h3>
+        <ol>
+          <li>$\mu(A)=E[X 1_A]$ ($A \in G$) を定義。</li>
+          <li>$\mu$ は $G$ 上の有限符号付き測度で、$P|_G$ に絶対連続。</li>
+          <li>Radon-Nikodym 定理より $G$-可測な $g$ が存在し、$\mu(A)=E[g 1_A]$。この $g$ を $E[X \mid G]$ と置く。</li>
+        </ol>
+        <p class="note">一意性は a.s.（確率1）で保証される。</p>
+      </article>
+
+      <article class="card property">
+        <h3>性質（一般）</h3>
+        <ol>
+          <li>同条件を満たす $Z_1, Z_2$ があれば $P(E[X \mid G]=Z_1)=P(E[X \mid G]=Z_2)=1$。</li>
+          <li>線形性: $E[a_1 X_1 + a_2 X_2 \mid G] = a_1 E[X_1 \mid G] + a_2 E[X_2 \mid G]$。</li>
+          <li>$X$ が $G$-可測なら $E[X \mid G] = X$（a.s.）。</li>
+          <li>塔の性質: $E[E[X \mid G]] = E[X]$。</li>
+        </ol>
+      </article>
+
+      <article class="card usecase">
+        <h3>使いどころ</h3>
+        <p>株価などの確率過程 $(X_t)$ を考え、$G = \sigma(X_s : s&lt;t)$ と置くと、$E[X_t \mid G]$ は「過去の情報に基づく最良推定値」とみなせる。</p>
+      </article>
+    </section>
+
+    <section class="block assignment">
+      <h2>レポート</h2>
+      <ul>
+        <li>サイコロ2つを投げるときの条件付き確率の問題を作成・解答する。</li>
+        <li>$E[E[X \mid G]] = E[X]$ の証明をまとめる。</li>
+      </ul>
+    </section>
+
+    <footer class="footer">PT25w / Class 12</footer>
+  </main>
+</body>
+</html>
