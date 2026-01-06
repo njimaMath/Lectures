@@ -123,24 +123,24 @@
         <header>
             <h1>独立確率変数列に対する大数の法則と中心極限定理</h1>
             <p class="section-lead">
-                Markov and Chebyshev inequalities, weak/strong LLN, and CLT via characteristic functions.
+                マルコフとチェビシェフの不等式、弱・強大数の法則、特性関数による中心極限定理。
             </p>
         </header>
 
         <div class="toc">
             <strong>目次</strong>
             <ul>
-                <li><a href="#markov">1. Markov inequality</a></li>
-                <li><a href="#chebyshev">2. Chebyshev's inequality</a></li>
-                <li><a href="#lln">3. Law of Large Numbers</a></li>
-                <li><a href="#clt">4. Central Limit Theorem</a></li>
+                <li><a href="#markov">1. マルコフの不等式</a></li>
+                <li><a href="#chebyshev">2. チェビシェフの不等式</a></li>
+                <li><a href="#lln">3. 大数の法則</a></li>
+                <li><a href="#clt">4. 中心極限定理</a></li>
             </ul>
         </div>
 
         <section id="markov">
-            <h2>1. Markov inequality</h2>
+            <h2>1. マルコフの不等式</h2>
             <p>
-                Let $X$ be a random variable such that $\mathbb P(X\ge 0)=1$. Then
+                確率変数 $X$ が $\mathbb P(X\ge 0)=1$ を満たすとする。このとき
             </p>
             <div class="formula">
                 $$
@@ -148,10 +148,10 @@
                 $$
             </div>
             <details>
-                <summary>Proof</summary>
+                <summary>証明</summary>
                 <div class="proof">
                     <p>
-                        Since $\mathbf 1_{\{X\ge 1\}} \le X\mathbf 1_{\{X\ge 1\}} \le X$, we have
+                        $\mathbf 1_{\{X\ge 1\}} \le X\mathbf 1_{\{X\ge 1\}} \le X$ であるから
                     </p>
                     <div class="formula">
                         $$
@@ -167,15 +167,15 @@
         <hr>
 
         <section id="chebyshev">
-            <h2>2. Chebyshev's inequality</h2>
-            <p>For any $t&gt;0$,</p>
+            <h2>2. チェビシェフの不等式</h2>
+            <p>任意の $t&gt;0$ に対して</p>
             <div class="formula">
                 $$
                 \mathbb P(|X-\mathbb E[X]|\ge t) \le \frac{\mathrm{Var}(X)}{t^2}.
                 $$
             </div>
             <details>
-                <summary>Proof</summary>
+                <summary>証明</summary>
                 <div class="proof">
                     <div class="formula">
                         $$
@@ -185,7 +185,7 @@
                         = \frac{\mathrm{Var}(X)}{t^2}.
                         $$
                     </div>
-                    <p>This is Markov's inequality applied to $(X-\mathbb E[X])^2$.</p>
+                    <p>これは $(X-\mathbb E[X])^2$ にマルコフの不等式を適用したものである。</p>
                 </div>
             </details>
         </section>
@@ -193,23 +193,24 @@
         <hr>
 
         <section id="lln">
-            <h2>3. Law of Large Numbers</h2>
-            <p>Let</p>
+            <h2>3. 大数の法則</h2>
+            <p>次で定義する。</p>
             <div class="formula">
                 $$
                 \bar{X}_n = \frac{1}{n}\sum_{i=1}^n X_i.
                 $$
             </div>
 
-            <h3>Weak law</h3>
+            <h3>弱法則</h3>
             <p>
-                Let $X_1,\dots,X_n$ be i.i.d. with $\mathbb E[|X_1|]&lt;\infty$ and
-                $\mathrm{Var}(X_1)&lt;\infty$. Then $\bar{X}_n \to \mathbb E[X_1]$ in probability.
+                $X_1,\dots,X_n$ を独立同分布とし、$\mathbb E[|X_1|]&lt;\infty$ かつ
+                $\mathrm{Var}(X_1)&lt;\infty$ とする。このとき $\bar{X}_n \to \mathbb E[X_1]$
+                が確率収束する。
             </p>
             <details>
-                <summary>Proof</summary>
+                <summary>証明</summary>
                 <div class="proof">
-                    <p>For $\varepsilon&gt;0$,</p>
+                    <p>$\varepsilon&gt;0$ に対して</p>
                     <div class="formula">
                         $$
                         \mathbb P(|\bar{X}_n-\mathbb E[X_1]|&gt;\varepsilon)
@@ -218,33 +219,33 @@
                         $$
                     </div>
                     <p>
-                        Since $\mathrm{Var}(\bar{X}_n)=\frac{1}{n^2}\sum_{i=1}^n \mathrm{Var}(X_i)
-                        = \frac{\mathrm{Var}(X_1)}{n}$, the bound tends to $0$.
+                        $\mathrm{Var}(\bar{X}_n)=\frac{1}{n^2}\sum_{i=1}^n \mathrm{Var}(X_i)
+                        = \frac{\mathrm{Var}(X_1)}{n}$ なので、右辺は $0$ に収束する。
                     </p>
                 </div>
             </details>
 
-            <h3>Strong law</h3>
+            <h3>強法則</h3>
             <p>
-                Let $X_1,\dots,X_n$ be i.i.d. with $\mathbb E[X_1^4]&lt;\infty$. Then
-                $\bar{X}_n \to \mathbb E[X_1]$ almost surely.
+                $X_1,\dots,X_n$ を独立同分布とし $\mathbb E[X_1^4] < \infty$ とする。このとき
+                $\bar{X}_n \to \mathbb E[X_1]$ がほとんど確実に成り立つ。
             </p>
             <details>
-                <summary>Proof sketch (report)</summary>
+                <summary>証明略（レポート）</summary>
                 <div class="proof">
-                    <p>There exists $C&gt;0$ such that</p>
+                    <p>$C&gt;0$ が存在して</p>
                     <div class="formula">
                         $$
                         \mathbb E[(\bar{X}_n-\mathbb E[\bar{X}_n])^4] \le C n^{-2}.
                         $$
                     </div>
-                    <p>Hence</p>
+                    <p>したがって</p>
                     <div class="formula">
                         $$
                         \sum_{n=1}^{\infty}\mathbb E[(\bar{X}_n-\mathbb E[\bar{X}_n])^4] &lt; \infty.
                         $$
                     </div>
-                    <p>Therefore</p>
+                    <p>ゆえに</p>
                     <div class="formula">
                         $$
                         \sum_{n=1}^{\infty}(\bar{X}_n-\mathbb E[\bar{X}_n])^4 &lt; \infty
@@ -252,8 +253,8 @@
                         $$
                     </div>
                     <p>
-                        Since $\sum |a_n|&lt;\infty$ implies $a_n\to 0$, we conclude
-                        $\bar{X}_n-\mathbb E[\bar{X}_n] \to 0$ a.s.
+                        $\sum |a_n|&lt;\infty$ ならば $a_n\to 0$ であるから、
+                        $\bar{X}_n-\mathbb E[\bar{X}_n] \to 0$ がほとんど確実に成り立つ。
                     </p>
                 </div>
             </details>
@@ -262,10 +263,10 @@
         <hr>
 
         <section id="clt">
-            <h2>4. Central Limit Theorem</h2>
+            <h2>4. 中心極限定理</h2>
             <p>
-                Let $X_1,\dots,X_n$ be i.i.d. with $m=\mathbb E[X_1]$ and
-                $v=\mathrm{Var}(X_1)&lt;\infty$. Then
+                $X_1,\dots,X_n$ を独立同分布とし、$m=\mathbb E[X_1]$ と
+                $v=\mathrm{Var}(X_1)&lt;\infty$ とする。このとき
             </p>
             <div class="formula">
                 $$
@@ -273,7 +274,7 @@
                 $$
             </div>
 
-            <h3>Lemma (report)</h3>
+            <h3>補題（レポート）</h3>
             <div class="formula">
                 $$
                 a_n \to a \in \mathbb R
@@ -283,11 +284,11 @@
             </div>
 
             <details>
-                <summary>Proof sketch via characteristic functions</summary>
+                <summary>特性関数による証明略</summary>
                 <div class="proof">
                     <p>
-                        Recall that $Y_n \Rightarrow N(0,v)$ iff $\phi_{Y_n}(\xi)\to e^{-v\xi^2/2}$.
-                        Moreover,
+                        $Y_n \Rightarrow N(0,v)$ は $\phi_{Y_n}(\xi)\to e^{-v\xi^2/2}$ と同値であることを思い出す。
+                        さらに、
                     </p>
                     <div class="formula">
                         $$
@@ -296,24 +297,24 @@
                         = \left(\mathbb E\left[e^{\frac{i\xi}{\sqrt{n}}(X_1-m)}\right]\right)^n.
                         $$
                     </div>
-                    <p>Using the expansion</p>
+                    <p>次の展開式</p>
                     <div class="formula">
                         $$
-                        e^x = 1 + x + \frac{x^2}{2}
-                        + \frac{1}{2}\int_0^1 x^3(1-t)^2 e^{tx}\,dt,
+                        e^x = 1 + x
+                        + \int_0^1 x^2 (1-t) e^{tx}\,dt,
                         $$
                     </div>
-                    <p>and $\mathbb E[X_1-m]=0$, we obtain</p>
+                    <p>および $\mathbb E[X_1-m]=0$ を用いると</p>
                     <div class="formula">
                         $$
                         \mathbb E\left[e^{\frac{i\xi}{\sqrt{n}}(X_1-m)}\right]
-                        = 1 - \frac{\xi^2}{2n}\int_0^1
+                        = 1 - \frac{\xi^2}{n}\int_0^1　 (1-t)
                         \mathbb E\left[(X_1-m)^2 e^{\frac{i\xi t}{\sqrt{n}}(X_1-m)}\right]dt.
                         $$
                     </div>
                     <p>
-                        By dominated convergence, the integral tends to
-                        $\mathbb E[(X_1-m)^2]=v$, hence
+                        優収束定理により積分は
+                        $\mathbb E[(X_1-m)^2]=v$ に収束するので
                     </p>
                     <div class="formula">
                         $$
@@ -321,9 +322,35 @@
                         = 1-\frac{v\xi^2}{2n}+o\!\left(\frac{1}{n}\right).
                         $$
                     </div>
-                    <p>Applying the lemma yields $\phi_{Y_n}(\xi)\to e^{-v\xi^2/2}$.</p>
+                    <p>補題を適用すると $\phi_{Y_n}(\xi)\to e^{-v\xi^2/2}$ を得る。</p>
                 </div>
             </details>
+        </section>
+
+        <hr>
+
+        <section id="report">
+            <h2>レポート（2問）</h2>
+            <ol>
+                <li>
+                    <p>強法則の証明の条件のもとで次を示せ。ある$C&gt;0$ が存在して</p>
+                    <div class="formula">
+                        $$
+                        \mathbb E[(\bar{X}_n-\mathbb E[\bar{X}_n])^4] \le C n^{-2}.
+                        $$
+                    </div>
+                    </li>
+                <li>
+                    <p>次の補題を証明せよ（本文中のレポート）。</p>
+                    <div class="formula">
+                        $$
+                        a_n \to a \in \mathbb R
+                        \quad \Longrightarrow \quad
+                        \left(1-\frac{a_n}{n}\right)^n \to e^{-a}.
+                        $$
+                    </div>
+                </li>
+            </ol>
         </section>
 
         <nav class="navigation">
