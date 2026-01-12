@@ -1,3 +1,17 @@
+1. 曲面の媒介変数表示の向き
+
+曲面の集合Sに対し、媒介変数表示$r:D \to S$が与えられたとする. 
+
+S上の点$r(u,v)$の単位法線ベクトルを$n(u,v)$とすると, 二つの向きを取りうる。この時、次のようにして、向きを指定する
+
+指定1: 曲面がある立体を囲む場合、立体に対して内向きか外向きか
+指定2: $z$軸に対して,  正の向きか負の向きか
+
+問題の出しかた: ある曲面(の集合)に対して, 法線ベクトルがz軸に対して正となるような媒介変数表示を求めよ
+
+注意: $r(-u,v)$とすると, 逆向きの法線ベクトルが得られる。ただし値域がSに一致しているかは注意が必要
+
+
 2. スカラー場の曲面積
 
 定義: D⊂R^2上の曲面r(u,v)=(x(u,v),y(u,v),z(u,v)), S上のスカラー場\phi: S→Rに対し、S上の\phiの曲面積を次で定義する。
@@ -22,28 +36,12 @@
 
 注意: F(x,y,z)=(P(x,y,z), Q(x,y,z), R(x,y,z))のとき、
 ( \iint_S F \cdot dS = \iint_D \begin{vmatrix} P(r(u,v)) & Q(r(u,v)) & R(r(u,v)) \\ \partial_u x & \partial_u y & \partial_u z \\ \partial_v x & \partial_v y & \partial_v z \end{vmatrix} du dv )     
+
 例: r(u,v)=(cos u cos v, cos u sin v, sin u) (0≤u≤π, 0≤v<2π)とする。F(x,y,z)=(x,y,z)のとき、S上のFの曲面積分を求めよ。
+
 解: \partial_u r = (-sin u cos v, -sin u sin v, cos u), \quad \partial_v r = (-cos u sin v, cos u cos v, 0)より、
 ( \partial_u r \times \partial_v r = (-cos^2 u cos v, -cos^2 u sin v, -sin u cos u) )   
 例2: r(u,v)=(u cos v, u sin v, v) (0≤u≤1, 0≤v<2π)とする。F(x,y,z)=(x,0,0), (0,0,z)のとき、S上のFの曲面積分を求めよ。
 解: \partial_u r = (cos v, sin v, 0), \quad \partial_v r = (-u sin v, u cos v, 1)より、
 ( \partial_u r \times \partial_v r = (sin v, -cos v, u) )   
 
-
-平面上の曲線
-\int_\gamma f(x,y) dx = \int_a^b f(x(t),y(t)) x'(t) dt
-\int_\gamma f(x,y) dy = \int_a^b f(x(t),y(t)) y'(t) dt 
-
-
-グリーンの定理
-\oint_{\partial D} P dx + Q dy = \iint_D \left( \frac{\partial Q}{\partial x} - \frac{\partial P}{\partial y} \right) dx dy
-ここで、DはR^2の有界な領域、\partial DはDの境界曲線である。
-
-D = [a,b]×[c,d]のとき、証明する:
-\oint_{\partial D} P dx + Q dy = \int_c^d P(b,y) dy + \int_b^a Q(x,d) dx + \int_d^c P(a,y) dy + \int_a^b Q(x,c) dx
-= \int_c^d P(b,y) dy - \int_c^d P(a,y) dy + \int_a^b Q(x,d) dx - \int_a^b Q(x,c) dx
-= \int_a^b \int_c^d \frac{\partial Q}{\partial x} dy dx - \int_c^d \int_a^b \frac{\partial P}{\partial y} dx dy
-= \iint_D \left( \frac{\partial Q}{\partial x} - \frac{\partial P}{\partial y} \right) dx dy    
-
-ストークスの定理
-グリーンの定理より、、

@@ -1,0 +1,18 @@
+
+平面上の曲線
+\int_\gamma f(x,y) dx = \int_a^b f(x(t),y(t)) x'(t) dt
+\int_\gamma f(x,y) dy = \int_a^b f(x(t),y(t)) y'(t) dt 
+
+
+グリーンの定理
+\oint_{\partial D} P dx + Q dy = \iint_D \left( \frac{\partial Q}{\partial x} - \frac{\partial P}{\partial y} \right) dx dy
+ここで、DはR^2の有界な領域、\partial DはDの境界曲線である。
+
+D = [a,b]×[c,d]のとき、証明する:
+\oint_{\partial D} P dx + Q dy = \int_c^d P(b,y) dy + \int_b^a Q(x,d) dx + \int_d^c P(a,y) dy + \int_a^b Q(x,c) dx
+= \int_c^d P(b,y) dy - \int_c^d P(a,y) dy + \int_a^b Q(x,d) dx - \int_a^b Q(x,c) dx
+= \int_a^b \int_c^d \frac{\partial Q}{\partial x} dy dx - \int_c^d \int_a^b \frac{\partial P}{\partial y} dx dy
+= \iint_D \left( \frac{\partial Q}{\partial x} - \frac{\partial P}{\partial y} \right) dx dy    
+
+ストークスの定理
+グリーンの定理より、、

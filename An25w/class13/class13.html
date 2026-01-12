@@ -355,34 +355,32 @@
         <header class="hero">
             <span class="hero-label">第13回</span>
             <h1>第13回 面積分とグリーンの定理</h1>
-            <p>曲面上の面積分（スカラー場・ベクトル場）を定義し、平面領域ではグリーンの定理として線積分と面積分が結びつくことを確認します。</p>
+            <p>曲面の向きを確認したうえで曲面上の面積分（スカラー場・ベクトル場）を定義し、平面領域ではグリーンの定理として線積分と面積分が結びつくことを確認します。</p>
         </header>
 
         <section class="outline-section">
-            <h2>第1節 平面上の曲線（線積分）</h2>
+            <h2>第1節 曲面の媒介変数表示の向き</h2>
             <div class="definition">
-                <strong>到達目標</strong>
-                <ul>
-                    <li>媒介変数表示から面積要素 $\lvert\partial_u\mathbf{r}\times\partial_v\mathbf{r}\rvert$ を作れる。</li>
-                    <li>スカラー場の曲面積 $\iint_S \phi\,dS$ を設定できる。</li>
-                    <li>ベクトル場の曲面積分（フラックス）$\iint_S \mathbf{F}\cdot d\mathbf{S}$ を計算できる。</li>
-                    <li>グリーンの定理の主張と向きの条件を説明できる。</li>
-                </ul>
-            </div>
-            <div class="definition">
-                <strong>平面上の曲線</strong>
-                <p>曲線 $\gamma$ を $\mathbf{r}(t)=(x(t),y(t))$（$a\le t\le b$）で表す。</p>
-                <div class="formula">$$\int_\gamma f(x,y)\,dx=\int_a^b f(x(t),y(t))\,x'(t)\,dt$$</div>
-                <div class="formula">$$\int_\gamma f(x,y)\,dy=\int_a^b f(x(t),y(t))\,y'(t)\,dt$$</div>
-            </div>
-            <div class="definition">
-                <strong>平面ベクトル場の線積分</strong>
-                <p>曲線 $C$ を $\mathbf{r}(t)=(x(t),y(t))$（$a\le t\le b$）とし、$\mathbf{F}(x,y)=(P(x,y),Q(x,y))$ とする。</p>
-                <div class="formula">$$\int_C P\,dx+Q\,dy=\int_a^b\Bigl(P(x(t),y(t))x'(t)+Q(x(t),y(t))y'(t)\Bigr)\,dt$$</div>
+                <strong>向きと単位法線</strong>
+                <p>曲面の集合 $S$ に対し、媒介変数表示 $\mathbf{r}:D\to S$（$D\subset\mathbb{R}^2$）が与えられているとする。</p>
+                <p>法線ベクトルは $\partial_u\mathbf{r}\times\partial_v\mathbf{r}$、単位法線ベクトルは</p>
+                <div class="formula">$$\mathbf{n}(u,v)=\frac{\partial_u\mathbf{r}\times\partial_v\mathbf{r}}{\left|\partial_u\mathbf{r}\times\partial_v\mathbf{r}\right|}$$</div>
+                <p>で与えられるが、向きは 2 通り（$\mathbf{n}$ と $-\mathbf{n}$）ある。</p>
             </div>
             <div class="note">
-                <strong>向き（正の向き）</strong>
-                <p>領域 $D$ の境界 $\partial D$ は、領域が常に左側にくる向き（反時計回り）を <em>正の向き</em> とする。向きを逆にすると線積分の符号が反転する。</p>
+                <strong>向きの指定</strong>
+                <ul>
+                    <li>曲面が立体を囲むとき：内向き / 外向き</li>
+                    <li>$z$ 軸に対して：$\mathbf{n}$ の $z$ 成分が正 / 負</li>
+                </ul>
+            </div>
+            <div class="concept-card focus-card">
+                <strong>問題の出しかた</strong>
+                <p>「法線ベクトルが $z$ 軸に対して正となるような媒介変数表示を求めよ」</p>
+            </div>
+            <div class="note">
+                <strong>注意：向きを反転させる</strong>
+                <p>たとえば $\mathbf{r}(-u,v)$ とすると法線ベクトルは逆向きになる。ただし値域が同じ曲面 $S$ に一致するように、$D$ の取り方に注意する。</p>
             </div>
         </section>
 

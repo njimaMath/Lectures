@@ -354,62 +354,65 @@
 	            <main>
         <header class="hero">
             <span class="hero-label">第12回</span>
-            <h1>第12回 曲線・曲面の向き</h1>
+            <h1>第12回 曲線、曲面の向き</h1>
             <p>線積分の記法と曲線の向きを確認し、曲面の媒介変数表示と法線ベクトル、向き付けの考え方を整理します。</p>
         </header>
 
         <section class="outline-section">
-            <h2>第1節 線積分の記法と曲線の向き</h2>
+            <h2>第1節 曲線の向き</h2>
             <div class="note">
-                <strong>線積分の書き方</strong>
-                <p>ベクトル場 $\mathbf{F}=(F_x,F_y,F_z)$ に対し</p>
+                <strong>線積分の注意</strong>
+                <p>ベクトル場 $\mathbf{F}=(F_x,F_y,F_z)$ に対し、</p>
                 <div class="formula">$$\int_\gamma \mathbf{F}(x,y,z)\,d\gamma
-=\int_\gamma F_x\,dx+F_y\,dy+F_z\,dz$$</div>
-                <p>と書くことがある。2次元では $\mathbf{F}=(F_x,F_y)$ とし</p>
+=\int_\gamma F_x\,dx + F_y\,dy + F_z\,dz$$</div>
+                <p>と書くこともある。</p>
+                <p>二次元の時はベクトル場 $\mathbf{F}=(F_x,F_y)$ に対し、</p>
                 <div class="formula">$$\int_\gamma \mathbf{F}(x,y)\,d\gamma
-=\int_\gamma F_x\,dx+F_y\,dy$$</div>
+=\int_\gamma F_x\,dx + F_y\,dy$$</div>
+                <p>と書くこともある。</p>
             </div>
             <div class="definition">
                 <strong>曲線の向き</strong>
-                <p>曲線の集合 $C$ が与えられたとき、向きは二通りある。</p>
+                <p>曲線の集合 $C$ が与えられたとき、二つの向きが考えられる。向きの指定の仕方はいくつかある:</p>
                 <ol>
-                    <li>曲線に囲まれる曲面を指定し、曲面を左側に見る向き（正の向き）と右側に見る向き（負の向き）。</li>
-                    <li>始点・終点を指定する（有向曲線）。</li>
+                    <li>曲線に囲まれる曲面を指定して、曲面を左側に見る向き（正の向き）、右側に見る向き（負の向き）の二つがある。</li>
+                    <li>始点、終点を指定する方法（有向曲線の場合）。</li>
                 </ol>
             </div>
             <div class="example">
                 <strong>例1：線分の向き</strong>
-                <p>$C=\{(x,y)\mid y=x,\,0\le x\le 1\}$ を考える。</p>
+                <p>例: $(0,0)$ から $(1,1)$ の線分の曲線 $C=\{(x,y)\mid y=x,\,0\le x\le 1\}$ に対し、始点 $(0,0)$、終点 $(1,1)$ とする曲線は</p>
                 <div class="formula">$$\mathbf{r}(t)=(t,t)\quad(0\le t\le 1)$$</div>
-                <p>は始点 $(0,0)$、終点 $(1,1)$ の向き。逆向きは</p>
+                <p>と定めると媒介変数表示になる。逆に、始点 $(1,1)$、終点 $(0,0)$ とする曲線は</p>
                 <div class="formula">$$\mathbf{r}(t)=(1-t,1-t)\quad(0\le t\le 1)$$</div>
+                <p>と定めると媒介変数表示になる。</p>
             </div>
             <div class="example">
                 <strong>例2：単位円の向き</strong>
-                <p>$C=\{(x,y)\mid x^2+y^2=1\}$ に対し</p>
+                <p>例: $C=\{(x,y)\mid x^2+y^2=1\}$ とする。</p>
                 <div class="formula">$$\mathbf{r}(\theta)=(\cos\theta,\sin\theta)
 \quad(0\le\theta&lt;2\pi)$$</div>
-                <p>は正の向き、</p>
+                <p>と定めると、$C$ の正の向きの媒介変数表示になる。</p>
                 <div class="formula">$$\mathbf{r}(\theta)=(\cos(-\theta),\sin(-\theta))
 \quad(0\le\theta&lt;2\pi)$$</div>
-                <p>は負の向きになる。</p>
+                <p>と定めると、$C$ の負の向きの媒介変数表示になる。</p>
             </div>
             <div class="exercise-list">
                 <strong>演習</strong>
                 <ol>
-                    <li>$(-1,1)$ と $(0,1)$ を結ぶ線分の正の向き・負の向きの曲線を定義せよ。</li>
-                    <li>楕円 $C=\{(x,y)\mid (x/a)^2+(y/b)^2=1\}$ の正の向き・負の向きの曲線を定義せよ。</li>
+                    <li>$(-1,1)$ と $(0,1)$ を結ぶ線分の正の向きと負の向きの曲線を定義せよ。</li>
+                    <li>楕円 $C=\{(x,y)\mid (x/a)^2+(y/b)^2=1\}$ の正の向きと負の向きの曲線を定義せよ。</li>
                 </ol>
             </div>
         </section>
 
         <section class="outline-section">
-            <h2>第2節 曲面の媒介変数表示</h2>
+            <h2>第2節 曲面の媒介変数表示（前の曲面の概念の一般化）</h2>
             <div class="definition">
                 <strong>定義</strong>
-                <p>領域 $D\subset\mathbb{R}^2$ と写像 $\mathbf{r}:D\to\mathbb{R}^3$ を</p>
+                <p>$D\subset\mathbb{R}^2$ とし、$\mathbf{r}:D\to\mathbb{R}^3$ を次で定義される写像とする。</p>
                 <div class="formula">$$\mathbf{r}(u,v)=(x(u,v),y(u,v),z(u,v))\quad((u,v)\in D)$$</div>
-                <p>とする。$S=\{\mathbf{r}(u,v)\mid (u,v)\in D\}$ を <em>曲面の媒介変数表示</em> という。</p>
+                <p>このとき $\mathbf{r}$ を $D$ 上の曲面の媒介変数表示という。$S=\{\mathbf{r}(u,v)\mid (u,v)\in D\}$ を $\mathbf{r}$ で表される曲面という。</p>
             </div>
             <div class="example">
                 <strong>例1：球面</strong>
