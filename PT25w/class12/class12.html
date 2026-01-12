@@ -17,10 +17,10 @@
         details summary{cursor:pointer;font-weight:600;}
         .proof{background:#e8f5e9;border-left:4px solid #43a047;padding:.8rem 1.2rem;margin:1.2rem 0;border-radius:8px;overflow-x:auto;}
         ul{margin:0 0 1rem 1.2rem;}
-        .navigation{display:flex;justify-content:center;gap:.8rem;margin:2.2rem 0;border-top:1px solid #e0e0e0;padding-top:1.5rem;flex-wrap:wrap;}
-        .navigation a{padding:.65rem 1.5rem;background:#1a237e;color:#fff;text-decoration:none;border-radius:6px;transition:opacity .2s;}
-        .navigation a:hover{opacity:.85;}
-        footer{margin-top:3rem;color:#777;text-align:center;font-size:.9rem;}
+        nav.navigation{display:flex;justify-content:center;gap:.9rem;margin:2.8rem 0;padding-top:1.8rem;border-top:1px solid rgba(26,35,126,.15);flex-wrap:wrap;}
+        nav.navigation a{padding:.7rem 1.6rem;background:#1a237e;color:#fff;text-decoration:none;border-radius:999px;box-shadow:0 14px 28px -18px rgba(26,35,126,.58);transition:transform .2s,box-shadow .2s,opacity .2s;}
+        nav.navigation a:hover{opacity:.9;transform:translateY(-2px);box-shadow:0 18px 32px -22px rgba(26,35,126,.62);}
+        footer{margin-top:3rem;color:#777;text-align:center;font-size:.9rem;}   
     </style>
   <script>
     MathJax = {
@@ -176,9 +176,14 @@
       <h2>レポート</h2>
       <ul>
         <li><strong>レポート1</strong>: 公平なサイコロ2つを同時に投げ、出目を $X, Y$ とする。$S=X+Y$ とおく。$E[X \mid S]$ の分布を求めよ。</li>
-        <li><strong>レポート2</strong>: $E[E[X \mid G]] = E[X]$ の証明をまとめる。</li>
+        <li><strong>レポート2</strong>: $E[E[X \mid G]] = E[X]$ の証明せよ。</li>
       </ul>
     </section>
+
+    <nav class="navigation" aria-label="ページナビゲーション">
+      <a href="../class11/class11.html" rel="prev">← 前のクラス</a>
+      <a href="../index.html">ホーム</a>
+    </nav>
 
     <footer>PT25w / Class 12</footer>
   </div>
