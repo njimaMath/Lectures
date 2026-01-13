@@ -1,0 +1,62 @@
+\documentclass[11pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{CJKutf8}
+\usepackage{geometry}
+\usepackage{amsmath,amssymb}
+\usepackage{enumitem}
+\geometry{margin=1in}
+
+\title{レポート課題まとめ（Classes 8--12）}
+\date{}
+
+\begin{document}
+\begin{CJK}{UTF8}{min}
+\maketitle
+
+\section*{Class 8: 確率変数列の収束概念}
+\begin{enumerate}[label=\textbf{8.\arabic*}]
+  \item （授業で挙げたもの以外で）確率収束するが，概収束しない例を挙げよ。
+  \item $X_n \xrightarrow{\mathbb P} X$, $Y_n \xrightarrow{\mathbb P} Y$ を仮定して $X_nY_n \xrightarrow{\mathbb P} XY$ を証明せよ。
+\end{enumerate}
+
+\section*{Class 9: Bochner の定理}
+\begin{enumerate}[label=\textbf{9.\arabic*}]
+  \item 開集合 $O\subset \mathbb R$ かつ $O\neq \mathbb R$ について，$f(x)=d(x,O^c)$ が連続関数であることを示せ。
+  （ここで $d(x,A)=\inf\{|x-y|:y\in A\}$ とする。）
+  \item $f$ を有界な台をもつ連続関数とする。$M\in\mathbb N$ とし
+  \[
+    f_M^+(x)=\sum_{j=1}^{\infty}\frac{1}{M}\,\mathbf{1}_{\{f(x)\geq (j-1)/M\}}
+  \]
+  と定義するとき，$f(x)\le f_M^+(x)\le f(x)+\frac{1}{M}$ を示せ。
+\end{enumerate}
+
+\section*{Class 10: 独立性}
+\begin{enumerate}[label=\textbf{10.\arabic*}]
+  \item $X$ と $Y$ を独立な確率変数とする。$X+Y$ の積率母関数 $f(t)=\mathbb E[e^{t(X+Y)}]$ を $X$ の積率母関数と $Y$ の積率母関数で表せ。
+  また $f$ の定義域についても考察せよ（$X$ と $Y$ の積率母関数の定義域との関係を述べよ）。
+  \item $X\sim\mathrm{Poisson}(\lambda)$, $Y\sim\mathrm{Poisson}(\mu)$ を独立とする。このとき $X+Y\sim\mathrm{Poisson}(\lambda+\mu)$ を特性関数を用いて証明せよ。
+\end{enumerate}
+
+\section*{Class 11: 独立確率変数列に対する大数の法則と中心極限定理}
+\begin{enumerate}[label=\textbf{11.\arabic*}]
+  \item 強法則の証明の条件のもとで次を示せ。ある $C>0$ が存在して
+  \[
+    \mathbb E[(\bar{X}_n-\mathbb E[\bar{X}_n])^4] \le C n^{-2}.
+  \]
+  \item 次の補題を証明せよ（本文中のレポート）。
+  \[
+    a_n \to a \in \mathbb R
+    \quad \Longrightarrow \quad
+    \left(1-\frac{a_n}{n}\right)^n \to e^{-a}.
+  \]
+\end{enumerate}
+
+\section*{Class 12: 条件付き期待値}
+\begin{enumerate}[label=\textbf{12.\arabic*}]
+  \item 公平なサイコロ2つを同時に投げ，出目を $X, Y$ とする。$S=X+Y$ とおく。$\mathbb E[X \mid S]$ の分布を求めよ。
+  \item $\mathbb E[\mathbb E[X \mid G]] = \mathbb E[X]$ を証明せよ。
+\end{enumerate}
+
+\end{CJK}
+\end{document}
