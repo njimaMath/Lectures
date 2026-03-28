@@ -1,0 +1,260 @@
+1. 極限定理
+
+Def: X が可積分 ⇔ E[X_+]<¥infty かつ E[X_-]<¥infty.
+
+確率変数列 (X_n) が X_n:¥Omega→¥R の可測写像であり、可測空間が ¥mathcal{F}_n⊆¥mathcal{F}_{n+1} を満たすとする。 (X_0)_- が可積分ならば、¥E[¥lim X_n]=¥lim ¥E[X_n].
+
+さらに ¥lim X_n = X a.s. かつ |X_n|≤Y を満たす可積分な確率変数 Y が存在するならば、¥E[¥lim X_n]=¥E[X].
+
+例は後で扱う。
+
+2. 有限回の試行
+
+表と裏が同じ確率で出るコインを n 回投げる。この試行を確率空間で定式化する。
+
+¥Omega = ¥{+1,-1}^n,  ¥mathcal{F} = 2^¥Omega,  p_¥omega = 1/2^n.
+
+したがって確率測度は P(A)=¥sum_{¥omega¥in A}p_¥omega=|A|/2^n.
+
+X_i: i 回目が表なら 1、裏なら 0 とする確率変数とおく。
+
+X_i(¥omega)=¥begin{cases} 1 & ¥text{if } ¥omega_i=+1 \\ 0 & ¥text{if } ¥omega_i=-1 ¥end{cases},  S_n=¥sum_{i=1}^n X_i は表が出た回数。
+
+E[S_n]=n/2,  Var(S_n)=n/4.
+
+3. 無限回の試行
+
+無限回コインを投げたい。素朴には n 回の試行を n→¥infty とすれば良さそうに見える。
+
+¥Omega→{+1,-1}^{¥N}、¥mathcal{F}_n→2^{¥Omega}, p_¥omega→0。これはうまくいかない。
+
+そこで ¥Omega={+1,-1}^{¥N} とする。F と P をどのように定義するかを考える。
+
+射影 π_n:¥Omega→¥Omega_n,  π_n(¥omega)=(¥omega_1,¥omega_2,...,¥omega_n).
+
+¥mathcal{F}_n={π_n^{-1}(A) | A⊆¥Omega_n},  ¥forall n∈¥N.
+
+µ(π_n^{-1}(A))=P_n(A),  ¥forall A⊆¥Omega_n.
+
+¥mathcal{S}=¥{A : A∈¥bigcup ¥mathcal{F}_n for some n¥}.
+
+F=σ(¥mathcal{S}),  P(A)=¥inf_{(B_k)∈¥mathcal{S}, A⊆¥cup B}¥sum µ(B_k).
+
+Thm: P は (¥Omega,F) 上の確率測度である。
+
+Throughout, $\triangle$ denotes symmetric difference.
+\begin{lemma}
+Let $(E_n)_{n=1}^N$ be a finite family of pairwise disjoint sets in $\mathcal{S}$.  
+Then
+\[
+\mu\!\Bigl(\bigcup_{n=1}^N E_n\Bigr) = \sum_{n=1}^N \mu(E_n)
+\]
+holds. Moreover,
+\[
+\mu(\Omega) = 1, \qquad \mu(A^c) = 1 - \mu(A) \quad (A \in \mathcal{S}).
+\]
+In this case, $\mu$ is called a finitely additive measure on $\mathcal{S}$.
+\end{lemma}
+
+\begin{proof}
+There exists $M \in \mathbb{N}$ such that each $E_n$ belongs to $\mathcal{F}_M$.  
+Hence, there exist sets $A_n \subseteq \Omega_M$ such that
+\[
+E_n = \pi_M^{-1}(A_n) \qquad (1 \le n \le N).
+\]
+Since the $E_n$ are pairwise disjoint, the $A_n$ are also pairwise disjoint.  
+Therefore,
+\[
+\mu\!\Bigl(\bigcup_{n=1}^N E_n\Bigr)
+= P_M\!\Bigl(\bigcup_{n=1}^N A_n\Bigr)
+= \sum_{n=1}^N P_M(A_n)
+= \sum_{n=1}^N \mu(E_n).
+\]
+Moreover,
+\[
+\mu(\Omega) = P_M(\Omega_M) = 1.
+\]
+Finally, for $E = \pi_M^{-1}(A) \in \mathcal{F}_M$, we have
+\[
+\mu(E^c) = P_M(A^c) = 1 - P_M(A) = 1 - \mu(E).
+\]
+This completes the proof.
+\end{proof}
+
+\begin{lemma}[Agreement with $\mu$ on cylinders]\label{lem:agreement}
+For every $E\in\mathcal{S}$, $P(E)=\mu(E)$.
+\end{lemma}
+
+\begin{proof}
+Let $(S_n \in \mathcal{S})$ be such that $E \subset \bigcup_{n} S_n$.  
+Define $E_n := E \setminus \bigcup_{k=1}^n S_k$; then $(E_n)$ is monotonically decreasing.  
+If $(E_n \neq \varnothing)$ occurs infinitely many times, this contradicts compactness.  
+Hence, there exists some $N$ such that $E \subset \bigcup_{k=1}^N S_k$.  
+Therefore, $\sum_{k=1}^N \mu(S_k) \ge \mu(E)$.  
+Taking the infimum, we obtain $P(E) \geq \mu(E)$. The coverse inequality is given by taking $S_1=E$ and $S_k=\emptyset$ for $k\geq 2$. 
+
+\end{proof}
+
+\begin{lemma}[Subadditivity and a useful corollary]\label{lem:subadd}
+For arbitrary sets $A_1,A_2,\dots\subseteq\Omega$,
+\[
+P\Bigl(\bigcup_{n=1}^\infty A_n\Bigr)\le \sum_{n=1}^\infty P(A_n).
+\]
+In particular, for any $A,B\subseteq\Omega$,
+\[
+P(A\setminus B)\ \ge\ P(A)-P(B).
+\]
+\end{lemma}
+
+\begin{proof}
+Fix $\varepsilon>0$. For each $n$ choose a covering $\{B_{n,k}\}_{k\ge 1}\subset\mathcal{S}$ of $A_n$ with
+\[
+\sum_{k=1}^\infty \mu(B_{n,k})\le P(A_n)+\frac{\varepsilon}{2^n}.
+\]
+Then $\bigcup_n A_n\subseteq \bigcup_{n,k} B_{n,k}$, so by the definition of $P$,
+\[
+P\Bigl(\bigcup_{n=1}^\infty A_n\Bigr)\le \sum_{n=1}^\infty\sum_{k=1}^\infty \mu(B_{n,k})
+\le \sum_{n=1}^\infty\Bigl(P(A_n)+\frac{\varepsilon}{2^n}\Bigr)
+= \sum_{n=1}^\infty P(A_n)+\varepsilon.
+\]
+
+For the ``in particular'' part, observe $A\subseteq (A\setminus B)\cup B$, hence by subadditivity
+\[
+P(A)\le P(A\setminus B)+P(B)\quad\Rightarrow\quad P(A\setminus B)\ge P(A)-P(B).
+\]
+\end{proof}
+
+\begin{lemma}\label{lem:Fprime}
+Define
+\[
+\mathcal{F}'=\Bigl\{A\subseteq \Omega:\ \forall \varepsilon>0\ \exists\ B,C\in \mathcal{S}\ \text{such that}\ 
+P\bigl(A\triangle \textstyle B\bigr)<\varepsilon,\ \ 
+P\bigl(A^c\triangle \textstyle C\bigr)<\varepsilon
+\Bigr\}.
+\]
+Then $\mathcal{S}\subseteq \mathcal{F}'$, and $\mathcal{F}'$ is a $\sigma$-algebra.
+\end{lemma}
+
+\begin{proof}
+First, $\Omega\in\mathcal{F}'$ since $P(\Omega\triangle\Omega)=0$ and $P(\emptyset\triangle\emptyset)=0$.
+
+If $A\in\mathcal{F}'$, then $A^c\in\mathcal{F}'$ follows directly from the definition by swapping the roles of the two approximations.
+
+Let $\{A_n\}_{n\ge 1}\subset\mathcal{F}'$ and set $A=\bigcup_{n\ge 1}A_n$.
+Fix $\varepsilon>0$. For each $n$ choose $B_n,C_n\in\mathcal{S}$ so that
+\[
+P(A_n\triangle B_n)<\frac{\varepsilon}{2^{n+1}},\qquad
+P(A_n^c\triangle C_n)<\frac{\varepsilon}{2^{n+1}}.
+\]
+Let $\tilde{B}_n:=B_n\setminus \cup^{n-1}_{j=1} B_j$ and  $\tilde{C}_n:= \Big(\cap^{n-1}_{j=1} C_j\Big)\setminus C_n$. Then $(\tilde{B}_n)$ is disjoint sets in $\mathcal{S}$; is $(\tilde{C}_n)$  so. For any fixed $N\in \mathbb N$, 
+\[\sum^N_{n=1} \mu(\tilde{B}_n) = \mu(\cup_{j=1}^n \tilde{B}_j)\leq 1.\]
+Hence, $\sum^\infty_{n=1} \mu(\tilde{B}_n)\leq 1$. Similarly, $\sum^\infty_{n=1} \mu(\tilde{C}_n)\leq 1$. Thus, there exists $N\in \mathbb N$ such that 
+\[\sum^{\infty}_{n=N+1} \mu(\tilde{B}_n)+\sum^\infty_{n=N+1} \mu(\tilde{C}_n)<\varepsilon.\]
+Using the inclusion
+\[
+\Bigl(\bigcup_{n=1}^{\infty} A_n\Bigr)\triangle \Bigl(\bigcup_{n=1}^N B_n\Bigr)\ \subseteq\ \bigcup_{n=1}^\infty (A_n\triangle B_n) \cup \Big(\cup_{n=N+1}^\infty \tilde{B}_n \Big), 
+\]
+and Lemma~\ref{lem:subadd},
+\[
+P\Bigl(A\triangle \bigcap_{n=1}^N B_n\Bigr)\le \sum_{n=1}^\infty P(A_n\triangle B_n) +\sum_{n=N+1}^\infty P(\tilde{B}_n  )<\varepsilon.
+\]
+For the complement, note that $A^c=\bigcap_{n} A_n^c$ and use
+\[
+\Bigl(\bigcap_{n=1}^\infty A_n^c\Bigr)\triangle \Bigl(\bigcap_{n=1}^N C_n\Bigr) \subseteq\Big(\bigcup_{n=
+1}^\infty (A_n^c\triangle C_n)\Big)\cup \Big(\cup_{n=N+1}^\infty \tilde{C}_n \Big),
+\]
+to obtain
+\[
+P\Bigl(A^c\triangle \bigcap_{n=1}^N C_n\Bigr)\le \sum_{n=1}^\infty P(A_n^c\triangle C_n)+\sum_{n=N+1}^\infty P(\tilde{C}_n )< \varepsilon.
+\]
+Thus $A\in\mathcal{F}'$. We have shown that $\mathcal{F}'$ contains $\Omega$, is closed under complements, and is closed under countable unions; hence $\mathcal{F}'$ is a $\sigma$-algebra.
+
+Finally, $\mathcal{S}\subseteq \mathcal{F}'$ because if $A\in\mathcal{S}$, we can take $B_1=A$ (and $B_k=\emptyset$ for $k\ge 2$) and $C_1=A^c$ to get zero errors. Therefore $\sigma(\mathcal{S})=\mathcal{F}\subseteq \mathcal{F}'$.
+\end{proof}
+
+\begin{lemma}[Value on $\Omega$]\label{lem:POmega}
+$P(\Omega)=1$, and therefore $0\le P(A)\le 1$ for all $A\subseteq\Omega$.
+\end{lemma}
+
+\begin{proof}
+For each $n$, $\Omega=\pi_n^{-1}(\Omega_n)\in\mathcal{S}$ and by definition of $\mu$,
+$\mu(\Omega)=P_n(\Omega_n)=1$. Hence by Lemma~\ref{lem:agreement}, $P(\Omega)=\mu(\Omega)=1$.
+Monotonicity (which follows from the definition of $P$) gives $0\le P(A)\le P(\Omega)=1$.
+\end{proof}
+
+\begin{lemma}[Countable additivity on $\mathcal{F}$]\label{lem:sigmaadd}
+If $\{A_n\}_{n\ge 1}\subset\mathcal{F}$ are pairwise disjoint, then
+\[
+P\Bigl(\bigcup_{n=1}^\infty A_n\Bigr)=\sum_{n=1}^\infty P(A_n).
+\]
+\end{lemma}
+
+\begin{proof}
+By Lemma~\ref{lem:subadd} we already have ``$\le$'' for arbitrary families. It remains to prove the reverse inequality for disjoint families in $\mathcal{F}$.
+
+Fix $N\in\mathbb{N}$ and $\varepsilon>0$. Since $\mathcal{F}\subseteq \mathcal{F}'$ (Lemma~\ref{lem:Fprime}), for each $1\le n\le N$ choose $B_n\in\mathcal{S}$ with
+\[
+P(A_n\triangle B_n)<\frac{\varepsilon}{2N}.
+\]
+We have 
+\[
+\bigcup_{n=1}^N B_n\setminus \bigcup_{n=1}^N A_n\ \subseteq\ \bigcup_{n=1}^N\bigl(B_n\triangle  A_n\bigr)
+.
+\]
+By Lemma~\ref{lem:subadd} and the choice of $B_n$,
+\[
+P\bigl(\bigcup_{n=1}^N B_n\setminus \bigcup_{n=1}^N A_n\bigr)\le \sum_{n=1}^N P(B_n\triangle A_n)
+\le \frac{\varepsilon}{2}.
+\]
+Using $P(A)\ge P(B)-P(B\setminus A)$ with $A=\bigcup_{n=1}^N A_n$ and $B=\bigcup_{n=1}^N B_n$ gives
+\begin{equation}\label{eq:AN-lower-1}
+P\bigl(\bigcup_{n=1}^N A_n\bigr)\ \ge\ P\bigl(\bigcup_{n=1}^N B_n\bigr)-\frac{\varepsilon}{2}.
+\end{equation}
+
+Define disjoint sets
+\[
+D_1=B_1,\qquad D_n=B_n\setminus \bigcup_{j=1}^{n-1} B_j\quad (2\le n\le N).
+\]
+Then $\bigcup_{n=1}^N B_n=\bigsqcup_{n=1}^N D_n$, so $P(\bigcup_{n=1}^N B_n)=\sum_{n=1}^N P(D_n)$.
+For each $n$ we have the inclusion
+\[
+A_n\ \subset D_n  \cup\ \bigcup_{j=1}^{n}(A_j\triangle B_j),
+\]
+because if $x\in A_n\cap B_n$ but $x\notin D_n$, then $x\in B_j$ for some $j<n$; since the $A_i$ are disjoint and $x\in A_n$, we must have $x\notin A_j$, hence $x\in B_j\setminus A_j\subset A_j\triangle B_j$.
+Applying $P$ and subadditivity,
+\[
+P(A_n)\le P(D_n)+\sum_{j=1}^{n} P(A_j\triangle B_j).
+\]
+Rearrange and sum over $n=1,\dots,N$:
+\[
+\sum_{n=1}^N P(D_n)\ \ge\ \sum_{n=1}^N P(A_n)  - \sum_{n=1}^N\sum_{j=1}^{n} P(A_j\triangle B_j).
+\]
+Note  that 
+\[
+\sum_{n=1}^N\sum_{j=1}^{n} P(A_j\triangle B_j)
+=\sum_{j=1}^{N}(N-j+1)\,P(A_j\triangle B_j)
+\le N\sum_{j=1}^{N} P(A_j\triangle B_j)
+\le N\cdot \frac{\varepsilon}{2N}=\frac{\varepsilon}{2}.
+\]
+Therefore,
+\[
+P\bigl(\cup^N_{j=1}B_j\bigr)=\sum_{n=1}^N P(D_n)\ \ge\ \sum_{n=1}^N P(A_n)\ -\ \frac{\varepsilon}{2}.
+\]
+Combining with \eqref{eq:AN-lower-1} gives
+\[
+P\Bigl(\bigcup_{n=1}^N A_n\Bigr)\ \ge\ \sum_{n=1}^N P(A_n)-\varepsilon.
+\]
+Since $\varepsilon>0$ is arbitrary, we conclude
+\[
+P\Bigl(\bigcup_{n=1}^N A_n\Bigr)\ \ge\ \sum_{n=1}^N P(A_n).
+\]
+Finally, the sequence $\bigcup_{n=1}^N A_n$ is increasing in $N$, so by monotonicity and the definition of $P$,
+\[
+P\Bigl(\bigcup_{n=1}^{\infty} A_n\Bigr)=\lim_{N\to\infty} P\Bigl(\bigcup_{n=1}^{N} A_n\Bigr)\ \ge\ \lim_{N\to\infty}\sum_{n=1}^{N} P(A_n)=\sum_{n=1}^{\infty} P(A_n),
+\]
+which, together with subadditivity, yields equality.
+\end{proof}
+
+\paragraph{Conclusion of the theorem.}
+By Lemma~\ref{lem:POmega}, $P(\Omega)=1$ and $0\le P\le 1$. By Lemma~\ref{lem:sigmaadd}, $P$ is countably additive on $\mathcal{F}$ for disjoint sequences, hence a probability measure on $(\Omega,\mathcal{F})$.
+\qed

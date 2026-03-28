@@ -244,32 +244,28 @@
         <strong>例</strong>：\(n\) は 2 の倍数 \(\overset{\text{def}}{\Leftrightarrow}\) \(\dfrac{n}{2} \in \mathbb{Z}\)</li>
     </ul>
 
-    <h2>数列の導入</h2>
 
-    <h3>数列</h3>
-
-    <ol>
-        <li>\((1, 2, 3, 4, \dots)\)</li>
-        <li>\((0, 0, 0, \dots)\)</li>
-        <li>\((1, -1, 1, -1, \dots)\)</li>
-    </ol>
-
-    <p>などを<strong>数列</strong>とよぶ。</p>
-
-    <hr>
-
-    <p>数列を定式化する際、n 番目の数を \(a_n = \dots\) として考える。</p>
-
-    <h3>例</h3>
-    <div class="example">
-        <ol>
-            <li>数列：\(a_n = n\)</li>
-            <li>数列：\(a_n = 0\)</li>
-            <li>数列：\(a_n = (-1)^n\)</li>
-        </ol>
+  <h2>数列の収束の記法</h2>
+  <div class="definition-box">
+    <p>数列 $\{a_n\}$ が実数 $a$ に収束するとき：</p>
+    <div class="math-display">
+      $$\lim_{n \to \infty} a_n = a,\text{ or } a_n\to a$$
     </div>
+    <p>
+      と表記する。($n$ が十分大きくなると、数列の項 $a_n$ が極限値 $a$ にいくらでも近づくことを意味している)
+    </p>
+  </div>
 
-    <hr>
+  <h2>3. 基本的な性質</h2>
+  <div class="property">
+    <p><strong>加法性:</strong> $\lim_{n \to \infty} a_n = a$, $\lim_{n \to \infty} b_n = b$ のとき、$\lim_{n \to \infty} (a_n + b_n) = a + b$</p>
+  </div>
+  <div class="property">
+    <p><strong>乗法性:</strong> $\lim_{n \to \infty} a_n = a$, $\lim_{n \to \infty} b_n = b$ のとき、$\lim_{n \to \infty} (a_n \cdot b_n) = a \cdot b$</p>
+  </div>
+  <div class="property">
+    <p><strong>はさみうちの定理:</strong> $a_n \leq b_n \leq c_n$ かつ $\lim_{n \to \infty} a_n = \lim_{n \to \infty} c_n = L$ ならば、$\lim_{n \to \infty} b_n = L$</p>
+  </div>
 
     <p><strong>注</strong>：数列そのものは \((a_n)_{n \in \mathbb{N}}\) と書く。</p>
 
