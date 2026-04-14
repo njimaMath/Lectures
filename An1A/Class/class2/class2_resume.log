@@ -1,4 +1,4 @@
-This is e-upTeX, Version 3.141592653-p4.1.0-u1.29-230214-2.6 (utf8.euc) (TeX Live 2023/Debian) (preloaded format=platex 2025.4.6)  14 APR 2026 16:50
+This is e-upTeX, Version 3.141592653-p4.1.0-u1.29-230214-2.6 (utf8.euc) (TeX Live 2023/Debian) (preloaded format=platex 2025.4.6)  14 APR 2026 16:56
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -637,4 +637,4 @@ Here is how much of TeX's memory you used:
  314 hyphenation exceptions out of 8191
  85i,7n,93p,422b,693s stack positions out of 10000i,1000n,20000p,200000b,200000s
 
-Output written on class2_resume.dvi (3 pages, 61008 bytes).
+Output written on class2_resume.dvi (3 pages, 61248 bytes).
