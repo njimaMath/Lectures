@@ -1,0 +1,230 @@
+\documentclass[a4paper,12pt]{jsarticle}
+\usepackage[dvipdfmx,margin=24mm]{geometry}
+\usepackage[dvipdfmx]{graphicx}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{enumitem}
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta}
+
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{0.35em}
+\setlist[itemize]{leftmargin=2em,itemsep=0.2em,topsep=0.3em}
+
+\theoremstyle{definition}
+\newtheorem*{definition}{定義}
+\newtheorem*{theorem}{定理}
+
+\begin{document}
+
+\begin{center}
+{\LARGE 数学1A 第2回レジュメ}\\[0.4em]
+連続と微分の基本
+\end{center}
+
+\section*{1. 連続の定義}
+
+\begin{definition}
+関数 $f$ が点 $a$ で連続であるとは，
+\[
+\lim_{x \to a} f(x)=f(a)
+\]
+が成り立つことをいう。
+\end{definition}
+
+$f$ が区間 $I$ で連続であるとは，$I$ の各点で連続であることをいう。
+
+\section*{2. 連続の例}
+
+\subsection*{例1. $f(x)=x$}
+
+$f(x)=x$ は $\mathbb{R}$ で連続。
+
+\begin{center}
+\begin{tikzpicture}[x=1cm,y=1cm]
+\draw[->] (-2.3,0) -- (2.3,0) node[below] {$x$};
+\draw[->] (0,-2.3) -- (0,2.3) node[left] {$y$};
+\draw[thick,domain=-2:2,samples=2] plot (\x,\x);
+\draw (1.6,1.9) node[right] {$f(x)=x$};
+\end{tikzpicture}
+\end{center}
+
+\subsection*{例2. $f(x)=\mathbf{1}_{\{x\ge 0\}}$}
+
+\[
+f(x)=
+\begin{cases}
+0 & (x<0),\\
+1 & (x\ge 0)
+\end{cases}
+\]
+とする。$x=0$ で不連続。
+\[
+\lim_{x\to 0-}f(x)=0,\qquad \lim_{x\to 0+}f(x)=1
+\]
+
+\begin{center}
+\begin{tikzpicture}[x=1.4cm,y=1.4cm]
+\draw[->] (-2.2,0) -- (2.2,0) node[below] {$x$};
+\draw[->] (0,-0.4) -- (0,1.6) node[left] {$y$};
+\draw[thick] (-2,0) -- (0,0);
+\draw[thick] (0,1) -- (2,1);
+\filldraw[white] (0,0) circle (2pt);
+\fill (0,1) circle (2pt);
+\draw (-1.45,0.2) node {$f(x)=0$};
+\draw (1.45,1.2) node {$f(x)=1$};
+\end{tikzpicture}
+\end{center}
+
+\subsection*{例3. $f(x)=\sin\!\left(\frac{1}{x}\right)$}
+
+関数
+\[
+f(x)=\sin\!\left(\frac{1}{x}\right)
+\]
+は $x\ne 0$ で連続であるが，$x\to 0$ で極限をもたない。
+
+\begin{center}
+\begin{tikzpicture}[x=1.2cm,y=1.5cm]
+\draw[->] (-4.3,0) -- (4.3,0) node[below] {$x$};
+\draw[->] (0,-1.3) -- (0,1.3) node[left] {$y$};
+\draw[thick,smooth,domain=-4:-0.08,samples=250] plot (\x,{sin(deg(1/\x))});
+\draw[thick,smooth,domain=0.08:4,samples=250] plot (\x,{sin(deg(1/\x))});
+\draw[dashed] (0,-1.05) -- (0,1.05);
+\draw (2.1,0.95) node {$f(x)=\sin(1/x)$};
+\end{tikzpicture}
+\end{center}
+
+\section*{3. 中間値の定理}
+
+\begin{theorem}
+$f$ を閉区間 $[a,b]$ で連続な関数とする。
+\begin{itemize}
+\item $f(a)\le f(b)$ なら，各 $\lambda \in [f(a),f(b)]$ に対し，ある $c \in [a,b]$ があって $f(c)=\lambda$。
+\item $f(a)\ge f(b)$ なら，各 $\lambda \in [f(b),f(a)]$ に対し，ある $c \in [a,b]$ があって $f(c)=\lambda$。
+\end{itemize}
+\end{theorem}
+
+\begin{center}
+\begin{minipage}[t]{0.45\linewidth}
+\centering
+\begin{tikzpicture}[x=0.92cm,y=0.92cm]
+\draw[->] (0,0) -- (4.2,0) node[below] {$x$};
+\draw[->] (0,0) -- (0,3.3) node[left] {$y$};
+\draw[thick] (0.6,0.8)
+  .. controls (1.0,1.15) and (1.55,1.48) .. (2.35,1.6)
+  .. controls (2.9,1.7) and (3.2,2.05) .. (3.55,2.5);
+\draw[dashed] (0,1.6) -- (2.35,1.6);
+\draw[dashed] (2.35,0) -- (2.35,1.6);
+\fill (0.6,0.8) circle (2pt);
+\fill (3.55,2.5) circle (2pt);
+\fill (2.35,1.6) circle (2pt);
+\draw (0.6,-0.2) node {$a$};
+\draw (3.55,-0.2) node {$b$};
+\draw (2.35,-0.2) node {$c$};
+\draw (-0.25,0.8) node {$f(a)$};
+\draw (-0.25,2.5) node {$f(b)$};
+\draw (-0.35,1.6) node {$\lambda$};
+\end{tikzpicture}
+
+$f(a)\le f(b)$ の場合
+\end{minipage}
+\hfill
+\begin{minipage}[t]{0.45\linewidth}
+\centering
+\begin{tikzpicture}[x=0.92cm,y=0.92cm]
+\draw[->] (0,0) -- (4.2,0) node[below] {$x$};
+\draw[->] (0,0) -- (0,3.3) node[left] {$y$};
+\draw[thick] (0.6,2.6)
+  .. controls (1.05,2.2) and (1.55,1.72) .. (2.75,1.55)
+  .. controls (3.05,1.5) and (3.25,1.18) .. (3.55,0.8);
+\draw[dashed] (0,1.55) -- (2.75,1.55);
+\draw[dashed] (2.75,0) -- (2.75,1.55);
+\fill (0.6,2.6) circle (2pt);
+\fill (3.55,0.8) circle (2pt);
+\fill (2.75,1.55) circle (2pt);
+\draw (0.6,-0.2) node {$a$};
+\draw (3.55,-0.2) node {$b$};
+\draw (2.75,-0.2) node {$c$};
+\draw (-0.25,2.6) node {$f(a)$};
+\draw (-0.25,0.8) node {$f(b)$};
+\draw (-0.35,1.55) node {$\lambda$};
+\end{tikzpicture}
+
+$f(a)\ge f(b)$ の場合
+\end{minipage}
+\end{center}
+
+\section*{4. 微分の定義}
+
+\begin{definition}
+関数 $f$ が点 $a$ で微分可能であるとは，極限
+\[
+f'(a)=\lim_{h\to 0}\frac{f(a+h)-f(a)}{h}
+\]
+が存在することをいう。
+\end{definition}
+
+\begin{definition}
+$f$ が区間 $I$ で微分可能であるとは，$I$ の各内点で微分可能であることをいう。
+\end{definition}
+
+微分可能ならば連続。
+
+\section*{5. 微分法則}
+
+$f,g$ を区間 $I$ で微分可能な関数とする。
+
+\begin{theorem}
+\[
+(f+g)'=f'+g',\qquad (fg)'=f'g+fg'
+\]
+\[
+\left(\frac{f}{g}\right)'=\frac{f'g-fg'}{g^2}\qquad (g\ne 0)
+\]
+\[
+(g\circ f)'(x)=g'(f(x))f'(x)
+\]
+\[
+\frac{d}{dx}\log f(x)=\frac{f'(x)}{f(x)}\qquad (f(x)>0)
+\]
+\[
+f'(x)=(\log f(x))'f(x)\qquad (f(x)>0)
+\]
+\end{theorem}
+
+\subsection*{加法性の証明}
+
+\begin{proof}
+$a\in I$ とする。差商を計算すると
+\[
+\frac{(f+g)(a+h)-(f+g)(a)}{h}
+=\frac{f(a+h)-f(a)}{h}+\frac{g(a+h)-g(a)}{h}
+\]
+である。$h\to 0$ とすると右辺は $f'(a)+g'(a)$ に収束するので，
+\[
+(f+g)'(a)=f'(a)+g'(a)
+\]
+を得る。
+\end{proof}
+
+\subsection*{対数微分の形}
+
+たとえば
+\[
+f(x)=u(x)^{v(x)} \qquad (u(x)>0)
+\]
+ならば
+\[
+\log f(x)=v(x)\log u(x)
+\]
+より
+\[
+\frac{f'(x)}{f(x)}=v'(x)\log u(x)+v(x)\frac{u'(x)}{u(x)}
+\]
+したがって
+\[
+f'(x)=u(x)^{v(x)}\left(v'(x)\log u(x)+v(x)\frac{u'(x)}{u(x)}\right)
+\]
+である。
+
+\end{document}
