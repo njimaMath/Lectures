@@ -1,0 +1,127 @@
+\documentclass[a4paper,12pt]{jsarticle}
+\usepackage[margin=24mm]{geometry}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{enumitem}
+
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{0.6em}
+\setlist[itemize]{leftmargin=2em,itemsep=0.2em,topsep=0.3em}
+
+\theoremstyle{definition}
+\newtheorem*{definition}{定義}
+
+\begin{document}
+
+\begin{center}
+{\LARGE 数学1A 第1回まとめ}\\[0.4em]
+集合の復習と極限の記法\\
+{\small （ほぼ厳密でない説明を含む）}
+\end{center}
+
+\section*{1. 集合と元}
+
+集合とは，ものの集まりのことである。集合を構成する一つ一つの対象を元という。
+
+例として，次のような集合を考えることができる。
+\begin{itemize}
+\item $\{\text{猫},\text{犬},\text{牛},\dots\}$ : 動物の集合
+\item $\{\text{月},\text{水},\text{木},\text{金},\dots\}$ : 曜日の集合
+\end{itemize}
+
+数学でよく使う代表的な集合は次の通りである。
+\begin{itemize}
+\item 自然数: $(1,2,3,4,\dots)$, 記号は $\mathbb{N}$
+\item 整数: $(0,1,-1,2,-2,3,-3,\dots)$, 記号は $\mathbb{Z}$
+\item 有理数: $0,1,\frac{1}{3},0.25,-\frac{2}{3},\dots$ のように，整数 $a,b$ を用いて $\frac{a}{b}$ と表せる数, 記号は $\mathbb{Q}$
+\item 実数: $0,1,\pi,e,\pi e,\dots$ を含む数全体, 記号は $\mathbb{R}$
+\end{itemize}
+
+\begin{definition}
+$a$ が集合 $A$ の元であるとき，$a \in A$ と書く。\\
+$a$ が集合 $A$ の元でないとき，$a \notin A$ と書く。
+\end{definition}
+
+例えば，
+\begin{itemize}
+\item $1 \in \mathbb{N}$
+\item $2 \in \mathbb{Z}$
+\item $-2 \notin \mathbb{N}$
+\end{itemize}
+である。
+
+\section*{2. よく使う記法}
+
+大学数学では，
+\begin{itemize}
+\item 「$a$ を自然数とする」を「$a \in \mathbb{N}$ とする」と書く
+\item 「$a$ を整数とする」を「$a \in \mathbb{Z}$ とする」と書く
+\item 同様に，対象がどの集合に属するかを記号で明示する
+\end{itemize}
+という書き方をよく用いる。
+
+\section*{3. 関数の収束の記法}
+
+関数 $f(x)$ が $x \to a$ のとき実数 $L$ に収束するとき，
+\[
+\lim_{x \to a} f(x)=L
+\]
+と書く。これは，$x$ が $a$ に近づくとき，関数値 $f(x)$ が $L$ にいくらでも近づくことを表している。
+
+\section*{4. 極限の基本的な性質}
+
+$\lim_{x \to a} f(x)=L$, $\lim_{x \to a} g(x)=M$ とする。このとき，次が成り立つ。
+\begin{itemize}
+\item 加法性:
+\[
+\lim_{x \to a}(f(x)+g(x))=L+M
+\]
+\item 乗法性:
+\[
+\lim_{x \to a}(f(x)g(x))=LM
+\]
+\item はさみうちの定理: $f(x)\le g(x)\le h(x)$ かつ
+\[
+\lim_{x \to a} f(x)=\lim_{x \to a} h(x)=L
+\]
+ならば，
+\[
+\lim_{x \to a} g(x)=L
+\]
+\end{itemize}
+
+\section*{5. $\varepsilon$-$\delta$ 論法}
+
+\begin{definition}
+関数 $f(x)$ が $x \to a$ のとき実数 $L$ に収束するとは，任意の $\varepsilon>0$ に対して，ある $\delta>0$ が存在し，
+\[
+0<|x-a|<\delta
+\]
+ならば
+\[
+|f(x)-L|<\varepsilon
+\]
+となることをいう。
+\end{definition}
+
+証明を書くときは，まず $\varepsilon>0$ を任意に取る。次に，$\delta$ を $\varepsilon$ の関数として適切に定める。そのうえで，
+\[
+0<|x-a|<\delta
+\]
+を仮定すると
+\[
+|f(x)-L|<\cdots<\varepsilon
+\]
+が従うことを示す。このとき，$\delta$ の選び方と途中の評価を具体的に埋めることが重要である。
+
+\section*{まとめ}
+
+この回の要点は次の通りである。
+\begin{itemize}
+\item 集合と元の記法として $a \in A$, $a \notin A$ を用いる
+\item $\mathbb{N},\mathbb{Z},\mathbb{Q},\mathbb{R}$ は基本的な数の集合である
+\item 極限の記法 $\lim_{x \to a} f(x)=L$ は，関数値の近づき方を表す
+\item 極限の議論では，加法性，乗法性，はさみうちの定理が基本になる
+\item 厳密な極限の定義には $\varepsilon$-$\delta$ 論法を用いる
+\end{itemize}
+
+\end{document}

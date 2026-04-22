@@ -1,0 +1,19 @@
+# Fdb version 4
+["dvipdf"] 0 "class2_resume.dvi" "class2_resume.pdf" "class2_resume" 0 -1
+  "class2_resume.dvi" 0 -1 0 "latex"
+  (generated)
+  "class2_resume.pdf"
+  (rewritten before read)
+["latex"] 1776152224.25839 "class2_resume.tex" "class2_resume.dvi" "class2_resume" 1776152224.50952 2
+  "/etc/texmf/web2c/texmf.cnf" 1682427287.032 475 c0e671620eb5563b2130f56340a5fde8 ""
+  "/usr/share/texlive/texmf-dist/tex/platex/jsclasses/jsarticle.cls" 1677186565 61387 1c16fa09f9aa344f6b7ed4a7e2c399b2 ""
+  "/usr/share/texlive/texmf-dist/web2c/texmf.cnf" 1707919699 40399 f2c302f7d2af602abb742093540a5834 ""
+  "/usr/share/texmf/web2c/texmf.cnf" 1707919699 40399 f2c302f7d2af602abb742093540a5834 ""
+  "/var/lib/texmf/web2c/pdftex/latex.fmt" 1743949418 6927488 5e5b3d47e44dabce5da8bf8c93fe01b3 ""
+  "class2_resume.aux" 1776152224.25647 32 3985256e7290058c681f74d7a3565a19 "latex"
+  "class2_resume.tex" 1776152218.81764 7749 d0f0e4907c6a056260635f75d98bc6a9 ""
+  (generated)
+  "class2_resume.aux"
+  "class2_resume.dvi"
+  "class2_resume.log"
+  (rewritten before read)
