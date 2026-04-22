@@ -1,6 +1,16 @@
+\RequirePackage{iftex}
+\ifPDFTeX
+\documentclass[a4paper,12pt]{article}
+\usepackage[margin=24mm]{geometry}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{graphicx}
+\usepackage{CJKutf8}
+\else
 \documentclass[a4paper,12pt]{jsarticle}
 \usepackage[dvipdfmx,margin=24mm]{geometry}
 \usepackage[dvipdfmx]{graphicx}
+\fi
 \usepackage{amsmath,amssymb,amsthm}
 \usepackage{enumitem}
 \usepackage{tikz}
@@ -10,16 +20,104 @@
 \setlength{\parskip}{0.35em}
 \setlist[itemize]{leftmargin=2em,itemsep=0.2em,topsep=0.3em}
 
+\newcommand{\feedbackqa}[2]{%
+\item[]
+\begin{tabular}[t]{@{}p{1.8em}@{\hspace{0.4em}}p{\dimexpr\linewidth-2.2em\relax}@{}}
+Q. & #1 \\
+A. & #2
+\end{tabular}
+\par\smallskip\hrulefill
+}
+
+\newcommand{\feedbacknote}[1]{%
+\item[] #1\par\smallskip\hrulefill
+}
+
+\newcommand{\feedbackrule}{%
+\item[] \leavevmode\hrulefill
+}
+
+\begin{document}
+\ifPDFTeX
+\begin{CJK}{UTF8}{min}
+\fi
 \theoremstyle{definition}
 \newtheorem*{definition}{定義}
 \newtheorem*{theorem}{定理}
-
-\begin{document}
 
 \begin{center}
 {\LARGE 数学1A 第2回レジュメ}\\[0.4em]
 連続と微分の基本
 \end{center}
+\section*{フィードバック}
+
+\begin{itemize}[leftmargin=1.5em,itemsep=0.7em,topsep=0.3em]
+\feedbackqa{太文字($\mathbb N,\mathbb R$など)の文字の書き方がわからない}{一本線を足すだけです。}
+\feedbackqa{$x\in (0,\infty)$ と書くとき、実数であることを明確にするために、$x \in \mathbb{R}$ かつ $x\in (0,\infty)$ と書かなくてよいのか。}{もちろん $x\in \mathbb{R}$ かつ $x\in (0,\infty)$ と書いてもよいですが、通常は $x\in (0,\infty)$ とだけ書きます。理由は、$(0,\infty)$ は $\mathbb{R}$ の部分集合として定義されているので、$x\in (0,\infty)$ だけで実数だとわかるからです。（ちなみに複素数の場合は $x>0$ という順序が定義できないので、実数となります。）}
+\feedbackqa{自分の記号の字が雑すぎて、バツにされないか不安}{回答を見る限り、普通に読めます。むしろ読みやすいくらいなので大丈夫です。}
+\feedbackqa{理解するのが急に難しくなる分野はあるか}{数学でいうと、集合論や位相のあたりは急に難しく感じる人が多いです。}
+\feedbackqa{眠い}{一限なので大変ですが、頑張りましょう。}
+\feedbackqa{ワクワクする不定積分は何でしょう？（答えは $\int 1\,dx = x+C$、つまり「エックスたすシー」）}{……。}
+\feedbackqa{教科書で勉強すれば期末を乗り切れるか}{教科書の範囲から出ますが、過去問を見た感じでは難易度はもう少し高いように思います。（同級生と対策セミナーのようなものを開いてみるとよいかもしれません。）}
+\feedbackqa{再履がんばります}{ぜひ頑張りましょう。}
+\feedbackqa{授業のノートを取るにあたり、手書きかタブレットか、どちらがよいか}{これは好みの問題ですが、私は手書きのほうが頭に入りやすい気がします。}
+\feedbackqa{$\epsilon$-$\delta$ が、これでなぜ定義になっているのか知りたい}{実は、極限の定義の仕方は $\epsilon$-$\delta$ 以外にもいくつかあります。$\epsilon$-$\delta$ が採用されているのは、便利だからという理由が一番大きいと思います。直感的には、$<\delta$ や $<\epsilon$ は「十分小さい」という意味です。したがって、$|x-a|<\delta$ は「$x$ が $a$ に十分近い」、$|f(x)-b|<\epsilon$ は「$f(x)$ が $b$ に十分近い」ということなので、直感ともそれほど離れていない定義だと理解しています。}
+\feedbackqa{高校の内容で復習したほうが良いものはあるか}{復習しておいたほうがよい高校範囲は、数学II・IIIの微積です。定義だけでも見ておくとよいと思います。}
+\feedbackqa{もっと論理っぽいことをやりたい}{学科の枠を越えて、数理科学科でお待ちしています。}
+\feedbackqa{オンデマンドをやる予定はあるか？}{6月の第2週に出張が入っているので、そのときはオンデマンドになると思います。}
+\feedbackqa{暗記より理解するほうが大事か？}{どちらも大事だと思います。暗記しているうちに、自然に考えが深まって理解につながることもあります。（自分は $\epsilon$-$\delta$ の理解がそんな感じでした。）}
+\feedbackqa{ギリシャ文字を書くのが苦手}{ぜひ周りの人に確認してもらいましょう。}
+\feedbackqa{$\epsilon$-$\delta$ をやる理由}{使っているとわかりますが、説明するときに便利だというのが自分の認識です。}
+\feedbackqa{演習問題を載せたプリントを配布してほしい。}{レポートを2回配る予定です。それ以外は教科書の演習問題を解いてほしいと思います（解答は巻末についています）。}
+\feedbackqa{教科書の使い方について}{授業でわからなかったところや、授業で扱わなかったところを復習するのに使うとよいと思います。}
+\feedbackqa{Word で数式をどうやって入力する？}{私は Word で数式入力をすることがないので、あまりよくわかりません。（たしか「数式」というタブがあったような気もします。）基本的には LaTeX という枠組みを使うことが多いです。}
+\feedbackqa{$0<x$ と書いたとき、虚数はなぜ含まれないか？}{虚数には順序がないので、$0<x$ と書いた瞬間に $x$ は実数となります。}
+\feedbackqa{おすすめの問題集}{指定した教科書くらいしか知らないですね。}
+\feedbackqa{欠席した場合はどう勉強すればよいか？}{教科書を読んでいただいて、わからないところがあれば聞いてください。}
+\feedbackqa{予習の仕方}{授業が始まる前に数分でもよいので、教科書に出てくる単語を眺めておくのはしたほうがよいと思います。可能であれば、ある程度理解したうえで授業に臨むのがベストです。}
+\feedbackqa{$\epsilon$-$\delta$ 論法をやっていると、理解していないのにできている気分になる。}{とりあえずはそれでよいと思いますし、ルールどおりにできることが理解の第一歩だと思います。}
+\feedbackqa{なぜ $|x-a|<\delta$ には $\delta$ を、$|f(x)-b|<\epsilon$ には $\epsilon$ を使うのか？}{よい質問ですね。これは単純に慣習的なもので、特に深い意味はありません。逆に「任意の $\delta$ について、ある $\epsilon$ が存在して、$|x-a|<\epsilon$、$|f(x)-b|<\delta$」と書いても、まったく問題ありません。}
+\end{itemize}
+
+\section*{小テスト}
+
+\subsection*{問題}
+
+問1. 次を言い換えよ。
+\begin{itemize}
+\item $(1)$ $a$ を実数とする
+\item $(2)$ $x$ を負の実数とする
+\end{itemize}
+
+問2. $\epsilon$-$\delta$ 論法で
+\[
+\lim_{x\to 1}(x-2)=-1
+\]
+を示せ。
+
+\subsection*{解答}
+
+問1.
+\begin{itemize}
+\item $(1)$ $a\in \mathbb{R}$
+\item $(2)$ $x\in (-\infty,0)$
+\end{itemize}
+
+問2.
+
+任意の $\epsilon>0$ をとる。ここで
+\[
+\delta=\epsilon
+\]
+とおく。$|x-1|<\delta$ ならば
+\[
+|(x-2)-(-1)|=|x-1|<\delta=\epsilon
+\]
+である。したがって
+\[
+\lim_{x\to 1}(x-2)=-1
+\]
+が成り立つ。
 
 \section*{1. 連続の定義}
 
@@ -99,8 +197,8 @@ f(x)=\sin\!\left(\frac{1}{x}\right)
 \begin{theorem}
 $f$ を閉区間 $[a,b]$ で連続な関数とする。
 \begin{itemize}
-\item $f(a)\le f(b)$ なら，各 $\lambda \in [f(a),f(b)]$ に対し，ある $c \in [a,b]$ があって $f(c)=\lambda$。
-\item $f(a)\ge f(b)$ なら，各 $\lambda \in [f(b),f(a)]$ に対し，ある $c \in [a,b]$ があって $f(c)=\lambda$。
+\item $f(a)\le f(b)$ なら，任意の $\lambda \in [f(a),f(b)]$ に対し，ある $c \in [a,b]$ があって $f(c)=\lambda$。
+\item $f(a)\ge f(b)$ なら，任意の $\lambda \in [f(b),f(a)]$ に対し，ある $c \in [a,b]$ があって $f(c)=\lambda$。
 \end{itemize}
 \end{theorem}
 
@@ -168,7 +266,7 @@ f'(a)=\lim_{h\to 0}\frac{f(a+h)-f(a)}{h}
 $f$ が区間 $I$ で微分可能であるとは，$I$ の各内点で微分可能であることをいう。
 \end{definition}
 
-微分可能ならば連続。
+微分可能ならば連続である。
 
 \section*{5. 微分法則}
 
@@ -227,12 +325,8 @@ f'(x)=u(x)^{v(x)}\left(v'(x)\log u(x)+v(x)\frac{u'(x)}{u(x)}\right)
 \]
 である。
 
-\section*{フィードバック}
-
-\begin{itemize}
-\item \hrulefill
-\item \hrulefill
-\item \hrulefill
-\end{itemize}
+\ifPDFTeX
+\end{CJK}
+\fi
 
 \end{document}
