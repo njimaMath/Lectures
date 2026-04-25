@@ -1,0 +1,133 @@
+\documentclass[a4paper,12pt]{jsarticle}
+\usepackage[dvipdfmx,margin=24mm]{geometry}
+\usepackage{amsmath,amssymb}
+\usepackage{enumitem}
+
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{0.55em}
+\setlist[enumerate]{leftmargin=3em,itemsep=0.35em,topsep=0.25em}
+
+\newcommand{\tenpoints}{\hfill （10点）}
+\newcommand{\fivepoints}{\hfill （5点）}
+\newcommand{\blankbox}[1]{\fbox{\rule{0pt}{2.4ex}\hspace{#1}}}
+\newcommand{\problem}[2]{\vspace{0.9em}\noindent{\large 問題#1. #2}\par}
+
+\begin{document}
+
+\begin{center}
+{\Large 数学1A レポート1}\\[0.4em]
+連続，微分，平均値の定理，テイラー展開\\[0.4em]
+満点 100点
+\end{center}
+
+学籍番号 \underline{\hspace{10em}}\hfill
+氏名 \underline{\hspace{12em}}
+
+すべての問題に答えよ。計算問題では途中式も書くこと。証明問題では，どの定理をどこで使ったかが分かるように説明すること。
+
+\problem{1}{記号で書き直す}\tenpoints
+
+次の文を，$\mathbb{R},\mathbb{N},\forall,\exists$ を用いて記号で書き直せ。
+
+任意の実数 $x$ に対して，$x$ より大きい自然数 $n$ が存在する。
+
+\[
+\blankbox{28em}
+\]
+
+\problem{2}{記号で書き直す}\tenpoints
+
+次の文を，$\mathbb{R},\mathbb{N},\forall,\exists$ を用いて記号で書き直せ。
+
+ある実数 $a$ が存在して，任意の自然数 $n$ に対して $a<n$ となる。
+
+\[
+\blankbox{28em}
+\]
+
+\problem{3}{$\varepsilon$-$\delta$ による極限の証明}\tenpoints
+
+$f(x)=x^2$ とする。このとき
+\[
+\lim_{x\to 1} f(x)=1
+\]
+であることを，$\varepsilon$-$\delta$ の定義に従って証明せよ。
+
+ヒント: $\varepsilon>0$ を任意にとる。たとえば
+\[
+\delta=\blankbox{10em}
+\]
+とおく。$0<|x-1|<\delta$ のとき，
+\[
+|f(x)-1|
+=|x^2-1|
+=|x-1||x+1|
+<\blankbox{8em}
+<\varepsilon
+\]
+となるように，空欄を埋めながら証明を完成させよ。
+
+\problem{4}{中間値の定理を用いる問題}\tenpoints
+
+赤道上の各地点の気温を角度 $\theta$ の関数 $T(\theta)$ で表す。$T$ は連続であり，$T(\theta+2\pi)=T(\theta)$ を満たすと仮定する。
+
+このとき，赤道上には互いに反対側にある2地点で，気温が等しいものが存在することを中間値の定理を用いて示せ。
+
+ヒント: $g(\theta)=T(\theta)-T(\theta+\pi)$ を考える。
+
+\problem{5}{微分の計算}\tenpoints
+
+次の導関数を求めよ。
+
+\begin{enumerate}[label=(\alph*)]
+\item $\displaystyle \frac{d}{dx}\{(x^2+1)\sin x\}$ \fivepoints
+\item $\displaystyle \frac{d}{dx}\left(\frac{e^x}{1+x^2}\right)$ \fivepoints
+\end{enumerate}
+
+\problem{6}{コーシーの平均値の定理}\tenpoints
+
+$0<a<b$ とする。関数 $f(x)=\log x$, $g(x)=x$ にコーシーの平均値の定理を用いて，
+\[
+\frac{b-a}{b}<\log b-\log a<\frac{b-a}{a}
+\]
+を示せ。
+
+\problem{7}{ロピタルの定理}\tenpoints
+
+ロピタルの定理を用いて，次の極限を求めよ。
+
+\begin{enumerate}[label=(\alph*)]
+\item $\displaystyle \lim_{x\to 0}\frac{\sin x}{x}$ \fivepoints
+\item $\displaystyle \lim_{x\to 0}\frac{e^x-1-x}{x^2}$ \fivepoints
+\end{enumerate}
+
+\problem{8}{高階導関数}\tenpoints
+
+次の高階導関数を求めよ。
+
+\begin{enumerate}[label=(\alph*)]
+\item $f(x)=x^2e^x$ の $f^{(3)}(x)$ \fivepoints
+\item $g(x)=\sin x$ の $g^{(2026)}(x)$ \fivepoints
+\end{enumerate}
+
+\problem{9}{テイラー展開}\tenpoints
+
+次の関数の $x=0$ におけるテイラー展開を，指定された次数まで求めよ。
+
+\begin{enumerate}[label=(\alph*)]
+\item $\sin x$ を $x^5$ の項まで求めよ。 \fivepoints
+\item $\log(1+x)$ を $x^4$ の項まで求めよ。 \fivepoints
+\end{enumerate}
+
+\problem{10}{テイラー展開の歴史}\tenpoints
+
+テイラー展開の歴史について調べ，400字以上でまとめよ。次の内容を必ず含めること。
+
+\begin{itemize}
+\item ブルック・テイラーがどの時代の数学者か。
+\item テイラー展開が微分積分学の中でどのような役割を持つか。
+\item 参考文献を少なくとも2つ書くこと。
+\item AIを使った場合は，使用したモデル名と，どの部分に使ったかを書くこと。
+\end{itemize}
+
+\end{document}
