@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.25 (TeX Live 2023/Debian) (preloaded format=pdflatex 2025.4.6)  28 APR 2026 16:59
+This is pdfTeX, Version 3.141592653-2.6-1.40.25 (TeX Live 2023/Debian) (preloaded format=pdflatex 2025.4.6)  28 APR 2026 17:04
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -225,53 +225,10 @@ Package: enumitem 2019/06/20 v3.9 Customized lists
 \enit@inbox=\box54
 \enit@count@id=\count276
 \enitdp@description=\count277
-) (/usr/share/texlive/texmf-dist/tex/latex/adjustbox/adjustbox.sty
-Package: adjustbox 2022/10/17 v1.3a Adjusting TeX boxes (trim, clip, ...)
- (/usr/share/texlive/texmf-dist/tex/latex/xkeyval/xkeyval.sty
-Package: xkeyval 2022/06/16 v2.9 package option processing (HA)
- (/usr/share/texlive/texmf-dist/tex/generic/xkeyval/xkeyval.tex (/usr/share/texlive/texmf-dist/tex/generic/xkeyval/xkvutils.tex
-\XKV@toks=\toks27
-\XKV@tempa@toks=\toks28
-)
-\XKV@depth=\count278
-File: xkeyval.tex 2014/12/03 v2.7a key=value parser (HA)
-)) (/usr/share/texlive/texmf-dist/tex/latex/adjustbox/adjcalc.sty
-Package: adjcalc 2012/05/16 v1.1 Provides advanced setlength with multiple back-ends (calc, etex, pgfmath)
-) (/usr/share/texlive/texmf-dist/tex/latex/adjustbox/trimclip.sty
-Package: trimclip 2020/08/19 v1.2 Trim and clip general TeX material
- (/usr/share/texlive/texmf-dist/tex/latex/collectbox/collectbox.sty
-Package: collectbox 2022/10/17 v0.4c Collect macro arguments as boxes
-\collectedbox=\box55
-)
-\tc@llx=\dimen161
-\tc@lly=\dimen162
-\tc@urx=\dimen163
-\tc@ury=\dimen164
-Package trimclip Info: Using driver 'tc-pdftex.def'.
- (/usr/share/texlive/texmf-dist/tex/latex/adjustbox/tc-pdftex.def
-File: tc-pdftex.def 2019/01/04 v2.2 Clipping driver for pdftex
-))
-\adjbox@Width=\dimen165
-\adjbox@Height=\dimen166
-\adjbox@Depth=\dimen167
-\adjbox@Totalheight=\dimen168
-\adjbox@pwidth=\dimen169
-\adjbox@pheight=\dimen170
-\adjbox@pdepth=\dimen171
-\adjbox@ptotalheight=\dimen172
- (/usr/share/texlive/texmf-dist/tex/latex/ifoddpage/ifoddpage.sty
-Package: ifoddpage 2022/10/18 v1.2 Conditionals for odd/even page detection
-\c@checkoddpage=\count279
-) (/usr/share/texlive/texmf-dist/tex/latex/varwidth/varwidth.sty
-Package: varwidth 2009/03/30 ver 0.92;  Variable-width minipages
-\@vwid@box=\box56
-\sift@deathcycles=\count280
-\@vwid@loff=\dimen173
-\@vwid@roff=\dimen174
-)) (/usr/share/texlive/texmf-dist/tex/latex/l3backend/l3backend-pdftex.def
+) (/usr/share/texlive/texmf-dist/tex/latex/l3backend/l3backend-pdftex.def
 File: l3backend-pdftex.def 2024-01-04 L3 backend support: PDF output (pdfTeX)
-\l__color_backend_stack_int=\count281
-\l__pdf_internal_box=\box57
+\l__color_backend_stack_int=\count278
+\l__pdf_internal_box=\box55
 ) (./report1.aux)
 \openout1 = `report1.aux'.
 
@@ -390,17 +347,17 @@ LaTeX Font Info:    ... okay on input line 27.
 
 (/usr/share/texlive/texmf-dist/tex/context/base/mkii/supp-pdf.mkii
 [Loading MPS to PDF converter (version 2006.09.02).]
-\scratchcounter=\count282
-\scratchdimen=\dimen175
-\scratchbox=\box58
-\nofMPsegments=\count283
-\nofMParguments=\count284
-\everyMPshowfont=\toks29
-\MPscratchCnt=\count285
-\MPscratchDim=\dimen176
-\MPnumerator=\count286
-\makeMPintoPDFobject=\count287
-\everyMPtoPDFconversion=\toks30
+\scratchcounter=\count279
+\scratchdimen=\dimen161
+\scratchbox=\box56
+\nofMPsegments=\count280
+\nofMParguments=\count281
+\everyMPshowfont=\toks27
+\MPscratchCnt=\count282
+\MPscratchDim=\dimen162
+\MPnumerator=\count283
+\makeMPintoPDFobject=\count284
+\everyMPtoPDFconversion=\toks28
 ) (/usr/share/texlive/texmf-dist/tex/latex/epstopdf-pkg/epstopdf-base.sty
 Package: epstopdf-base 2020-01-24 v2.11 Base part for package epstopdf
 Package epstopdf-base Info: Redefining graphics rule for `.eps' on input line 485.
@@ -413,40 +370,40 @@ File: UTF8.enc 2021/10/16 4.8.5
 ) (/usr/share/texmf/tex/latex/CJK/UTF8/UTF8.chr
 File: UTF8.chr 2021/10/16 4.8.5
 )
-LaTeX Font Info:    Trying to load font information for C70+min on input line 37.
+LaTeX Font Info:    Trying to load font information for C70+min on input line 34.
  (/usr/share/texmf/tex/latex/CJK/UTF8/c70min.fd
 File: c70min.fd 2008/12/29 4.8.2
 ) (/usr/share/texmf/tex/latex/CJK/UTF8/c70min.fdx
 File: c70min.fdx 2008/12/29 4.8.2
 )
-LaTeX Font Info:    Trying to load font information for U+msa on input line 46.
+LaTeX Font Info:    Trying to load font information for U+msa on input line 45.
  (/usr/share/texlive/texmf-dist/tex/latex/amsfonts/umsa.fd
 File: umsa.fd 2013/01/14 v3.01 AMS symbols A
 )
-LaTeX Font Info:    Trying to load font information for U+msb on input line 46.
+LaTeX Font Info:    Trying to load font information for U+msb on input line 45.
  (/usr/share/texlive/texmf-dist/tex/latex/amsfonts/umsb.fd
 File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 ) [1
 
-{/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map}{/usr/share/texmf/fonts/enc/dvips/cm-super/cm-super-t1.enc}{/usr/share/texmf/fonts/enc/dvips/cm-super/cm-super-ts1.enc}] (./report1.aux)
+{/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map}{/usr/share/texmf/fonts/enc/dvips/cm-super/cm-super-t1.enc}] [2] [3] (./report1.aux)
  ***********
 LaTeX2e <2023-11-01> patch level 1
 L3 programming layer <2024-01-22>
  ***********
  ) 
 Here is how much of TeX's memory you used:
- 6787 strings out of 475589
- 98235 string characters out of 5782861
- 1987975 words of memory out of 5000000
- 28618 multiletter control sequences out of 15000+600000
- 616491 words of font info for 259 fonts, out of 8000000 for 9000
+ 5644 strings out of 475589
+ 77927 string characters out of 5782861
+ 1942975 words of memory out of 5000000
+ 27507 multiletter control sequences out of 15000+600000
+ 616421 words of font info for 259 fonts, out of 8000000 for 9000
  309 hyphenation exceptions out of 8191
- 59i,8n,65p,270b,1113s stack positions out of 10000i,1000n,20000p,200000b,200000s
-</usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi12.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi8.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb></usr/share/texmf/fonts/type1/wadalab/JIS/dmjhira.pfb></usr/share/texmf/fonts/type1/wadalab/JIS/dmjka.pfb></usr/share/texmf/fonts/type1/wadalab/JIS/dmjkata.pfb></usr/share/texmf/fonts/type1/wadalab/JIS/dmjkb.pfb></usr/share/texmf/fonts/type1/wadalab/JIS/dmjkc.pfb></usr/share/texmf/fonts/type1/wadalab/JIS/dmjkd.pfb></usr/share/texmf/fonts/type1/wadalab/JIS/dmjke.pfb></usr/share/texmf/fonts/type1/wadalab/JIS/dmjkf.pfb></usr/share/texmf/fonts/type1/wadalab/JIS/dmjkg.pfb></usr/share/texmf/fonts/type1/wadalab/JIS/dmjkh.pfb></usr/share/texmf/fonts/type1/wadalab/JIS/dmjki.pfb></usr/share/texmf/fonts/type1/wadalab/JIS/dmjkj.pfb></usr/share/texmf/fonts/type1/wadalab/JIS/dmjkk.pfb></usr/share/texmf/fonts/type1/wadalab/JIS/dmjkl.pfb></usr/share/texmf/fonts/type1/wadalab/JIS/dmjsy.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/symbols/msbm10.pfb></usr/share/texmf/fonts/type1/public/cm-super/sfrm1200.pfb></usr/share/texmf/fonts/type1/public/cm-super/sfrm1440.pfb></usr/share/texmf/fonts/type1/public/cm-super/sfrm1728.pfb>
-Output written on report1.pdf (1 page, 215298 bytes).
+ 59i,6n,65p,270b,961s stack positions out of 10000i,1000n,20000p,200000b,200000s
+</usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi12.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi8.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb></usr/share/texmf/fonts/type1/wadalab/JIS/dmjhira.pfb></usr/share/texmf/fonts/type1/wadalab/JIS/dmjka.pfb></usr/share/texmf/fonts/type1/wadalab/JIS/dmjkata.pfb></usr/share/texmf/fonts/type1/wadalab/JIS/dmjkb.pfb></usr/share/texmf/fonts/type1/wadalab/JIS/dmjkc.pfb></usr/share/texmf/fonts/type1/wadalab/JIS/dmjkd.pfb></usr/share/texmf/fonts/type1/wadalab/JIS/dmjke.pfb></usr/share/texmf/fonts/type1/wadalab/JIS/dmjkf.pfb></usr/share/texmf/fonts/type1/wadalab/JIS/dmjkg.pfb></usr/share/texmf/fonts/type1/wadalab/JIS/dmjkh.pfb></usr/share/texmf/fonts/type1/wadalab/JIS/dmjki.pfb></usr/share/texmf/fonts/type1/wadalab/JIS/dmjkj.pfb></usr/share/texmf/fonts/type1/wadalab/JIS/dmjkk.pfb></usr/share/texmf/fonts/type1/wadalab/JIS/dmjkl.pfb></usr/share/texmf/fonts/type1/wadalab/JIS/dmjroma.pfb></usr/share/texmf/fonts/type1/wadalab/JIS/dmjsy.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/symbols/msbm10.pfb></usr/share/texmf/fonts/type1/public/cm-super/sfrm1200.pfb></usr/share/texmf/fonts/type1/public/cm-super/sfrm1440.pfb></usr/share/texmf/fonts/type1/public/cm-super/sfrm1728.pfb>
+Output written on report1.pdf (3 pages, 212252 bytes).
 PDF statistics:
- 191 PDF objects out of 1000 (max. 8388607)
- 86 compressed objects within 1 object stream
+ 198 PDF objects out of 1000 (max. 8388607)
+ 90 compressed objects within 1 object stream
  0 named destinations out of 1000 (max. 500000)
  193 words of extra memory for PDF output out of 10000 (max. 10000000)
 
