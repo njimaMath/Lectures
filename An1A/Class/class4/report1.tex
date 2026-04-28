@@ -1,18 +1,34 @@
+\RequirePackage{iftex}
+\ifPDFTeX
+\documentclass[a4paper,12pt]{article}
+\usepackage[margin=24mm]{geometry}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{graphicx}
+\usepackage{CJKutf8}
+\else
 \documentclass[a4paper,12pt]{jsarticle}
 \usepackage[dvipdfmx,margin=24mm]{geometry}
+\usepackage[dvipdfmx]{graphicx}
+\fi
 \usepackage{amsmath,amssymb}
 \usepackage{enumitem}
 
 \setlength{\parindent}{0pt}
-\setlength{\parskip}{0.55em}
-\setlist[enumerate]{leftmargin=3em,itemsep=0.35em,topsep=0.25em}
+\setlength{\parskip}{0.35em}
+\setlist[enumerate]{leftmargin=3em,itemsep=0.25em,topsep=0.35em}
 
 \newcommand{\tenpoints}{\hfill （10点）}
 \newcommand{\fivepoints}{\hfill （5点）}
+\newcommand{\subtenpoints}{\hfill （10点）}
 \newcommand{\blankbox}[1]{\fbox{\rule{0pt}{2.4ex}\hspace{#1}}}
-\newcommand{\problem}[2]{\vspace{0.9em}\noindent{\large 問題#1. #2}\par}
+\newcommand{\problem}[2]{\vspace{0.9em}\noindent{\large 問題#1}\hfill（#2点）\par}
 
 \begin{document}
+
+\ifPDFTeX
+\begin{CJK}{UTF8}{min}
+\fi
 
 \begin{center}
 {\Large 数学1A レポート1}\\[0.4em]
@@ -20,32 +36,18 @@
 満点 100点
 \end{center}
 
-学籍番号 \underline{\hspace{10em}}\hfill
-氏名 \underline{\hspace{12em}}
-
 すべての問題に答えよ。計算問題では途中式も書くこと。証明問題では，どの定理をどこで使ったかが分かるように説明すること。
 
-\problem{1}{記号で書き直す}\tenpoints
+\problem{1}{10}
 
 次の文を，$\mathbb{R},\mathbb{N},\forall,\exists$ を用いて記号で書き直せ。
 
-任意の実数 $x$ に対して，$x$ より大きい自然数 $n$ が存在する。
+\begin{enumerate}[label=(\alph*)]
+\item 任意の実数 $x$ に対して，$x$ より大きい自然数 $n$ が存在する。 \fivepoints
+\item ある実数 $a$ が存在して，任意の自然数 $n$ に対して $a<n$ となる。 \fivepoints
+\end{enumerate}
 
-\[
-\blankbox{28em}
-\]
-
-\problem{2}{記号で書き直す}\tenpoints
-
-次の文を，$\mathbb{R},\mathbb{N},\forall,\exists$ を用いて記号で書き直せ。
-
-ある実数 $a$ が存在して，任意の自然数 $n$ に対して $a<n$ となる。
-
-\[
-\blankbox{28em}
-\]
-
-\problem{3}{$\varepsilon$-$\delta$ による極限の証明}\tenpoints
+\problem{2}{10}
 
 $f(x)=x^2$ とする。このとき
 \[
@@ -57,7 +59,7 @@ $f(x)=x^2$ とする。このとき
 \[
 \delta=\blankbox{10em}
 \]
-とおく。$0|x-1|<\delta$ のとき，
+とおく。$0<|x-1|<\delta$ のとき，
 \[
 |f(x)-1|
 =|x^2-1|
@@ -67,19 +69,15 @@ $f(x)=x^2$ とする。このとき
 \]
 となるように，空欄を埋めながら証明を完成させよ。
 
-\problem{4}{中間値の定理を用いる問題}\tenpoints
+\problem{3}{10}
 
-床が少しデコボコしている部屋に，正方形の四本脚の机を置く。机の脚の長さはすべて等しく，床の高さは連続的に変化しているとする。
+赤道上の各地点の気温を角度 $\theta$ の関数 $T(\theta)$ で表す。$T$ は連続であり，$T(\theta+2\pi)=T(\theta)$ を満たすと仮定する。
 
-机をその場で角度 $\theta$ だけ回したときのガタつきの量を $f(\theta)$ とする。$f$ は連続であり，正方形の机を $90^\circ$ 回すと対角線の役割が入れ替わるので，
-\[
-f\left(\theta+\frac{\pi}{2}\right)=-f(\theta)
-\]
-が成り立つと仮定してよい。
+このとき，赤道上には互いに反対側にある2地点で，気温が等しいものが存在することを中間値の定理を用いて示せ。
 
-このとき，ある角度では机がガタガタしないこと，すなわち $f(c)=0$ となる $c$ が存在することを中間値の定理を用いて示せ。
+ヒント: $g(\theta)=T(\theta)-T(\theta+\pi)$ を考える。
 
-\problem{5}{微分の計算}\tenpoints
+\problem{4}{10}
 
 次の導関数を求めよ。
 
@@ -88,33 +86,15 @@ f\left(\theta+\frac{\pi}{2}\right)=-f(\theta)
 \item $\displaystyle \frac{d}{dx}\left(\frac{e^x}{1+x^2}\right)$ \fivepoints
 \end{enumerate}
 
-\problem{6}{コーシーの平均値の定理}\tenpoints
+\problem{5}{10}
 
-$0<a<b$ とする。関数
-\[
-f(x)=\arctan x,\qquad g(x)=\log(1+x^2)
-\]
-にコーシーの平均値の定理を用いて，
-\[
-\frac{1}{2b}\log\frac{1+b^2}{1+a^2}
-<
-\arctan b-\arctan a
-<
-\frac{1}{2a}\log\frac{1+b^2}{1+a^2}
-\]
-を示せ。
+$0<a<b<\pi$ とする。関数 $f(x)=\sin x$, $g(x)=x$ にコーシーの平均値の定理を用いて，次を示せ。
 
-余裕があれば，$a=1$, $b=\sqrt{3}$ として，
 \[
-\frac{\log 2}{2\sqrt{3}}
-<
-\frac{\pi}{12}
-<
-\frac{\log 2}{2}
+\frac{\sin b-\sin a}{b-a}\leq 1
 \]
-が得られることも確かめよ。
 
-\problem{7}{ロピタルの定理}\tenpoints
+\problem{6}{10}
 
 ロピタルの定理を用いて，次の極限を求めよ。
 
@@ -123,7 +103,7 @@ f(x)=\arctan x,\qquad g(x)=\log(1+x^2)
 \item $\displaystyle \lim_{x\to 0}\frac{e^x-1-x}{x^2}$ \fivepoints
 \end{enumerate}
 
-\problem{8}{高階導関数}\tenpoints
+\problem{7}{10}
 
 次の高階導関数を求めよ。
 
@@ -132,24 +112,21 @@ f(x)=\arctan x,\qquad g(x)=\log(1+x^2)
 \item $g(x)=\sin x$ の $g^{(2026)}(x)$ \fivepoints
 \end{enumerate}
 
-\problem{9}{テイラー展開}\tenpoints
+\problem{8}{20}
 
 次の関数の $x=0$ におけるテイラー展開を，指定された次数まで求めよ。
 
 \begin{enumerate}[label=(\alph*)]
-\item $\sin x$ を $x^5$ の項まで求めよ。 \fivepoints
-\item $\log(1+x)$ を $x^4$ の項まで求めよ。 \fivepoints
+\item $\sin x$ を $x^5$ の項まで求めよ。 \subtenpoints
+\item $\log(1+x)$ を $x^4$ の項まで求めよ。 \subtenpoints
 \end{enumerate}
 
-\problem{10}{テイラー展開の歴史}\tenpoints
+\problem{9}{10}
 
-テイラー展開の歴史について調べ，400字以上でまとめよ。次の内容を必ず含めること。
+テイラー展開の歴史について調べ，５行以上でまとめよ。次の内容を必ず含めること。
 
-\begin{itemize}
-\item ブルック・テイラーがどの時代の数学者か。
-\item テイラー展開が微分積分学の中でどのような役割を持つか。
-\item 参考文献を少なくとも2つ書くこと。
-\item AIを使った場合は，使用したモデル名と，どの部分に使ったかを書くこと。
-\end{itemize}
+\ifPDFTeX
+\end{CJK}
+\fi
 
 \end{document}
