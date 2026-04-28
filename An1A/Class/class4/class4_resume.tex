@@ -10,6 +10,23 @@
 \setlength{\parskip}{0.35em}
 \setlist[itemize]{leftmargin=2em,itemsep=0.2em,topsep=0.3em}
 
+\newcommand{\feedbackqa}[2]{%
+\item[]
+\begin{tabular}[t]{@{}p{1.8em}@{\hspace{0.4em}}p{\dimexpr\linewidth-2.2em\relax}@{}}
+Q. & #1 \\
+A. & #2
+\end{tabular}
+\par\smallskip\hrulefill
+}
+
+\newcommand{\feedbacknote}[1]{%
+\item[] #1\par\smallskip\hrulefill
+}
+
+\newcommand{\feedbackrule}{%
+\item[] \leavevmode\hrulefill
+}
+
 \theoremstyle{definition}
 \newtheorem*{definition}{定義}
 \newtheorem*{theorem}{定理}
@@ -21,14 +38,67 @@
 ロピタルの定理とマクローリン展開
 \end{center}
 
-\section{フィードバック}
+\section*{フィードバック}
 
-\begin{itemize}
-\item \hrulefill
-\item \hrulefill
-\item \hrulefill
+\begin{itemize}[leftmargin=1.5em,itemsep=0.7em,topsep=0.3em]
+\feedbackrule
+\feedbackrule
+\feedbackrule
 \end{itemize}
-\section{小テスト}
+\section*{小テスト}
+
+\subsection*{問題}
+
+\begin{enumerate}
+\item （50点）対数微分を用いて，次の関数を微分せよ。
+\[
+f(x)=\frac{x}{(x^2+1)^4(2x^4+1)^2}
+\]
+
+\item （50点）$0<a<b$ に対して，次を示せ。ただし，コーシーの平均値の定理を用いること。
+\[
+\frac{b-a}{b}\leq \log b-\log a\leq \frac{b-a}{a}
+\]
+\end{enumerate}
+
+\subsection*{解答}
+
+\begin{enumerate}
+\item $x>0$ として対数をとると
+\[
+\log f(x)=\log x-4\log(x^2+1)-2\log(2x^4+1)
+\]
+である。したがって
+\[
+\frac{f'(x)}{f(x)}
+=\frac{1}{x}-\frac{8x}{x^2+1}-\frac{16x^3}{2x^4+1}.
+\]
+よって
+\[
+f'(x)=
+\frac{x}{(x^2+1)^4(2x^4+1)^2}
+\left(
+\frac{1}{x}-\frac{8x}{x^2+1}-\frac{16x^3}{2x^4+1}
+\right).
+\]
+
+\item 関数 $f(x)=\log x$, $g(x)=x$ に，区間 $[a,b]$ でコーシーの平均値の定理を用いる。ある $c\in(a,b)$ が存在して
+\[
+\frac{\log b-\log a}{b-a}
+=\frac{f'(c)}{g'(c)}
+=\frac{1/c}{1}
+=\frac{1}{c}
+\]
+となる。$a<c<b$ より
+\[
+\frac{1}{b}<\frac{1}{c}<\frac{1}{a}
+\]
+である。$b-a>0$ を掛けると
+\[
+\frac{b-a}{b}\leq \log b-\log a\leq \frac{b-a}{a}
+\]
+を得る。
+\end{enumerate}
 
 \section{ロピタルの定理}
 
@@ -191,11 +261,7 @@ f(x)=\sum_{n=0}^{\infty}\frac{f^{(n)}(0)}{n!}x^n
 
 代表例として，
 \[
-e^x=\sum_{n=0}^{\infty}\frac{x^n}{n!},
-\qquad
-\sin x=\sum_{n=0}^{\infty}(-1)^n\frac{x^{2n+1}}{(2n+1)!},
-\qquad
-\cos x=\sum_{n=0}^{\infty}(-1)^n\frac{x^{2n}}{(2n)!}
+e^x=\sum_{n=0}^{\infty}\frac{x^n}{n!}.
 \]
 がある。
 \end{document}
