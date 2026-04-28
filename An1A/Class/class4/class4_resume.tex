@@ -17,222 +17,185 @@
 \begin{document}
 
 \begin{center}
-{\LARGE 数学1A 第2回レジュメ}\\[0.4em]
-連続と微分の基本
+{\LARGE 数学1A 第4回レジュメ}\\[0.4em]
+ロピタルの定理とマクローリン展開
 \end{center}
 
-\section*{1. 連続の定義}
+\section{フィードバック}
 
-\begin{definition}
-関数 $f$ が点 $a$ で連続であるとは，
-\[
-\lim_{x \to a} f(x)=f(a)
-\]
-が成り立つことをいう。
-\end{definition}
-
-$f$ が区間 $I$ で連続であるとは，$I$ の各点で連続であることをいう。
-
-\section*{2. 連続の例}
-
-\subsection*{例1. $f(x)=x$}
-
-$f(x)=x$ は $\mathbb{R}$ で連続。
-
-\begin{center}
-\begin{tikzpicture}[x=1cm,y=1cm]
-\draw[->] (-2.3,0) -- (2.3,0) node[below] {$x$};
-\draw[->] (0,-2.3) -- (0,2.3) node[left] {$y$};
-\draw[thick,domain=-2:2,samples=2] plot (\x,\x);
-\draw (1.6,1.9) node[right] {$f(x)=x$};
-\end{tikzpicture}
-\end{center}
-
-\subsection*{例2. $f(x)=\mathbf{1}_{\{x\ge 0\}}$}
-
-\[
-f(x)=
-\begin{cases}
-0 & (x<0),\\
-1 & (x\ge 0)
-\end{cases}
-\]
-とする。$x=0$ で不連続。
-\[
-\lim_{x\to 0-}f(x)=0,\qquad \lim_{x\to 0+}f(x)=1
-\]
-
-\begin{center}
-\begin{tikzpicture}[x=1.4cm,y=1.4cm]
-\draw[->] (-2.2,0) -- (2.2,0) node[below] {$x$};
-\draw[->] (0,-0.4) -- (0,1.6) node[left] {$y$};
-\draw[thick] (-2,0) -- (0,0);
-\draw[thick] (0,1) -- (2,1);
-\filldraw[white] (0,0) circle (2pt);
-\fill (0,1) circle (2pt);
-\draw (-1.45,0.2) node {$f(x)=0$};
-\draw (1.45,1.2) node {$f(x)=1$};
-\end{tikzpicture}
-\end{center}
-
-\subsection*{例3. $f(x)=\sin\!\left(\frac{1}{x}\right)$}
-
-関数
-\[
-f(x)=\sin\!\left(\frac{1}{x}\right)
-\]
-は $x\ne 0$ で連続であるが，$x\to 0$ で極限をもたない。
-
-\begin{center}
-\begin{tikzpicture}[x=1.2cm,y=1.5cm]
-\draw[->] (-4.3,0) -- (4.3,0) node[below] {$x$};
-\draw[->] (0,-1.3) -- (0,1.3) node[left] {$y$};
-\draw[thick,smooth,domain=-4:-0.08,samples=250] plot (\x,{sin(deg(1/\x))});
-\draw[thick,smooth,domain=0.08:4,samples=250] plot (\x,{sin(deg(1/\x))});
-\draw[dashed] (0,-1.05) -- (0,1.05);
-\draw (2.1,0.95) node {$f(x)=\sin(1/x)$};
-\end{tikzpicture}
-\end{center}
-
-\section*{3. 中間値の定理}
-
-\begin{theorem}
-$f$ を閉区間 $[a,b]$ で連続な関数とする。
 \begin{itemize}
-\item $f(a)\le f(b)$ なら，各 $\lambda \in [f(a),f(b)]$ に対し，ある $c \in [a,b]$ があって $f(c)=\lambda$。
-\item $f(a)\ge f(b)$ なら，各 $\lambda \in [f(b),f(a)]$ に対し，ある $c \in [a,b]$ があって $f(c)=\lambda$。
+\item \hrulefill
+\item \hrulefill
+\item \hrulefill
 \end{itemize}
+\section{小テスト}
+
+\section{ロピタルの定理}
+
+まず，コーシーの平均値の定理を思い出す。
+
+\begin{theorem}[コーシーの平均値の定理]
+$f,g$ が閉区間 $[a,b]$ で連続，開区間 $(a,b)$ で微分可能とする。このとき，ある $c\in(a,b)$ が存在して
+\[
+\frac{f(b)-f(a)}{g(b)-g(a)}=\frac{f'(c)}{g'(c)}
+\]
+が成り立つ。ただし $g'(c)\neq 0$ とする。
 \end{theorem}
 
-\begin{center}
-\begin{minipage}[t]{0.45\linewidth}
-\centering
-\begin{tikzpicture}[x=0.92cm,y=0.92cm]
-\draw[->] (0,0) -- (4.2,0) node[below] {$x$};
-\draw[->] (0,0) -- (0,3.3) node[left] {$y$};
-\draw[thick] (0.6,0.8)
-  .. controls (1.0,1.15) and (1.55,1.48) .. (2.35,1.6)
-  .. controls (2.9,1.7) and (3.2,2.05) .. (3.55,2.5);
-\draw[dashed] (0,1.6) -- (2.35,1.6);
-\draw[dashed] (2.35,0) -- (2.35,1.6);
-\fill (0.6,0.8) circle (2pt);
-\fill (3.55,2.5) circle (2pt);
-\fill (2.35,1.6) circle (2pt);
-\draw (0.6,-0.2) node {$a$};
-\draw (3.55,-0.2) node {$b$};
-\draw (2.35,-0.2) node {$c$};
-\draw (-0.25,0.8) node {$f(a)$};
-\draw (-0.25,2.5) node {$f(b)$};
-\draw (-0.35,1.6) node {$\lambda$};
-\end{tikzpicture}
+これを用いると，$0/0$ 型の極限に対するロピタルの定理が得られる。
 
-$f(a)\le f(b)$ の場合
-\end{minipage}
-\hfill
-\begin{minipage}[t]{0.45\linewidth}
-\centering
-\begin{tikzpicture}[x=0.92cm,y=0.92cm]
-\draw[->] (0,0) -- (4.2,0) node[below] {$x$};
-\draw[->] (0,0) -- (0,3.3) node[left] {$y$};
-\draw[thick] (0.6,2.6)
-  .. controls (1.05,2.2) and (1.55,1.72) .. (2.75,1.55)
-  .. controls (3.05,1.5) and (3.25,1.18) .. (3.55,0.8);
-\draw[dashed] (0,1.55) -- (2.75,1.55);
-\draw[dashed] (2.75,0) -- (2.75,1.55);
-\fill (0.6,2.6) circle (2pt);
-\fill (3.55,0.8) circle (2pt);
-\fill (2.75,1.55) circle (2pt);
-\draw (0.6,-0.2) node {$a$};
-\draw (3.55,-0.2) node {$b$};
-\draw (2.75,-0.2) node {$c$};
-\draw (-0.25,2.6) node {$f(a)$};
-\draw (-0.25,0.8) node {$f(b)$};
-\draw (-0.35,1.55) node {$\lambda$};
-\end{tikzpicture}
-
-$f(a)\ge f(b)$ の場合
-\end{minipage}
-\end{center}
-
-\section*{4. 微分の定義}
-
-\begin{definition}
-関数 $f$ が点 $a$ で微分可能であるとは，極限
+\begin{theorem}[ロピタルの定理]
+$a$ の近くで $f,g$ が微分可能で，$f(a)=g(a)=0$ とする。さらに $g'(x)\neq 0$ が $a$ の近くで成り立ち，
 \[
-f'(a)=\lim_{h\to 0}\frac{f(a+h)-f(a)}{h}
+\lim_{x\to a}\frac{f'(x)}{g'(x)}=L
 \]
-が存在することをいう。
-\end{definition}
-
-\begin{definition}
-$f$ が区間 $I$ で微分可能であるとは，$I$ の各内点で微分可能であることをいう。
-\end{definition}
-
-微分可能ならば連続。
-
-\section*{5. 微分法則}
-
-$f,g$ を区間 $I$ で微分可能な関数とする。
-
-\begin{theorem}
+が存在するとする。このとき
 \[
-(f+g)'=f'+g',\qquad (fg)'=f'g+fg'
+\lim_{x\to a}\frac{f(x)}{g(x)}=L
 \]
-\[
-\left(\frac{f}{g}\right)'=\frac{f'g-fg'}{g^2}\qquad (g\ne 0)
-\]
-\[
-(g\circ f)'(x)=g'(f(x))f'(x)
-\]
-\[
-\frac{d}{dx}\log f(x)=\frac{f'(x)}{f(x)}\qquad (f(x)>0)
-\]
-\[
-f'(x)=(\log f(x))'f(x)\qquad (f(x)>0)
-\]
+が成り立つ。
 \end{theorem}
-
-\subsection*{加法性の証明}
 
 \begin{proof}
-$a\in I$ とする。差商を計算すると
+$x\neq a$ を $a$ の十分近くの点とする。$[a,x]$ または $[x,a]$ にコーシーの平均値の定理を適用すると，ある $c$ が $a$ と $x$ の間に存在して
 \[
-\frac{(f+g)(a+h)-(f+g)(a)}{h}
-=\frac{f(a+h)-f(a)}{h}+\frac{g(a+h)-g(a)}{h}
+\frac{f(x)-f(a)}{g(x)-g(a)}=\frac{f'(c)}{g'(c)}
 \]
-である。$h\to 0$ とすると右辺は $f'(a)+g'(a)$ に収束するので，
+となる。ここで $f(a)=g(a)=0$ より
 \[
-(f+g)'(a)=f'(a)+g'(a)
+\frac{f(x)}{g(x)}=\frac{f'(c)}{g'(c)}
+\]
+である。$x\to a$ とすると $c\to a$ だから，右辺は仮定より $L$ に収束する。したがって
+\[
+\lim_{x\to a}\frac{f(x)}{g(x)}=L
 \]
 を得る。
 \end{proof}
 
-\subsection*{対数微分の形}
-
-たとえば
+\paragraph{応用1.}
 \[
-f(x)=u(x)^{v(x)} \qquad (u(x)>0)
+\lim_{x\to 0}\frac{e^x-1}{x}
+=\lim_{x\to 0}\frac{e^x}{1}=1.
 \]
-ならば
-\[
-\log f(x)=v(x)\log u(x)
-\]
-より
-\[
-\frac{f'(x)}{f(x)}=v'(x)\log u(x)+v(x)\frac{u'(x)}{u(x)}
-\]
-したがって
-\[
-f'(x)=u(x)^{v(x)}\left(v'(x)\log u(x)+v(x)\frac{u'(x)}{u(x)}\right)
-\]
-である。
 
-\section*{フィードバック}
+\paragraph{応用2.}
+\[
+\lim_{x\to 0}\frac{\log(1+x)}{x}
+=\lim_{x\to 0}\frac{1/(1+x)}{1}=1.
+\]
 
-\begin{itemize}
-\item \hrulefill
-\item \hrulefill
-\item \hrulefill
-\end{itemize}
+\section{高階微分}
 
+関数 $f$ に対して
+\[
+f''(x)=(f'(x))'
+\]
+と定義する。さらに $n\geq 2$ に対して
+\[
+f^{(n)}(x)=\left(f^{(n-1)}(x)\right)'
+\]
+と定義し，これを $f$ の $n$ 階微分という。
+
+例として，
+\[
+f(x)=e^x
+\]
+のときは
+\[
+f'(x)=e^x,\qquad f''(x)=e^x,\qquad f^{(n)}(x)=e^x
+\]
+である。また，
+\[
+f(x)=x^2+4x+1
+\]
+のときは
+\[
+f'(x)=2x+4,\qquad f''(x)=2,\qquad f^{(n)}(x)=0\quad(n\geq 3)
+\]
+となる。
+
+\section{級数}
+
+数列 $\{a_n\}_{n=0}^{\infty}$ に対して
+\[
+S_n=a_0+a_1+\cdots+a_n=\sum_{k=0}^n a_k
+\]
+を第 $n$ 部分和という。部分和列 $\{S_n\}$ がある値 $S$ に収束するとき，
+\[
+\sum_{n=0}^{\infty} a_n=S
+\]
+と書き，この級数は収束するという。
+
+\paragraph{例1. 幾何級数}
+$|r|<1$ のとき
+\[
+1+r+r^2+\cdots+r^n=\frac{1-r^{n+1}}{1-r}
+\]
+なので，$n\to\infty$ とすると
+\[
+\sum_{n=0}^{\infty} r^n=\frac{1}{1-r}
+\]
+を得る。
+
+\paragraph{例2. 発散の例}
+\[
+1-1+1-1+\cdots
+\]
+の部分和は $1,0,1,0,\dots$ と振動するので収束しない。
+
+\section{マクローリン展開}
+
+数列 $\{a_n\}$ を用いて
+\[
+\sum_{n=0}^{\infty} a_n x^n
+\]
+の形で表される式を $x=0$ を中心とするべき級数という。
+
+たとえば $|x|<1$ では
+\[
+\frac{1}{1-x}=1+x+x^2+x^3+\cdots=\sum_{n=0}^{\infty} x^n
+\]
+が成り立つ。
+
+では，一般の関数 $f$ が
+\[
+f(x)=\sum_{n=0}^{\infty} a_n x^n
+\]
+と表せるとすると，係数 $a_n$ はどう決まるだろうか。
+
+両辺を順に微分して $x=0$ を代入すると
+\[
+f(0)=a_0,
+\qquad
+f'(0)=a_1,
+\qquad
+f''(0)=2!a_2,
+\qquad
+\dots,
+\qquad
+f^{(n)}(0)=n!a_n
+\]
+となる。したがって
+\[
+a_n=\frac{f^{(n)}(0)}{n!}
+\]
+であるはずだと予想される。
+
+\begin{theorem}[マクローリン展開]
+適当な条件のもとで，関数 $f$ は
+\[
+f(x)=\sum_{n=0}^{\infty}\frac{f^{(n)}(0)}{n!}x^n
+\]
+と表される。これを $f$ のマクローリン展開という。
+\end{theorem}
+
+代表例として，
+\[
+e^x=\sum_{n=0}^{\infty}\frac{x^n}{n!},
+\qquad
+\sin x=\sum_{n=0}^{\infty}(-1)^n\frac{x^{2n+1}}{(2n+1)!},
+\qquad
+\cos x=\sum_{n=0}^{\infty}(-1)^n\frac{x^{2n}}{(2n)!}
+\]
+がある。
 \end{document}
