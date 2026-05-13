@@ -1,0 +1,193 @@
+\documentclass[a4paper,11pt]{jsarticle}
+\usepackage[margin=22mm]{geometry}
+\usepackage{amsmath,amssymb}
+\usepackage{enumitem}
+
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{0.3em}
+\setlist[itemize]{itemsep=0.2em, topsep=0.3em}
+\setlist[enumerate]{itemsep=0.4em, topsep=0.3em}
+
+\begin{document}
+
+\begin{center}
+{\LARGE 数学1A 第7回まとめ}\\[0.4em]
+テーマ: 偏微分の定義と計算
+\end{center}
+
+\section*{授業のねらい}
+
+この回では，多変数関数の変化を調べるための基本である偏微分を学ぶ。特に，
+\begin{itemize}[leftmargin=2em]
+\item 二変数関数 $f(x,y)$ の一方の変数だけを動かす考え方を理解すること，
+\item 偏微分係数と偏導関数の定義を理解すること，
+\item 多項式，三角関数，指数関数を含む基本的な偏微分を計算できること
+\end{itemize}
+を目標とする。
+
+\section*{1. 二変数関数の復習}
+
+二変数関数とは，2つの実数 $x,y$ に対して1つの実数 $f(x,y)$ を対応させる関数である。たとえば
+\[
+f(x,y)=x^2+y^2,\qquad
+g(x,y)=xy+\sin y,\qquad
+h(x,y)=e^{x+y}
+\]
+などが二変数関数である。
+
+一変数関数では $x$ を少し動かしたときの変化率を微分で調べた。二変数関数では，$x$ 方向の変化と $y$ 方向の変化を分けて調べる。
+
+\section*{2. 偏微分係数}
+
+関数 $f(x,y)$ の点 $(a,b)$ における $x$ に関する偏微分係数を
+\[
+\frac{\partial f}{\partial x}(a,b)
+=\lim_{h\to 0}\frac{f(a+h,b)-f(a,b)}{h}
+\]
+で定義する。ただし，この極限が存在する場合に限る。
+
+同様に，点 $(a,b)$ における $y$ に関する偏微分係数を
+\[
+\frac{\partial f}{\partial y}(a,b)
+=\lim_{h\to 0}\frac{f(a,b+h)-f(a,b)}{h}
+\]
+で定義する。
+
+$x$ に関する偏微分では $y$ を定数として固定する。$y$ に関する偏微分では $x$ を定数として固定する。
+
+\section*{3. 偏導関数}
+
+各点 $(x,y)$ で偏微分係数を考えると，次のような新しい関数が得られる。
+\[
+\frac{\partial f}{\partial x}(x,y)
+=\lim_{h\to 0}\frac{f(x+h,y)-f(x,y)}{h},
+\qquad
+\frac{\partial f}{\partial y}(x,y)
+=\lim_{h\to 0}\frac{f(x,y+h)-f(x,y)}{h}.
+\]
+
+これらを $f$ の偏導関数という。記号として
+\[
+f_x(x,y)=\frac{\partial f}{\partial x}(x,y),
+\qquad
+f_y(x,y)=\frac{\partial f}{\partial y}(x,y)
+\]
+とも書く。
+
+\section*{4. 基本的な計算の考え方}
+
+偏微分を計算するときは，一方の変数だけを変数と見て，他方を定数として扱う。
+
+たとえば
+\[
+f(x,y)=x^3y^2+4xy-5y
+\]
+とする。$x$ に関して偏微分するとき，$y$ は定数であるから
+\[
+\frac{\partial f}{\partial x}(x,y)
+=3x^2y^2+4y.
+\]
+
+$y$ に関して偏微分するとき，$x$ は定数であるから
+\[
+\frac{\partial f}{\partial y}(x,y)
+=2x^3y+4x-5.
+\]
+
+\section*{5. 計算例}
+
+\subsection*{例1. 多項式}
+
+\[
+f(x,y)=x^2+3xy+y^3
+\]
+とする。このとき
+\[
+\frac{\partial f}{\partial x}(x,y)=2x+3y,
+\qquad
+\frac{\partial f}{\partial y}(x,y)=3x+3y^2.
+\]
+
+\subsection*{例2. 積を含む関数}
+
+\[
+f(x,y)=x^2\sin y+y^2\cos x
+\]
+とする。$x$ で偏微分すると
+\[
+\frac{\partial f}{\partial x}(x,y)
+=2x\sin y-y^2\sin x.
+\]
+$y$ で偏微分すると
+\[
+\frac{\partial f}{\partial y}(x,y)
+=x^2\cos y+2y\cos x.
+\]
+
+\subsection*{例3. 指数関数}
+
+\[
+f(x,y)=e^{xy}
+\]
+とする。連鎖律を用いると
+\[
+\frac{\partial f}{\partial x}(x,y)=ye^{xy},
+\qquad
+\frac{\partial f}{\partial y}(x,y)=xe^{xy}.
+\]
+
+\subsection*{例4. 分数を含む関数}
+
+\[
+f(x,y)=\frac{x}{1+y^2}
+\]
+とする。$x$ で偏微分すると，$1+y^2$ は定数なので
+\[
+\frac{\partial f}{\partial x}(x,y)=\frac{1}{1+y^2}.
+\]
+$y$ で偏微分すると，$x$ は定数なので
+\[
+\frac{\partial f}{\partial y}(x,y)
+=x\frac{\partial}{\partial y}(1+y^2)^{-1}
+=-\frac{2xy}{(1+y^2)^2}.
+\]
+
+\section*{6. 点での値}
+
+偏導関数を求めたあと，具体的な点を代入すれば，その点での偏微分係数が得られる。
+
+たとえば
+\[
+f(x,y)=x^2y+xy^2
+\]
+とする。このとき
+\[
+f_x(x,y)=2xy+y^2,\qquad f_y(x,y)=x^2+2xy.
+\]
+したがって点 $(1,2)$ では
+\[
+f_x(1,2)=2\cdot 1\cdot 2+2^2=8,
+\qquad
+f_y(1,2)=1^2+2\cdot 1\cdot 2=5.
+\]
+
+\section*{演習}
+
+次の関数について，$f_x(x,y)$ と $f_y(x,y)$ を求めよ。
+\begin{enumerate}[leftmargin=2em]
+\item $f(x,y)=x^4+2x^2y-y^2$
+\item $f(x,y)=\sin(xy)$
+\item $f(x,y)=x e^y+y e^x$
+\item $f(x,y)=\log(1+x^2+y^2)$
+\end{enumerate}
+
+\section*{まとめ}
+
+この回の要点は次のとおりである。
+\begin{itemize}[leftmargin=2em]
+\item 偏微分では，一方の変数だけを動かし，他方の変数は固定する。
+\item $\partial f/\partial x$ は $x$ 方向の変化率，$\partial f/\partial y$ は $y$ 方向の変化率を表す。
+\item 計算では，一変数微分の公式をそのまま使い，固定した変数を定数として扱う。
+\end{itemize}
+
+\end{document}

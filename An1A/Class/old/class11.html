@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>実数の講義ノート 第12回</title>
+
+  <!-- MathJax -->
+  <script>
+    MathJax = {
+      tex: {
+        inlineMath: [['$', '$']],
+        displayMath: [['$$', '$$']]
+      }
+    };
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js" async></script>
+
+  <!-- Style  ※変更していません -->
+  <style>
+    body {
+      font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+      background: #f5f5f5;
+      color: #222;
+      line-height: 1.7;
+      margin: 0;
+      padding: 2rem;
+    }
+    .container {
+      background: white;
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 2rem;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+    h1, h2, h3 {
+      color: #003366;
+    }
+    h1 {
+      text-align: center;
+      margin-bottom: 2rem;
+    }
+    h2 {
+      border-left: 6px solid #003366;
+      padding-left: 0.5rem;
+      margin-top: 2rem;
+    }
+    p {
+      margin-top: 1em;
+    }
+    .definition, .theorem, .proof, .example, .exercise {
+      margin-top: 1em;
+      padding-left: 1em;
+    }
+    .definition { border-left: 3px solid #4CAF50; }
+    .theorem    { border-left: 3px solid #2196F3; }
+    .proof      { border-left: 3px solid #FFC107; }
+    .example    { border-left: 3px solid #9C27B0; }
+    .exercise   { border-left: 3px solid #FF5722; }
+    .qed { text-align: right; font-weight: bold; }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+
+    <h1>第12回　数列の極限 (ε–N 論法)</h1>
+
+    <!-- 1. 定義 -->
+    <h2>1. 極限の定義</h2>
+    <div class="definition">
+      数列 $\{a_n\}$ が実数 $a$ に<strong>収束</strong>するとは，次を満たすことをいう：
+      <p>
+        $$
+          \forall \varepsilon > 0\; \exists N \in \mathbb N\;\, \forall n > N : |a_n - a| < \varepsilon.
+        $$
+      </p>
+      このとき $\displaystyle \lim_{n\to\infty} a_n = a$ と書き，$a_n \to a$ と略記する。
+    </div>
+
+    <!-- 2. ε–N 証明の作法 -->
+    <h2>2. ε–N 証明の作法</h2>
+
+    <h3>2.1 1 つの既知極限を利用する場合<br>
+        （$\displaystyle \lim_{n\to\infty} a_n = a \;\Rightarrow\; \lim_{n\to\infty} b_n = b$ など）</h3>
+    <div class="example">
+      <p><strong>手順</strong></p>
+      <ol>
+        <li>$\lim a_n = a$ を<br>
+            &emsp;$\forall \varepsilon_1>0 \;\exists N_1 \;\forall n>N_1 : |a_n-a|<\varepsilon_1$<br>
+            の形で書き下ろす。</li>
+        <li>目標の $\varepsilon>0$ を任意に取る。</li>
+        <li>適当な関数 $\varepsilon_1 = f(\varepsilon)$ を設定し，
+            極限の定義から対応する $N_1$ を確保する。</li>
+        <li>$N := N_1$ あるいは $N := g(\varepsilon,N_1)$ の形で自然数を決める。</li>
+        <li>$n>N$ ならば連鎖的不等式により
+            $|b_n-b|<\varepsilon$ が示される。</li>
+      </ol>
+
+      <p><strong>Q.</strong> なぜ $\varepsilon$ を $\varepsilon_1$ に置き換えてよいのか？<br>
+         <strong>A.</strong> $\varepsilon_1$ も 0 より大きい任意の正数としてとれるため，
+         定義の「任意の正数」に対応しているから。</p>
+    </div>
+
+    <h3>2.2 2 つの既知極限を組み合わせる場合<br>
+        （$\displaystyle \lim a_n = a,\;\lim b_n = b \;\Rightarrow\; \lim c_n = c$ など）</h3>
+    <div class="example">
+      <p><strong>手順</strong></p>
+      <ol>
+        <li>$\lim a_n = a$ を $\varepsilon_1,N_1$、
+            $\lim b_n = b$ を $\varepsilon_2,N_2$ を使って書き出す。</li>
+        <li>目標 $\varepsilon>0$ を任意に取る。</li>
+        <li>適切な
+            $\varepsilon_1 = f_1(\varepsilon)$，
+            $\varepsilon_2 = f_2(\varepsilon)$
+            を決め，それぞれ $N_1,N_2$ を確保する。</li>
+        <li>$N := \max\{N_1,N_2\}$（またはさらに条件を加味した式）とする。</li>
+        <li>$n>N$ ならば三角不等式などにより
+            $|c_n-c|<\varepsilon$ を示す。</li>
+      </ol>
+    </div>
+
+    <h3>2.3 証明を理解する 2 つのアプローチ</h3>
+    <div class="example">
+      <ol>
+        <li><strong>慣れで覚える</strong>  
+          <ul>
+            <li>メリット：アイデアが浮かびやすい／書くスピードが速い</li>
+            <li>デメリット：身に付くまで時間がかかる</li>
+          </ul>
+        </li>
+        <li><strong>ルールを体系的に理解する</strong>
+          <ul>
+            <li>メリット：常に正しい証明が書ける／習得が比較的短期</li>
+            <li>デメリット：最初は機械的で退屈に感じることがある</li>
+          </ul>
+        </li>
+      </ol>
+    </div>
+
+    <!-- 補題（単調増加列の準備） -->
+    <div class="theorem">
+      <strong>補題：</strong>$A\subset\mathbb R$ とし，
+      $a:=\sup A$ とする。任意の $\varepsilon>0$ について
+      $a-\varepsilon<a$ となる元 $x\in A$ が存在する。
+    </div>
+
+    <!-- すでにあった定理（単調増加＋上界） -->
+    <div class="theorem">
+      定理：$a_n$ が単調増加で、集合 $A := \{a_n \mid n \in \mathbb{N}\}$ が上に有界ならば、$a_n \to \sup(A)$ となる。
+    </div>
+    <div class="proof">
+      $a := \sup(A)$ とおく。任意の $\varepsilon > 0$ を取る。補題より $a - \varepsilon < x$ となる $x \in A$ が存在する。$x = a_N$ とすれば、$n > N$ なら
+      $a - \varepsilon < a_N \le a_n \le a$。
+      よって $|a_n - a| < \varepsilon$ が成り立ち、$a_n \to a$。
+      <div class="qed">■</div>
+    </div>
+
+    <!-- 3. 基本性質 -->
+    <h2>3. 基本性質</h2>
+    <div class="theorem">
+      数列 $a_n \to a$，$b_n \to b$ とする。次が成り立つ。
+      <ol>
+        <li>$a_n + b_n \to a + b$</li>
+        <li>$a_n b_n \to ab$</li>
+        <li>$b \neq 0$ ならば $\displaystyle \frac{a_n}{b_n} \to \frac{a}{b}$</li>
+      </ol>
+    </div>
+
+    <div class="proof">
+      <p><strong>(1) 和の極限</strong></p>
+      <p>　$\varepsilon > 0$ とする。$a_n \to a$ より
+        $\exists N_1$ s.t. $n > N_1 \Rightarrow |a_n - a| < \varepsilon/2$，
+        同様に $\exists N_2$ s.t. $n > N_2 \Rightarrow |b_n - b| < \varepsilon/2$。
+        $N := \max\{N_1, N_2\}$ とすれば</p>
+      <p>
+        $$
+          |(a_n + b_n) - (a + b)|
+          \le |a_n - a| + |b_n - b| < \varepsilon.
+        $$
+      </p>
+
+      <p><strong>(2) 積の極限</strong></p>
+      <p>　$\varepsilon > 0$ とする。まず $a_n \to a$ から
+        $|a_n| \le |a| + 1$ を保証する $N_1$ を取る
+        （$n > N_1$ で成立）。また (1) と同様に
+        $|a_n - a| < \delta$，$|b_n - b| < \delta$
+        となる $N_2$ を取る。ここで
+        $$
+          |a_n b_n - ab|
+          \le |a_n|\,|b_n - b| + |b|\,|a_n - a|.
+        $$
+        $|a_n| \le |a| + 1$ を用いて
+        $$
+          |a_n b_n - ab|
+          \le (|a| + 1)\delta + |b|\delta
+          = (|a| + |b| + 1)\,\delta.
+        $$
+        $\delta = \varepsilon / (|a| + |b| + 1)$ と選べば
+        $|a_n b_n - ab| < \varepsilon$。
+        $N := \max\{N_1, N_2\}$ で結論。</p>
+
+      <p><strong>(3) 商の極限</strong></p>
+      <p>　$|b| > 0$ なので $\exists c > 0$ s.t. $|b| \ge c$。
+        $b_n \to b$ だから $|b_n - b| < c/2$ となる
+        $N_1$ を取る。すると $|b_n| \ge c/2$。
+        以降 (2) と同様に
+        $$
+          \Bigl|\frac{a_n}{b_n} - \frac{a}{b}\Bigr|
+          = \Bigl|\frac{a_n b - a b_n}{b_n b}\Bigr|
+          \le \frac{|b|\,|a_n - a| + |a|\,|b_n - b|}
+                 {|b_n b|}
+          \le \frac{2}{c^2}\bigl(|b|\,|a_n - a| + |a|\,|b_n - b|\bigr).
+        $$
+        右辺を $<\varepsilon$ にする $N$ を同様に取ればよい。</p>
+
+      <p class="qed">■</p>
+    </div>
+
+    <!-- 4. 部分列 -->
+    <h2>4. 部分列</h2>
+    <div class="definition">
+      自然数列 $n_1 < n_2 < n_3 < \dots$ に対し $\{a_{n_k}\}$ を $\{a_n\}$ の<strong>部分列</strong>という。
+    </div>
+
+    <div class="example">
+      <p><strong>例 1</strong>　$a_n = (-1)^n$，$n_k = 2k - 1$ とすると
+        $b_k := a_{n_k} = -1$ （定数列）。</p>
+      <p><strong>例 2</strong>　同じく $a_n = (-1)^n$，$n_k = 2k$ とすると
+        $b_k := a_{n_k} = 1$。</p>
+    </div>
+
+    <div class="theorem">
+      収束列の任意の部分列は同じ極限に収束する。
+    </div>
+    <div class="proof">
+      $a_n \to a$ とし，部分列 $a_{n_k}$ を取る。
+      $\varepsilon > 0$ に対し $\exists N$ such that
+      $n > N \Rightarrow |a_n - a| < \varepsilon$。
+      $n_k > N$ なら同不等式がそのまま成り立つので
+      $a_{n_k} \to a$。<span class="qed">■</span>
+    </div>
+
+    <div class="theorem">
+      (収束の必要条件)　もし $a_n \to a$ が成り立たないならば，互いに異なる 2 つの部分列が異なる極限を持つ。
+    </div>
+    <div class="proof">
+      $a_n$ が収束しないと仮定する。すると
+      $$
+        \exists \varepsilon_0 > 0,\;
+        \forall N,\,
+        \exists m,n > N : |a_m - a_n| \ge \varepsilon_0.
+      $$
+      $a_n$ を 2 つの開球 $B(a,\varepsilon_0/2)$ とその補集合に分けて取り出すことで
+      2 つの部分列が得られ，それぞれの極限が異なることが示せる。
+      <span class="qed">■</span>
+    </div>
+
+    <!-- 5. 収束しない例 -->
+    <h3>例：$(-1)^n$ は収束しない</h3>
+    <div class="proof">
+      背理法による。$\{(-1)^n\}$ が $a$ に収束すると仮定する。
+      $\varepsilon = 1/2$ を取ると
+      $\exists N$ such that $n > N \Rightarrow |(-1)^n - a| < 1/2$。
+      <p>しかし $n = 2N$ と $n = 2N + 1$ を比較すると</p>
+      $$
+        |1 - a| < 1/2, \qquad |-1 - a| < 1/2.
+      $$
+      両不等式を足すと $2 < 1$ で矛盾。ゆえに収束しない。
+      <span class="qed">■</span>
+    </div>
+
+    <!-- 6. Bolzano–Weierstrass -->
+    <h2>5. Bolzano–Weierstrass (有界列の部分列収束)</h2>
+    <div class="theorem">
+      有界列 $\{x_n\}$ は収束部分列を持つ。
+    </div>
+
+    <div class="proof">
+      $\{x_n\}$ が区間 $[m, M]$ に含まれるとする。
+      <p><strong>峰点 (peak) の集合</strong>を定義：</p>
+      $$
+        P := \{n \in \mathbb N : x_k \le x_n \; (\forall k > n)\}.
+      $$
+      <p>場合分け：</p>
+      <ul>
+        <li><strong>Case&nbsp;1&nbsp;:&nbsp;$P$ が無限</strong><br>
+          $P$ の元を昇順に並べた部分列
+          $n_1 < n_2 < \dots$ では $x_{n_k}$ が単調<strong>減少</strong>。
+          有界単調列なので収束する。</li>
+        <li><strong>Case&nbsp;2&nbsp;:&nbsp;$P$ が有限</strong><br>
+          $n_0 := \max P$ とする。$n > n_0$ なら $n \notin P$
+          なので $\exists k > n$ with $x_k > x_n$。
+          帰納的に
+          $$
+            n_0 < n_1 < n_2 < \dots,\quad
+            x_{n_1} < x_{n_2} < \dots
+          $$
+          を構成できる。こうして得た部分列は単調<strong>増加</strong>で有界，
+          ゆえに収束する。</li>
+      </ul>
+      どちらの場合も収束部分列が存在することが分かる。
+      <span class="qed">■</span>
+    </div>
+
+    <!-- 7. 演習 -->
+    <h2>6. 演習</h2>
+    <div class="exercise">
+      <ol>
+        <li>$a_n = \dfrac{1}{n}$ が 0 に収束することを ε–N 法で示せ。</li>
+        <li>$a_n = \dfrac{(-1)^n}{n}$ の収束先を調べ，証明せよ。</li>
+        <li>命題「非有界列には収束部分列が存在しない」は正しいか？理由を述べよ。</li>
+        <li>有界非収束列の具体例を 1 つ挙げ，収束しないことを示せ。</li>
+      </ol>
+    </div>
+
+  </div><!-- /.container -->
+</body>
+</html>

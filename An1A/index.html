@@ -216,7 +216,22 @@
     <script>
         // Function to navigate to class pages
         function navigateToClass(classNumber) {
-            window.location.href = `./Class/class${classNumber}.html`;
+            const classPages = {
+                1: './Class/class1/class1.html',
+                2: './Class/class2/Class2.html',
+                3: './Class/class3/Class3.html',
+                4: './Class/class4/class4.html',
+                5: './Class/class5/class5.html',
+                6: './Class/class6/class6.html',
+                7: './Class/class7/class7.html',
+                8: './Class/class8/class8.html',
+                9: './Class/class9/class9.html',
+                10: './Class/class10/class10.html',
+                11: './Class/class11/class11.html',
+                12: './Class/class12/class12.html',
+                13: './Class/class13/class13.html'
+            };
+            window.location.href = classPages[classNumber];
         }
 
         // Add navigation between classes

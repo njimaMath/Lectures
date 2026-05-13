@@ -1,0 +1,257 @@
+\documentclass[a4paper,12pt]{jsarticle}
+\usepackage[dvipdfmx,margin=24mm]{geometry}
+\usepackage[dvipdfmx]{graphicx}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{enumitem}
+
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{0.35em}
+\setlist[itemize]{leftmargin=2em,itemsep=0.2em,topsep=0.3em}
+
+\theoremstyle{definition}
+\newtheorem*{definition}{定義}
+\newtheorem*{theorem}{定理}
+\newtheorem*{example}{例}
+\renewcommand{\proofname}{証明}
+
+\begin{document}
+
+\begin{center}
+{\LARGE 数学1A 第6回レジュメ}\\[0.4em]
+テイラー展開とオイラーの公式
+\end{center}
+
+\section{テイラーの定理}
+
+前回，$f$ の $a$ における $n$ 次テイラー多項式を
+\[
+T_n(x)=\sum_{k=0}^{n}\frac{f^{(k)}(a)}{k!}(x-a)^k
+\]
+と定義した。テイラーの定理は，この多項式がどれくらい $f(x)$ を近似しているかを教えてくれる。
+
+\begin{theorem}[テイラーの定理]
+$I$ を区間とし，$a,x\in I$ とする。$f$ が $a$ と $x$ の間で $n+1$ 回連続的微分可能であるとき，ある $\xi$ が $a$ と $x$ の間に存在して
+\[
+f(x)=T_n(x)+\frac{f^{(n+1)}(\xi)}{(n+1)!}(x-a)^{n+1}
+\]
+が成り立つ。
+\end{theorem}
+
+剰余項を
+\[
+R_n(x)=f(x)-T_n(x)
+\]
+とおくと
+\[
+R_n(x)=\frac{f^{(n+1)}(\xi)}{(n+1)!}(x-a)^{n+1}
+\]
+である。したがって，$a$ と $x$ の間で $|f^{(n+1)}(t)|\leq M$ が成り立つなら
+\[
+|R_n(x)|\leq \frac{M}{(n+1)!}|x-a|^{n+1}
+\]
+と評価できる。もし $n\to\infty$ で $R_n(x)\to 0$ なら
+\[
+f(x)=\sum_{k=0}^{\infty}\frac{f^{(k)}(a)}{k!}(x-a)^k
+\]
+が成り立つ。
+
+\section{$e^x$ のテイラー展開}
+
+\begin{theorem}
+任意の実数 $x$ に対して
+\[
+e^x=\sum_{k=0}^{\infty}\frac{x^k}{k!}
+\]
+が成り立つ。
+\end{theorem}
+
+\begin{proof}
+$f(x)=e^x$ とし，$a=0$ でテイラーの定理を用いる。すべての $k$ に対して $f^{(k)}(x)=e^x$ だから
+\[
+T_n(x)=\sum_{k=0}^{n}\frac{x^k}{k!}
+\]
+である。また，ある $\xi$ が $0$ と $x$ の間に存在して
+\[
+R_n(x)=\frac{e^\xi}{(n+1)!}x^{n+1}
+\]
+となる。$0$ と $x$ の間で $e^\xi\leq e^{|x|}$ なので
+\[
+|R_n(x)|\leq e^{|x|}\frac{|x|^{n+1}}{(n+1)!}
+\]
+である。固定した $x$ に対して $\frac{|x|^{n+1}}{(n+1)!}\to 0$ だから，$R_n(x)\to 0$ である。よって
+\[
+e^x=\sum_{k=0}^{\infty}\frac{x^k}{k!}
+\]
+を得る。
+\end{proof}
+
+\section{$\sin x$ と $\cos x$ のテイラー展開}
+
+\begin{theorem}
+任意の実数 $x$ に対して
+\[
+\sin x=\sum_{k=0}^{\infty}(-1)^k\frac{x^{2k+1}}{(2k+1)!},
+\qquad
+\cos x=\sum_{k=0}^{\infty}(-1)^k\frac{x^{2k}}{(2k)!}
+\]
+が成り立つ。
+\end{theorem}
+
+\begin{proof}
+$\sin x$ の導関数は
+\[
+\sin x,\quad \cos x,\quad -\sin x,\quad -\cos x,\quad \sin x,\dots
+\]
+と周期的に変わる。$x=0$ を代入すると，偶数階の値は $0$，奇数階の値は $1,-1,1,-1,\dots$ となる。したがって
+\[
+T_n(x)=\sum_{0\leq 2k+1\leq n}(-1)^k\frac{x^{2k+1}}{(2k+1)!}
+\]
+である。
+
+また，$\sin x$ のどの階の導関数も $\sin x,\cos x,-\sin x,-\cos x$ のいずれかなので，絶対値は $1$ 以下である。テイラーの定理より
+\[
+|R_n(x)|\leq \frac{|x|^{n+1}}{(n+1)!}
+\]
+であり，右辺は $n\to\infty$ で $0$ に収束する。よって
+\[
+\sin x=\sum_{k=0}^{\infty}(-1)^k\frac{x^{2k+1}}{(2k+1)!}
+\]
+である。
+
+$\cos x$ についても同様に考える。導関数は
+\[
+\cos x,\quad -\sin x,\quad -\cos x,\quad \sin x,\quad \cos x,\dots
+\]
+と周期的に変わる。$x=0$ を代入すると，奇数階の値は $0$，偶数階の値は $1,-1,1,-1,\dots$ となる。剰余項も同じく
+\[
+|R_n(x)|\leq \frac{|x|^{n+1}}{(n+1)!}
+\]
+で $0$ に収束する。したがって
+\[
+\cos x=\sum_{k=0}^{\infty}(-1)^k\frac{x^{2k}}{(2k)!}
+\]
+を得る。
+\end{proof}
+
+\section{オイラーの公式}
+
+複素数 $z$ に対して，指数関数を
+\[
+e^z=\sum_{k=0}^{\infty}\frac{z^k}{k!}
+\]
+で定義する。この定義は，実数 $z=x$ のときには先ほどの $e^x$ のテイラー展開と一致する。
+
+\begin{theorem}[オイラーの公式]
+任意の実数 $x$ に対して
+\[
+e^{ix}=\cos x+i\sin x
+\]
+が成り立つ。
+\end{theorem}
+
+\begin{proof}
+指数関数のテイラー展開に $z=ix$ を代入すると
+\[
+e^{ix}=\sum_{n=0}^{\infty}\frac{(ix)^n}{n!}
+\]
+である。偶数次と奇数次に分けると
+\[
+e^{ix}
+=\sum_{k=0}^{\infty}\frac{(ix)^{2k}}{(2k)!}
++\sum_{k=0}^{\infty}\frac{(ix)^{2k+1}}{(2k+1)!}.
+\]
+ここで $i^{2k}=(-1)^k$，$i^{2k+1}=i(-1)^k$ なので
+\[
+e^{ix}
+=\sum_{k=0}^{\infty}(-1)^k\frac{x^{2k}}{(2k)!}
++i\sum_{k=0}^{\infty}(-1)^k\frac{x^{2k+1}}{(2k+1)!}.
+\]
+右辺の実部は $\cos x$，虚部は $\sin x$ である。したがって
+\[
+e^{ix}=\cos x+i\sin x
+\]
+を得る。
+\end{proof}
+
+\section{オイラーの公式の応用}
+
+\subsection*{三角関数の加法定理}
+
+指数関数の性質 $e^{i(x+y)}=e^{ix}e^{iy}$ とオイラーの公式を用いると
+\[
+\cos(x+y)+i\sin(x+y)
+=(\cos x+i\sin x)(\cos y+i\sin y)
+\]
+である。右辺を展開すると
+\[
+(\cos x\cos y-\sin x\sin y)
++i(\sin x\cos y+\cos x\sin y)
+\]
+となる。実部と虚部を比較して
+\[
+\cos(x+y)=\cos x\cos y-\sin x\sin y,
+\]
+\[
+\sin(x+y)=\sin x\cos y+\cos x\sin y
+\]
+を得る。
+
+\subsection*{差の公式}
+
+加法定理で $y$ を $-y$ に置き換えると
+\[
+\cos(x-y)=\cos x\cos y+\sin x\sin y,
+\]
+\[
+\sin(x-y)=\sin x\cos y-\cos x\sin y
+\]
+となる。
+
+\subsection*{二倍角の公式}
+
+加法定理で $y=x$ とすると
+\[
+\cos(2x)=\cos^2 x-\sin^2 x,
+\]
+\[
+\sin(2x)=2\sin x\cos x
+\]
+を得る。また，$\cos^2 x+\sin^2 x=1$ を使えば
+\[
+\cos(2x)=2\cos^2 x-1=1-2\sin^2 x
+\]
+とも書ける。
+
+\subsection*{ド・モアブルの公式}
+
+$n$ を整数とする。オイラーの公式より
+\[
+(\cos x+i\sin x)^n=(e^{ix})^n=e^{inx}
+\]
+である。再びオイラーの公式を用いると
+\[
+e^{inx}=\cos(nx)+i\sin(nx)
+\]
+なので
+\[
+(\cos x+i\sin x)^n=\cos(nx)+i\sin(nx)
+\]
+を得る。
+
+\subsection*{基本恒等式}
+
+オイラーの公式で $x$ と $-x$ を考えると
+\[
+e^{ix}e^{-ix}=1
+\]
+であり，一方で
+\[
+(\cos x+i\sin x)(\cos x-i\sin x)=\cos^2 x+\sin^2 x
+\]
+である。したがって
+\[
+\cos^2 x+\sin^2 x=1
+\]
+が従う。
+
+\end{document}

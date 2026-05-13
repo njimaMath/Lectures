@@ -1,9 +1,9 @@
-This is e-upTeX, Version 3.141592653-p4.1.0-u1.29-230214-2.6 (utf8.euc) (TeX Live 2023/Debian) (preloaded format=platex 2025.4.6)  29 APR 2026 12:36
+This is e-upTeX, Version 3.141592653-p4.1.0-u1.29-230214-2.6 (utf8.euc) (TeX Live 2023/Debian) (preloaded format=platex 2025.4.6)  13 MAY 2026 18:10
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
-**class4_resume.tex
-(./class4_resume.tex
+**class8_resume.tex
+(./class8_resume.tex
 pLaTeX2e <2023-02-14>+1, based on
 LaTeX2e <2023-11-01> patch level 1
 L3 programming layer <2024-01-22>
@@ -174,23 +174,11 @@ LaTeX Font Info:    Redeclaring math symbol \hbar on input line 98.
 LaTeX Font Info:    Overwriting math alphabet `\mathfrak' in version `bold'
 (Font)                  U/euf/m/n --> U/euf/b/n on input line 106.
 ))
-(/usr/share/texlive/texmf-dist/tex/latex/amscls/amsthm.sty
-Package: amsthm 2020/05/29 v2.20.6
-\thm@style=\toks25
-\thm@bodyfont=\toks26
-\thm@headfont=\toks27
-\thm@notefont=\toks28
-\thm@headpunct=\toks29
-\thm@preskip=\skip54
-\thm@postskip=\skip55
-\thm@headsep=\skip56
-\dth@everypar=\toks30
-)
 (/usr/share/texlive/texmf-dist/tex/latex/enumitem/enumitem.sty
 Package: enumitem 2019/06/20 v3.9 Customized lists
-\labelindent=\skip57
+\labelindent=\skip54
 \enit@outerparindent=\dimen181
-\enit@toks=\toks31
+\enit@toks=\toks25
 \enit@inbox=\box71
 \enit@count@id=\count276
 \enitdp@description=\count277
@@ -199,7 +187,7 @@ Package: enumitem 2019/06/20 v3.9 Customized lists
 (/usr/share/texlive/texmf-dist/tex/latex/pgf/basiclayer/pgf.sty
 (/usr/share/texlive/texmf-dist/tex/latex/pgf/utilities/pgfrcs.sty
 (/usr/share/texlive/texmf-dist/tex/generic/pgf/utilities/pgfutil-common.tex
-\pgfutil@everybye=\toks32
+\pgfutil@everybye=\toks26
 \pgfutil@tempdima=\dimen182
 \pgfutil@tempdimb=\dimen183
 )
@@ -218,12 +206,12 @@ Package: pgf 2023-01-15 v3.1.10 (3.1.10)
 Package: pgfsys 2023-01-15 v3.1.10 (3.1.10)
 
 (/usr/share/texlive/texmf-dist/tex/generic/pgf/utilities/pgfkeys.code.tex
-\pgfkeys@pathtoks=\toks33
-\pgfkeys@temptoks=\toks34
+\pgfkeys@pathtoks=\toks27
+\pgfkeys@temptoks=\toks28
 
 (/usr/share/texlive/texmf-dist/tex/generic/pgf/utilities/pgfkeyslibraryfiltered
 .code.tex
-\pgfkeys@tmptoks=\toks35
+\pgfkeys@tmptoks=\toks29
 ))
 \pgf@x=\dimen184
 \pgf@y=\dimen185
@@ -241,9 +229,9 @@ Package: pgfsys 2023-01-15 v3.1.10 (3.1.10)
 \c@pgf@countb=\count279
 \c@pgf@countc=\count280
 \c@pgf@countd=\count281
-\t@pgf@toka=\toks36
-\t@pgf@tokb=\toks37
-\t@pgf@tokc=\toks38
+\t@pgf@toka=\toks30
+\t@pgf@tokb=\toks31
+\t@pgf@tokc=\toks32
 \pgf@sys@id@count=\count282
  (/usr/share/texlive/texmf-dist/tex/generic/pgf/systemlayer/pgf.cfg
 File: pgf.cfg 2023-01-15 v3.1.10 (3.1.10)
@@ -273,11 +261,8 @@ Package: xcolor 2023/11/15 v3.01 LaTeX color extensions (UK)
 (/usr/share/texlive/texmf-dist/tex/latex/graphics-cfg/color.cfg
 File: color.cfg 2016/01/02 v1.6 sample color configuration
 )
-Package xcolor Info: Driver file: dvips.def on input line 274.
+Package xcolor Info: Driver file: dvipdfmx.def on input line 274.
 
-(/usr/share/texlive/texmf-dist/tex/latex/graphics-def/dvips.def
-File: dvips.def 2022/09/22 v3.1e Graphics/color driver for dvips
-)
 (/usr/share/texlive/texmf-dist/tex/latex/graphics/mathcolor.ltx)
 Package xcolor Info: Model `cmy' substituted by `cmy0' on input line 1350.
 Package xcolor Info: Model `RGB' extended on input line 1366.
@@ -297,9 +282,9 @@ Package: pgfcore 2023-01-15 v3.1.10 (3.1.10)
 \pgfmath@dimen=\dimen194
 \pgfmath@count=\count286
 \pgfmath@box=\box73
-\pgfmath@toks=\toks39
-\pgfmath@stack@operand=\toks40
-\pgfmath@stack@operation=\toks41
+\pgfmath@toks=\toks33
+\pgfmath@stack@operand=\toks34
+\pgfmath@stack@operation=\toks35
 )
 (/usr/share/texlive/texmf-dist/tex/generic/pgf/math/pgfmathfunctions.code.tex)
 (/usr/share/texlive/texmf-dist/tex/generic/pgf/math/pgfmathfunctions.basic.code
@@ -442,8 +427,8 @@ Package: pgfcomp-version-1-18 2023-01-15 v3.1.10 (3.1.10)
 Package: pgffor 2023-01-15 v3.1.10 (3.1.10)
 \pgffor@iter=\dimen277
 \pgffor@skip=\dimen278
-\pgffor@stack=\toks42
-\pgffor@toks=\toks43
+\pgffor@stack=\toks36
+\pgffor@toks=\toks37
 ))
 (/usr/share/texlive/texmf-dist/tex/generic/pgf/frontendlayer/tikz/tikz.code.tex
 Package: tikz 2023-01-15 v3.1.10 (3.1.10)
@@ -483,6 +468,14 @@ File: pgfmodulematrix.code.tex 2023-01-15 v3.1.10 (3.1.10)
 zlibrarytopaths.code.tex
 File: tikzlibrarytopaths.code.tex 2023-01-15 v3.1.10 (3.1.10)
 )))
+(/usr/share/texlive/texmf-dist/tex/latex/float/float.sty
+Package: float 2001/11/08 v1.3d Float enhancements (AL)
+\c@float@type=\count300
+\float@exts=\toks38
+\float@box=\box83
+\@float@everytoks=\toks39
+\@floatcapt=\box84
+)
 (/usr/share/texlive/texmf-dist/tex/generic/pgf/libraries/pgflibraryarrows.meta.
 code.tex
 File: pgflibraryarrows.meta.code.tex 2023-01-15 v3.1.10 (3.1.10)
@@ -491,37 +484,51 @@ File: pgflibraryarrows.meta.code.tex 2023-01-15 v3.1.10 (3.1.10)
 \pgfarrowwidth=\dimen290
 \pgfarrowlinewidth=\dimen291
 )
-(/usr/share/texlive/texmf-dist/tex/latex/l3backend/l3backend-dvips.def
-File: l3backend-dvips.def 2024-01-04 L3 backend support: dvips
-\l__pdf_internal_box=\box83
-\g__pdf_backend_object_int=\count300
-\l__pdf_backend_content_box=\box84
-\l__pdf_backend_model_box=\box85
-\g__pdf_backend_annotation_int=\count301
-\g__pdf_backend_link_int=\count302
-\g__pdf_backend_link_sf_int=\count303
+(/usr/share/texlive/texmf-dist/tex/generic/pgf/frontendlayer/tikz/libraries/tik
+zlibrarycalc.code.tex
+File: tikzlibrarycalc.code.tex 2023-01-15 v3.1.10 (3.1.10)
 )
-(./class4_resume.aux)
-\openout1 = `class4_resume.aux'.
+(/usr/share/texlive/texmf-dist/tex/generic/pgf/frontendlayer/tikz/libraries/tik
+zlibrarypatterns.code.tex
+File: tikzlibrarypatterns.code.tex 2023-01-15 v3.1.10 (3.1.10)
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 34.
-LaTeX Font Info:    ... okay on input line 34.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 34.
-LaTeX Font Info:    ... okay on input line 34.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 34.
-LaTeX Font Info:    ... okay on input line 34.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 34.
-LaTeX Font Info:    ... okay on input line 34.
-LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 34.
-LaTeX Font Info:    ... okay on input line 34.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 34.
-LaTeX Font Info:    ... okay on input line 34.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 34.
-LaTeX Font Info:    ... okay on input line 34.
-LaTeX Font Info:    Checking defaults for JY1/mc/m/n on input line 34.
-LaTeX Font Info:    ... okay on input line 34.
-LaTeX Font Info:    Checking defaults for JT1/mc/m/n on input line 34.
-LaTeX Font Info:    ... okay on input line 34.
+(/usr/share/texlive/texmf-dist/tex/generic/pgf/libraries/pgflibrarypatterns.cod
+e.tex
+File: pgflibrarypatterns.code.tex 2023-01-15 v3.1.10 (3.1.10)
+))
+(/usr/share/texlive/texmf-dist/tex/generic/pgf/frontendlayer/tikz/libraries/tik
+zlibrarypositioning.code.tex
+File: tikzlibrarypositioning.code.tex 2023-01-15 v3.1.10 (3.1.10)
+)
+(/usr/share/texlive/texmf-dist/tex/latex/l3backend/l3backend-dvipdfmx.def
+File: l3backend-dvipdfmx.def 2024-01-04 L3 backend support: dvipdfmx
+\g__graphics_track_int=\count301
+\l__pdf_internal_box=\box85
+\g__pdf_backend_object_int=\count302
+\g__pdf_backend_annotation_int=\count303
+\g__pdf_backend_link_int=\count304
+)
+(./class8_resume.aux)
+\openout1 = `class8_resume.aux'.
+
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 21.
+LaTeX Font Info:    ... okay on input line 21.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 21.
+LaTeX Font Info:    ... okay on input line 21.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 21.
+LaTeX Font Info:    ... okay on input line 21.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 21.
+LaTeX Font Info:    ... okay on input line 21.
+LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 21.
+LaTeX Font Info:    ... okay on input line 21.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 21.
+LaTeX Font Info:    ... okay on input line 21.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 21.
+LaTeX Font Info:    ... okay on input line 21.
+LaTeX Font Info:    Checking defaults for JY1/mc/m/n on input line 21.
+LaTeX Font Info:    ... okay on input line 21.
+LaTeX Font Info:    Checking defaults for JT1/mc/m/n on input line 21.
+LaTeX Font Info:    ... okay on input line 21.
 
 *geometry* detected driver: dvipdfm
 *geometry* verbose mode - [ preamble ] result:
@@ -530,15 +537,15 @@ LaTeX Font Info:    ... okay on input line 34.
 * layout: <same size as paper>
 * layoutoffset:(h,v)=(0.0pt,0.0pt)
 * modes: 
-* h-part:(L,W,R)=(68.2866pt, 460.93466pt, 68.2866pt)
-* v-part:(T,H,B)=(68.2866pt, 708.47363pt, 68.2866pt)
+* h-part:(L,W,R)=(59.75078pt, 478.00632pt, 59.75078pt)
+* v-part:(T,H,B)=(59.75078pt, 725.54529pt, 59.75078pt)
 * \paperwidth=717.0044pt
 * \paperheight=1014.03809pt
-* \textwidth=460.93466pt
-* \textheight=708.47363pt
-* \oddsidemargin=-3.98338pt
-* \evensidemargin=-3.98338pt
-* \topmargin=-34.93744pt
+* \textwidth=478.00632pt
+* \textheight=725.54529pt
+* \oddsidemargin=-12.51921pt
+* \evensidemargin=-12.51921pt
+* \topmargin=-43.47327pt
 * \headheight=20.0pt
 * \headsep=10.95406pt
 * \topskip=12.76073pt
@@ -557,61 +564,74 @@ LaTeX Font Info:    ... okay on input line 34.
 * (1in=72.27pt=25.4mm, 1cm=28.453pt)
 
 LaTeX Font Info:    Font shape `JT1/mc/m/n' will be
-(Font)              scaled to size 16.60605pt on input line 37.
+(Font)              scaled to size 16.60605pt on input line 24.
 LaTeX Font Info:    Font shape `JY1/mc/m/n' will be
-(Font)              scaled to size 16.60605pt on input line 37.
+(Font)              scaled to size 16.60605pt on input line 24.
 LaTeX Font Info:    Font shape `JT1/mc/m/n' will be
-(Font)              scaled to size 13.83836pt on input line 41.
+(Font)              scaled to size 13.83836pt on input line 28.
 LaTeX Font Info:    Font shape `JY1/mc/m/n' will be
-(Font)              scaled to size 13.83836pt on input line 41.
-LaTeX Font Info:    Font shape `JT1/gt/m/n' will be
-(Font)              scaled to size 13.83836pt on input line 41.
-LaTeX Font Info:    Font shape `JY1/gt/m/n' will be
-(Font)              scaled to size 13.83836pt on input line 41.
+(Font)              scaled to size 13.83836pt on input line 28.
 LaTeX Font Info:    Font shape `JY1/mc/m/n' will be
-(Font)              scaled to size 6.72699pt on input line 44.
+(Font)              scaled to size 6.72699pt on input line 35.
 LaTeX Font Info:    Font shape `JY1/mc/m/n' will be
-(Font)              scaled to size 4.805pt on input line 44.
-LaTeX Font Info:    Trying to load font information for U+msa on input line 44.
+(Font)              scaled to size 4.805pt on input line 35.
+LaTeX Font Info:    Trying to load font information for U+msa on input line 35.
 
 (/usr/share/texlive/texmf-dist/tex/latex/amsfonts/umsa.fd
 File: umsa.fd 2013/01/14 v3.01 AMS symbols A
 )
-LaTeX Font Info:    Trying to load font information for U+msb on input line 44.
+LaTeX Font Info:    Trying to load font information for U+msb on input line 35.
 
 
 (/usr/share/texlive/texmf-dist/tex/latex/amsfonts/umsb.fd
 File: umsb.fd 2013/01/14 v3.01 AMS symbols B
-) [1
+)
+LaTeX Font Info:    Font shape `JT1/mc/m/n' will be
+(Font)              scaled to size 8.64899pt on input line 54.
+LaTeX Font Info:    Font shape `JY1/mc/m/n' will be
+(Font)              scaled to size 8.64899pt on input line 54.
+LaTeX Font Info:    Font shape `JY1/mc/m/n' will be
+(Font)              scaled to size 5.76599pt on input line 54.
+LaTeX Font Info:    Font shape `JT1/mc/m/n' will be
+(Font)              scaled to size 11.53198pt on input line 59.
+LaTeX Font Info:    Font shape `JY1/mc/m/n' will be
+(Font)              scaled to size 11.53198pt on input line 59.
+File: figures/domain_sqrt.pdf Graphic file (type pdf)
+<figures/domain_sqrt.pdf>
+File: figures/domain_rational.pdf Graphic file (type pdf)
+<figures/domain_rational.pdf>
+ [1
 
 ]
-LaTeX Font Info:    Font shape `JT1/mc/m/n' will be
-(Font)              scaled to size 11.53198pt on input line 87.
-LaTeX Font Info:    Font shape `JY1/mc/m/n' will be
-(Font)              scaled to size 11.53198pt on input line 87.
-LaTeX Font Info:    Font shape `JT1/gt/m/n' will be
-(Font)              scaled to size 11.53198pt on input line 87.
-LaTeX Font Info:    Font shape `JY1/gt/m/n' will be
-(Font)              scaled to size 11.53198pt on input line 87.
+File: figures/paraboloid_contours.pdf Graphic file (type pdf)
+<figures/paraboloid_contours.pdf>
+File: figures/paraboloid_surface.pdf Graphic file (type pdf)
+<figures/paraboloid_surface.pdf>
+File: figures/plane_surface.pdf Graphic file (type pdf)
+<figures/plane_surface.pdf>
+File: figures/temperature_contours.pdf Graphic file (type pdf)
+<figures/temperature_contours.pdf>
  [2]
-LaTeX Font Info:    Font shape `JT1/mc/bx/n' in size <10> not available
-(Font)              Font shape `JT1/gt/m/n' tried instead on input line 151.
-LaTeX Font Info:    Font shape `JT1/gt/m/n' will be
-(Font)              scaled to size 9.60999pt on input line 151.
-LaTeX Font Info:    Font shape `JY1/mc/bx/n' in size <10> not available
-(Font)              Font shape `JY1/gt/m/n' tried instead on input line 151.
-LaTeX Font Info:    Font shape `JY1/gt/m/n' will be
-(Font)              scaled to size 9.60999pt on input line 151.
-LaTeX Font Info:    Font shape `JT1/mc/m/it' in size <10> not available
-(Font)              Font shape `JT1/mc/m/n' tried instead on input line 174.
-LaTeX Font Info:    Font shape `JT1/mc/m/n' will be
-(Font)              scaled to size 9.60999pt on input line 174.
-LaTeX Font Info:    Font shape `JY1/mc/m/it' in size <10> not available
-(Font)              Font shape `JY1/mc/m/n' tried instead on input line 174.
-LaTeX Font Info:    Font shape `JY1/mc/m/n' will be
-(Font)              scaled to size 9.60999pt on input line 174.
- [3] [4]
-[5] (./class4_resume.aux)
+File: figures/partial_directions.pdf Graphic file (type pdf)
+<figures/partial_directions.pdf>
+ [3]
+File: figures/partial_surface.pdf Graphic file (type pdf)
+<figures/partial_surface.pdf>
+ [4]
+File: figures/tangent_plane.pdf Graphic file (type pdf)
+<figures/tangent_plane.pdf>
+
+[5]
+File: figures/nondiff_surface.pdf Graphic file (type pdf)
+<figures/nondiff_surface.pdf>
+File: figures/direction_slice.pdf Graphic file (type pdf)
+<figures/direction_slice.pdf>
+ [6] [7]
+File: figures/abs_value.pdf Graphic file (type pdf)
+<figures/abs_value.pdf>
+File: figures/derivative_line.pdf Graphic file (type pdf)
+<figures/derivative_line.pdf>
+ [8] [9] (./class8_resume.aux)
  ***********
 pLaTeX2e <2023-02-14>+1, based on
 LaTeX2e <2023-11-01> patch level 1
@@ -619,12 +639,12 @@ L3 programming layer <2024-01-22>
  ***********
  ) 
 Here is how much of TeX's memory you used:
- 14136 strings out of 475916
- 283292 string characters out of 5788118
- 1937820 words of memory out of 5000000
- 36076 multiletter control sequences out of 15000+600000
- 568838 words of font info for 88 fonts, out of 8000000 for 9000
+ 14601 strings out of 475916
+ 294741 string characters out of 5788118
+ 1930820 words of memory out of 5000000
+ 36508 multiletter control sequences out of 15000+600000
+ 573970 words of font info for 108 fonts, out of 8000000 for 9000
  314 hyphenation exceptions out of 8191
- 85i,13n,93p,422b,370s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ 84i,9n,93p,412b,814s stack positions out of 10000i,1000n,20000p,200000b,200000s
 
-Output written on class4_resume.dvi (5 pages, 19604 bytes).
+Output written on class8_resume.dvi (9 pages, 45888 bytes).

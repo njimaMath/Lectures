@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>微分法入門</title>
+    <style>
+        body {
+            font-family: 'Hiragino Sans', 'Meiryo', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f9f9f9;
+        }
+        h1, h2, h3 {
+            color: #1a237e;
+            margin-top: 1.5em;
+        }
+        h1 {
+            text-align: center;
+            border-bottom: 2px solid #1a237e;
+            padding-bottom: 10px;
+            margin-bottom: 30px;
+        }
+        h2 {
+            border-left: 5px solid #1a237e;
+            padding-left: 15px;
+        }
+        .formula {
+            background-color: #f0f0f8;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 15px 0;
+            overflow-x: auto;
+            text-align: center;
+            font-size: 1.1em;
+            /* MathJax 用スタイルを追加 */
+            font-family: 'Latin Modern Math', 'Cambria Math', serif;
+        }
+        .note {
+            background-color: #e8f5e9;
+            border-left: 4px solid #4caf50;
+            padding: 10px 15px;
+            margin: 15px 0;
+        }
+        .example {
+            background-color: #e3f2fd;
+            border-left: 4px solid #2196f3;
+            padding: 10px 15px;
+            margin: 15px 0;
+        }
+        .figure {
+            text-align: center;
+            margin: 25px 0;
+        }
+        .figure img, .figure svg {
+            max-width: 100%;
+            border-radius: 5px;
+            box-shadow: 0 3px 6px rgba(0,0,0,0.16);
+            background-color: #fff; /* SVG background */
+        }
+        .figure figcaption {
+            margin-top: 10px;
+            font-style: italic;
+            color: #666;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px 12px;
+            text-align: center; /* 数式が多いので中央揃えに */
+            vertical-align: middle;
+        }
+        th {
+            background-color: #e8eaf6;
+            font-weight: bold;
+        }
+        tr:nth-child(even) {
+            background-color: #f5f5f5;
+        }
+        .timeline {
+            position: relative;
+            max-width: 800px;
+            margin: 40px auto; /* 上下のマージンを追加 */
+            padding: 20px 0;
+        }
+        .timeline::after {
+            content: '';
+            position: absolute;
+            width: 4px;
+            background-color: #1a237e;
+            top: 0;
+            bottom: 0;
+            left: 50%;
+            margin-left: -2px;
+        }
+        .timeline-container {
+            position: relative;
+            width: 50%;
+            padding: 10px 40px;
+            box-sizing: border-box;
+        }
+        .timeline-container.left {
+            left: 0;
+        }
+        .timeline-container.right {
+            left: 50%;
+        }
+        .timeline-content {
+            padding: 15px;
+            background-color: white;
+            border-radius: 5px;
+            box-shadow: 0 3px 6px rgba(0,0,0,0.1);
+            position: relative; /* Arrow pseudo-element */
+        }
+        .timeline-container::after {
+            content: '';
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            background-color: white;
+            border: 4px solid #1a237e;
+            border-radius: 50%;
+            top: 25px; /* Adjusted top position */
+            z-index: 1;
+        }
+        .timeline-container.left::after {
+            right: -12px; /* Adjusted position */
+        }
+        .timeline-container.right::after {
+            left: -12px; /* Adjusted position */
+        }
+        /* Timeline arrows */
+        .timeline-container.left .timeline-content::before {
+            content: " ";
+            height: 0;
+            position: absolute;
+            top: 28px;
+            width: 0;
+            z-index: 1;
+            right: -10px;
+            border: medium solid white;
+            border-width: 10px 0 10px 10px;
+            border-color: transparent transparent transparent white;
+        }
+        .timeline-container.right .timeline-content::before {
+            content: " ";
+            height: 0;
+            position: absolute;
+            top: 28px;
+            width: 0;
+            z-index: 1;
+            left: -10px;
+            border: medium solid white;
+            border-width: 10px 10px 10px 0;
+            border-color: transparent white transparent transparent;
+        }
+
+        @media screen and (max-width: 600px) {
+            .timeline::after {
+                left: 31px;
+            }
+            .timeline-container {
+                width: 100%;
+                padding-left: 70px;
+                padding-right: 25px;
+            }
+            .timeline-container.right {
+                left: 0%;
+            }
+            .timeline-container.left::after, .timeline-container.right::after {
+                left: 19px; /* Adjusted position */
+            }
+            .timeline-container.left .timeline-content::before,
+            .timeline-container.right .timeline-content::before {
+                left: -10px;
+                border-width: 10px 10px 10px 0;
+                border-color: transparent white transparent transparent;
+            }
+             .timeline-container.left .timeline-content::before {
+                right: auto; /* Reset right property */
+            }
+        }
+        /* MathJax/KaTeX support */
+        .katex-display { overflow-x: auto; overflow-y: hidden; }
+        
+        /* 元のスタイルとの互換性のためのクラス */
+        .theorem {
+            background-color: #e8f4f8;
+            padding: 15px;
+            border-left: 5px solid #3498db;
+            margin: 20px 0;
+        }
+        .proof {
+            background-color: #f8f9fa;
+            padding: 15px;
+            border-left: 5px solid #7f8c8d;
+            margin: 20px 0;
+        }
+        .definition {
+            background-color: #e8f8f5;
+            padding: 15px;
+            border-left: 5px solid #16a085;
+            margin: 20px 0;
+        }
+        .graph {
+            text-align: center;
+            margin: 20px 0;
+        }
+        code {
+            font-family: 'Courier New', Courier, monospace;
+            background-color: #f1f1f1;
+            padding: 2px 5px;
+            border-radius: 3px;
+        }
+    </style><!-- MathJax v3 -->
+<script>
+  MathJax = {
+    tex: {
+      inlineMath: [['$', '$'], ['\\(', '\\)']],
+      displayMath: [['$$', '$$'], ['\\[', '\\]']]
+    }
+  };
+</script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js" async></script>
+
+</head>
+<body>
+    <h1>微分法入門</h1>
+  
+    <h2>1. 三角関数 $\cos(x), \sin(x)$ の性質</h2>
+    <div class="formula">
+      $\frac{d}{dx}\cos(x) = -\sin(x),\quad \frac{d}{dx}\sin(x) = \cos(x)$
+    </div>
+    <p>三角関数の導関数は非常に基本的で、周期関数の微分の直観的理解に役立つ。</p>
+    
+    <div class="figure">
+        <img src="figures/unit_circle_cos_sin.svg" alt="単位円上の cos と sin">
+        <figcaption>単位円上での cos と sin の幾何学的解釈</figcaption>
+    </div>
+    
+    <div class="figure">
+        <img src="figures/sin_graph.svg" alt="sin(x) のグラフ">
+        <figcaption>sin(x) のグラフと導関数 cos(x)</figcaption>
+    </div>
+    
+    <div class="figure">
+        <img src="figures/cos_graph.svg" alt="cos(x) のグラフ">
+        <figcaption>cos(x) のグラフと導関数 -sin(x)</figcaption>
+    </div>
+
+     <div class="definition">
+     定義: $\tan(x) :=  \frac{\sin(x)}{\cos(x)}$.
+    </div>
+    <div class="theorem">
+      <strong>定理:</strong> $\displaystyle \frac{d}{dx}\tan(x) = \frac{1}{\cos^2(x)}$.
+    </div>
+    <div class="proof">
+      <strong>証明:</strong> $\tan(x) = \frac{\sin(x)}{\cos(x)}$ の商の微分公式を用いれば、<br>
+      $\displaystyle \frac{d}{dx} \tan(x) = \frac{\cos(x)\cos(x) + \sin(x)\sin(x)}{\cos^2(x)} = \frac{1}{\cos^2(x)}$
+    </div>
+
+    <div class="figure">
+        <img src="figures/tan_graph.svg" alt="tan(x) のグラフ">
+        <figcaption>tan(x) のグラフ</figcaption>
+    </div>  
+    <h2>2. 逆三角関数</h2>
+  
+    <div class="figure">
+        <img src="figures/relation.png" alt="sin と arcsin の関係">
+        <figcaption>sin(x) と arcsin(x) の関係（逆関数）</figcaption>
+    </div>
+
+    <div class="figure">
+        <img src="figures/arcsin_graph.svg" alt="arcsin のグラフ">
+        <figcaption>arcsin(x) のグラフと定義域 [-1,1]</figcaption>
+    </div>
+
+    <h3>arcsin</h3>
+    <div class="theorem">
+      任意の $a \in [-1,1]$ について、ある $b \in [-\pi/2, \pi/2]$ がただ一つ存在して $\sin(b) = a$ となる。これを $\arcsin(a)$ と定義する。
+    </div>
+    <div class="proof">
+      <strong>証明:</strong> $\sin(-\pi/2) = -1$, $\sin(\pi/2) = 1$ なので、<br>
+      中間値の定理により $a$ に対して対応する $b$ が存在する。<br>
+      また、$\sin(x)$ は $[-\pi/2, \pi/2]$ 上で単調増加（導関数 $\cos(x) > 0$）なので一意性も保証される。
+    </div>
+    <div class="example">
+      <strong>例:</strong> 
+      $\arcsin(1/2) = \pi/6$, 
+      $\arcsin(-\sqrt{2}/2) = -\pi/4$, 
+      $\arcsin(1) = \pi/2$
+    </div>
+    <p>log関数と同様に、$\arcsin(x)$ は $\sin(x)$ の逆関数として定義される。</p>
+    <div class="theorem">
+      $\displaystyle \frac{d}{dx} \arcsin(x) = \frac{1}{\sqrt{1 - x^2}}$
+    </div>
+    <div class="proof">
+      <strong>証明:</strong> $y = \arcsin(x)$ とおくと $\sin(y) = x$。<br>
+      両辺を微分すると $\cos(y) \cdot \frac{dy}{dx} = 1$ より、<br>
+      $\displaystyle \frac{dy}{dx} = \frac{1}{\cos(y)} = \frac{1}{\sqrt{1 - \sin^2(y)}} = \frac{1}{\sqrt{1 - x^2}}$
+    </div>
+  
+    <h3>arccos</h3>
+    <p>同様に、$\cos(x)$ の定義域を $[0,\pi]$ に制限すれば、逆関数 $\arccos(x)$ が定義される。</p>
+    
+    <div class="figure">
+        <img src="figures/arccos_graph.svg" alt="arccos のグラフ">
+        <figcaption>arccos(x) のグラフと定義域 [-1,1]</figcaption>
+    </div>
+
+    <div class="theorem">
+      $\displaystyle \frac{d}{dx} \arccos(x) = -\frac{1}{\sqrt{1 - x^2}}$
+    </div>
+  
+    <h3>arctan</h3>
+    <p>$\tan(x)$ の定義域 $(-\pi/2, \pi/2)$ 上で単調増加なので逆関数 $\arctan(x)$ が定義される。</p>
+
+    <div class="figure">
+        <img src="figures/arctan_graph.svg" alt="arctan のグラフ">
+        <figcaption>arctan(x) のグラフ（全実数で定義される）</figcaption>
+    </div>
+  
+    <h2>3. 双曲線関数</h2>
+  
+    <h3>定義</h3>
+    <div class="formula">
+      $\sinh(x) := \frac{e^x - e^{-x}}{2},\quad \cosh(x) := \frac{e^x + e^{-x}}{2},\quad \tanh(x) := \frac{\sinh(x)}{\cosh(x)}$
+    </div>
+
+    <div class="figure">
+        <img src="figures/sinh_graph.svg" alt="sinh のグラフ">
+        <figcaption>sinh(x) のグラフ</figcaption>
+    </div>
+
+    <div class="figure">
+        <img src="figures/cosh_graph.svg" alt="cosh のグラフ">
+        <figcaption>cosh(x) のグラフ（x=0 で最小値 1）</figcaption>
+    </div>
+
+    <div class="figure">
+        <img src="figures/tanh_graph.svg" alt="tanh のグラフ">
+        <figcaption>tanh(x) のグラフ（±1 に漸近）</figcaption>
+    </div>
+
+    <h3>三角関数との関係</h3>
+    <div class="formula">
+      $\frac{d}{dx} \sinh(x) = \cosh(x),\quad \frac{d}{dx} \cosh(x) = \sinh(x)$
+    </div>
+    <div class="theorem">
+      $\cosh^2(x) - \sinh^2(x) = 1$
+    </div>
+  <div class ="definition">
+  定義: $\tanh(x) : = \frac{\sinh(x)}{\cosh(x)}$
+  </div>
+    <h2>4. 高階微分</h2>
+    <h3>定義</h3>
+    <p>1回以上の導関数：</p>
+    <div class="formula">
+      $f''(x) = \left(f'(x)\right)' = \lim_{h \to 0} \frac{f'(x + h) - f'(x)}{h},\quad f^{(n)}(x) = \left(f^{(n-1)}(x)\right)'$
+    </div>
+  
+    <h3>例</h3>
+    <div class="example">
+      例1: $f(x) = x^3$ の $n$ 階微分は $f^{(3)}(x) = 6$, $f^{(n)}(x) = 0$ for $n \geq 4$<br>
+      例2: $f(x) = x^3 + 2x + 1$ の $n$ 階微分も同様に $n \geq 4$ でゼロになる。
+    </div>
+    <div class="example">
+      例3: $f(x) = \cos(x)$ の $n$ 階微分は周期 4 で変化：<br>
+      $f^{(n)}(x) = \cos(x + n\pi/2)$
+    </div>
+  
+    <h2>5. 無限級数</h2>
+    <h3>級数</h3>
+    <p>$a_n$ を数列とし、$S_n = \sum_{k=0}^n a_k$ を $n$ 項までの部分和とする。</p>
+    <p>$\lim_{n\to\infty}S_n$ が存在するならば、$\sum_{k=0}^\infty a_k$ と書く。</p>
+    <div class="example">
+      例1: $x \in (0,1)$ について、$\sum_{k=0}^\infty x^k = \frac{1}{1 - x}$<br>
+      <strong>証明:</strong> 等比数列の和の公式：$S_n = \frac{1 - x^{n+1}}{1 - x}$、$n\to\infty$ で $x^{n+1} \to 0$
+    </div>
+    <div class="example">
+      例2: $\sum_{n=1}^\infty \frac{1}{n^2} = \frac{\pi^2}{6}$（証明は大学解析で扱う）
+    </div>
+    <div class="example">
+      例3: $\sum_{n=0}^\infty (-1)^n$ は収束しない（発散）
+    </div>
+  
+    <h3>冪級数</h3>
+    <p>関数 $f(x) = \sum_{k=0}^\infty a_k x^k$ の形で書かれるものを $a_n$ に関する冪級数と呼ぶ。</p>
+    <div class="example">
+      例1: $f(x) = \sum_{n=0}^\infty x^n = \frac{1}{1 - x}$（収束域: $x \in (-1,1)$）
+    </div>
+    <div class="example">
+      例2: $f(x) = \sum_{n=1}^\infty n x^{n-1} = \frac{1}{(1 - x)^2}$（同様に $x \in (-1,1)$）
+    </div>
+  
+    <h2>6. テイラー多項式</h2>
+    <h3>ニュートンの考察</h3>
+    <p>$f(x)$ が無限回微分可能なとき、$f(x) = \sum_{n=0}^\infty a_n x^n$ と一致するならば、$a_n = \frac{f^{(n)}(0)}{n!}$ とすればよい。</p>
+  
+    <h3>テイラー多項式</h3>
+    <div class="formula">
+      $T_n(x) = \sum_{k=0}^n \frac{f^{(k)}(0)}{k!}x^k$
+    </div>
+    <div class="example">
+      例1: $f(x) = e^x$ の $n$ 次テイラー多項式は $T_n(x) = \sum_{k=0}^n \frac{x^k}{k!}$
+    </div>
+    <div class="example">
+      例2: $f(x) = \cos(x)$ の $n$ 次テイラー多項式は<br>
+      $T_n(x) = \sum_{k=0}^{\lfloor n/2 \rfloor} \frac{(-1)^k x^{2k}}{(2k)!}$
+    </div>
+  
+  </body>
+  </html>
