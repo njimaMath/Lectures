@@ -1,131 +1,1641 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="ja">
 <head>
-  <meta charset="UTF-8">
-  <title>実数の講義ノート</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>数学1A 第8回 多変数関数・偏微分・可微分性</title>
   <script>
-    MathJax = {
+    window.MathJax = {
       tex: {
-        inlineMath: [['$', '$']],
-        displayMath: [['$$', '$$']]
+        inlineMath: [['\\(', '\\)'], ['$', '$']],
+        displayMath: [['\\[', '\\]'], ['$$', '$$']],
+        processEscapes: true,
+        macros: {
+          N: '\\mathbb{N}',
+          R: '\\mathbb{R}',
+          Z: '\\mathbb{Z}',
+          Q: '\\mathbb{Q}'
+        }
+      },
+      svg: { fontCache: 'global' },
+      startup: {
+        typeset: false,
+        ready: () => {
+          MathJax.startup.defaultReady();
+          if (window.renderCurrentMath) {
+            window.renderCurrentMath();
+          }
+        }
       }
     };
   </script>
-  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js" async></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
   <style>
-    body {
-      font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-      background: #f5f5f5;
-      color: #222;
-      line-height: 1.7;
+    :root {
+      --accent: #e74c3c;
+      --accent-blue: #3498db;
+      --accent-green: #27ae60;
+      --accent-orange: #e67e22;
+      --paper: #fff;
+      --ink: #222;
+      --text: #444;
+      --muted: #888;
+      --line: #d8e1e8;
+      --slide-font: clamp(18px, 1.95vw, 34px);
+    }
+
+    * { box-sizing: border-box; }
+
+    html {
+      -webkit-text-size-adjust: 100%;
+      text-size-adjust: 100%;
+    }
+
+    html, body {
       margin: 0;
-      padding: 2rem;
+      height: 100%;
+      min-height: 100%;
+      background: #fafafa;
+      color: var(--ink);
+      font-family: "Helvetica Neue", "Hiragino Sans", Arial, sans-serif;
     }
-    .container {
-      background: white;
-      max-width: 900px;
-      margin: 0 auto;
-      padding: 2rem;
-      border-radius: 10px;
-      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+
+    body {
+      display: grid;
+      place-items: center;
+      min-height: 100dvh;
+      padding: 0;
+      overflow: hidden;
     }
-    h1, h2, h3 {
-      color: #003366;
+
+    .deck {
+      width: 100vw;
+      height: 100vh;
+      height: 100svh;
+      max-width: none;
     }
-    h1 {
+
+    .stage {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      background: var(--paper);
+      overflow: hidden;
+      container-type: inline-size;
+    }
+
+    .slide {
+      position: absolute;
+      inset: 0;
+      display: none;
+      flex-direction: column;
+      justify-content: flex-start;
+      padding: clamp(24px, 4.6cqw, 58px) clamp(30px, 5.8cqw, 104px);
+      font-size: var(--slide-font-size, var(--slide-font));
+      line-height: 1.36;
+      overflow: hidden;
+    }
+
+    .slide.active { display: flex; }
+
+    .slide::before {
+      content: "数学1A 第8回";
+      position: absolute;
+      top: calc(16px + env(safe-area-inset-top));
+      left: calc(16px + env(safe-area-inset-left));
+      color: #bbb;
+      font-size: 0.58em;
+      letter-spacing: 0.15em;
+      line-height: 1;
+      text-transform: uppercase;
+    }
+
+    .slide::after {
+      content: attr(data-page);
+      position: absolute;
+      right: calc(16px + env(safe-area-inset-right));
+      bottom: calc(16px + env(safe-area-inset-bottom));
+      color: #bbb;
+      font-size: 0.7em;
+      letter-spacing: 0.1em;
+      line-height: 1;
+    }
+
+    .slide-title {
+      margin: 0 0 clamp(12px, 2.4cqw, 34px);
+      color: #333;
+      font-size: 1.62em;
+      line-height: 1.18;
+      letter-spacing: 0.07em;
+      font-weight: 300;
+    }
+
+    .title-slide {
+      justify-content: center;
+      align-items: center;
       text-align: center;
-      margin-bottom: 2rem;
+      background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
     }
-    h2 {
-      border-left: 6px solid #003366;
-      padding-left: 0.5rem;
-      margin-top: 2rem;
+
+    .title-slide::before {
+      content: "";
+      left: 0;
+      right: 0;
+      top: auto;
+      bottom: 0;
+      height: 4px;
+      background: linear-gradient(90deg, var(--accent), #f39c12, var(--accent-blue));
     }
+
+    .title-slide::after { color: rgba(255,255,255,0.32); }
+
+    .title-slide h1 {
+      margin: 0 auto;
+      max-width: min(88cqw, 1480px);
+      color: #fff;
+      font-size: 2.35em;
+      line-height: 1.35;
+      letter-spacing: 0.05em;
+      font-weight: 400;
+    }
+
+    .title-slide .author {
+      margin: clamp(34px, 6cqw, 72px) 0 0.6em;
+      color: #fff;
+      font-size: 1.08em;
+      font-weight: 400;
+    }
+
+    .title-slide .institute {
+      color: rgba(255,255,255,0.72);
+      font-size: 0.88em;
+      letter-spacing: 0.06em;
+    }
+
     p {
-      margin-top: 1em;
+      margin: 0.38em 0;
+      color: var(--text);
+      line-height: 1.5;
+    }
+
+    ul, ol {
+      margin: 0.48em 0 0.48em 1.2em;
+      padding: 0;
+      color: var(--text);
+    }
+
+    li { margin: 0.34em 0; }
+
+    .box, .screen, .theorem, .itembox {
+      margin: 0.62em 0;
+      padding: 0.72em 0.95em;
+      border-radius: 10px;
+      background: #f8f9fa;
+      border: 0;
+      border-left: 4px solid var(--accent-blue);
+    }
+
+    .itembox {
+      border-left-color: var(--accent);
+      position: relative;
+    }
+
+    .box-label {
+      display: inline-block;
+      padding: 0;
+      margin: 0.3em 0 0.38em;
+      border: 0;
+      background: transparent;
+      color: var(--accent);
+      font-size: 0.74em;
+      font-weight: 400;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
+
+    .theorem {
+      background: linear-gradient(135deg, #fef9e7 0%, #fdebd0 100%);
+      border: 2px solid var(--accent-orange);
+      border-radius: 12px;
+    }
+
+    .theorem .name {
+      color: var(--accent-orange);
+      margin-bottom: 0.35em;
+      font-size: 0.9em;
+      font-weight: 400;
+    }
+
+    .figure {
+      text-align: center;
+      margin: 0.48em auto 0.7em;
+    }
+
+    .figure img {
+      display: block;
+      max-width: 100%;
+      height: auto;
+      margin: 0 auto;
+      object-fit: contain;
+    }
+
+    .caption {
+      margin-top: 0.45em;
+      font-size: 0.74em;
+      color: var(--muted);
+      letter-spacing: 0.04em;
+    }
+
+    .two-col {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: clamp(18px, 3cqw, 44px);
+      align-items: center;
+      min-height: 0;
+    }
+
+    .two-col.top {
+      align-items: start;
+    }
+
+    .figure-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: clamp(14px, 2.3cqw, 30px);
+      align-items: start;
+      min-height: 0;
+    }
+
+    .figure-grid .figure {
+      margin: 0;
+    }
+
+    .figure-grid img {
+      max-height: min(31cqw, 39vh);
+    }
+
+    .single-figure img {
+      max-height: min(56cqw, 60vh);
+    }
+
+    .wide-figure img {
+      max-height: min(62cqw, 66vh);
+    }
+
+    .flow {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.75em;
+      margin: 1.2em auto;
+      min-width: max-content;
+    }
+
+    .flow-wrap {
+      overflow-x: auto;
+      padding: 0.25em 0;
+    }
+
+    .node {
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      padding: 0.72em 0.9em;
+      min-width: 7.2em;
+      text-align: center;
+      background: #fff;
+      color: #20303a;
+      box-shadow: 0 12px 26px rgba(31, 48, 58, 0.07);
+    }
+
+    .node.blue {
+      background: #edf6ff;
+      border-color: #b9d8f2;
+    }
+
+    .node.green {
+      background: #eefaf4;
+      border-color: #b8dfc8;
+    }
+
+    .node.orange {
+      background: #fff6e9;
+      border-color: #efc68e;
+    }
+
+    .node.gray {
+      background: #f5f7f8;
+      border-color: #d5dde3;
+    }
+
+    .arrow {
+      color: #20303a;
+      white-space: nowrap;
+      font-size: 1.2em;
+    }
+
+    .big-formula {
+      font-size: 1.22em;
+      text-align: center;
+      margin: 0.6em 0;
+    }
+
+    .emphasis {
+      color: var(--accent);
+    }
+
+    .blue {
+      color: var(--accent-blue);
+    }
+
+    .green {
+      color: var(--accent-green);
+    }
+
+    .orange {
+      color: var(--accent-orange);
+    }
+
+    .tight {
+      --slide-font-size: clamp(16px, 1.58vw, 28px);
+      line-height: 1.28;
+    }
+
+    .compact {
+      --slide-font-size: clamp(15px, 1.42vw, 25px);
+      line-height: 1.22;
+    }
+
+    .examples-list li {
+      margin: 0.42em 0;
+    }
+
+    .link-row {
+      display: flex;
+      gap: 0.7em;
+      flex-wrap: wrap;
+      margin-top: 1.1em;
+      justify-content: center;
+    }
+
+    .link-row a {
+      display: inline-block;
+      color: #fff;
+      background: linear-gradient(135deg, #263844, #1d2a34);
+      text-decoration: none;
+      border-radius: 999px;
+      padding: 0.5em 0.9em;
+      font-size: 0.72em;
+      letter-spacing: 0.04em;
+    }
+
+    .graph-row {
+      display: flex;
+      justify-content: center;
+      margin: 0.35em 0 0;
+    }
+
+    .graph-toggle {
+      appearance: none;
+      border: 0;
+      border-radius: 999px;
+      background: linear-gradient(135deg, var(--accent-blue), #2476a8);
+      color: #fff;
+      cursor: pointer;
+      font-size: 0.72em;
+      font-weight: 400;
+      letter-spacing: 0.04em;
+      padding: 0.48em 1.05em;
+      box-shadow: 0 6px 15px rgba(36, 118, 168, 0.22);
+    }
+
+    .graph-toggle:hover {
+      transform: translateY(-1px);
+    }
+
+    .answer-graph {
+      margin: 0.5em auto 0;
+      text-align: center;
+      width: min(92%, 760px);
+    }
+
+    .answer-graph[hidden] {
+      display: none;
+    }
+
+    .answer-graph img {
+      display: block;
+      max-width: 100%;
+      max-height: min(28cqw, 28vh);
+      margin: 0 auto;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: #fff;
+      box-shadow: 0 10px 24px rgba(31, 48, 58, 0.08);
+      object-fit: contain;
+    }
+
+    mjx-container[jax="SVG"] {
+      color: #222;
+      font-size: 1em;
+      outline: none;
+    }
+
+    mjx-container[jax="SVG"][display="true"] {
+      display: block;
+      width: 100%;
+      margin: 0.65em auto;
+      max-width: 100%;
+      overflow: visible;
+      text-align: center;
+    }
+
+    mjx-container[jax="SVG"][display="true"] > svg {
+      max-width: 100%;
+      height: auto;
+    }
+
+    .controls {
+      position: fixed;
+      top: calc(12px + env(safe-area-inset-top));
+      right: calc(12px + env(safe-area-inset-right));
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 12px 16px;
+      background: rgba(20, 20, 20, 0.75);
+      color: #fff;
+      border-radius: 999px;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.2);
+      backdrop-filter: blur(8px);
+      z-index: 1000;
+      font-family: "Helvetica Neue", Arial, sans-serif;
+    }
+
+    .controls button {
+      appearance: none;
+      border: none;
+      background: linear-gradient(135deg, var(--accent-blue), #2980b9);
+      color: #fff;
+      padding: 10px 14px;
+      border-radius: 999px;
+      cursor: pointer;
+      min-width: 90px;
+      font-size: 1rem;
+      font-weight: 400;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+      transition: transform 0.15s, box-shadow 0.15s, opacity 0.15s;
+      touch-action: manipulation;
+    }
+
+    .controls button:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 6px 16px rgba(0,0,0,0.2);
+    }
+
+    #count {
+      min-width: 110px;
+      text-align: center;
+      color: #e6e6e6;
+      font-size: 0.95rem;
+      letter-spacing: 0.05em;
+      cursor: pointer;
+      user-select: none;
+    }
+
+    .jump-panel {
+      position: fixed;
+      top: calc(76px + env(safe-area-inset-top));
+      right: calc(12px + env(safe-area-inset-right));
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(46px, 1fr));
+      gap: 6px;
+      padding: 10px;
+      max-width: 340px;
+      background: rgba(20, 20, 20, 0.7);
+      color: #fff;
+      border-radius: 14px;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.2);
+      backdrop-filter: blur(6px);
+      z-index: 1000;
+    }
+
+    .jump-panel[hidden] { display: none; }
+
+    .jump-button {
+      border: 1px solid rgba(255,255,255,0.18);
+      background: linear-gradient(135deg, #5dade2, #2c82c9);
+      color: #fff;
+      font-size: 0.9rem;
+      font-weight: 400;
+      padding: 6px 0;
+      border-radius: 12px;
+      cursor: pointer;
+      min-width: 44px;
+    }
+
+    .jump-button.is-active {
+      background: linear-gradient(135deg, var(--accent-green), #1e8449);
+    }
+
+    @media (max-width: 760px) {
+      .deck {
+        width: 100vw;
+        height: 100vh;
+        height: 100svh;
+      }
+
+      .slide {
+        padding: clamp(18px, 5.4cqw, 34px) clamp(18px, 5.5cqw, 42px);
+        font-size: var(--slide-font-size, clamp(14px, 3.8cqw, 18px));
+        line-height: 1.34;
+      }
+
+      .slide-title {
+        font-size: 1.34em;
+        letter-spacing: 0.04em;
+      }
+
+      .two-col,
+      .figure-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .figure-grid img,
+      .single-figure img,
+      .wide-figure img,
+      .answer-graph img {
+        max-height: 32vh;
+      }
+
+      .controls {
+        gap: 8px;
+        padding: 8px 10px;
+      }
+
+      .controls button {
+        min-width: 68px;
+        padding: 8px 10px;
+        font-size: 0.82rem;
+      }
+
+      #count {
+        min-width: 74px;
+        font-size: 0.78rem;
+      }
     }
   </style>
 </head>
 <body>
-  <div class="container">
-    <h1>第9回 実数の性質</h1>
-    <h3>Ax 1: 四則演算の公理</h3>
-    <ul>
-      <li>加法: 任意の $a, b \in \mathbb{R}$ に対して、$a + b \in \mathbb{R}$</li>
-      <li>乗法: 任意の $a, b \in \mathbb{R}$ に対して、$a \cdot b \in \mathbb{R}$</li>
-      <li>加法の単位元: 任意の $a \in \mathbb{R}$ に対して、$a + 0 = a$</li>
-      <li>乗法の単位元: 任意の $a \in \mathbb{R}$ に対して、$a \cdot 1 = a$</li>
-      <li>加法の逆元: 任意の $a \in \mathbb{R}$ に対して、ある $-a \in \mathbb{R}$ が存在して、$a + (-a) = 0$</li>
-      <li>乗法の逆元: 任意の $a \in \mathbb{R}$ ($a \neq 0$) に対して、ある $a^{-1} \in \mathbb{R}$ が存在して、$a \cdot a^{-1} = 1$</li>
-      <li>分配法則: 任意の $a, b, c \in \mathbb{R}$ に対して、$a \cdot (b + c) = a \cdot b + a \cdot c$</li>
-    </ul>
+  <main class="deck">
+    <section class="stage" aria-live="polite">
+      <article class="slide title-slide active">
+        <div>
+          <h1>数学1A 第8回レジュメ</h1>
+          <p class="author">多変数関数・偏微分・可微分性</p>
+          <p class="institute">二変数関数を図と変化率で見る</p>
+        </div>
+      </article>
 
-    <h3>Ax 2: 順序の公理</h3>
-    <ul>
-      <li>任意の $a,b \in \mathbb{R}$ に対して、$a \leq b$ または $b \leq a$</li>
-      <li>$a \leq b$ かつ $b \leq a$ ならば $a = b$</li>
-      <li>$a \leq b$ かつ $b \leq c$ ならば $a \leq c$</li>
-      <li>$a \leq b$ ならば $a + c \leq b + c$</li>
-      <li>$0 \leq a$, $0 \leq b$ ならば $0 \leq a \cdot b$</li>
-    </ul>
-    <h2>9.2 上限と下限</h2>
-    <p>
-      上限（supremum）と下限（infimum）は実数の完備性に基づき定義される。上に有界な集合 $A$ に対して、$\sup A$ が存在する。
-    </p>
+      <article class="slide">
+        <h2 class="slide-title">授業のねらい</h2>
+        <p>この回では，一変数関数の微分を二変数関数へ広げる。</p>
+        <div class="itembox">
+          <span class="box-label">Goals</span>
+          <ul>
+            <li>多変数関数の定義域，グラフ，等高線を図で理解する。</li>
+            <li>偏微分を「一つの方向だけの変化率」として理解する。</li>
+            <li>偏微分可能性と可微分性の違いを区別する。</li>
+            <li>$C^n$ 級関数と混合偏微分の意味を理解する。</li>
+          </ul>
+        </div>
+      </article>
 
-    <h3>Ax 3: 完備性の公理（上限性質）</h3>
-    <p>上に有界な集合は常に最小の上界（上限）を持つ。</p>
+      <article class="slide">
+        <h2 class="slide-title">2変数関数の見方</h2>
+        <div class="flow-wrap">
+          <div class="flow">
+            <div class="node blue">
+              <div>$\mathbb R^2$</div>
+              <div>入力</div>
+              <div>$(x,y)$</div>
+            </div>
+            <div class="arrow">$\xrightarrow{\ f\ }$</div>
+            <div class="node green">
+              <div>$\mathbb R$</div>
+              <div>出力</div>
+              <div>$z=f(x,y)$</div>
+            </div>
+            <div class="arrow">$\longrightarrow$</div>
+            <div class="node orange">曲面・等高線</div>
+          </div>
+        </div>
+        <p class="caption">二変数関数は，平面上の点 $(x,y)$ に数 $z$ を対応させる。</p>
+      </article>
 
+      <article class="slide">
+        <h2 class="slide-title">3変数関数の見方</h2>
+        <div class="flow-wrap">
+          <div class="flow">
+            <div class="node blue">
+              <div>$\mathbb R^3$</div>
+              <div>入力</div>
+              <div>$(x,y,z)$</div>
+            </div>
+            <div class="arrow">$\xrightarrow{\ f\ }$</div>
+            <div class="node green">
+              <div>$\mathbb R$</div>
+              <div>出力</div>
+              <div>$w=f(x,y,z)$</div>
+            </div>
+            <div class="arrow">$\longrightarrow$</div>
+            <div class="node orange">空間分布・等値面</div>
+          </div>
+        </div>
+        <p class="caption">3変数関数は，空間内の点 $(x,y,z)$ に数 $w$ を対応させる。一定値 $f(x,y,z)=c$ を満たす点の集合は等値面として見る。</p>
+      </article>
 
-    <h2>9.3 応用</h2>
-    <h3>9.3.1 アルキメデスの性質</h3>
-    <p>
-      任意の実数 $a > 0$ に対して、ある自然数 $n \in \mathbb{N}$ が存在して $n > a$ となる。
-    </p>
+      <article class="slide">
+        <h2 class="slide-title">1. 多変数関数</h2>
+        <div class="box">
+          <p>2つ以上の変数をもつ関数を多変数関数という。</p>
+          <ul>
+            <li>2変数関数は $z=f(x,y)$ と書く。</li>
+            <li>3変数関数は $w=f(x,y,z)$ と書く。</li>
+          </ul>
+        </div>
+        <p>工学では，温度，圧力，電位，速度場などが多変数関数として現れる。</p>
+        <p>たとえば金属板の温度は，位置 $(x,y)$ によって値が変わるので $T(x,y)$ と表せる。</p>
+      </article>
 
-    <h3>9.3.2 有理数の稠密性</h3>
-    <p>
-      任意の実数 $a < b$ に対して、有理数 $q \in \mathbb{Q}$ が存在して
-      $$
-      a < q < b
-      $$
-      を満たす。この性質を<strong>稠密性</strong>と呼び、連続性の一つのあらわれでもある。
-    </p>
+      <article class="slide">
+        <h2 class="slide-title">定義域</h2>
+        <p>関数が意味をもつ入力全体を定義域という。二変数関数では，定義域は平面内の領域として表されることが多い。</p>
+        <div class="itembox">
+          <span class="box-label">Check</span>
+          <ul>
+            <li>分母が $0$ にならない範囲を考える。</li>
+            <li>ルートの中が $0$ 以上になる範囲を考える。</li>
+            <li>対数の中が正になる範囲を考える。</li>
+          </ul>
+        </div>
+      </article>
 
-    <h3>9.3.3 単調有界列の収束</h3>
-    <p>
-      実数列 $\{a_n\}$ が単調増加かつ上に有界であるとき、極限が存在して
-      $$
-      \lim_{n \to \infty} a_n = \sup\{a_n\}
-      $$      が成り立つ。同様に、単調減少かつ下に有界な列も収束する。
-    </p>
+      <article class="slide">
+        <h2 class="slide-title">定義域の例</h2>
+        <div class="figure-grid">
+          <figure class="figure">
+            <img src="figures/domain_sqrt.png" alt="f(x,y)=sqrt(x+y) の定義域">
+            <figcaption class="caption">$f(x,y)=\sqrt{x+y}$ の定義域</figcaption>
+          </figure>
+          <figure class="figure">
+            <img src="figures/domain_rational.png" alt="f(x,y)=1/(x^2+y^2-1) の定義域">
+            <figcaption class="caption">$f(x,y)=\dfrac{1}{x^2+y^2-1}$ の定義域</figcaption>
+          </figure>
+        </div>
+      </article>
 
-    <!-- ===== ナビゲーション ===== -->
-    <nav class="navigation">
-        <a href="../class7/class7.html">← 第7回</a>
-        <a href="../index.html">ホーム</a>
-        <a href="../class9/class9.html">第9回 →</a>
-    </nav>
+      <article class="slide">
+        <h2 class="slide-title">グラフと等高線</h2>
+        <p>2変数関数 $z=f(x,y)$ のグラフは空間内の曲面になる。</p>
+        <p>また，定数 $c$ に対して</p>
+        <p class="big-formula">$$f(x,y)=c$$</p>
+        <p>を満たす点の集合を等高線という。</p>
+        <div class="box">
+          等高線は，曲面を水平な平面 $z=c$ で切ったときの影を $xy$ 平面に描いたものである。
+        </div>
+      </article>
+
+      <article class="slide">
+        <h2 class="slide-title">$z=x^2+y^2$</h2>
+        <div class="figure-grid">
+          <figure class="figure">
+            <img src="figures/paraboloid_contours.png" alt="f(x,y)=x^2+y^2 の等高線">
+            <figcaption class="caption">$f(x,y)=x^2+y^2$ の等高線</figcaption>
+          </figure>
+          <figure class="figure">
+            <img src="figures/paraboloid_surface.png" alt="z=x^2+y^2 のグラフ">
+            <figcaption class="caption">$z=x^2+y^2$ のグラフ</figcaption>
+          </figure>
+        </div>
+      </article>
+
+      <article class="slide">
+        <h2 class="slide-title">平面と等温線</h2>
+        <div class="figure-grid">
+          <figure class="figure">
+            <img src="figures/plane_surface.png" alt="z=x+y の平面">
+            <figcaption class="caption">$z=x+y$ は平面である。</figcaption>
+          </figure>
+          <figure class="figure">
+            <img src="figures/temperature_contours.png" alt="T(x,y)=100-x^2-y^2 の等温線">
+            <figcaption class="caption">$T(x,y)=100-x^2-y^2$ の等温線</figcaption>
+          </figure>
+        </div>
+      </article>
+
+      <article class="slide compact">
+        <h2 class="slide-title">例題：多変数関数 1</h2>
+        <div class="itembox">
+          <span class="box-label">Problem</span>
+          <p>次の関数の等高線を考えよ。</p>
+          <p class="big-formula">$f(x,y)=x^2+y^2$</p>
+        </div>
+      </article>
+
+      <article class="slide compact">
+        <h2 class="slide-title">例題：多変数関数 1 解答</h2>
+        <div class="itembox">
+          <span class="box-label">Problem</span>
+          <p>次の関数の等高線を考えよ。</p>
+          <p class="big-formula">$f(x,y)=x^2+y^2$</p>
+        </div>
+        <div class="box">
+          <span class="box-label">Answer</span>
+          <p>$f(x,y)=c$ とおくと $x^2+y^2=c$ である。</p>
+          <p>$c\ge 0$ のとき，原点を中心とする半径 $\sqrt{c}$ の円になる。$c<0$ の等高線はない。</p>
+        </div>
+        <div class="graph-row">
+          <button type="button" class="graph-toggle" data-graph-target="graph-mv-1" aria-expanded="false">see graph</button>
+        </div>
+        <figure class="answer-graph" id="graph-mv-1" hidden>
+          <img src="figures/example_mv_1.svg" alt="例題：多変数関数 1 のグラフ">
+        </figure>
+      </article>
+
+      <article class="slide compact">
+        <h2 class="slide-title">例題：多変数関数 2</h2>
+        <div class="itembox">
+          <span class="box-label">Problem</span>
+          <p>次の関数のグラフの形を説明せよ。</p>
+          <p class="big-formula">$f(x,y)=x+y$</p>
+        </div>
+      </article>
+
+      <article class="slide compact">
+        <h2 class="slide-title">例題：多変数関数 2 解答</h2>
+        <div class="itembox">
+          <span class="box-label">Problem</span>
+          <p>次の関数のグラフの形を説明せよ。</p>
+          <p class="big-formula">$f(x,y)=x+y$</p>
+        </div>
+        <div class="box">
+          <span class="box-label">Answer</span>
+          <p>グラフは $z=x+y$ で表される平面である。</p>
+          <p>$x$ 方向に $1$ 増やすと $z$ も $1$ 増え，$y$ 方向に $1$ 増やしても $z$ は $1$ 増える。</p>
+        </div>
+        <div class="graph-row">
+          <button type="button" class="graph-toggle" data-graph-target="graph-mv-2" aria-expanded="false">see graph</button>
+        </div>
+        <figure class="answer-graph" id="graph-mv-2" hidden>
+          <img src="figures/example_mv_2.svg" alt="例題：多変数関数 2 のグラフ">
+        </figure>
+      </article>
+
+      <article class="slide compact">
+        <h2 class="slide-title">例題：多変数関数 3</h2>
+        <div class="itembox">
+          <span class="box-label">Problem</span>
+          <p>次の関数の等高線を考えよ。</p>
+          <p class="big-formula">$f(x,y)=x-y$</p>
+        </div>
+      </article>
+
+      <article class="slide compact">
+        <h2 class="slide-title">例題：多変数関数 3 解答</h2>
+        <div class="itembox">
+          <span class="box-label">Problem</span>
+          <p>次の関数の等高線を考えよ。</p>
+          <p class="big-formula">$f(x,y)=x-y$</p>
+        </div>
+        <div class="box">
+          <span class="box-label">Answer</span>
+          <p>$f(x,y)=c$ とおくと $x-y=c$，すなわち $y=x-c$ である。</p>
+          <p>等高線は傾き $1$ の平行な直線になる。</p>
+        </div>
+        <div class="graph-row">
+          <button type="button" class="graph-toggle" data-graph-target="graph-mv-3" aria-expanded="false">see graph</button>
+        </div>
+        <figure class="answer-graph" id="graph-mv-3" hidden>
+          <img src="figures/example_mv_3.svg" alt="例題：多変数関数 3 のグラフ">
+        </figure>
+      </article>
+
+      <article class="slide compact">
+        <h2 class="slide-title">例題：多変数関数 4</h2>
+        <div class="itembox">
+          <span class="box-label">Problem</span>
+          <p>次の関数の等高線を考え，中心から離れると値がどう変化するか説明せよ。</p>
+          <p class="big-formula">$f(x,y)=4-x^2-y^2$</p>
+        </div>
+      </article>
+
+      <article class="slide compact">
+        <h2 class="slide-title">例題：多変数関数 4 解答</h2>
+        <div class="itembox">
+          <span class="box-label">Problem</span>
+          <p>次の関数の等高線を考え，中心から離れると値がどう変化するか説明せよ。</p>
+          <p class="big-formula">$f(x,y)=4-x^2-y^2$</p>
+        </div>
+        <div class="box">
+          <span class="box-label">Answer</span>
+          <p>$f(x,y)=c$ とおくと $x^2+y^2=4-c$ である。</p>
+          <p>$c\le 4$ のとき原点中心の円になり，半径は $\sqrt{4-c}$ である。値は原点で最大値 $4$ をとり，中心から離れるほど小さくなる。</p>
+        </div>
+        <div class="graph-row">
+          <button type="button" class="graph-toggle" data-graph-target="graph-mv-4" aria-expanded="false">see graph</button>
+        </div>
+        <figure class="answer-graph" id="graph-mv-4" hidden>
+          <img src="figures/example_mv_4.svg" alt="例題：多変数関数 4 のグラフ">
+        </figure>
+      </article>
+
+      <article class="slide compact">
+        <h2 class="slide-title">例題：多変数関数 5</h2>
+        <div class="itembox">
+          <span class="box-label">Problem</span>
+          <p>工学的な量として，温度分布 $T(x,y)=100-x^2-y^2$ を考える。この関数の意味を説明せよ。</p>
+        </div>
+      </article>
+
+      <article class="slide compact">
+        <h2 class="slide-title">例題：多変数関数 5 解答</h2>
+        <div class="itembox">
+          <span class="box-label">Problem</span>
+          <p>工学的な量として，温度分布 $T(x,y)=100-x^2-y^2$ を考える。この関数の意味を説明せよ。</p>
+        </div>
+        <div class="box">
+          <span class="box-label">Answer</span>
+          <p>点 $(x,y)$ における温度を表す関数である。</p>
+          <p>原点で温度は最大値 $100$ になり，原点からの距離が大きくなるほど温度は下がる。等温線は原点中心の円である。</p>
+        </div>
+        <div class="graph-row">
+          <button type="button" class="graph-toggle" data-graph-target="graph-mv-5" aria-expanded="false">see graph</button>
+        </div>
+        <figure class="answer-graph" id="graph-mv-5" hidden>
+          <img src="figures/example_mv_5.svg" alt="例題：多変数関数 5 のグラフ">
+        </figure>
+      </article>
+
+      <article class="slide">
+        <h2 class="slide-title">2. 偏微分とは</h2>
+        <p>多変数関数で，ある1つの変数だけを変化させ，他の変数を固定して微分することを偏微分という。</p>
+        <div class="theorem">
+          <div class="name">二変数関数 $f(x,y)$</div>
+          <p>$\dfrac{\partial f}{\partial x}$ は $y$ を定数とみなして $x$ で微分したもの。</p>
+          <p>$\dfrac{\partial f}{\partial y}$ は $x$ を定数とみなして $y$ で微分したもの。</p>
+        </div>
+      </article>
+
+      <article class="slide">
+        <h2 class="slide-title">一方向だけを見る</h2>
+        <figure class="figure single-figure">
+          <img src="figures/partial_directions.png" alt="偏微分で見る x 方向と y 方向">
+          <figcaption class="caption">偏微分では，一方の方向だけに動かして変化率を見る。</figcaption>
+        </figure>
+      </article>
+
+      <article class="slide">
+        <h2 class="slide-title">偏微分係数の定義</h2>
+        <p>点 $(a,b)$ における $x$ に関する偏微分係数は</p>
+        <p class="big-formula">
+          $$f_x(a,b)=\lim_{h\to 0}\frac{f(a+h,b)-f(a,b)}{h}$$
+        </p>
+        <p>同様に，$y$ に関する偏微分係数は</p>
+        <p class="big-formula">
+          $$f_y(a,b)=\lim_{h\to 0}\frac{f(a,b+h)-f(a,b)}{h}$$
+        </p>
+      </article>
+
+      <article class="slide">
+        <h2 class="slide-title">記号</h2>
+        <p>偏導関数は次のように書く。</p>
+        <p class="big-formula">
+          $$f_x,\quad f_y,\quad \frac{\partial f}{\partial x},\quad \frac{\partial f}{\partial y}$$
+        </p>
+        <div class="box">
+          文脈によっては $f_x(x,y)$，$f_y(x,y)$ のように変数を明記する。
+        </div>
+      </article>
+
+      <article class="slide">
+        <h2 class="slide-title">幾何学的意味</h2>
+        <div class="two-col">
+          <div>
+            <p>$\dfrac{\partial f}{\partial x}$ は $x$ 方向の変化率，$\dfrac{\partial f}{\partial y}$ は $y$ 方向の変化率を表す。</p>
+            <p>曲面 $z=f(x,y)$ を $y=b$ で切ると，一変数関数 $z=f(x,b)$ が得られ，その傾きが $f_x(a,b)$ である。</p>
+          </div>
+          <figure class="figure">
+            <img src="figures/partial_surface.png" alt="曲面上の x 方向と y 方向の切り口">
+            <figcaption class="caption">赤い曲線は $x$ 方向，青い曲線は $y$ 方向。</figcaption>
+          </figure>
+        </div>
+      </article>
+
+      <article class="slide compact">
+        <h2 class="slide-title">例題：偏微分 1</h2>
+        <div class="itembox">
+          <span class="box-label">Problem</span>
+          <p>次の関数の $x$ に関する偏微分を求めよ。</p>
+          <p class="big-formula">$f(x,y)=x^2+3xy+y^2$</p>
+        </div>
+      </article>
+
+      <article class="slide compact">
+        <h2 class="slide-title">例題：偏微分 1 解答</h2>
+        <div class="itembox">
+          <span class="box-label">Problem</span>
+          <p>次の関数の $x$ に関する偏微分を求めよ。</p>
+          <p class="big-formula">$f(x,y)=x^2+3xy+y^2$</p>
+        </div>
+        <div class="box">
+          <span class="box-label">Answer</span>
+          <p>$y$ を定数とみなして $x$ で微分する。</p>
+          <p class="big-formula">$f_x(x,y)=2x+3y$</p>
+        </div>
+        <div class="graph-row">
+          <button type="button" class="graph-toggle" data-graph-target="graph-partial-1" aria-expanded="false">see graph</button>
+        </div>
+        <figure class="answer-graph" id="graph-partial-1" hidden>
+          <img src="figures/example_partial_1.svg" alt="例題：偏微分 1 のグラフ">
+        </figure>
+      </article>
+
+      <article class="slide compact">
+        <h2 class="slide-title">例題：偏微分 2</h2>
+        <div class="itembox">
+          <span class="box-label">Problem</span>
+          <p>次の関数の $y$ に関する偏微分を求めよ。</p>
+          <p class="big-formula">$f(x,y)=x^2\sin y$</p>
+        </div>
+      </article>
+
+      <article class="slide compact">
+        <h2 class="slide-title">例題：偏微分 2 解答</h2>
+        <div class="itembox">
+          <span class="box-label">Problem</span>
+          <p>次の関数の $y$ に関する偏微分を求めよ。</p>
+          <p class="big-formula">$f(x,y)=x^2\sin y$</p>
+        </div>
+        <div class="box">
+          <span class="box-label">Answer</span>
+          <p>$x$ を定数とみなして $y$ で微分する。</p>
+          <p class="big-formula">$f_y(x,y)=x^2\cos y$</p>
+        </div>
+        <div class="graph-row">
+          <button type="button" class="graph-toggle" data-graph-target="graph-partial-2" aria-expanded="false">see graph</button>
+        </div>
+        <figure class="answer-graph" id="graph-partial-2" hidden>
+          <img src="figures/example_partial_2.svg" alt="例題：偏微分 2 のグラフ">
+        </figure>
+      </article>
+
+      <article class="slide compact">
+        <h2 class="slide-title">例題：偏微分 3</h2>
+        <div class="itembox">
+          <span class="box-label">Problem</span>
+          <p>次の関数の偏導関数 $f_x,\ f_y$ を求めよ。</p>
+          <p class="big-formula">$f(x,y)=e^{xy}$</p>
+        </div>
+      </article>
+
+      <article class="slide compact">
+        <h2 class="slide-title">例題：偏微分 3 解答</h2>
+        <div class="itembox">
+          <span class="box-label">Problem</span>
+          <p>次の関数の偏導関数 $f_x,\ f_y$ を求めよ。</p>
+          <p class="big-formula">$f(x,y)=e^{xy}$</p>
+        </div>
+        <div class="box">
+          <span class="box-label">Answer</span>
+          <p>合成関数の微分を用いる。</p>
+          <p class="big-formula">$f_x(x,y)=ye^{xy},\quad f_y(x,y)=xe^{xy}$</p>
+        </div>
+        <div class="graph-row">
+          <button type="button" class="graph-toggle" data-graph-target="graph-partial-3" aria-expanded="false">see graph</button>
+        </div>
+        <figure class="answer-graph" id="graph-partial-3" hidden>
+          <img src="figures/example_partial_3.svg" alt="例題：偏微分 3 のグラフ">
+        </figure>
+      </article>
+
+      <article class="slide compact">
+        <h2 class="slide-title">例題：偏微分 4</h2>
+        <div class="itembox">
+          <span class="box-label">Problem</span>
+          <p>次の関数の偏導関数を求めよ。</p>
+          <p class="big-formula">$f(x,y,z)=x^2y+yz^3$</p>
+        </div>
+      </article>
+
+      <article class="slide compact">
+        <h2 class="slide-title">例題：偏微分 4 解答</h2>
+        <div class="itembox">
+          <span class="box-label">Problem</span>
+          <p>次の関数の偏導関数を求めよ。</p>
+          <p class="big-formula">$f(x,y,z)=x^2y+yz^3$</p>
+        </div>
+        <div class="box">
+          <span class="box-label">Answer</span>
+          <p>各変数以外を定数とみなして微分する。</p>
+          <p class="big-formula">$f_x=2xy,\quad f_y=x^2+z^3,\quad f_z=3yz^2$</p>
+        </div>
+        <div class="graph-row">
+          <button type="button" class="graph-toggle" data-graph-target="graph-partial-4" aria-expanded="false">see graph</button>
+        </div>
+        <figure class="answer-graph" id="graph-partial-4" hidden>
+          <img src="figures/example_partial_4.svg" alt="例題：偏微分 4 のグラフ">
+        </figure>
+      </article>
+
+      <article class="slide compact">
+        <h2 class="slide-title">例題：偏微分 5</h2>
+        <div class="itembox">
+          <span class="box-label">Problem</span>
+          <p>温度分布 $T(x,y)=50+2x-y^2$ について，$\partial T/\partial x$，$\partial T/\partial y$ の意味を説明せよ。</p>
+        </div>
+      </article>
+
+      <article class="slide compact">
+        <h2 class="slide-title">例題：偏微分 5 解答</h2>
+        <div class="itembox">
+          <span class="box-label">Problem</span>
+          <p>温度分布 $T(x,y)=50+2x-y^2$ について，$\partial T/\partial x$，$\partial T/\partial y$ の意味を説明せよ。</p>
+        </div>
+        <div class="box">
+          <span class="box-label">Answer</span>
+          <p>$\partial T/\partial x=2$ なので，$x$ 方向に $1$ 進むと温度は $2$ 上がる。</p>
+          <p>$\partial T/\partial y=-2y$ なので，$y$ 方向の温度変化は位置 $y$ によって変わる。</p>
+        </div>
+        <div class="graph-row">
+          <button type="button" class="graph-toggle" data-graph-target="graph-partial-5" aria-expanded="false">see graph</button>
+        </div>
+        <figure class="answer-graph" id="graph-partial-5" hidden>
+          <img src="figures/example_partial_5.svg" alt="例題：偏微分 5 のグラフ">
+        </figure>
+      </article>
+
+      <article class="slide">
+        <h2 class="slide-title">3. 偏微分可能性と可微分性</h2>
+        <div class="two-col top">
+          <div class="box">
+            <span class="box-label">偏微分可能</span>
+            <p>点 $(a,b)$ において $f_x(a,b)$，$f_y(a,b)$ が存在するとき，その点で偏微分可能という。</p>
+          </div>
+          <div class="theorem">
+            <div class="name">注意</div>
+            <p>偏微分可能であっても，必ずしも関数が滑らかとは限らない。</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="slide">
+        <h2 class="slide-title">可微分</h2>
+        <p>関数 $f(x,y)$ が点 $(a,b)$ の近くで一次式によりよく近似できるとき，その点で可微分という。</p>
+        <p>可微分であれば，</p>
+        <p class="big-formula">$$f(a+\Delta x,b+\Delta y)$$</p>
+        <p>は</p>
+        <p class="big-formula">$$f(a,b)+f_x(a,b)\Delta x+f_y(a,b)\Delta y$$</p>
+        <p>で近似できる。</p>
+      </article>
+
+      <article class="slide">
+        <h2 class="slide-title">全微分と接平面</h2>
+        <div class="two-col">
+          <div>
+            <p>可微分な関数に対して</p>
+            <p class="big-formula">$$df=f_xdx+f_ydy$$</p>
+            <p>を全微分という。小さい変化に対して</p>
+            <p class="big-formula">$$\Delta f\simeq f_x\Delta x+f_y\Delta y$$</p>
+            <p>と考えることができる。</p>
+          </div>
+          <figure class="figure">
+            <img src="figures/tangent_plane.png" alt="z=x^2+y^2 の接平面">
+            <figcaption class="caption">$z=x^2+y^2$ を点 $(1,1,2)$ の近くで平面 $z=2x+2y-2$ によって近似する。</figcaption>
+          </figure>
+        </div>
+      </article>
+
+      <article class="slide">
+        <h2 class="slide-title">接平面の式</h2>
+        <p>$z=f(x,y)$ が可微分なら，点 $(a,b,f(a,b))$ における接平面は</p>
+        <p class="big-formula">
+          $$z=f(a,b)+f_x(a,b)(x-a)+f_y(a,b)(y-b)$$
+        </p>
+        <div class="itembox">
+          接平面は，曲面を点の近くで一次式に置き換えたものである。これは一変数関数でいう接線の二変数版である。
+        </div>
+      </article>
+
+      <article class="slide">
+        <h2 class="slide-title">重要な十分条件</h2>
+        <p>$f_x$，$f_y$ が点の近くで存在し，かつ連続ならば，$f$ はその点で可微分である。</p>
+        <div class="flow-wrap">
+          <div class="flow">
+            <div class="node blue">$f_x,\ f_y$ が近くで連続</div>
+            <div class="arrow">$\Longrightarrow$</div>
+            <div class="node green">$f$ は可微分</div>
+            <div class="arrow">$\Longrightarrow$</div>
+            <div class="node orange">$f$ は偏微分可能</div>
+          </div>
+        </div>
+        <p class="caption">逆向きは一般には成り立たない。</p>
+      </article>
+
+      <article class="slide tight">
+        <h2 class="slide-title">偏微分可能だが可微分でない例</h2>
+        <p>次の関数は原点で $f_x(0,0)=0$，$f_y(0,0)=0$ をもつが，可微分ではない。</p>
+        <p class="big-formula">
+          $$
+          f(x,y)=
+          \begin{cases}
+          \dfrac{xy}{\sqrt{x^2+y^2}} & ((x,y)\neq(0,0)),\\[0.7em]
+          0 & ((x,y)=(0,0)).
+          \end{cases}
+          $$
+        </p>
+        <p>軸方向では値が $0$ になるが，直線 $y=x$ に沿うと $f(x,x)=|x|/\sqrt{2}$ となる。</p>
+      </article>
+
+      <article class="slide">
+        <h2 class="slide-title">方向による見え方</h2>
+        <div class="figure-grid">
+          <figure class="figure">
+            <img src="figures/nondiff_surface.png" alt="xy/sqrt(x^2+y^2) の原点近くの形">
+            <figcaption class="caption">$xy/\sqrt{x^2+y^2}$ の原点近くの形</figcaption>
+          </figure>
+          <figure class="figure">
+            <img src="figures/direction_slice.png" alt="軸方向と y=x 方向の切り口">
+            <figcaption class="caption">軸方向だけを見ると見落とす変化がある。</figcaption>
+          </figure>
+        </div>
+      </article>
+
+      <article class="slide compact">
+        <h2 class="slide-title">例題：可微分性 1</h2>
+        <div class="itembox">
+          <span class="box-label">Problem</span>
+          <p>次の関数が点 $(1,2)$ で偏微分可能か調べよ。</p>
+          <p class="big-formula">$f(x,y)=x^2+xy+y^2$</p>
+        </div>
+      </article>
+
+      <article class="slide compact">
+        <h2 class="slide-title">例題：可微分性 1 解答</h2>
+        <div class="itembox">
+          <span class="box-label">Problem</span>
+          <p>次の関数が点 $(1,2)$ で偏微分可能か調べよ。</p>
+          <p class="big-formula">$f(x,y)=x^2+xy+y^2$</p>
+        </div>
+        <div class="box">
+          <span class="box-label">Answer</span>
+          <p>多項式なので，すべての点で偏微分可能である。</p>
+          <p>$f_x=2x+y$，$f_y=x+2y$ より，$f_x(1,2)=4$，$f_y(1,2)=5$ である。</p>
+        </div>
+        <div class="graph-row">
+          <button type="button" class="graph-toggle" data-graph-target="graph-diff-1" aria-expanded="false">see graph</button>
+        </div>
+        <figure class="answer-graph" id="graph-diff-1" hidden>
+          <img src="figures/example_diff_1.svg" alt="例題：可微分性 1 のグラフ">
+        </figure>
+      </article>
+
+      <article class="slide compact">
+        <h2 class="slide-title">例題：可微分性 2</h2>
+        <div class="itembox">
+          <span class="box-label">Problem</span>
+          <p>次の関数の全微分を求めよ。</p>
+          <p class="big-formula">$f(x,y)=x^2y+y^3$</p>
+        </div>
+      </article>
+
+      <article class="slide compact">
+        <h2 class="slide-title">例題：可微分性 2 解答</h2>
+        <div class="itembox">
+          <span class="box-label">Problem</span>
+          <p>次の関数の全微分を求めよ。</p>
+          <p class="big-formula">$f(x,y)=x^2y+y^3$</p>
+        </div>
+        <div class="box">
+          <span class="box-label">Answer</span>
+          <p>$f_x=2xy$，$f_y=x^2+3y^2$ である。</p>
+          <p class="big-formula">$df=2xy\,dx+(x^2+3y^2)\,dy$</p>
+        </div>
+        <div class="graph-row">
+          <button type="button" class="graph-toggle" data-graph-target="graph-diff-2" aria-expanded="false">see graph</button>
+        </div>
+        <figure class="answer-graph" id="graph-diff-2" hidden>
+          <img src="figures/example_diff_2.svg" alt="例題：可微分性 2 のグラフ">
+        </figure>
+      </article>
+
+      <article class="slide compact">
+        <h2 class="slide-title">例題：可微分性 3</h2>
+        <div class="itembox">
+          <span class="box-label">Problem</span>
+          <p>次の関数の点 $(1,1)$ における接平面を求めよ。</p>
+          <p class="big-formula">$z=x^2+y^2$</p>
+        </div>
+      </article>
+
+      <article class="slide compact">
+        <h2 class="slide-title">例題：可微分性 3 解答</h2>
+        <div class="itembox">
+          <span class="box-label">Problem</span>
+          <p>次の関数の点 $(1,1)$ における接平面を求めよ。</p>
+          <p class="big-formula">$z=x^2+y^2$</p>
+        </div>
+        <div class="box">
+          <span class="box-label">Answer</span>
+          <p>$f(1,1)=2$，$f_x(1,1)=2$，$f_y(1,1)=2$ である。</p>
+          <p class="big-formula">$z=2+2(x-1)+2(y-1)=2x+2y-2$</p>
+        </div>
+        <div class="graph-row">
+          <button type="button" class="graph-toggle" data-graph-target="graph-diff-3" aria-expanded="false">see graph</button>
+        </div>
+        <figure class="answer-graph" id="graph-diff-3" hidden>
+          <img src="figures/example_diff_3.svg" alt="例題：可微分性 3 のグラフ">
+        </figure>
+      </article>
+
+      <article class="slide compact">
+        <h2 class="slide-title">例題：可微分性 4</h2>
+        <div class="itembox">
+          <span class="box-label">Problem</span>
+          <p>次の関数が可微分であるか考えよ。</p>
+          <p class="big-formula">$f(x,y)=|x|+|y|$</p>
+        </div>
+      </article>
+
+      <article class="slide compact">
+        <h2 class="slide-title">例題：可微分性 4 解答</h2>
+        <div class="itembox">
+          <span class="box-label">Problem</span>
+          <p>次の関数が可微分であるか考えよ。</p>
+          <p class="big-formula">$f(x,y)=|x|+|y|$</p>
+        </div>
+        <div class="box">
+          <span class="box-label">Answer</span>
+          <p>$x\ne 0$ かつ $y\ne 0$ の点では可微分である。</p>
+          <p>$x=0$ または $y=0$ の点では，絶対値の折れ曲がりにより対応する偏微分が存在しないので，可微分ではない。</p>
+        </div>
+        <div class="graph-row">
+          <button type="button" class="graph-toggle" data-graph-target="graph-diff-4" aria-expanded="false">see graph</button>
+        </div>
+        <figure class="answer-graph" id="graph-diff-4" hidden>
+          <img src="figures/example_diff_4.svg" alt="例題：可微分性 4 のグラフ">
+        </figure>
+      </article>
+
+      <article class="slide compact">
+        <h2 class="slide-title">例題：可微分性 5</h2>
+        <div class="itembox">
+          <span class="box-label">Problem</span>
+          <p>上の $xy/\sqrt{x^2+y^2}$ の例について，偏微分可能性と可微分性の違いを説明せよ。</p>
+        </div>
+      </article>
+
+      <article class="slide compact">
+        <h2 class="slide-title">例題：可微分性 5 解答</h2>
+        <div class="itembox">
+          <span class="box-label">Problem</span>
+          <p>上の $xy/\sqrt{x^2+y^2}$ の例について，偏微分可能性と可微分性の違いを説明せよ。</p>
+        </div>
+        <div class="box">
+          <span class="box-label">Answer</span>
+          <p>原点で $x$ 軸方向と $y$ 軸方向だけを見ると変化率はどちらも $0$ なので，偏微分可能である。</p>
+          <p>しかし $y=x$ に沿うと $f(x,x)=|x|/\sqrt{2}$ となり，一次近似 $0$ では全方向の変化を表せない。したがって原点では可微分でない。</p>
+        </div>
+        <div class="graph-row">
+          <button type="button" class="graph-toggle" data-graph-target="graph-diff-5" aria-expanded="false">see graph</button>
+        </div>
+        <figure class="answer-graph" id="graph-diff-5" hidden>
+          <img src="figures/example_diff_5.svg" alt="例題：可微分性 5 のグラフ">
+        </figure>
+      </article>
+
+      <article class="slide">
+        <h2 class="slide-title">4. $C^n$ 級関数</h2>
+        <div class="box">
+          <p>$C^0$ 級：関数が連続である。</p>
+          <p>$C^1$ 級：1階偏導関数が存在し，それらが連続である。</p>
+          <p>$C^2$ 級：2階偏導関数が存在し，それらが連続である。</p>
+        </div>
+        <p>二変数関数では，$C^1$ 級は $f_x$，$f_y$ が存在して連続であることを意味する。</p>
+      </article>
+
+      <article class="slide">
+        <h2 class="slide-title">$C^2$ 級と $C^n$ 級</h2>
+        <p>2階偏導関数には</p>
+        <p class="big-formula">$$f_{xx},\quad f_{xy},\quad f_{yx},\quad f_{yy}$$</p>
+        <p>がある。</p>
+        <div class="theorem">
+          <div class="name">$C^n$ 級</div>
+          <p>$n$ 階までのすべての偏導関数が存在し，連続であるとき，$C^n$ 級という。</p>
+        </div>
+        <p>$C^\infty$ 級は，すべての階数の偏導関数が存在し，連続であることを表す。</p>
+      </article>
+
+      <article class="slide">
+        <h2 class="slide-title">条件の強さ</h2>
+        <div class="flow-wrap">
+          <div class="flow">
+            <div class="node blue">$C^\infty$</div>
+            <div class="arrow">$\Longrightarrow$</div>
+            <div class="node green">$C^2$</div>
+            <div class="arrow">$\Longrightarrow$</div>
+            <div class="node green">$C^1$</div>
+            <div class="arrow">$\Longrightarrow$</div>
+            <div class="node orange">$C^0$</div>
+          </div>
+        </div>
+        <p class="caption">右へ行くほど条件が弱い。</p>
+      </article>
+
+      <article class="slide">
+        <h2 class="slide-title">混合偏微分</h2>
+        <p>条件がよければ，</p>
+        <p class="big-formula">$$f_{xy}=f_{yx}$$</p>
+        <p>が成り立つ。特に $f$ が $C^2$ 級ならば，混合偏微分は等しい。</p>
+        <div class="flow-wrap">
+          <div class="flow">
+            <div class="node gray">$f$</div>
+            <div class="arrow">$\to$</div>
+            <div class="node blue">$f_x$</div>
+            <div class="arrow">$\to$</div>
+            <div class="node orange">$f_{xy}=f_{yx}$</div>
+            <div class="arrow">$\leftarrow$</div>
+            <div class="node green">$f_y$</div>
+          </div>
+        </div>
+      </article>
+
+      <article class="slide">
+        <h2 class="slide-title">$C^n$ 級の見方</h2>
+        <div class="figure-grid">
+          <figure class="figure">
+            <img src="figures/abs_value.png" alt="絶対値関数の折れ">
+            <figcaption class="caption">$|x|$ は $x=0$ で折れている。</figcaption>
+          </figure>
+          <figure class="figure">
+            <img src="figures/derivative_line.png" alt="x^2 の導関数">
+            <figcaption class="caption">$x^2$ はなめらかで，何度でも微分できる。</figcaption>
+          </figure>
+        </div>
+      </article>
+
+      <article class="slide compact">
+        <h2 class="slide-title">例題：$C^n$ 級 1</h2>
+        <div class="itembox">
+          <span class="box-label">Problem</span>
+          <p>次の関数が原点で $C^1$ 級でないことを調べよ。</p>
+          <p class="big-formula">$f(x,y)=|x|+y^2$</p>
+        </div>
+      </article>
+
+      <article class="slide compact">
+        <h2 class="slide-title">例題：$C^n$ 級 1 解答</h2>
+        <div class="itembox">
+          <span class="box-label">Problem</span>
+          <p>次の関数が原点で $C^1$ 級でないことを調べよ。</p>
+          <p class="big-formula">$f(x,y)=|x|+y^2$</p>
+        </div>
+        <div class="box">
+          <span class="box-label">Answer</span>
+          <p>$x$ 方向の偏微分は $f_x(0,0)=\lim_{h\to0}|h|/h$ となり，極限が存在しない。</p>
+          <p>したがって原点では $C^1$ 級でない。</p>
+        </div>
+        <div class="graph-row">
+          <button type="button" class="graph-toggle" data-graph-target="graph-cn-1" aria-expanded="false">see graph</button>
+        </div>
+        <figure class="answer-graph" id="graph-cn-1" hidden>
+          <img src="figures/example_cn_1.svg" alt="例題：$C^n$ 級 1 のグラフ">
+        </figure>
+      </article>
+
+      <article class="slide compact">
+        <h2 class="slide-title">例題：$C^n$ 級 2</h2>
+        <div class="itembox">
+          <span class="box-label">Problem</span>
+          <p>次の関数の2階偏導関数を求めよ。</p>
+          <p class="big-formula">$f(x,y)=x^3y+xy^2$</p>
+        </div>
+      </article>
+
+      <article class="slide compact">
+        <h2 class="slide-title">例題：$C^n$ 級 2 解答</h2>
+        <div class="itembox">
+          <span class="box-label">Problem</span>
+          <p>次の関数の2階偏導関数を求めよ。</p>
+          <p class="big-formula">$f(x,y)=x^3y+xy^2$</p>
+        </div>
+        <div class="box">
+          <span class="box-label">Answer</span>
+          <p>$f_x=3x^2y+y^2$，$f_y=x^3+2xy$ である。</p>
+          <p class="big-formula">$f_{xx}=6xy,\quad f_{xy}=3x^2+2y,\quad f_{yx}=3x^2+2y,\quad f_{yy}=2x$</p>
+        </div>
+        <div class="graph-row">
+          <button type="button" class="graph-toggle" data-graph-target="graph-cn-2" aria-expanded="false">see graph</button>
+        </div>
+        <figure class="answer-graph" id="graph-cn-2" hidden>
+          <img src="figures/example_cn_2.svg" alt="例題：$C^n$ 級 2 のグラフ">
+        </figure>
+      </article>
+
+      <article class="slide compact">
+        <h2 class="slide-title">例題：$C^n$ 級 3</h2>
+        <div class="itembox">
+          <span class="box-label">Problem</span>
+          <p>次の関数について，$f_{xy}$ と $f_{yx}$ を求めよ。</p>
+          <p class="big-formula">$f(x,y)=e^{xy}$</p>
+        </div>
+      </article>
+
+      <article class="slide compact">
+        <h2 class="slide-title">例題：$C^n$ 級 3 解答</h2>
+        <div class="itembox">
+          <span class="box-label">Problem</span>
+          <p>次の関数について，$f_{xy}$ と $f_{yx}$ を求めよ。</p>
+          <p class="big-formula">$f(x,y)=e^{xy}$</p>
+        </div>
+        <div class="box">
+          <span class="box-label">Answer</span>
+          <p>$f_x=ye^{xy}$，$f_y=xe^{xy}$ である。</p>
+          <p class="big-formula">$f_{xy}=(1+xy)e^{xy},\quad f_{yx}=(1+xy)e^{xy}$</p>
+        </div>
+        <div class="graph-row">
+          <button type="button" class="graph-toggle" data-graph-target="graph-cn-3" aria-expanded="false">see graph</button>
+        </div>
+        <figure class="answer-graph" id="graph-cn-3" hidden>
+          <img src="figures/example_cn_3.svg" alt="例題：$C^n$ 級 3 のグラフ">
+        </figure>
+      </article>
+
+      <article class="slide compact">
+        <h2 class="slide-title">例題：$C^n$ 級 4</h2>
+        <div class="itembox">
+          <span class="box-label">Problem</span>
+          <p>次の関数が原点で $C^2$ 級でないことを調べよ。</p>
+          <p class="big-formula">$f(x,y)=x|y|$</p>
+        </div>
+      </article>
+
+      <article class="slide compact">
+        <h2 class="slide-title">例題：$C^n$ 級 4 解答</h2>
+        <div class="itembox">
+          <span class="box-label">Problem</span>
+          <p>次の関数が原点で $C^2$ 級でないことを調べよ。</p>
+          <p class="big-formula">$f(x,y)=x|y|$</p>
+        </div>
+        <div class="box">
+          <span class="box-label">Answer</span>
+          <p>$f_x(x,y)=|y|$ である。</p>
+          <p>したがって $f_{xy}(0,0)=\lim_{h\to0}|h|/h$ となり，極限が存在しない。よって原点では $C^2$ 級でない。</p>
+        </div>
+        <div class="graph-row">
+          <button type="button" class="graph-toggle" data-graph-target="graph-cn-4" aria-expanded="false">see graph</button>
+        </div>
+        <figure class="answer-graph" id="graph-cn-4" hidden>
+          <img src="figures/example_cn_4.svg" alt="例題：$C^n$ 級 4 のグラフ">
+        </figure>
+      </article>
+
+      <article class="slide compact">
+        <h2 class="slide-title">例題：$C^n$ 級 5</h2>
+        <div class="itembox">
+          <span class="box-label">Problem</span>
+          <p>次の関数が直線 $x=0$ 上で $C^1$ 級でないことを調べよ。</p>
+          <p class="big-formula">$f(x,y)=|x|+y^2$</p>
+        </div>
+      </article>
+
+      <article class="slide compact">
+        <h2 class="slide-title">例題：$C^n$ 級 5 解答</h2>
+        <div class="itembox">
+          <span class="box-label">Problem</span>
+          <p>次の関数が直線 $x=0$ 上で $C^1$ 級でないことを調べよ。</p>
+          <p class="big-formula">$f(x,y)=|x|+y^2$</p>
+        </div>
+        <div class="box">
+          <span class="box-label">Answer</span>
+          <p>直線 $x=0$ 上の任意の点 $(0,b)$ で，$f_x(0,b)=\lim_{h\to0}|h|/h$ となる。</p>
+          <p>この極限は存在しないので，直線 $x=0$ 上では $C^1$ 級でない。</p>
+        </div>
+        <div class="graph-row">
+          <button type="button" class="graph-toggle" data-graph-target="graph-cn-5" aria-expanded="false">see graph</button>
+        </div>
+        <figure class="answer-graph" id="graph-cn-5" hidden>
+          <img src="figures/example_cn_5.svg" alt="例題：$C^n$ 級 5 のグラフ">
+        </figure>
+      </article>
+
+      <article class="slide">
+        <h2 class="slide-title">まとめ</h2>
+        <ul>
+          <li>多変数関数は，複数の入力変数をもつ関数である。</li>
+          <li>偏微分は，1つの変数だけを動かして微分する操作である。</li>
+          <li>偏微分可能であっても，可微分とは限らない。</li>
+          <li>偏導関数が連続なら，可微分性が保証される。</li>
+          <li>$C^n$ 級とは，$n$ 階までの偏導関数が連続に存在する関数である。</li>
+          <li>$C^2$ 級なら，$f_{xy}=f_{yx}$ が成り立つ。</li>
+        </ul>
+        <div class="link-row">
+          <a href="../class7/class7.html">← 第7回</a>
+          <a href="../index.html">ホーム</a>
+          <a href="../class9/class9.html">第9回 →</a>
+        </div>
+      </article>
+    </section>
+  </main>
+
+  <div class="controls" aria-label="slide controls">
+    <button type="button" id="prev">Prev</button>
+    <span id="count" title="click to jump"></span>
+    <button type="button" id="next">Next</button>
   </div>
+  <div class="jump-panel" id="jump-panel" hidden></div>
 
-  <style>
-    .navigation {
-        display: flex;
-        justify-content: space-between;
-        margin-top: 2rem;
-        padding-top: 1rem;
-        border-top: 1px solid #ddd;
+  <script>
+    const slides = Array.from(document.querySelectorAll('.slide'));
+    const prevButton = document.getElementById('prev');
+    const nextButton = document.getElementById('next');
+    const count = document.getElementById('count');
+    const jumpPanel = document.getElementById('jump-panel');
+    let index = 0;
+
+    slides.forEach((slide, i) => {
+      slide.dataset.page = `${i + 1} / ${slides.length}`;
+      const button = document.createElement('button');
+      button.type = 'button';
+      button.className = 'jump-button';
+      button.textContent = String(i + 1);
+      button.addEventListener('click', () => {
+        show(i);
+        jumpPanel.hidden = true;
+      });
+      jumpPanel.appendChild(button);
+    });
+
+    function renderMath() {
+      if (window.MathJax && MathJax.typesetPromise) {
+        MathJax.typesetPromise([slides[index]]).catch(() => {});
+      }
     }
-    .navigation a {
-        color: var(--primary-color, #003366);
-        text-decoration: none;
-        padding: 0.5rem 1rem;
-        border-radius: 4px;
-        transition: background-color 0.3s;
+
+    window.renderCurrentMath = renderMath;
+
+    function show(nextIndex) {
+      index = (nextIndex + slides.length) % slides.length;
+      slides.forEach((slide, i) => {
+        slide.classList.toggle('active', i === index);
+      });
+      count.textContent = `${index + 1} / ${slides.length}`;
+      Array.from(jumpPanel.children).forEach((button, i) => {
+        button.classList.toggle('is-active', i === index);
+      });
+      renderMath();
     }
-    .navigation a:hover {
-        background-color: #f0f0f0;
-    }
-  </style>
+
+    prevButton.addEventListener('click', () => show(index - 1));
+    nextButton.addEventListener('click', () => show(index + 1));
+    count.addEventListener('click', () => {
+      jumpPanel.hidden = !jumpPanel.hidden;
+    });
+
+    document.querySelectorAll('.graph-toggle').forEach((button) => {
+      const graph = document.getElementById(button.dataset.graphTarget);
+      if (!graph) {
+        return;
+      }
+      button.addEventListener('click', () => {
+        const shouldShow = graph.hidden;
+        graph.hidden = !shouldShow;
+        button.setAttribute('aria-expanded', String(shouldShow));
+      });
+    });
+
+    document.addEventListener('keydown', (event) => {
+      if (event.key === 'ArrowRight' || event.key === 'PageDown' || event.key === ' ') {
+        event.preventDefault();
+        show(index + 1);
+      }
+      if (event.key === 'ArrowLeft' || event.key === 'PageUp') {
+        event.preventDefault();
+        show(index - 1);
+      }
+      if (event.key === 'Home') {
+        event.preventDefault();
+        show(0);
+      }
+      if (event.key === 'End') {
+        event.preventDefault();
+        show(slides.length - 1);
+      }
+      if (event.key === 'Escape') {
+        jumpPanel.hidden = true;
+      }
+    });
+
+    show(0);
+  </script>
 </body>
 </html>

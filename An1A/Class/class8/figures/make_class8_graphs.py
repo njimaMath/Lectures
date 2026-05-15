@@ -40,6 +40,12 @@ def save(fig, name):
     plt.close(fig)
 
 
+def save_pair(fig, stem):
+    fig.savefig(OUT_DIR / f"{stem}.pdf", bbox_inches="tight", pad_inches=0.03)
+    fig.savefig(OUT_DIR / f"{stem}.png", dpi=180, bbox_inches="tight", pad_inches=0.03)
+    plt.close(fig)
+
+
 def setup_plane_axis(ax, xlim, ylim, xticks=None, yticks=None, aspect=True):
     ax.set_xlim(*xlim)
     ax.set_ylim(*ylim)
@@ -331,6 +337,205 @@ def graph_derivative_line():
     save(fig, "derivative_line.pdf")
 
 
+def mesh(xlim, ylim, n=85):
+    x = np.linspace(xlim[0], xlim[1], n)
+    y = np.linspace(ylim[0], ylim[1], n)
+    return np.meshgrid(x, y)
+
+
+def example_surface(stem, func, xlim, ylim, zlim, view=(25, -48), cmap="viridis", point=None):
+    fig = plt.figure(figsize=(4.0, 2.75))
+    ax = fig.add_subplot(111, projection="3d")
+    X, Y = mesh(xlim, ylim)
+    Z = func(X, Y)
+    ax.plot_surface(X, Y, Z, cmap=cmap, linewidth=0, antialiased=True, alpha=0.92)
+    if point is not None:
+        px, py, pz, label = point
+        ax.scatter([px], [py], [pz], color="black", s=18)
+        if label:
+            ax.text(px, py, pz, label, color="black", fontsize=9)
+    setup_surface_axis(ax, xlim, ylim, zlim, view=view)
+    save_pair(fig, stem)
+
+
+def example_contours(stem, func, xlim, ylim, levels, fill=True):
+    fig, ax = plt.subplots(figsize=(3.25, 2.75))
+    X, Y = mesh(xlim, ylim, n=180)
+    Z = func(X, Y)
+    if fill:
+        ax.contourf(X, Y, Z, levels=24, cmap="YlGnBu", alpha=0.72)
+    lines = ax.contour(X, Y, Z, levels=levels, colors="#1d5f99", linewidths=1.25)
+    ax.clabel(lines, inline=True, fontsize=8, fmt="%g")
+    xticks = np.linspace(np.ceil(xlim[0]), np.floor(xlim[1]), 5)
+    yticks = np.linspace(np.ceil(ylim[0]), np.floor(ylim[1]), 5)
+    setup_plane_axis(ax, xlim, ylim, xticks, yticks)
+    axis_labels(ax, xlim, ylim)
+    save_pair(fig, stem)
+
+
+def example_line(stem, xlim, ylim, lines, xlabel="$x$", ylabel="値"):
+    fig, ax = plt.subplots(figsize=(3.35, 2.55))
+    setup_plane_axis(ax, xlim, ylim, aspect=False)
+    for x, y, label, color, style in lines:
+        ax.plot(x, y, color=color, linewidth=2.0, linestyle=style, label=label)
+    axis_labels(ax, xlim, ylim, xlabel=xlabel, ylabel=ylabel)
+    ax.legend(loc="upper center", bbox_to_anchor=(0.5, -0.2), ncol=min(2, len(lines)), fontsize=8, frameon=True, edgecolor="#cccccc")
+    save_pair(fig, stem)
+
+
+def graph_example_mv_1():
+    example_contours("example_mv_1", lambda X, Y: X**2 + Y**2, (-3, 3), (-3, 3), [1, 2, 4, 6, 8])
+
+
+def graph_example_mv_2():
+    example_surface("example_mv_2", lambda X, Y: X + Y, (-2, 2), (-2, 2), (-4, 4), cmap="Blues")
+
+
+def graph_example_mv_3():
+    example_contours("example_mv_3", lambda X, Y: X - Y, (-3, 3), (-3, 3), [-2, -1, 0, 1, 2], fill=False)
+
+
+def graph_example_mv_4():
+    example_contours("example_mv_4", lambda X, Y: 4 - X**2 - Y**2, (-3, 3), (-3, 3), [-4, -1, 0, 2, 3, 4])
+
+
+def graph_example_mv_5():
+    example_contours("example_mv_5", lambda X, Y: 100 - X**2 - Y**2, (-11, 11), (-11, 11), [10, 30, 50, 70, 90])
+
+
+def graph_example_partial_1():
+    example_surface(
+        "example_partial_1",
+        lambda X, Y: X**2 + 3 * X * Y + Y**2,
+        (-2, 2),
+        (-2, 2),
+        (-5, 10),
+        view=(27, -52),
+        cmap="PuBuGn",
+    )
+
+
+def graph_example_partial_2():
+    y = np.linspace(-2 * np.pi, 2 * np.pi, 500)
+    example_line(
+        "example_partial_2",
+        (-2 * np.pi, 2 * np.pi),
+        (-4.4, 4.4),
+        [
+            (y, np.sin(y), "$x=1$", "#174bb4", "-"),
+            (y, 4 * np.sin(y), "$x=2$", "#c92331", "-"),
+        ],
+        xlabel="$y$",
+        ylabel="$x^2\\sin y$",
+    )
+
+
+def graph_example_partial_3():
+    example_surface("example_partial_3", lambda X, Y: np.exp(X * Y), (-1.5, 1.5), (-1.5, 1.5), (0, 10), cmap="viridis")
+
+
+def graph_example_partial_4():
+    example_surface(
+        "example_partial_4",
+        lambda X, Y: X**2 * Y + Y,
+        (-2, 2),
+        (-2, 2),
+        (-10, 10),
+        view=(25, -55),
+        cmap="coolwarm",
+    )
+
+
+def graph_example_partial_5():
+    fig, ax = plt.subplots(figsize=(3.35, 2.75))
+    xlim = (-4, 4)
+    ylim = (-4, 4)
+    X, Y = mesh(xlim, ylim, n=160)
+    T = 50 + 2 * X - Y**2
+    ax.contourf(X, Y, T, levels=24, cmap="YlOrRd", alpha=0.72)
+    lines = ax.contour(X, Y, T, levels=[34, 42, 50, 58], colors="#6d2d00", linewidths=1.1)
+    ax.clabel(lines, inline=True, fontsize=8, fmt="%g")
+    setup_plane_axis(ax, xlim, ylim, [-4, -2, 0, 2, 4], [-4, -2, 0, 2, 4])
+    ax.annotate("", xy=(2.8, 0), xytext=(0.6, 0), arrowprops={"arrowstyle": "->", "lw": 1.8, "color": "#174bb4"})
+    ax.annotate("", xy=(0, -2.7), xytext=(0, -0.5), arrowprops={"arrowstyle": "->", "lw": 1.8, "color": "#c92331"})
+    ax.text(1.15, 0.32, "$T_x=2$", color="#174bb4", fontsize=10)
+    ax.text(0.28, -1.95, "$T_y=-2y$", color="#c92331", fontsize=10)
+    axis_labels(ax, xlim, ylim)
+    save_pair(fig, "example_partial_5")
+
+
+def graph_example_diff_1():
+    example_surface(
+        "example_diff_1",
+        lambda X, Y: X**2 + X * Y + Y**2,
+        (-0.5, 2.5),
+        (0, 3),
+        (0, 14),
+        view=(24, -54),
+        cmap="YlGnBu",
+        point=(1, 2, 7, "$(1,2)$"),
+    )
+
+
+def graph_example_diff_2():
+    example_surface("example_diff_2", lambda X, Y: X**2 * Y + Y**3, (-2, 2), (-1.6, 1.6), (-8, 8), cmap="Spectral")
+
+
+def graph_example_diff_3():
+    fig = plt.figure(figsize=(4.0, 2.75))
+    ax = fig.add_subplot(111, projection="3d")
+    xlim = (-0.6, 2.3)
+    ylim = (-0.6, 2.3)
+    X, Y = mesh(xlim, ylim)
+    Z = X**2 + Y**2
+    P = 2 * X + 2 * Y - 2
+    ax.plot_surface(X, Y, Z, cmap="Greens", linewidth=0, antialiased=True, alpha=0.75)
+    ax.plot_surface(X, Y, P, color="#e35f5f", linewidth=0.3, edgecolor="#c92331", alpha=0.35)
+    ax.scatter([1], [1], [2], color="black", s=18)
+    ax.text(1.05, 1.05, 2.4, "$(1,1,2)$", color="black", fontsize=9)
+    setup_surface_axis(ax, xlim, ylim, (-1, 9), view=(24, -52))
+    save_pair(fig, "example_diff_3")
+
+
+def graph_example_diff_4():
+    example_surface("example_diff_4", lambda X, Y: np.abs(X) + np.abs(Y), (-2, 2), (-2, 2), (0, 4), cmap="Oranges")
+
+
+def graph_example_diff_5():
+    t = np.linspace(-2, 2, 450)
+    example_line(
+        "example_diff_5",
+        (-2, 2),
+        (-0.2, 1.7),
+        [
+            (t, np.zeros_like(t), "$f(t,0)$", "#174bb4", "--"),
+            (t, np.abs(t) / np.sqrt(2), "$f(t,t)$", "#c92331", "-"),
+        ],
+        xlabel="$t$",
+        ylabel="値",
+    )
+
+
+def graph_example_cn_1():
+    example_surface("example_cn_1", lambda X, Y: np.abs(X) + Y**2, (-2, 2), (-2, 2), (0, 6), cmap="YlGn")
+
+
+def graph_example_cn_2():
+    example_surface("example_cn_2", lambda X, Y: X**3 * Y + X * Y**2, (-1.6, 1.6), (-1.6, 1.6), (-10, 10), cmap="coolwarm")
+
+
+def graph_example_cn_3():
+    example_surface("example_cn_3", lambda X, Y: np.exp(X * Y), (-1.5, 1.5), (-1.5, 1.5), (0, 10), cmap="viridis")
+
+
+def graph_example_cn_4():
+    example_surface("example_cn_4", lambda X, Y: X * np.abs(Y), (-2, 2), (-2, 2), (-4, 4), cmap="coolwarm")
+
+
+def graph_example_cn_5():
+    example_contours("example_cn_5", lambda X, Y: np.abs(X) + Y**2, (-2, 2), (-2, 2), [0.5, 1, 2, 3, 4, 5])
+
+
 def main():
     graph_domain_sqrt()
     graph_domain_rational()
@@ -345,6 +550,26 @@ def main():
     graph_direction_slice()
     graph_abs_value()
     graph_derivative_line()
+    graph_example_mv_1()
+    graph_example_mv_2()
+    graph_example_mv_3()
+    graph_example_mv_4()
+    graph_example_mv_5()
+    graph_example_partial_1()
+    graph_example_partial_2()
+    graph_example_partial_3()
+    graph_example_partial_4()
+    graph_example_partial_5()
+    graph_example_diff_1()
+    graph_example_diff_2()
+    graph_example_diff_3()
+    graph_example_diff_4()
+    graph_example_diff_5()
+    graph_example_cn_1()
+    graph_example_cn_2()
+    graph_example_cn_3()
+    graph_example_cn_4()
+    graph_example_cn_5()
 
 
 if __name__ == "__main__":

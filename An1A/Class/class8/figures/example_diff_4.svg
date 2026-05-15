@@ -1,0 +1,39 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="760" height="420" viewBox="0 0 760 420" role="img" aria-label="f=|x|+|y|">
+
+<defs>
+  <marker id="arrow" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+    <path d="M 0 0 L 10 5 L 0 10 z" fill="#24323a"/>
+  </marker>
+</defs>
+
+<style>
+  text { font-family: Arial, sans-serif; }
+</style>
+<rect x="0" y="0" width="760" height="420" rx="18" fill="#ffffff"/>
+<rect x="58" y="58" width="644" height="304" fill="#fbfcfe" stroke="#d8e1e8" stroke-width="1"/>
+<line x1="58.0" y1="362.0" x2="58.0" y2="58.0" stroke="#edf0f3" stroke-width="0.8" fill="none"/>
+<line x1="165.3" y1="362.0" x2="165.3" y2="58.0" stroke="#edf0f3" stroke-width="0.8" fill="none"/>
+<line x1="272.7" y1="362.0" x2="272.7" y2="58.0" stroke="#edf0f3" stroke-width="0.8" fill="none"/>
+<line x1="380.0" y1="362.0" x2="380.0" y2="58.0" stroke="#d9e0e7" stroke-width="1.35" fill="none"/>
+<line x1="487.3" y1="362.0" x2="487.3" y2="58.0" stroke="#edf0f3" stroke-width="0.8" fill="none"/>
+<line x1="594.7" y1="362.0" x2="594.7" y2="58.0" stroke="#edf0f3" stroke-width="0.8" fill="none"/>
+<line x1="702.0" y1="362.0" x2="702.0" y2="58.0" stroke="#edf0f3" stroke-width="0.8" fill="none"/>
+<line x1="58.0" y1="362.0" x2="702.0" y2="362.0" stroke="#edf0f3" stroke-width="0.8" fill="none"/>
+<line x1="58.0" y1="311.3" x2="702.0" y2="311.3" stroke="#edf0f3" stroke-width="0.8" fill="none"/>
+<line x1="58.0" y1="260.7" x2="702.0" y2="260.7" stroke="#edf0f3" stroke-width="0.8" fill="none"/>
+<line x1="58.0" y1="210.0" x2="702.0" y2="210.0" stroke="#d9e0e7" stroke-width="1.35" fill="none"/>
+<line x1="58.0" y1="159.3" x2="702.0" y2="159.3" stroke="#edf0f3" stroke-width="0.8" fill="none"/>
+<line x1="58.0" y1="108.7" x2="702.0" y2="108.7" stroke="#edf0f3" stroke-width="0.8" fill="none"/>
+<line x1="58.0" y1="58.0" x2="702.0" y2="58.0" stroke="#edf0f3" stroke-width="0.8" fill="none"/>
+<line x1="58.0" y1="210.0" x2="702.0" y2="210.0" stroke="#24323a" stroke-width="1.4" fill="none" marker-end="url(#arrow)"/>
+<line x1="380.0" y1="362.0" x2="380.0" y2="58.0" stroke="#24323a" stroke-width="1.4" fill="none" marker-end="url(#arrow)"/>
+<text x="605.4" y="234.3" fill="#24323a" font-size="18" text-anchor="middle">x</text>
+<text x="431.5" y="82.3" fill="#24323a" font-size="18" text-anchor="middle">y</text>
+<text x="70" y="36" fill="#334" font-size="20">f=|x|+|y|</text>
+<polyline points="380.0,159.3 487.3,210.0 380.0,260.7 272.7,210.0 380.0,159.3" fill="none" stroke="#487eb0" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
+<text x="428.3" y="187.2" fill="#487eb0" font-size="16" text-anchor="middle">c=1</text>
+<polyline points="380.0,108.7 594.7,210.0 380.0,311.3 165.3,210.0 380.0,108.7" fill="none" stroke="#2c8c7c" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
+<text x="476.6" y="164.4" fill="#2c8c7c" font-size="16" text-anchor="middle">c=2</text>
+<polyline points="380.0,58.0 702.0,210.0 380.0,362.0 58.0,210.0 380.0,58.0" fill="none" stroke="#c92331" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
+<text x="524.9" y="141.6" fill="#c92331" font-size="16" text-anchor="middle">c=3</text>
+</svg>
