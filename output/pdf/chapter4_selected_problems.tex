@@ -1,0 +1,83 @@
+\documentclass{article}
+\usepackage{amsmath,amssymb}
+\usepackage{CJKutf8}
+\usepackage[a4paper,margin=22mm]{geometry}
+
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{0.55em}
+
+\newcommand{\mondai}[1]{%
+  \par\medskip
+  \noindent{\large #1}\quad\ignorespaces
+}
+
+\newcommand{\defitem}[1]{%
+  \par\noindent #1\par
+}
+
+\begin{document}
+\begin{CJK}{UTF8}{min}
+
+\begin{center}
+{\Large 第4章 演習問題}\\
+問31(1)(4)(6), 問32(2)(6), 問34(3), 問35(3)
+\end{center}
+
+\fbox{\Large 定義}
+
+\defitem{最大値：$m=\max A$ とは、$m\in A$ かつ任意の $a\in A$ に対して $a\le m$ が成り立つことをいう。}
+
+
+\defitem{下界：実数 $M$ が $A$ の下界であるとは、任意の $a\in A$ に対して $M\le a$ が成り立つことをいう。}
+
+
+\defitem{下に有界：$A$ が下に有界であるとは、$A$ の下界が存在すること、すなわち、ある $M\in\mathbb{R}$ が存在して任意の $a\in A$ に対して $M\le a$ が成り立つことをいう。}
+
+\defitem{上限：$A$ が空でなく上に有界であるとき、$A$ の上限は $A$ の上界全体の集合の最小値であり、}
+\begin{center}
+$\displaystyle \sup A=\min\{M\in\mathbb{R}\mid \forall a\in A,\ a\le M\}$.
+\end{center}
+
+
+\defitem{下限：$A$ が空でなく下に有界であるとき、$A$ の下限は $A$ の下界全体の集合の最大値であり、}
+\begin{center}
+$\displaystyle \inf A=\max\{M\in\mathbb{R}\mid \forall a\in A,\ M\le a\}$.
+\end{center}
+
+\defitem{数列の極限：実数列 $(a_n)_{n=1}^{\infty}$ が $\alpha\in\mathbb{R}$ に収束する ($\lim a_n=\alpha$)とは、
+$$\forall \varepsilon>0, \exists N\ge 1, \forall n\ge N, |a_n-\alpha|<\varepsilon.$$}
+
+
+\fbox{\Large 問題}
+
+\mondai{問題31}実数の部分集合 $A\subset \mathbb{R}$ について、以下を論理記号で書け。
+
+\begin{enumerate}
+\setcounter{enumi}{0}
+\item $A$ の最大値 $\max A$ の定義。
+\setcounter{enumi}{3}
+\item 実数 $M$ が $A$ の下界であることの定義。
+\setcounter{enumi}{5}
+\item $A$ が下に有界であることの定義。
+\end{enumerate}
+
+\mondai{問題32}集合 $A\subset \mathbb{R}$ に対して以下の命題が成り立つか、真偽をその理由とともに述べよ。
+
+\begin{enumerate}
+\setcounter{enumi}{1}
+\item 任意の空でない $A\subset \mathbb{N}$ に対して、$A$ には最小値が存在する。
+\setcounter{enumi}{5}
+\item 任意の空でない $A\subset \mathbb{R}$ に対して、$A$ が下に有界であれば、$A$ に最小値が存在する。
+\end{enumerate}
+
+\mondai{問題34 (3)}実数 $\mathbb{R}$ の絶対値について、以下の性質を証明せよ (三角不等式):
+\begin{center}
+$\displaystyle \forall x,y,z\in\mathbb{R},\quad |x-z|\le |x-y|+|y-z|.$
+\end{center}
+
+\mondai{問題35　(3)}$(a_n)_{n=1}^{\infty},(b_n)_{n=1}^{\infty}$ を実数列とする。このとき、$\lim_{n\to\infty}a_n=\alpha$ならば、以下が成り立つことを証明せよ。
+\begin{center}
+$\displaystyle \lim_{n\to\infty}\frac{a_1+\cdots+a_n}{n}=\alpha.$
+\end{center}
+
+\end{CJK}\end{document}

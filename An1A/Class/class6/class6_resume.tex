@@ -3,10 +3,40 @@
 \usepackage[dvipdfmx]{graphicx}
 \usepackage{amsmath,amssymb,amsthm}
 \usepackage{enumitem}
+\usepackage{tikz}
+\usepackage{pgfplots}
+\usepackage{float}
+
+\pgfplotsset{compat=1.18}
 
 \setlength{\parindent}{0pt}
 \setlength{\parskip}{0.35em}
 \setlist[itemize]{leftmargin=2em,itemsep=0.2em,topsep=0.3em}
+\setlist[enumerate]{leftmargin=2em,itemsep=0.4em,topsep=0.3em}
+
+\pgfplotsset{
+  taylorplot/.style={
+    width=0.92\linewidth,
+    height=0.52\linewidth,
+    axis lines=middle,
+    xlabel={$x$},
+    ylabel={$y$},
+    grid=both,
+    grid style={gray!20},
+    minor tick num=1,
+    tick label style={font=\small},
+    label style={font=\small},
+    legend cell align=left,
+    legend style={
+      draw=gray!40,
+      fill=white,
+      fill opacity=0.9,
+      text opacity=1,
+      font=\small
+    },
+    samples=200
+  }
+}
 
 \theoremstyle{definition}
 \newtheorem*{definition}{定義}
@@ -253,5 +283,116 @@ e^{ix}e^{-ix}=1
 \cos^2 x+\sin^2 x=1
 \]
 が従う。
+
+\section*{小テスト}
+
+\subsection*{問題}
+
+\begin{enumerate}
+\item $f(x)=\cos x$ の $x=0$ での $0,1,2,3$ 次のテイラー多項式を求め，図示せよ。
+
+\item $n\geq 2$ とし，$f$ は $a$ の近くで $n$ 回微分可能とする。
+\[
+F(x)=f(x)-\sum_{k=0}^{n}\frac{f^{(k)}(a)}{k!}(x-a)^k
+\]
+としたとき，$F(a)=F'(a)=F''(a)=0$ を確かめよ。ただし $a$ は定数とする。
+\end{enumerate}
+
+\subsection*{解答}
+
+\begin{enumerate}
+\item $\cos x$ の導関数は
+\[
+\cos x,\quad -\sin x,\quad -\cos x,\quad \sin x,\quad \cos x,\dots
+\]
+と周期的に変わる。$x=0$ を代入すると
+\[
+f(0)=1,\qquad f'(0)=0,\qquad f''(0)=-1,\qquad f'''(0)=0
+\]
+である。したがって
+\[
+\begin{aligned}
+T_0(x)&=1,\\
+T_1(x)&=1,\\
+T_2(x)&=1-\frac{x^2}{2},\\
+T_3(x)&=1-\frac{x^2}{2}.
+\end{aligned}
+\]
+
+\begin{figure}[H]
+\centering
+\begin{tikzpicture}
+\begin{axis}[
+  taylorplot,
+  xmin=-3.5,xmax=3.5,
+  ymin=-2.2,ymax=1.4,
+  legend style={
+    at={(0.5,-0.18)},
+    anchor=north,
+    legend columns=3,
+    draw=gray!40,
+    fill=white,
+    font=\small
+  }
+]
+\addplot[black, very thick, domain=-3.5:3.5] {cos(deg(x))};
+\addlegendentry{$f(x)=\cos x$}
+\addplot[red, thick, dashed, domain=-3.5:3.5] {1};
+\addlegendentry{$T_0$}
+\addplot[blue, thick, densely dotted, domain=-3.5:3.5] {1};
+\addlegendentry{$T_1$}
+\addplot[teal!70!black, thick, dashdotted, domain=-3.5:3.5] {1-x^2/2};
+\addlegendentry{$T_2$}
+\addplot[orange!80!black, thick, loosely dashed, domain=-3.5:3.5] {1-x^2/2};
+\addlegendentry{$T_3$}
+\end{axis}
+\end{tikzpicture}
+\caption{$f(x)=\cos x$ と $x=0$ におけるテイラー多項式。$T_0=T_1$，$T_2=T_3$ である。}
+\end{figure}
+
+\item
+\[
+T_n(x)=\sum_{k=0}^{n}\frac{f^{(k)}(a)}{k!}(x-a)^k
+\]
+とおくと，$F(x)=f(x)-T_n(x)$ である。
+
+まず
+\[
+T_n(a)=f(a)
+\]
+なので
+\[
+F(a)=f(a)-T_n(a)=0
+\]
+である。
+
+次に
+\[
+T_n'(x)=\sum_{k=1}^{n}\frac{f^{(k)}(a)}{(k-1)!}(x-a)^{k-1}
+\]
+だから
+\[
+T_n'(a)=f'(a)
+\]
+である。よって
+\[
+F'(a)=f'(a)-T_n'(a)=0
+\]
+である。
+
+さらに
+\[
+T_n''(x)=\sum_{k=2}^{n}\frac{f^{(k)}(a)}{(k-2)!}(x-a)^{k-2}
+\]
+だから
+\[
+T_n''(a)=f''(a)
+\]
+である。したがって
+\[
+F''(a)=f''(a)-T_n''(a)=0
+\]
+を得る。
+\end{enumerate}
 
 \end{document}
