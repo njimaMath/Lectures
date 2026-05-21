@@ -1,55 +1,124 @@
+\RequirePackage{iftex}
+\ifPDFTeX
+\documentclass[a4paper,12pt]{article}
+\usepackage[margin=24mm]{geometry}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{graphicx}
+\usepackage{CJKutf8}
+\else
 \documentclass[a4paper,12pt]{jsarticle}
 \usepackage[dvipdfmx,margin=24mm]{geometry}
 \usepackage[dvipdfmx]{graphicx}
+\fi
 \usepackage{amsmath,amssymb,amsthm}
 \usepackage{enumitem}
 \usepackage{tikz}
-\usepackage{pgfplots}
-\usepackage{float}
-
-\pgfplotsset{compat=1.18}
+\usepackage{url}
+\usetikzlibrary{arrows.meta,calc}
 
 \setlength{\parindent}{0pt}
 \setlength{\parskip}{0.35em}
-\setlist[itemize]{leftmargin=2em,itemsep=0.2em,topsep=0.3em}
-\setlist[enumerate]{leftmargin=2em,itemsep=0.4em,topsep=0.3em}
+\setlength{\fboxsep}{8pt}
+\setlist[itemize]{leftmargin=2em,itemsep=0.25em,topsep=0.35em}
 
-\pgfplotsset{
-  taylorplot/.style={
-    width=0.92\linewidth,
-    height=0.52\linewidth,
-    axis lines=middle,
-    xlabel={$x$},
-    ylabel={$y$},
-    grid=both,
-    grid style={gray!20},
-    minor tick num=1,
-    tick label style={font=\small},
-    label style={font=\small},
-    legend cell align=left,
-    legend style={
-      draw=gray!40,
-      fill=white,
-      fill opacity=0.9,
-      text opacity=1,
-      font=\small
-    },
-    samples=200
-  }
+\newcommand{\feedbackqa}[2]{%
+\item[]
+\begin{tabular}[t]{@{}p{1.8em}@{\hspace{0.4em}}p{\dimexpr\linewidth-2.2em\relax}@{}}
+Q. & #1 \\
+A. & #2
+\end{tabular}
+\par\smallskip\hrulefill
 }
+
+\newcommand{\pointbox}[1]{%
+\begin{center}
+\fbox{%
+\begin{minipage}{0.9\linewidth}
+#1
+\end{minipage}}
+\end{center}
+}
+
+\begin{document}
+\ifPDFTeX
+\begin{CJK}{UTF8}{min}
+\fi
 
 \theoremstyle{definition}
 \newtheorem*{definition}{定義}
 \newtheorem*{theorem}{定理}
+\newtheorem*{lemma}{補題}
+\newtheorem*{corollary}{系}
 \newtheorem*{example}{例}
 \renewcommand{\proofname}{証明}
-
-\begin{document}
 
 \begin{center}
 {\LARGE 数学1A 第6回レジュメ}\\[0.4em]
 テイラー展開とオイラーの公式
 \end{center}
+\section*{フィードバック}
+
+\begin{itemize}[leftmargin=1.5em,itemsep=0.7em,topsep=0.3em]
+\feedbackqa{授業ででてきた系とはなにか?}{系とは定理からすぐに導かれる主張をいいます。今日紹介した系は剰余項が$0$に収束すれば, テイラー展開が成立するという主張ですが、これは定理からすぐに導かれるので、定理とは呼ばずに系と呼ぶことにしました。}
+\feedbackqa{系の証明の部分がよくわからなかった。}{授業では説明するのを省きましたが、
+$$|a_n-a|\to 0 \Leftrightarrow \lim_{n\to\infty} a_n = a$$
+という関係式を$a_n = \sum^n _{k=0} \frac{f^{(k)}(a)}{k!}(x-a)^k $, $a=f(x)$に適用してしました。}
+\feedbackqa{レポートの模範解答$\varepsilon$-$\delta$の問題の$\delta$のとりかたでminという授業で扱っていないものがでてきた}{大変申し訳ありません。minは定義していませんでしたね。他の$\delta$のとり方としては
+$$\delta= \frac{1}{1+(4/\varepsilon)}$$
+というとり方でも証明できます}
+\feedbackqa{グループワークでの図示が難しい}{７次はやりすぎましたね。中間テスト含めて今後図示させる問題は出しませんので安心してください。}
+\feedbackqa{列にわりこまれて電車にすわれなかった}{大変でしたね}
+\feedbackqa{グラフをどこまで正確にかけばよいか}{少なくともこの授業では、近似してるなぁという実感を持っていただければ良いので、そこまでちゃんとかける必要はないです。}
+\feedbackqa{グループワークで全員に同じ問題を出してほしい}{5回に1回できたらいいなと思っています}
+\feedbackqa{中島が数学を勉強していて一番楽しいと思う瞬間}{なにか新しいものを発見したときですね。オイラーの公式の1/10000くらいの重要さだとしても、新しいものを発見したときの喜びは代えがたいものです}
+\feedbackqa{もう少し黒板の字を大きく書いてほしい}{承知しました。次回から気をつけます。}
+\feedbackqa{テイラー定理のおすすめの勉強}{ハードルは高いですが、自分で証明をなにもみずに書いてみたり、参考書をみずに、適当な関数のテイラー展開を計算してみると良いと思います}
+ 
+\end{itemize}
+
+\section*{小テスト}
+
+\begin{enumerate}[leftmargin=2em,itemsep=0.5em,topsep=0.3em]
+\item $f(x)=\cos x$ の $a=\frac{\pi}{2}$ における $1$ 次，$3$ 次のテイラー多項式を求め，図示せよ。
+\item $T_n(x)=\sum_{j=0}^{n}\frac{f^{(j)}(a)}{j!}(x-a)^j$ とする。$0\leq k\leq n$ に対して，$T_n^{(k)}(x)$ と $T_n^{(k)}(a)$ を求めよ。
+\end{enumerate}
+
+\subsection*{答え}
+
+\begin{enumerate}[leftmargin=2em,itemsep=0.7em,topsep=0.3em]
+\item $h=x-\frac{\pi}{2}$ とおくと，$\cos x=\cos\left(\frac{\pi}{2}+h\right)=-\sin h$ である。したがって
+\[
+T_1(x)=-\left(x-\frac{\pi}{2}\right),
+\qquad
+T_3(x)=-\left(x-\frac{\pi}{2}\right)+\frac{1}{6}\left(x-\frac{\pi}{2}\right)^3.
+\]
+
+\begin{center}
+\begin{tikzpicture}[scale=0.9]
+\draw[->] (-3.4,0)--(3.4,0) node[right] {$x-\frac{\pi}{2}$};
+\draw[->] (0,-2.1)--(0,2.1) node[above] {$y$};
+\draw[domain=-3.1:3.1,smooth,variable=\u,thick] plot ({\u},{-sin(\u r)});
+\draw[domain=-2.0:2.0,smooth,variable=\u,dashed,thick] plot ({\u},{-\u});
+\draw[domain=-2.45:2.45,smooth,variable=\u,dotted,thick] plot ({\u},{-\u+\u*\u*\u/6});
+\node[right] at (2.3,-0.75) {$\cos x$};
+\node[right] at (1.2,-1.35) {$T_1$};
+\node[right] at (2.0,-0.65) {$T_3$};
+\node[below left] at (0,0) {$0$};
+\end{tikzpicture}
+\end{center}
+
+\item $T_n(x)$ を $k$ 回微分すると
+\[
+T_n^{(k)}(x)
+=\sum_{j=k}^{n}\frac{f^{(j)}(a)}{(j-k)!}(x-a)^{j-k}
+\]
+である。特に $x=a$ を代入すると，$j=k$ の項だけが残るので
+\[
+T_n^{(k)}(a)=f^{(k)}(a)
+\]
+である。
+\end{enumerate}
 
 \section{テイラーの定理}
 
@@ -66,25 +135,103 @@ f(x)=T_n(x)+\frac{f^{(n+1)}(\xi)}{(n+1)!}(x-a)^{n+1}
 \]
 が成り立つ。
 \end{theorem}
+\begin{proof}
+$x=a$ のときは等式は明らかである。以下 $x\neq a$ とする。
+\[
+P(t)=\sum_{k=0}^{n}\frac{f^{(k)}(a)}{k!}(t-a)^k
+\]
+とおき，
+\[
+F(t)=f(t)-P(t),\qquad G(t)=(t-a)^{n+1}
+\]
+とする。$P$ は $f$ の $a$ における $n$ 次テイラー多項式なので，
+\[
+F(a)=F'(a)=\cdots=F^{(n)}(a)=0
+\]
+が成り立つ。また $G(a)=G'(a)=\cdots=G^{(n)}(a)=0$ である。
 
-剰余項を
+まず $F$ と $G$ にコーシーの平均値の定理を用いると，$a$ と $x$ の間にある点 $c_1$ が存在して
 \[
-R_n(x)=f(x)-T_n(x)
+\frac{F(x)-F(a)}{G(x)-G(a)}=\frac{F'(c_1)}{G'(c_1)}
 \]
-とおくと
+となる。左辺は $\frac{F(x)}{G(x)}$ である。次に $F'$ と $G'$ にコーシーの平均値の定理を用いると，$a$ と $c_1$ の間にある点 $c_2$ が存在して
 \[
-R_n(x)=\frac{f^{(n+1)}(\xi)}{(n+1)!}(x-a)^{n+1}
+\frac{F'(c_1)-F'(a)}{G'(c_1)-G'(a)}
+=\frac{F''(c_2)}{G''(c_2)}
 \]
-である。したがって，$a$ と $x$ の間で $|f^{(n+1)}(t)|\leq M$ が成り立つなら
+となる。左辺は $\frac{F'(c_1)}{G'(c_1)}$ である。
+
+同じ議論を繰り返すと，ある $\xi$ が $a$ と $x$ の間に存在して
 \[
-|R_n(x)|\leq \frac{M}{(n+1)!}|x-a|^{n+1}
+\frac{F(x)}{G(x)}=\frac{F^{(n+1)}(\xi)}{G^{(n+1)}(\xi)}
 \]
-と評価できる。もし $n\to\infty$ で $R_n(x)\to 0$ なら
+となる。ここで $P^{(n+1)}(t)=0$ かつ $G^{(n+1)}(t)=(n+1)!$ なので
+\[
+\frac{f(x)-P(x)}{(x-a)^{n+1}}
+=\frac{f^{(n+1)}(\xi)}{(n+1)!}
+\]
+である。したがって
+\[
+f(x)=P(x)+\frac{f^{(n+1)}(\xi)}{(n+1)!}(x-a)^{n+1}
+\]
+である。
+\end{proof}
+
+\begin{lemma}
+任意の実数 $x$ に対して
+\[
+\frac{x^n}{n!}\to 0 \quad (n\to\infty)
+\]
+が成り立つ。
+\end{lemma}
+\begin{proof}
+$x=0$ のときは明らかである。以下 $x\neq 0$ とする。
+$N\in \mathbb{N}$ を $N>|x|$ となるようにとる。このとき $n\geq 2N+1$ ならば
+\[
+\frac{|x|^n}{n!}
+=\frac{|x|}{1}\cdot \frac{|x|}{2}\cdots \frac{|x|}{n}
+\leq
+\left(\frac{|x|}{1}\cdots \frac{|x|}{N}\right)
+\left(\frac{|x|}{N+1}\cdots \frac{|x|}{n}\right).
+\]
+ここで $N>|x|$ なので，$j\geq N+1$ ならば $\frac{|x|}{j}\leq \frac{N}{N+1}<1$ である。したがって
+\[
+0\leq \frac{|x|^n}{n!}
+\leq
+\left(\frac{|x|}{1}\cdots \frac{|x|}{N}\right)
+\left(\frac{N}{N+1}\right)^{n-N}
+\]
+となる。右辺は $n\to\infty$ で $0$ に収束するので，
+\[
+\frac{|x|^n}{n!}\to 0
+\]
+である。よって $\frac{x^n}{n!}\to 0$ も成り立つ。
+\end{proof}
+\begin{corollary}
+テイラーの定理における $c=c(x,n)$ について，
+\[
+\lim_{n\to\infty}\frac{f^{(n+1)}(c)}{(n+1)!}(x-a)^{n+1}=0
+\]
+が成り立つならば，
 \[
 f(x)=\sum_{k=0}^{\infty}\frac{f^{(k)}(a)}{k!}(x-a)^k
 \]
 が成り立つ。
-
+\end{corollary}
+\begin{proof}
+テイラーの定理と仮定より
+\[
+\left|f(x)-T_n(x)\right|
+=\left|\frac{f^{(n+1)}(c)}{(n+1)!}(x-a)^{n+1}\right|
+\to 0.
+\]
+したがって
+\[
+\sum_{k=0}^{\infty}\frac{f^{(k)}(a)}{k!}(x-a)^k
+=\lim_{n\to\infty}T_n(x)=f(x)
+\]
+である。
+\end{proof}
 \section{$e^x$ のテイラー展開}
 
 \begin{theorem}
@@ -96,23 +243,20 @@ e^x=\sum_{k=0}^{\infty}\frac{x^k}{k!}
 \end{theorem}
 
 \begin{proof}
-$f(x)=e^x$ とし，$a=0$ でテイラーの定理を用いる。すべての $k$ に対して $f^{(k)}(x)=e^x$ だから
+$f(x)=e^x$ とし，$a=0$ で考える。すべての $k$ に対して $f^{(k)}(x)=e^x$ だから
 \[
 T_n(x)=\sum_{k=0}^{n}\frac{x^k}{k!}
 \]
-である。また，ある $\xi$ が $0$ と $x$ の間に存在して
+である。また，$0$ と $x$ の間の任意の $c$ に対して $e^c\leq e^{|x|}$ なので
 \[
-R_n(x)=\frac{e^\xi}{(n+1)!}x^{n+1}
+\left|\frac{f^{(n+1)}(c)}{(n+1)!}x^{n+1}\right|
+\leq e^{|x|}\frac{|x|^{n+1}}{(n+1)!}\to 0
 \]
-となる。$0$ と $x$ の間で $e^\xi\leq e^{|x|}$ なので
-\[
-|R_n(x)|\leq e^{|x|}\frac{|x|^{n+1}}{(n+1)!}
-\]
-である。固定した $x$ に対して $\frac{|x|^{n+1}}{(n+1)!}\to 0$ だから，$R_n(x)\to 0$ である。よって
+である。したがって系より
 \[
 e^x=\sum_{k=0}^{\infty}\frac{x^k}{k!}
 \]
-を得る。
+である。
 \end{proof}
 
 \section{$\sin x$ と $\cos x$ のテイラー展開}
@@ -128,39 +272,48 @@ e^x=\sum_{k=0}^{\infty}\frac{x^k}{k!}
 \end{theorem}
 
 \begin{proof}
-$\sin x$ の導関数は
+$f(t)=\sin t$ について考える。導関数は
 \[
-\sin x,\quad \cos x,\quad -\sin x,\quad -\cos x,\quad \sin x,\dots
+\sin t,\quad \cos t,\quad -\sin t,\quad -\cos t,\quad \sin t,\dots
 \]
-と周期的に変わる。$x=0$ を代入すると，偶数階の値は $0$，奇数階の値は $1,-1,1,-1,\dots$ となる。したがって
+と周期的に変わる。$x=0$ を代入すると
+\[
+f^{(2k)}(0)=0,\qquad f^{(2k+1)}(0)=(-1)^k
+\]
+となる。したがって
 \[
 T_n(x)=\sum_{0\leq 2k+1\leq n}(-1)^k\frac{x^{2k+1}}{(2k+1)!}
 \]
 である。
-
-また，$\sin x$ のどの階の導関数も $\sin x,\cos x,-\sin x,-\cos x$ のいずれかなので，絶対値は $1$ 以下である。テイラーの定理より
+また，$\sin x$ のどの階の導関数も絶対値は $1$ 以下である。したがって，$0$ と $x$ の間の任意の $c$ に対して
 \[
-|R_n(x)|\leq \frac{|x|^{n+1}}{(n+1)!}
+ \left|\frac{f^{(n+1)}(c)}{(n+1)!}x^{n+1}\right|
+ \leq \frac{|x|^{n+1}}{(n+1)!}\to 0
 \]
-であり，右辺は $n\to\infty$ で $0$ に収束する。よって
+である。系より
 \[
 \sin x=\sum_{k=0}^{\infty}(-1)^k\frac{x^{2k+1}}{(2k+1)!}
 \]
 である。
 
-$\cos x$ についても同様に考える。導関数は
+$g(t)=\cos t$ についても同様に考える。導関数は
 \[
-\cos x,\quad -\sin x,\quad -\cos x,\quad \sin x,\quad \cos x,\dots
+\cos t,\quad -\sin t,\quad -\cos t,\quad \sin t,\quad \cos t,\dots
 \]
-と周期的に変わる。$x=0$ を代入すると，奇数階の値は $0$，偶数階の値は $1,-1,1,-1,\dots$ となる。剰余項も同じく
+と周期的に変わる。$x=0$ を代入すると
 \[
-|R_n(x)|\leq \frac{|x|^{n+1}}{(n+1)!}
+g^{(2k+1)}(0)=0,\qquad g^{(2k)}(0)=(-1)^k
 \]
-で $0$ に収束する。したがって
+となる。剰余項も同じく
+\[
+ \left|\frac{g^{(n+1)}(c)}{(n+1)!}x^{n+1}\right|
+ \leq \frac{|x|^{n+1}}{(n+1)!}\to 0
+\]
+である。系より
 \[
 \cos x=\sum_{k=0}^{\infty}(-1)^k\frac{x^{2k}}{(2k)!}
 \]
-を得る。
+である。
 \end{proof}
 
 \section{オイラーの公式}
@@ -284,115 +437,8 @@ e^{ix}e^{-ix}=1
 \]
 が従う。
 
-\section*{小テスト}
-
-\subsection*{問題}
-
-\begin{enumerate}
-\item $f(x)=\cos x$ の $x=0$ での $0,1,2,3$ 次のテイラー多項式を求め，図示せよ。
-
-\item $n\geq 2$ とし，$f$ は $a$ の近くで $n$ 回微分可能とする。
-\[
-F(x)=f(x)-\sum_{k=0}^{n}\frac{f^{(k)}(a)}{k!}(x-a)^k
-\]
-としたとき，$F(a)=F'(a)=F''(a)=0$ を確かめよ。ただし $a$ は定数とする。
-\end{enumerate}
-
-\subsection*{解答}
-
-\begin{enumerate}
-\item $\cos x$ の導関数は
-\[
-\cos x,\quad -\sin x,\quad -\cos x,\quad \sin x,\quad \cos x,\dots
-\]
-と周期的に変わる。$x=0$ を代入すると
-\[
-f(0)=1,\qquad f'(0)=0,\qquad f''(0)=-1,\qquad f'''(0)=0
-\]
-である。したがって
-\[
-\begin{aligned}
-T_0(x)&=1,\\
-T_1(x)&=1,\\
-T_2(x)&=1-\frac{x^2}{2},\\
-T_3(x)&=1-\frac{x^2}{2}.
-\end{aligned}
-\]
-
-\begin{figure}[H]
-\centering
-\begin{tikzpicture}
-\begin{axis}[
-  taylorplot,
-  xmin=-3.5,xmax=3.5,
-  ymin=-2.2,ymax=1.4,
-  legend style={
-    at={(0.5,-0.18)},
-    anchor=north,
-    legend columns=3,
-    draw=gray!40,
-    fill=white,
-    font=\small
-  }
-]
-\addplot[black, very thick, domain=-3.5:3.5] {cos(deg(x))};
-\addlegendentry{$f(x)=\cos x$}
-\addplot[red, thick, dashed, domain=-3.5:3.5] {1};
-\addlegendentry{$T_0$}
-\addplot[blue, thick, densely dotted, domain=-3.5:3.5] {1};
-\addlegendentry{$T_1$}
-\addplot[teal!70!black, thick, dashdotted, domain=-3.5:3.5] {1-x^2/2};
-\addlegendentry{$T_2$}
-\addplot[orange!80!black, thick, loosely dashed, domain=-3.5:3.5] {1-x^2/2};
-\addlegendentry{$T_3$}
-\end{axis}
-\end{tikzpicture}
-\caption{$f(x)=\cos x$ と $x=0$ におけるテイラー多項式。$T_0=T_1$，$T_2=T_3$ である。}
-\end{figure}
-
-\item
-\[
-T_n(x)=\sum_{k=0}^{n}\frac{f^{(k)}(a)}{k!}(x-a)^k
-\]
-とおくと，$F(x)=f(x)-T_n(x)$ である。
-
-まず
-\[
-T_n(a)=f(a)
-\]
-なので
-\[
-F(a)=f(a)-T_n(a)=0
-\]
-である。
-
-次に
-\[
-T_n'(x)=\sum_{k=1}^{n}\frac{f^{(k)}(a)}{(k-1)!}(x-a)^{k-1}
-\]
-だから
-\[
-T_n'(a)=f'(a)
-\]
-である。よって
-\[
-F'(a)=f'(a)-T_n'(a)=0
-\]
-である。
-
-さらに
-\[
-T_n''(x)=\sum_{k=2}^{n}\frac{f^{(k)}(a)}{(k-2)!}(x-a)^{k-2}
-\]
-だから
-\[
-T_n''(a)=f''(a)
-\]
-である。したがって
-\[
-F''(a)=f''(a)-T_n''(a)=0
-\]
-を得る。
-\end{enumerate}
+\ifPDFTeX
+\end{CJK}
+\fi
 
 \end{document}
