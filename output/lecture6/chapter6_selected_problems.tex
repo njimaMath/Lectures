@@ -1,0 +1,62 @@
+\documentclass{article}
+\usepackage{amsmath,amssymb}
+\usepackage{CJKutf8}
+\usepackage[a4paper,margin=22mm]{geometry}
+
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{0.55em}
+
+\newcommand{\mondai}[1]{%
+  \par\medskip
+  \noindent{\large #1}\quad\ignorespaces
+}
+
+\newcommand{\defitem}[1]{%
+  \par\noindent #1\par
+}
+
+\begin{document}
+\begin{CJK}{UTF8}{min}
+
+\begin{center}
+{\Large 第4章 演習問題}\\
+問31(1)(4)(6), 問32(2)(6), 問34(3), 問35(3)
+\end{center}
+
+\fbox{\Large 定義}
+
+
+
+\fbox{\Large 問題}
+問1
+
+次の命題が成り立つか判定せよ。理由も述べよ（証明でなくてよい）。
+\begin{enumerate}
+  \item $\forall x\in\mathbb{Z}\ \forall y\in\mathbb{N},\ x\geq -y*y$
+  \item $\forall x\in\mathbb{Z}\ \exists y\in\mathbb{Z},\ x=y*y$
+\end{enumerate}
+
+問2
+集合の規則に従って $A\cap (B \cup C) = (A \cap B) \cup (A \cap C)$を示せ。つまり
+$$ x \in A \cap (B \cup C) \Rightarrow x \in (A \cap B) \cup (A \cap C) $$
+$$ x \in (A \cap B) \cup (A \cap C) \Rightarrow x \in A \cap (B \cup C) $$
+をそれぞれ示せ. 
+問3
+\begin{enumerate}
+\item  f, g が全単射であれば、合成 g ◦ f も全単射であることを証明せよ。
+\item 合成 g ◦ f が全射であっても、f が全射となるとは限らないことを示せ。
+ \end{enumerate}
+問4有界な数列 (an)
+∞
+n=1 に対して An := {am | m ≥ n} とおき、sup
+m≥n
+an := sup An,
+この時, 数列 (an)
+∞
+n=1 の上極限 lim sup an := limn→∞
+sup
+m≥n
+anが存在することを示せ。
+問5  命題 4.12 を証明せよ。すなわち、アルキメデスの公理と実数の完備性から、実
+数の連続性の公理を導け。
+\end{CJK}\end{document}
