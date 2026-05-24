@@ -1,6 +1,6 @@
 # Fdb version 4
-["pdflatex"] 1779590296.60489 "c:/Users/Public/Github/Lectures/output/lecture6/chapter6_selected_problems.tex" "chapter6_selected_problems.pdf" "chapter6_selected_problems" 1779590298.04584 0
-  "c:/Users/Public/Github/Lectures/output/lecture6/chapter6_selected_problems.tex" 1779590295 4123 f05b1726e567486897fa311a109c89d0 ""
+["pdflatex"] 1779606581.59776 "c:/Users/Public/Github/Lectures/foundation2026/lecture6/chapter6_selected_problems.tex" "chapter6_selected_problems.pdf" "chapter6_selected_problems" 1779606582.45664 0
+  "c:/Users/Public/Github/Lectures/foundation2026/lecture6/chapter6_selected_problems.tex" 1779606581 4264 b5b1b8519acfccfbe47a2f942647003f ""
   "c:/texlive/2025/texmf-dist/fonts/enc/dvips/cm-super/cm-super-ts1.enc" 1769912365 2900 1537cc8184ad1792082cd229ecc269f4 ""
   "c:/texlive/2025/texmf-dist/fonts/map/fontname/texfonts.map" 1769914116 3524 cb3e574dea2d1052e39280babc910dc8 ""
   "c:/texlive/2025/texmf-dist/fonts/tfm/jknappen/ec/tcrm0900.tfm" 1769913363 1536 c4f439db76ef96a9c53bc437f35ffe20 ""
@@ -88,6 +88,7 @@
   "c:/texlive/2025/texmf-dist/fonts/tfm/wadalab/udmj/udmj67.tfm" 1769920656 1172 bb295cedaf365ef49c2e69f62f5eb3a2 ""
   "c:/texlive/2025/texmf-dist/fonts/tfm/wadalab/udmj/udmj69.tfm" 1769920656 1172 fa7e13a3676dfd24002b3b4e1e4b6eb0 ""
   "c:/texlive/2025/texmf-dist/fonts/tfm/wadalab/udmj/udmj6b.tfm" 1769920656 1164 9b44cc07183742dac78d697b09b65933 ""
+  "c:/texlive/2025/texmf-dist/fonts/tfm/wadalab/udmj/udmj6c.tfm" 1769920656 1120 fe901e6742beec47eb6331b479fac6c1 ""
   "c:/texlive/2025/texmf-dist/fonts/tfm/wadalab/udmj/udmj6e.tfm" 1769920656 1172 a54889da8eb44ab4026825f3ded3d459 ""
   "c:/texlive/2025/texmf-dist/fonts/tfm/wadalab/udmj/udmj6f.tfm" 1769920656 1164 d56ec60326dd70225a33718703eced2e ""
   "c:/texlive/2025/texmf-dist/fonts/tfm/wadalab/udmj/udmj74.tfm" 1769920656 1172 bff6586d0eabf9c3894d5dc30f31390e ""
@@ -155,6 +156,7 @@
   "c:/texlive/2025/texmf-dist/fonts/vf/wadalab/udmj/udmj67.vf" 1769920656 1664 869321c4a413a272f53b4f1a1c2704c1 ""
   "c:/texlive/2025/texmf-dist/fonts/vf/wadalab/udmj/udmj69.vf" 1769920656 1536 fb8c322caa70ba287f984b63fc5953aa ""
   "c:/texlive/2025/texmf-dist/fonts/vf/wadalab/udmj/udmj6b.vf" 1769920656 1536 40487498a0aab6cd27be2e7c42c7a14e ""
+  "c:/texlive/2025/texmf-dist/fonts/vf/wadalab/udmj/udmj6c.vf" 1769920656 1436 331d74e619a2301b87c9510cf7bd9cc7 ""
   "c:/texlive/2025/texmf-dist/fonts/vf/wadalab/udmj/udmj6e.vf" 1769920656 1376 242e612a031abad05495fbc36c729ad8 ""
   "c:/texlive/2025/texmf-dist/fonts/vf/wadalab/udmj/udmj6f.vf" 1769920656 1472 7c5c4881460add4b060c2c6efaa86136 ""
   "c:/texlive/2025/texmf-dist/fonts/vf/wadalab/udmj/udmj74.vf" 1769920656 1400 916ebe18afd4cbb16b838e883c9268e0 ""
@@ -204,8 +206,8 @@
   "c:/texlive/2025/texmf-var/fonts/map/pdftex/updmap/pdftex.map" 1769921088 5587484 49bd08ff372a6985d7d70778694ddaac ""
   "c:/texlive/2025/texmf-var/web2c/pdftex/pdflatex.fmt" 1769921279 3636160 c34812c6874d459de739a9a1a3bf903d ""
   "c:/texlive/2025/texmf.cnf" 1769921072 713 e69b156964470283e0530f5060668171 ""
-  "chapter6_selected_problems.aux" 1779590297 32 3985256e7290058c681f74d7a3565a19 "pdflatex"
-  "chapter6_selected_problems.tex" 1779590295 4123 f05b1726e567486897fa311a109c89d0 ""
+  "chapter6_selected_problems.aux" 1779606582 32 3985256e7290058c681f74d7a3565a19 "pdflatex"
+  "chapter6_selected_problems.tex" 1779606581 4264 b5b1b8519acfccfbe47a2f942647003f ""
   (generated)
   "chapter6_selected_problems.aux"
   "chapter6_selected_problems.log"
