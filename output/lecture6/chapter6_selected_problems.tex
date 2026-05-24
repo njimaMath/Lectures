@@ -4,59 +4,85 @@
 \usepackage[a4paper,margin=22mm]{geometry}
 
 \setlength{\parindent}{0pt}
-\setlength{\parskip}{0.55em}
+\setlength{\parskip}{0.5em}
 
 \newcommand{\mondai}[1]{%
   \par\medskip
   \noindent{\large #1}\quad\ignorespaces
 }
 
+\newcommand{\sectionbox}[1]{%
+  \par\bigskip
+  \noindent\fbox{\large #1}\par\nobreak\smallskip
+}
+
 \newcommand{\defitem}[1]{%
-  \par\noindent #1\par
+  \item #1
 }
 
 \begin{document}
 \begin{CJK}{UTF8}{min}
 
 \begin{center}
-{\Large 第4章 演習問題}\\
-問31(1)(4)(6), 問32(2)(6), 問34(3), 問35(3)
+{\Large 第4章　後半 演習問題}\\
 \end{center}
 
-\fbox{\Large 定義}
+\sectionbox{定義}
+
+\begingroup\small
+
+\begin{itemize}
+\setlength{\itemsep}{0.15em}
+\setlength{\parsep}{0pt}
+\setlength{\topsep}{0.2em}
+\setlength{\leftmargin}{1.5em}
+
+\defitem{$\forall x\in X\,P(x)$ は $X$ の任意の元 $x$ について $P(x)$ が成り立つことを表す。$\exists x\in X\,P(x)$ は $P(x)$ を満たす $x\in X$ が存在することを表す。全称命題が偽であることを示すには反例を一つ与えればよい。}
+
+\defitem{集合 $A,B$ に対して、$x\in A\cap B$ とは $x\in A$ かつ $x\in B$ であること、$x\in A\cup B$ とは $x\in A$ または $x\in B$ であることをいう。集合の等号 $A=B$ を示すには $A\subset B$ と $B\subset A$ を示せばよい。}
+
+\defitem{写像 $f:X\to Y$ が単射とは $f(x)=f(x')$ ならば $x=x'$ が成り立つこと、全射とは任意の $y\in Y$ に対して $f(x)=y$ となる $x\in X$ が存在すること、全単射とは単射かつ全射であることをいう。$f:X\to Y$, $g:Y\to Z$ の合成は $g\circ f:X\to Z$, $(g\circ f)(x)=g(f(x))$ で定める。}
+
+\defitem{空でない集合 $A\subset\mathbb{R}$ に対し、$u$ が上界とは任意の $a\in A$ について $a\leq u$ が成り立つことをいう。上界が存在するとき $A$ は上に有界であるという。上界のうち最小のものを上限といい、$\sup A$ と書く。}
+
+\defitem{数列 $(a_n)$ が有界とは、集合 $\{a_n\mid n\geq 1\}$ が上にも下にも有界であることをいう。有界な数列に対し $A_n:=\{a_m\mid m\geq n\}$ とおくと、$\limsup_{n\to\infty}a_n:=\lim_{n\to\infty}\sup A_n$ を上極限という。}
+
+\defitem{アルキメデスの公理とは、任意の $r\in\mathbb{R}$ に対して $n>r$ となる $n\in\mathbb{N}$ が存在することである。}
+
+\defitem{数列 $(a_n)$ が Cauchy 列とは、任意の $\varepsilon>0$ に対して、ある $N$ が存在し、$m,n\geq N$ ならば $|a_m-a_n|<\varepsilon$ となることをいう。実数の完備性とは、実数内の任意の Cauchy 列が実数に収束することである。}
+
+\defitem{実数の連続性の公理とは、空でない $A\subset\mathbb{R}$ が上に有界ならば、$\sup A$ が実数として存在することである。}
 
 
+\end{itemize}
 
-\fbox{\Large 問題}
-問1
+\endgroup
 
-次の命題が成り立つか判定せよ。理由も述べよ（証明でなくてよい）。
+\sectionbox{問題}
+\mondai{問1}次の命題が成り立つか判定せよ。理由も述べよ（証明でなくてよい）。
 \begin{enumerate}
-  \item $\forall x\in\mathbb{Z}\ \forall y\in\mathbb{N},\ x\geq -y*y$
-  \item $\forall x\in\mathbb{Z}\ \exists y\in\mathbb{Z},\ x=y*y$
+  \item $\exists x\in\mathbb{Z}\ \forall y\in\mathbb{Z},\ x\geq -y^2$
+  \item $\forall x\in\mathbb{Z}\ \exists y\in\mathbb{Z},\ x=y^2$
 \end{enumerate}
 
-問2
-集合の規則に従って $A\cap (B \cup C) = (A \cap B) \cup (A \cap C)$を示せ。つまり
-$$ x \in A \cap (B \cup C) \Rightarrow x \in (A \cap B) \cup (A \cap C) $$
-$$ x \in (A \cap B) \cup (A \cap C) \Rightarrow x \in A \cap (B \cup C) $$
-をそれぞれ示せ. 
-問3
-\begin{enumerate}
-\item  f, g が全単射であれば、合成 g ◦ f も全単射であることを証明せよ。
-\item 合成 g ◦ f が全射であっても、f が全射となるとは限らないことを示せ。
- \end{enumerate}
-問4有界な数列 (an)
-∞
-n=1 に対して An := {am | m ≥ n} とおき、sup
-m≥n
-an := sup An,
-この時, 数列 (an)
-∞
-n=1 の上極限 lim sup an := limn→∞
-sup
-m≥n
-anが存在することを示せ。
-問5  命題 4.12 を証明せよ。すなわち、アルキメデスの公理と実数の完備性から、実
-数の連続性の公理を導け。
+\mondai{問2}集合の規則に従って $A\cap (B \cup C) = (A \cap B) \cup (A \cap C)$を示せ。つまり
+\[
+x \in A \cap (B \cup C) \Rightarrow x \in (A \cap B) \cup (A \cap C)
+\]
+\[
+x \in (A \cap B) \cup (A \cap C) \Rightarrow x \in A \cap (B \cup C)
+\]
+をそれぞれ示せ。
+
+\mondai{問3}(1) $f,g$ が全単射であれば、合成 $g\circ f$ も全単射であることを証明せよ。
+\par\noindent\hspace*{2.8em}(2) 合成 $g\circ f$ が全射であっても、$f$ が全射となるとは限らないことを示せ。
+
+\mondai{問4}有界な数列 $(a_n)_{n=1}^{\infty}$ に対して
+$A_n := \{a_m \mid m\geq n\}$ とおき、
+$\sup_{m\geq n} a_m := \sup A_n$ とする。
+この時、数列 $(a_n)_{n=1}^{\infty}$ の上極限
+$\limsup_{n\to\infty} a_n := \lim_{n\to\infty}\sup_{m\geq n} a_m$
+が存在することを示せ。
+
+\mondai{問5}命題 4.12 を証明せよ。すなわち、アルキメデスの公理と実数の完備性から、実数の連続性の公理を導け。
 \end{CJK}\end{document}
