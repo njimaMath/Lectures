@@ -1,0 +1,257 @@
+\RequirePackage{iftex}
+\ifPDFTeX
+\documentclass[a4paper,12pt]{article}
+\usepackage[margin=24mm]{geometry}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\else
+\documentclass[a4paper,12pt]{article}
+\usepackage[margin=24mm]{geometry}
+\fi
+\usepackage{amsmath,amssymb}
+\usepackage{enumitem}
+
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{0.45em}
+\setlist[enumerate]{label=(\alph*),leftmargin=3em,itemsep=0.2em,topsep=0.2em}
+
+\newcommand{\ans}[1]{\par\vspace{0.8em}\noindent{\large Problem #1}\quad}
+\newcommand{\choiceans}[1]{\par\vspace{0.8em}\noindent{\large Choice Problem #1}\quad}
+
+\begin{document}
+
+\begin{center}
+{\Large Answers}
+\end{center}
+
+\ans{1}
+\begin{enumerate}
+\item $\forall x\in\mathbb{R},\ x^2+1>0$.
+\item $\exists n\in\mathbb{N}\ \text{such that}\ n^2>100$.
+\end{enumerate}
+
+\ans{2}
+Continuity at $x=1$ requires
+$$
+\lim_{x\to 1-}f(x)=f(1).
+$$
+Here
+$$
+\lim_{x\to 1-}(x^2+a)=1+a,\qquad f(1)=2.
+$$
+Hence $1+a=2$, so
+$$
+a=1.
+$$
+
+\ans{3}
+The function $f(x)=x^3+x-1$ is continuous on $[0,1]$. Also
+$$
+f(0)=-1<0,\qquad f(1)=1>0.
+$$
+By the intermediate value theorem, there exists $c\in(0,1)$ such that
+$$
+f(c)=0.
+$$
+Thus $x^3+x-1=0$ has at least one solution in $(0,1)$.
+
+\ans{4}
+\begin{enumerate}
+\item By the product rule,
+$$
+f'(x)=2x\sin x+(x^2+1)\cos x.
+$$
+\item By the product rule and chain rule,
+$$
+g'(x)=(\log x)^2+2\log x.
+$$
+\end{enumerate}
+
+\ans{5}
+This is a $0/0$ form, so by l'Hopital's theorem,
+$$
+\lim_{x\to 0}\frac{\cos(\sin x)-1}{x}
+=\lim_{x\to 0}\frac{-\sin(\sin x)\cos x}{1}=0.
+$$
+
+\ans{6}
+For $f(x,y)=x^3y^2+e^{xy}$,
+$$
+\frac{\partial f}{\partial x}(x,y)=3x^2y^2+ye^{xy},
+$$
+and
+$$
+\frac{\partial f}{\partial y}(x,y)=2x^3y+xe^{xy}.
+$$
+
+\ans{7}
+\begin{enumerate}
+\item For $f(x)=\sin x$ at $a=\pi/2$,
+$$
+f(a)=1,\quad f'(a)=0,\quad f''(a)=-1,\quad f'''(a)=0.
+$$
+Therefore the third degree Taylor polynomial is
+$$
+T_3(x)=1-\frac{1}{2}\left(x-\frac{\pi}{2}\right)^2.
+$$
+\item Since every derivative of $e^x$ is $e^x$ and $e^0=1$,
+$$
+T_n(x)=\sum_{k=0}^n\frac{x^k}{k!}
+=1+x+\frac{x^2}{2!}+\cdots+\frac{x^n}{n!}.
+$$
+\end{enumerate}
+
+\ans{8}
+Euler's formula gives
+$$
+\cos w=\frac{e^{iw}+e^{-iw}}{2}.
+$$
+Putting $w=ix$ gives
+$$
+\cos(ix)=\frac{e^{-x}+e^x}{2}.
+$$
+
+\choiceans{A}
+Take
+$$
+z=i\log(2+\sqrt{3}).
+$$
+Then
+$$
+\cos z=\cos\left(i\log(2+\sqrt{3})\right)
+=\cosh\left(\log(2+\sqrt{3})\right).
+$$
+Since
+$$
+\cosh t=\frac{e^t+e^{-t}}{2},
+$$
+with $t=\log(2+\sqrt{3})$ we get
+$$
+\cosh t
+=\frac{2+\sqrt{3}+\frac{1}{2+\sqrt{3}}}{2}
+=\frac{2+\sqrt{3}+2-\sqrt{3}}{2}
+=2.
+$$
+Thus $z=i\log(2+\sqrt{3})$ is one solution.
+
+\choiceans{B}
+Let
+$$
+\phi(x)=1+\sin\left(\frac{\pi x}{4}\right)-x.
+$$
+On $[0,2]$,
+$$
+\phi'(x)=\frac{\pi}{4}\cos\left(\frac{\pi x}{4}\right)-1\leq \frac{\pi}{4}-1<0.
+$$
+Also $\phi(2)=0$, so $\phi(x)\geq 0$ for $0\leq x\leq 2$.
+
+Since $a_0=0$ and $0\leq a_n\leq 2$ implies
+$$
+0\leq a_{n+1}=1+\sin\left(\frac{\pi a_n}{4}\right)\leq 2,
+$$
+the sequence is bounded above by $2$. Moreover,
+$$
+a_{n+1}-a_n=\phi(a_n)\geq 0,
+$$
+so it is increasing. Therefore it converges. If its limit is $L$, then
+$$
+L=1+\sin\left(\frac{\pi L}{4}\right).
+$$
+The function $\phi$ is strictly decreasing on $[0,2]$ and $\phi(2)=0$, hence $L=2$.
+
+\choiceans{C}
+Put $x=\tan a$ and $y=\tan b$. Then $x,y\in[0,1)$.
+It is enough to prove
+$$
+\arctan\sqrt{xy}\leq \frac{\arctan x+\arctan y}{2},
+$$
+because $\tan$ is increasing on $[0,\pi/2)$.
+
+Define
+$$
+F(t)=\arctan(e^t).
+$$
+Then
+$$
+F''(t)=\frac{e^t(1-e^{2t})}{(1+e^{2t})^2}.
+$$
+For $x,y\in[0,1)$, write $x=e^u$, $y=e^v$ with $u,v\leq 0$ when $x,y>0$. On $(-\infty,0]$, $F''(t)\geq 0$, so $F$ is convex. Hence
+$$
+\arctan\sqrt{xy}
+=F\left(\frac{u+v}{2}\right)
+\leq \frac{F(u)+F(v)}{2}
+=\frac{\arctan x+\arctan y}{2}.
+$$
+If $x=0$ or $y=0$, the left side is $0$ and the claim is immediate. Thus
+$$
+\sqrt{\tan a\,\tan b}\leq \tan\left(\frac{a+b}{2}\right).
+$$
+
+\choiceans{D}
+The displayed expression appears to intend the limit as $x\to 0$.
+Using Taylor expansions at $0$,
+$$
+e^{-x}=1-x+\frac{x^2}{2}-\frac{x^3}{6}+\frac{x^4}{24}+O(x^5),
+$$
+and
+$$
+\cos(\sin x)=1-\frac{x^2}{2}+\frac{5x^4}{24}+O(x^6).
+$$
+Therefore
+$$
+e^{-x}-\cos(\sin x)+\frac{x^3}{6}
+=-x+x^2-\frac{x^4}{6}+O(x^5).
+$$
+The first nonzero term is $-x$. Hence the required natural number is
+$$
+n=1,
+$$
+and the limit is
+$$
+\lim_{x\to 0}\frac{e^{-x}-\cos(\sin x)+x^3/6}{x}=-1.
+$$
+
+\choiceans{E}
+The blanks are
+$$
+\begin{aligned}
+\relax[1]&=\text{Brook Taylor},\\
+\relax[2]&=\text{James Gregory},\\
+\relax[3]&=\text{Maclaurin},\\
+\relax[4]&=\frac{f^{(n)}(0)}{n!}x^n.
+\end{aligned}
+$$
+Thus the expansion is
+$$
+f(x)=\sum_{n=0}^{\infty}\frac{f^{(n)}(0)}{n!}x^n.
+$$
+
+\choiceans{F}
+For $e^x$ at $a=0$,
+$$
+T_n(x)=\sum_{k=0}^n\frac{x^k}{k!}.
+$$
+By Taylor's theorem with Lagrange remainder, for some $c\in(0,1)$,
+$$
+e-T_n(1)=\frac{e^c}{(n+1)!}.
+$$
+Since $e^c<e<3$, if $n>3$, then
+$$
+0<e-T_n(1)<\frac{3}{(n+1)!}<\frac{1}{n!}.
+$$
+
+Assume for contradiction that $e=p/q$ with $p,q\in\mathbb{N}$. Choose $n>3$ with $n\geq q$. Multiplying
+$$
+0<e-T_n(1)<\frac{1}{n!}
+$$
+by $n!$ gives
+$$
+0<n!\left(e-T_n(1)\right)<1.
+$$
+But $n!e=n!p/q$ is an integer because $q$ divides $n!$, and
+$$
+n!T_n(1)=\sum_{k=0}^n\frac{n!}{k!}
+$$
+is also an integer. Hence $n!(e-T_n(1))$ is an integer strictly between $0$ and $1$, which is impossible. Therefore $e$ is irrational.
+
+\end{document}

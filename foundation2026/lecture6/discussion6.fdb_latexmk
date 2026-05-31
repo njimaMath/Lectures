@@ -1,6 +1,6 @@
 # Fdb version 4
-["pdflatex"] 1779665140.1452 "c:/Users/Public/Github/Lectures/foundation2026/lecture6/chapter6_selected_problems.tex" "chapter6_selected_problems.pdf" "chapter6_selected_problems" 1779665141.64029 0
-  "c:/Users/Public/Github/Lectures/foundation2026/lecture6/chapter6_selected_problems.tex" 1779665139 4270 5dac0acceace2ffd03f5b80df1f9587e ""
+["pdflatex"] 1779665194.64986 "c:/Users/Public/Github/Lectures/foundation2026/lecture6/discussion6.tex" "discussion6.pdf" "discussion6" 1779665196.23931 0
+  "c:/Users/Public/Github/Lectures/foundation2026/lecture6/discussion6.tex" 1779665139 4270 5dac0acceace2ffd03f5b80df1f9587e ""
   "c:/texlive/2025/texmf-dist/fonts/enc/dvips/cm-super/cm-super-ts1.enc" 1769912365 2900 1537cc8184ad1792082cd229ecc269f4 ""
   "c:/texlive/2025/texmf-dist/fonts/map/fontname/texfonts.map" 1769914116 3524 cb3e574dea2d1052e39280babc910dc8 ""
   "c:/texlive/2025/texmf-dist/fonts/tfm/jknappen/ec/tcrm0900.tfm" 1769913363 1536 c4f439db76ef96a9c53bc437f35ffe20 ""
@@ -202,10 +202,10 @@
   "c:/texlive/2025/texmf-var/fonts/map/pdftex/updmap/pdftex.map" 1769921088 5587484 49bd08ff372a6985d7d70778694ddaac ""
   "c:/texlive/2025/texmf-var/web2c/pdftex/pdflatex.fmt" 1769921279 3636160 c34812c6874d459de739a9a1a3bf903d ""
   "c:/texlive/2025/texmf.cnf" 1769921072 713 e69b156964470283e0530f5060668171 ""
-  "chapter6_selected_problems.aux" 1779665141 32 3985256e7290058c681f74d7a3565a19 "pdflatex"
-  "chapter6_selected_problems.tex" 1779665139 4270 5dac0acceace2ffd03f5b80df1f9587e ""
+  "discussion6.aux" 1779665195 32 3985256e7290058c681f74d7a3565a19 "pdflatex"
+  "discussion6.tex" 1779665139 4270 5dac0acceace2ffd03f5b80df1f9587e ""
   (generated)
-  "chapter6_selected_problems.aux"
-  "chapter6_selected_problems.log"
-  "chapter6_selected_problems.pdf"
+  "discussion6.aux"
+  "discussion6.log"
+  "discussion6.pdf"
   (rewritten before read)

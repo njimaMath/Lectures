@@ -1,0 +1,125 @@
+\RequirePackage{iftex}
+\ifPDFTeX
+\documentclass[a4paper,12pt]{article}
+\usepackage[margin=24mm]{geometry}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{CJKutf8}
+\else
+\documentclass[a4paper,12pt]{jsarticle}
+\usepackage[dvipdfmx,margin=24mm]{geometry}
+\fi
+\usepackage{amsmath,amssymb}
+\usepackage{enumitem}
+
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{0.35em}
+\setlist[enumerate]{label=(\alph*),leftmargin=3em,itemsep=0.25em,topsep=0.35em}
+
+\begin{document}
+\ifPDFTeX
+\begin{CJK}{UTF8}{min}
+\fi
+
+\newcommand{\problem}[2]{\par\vspace{1.0em}\noindent{\large 問題 #1}\quad（#2点）\quad\ignorespaces}
+\newcommand{\choiceproblem}[2]{\par\vspace{1.0em}\noindent{\large 選択問題 #1}\quad（#2点）\quad\ignorespaces}
+
+\begin{center}
+{\Large 数学1A 中間試験}\\[0.4em]
+\end{center}
+
+計算問題では途中式も書くこと。証明問題では，どの定理を使ったか書くこと。
+問題1から問題8はすべて解答せよ。最後に選択問題Aから選択問題Eの5問の中から2問を選択して解答せよ。各10点である。
+
+\problem{1}{10}
+次の文を，$\mathbb{R},\mathbb{N},\forall,\exists$ などの記号を用いて書き直せ。
+
+\begin{enumerate}
+\item 任意の実数 $x$ に対して，$x^2+1>0$ である。
+\item ある自然数 $n$ が存在して，$n^2>100$ となる。
+\end{enumerate}
+
+\problem{2}{10}
+ 次の関数が $x=1$ で連続となるような実数 $a$ を求めよ。
+\[
+f(x)=
+\begin{cases}
+x^2+a & (x<1),\\
+2x & (x\ge 1).
+\end{cases}
+\]
+
+\problem{3}{10}
+関数 $f(x)=x^3+x-1$ を考える。中間値の定理を用いて，方程式 $x^3+x-1=0$ が区間 $(0,1)$ に少なくとも1つの解をもつことを示せ。
+
+\problem{4}{10}
+次の関数の導関数を求めよ。
+
+\begin{enumerate}
+\item $f(x)=(x^2+1)\sin x$
+\item $g(x)=x (\log x)^2$, $(x>0)$
+\end{enumerate}
+
+\problem{5}{10}
+ロピタルの定理を用いて，次の極限を求めよ。
+ $$\lim_{x\to 0}\dfrac{\cos (\sin{x})-1}{x}.$$
+
+\problem{6}{10}
+二変数関数 $f(x,y)=x^3y^2+e^{xy}$ について, 
+$$\frac{\partial f}{\partial x}(x,y),\,\frac{\partial f}{\partial y}(x,y)$$を求めよ。
+
+
+\problem{7}{10}
+次の問いに答えよ。
+
+\begin{enumerate}
+\item $f(x)=\sin x$ の $a=\dfrac{\pi}{2}$ における3次のテイラー多項式を求めよ。
+\item $h(x)=e^{x}$ の $a=0$ における$n$次テイラー多項式を求めよ。
+\end{enumerate}
+
+\problem{8}{10}
+オイラーの公式を用いて,　実数 $x$について $\cos{(i x)}$ を$e^x,e^{-x}$を用いて表せ。ここで, $i$ は虚数単位である。
+
+
+\pagebreak
+\noindent 以下の選択問題Aから選択問題Eの5問の中から2問を選択して解答せよ。
+
+\choiceproblem{A}{10}
+% 問題文は後で記入する。
+$\cos{z}=2$となる複素数$z$を一つ求めよ。
+\choiceproblem{B}{10}
+% 問題文は後で記入する。
+$a_0=0,$ $a_{n+1}=1+\sin{\left(\frac{\pi}{4} a_n \right)}$で定まる数列$(a_n)$の極限を求めよ。
+\choiceproblem{C}{10}
+% 問題文は後で記入する。
+$a,b\in [0,\pi/4)$について,
+$$\sqrt{\tan a  \tan b}\leq \tan(\frac{a+b}{2}).$$
+\choiceproblem{D}{10}
+% 問題文は後で記入する。
+次の極限が$0$でない有限値に収束するような自然数$n$とその時の極限を求めよ。
+$$\lim_{n \to \infty} \frac{e^{-x} - \cos(\sin{x}) + (x^3/6)}{x^n}.$$
+\choiceproblem{E}{10}
+テイラー展開の歴史について次の文の空欄を埋めなさい。[\hspace{3em}1\hspace{3em}] と [\hspace{3em}2\hspace{3em}] はフルネームで答えよ。
+
+テイラーの定理はイギリスの数学者 [\hspace{3em}1\hspace{3em}] によって発見された。
+同時期、スコットランドの [\hspace{3em}2\hspace{3em}] という数学者によって、見つけられていたとも言われている。
+特に $x=0$ 周りでのテイラー展開は [\hspace{3em}3\hspace{3em}] 展開とも呼ばれる。
+関数 $f$ の [\hspace{3em}3\hspace{3em}] 展開 は
+$$
+f(x) = \sum_{n=0}^{\infty} [\hspace{5em}4\hspace{5em}]
+$$
+で定義されている。
+\choiceproblem{F}{10}
+ $e^x$ の $a=0$ における$n$次のテイラー多項式を $T_n$とおく。　
+次の手順に従って, $e$が無理数であることを示せ: 
+\begin{enumerate}
+\item テイラーの定理を用いて, $n>3$のとき次を示せ:
+$$|e - T_n(1)|<\frac{1}{n!} .$$
+\item $e$ が有理数であると仮定して矛盾を導け。(ヒント: 十分大きな$n$について, $n!$を両辺にかけると整数になることを利用する)
+\end{enumerate}
+
+\ifPDFTeX
+\end{CJK}
+\fi
+
+\end{document}
