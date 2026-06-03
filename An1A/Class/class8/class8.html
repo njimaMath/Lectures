@@ -844,6 +844,10 @@
         <div class="box">
           文脈によっては $\frac{\partial f}{\partial x}(x,y)$，$\frac{\partial f}{\partial y}(x,y)$ のように変数を明記する。
         </div>
+        <div class="itembox">
+          <span class="box-label">Note</span>
+          <p>分野や教科書によっては $\partial_x f,\ \partial_y f,\ f_x,\ f_y$ と書くこともある。</p>
+        </div>
       </article>
 
       <article class="slide">
@@ -1175,7 +1179,7 @@
         <h2 class="slide-title">例題：可微分性 4</h2>
         <div class="itembox">
           <span class="box-label">Problem</span>
-          <p>上の $xy/\sqrt{x^2+y^2}$ の例について，偏微分可能性と可微分性の違いを説明せよ。</p>
+          <p>上の $\frac{x^2y}{x^2+y^2}$ の例について，偏微分可能性と可微分性の違いを説明せよ。</p>
         </div>
       </article>
 
@@ -1183,12 +1187,13 @@
         <h2 class="slide-title">例題：可微分性 4 解答</h2>
         <div class="itembox">
           <span class="box-label">Problem</span>
-          <p>上の $xy/\sqrt{x^2+y^2}$ の例について，偏微分可能性と可微分性の違いを説明せよ。</p>
+          <p>上の $\frac{x^2y}{x^2+y^2}$ の例について，偏微分可能性と可微分性の違いを説明せよ。</p>
         </div>
         <div class="box">
           <span class="box-label">Answer</span>
-          <p>原点では $f(h,0)=f(0,k)=0$ なので，$\frac{\partial f}{\partial x}(0,0)=\frac{\partial f}{\partial y}(0,0)=0$ である。</p>
-          <p>もし原点で可微分なら一次近似は $0$ であり，$\frac{f(h,k)}{\sqrt{h^2+k^2}}\to 0$ が必要である。しかし $k=h$ とすると $\frac{f(h,h)}{\sqrt{h^2+h^2}}=\frac{1}{2}$ となるので，原点では可微分でない。</p>
+          <p>軸上では $f(h,0)=f(0,k)=0$ なので，$\frac{\partial f}{\partial x}(0,0)=\frac{\partial f}{\partial y}(0,0)=0$ である。</p>
+          <p>もし原点で可微分なら一次近似は $0$ であり，$\frac{f(h,k)}{\sqrt{h^2+k^2}}\to 0$ が必要である。</p>
+          <p>$k=h$，$h>0$ とすると $f(h,h)=\frac{h}{2}$ なので，$\frac{f(h,h)}{\sqrt{h^2+h^2}}=\frac{1}{2\sqrt{2}}$ となる。したがって原点では可微分でない。</p>
         </div>
         <div class="graph-row">
           <button type="button" class="graph-toggle" data-graph-target="graph-diff-4" aria-expanded="false">see graph</button>
@@ -1209,6 +1214,14 @@
         <div class="itembox">
           接平面は，曲面を点の近くで一次式に置き換えたものである。これは一変数関数でいう接線の二変数版である。
         </div>
+      </article>
+
+      <article class="slide">
+        <h2 class="slide-title">接平面のイメージ</h2>
+        <figure class="figure single-figure">
+          <img src="figures/tangent_plane.png" alt="曲面と接平面">
+          <figcaption class="caption">曲面を点の近くで平面に置き換える。</figcaption>
+        </figure>
       </article>
 
       

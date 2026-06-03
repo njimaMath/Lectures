@@ -325,12 +325,12 @@ def graph_diff_4():
 
 
 def graph_diff_5():
-    xlim, ylim = (-2, 2), (-0.2, 1.7)
+    xlim, ylim = (-2, 2), (-1.2, 1.2)
     t = sample(lambda x: 0, xlim[0], xlim[1])
-    d = sample(lambda x: abs(x) / sqrt(2), xlim[0], xlim[1])
+    d = sample(lambda x: x / 2, xlim[0], xlim[1])
     body = poly(t, xlim, ylim, "#174bb4", 3, "9 6") + poly(d, xlim, ylim, "#c92331", 3)
-    body += text(-1.15, 0.25, "axis", xlim, ylim, "#174bb4", 16)
-    body += text(1.15, 1.15, "y=x", xlim, ylim, "#c92331", 16)
+    body += text(-1.15, 0.18, "f(t,0)=0", xlim, ylim, "#174bb4", 16)
+    body += text(1.05, 0.78, "f(t,t)=t/2", xlim, ylim, "#c92331", 16)
     write("example_diff_5", xlim, ylim, "direction slices", body)
 
 

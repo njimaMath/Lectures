@@ -506,10 +506,10 @@ def graph_example_diff_5():
     example_line(
         "example_diff_5",
         (-2, 2),
-        (-0.2, 1.7),
+        (-1.2, 1.2),
         [
             (t, np.zeros_like(t), "$f(t,0)$", "#174bb4", "--"),
-            (t, np.abs(t) / np.sqrt(2), "$f(t,t)$", "#c92331", "-"),
+            (t, t / 2, "$f(t,t)$", "#c92331", "-"),
         ],
         xlabel="$t$",
         ylabel="値",
