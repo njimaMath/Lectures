@@ -175,6 +175,8 @@ def graph_mv_2():
     x_label = project(2.9, 0, 0)
     y_label = project(0, 2.95, 0)
     z_label = project(0, 0, 3.15)
+    axes_markup = "\n".join(axes3)
+    grid_markup = "\n".join(grid)
     svg = f"""<svg xmlns="http://www.w3.org/2000/svg" width="{W}" height="{H}" viewBox="0 0 {W} {H}" role="img" aria-label="z=(1/4)x+y">
 <defs>
   <marker id="arrow" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
@@ -187,9 +189,9 @@ def graph_mv_2():
 <rect x="0" y="0" width="760" height="420" rx="18" fill="#ffffff"/>
 <rect x="54" y="36" width="652" height="336" fill="#fbfcfe" stroke="#d8e1e8" stroke-width="1"/>
 <text x="70" y="36" fill="#334" font-size="20">z=(1/4)x+y</text>
-{"\n".join(axes3)}
 <polygon points="{p3(plane_corners)}" fill="#8dbcea" fill-opacity="0.62" stroke="#376f9f" stroke-width="2.2"/>
-{"\n".join(grid)}
+{grid_markup}
+{axes_markup}
 <text x="{x_label[0]:.1f}" y="{x_label[1]:.1f}" fill="#24323a" font-size="18">x</text>
 <text x="{y_label[0]:.1f}" y="{y_label[1]:.1f}" fill="#24323a" font-size="18">y</text>
 <text x="{z_label[0]:.1f}" y="{z_label[1]:.1f}" fill="#24323a" font-size="18">z</text>

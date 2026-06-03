@@ -1,41 +1,35 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="760" height="420" viewBox="0 0 760 420" role="img" aria-label="f=x^2+y^2">
-
+<svg xmlns="http://www.w3.org/2000/svg" width="760" height="420" viewBox="0 0 760 420" role="img" aria-label="f=(1/4)x^2+y^2">
 <defs>
   <marker id="arrow" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
     <path d="M 0 0 L 10 5 L 0 10 z" fill="#24323a"/>
   </marker>
 </defs>
-
 <style>
   text { font-family: Arial, sans-serif; }
 </style>
 <rect x="0" y="0" width="760" height="420" rx="18" fill="#ffffff"/>
 <rect x="58" y="58" width="644" height="304" fill="#fbfcfe" stroke="#d8e1e8" stroke-width="1"/>
-<line x1="58.0" y1="362.0" x2="58.0" y2="58.0" stroke="#edf0f3" stroke-width="0.8" fill="none"/>
-<line x1="165.3" y1="362.0" x2="165.3" y2="58.0" stroke="#edf0f3" stroke-width="0.8" fill="none"/>
-<line x1="272.7" y1="362.0" x2="272.7" y2="58.0" stroke="#edf0f3" stroke-width="0.8" fill="none"/>
+<line x1="122.4" y1="362.0" x2="122.4" y2="58.0" stroke="#edf0f3" stroke-width="0.8" fill="none"/>
+<line x1="251.2" y1="362.0" x2="251.2" y2="58.0" stroke="#edf0f3" stroke-width="0.8" fill="none"/>
 <line x1="380.0" y1="362.0" x2="380.0" y2="58.0" stroke="#d9e0e7" stroke-width="1.35" fill="none"/>
-<line x1="487.3" y1="362.0" x2="487.3" y2="58.0" stroke="#edf0f3" stroke-width="0.8" fill="none"/>
-<line x1="594.7" y1="362.0" x2="594.7" y2="58.0" stroke="#edf0f3" stroke-width="0.8" fill="none"/>
-<line x1="702.0" y1="362.0" x2="702.0" y2="58.0" stroke="#edf0f3" stroke-width="0.8" fill="none"/>
-<line x1="58.0" y1="362.0" x2="702.0" y2="362.0" stroke="#edf0f3" stroke-width="0.8" fill="none"/>
+<line x1="508.8" y1="362.0" x2="508.8" y2="58.0" stroke="#edf0f3" stroke-width="0.8" fill="none"/>
+<line x1="637.6" y1="362.0" x2="637.6" y2="58.0" stroke="#edf0f3" stroke-width="0.8" fill="none"/>
 <line x1="58.0" y1="311.3" x2="702.0" y2="311.3" stroke="#edf0f3" stroke-width="0.8" fill="none"/>
 <line x1="58.0" y1="260.7" x2="702.0" y2="260.7" stroke="#edf0f3" stroke-width="0.8" fill="none"/>
 <line x1="58.0" y1="210.0" x2="702.0" y2="210.0" stroke="#d9e0e7" stroke-width="1.35" fill="none"/>
 <line x1="58.0" y1="159.3" x2="702.0" y2="159.3" stroke="#edf0f3" stroke-width="0.8" fill="none"/>
 <line x1="58.0" y1="108.7" x2="702.0" y2="108.7" stroke="#edf0f3" stroke-width="0.8" fill="none"/>
-<line x1="58.0" y1="58.0" x2="702.0" y2="58.0" stroke="#edf0f3" stroke-width="0.8" fill="none"/>
 <line x1="58.0" y1="210.0" x2="702.0" y2="210.0" stroke="#24323a" stroke-width="1.4" fill="none" marker-end="url(#arrow)"/>
 <line x1="380.0" y1="362.0" x2="380.0" y2="58.0" stroke="#24323a" stroke-width="1.4" fill="none" marker-end="url(#arrow)"/>
 <text x="605.4" y="234.3" fill="#24323a" font-size="18" text-anchor="middle">x</text>
 <text x="431.5" y="82.3" fill="#24323a" font-size="18" text-anchor="middle">y</text>
-<text x="70" y="36" fill="#334" font-size="20">f=x^2+y^2</text>
-<ellipse cx="380.0" cy="210.0" rx="107.3" ry="50.7" fill="none" stroke="#1d5f99" stroke-width="2.5"/>
-<text x="453.0" y="175.5" fill="#1d5f99" font-size="16" text-anchor="middle">c=1</text>
-<ellipse cx="380.0" cy="210.0" rx="151.8" ry="71.7" fill="none" stroke="#2476a8" stroke-width="2.5"/>
-<text x="483.2" y="161.3" fill="#2476a8" font-size="16" text-anchor="middle">c=2</text>
-<ellipse cx="380.0" cy="210.0" rx="214.7" ry="101.3" fill="none" stroke="#2c8c7c" stroke-width="2.5"/>
-<text x="526.0" y="141.1" fill="#2c8c7c" font-size="16" text-anchor="middle">c=4</text>
-<ellipse cx="380.0" cy="210.0" rx="303.6" ry="143.3" fill="none" stroke="#d27a22" stroke-width="2.5"/>
-<text x="586.4" y="112.6" fill="#d27a22" font-size="16" text-anchor="middle">c=8</text>
+<text x="70" y="36" fill="#334" font-size="20">f=(1/4)x^2+y^2</text>
+<ellipse cx="380.0" cy="210.0" rx="128.8" ry="50.7" fill="none" stroke="#1d5f99" stroke-width="2.5"/>
+<text x="466.9" y="174.5" fill="#1d5f99" font-size="16" text-anchor="middle">c=1</text>
+<ellipse cx="380.0" cy="210.0" rx="182.2" ry="71.7" fill="none" stroke="#2476a8" stroke-width="2.5"/>
+<text x="503.0" y="159.8" fill="#2476a8" font-size="16" text-anchor="middle">c=2</text>
+<ellipse cx="380.0" cy="210.0" rx="257.6" ry="101.3" fill="none" stroke="#2c8c7c" stroke-width="2.5"/>
+<text x="553.9" y="139.1" fill="#2c8c7c" font-size="16" text-anchor="middle">c=4</text>
+<ellipse cx="380.0" cy="210.0" rx="315.5" ry="124.1" fill="none" stroke="#d27a22" stroke-width="2.5"/>
+<text x="593.0" y="123.1" fill="#d27a22" font-size="16" text-anchor="middle">c=6</text>
 </svg>
