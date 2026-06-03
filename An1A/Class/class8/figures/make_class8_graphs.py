@@ -384,15 +384,15 @@ def example_line(stem, xlim, ylim, lines, xlabel="$x$", ylabel="値"):
 
 
 def graph_example_mv_1():
-    example_contours("example_mv_1", lambda X, Y: X**2 + Y**2, (-3, 3), (-3, 3), [1, 2, 4, 6, 8])
+    example_contours("example_mv_1", lambda X, Y: 0.25 * X**2 + Y**2, (-5, 5), (-3, 3), [1, 2, 4, 6])
 
 
 def graph_example_mv_2():
-    example_surface("example_mv_2", lambda X, Y: X + Y, (-2, 2), (-2, 2), (-4, 4), cmap="Blues")
+    example_surface("example_mv_2", lambda X, Y: 0.25 * X + Y, (-2, 2), (-2, 2), (-3, 3), cmap="Blues")
 
 
 def graph_example_mv_3():
-    example_contours("example_mv_3", lambda X, Y: X - Y, (-3, 3), (-3, 3), [-2, -1, 0, 1, 2], fill=False)
+    example_contours("example_mv_3", lambda X, Y: 0.25 * X - Y, (-4, 4), (-3, 3), [-2, -1, 0, 1, 2], fill=False)
 
 
 def graph_example_mv_4():

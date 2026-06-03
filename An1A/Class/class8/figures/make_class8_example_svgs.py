@@ -50,6 +50,12 @@ def circle(cx, cy, r, xlim, ylim, color="#1d5f99", width=2.4, fill="none"):
     return f'<ellipse cx="{sx(cx, xlim):.1f}" cy="{sy(cy, ylim):.1f}" rx="{rx:.1f}" ry="{ry:.1f}" fill="{fill}" stroke="{color}" stroke-width="{width}"/>'
 
 
+def ellipse(cx, cy, rx_value, ry_value, xlim, ylim, color="#1d5f99", width=2.4, fill="none"):
+    rx = rx_value * (W - 2 * M) / (xlim[1] - xlim[0])
+    ry = ry_value * (H - 2 * M) / (ylim[1] - ylim[0])
+    return f'<ellipse cx="{sx(cx, xlim):.1f}" cy="{sy(cy, ylim):.1f}" rx="{rx:.1f}" ry="{ry:.1f}" fill="{fill}" stroke="{color}" stroke-width="{width}"/>'
+
+
 def axes(xlim, ylim, xtick=None, ytick=None):
     xtick = xtick if xtick is not None else range(floor(xlim[0]), floor(xlim[1]) + 1)
     ytick = ytick if ytick is not None else range(floor(ylim[0]), floor(ylim[1]) + 1)
@@ -82,7 +88,14 @@ def clipped_line_for_level(kind, c, xlim, ylim):
     points = []
     for i in range(240):
         x = xlim[0] + (xlim[1] - xlim[0]) * i / 239
-        y = x - c if kind == "x-y" else c - x
+        if kind == "x-y":
+            y = x - c
+        elif kind == "quarter-x-plus-y":
+            y = c - 0.25 * x
+        elif kind == "quarter-x-minus-y":
+            y = 0.25 * x - c
+        else:
+            y = c - x
         if ylim[0] <= y <= ylim[1]:
             points.append((x, y))
     return points
@@ -123,29 +136,79 @@ def circles_graph(name, title, xlim, ylim, levels, radius_from_level, label_pref
 
 
 def graph_mv_1():
-    circles_graph("example_mv_1", "f=x^2+y^2", (-3, 3), (-3, 3), [1, 2, 4, 8], sqrt, "c=")
+    xlim, ylim = (-5, 5), (-3, 3)
+    body = []
+    colors = ["#1d5f99", "#2476a8", "#2c8c7c", "#d27a22"]
+    for level, color in zip([1, 2, 4, 6], colors):
+        body.append(ellipse(0, 0, 2 * sqrt(level), sqrt(level), xlim, ylim, color, 2.5))
+        body.append(text(1.35 * sqrt(level), 0.7 * sqrt(level), f"c={level:g}", xlim, ylim, color, 16))
+    write("example_mv_1", xlim, ylim, "f=(1/4)x^2+y^2", "\n".join(body))
 
 
 def graph_mv_2():
-    xlim, ylim = (-4, 4), (-4, 4)
-    body = []
-    for c, color in [(-3, "#8aa6c8"), (-1, "#487eb0"), (1, "#2c8c7c"), (3, "#d27a22")]:
-        points = clipped_line_for_level("x+y", c, xlim, ylim)
-        body.append(poly(points, xlim, ylim, color, 2.6))
-        if points:
-            body.append(text(points[len(points) // 2][0], points[len(points) // 2][1] + 0.3, f"z={c}", xlim, ylim, color, 15))
-    write("example_mv_2", xlim, ylim, "z=x+y", "\n".join(body))
+    def z(x, y):
+        return 0.25 * x + y
+
+    def project(x, y, z_value):
+        return 380 + 72 * x - 50 * y, 220 - 22 * x - 22 * y - 34 * z_value
+
+    def p3(points):
+        return " ".join(f"{project(x, y, z_value)[0]:.1f},{project(x, y, z_value)[1]:.1f}" for x, y, z_value in points)
+
+    def line3(a, b, color="#24323a", width=1.4, dash=None, arrow=False):
+        extra = f' stroke-dasharray="{dash}"' if dash else ""
+        if arrow:
+            extra += ' marker-end="url(#arrow)"'
+        return f'<polyline points="{p3([a, b])}" fill="none" stroke="{color}" stroke-width="{width}" stroke-linecap="round" stroke-linejoin="round"{extra}/>'
+
+    plane_corners = [(-2, -2, z(-2, -2)), (2, -2, z(2, -2)), (2, 2, z(2, 2)), (-2, 2, z(-2, 2))]
+    grid = []
+    for x in [-2, -1, 0, 1, 2]:
+        grid.append(line3((x, -2, z(x, -2)), (x, 2, z(x, 2)), "#8fb7df", 1.0))
+    for y in [-2, -1, 0, 1, 2]:
+        grid.append(line3((-2, y, z(-2, y)), (2, y, z(2, y)), "#8fb7df", 1.0))
+    axes3 = [
+        line3((-2.5, 0, 0), (2.75, 0, 0), "#24323a", 1.6, arrow=True),
+        line3((0, -2.5, 0), (0, 2.75, 0), "#24323a", 1.6, arrow=True),
+        line3((0, 0, -3), (0, 0, 3), "#24323a", 1.6, arrow=True),
+    ]
+    x_label = project(2.9, 0, 0)
+    y_label = project(0, 2.95, 0)
+    z_label = project(0, 0, 3.15)
+    svg = f"""<svg xmlns="http://www.w3.org/2000/svg" width="{W}" height="{H}" viewBox="0 0 {W} {H}" role="img" aria-label="z=(1/4)x+y">
+<defs>
+  <marker id="arrow" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+    <path d="M 0 0 L 10 5 L 0 10 z" fill="#24323a"/>
+  </marker>
+</defs>
+<style>
+  text {{ font-family: Arial, sans-serif; }}
+</style>
+<rect x="0" y="0" width="760" height="420" rx="18" fill="#ffffff"/>
+<rect x="54" y="36" width="652" height="336" fill="#fbfcfe" stroke="#d8e1e8" stroke-width="1"/>
+<text x="70" y="36" fill="#334" font-size="20">z=(1/4)x+y</text>
+{"\n".join(axes3)}
+<polygon points="{p3(plane_corners)}" fill="#8dbcea" fill-opacity="0.62" stroke="#376f9f" stroke-width="2.2"/>
+{"\n".join(grid)}
+<text x="{x_label[0]:.1f}" y="{x_label[1]:.1f}" fill="#24323a" font-size="18">x</text>
+<text x="{y_label[0]:.1f}" y="{y_label[1]:.1f}" fill="#24323a" font-size="18">y</text>
+<text x="{z_label[0]:.1f}" y="{z_label[1]:.1f}" fill="#24323a" font-size="18">z</text>
+<text x="84" y="346" fill="#174bb4" font-size="16">x +1 -> z +1/4</text>
+<text x="84" y="368" fill="#c92331" font-size="16">y +1 -> z +1</text>
+</svg>
+"""
+    (OUT_DIR / "example_mv_2.svg").write_text(svg, encoding="utf-8")
 
 
 def graph_mv_3():
-    xlim, ylim = (-3, 3), (-3, 3)
+    xlim, ylim = (-4, 4), (-3, 3)
     body = []
     for c, color in [(-2, "#8aa6c8"), (-1, "#487eb0"), (0, "#2c8c7c"), (1, "#d27a22"), (2, "#c92331")]:
-        points = clipped_line_for_level("x-y", c, xlim, ylim)
+        points = clipped_line_for_level("quarter-x-minus-y", c, xlim, ylim)
         body.append(poly(points, xlim, ylim, color, 2.4))
         if points:
             body.append(text(points[len(points) // 2][0], points[len(points) // 2][1] + 0.22, f"c={c}", xlim, ylim, color, 15))
-    write("example_mv_3", xlim, ylim, "f=x-y", "\n".join(body))
+    write("example_mv_3", xlim, ylim, "f=(1/4)x-y", "\n".join(body))
 
 
 def graph_mv_4():

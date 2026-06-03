@@ -766,7 +766,7 @@
         <div class="box">
           <span class="box-label">Answer</span>
           <p>グラフは $z=\frac{1}{4} x+y$ で表される平面である。</p>
-          <p>$x$ 方向に $1$ 増やすと $z$ も $1$ 増え，$y$ 方向に $1$ 増やしても $z$ は $1$ 増える。</p>
+          <p>$x$ 方向に $1$ 増やすと $z$ は $\frac{1}{4}$ 増え，$y$ 方向に $1$ 増やすと $z$ は $1$ 増える。</p>
         </div>
         <div class="graph-row">
           <button type="button" class="graph-toggle" data-graph-target="graph-mv-2" aria-expanded="false">see graph</button>
@@ -1187,8 +1187,8 @@
         </div>
         <div class="box">
           <span class="box-label">Answer</span>
-          <p>原点で $x$ 軸方向と $y$ 軸方向だけを見ると変化率はどちらも $0$ なので，偏微分可能である。</p>
-          <p>しかし $y=x$ に沿うと $f(x,x)=|x|/\sqrt{2}$ となり，一次近似 $0$ ではこの方向の変化を表せない。したがって原点では可微分でない。</p>
+          <p>原点では $f(h,0)=f(0,k)=0$ なので，$\frac{\partial f}{\partial x}(0,0)=\frac{\partial f}{\partial y}(0,0)=0$ である。</p>
+          <p>もし原点で可微分なら一次近似は $0$ であり，$\frac{f(h,k)}{\sqrt{h^2+k^2}}\to 0$ が必要である。しかし $k=h$ とすると $\frac{f(h,h)}{\sqrt{h^2+h^2}}=\frac{1}{2}$ となるので，原点では可微分でない。</p>
         </div>
         <div class="graph-row">
           <button type="button" class="graph-toggle" data-graph-target="graph-diff-4" aria-expanded="false">see graph</button>
@@ -1237,7 +1237,7 @@
           <button type="button" class="graph-toggle" data-graph-target="graph-tangent-1" aria-expanded="false">see graph</button>
         </div>
         <figure class="answer-graph" id="graph-tangent-1" hidden>
-          <img src="figures/example_diff_3.svg" alt="例題：接平面 1 のグラフ">
+          <img src="figures/tangent_plane.png" alt="例題：接平面 1 のグラフ">
         </figure>
       </article>
 
