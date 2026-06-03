@@ -10,9 +10,6 @@
 <rect x="0" y="0" width="760" height="420" rx="18" fill="#ffffff"/>
 <rect x="54" y="36" width="652" height="336" fill="#fbfcfe" stroke="#d8e1e8" stroke-width="1"/>
 <text x="70" y="36" fill="#334" font-size="20">z=(1/4)x+y</text>
-<polyline points="200.0,275.0 578.0,159.5" fill="none" stroke="#24323a" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#arrow)"/>
-<polyline points="505.0,275.0 242.5,159.5" fill="none" stroke="#24323a" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#arrow)"/>
-<polyline points="380.0,322.0 380.0,118.0" fill="none" stroke="#24323a" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#arrow)"/>
 <polygon points="336.0,393.0 624.0,271.0 424.0,47.0 136.0,169.0" fill="#8dbcea" fill-opacity="0.62" stroke="#376f9f" stroke-width="2.2"/>
 <polyline points="336.0,393.0 136.0,169.0" fill="none" stroke="#8fb7df" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>
 <polyline points="408.0,362.5 208.0,138.5" fill="none" stroke="#8fb7df" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>
@@ -24,6 +21,9 @@
 <polyline points="236.0,281.0 524.0,159.0" fill="none" stroke="#8fb7df" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>
 <polyline points="186.0,225.0 474.0,103.0" fill="none" stroke="#8fb7df" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>
 <polyline points="136.0,169.0 424.0,47.0" fill="none" stroke="#8fb7df" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>
+<polyline points="200.0,275.0 578.0,159.5" fill="none" stroke="#24323a" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#arrow)"/>
+<polyline points="505.0,275.0 242.5,159.5" fill="none" stroke="#24323a" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#arrow)"/>
+<polyline points="380.0,322.0 380.0,118.0" fill="none" stroke="#24323a" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#arrow)"/>
 <text x="588.8" y="156.2" fill="#24323a" font-size="18">x</text>
 <text x="232.5" y="155.1" fill="#24323a" font-size="18">y</text>
 <text x="380.0" y="112.9" fill="#24323a" font-size="18">z</text>
