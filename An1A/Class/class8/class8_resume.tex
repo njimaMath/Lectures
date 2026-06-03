@@ -54,6 +54,24 @@
 \smallcaptext{二変数関数は，平面上の点 $(x,y)$ に数 $z$ を対応させる。}
 \end{center}
 
+\begin{center}
+\begin{tikzpicture}[>=Latex,x=1cm,y=1cm]
+\draw[rounded corners=4pt,draw=blue!55!black,fill=blue!5] (-4.8,-1.3) rectangle (-2.2,1.3);
+\node at (-3.5,0.55) {$\mathbb R^3$};
+\node at (-3.5,0.05) {入力};
+\node at (-3.5,-0.55) {$(x,y,z)$};
+\draw[->,thick] (-2.05,0) -- (-0.65,0);
+\node[above] at (-1.35,0) {$f$};
+\draw[rounded corners=4pt,draw=teal!55!black,fill=teal!5] (-0.45,-1.3) rectangle (2.15,1.3);
+\node at (0.85,0.55) {$\mathbb R$};
+\node at (0.85,0.05) {出力};
+\node at (0.85,-0.55) {$w=f(x,y,z)$};
+\draw[->,thick] (2.35,0) -- (3.75,0);
+\node[draw=orange!65!black,fill=orange!10,rounded corners=4pt,minimum width=2.1cm,minimum height=1.4cm] at (5.0,0) {等値面};
+\end{tikzpicture}
+\smallcaptext{三変数関数では，空間内の点 $(x,y,z)$ に値 $w$ を対応させる。$f(x,y,z)=c$ は等値面を表す。}
+\end{center}
+
 \chap{1. 多変数関数}
 
 \subchap{1.1 定義}
@@ -80,13 +98,13 @@
 \begin{center}
 \begin{minipage}{0.48\linewidth}
 \centering
-\includegraphics[width=0.92\linewidth]{figures/domain_sqrt.pdf}
+\includegraphics[width=0.92\linewidth,bb=0 0 427 427]{figures/domain_sqrt.pdf}
 \smallcaptext{$f(x,y)=\sqrt{x+y}$ の定義域}
 \end{minipage}
 \hfill
 \begin{minipage}{0.48\linewidth}
 \centering
-\includegraphics[width=0.92\linewidth]{figures/domain_rational.pdf}
+\includegraphics[width=0.92\linewidth,bb=0 0 427 427]{figures/domain_rational.pdf}
 \smallcaptext{$f(x,y)=\dfrac{1}{x^2+y^2-1}$ の定義域}
 \end{minipage}
 \end{center}
@@ -102,13 +120,13 @@ $$
 \begin{center}
 \begin{minipage}{0.48\linewidth}
 \centering
-\includegraphics[width=0.92\linewidth]{figures/paraboloid_contours.pdf}
+\includegraphics[width=0.92\linewidth,bb=0 0 427 427]{figures/paraboloid_contours.pdf}
 \smallcaptext{$f(x,y)=x^2+y^2$ の等高線}
 \end{minipage}
 \hfill
 \begin{minipage}{0.48\linewidth}
 \centering
-\includegraphics[width=0.95\linewidth]{figures/paraboloid_surface.pdf}
+\includegraphics[width=0.95\linewidth,bb=0 0 473 395]{figures/paraboloid_surface.pdf}
 \smallcaptext{$z=x^2+y^2$ のグラフ}
 \end{minipage}
 \end{center}
@@ -116,13 +134,13 @@ $$
 \begin{center}
 \begin{minipage}{0.48\linewidth}
 \centering
-\includegraphics[width=0.95\linewidth]{figures/plane_surface.pdf}
+\includegraphics[width=0.95\linewidth,bb=0 0 473 395]{figures/plane_surface.pdf}
 \smallcaptext{$z=x+y$ は平面である。}
 \end{minipage}
 \hfill
 \begin{minipage}{0.48\linewidth}
 \centering
-\includegraphics[width=0.92\linewidth]{figures/temperature_contours.pdf}
+\includegraphics[width=0.92\linewidth,bb=0 0 430 427]{figures/temperature_contours.pdf}
 \smallcaptext{$T(x,y)=100-x^2-y^2$ の等温線}
 \end{minipage}
 \end{center}
@@ -130,9 +148,9 @@ $$
 \subchap{例題}
 
 \begin{enumerate}
-\item 次の関数の等高線を考えよ。$f(x,y)=x^2+y^2$
-\item 次の関数のグラフの形を説明せよ。$f(x,y)=x+y$
-\item 次の関数の等高線を考えよ。$f(x,y)=x-y$
+\item 次の関数の等高線を考えよ。$f(x,y)=\dfrac14x^2+y^2$
+\item 次の関数のグラフの形を説明せよ。$f(x,y)=\dfrac14x+y$
+\item 次の関数の等高線を考えよ。$f(x,y)=\dfrac14x-y$
 \item 次の関数の等高線を考え，中心から離れると値がどう変化するか説明せよ。$f(x,y)=4-x^2-y^2$
 \item 工学的な量として，温度分布 $T(x,y)=100-x^2-y^2$ を考える。この関数の意味を説明せよ。
 \end{enumerate}
@@ -146,7 +164,7 @@ $$
 2変数関数 $f(x,y)$ に対して，$\dfrac{\partial f}{\partial x}$ は $y$ を定数とみなして $x$ で微分したもの，$\dfrac{\partial f}{\partial y}$ は $x$ を定数とみなして $y$ で微分したものである。
 
 \begin{center}
-\includegraphics[width=0.48\linewidth]{figures/partial_directions.pdf}
+\includegraphics[width=0.48\linewidth,bb=0 0 527 394]{figures/partial_directions.pdf}
 \smallcaptext{偏微分では，一方の方向だけに動かして変化率を見る。}
 \end{center}
 
@@ -181,7 +199,7 @@ $$
 $\dfrac{\partial f}{\partial x}$ は $x$ 方向の変化率，$\dfrac{\partial f}{\partial y}$ は $y$ 方向の変化率を表す。曲面 $z=f(x,y)$ を $y=b$ で切ると一変数関数 $z=f(x,b)$ が得られ，その傾きが $f_x(a,b)$ である。
 
 \begin{center}
-\includegraphics[width=0.70\linewidth]{figures/partial_surface.pdf}
+\includegraphics[width=0.70\linewidth,bb=0 0 502 428]{figures/partial_surface.pdf}
 \smallcaptext{赤い曲線の傾きが $x$ 方向の偏微分，青い曲線の傾きが $y$ 方向の偏微分を表す。}
 \end{center}
 
@@ -201,24 +219,60 @@ $\dfrac{\partial f}{\partial x}$ は $x$ 方向の変化率，$\dfrac{\partial f
 
 点 $(a,b)$ において $f_x(a,b)$，$f_y(a,b)$ が存在するとき，その点で偏微分可能という。ただし，偏微分可能であっても，必ずしも関数が滑らかとは限らない。
 
-\subchap{3.2 可微分}
+\subchap{3.2 ランダウの記号}
 
-関数 $f(x,y)$ が点 $(a,b)$ の近くで一次式によりよく近似できるとき，その点で可微分という。可微分であれば，
+$g(h,k)$ が $(h,k)\to(0,0)$ のとき $o(\sqrt{h^2+k^2})$ であるとは，
 $$
-f(a+\Delta x,b+\Delta y)
+\lim_{(h,k)\to(0,0)}
+\frac{g(h,k)}{\sqrt{h^2+k^2}}=0
 $$
-は
+を満たすことをいう。これは，$g(h,k)$ が距離 $\sqrt{h^2+k^2}$ より速く $0$ に近づくことを表す。
+
+たとえば $h^2+k^2=o(\sqrt{h^2+k^2})$ である。実際，$r=\sqrt{h^2+k^2}$ とおくと
 $$
-f(a,b)+f_x(a,b)\Delta x+f_y(a,b)\Delta y
+\frac{h^2+k^2}{\sqrt{h^2+k^2}}=r\to0
 $$
-で近似できる。
+となる。
+
+\subchap{3.3 可微分}
+
+関数 $f(x,y)$ が点 $(a,b)$ で可微分であるとは，$(h,k)\to(0,0)$ のとき
+$$
+f(a+h,b+k)-f(a,b)
+=f_x(a,b)h+f_y(a,b)k+o(\sqrt{h^2+k^2})
+$$
+が成り立つことをいう。つまり，点の近くで関数の変化を一次式でよく近似できる。
+
+可微分であれば，
+$$
+f(a+h,b+k)\simeq f(a,b)+f_x(a,b)h+f_y(a,b)k
+$$
+と考えることができる。また，可微分なら偏微分可能である。ただし，偏微分可能であっても可微分とは限らない。
 
 \begin{center}
-\includegraphics[width=0.70\linewidth]{figures/tangent_plane.pdf}
+\includegraphics[width=0.70\linewidth,bb=0 0 502 428]{figures/tangent_plane.pdf}
 \smallcaptext{$z=x^2+y^2$ を点 $(1,1,2)$ の近くで平面 $z=2x+2y-2$ によって近似する。}
 \end{center}
 
-\subchap{3.3 全微分}
+\subchap{3.4 可微分な関数の例}
+
+$f(x,y)=xy$ は任意の点 $(a,b)$ で可微分である。実際，
+$$
+f(a+h,b+k)-f(a,b)=(a+h)(b+k)-ab=bh+ak+hk
+$$
+であり，$f_x(a,b)=b$，$f_y(a,b)=a$ である。$r=\sqrt{h^2+k^2}$ とおくと
+$$
+\frac{|hk|}{r}\le \frac{r^2/2}{r}=\frac r2\to0
+$$
+なので，$hk=o(r)$ である。
+
+$f(x,y)=x^2+y^2$ も任意の点 $(a,b)$ で可微分である。
+$$
+f(a+h,b+k)-f(a,b)=2ah+2bk+h^2+k^2
+$$
+となり，余り $h^2+k^2$ は $o(\sqrt{h^2+k^2})$ である。
+
+\subchap{3.5 全微分}
 
 可微分な関数に対して
 $$
@@ -230,7 +284,7 @@ $$
 $$
 と考えることができる。
 
-\subchap{3.4 接平面}
+\subchap{3.6 接平面}
 
 $z=f(x,y)$ が可微分なら，点 $(a,b,f(a,b))$ における接平面は
 $$
@@ -240,7 +294,7 @@ $$
 
 \keybox{接平面は，曲面を点の近くで一次式に置き換えたものである。これは一変数関数でいう接線の二変数版である。}
 
-\subchap{3.5 重要な十分条件}
+\subchap{3.7 重要な十分条件}
 
 $f_x$，$f_y$ が点の近くで存在し，かつ連続ならば，$f$ はその点で可微分である。つまり，偏導関数が連続なら可微分性が保証される。
 
@@ -271,13 +325,13 @@ $$
 \begin{center}
 \begin{minipage}{0.48\linewidth}
 \centering
-\includegraphics[width=0.95\linewidth]{figures/nondiff_surface.pdf}
+\includegraphics[width=0.95\linewidth,bb=0 0 473 396]{figures/nondiff_surface.pdf}
 \smallcaptext{$xy/\sqrt{x^2+y^2}$ の原点近くの形}
 \end{minipage}
 \hfill
 \begin{minipage}{0.48\linewidth}
 \centering
-\includegraphics[width=0.95\linewidth]{figures/direction_slice.pdf}
+\includegraphics[width=0.95\linewidth,bb=0 0 469 460]{figures/direction_slice.pdf}
 \smallcaptext{軸方向だけを見ると見落とす変化がある。}
 \end{minipage}
 \end{center}
@@ -366,13 +420,13 @@ $$
 \begin{center}
 \begin{minipage}{0.48\linewidth}
 \centering
-\includegraphics[width=0.95\linewidth]{figures/abs_value.pdf}
+\includegraphics[width=0.95\linewidth,bb=0 0 469 460]{figures/abs_value.pdf}
 \smallcaptext{$|x|$ は $x=0$ で折れている。}
 \end{minipage}
 \hfill
 \begin{minipage}{0.48\linewidth}
 \centering
-\includegraphics[width=0.95\linewidth]{figures/derivative_line.pdf}
+\includegraphics[width=0.95\linewidth,bb=0 0 469 460]{figures/derivative_line.pdf}
 \smallcaptext{$x^2$ はなめらかで，何度でも微分できる。}
 \end{minipage}
 \end{center}
@@ -405,5 +459,201 @@ $$
 \item $C^n$ 級とは，$n$ 階までの偏導関数が連続に存在する関数である。
 \item $C^2$ 級なら，$f_{xy}=f_{yx}$ が成り立つ。
 \end{itemize}
+
+\newpage
+\chap{演習問題}
+
+\subchap{A. 定義域・グラフ・等高線}
+
+\begin{enumerate}[label=\arabic*.]
+\item 次の関数の定義域を求めよ。$f(x,y)=\sqrt{4-x^2-y^2}$
+\item 次の関数の定義域を求めよ。$f(x,y)=\log(x+y)$
+\item 次の関数の定義域を求めよ。$f(x,y)=\dfrac{1}{xy}$
+\item 次の関数の等高線を考えよ。$f(x,y)=x^2+4y^2$
+\item 次の関数の等高線を考えよ。$f(x,y)=x-y$
+\item 次の関数のグラフの形を説明せよ。$f(x,y)=2x-y+3$
+\item 温度分布 $T(x,y)=80-2x^2-y^2$ の等温線を考え，最高温度を求めよ。
+\item 三変数関数 $f(x,y,z)=x^2+y^2+z^2$ の等値面 $f(x,y,z)=c$ を考えよ。
+\end{enumerate}
+
+\subchap{B. 偏微分}
+
+\begin{enumerate}[label=\arabic*.,start=9]
+\item $f(x,y)=x^2+3xy+y^2$ について，$f_x,\ f_y$ と $f_x(1,2),\ f_y(1,2)$ を求めよ。
+\item $f(x,y)=x^2\sin y$ について，$f_x,\ f_y$ を求めよ。
+\item $f(x,y)=e^{xy}$ について，$f_x,\ f_y$ を求めよ。
+\item $f(x,y)=\log(x^2+y^2)$ について，$f_x,\ f_y$ を求めよ。ただし $(x,y)\neq(0,0)$ とする。
+\item $f(x,y,z)=x^2y+yz^3$ について，$f_x,\ f_y,\ f_z$ を求めよ。
+\item $f(x,y)=\sqrt{1+x^2+y^2}$ について，$f_x,\ f_y$ を求めよ。
+\item 温度分布 $T(x,y)=50+2x-y^2$ について，点 $(2,1)$ における $T_x,\ T_y$ を求め，意味を説明せよ。
+\item 次の関数について，定義に従って $f_x(0,0),\ f_y(0,0)$ を求めよ。
+$$
+f(x,y)=
+\begin{cases}
+\dfrac{xy}{\sqrt{x^2+y^2}} & ((x,y)\neq(0,0)),\\[0.7em]
+0 & ((x,y)=(0,0)).
+\end{cases}
+$$
+\end{enumerate}
+
+\subchap{C. 可微分性・全微分・接平面}
+
+\begin{enumerate}[label=\arabic*.,start=17]
+\item $f(x,y)=x^2y+y^3$ の全微分を求めよ。
+\item $z=x^2+y^2$ の点 $(1,1,2)$ における接平面を求めよ。
+\item $f(x,y)=\sqrt{x+y}$ を点 $(1,3)$ の近くで一次近似せよ。
+\item $f(x,y)=|x|+|y|$ が可微分である点を答えよ。
+\item 次の関数が原点で可微分でないことを説明せよ。
+$$
+f(x,y)=
+\begin{cases}
+\dfrac{xy}{\sqrt{x^2+y^2}} & ((x,y)\neq(0,0)),\\[0.7em]
+0 & ((x,y)=(0,0)).
+\end{cases}
+$$
+\item 次の関数について，原点で偏微分可能か，可微分かを調べよ。
+$$
+f(x,y)=
+\begin{cases}
+\dfrac{x^2y}{x^2+y^2} & ((x,y)\neq(0,0)),\\[0.7em]
+0 & ((x,y)=(0,0)).
+\end{cases}
+$$
+\item $f(x,y)=\sin(xy)+x^2$ が任意の点で可微分であることを，十分条件を用いて説明せよ。
+\item $T(x,y)=50+2x-y^2$ について，点 $(1,3)$ から $\Delta x=0.02,\ \Delta y=-0.01$ だけ動いたときの $\Delta T$ を一次近似で求めよ。
+\end{enumerate}
+
+\subchap{D. $C^n$ 級・混合偏微分}
+
+\begin{enumerate}[label=\arabic*.,start=25]
+\item $f(x,y)=x^3y+xy^2$ の2階偏導関数をすべて求めよ。
+\item $f(x,y)=e^{xy}$ について，$f_{xy}$ と $f_{yx}$ を求めよ。
+\item $f(x,y)=x|y|$ が原点で $C^2$ 級でないことを調べよ。
+\item $f(x,y)=|x|+y^2$ が直線 $x=0$ 上で $C^1$ 級でないことを調べよ。
+\item 次の関数が原点で $C^1$ 級でないことを調べよ。
+$$
+f(x,y)=
+\begin{cases}
+\sqrt{x^2+y^2} & ((x,y)\neq(0,0)),\\
+0 & ((x,y)=(0,0)).
+\end{cases}
+$$
+\item 多項式 $f(x,y)=x^4-2x^2y+y^3$ はどの $C^n$ 級に属するか答えよ。
+\item 次の関数が原点で連続でないことを調べよ。
+$$
+f(x,y)=
+\begin{cases}
+\dfrac{x^2-y^2}{x^2+y^2} & ((x,y)\neq(0,0)),\\[0.7em]
+0 & ((x,y)=(0,0)).
+\end{cases}
+$$
+\item $f(x,y)=x^4+y^4$ について，$f_{xy}$ と $f_{yx}$ を求めよ。
+\end{enumerate}
+
+\newpage
+\chap{演習問題の解答}
+
+\subchap{A. 定義域・グラフ・等高線}
+
+\begin{enumerate}[label=\arabic*.]
+\item ルートの中が $0$ 以上なので $4-x^2-y^2\ge0$。したがって定義域は $x^2+y^2\le4$，すなわち原点中心，半径 $2$ の閉円板である。
+\item 対数の中が正なので $x+y>0$。定義域は直線 $x+y=0$ の片側の開半平面である。
+\item 分母が $0$ でなければよいので $xy\neq0$。つまり $x\neq0$ かつ $y\neq0$ である。
+\item $f(x,y)=c$ とおくと $x^2+4y^2=c$。$c\ge0$ のとき原点中心の楕円，$c<0$ のとき等高線はない。
+\item $x-y=c$，すなわち $y=x-c$。等高線は傾き $1$ の平行な直線である。
+\item グラフは $z=2x-y+3$ で表される平面である。
+\item $T(x,y)=c$ とおくと $2x^2+y^2=80-c$。$c\le80$ のとき楕円であり，最高温度は原点で $80$ である。
+\item $x^2+y^2+z^2=c$。$c>0$ のとき原点中心，半径 $\sqrt c$ の球面，$c=0$ のとき原点だけ，$c<0$ のとき等値面はない。
+\end{enumerate}
+
+\subchap{B. 偏微分}
+
+\begin{enumerate}[label=\arabic*.,start=9]
+\item $f_x=2x+3y,\ f_y=3x+2y$。よって $f_x(1,2)=8,\ f_y(1,2)=7$。
+\item $f_x=2x\sin y,\ f_y=x^2\cos y$。
+\item $f_x=ye^{xy},\ f_y=xe^{xy}$。
+\item $f_x=\dfrac{2x}{x^2+y^2},\ f_y=\dfrac{2y}{x^2+y^2}$。
+\item $f_x=2xy,\ f_y=x^2+z^3,\ f_z=3yz^2$。
+\item $f_x=\dfrac{x}{\sqrt{1+x^2+y^2}},\ f_y=\dfrac{y}{\sqrt{1+x^2+y^2}}$。
+\item $T_x=2,\ T_y=-2y$ なので，点 $(2,1)$ では $T_x=2,\ T_y=-2$。$x$ 方向に $1$ 増えると温度は約 $2$ 増え，$y$ 方向に $1$ 増えると温度は約 $2$ 減る。
+\item
+$$
+f_x(0,0)=\lim_{h\to0}\frac{f(h,0)-f(0,0)}{h}=0,\quad
+f_y(0,0)=\lim_{h\to0}\frac{f(0,h)-f(0,0)}{h}=0.
+$$
+\end{enumerate}
+
+\subchap{C. 可微分性・全微分・接平面}
+
+\begin{enumerate}[label=\arabic*.,start=17]
+\item $f_x=2xy,\ f_y=x^2+3y^2$ より，
+$$
+df=2xy\,dx+(x^2+3y^2)\,dy.
+$$
+\item $f(1,1)=2,\ f_x(1,1)=2,\ f_y(1,1)=2$ より，
+$$
+z=2+2(x-1)+2(y-1)=2x+2y-2.
+$$
+\item $f(1,3)=2,\ f_x(1,3)=f_y(1,3)=\dfrac14$。したがって
+$$
+f(x,y)\simeq 2+\frac{x-1}{4}+\frac{y-3}{4}.
+$$
+\item $x\neq0$ かつ $y\neq0$ の点では可微分である。$x=0$ または $y=0$ の点では対応する絶対値の偏微分が存在しないので，可微分でない。
+\item 原点で $f_x(0,0)=f_y(0,0)=0$ である。もし可微分なら一次近似は $0$ になり，$f(x,y)=o(\sqrt{x^2+y^2})$ が必要である。しかし $y=x$ に沿うと $f(x,x)=|x|/\sqrt2$ なので，
+$$
+\frac{|f(x,x)|}{\sqrt{x^2+x^2}}=\frac12
+$$
+となり $0$ に近づかない。よって原点で可微分でない。
+\item 軸上では $f(h,0)=0,\ f(0,h)=0$ なので $f_x(0,0)=f_y(0,0)=0$。一方，$y=x$ に沿うと $f(x,x)=x/2$ であり，
+$$
+\frac{|f(x,x)|}{\sqrt{x^2+x^2}}=\frac{1}{2\sqrt2}
+$$
+となる。したがって原点で偏微分可能だが，可微分でない。
+\item $f_x=y\cos(xy)+2x,\ f_y=x\cos(xy)$ はすべての点で連続である。よって十分条件により，$f$ は任意の点で可微分である。
+\item $T_x=2,\ T_y=-2y$ なので，点 $(1,3)$ では $T_x=2,\ T_y=-6$。したがって
+$$
+\Delta T\simeq 2\cdot0.02+(-6)(-0.01)=0.10.
+$$
+\end{enumerate}
+
+\subchap{D. $C^n$ 級・混合偏微分}
+
+\begin{enumerate}[label=\arabic*.,start=25]
+\item
+$$
+f_x=3x^2y+y^2,\quad f_y=x^3+2xy.
+$$
+したがって
+$$
+f_{xx}=6xy,\quad f_{xy}=3x^2+2y,\quad
+f_{yx}=3x^2+2y,\quad f_{yy}=2x.
+$$
+\item $f_x=ye^{xy},\ f_y=xe^{xy}$ より，
+$$
+f_{xy}=(1+xy)e^{xy},\quad f_{yx}=(1+xy)e^{xy}.
+$$
+\item $f_x(x,y)=|y|$ である。したがって
+$$
+f_{xy}(0,0)=\lim_{h\to0}\frac{|h|-0}{h}
+$$
+となり，極限が存在しない。よって原点で $C^2$ 級でない。
+\item 直線 $x=0$ 上の点 $(0,b)$ で
+$$
+f_x(0,b)=\lim_{h\to0}\frac{|h|+b^2-b^2}{h}
+=\lim_{h\to0}\frac{|h|}{h}
+$$
+となり，極限が存在しない。よって直線 $x=0$ 上で $C^1$ 級でない。
+\item 原点で
+$$
+f_x(0,0)=\lim_{h\to0}\frac{|h|}{h}
+$$
+となり，極限が存在しない。したがって原点で $C^1$ 級でない。
+\item 多項式は何回でも偏微分でき，すべての偏導関数が連続である。したがって $C^\infty$ 級である。
+\item $y=0$ に沿うと $f(x,0)=1$，$x=0$ に沿うと $f(0,y)=-1$ である。近づき方で極限値が異なるため，原点で連続でない。
+\item $f_x=4x^3,\ f_y=4y^3$ なので，
+$$
+f_{xy}=0,\quad f_{yx}=0.
+$$
+\end{enumerate}
 
 \end{document}

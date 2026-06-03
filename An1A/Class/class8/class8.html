@@ -591,8 +591,7 @@
       <article class="slide title-slide active">
         <div>
           <h1>数学1A 第8回レジュメ</h1>
-          <p class="author">多変数関数・偏微分・可微分性</p>
-          <p class="institute">二変数関数を図と変化率で見る</p>
+          <p class="author">多変数関数・偏微分・可微分性・接平面</p>
         </div>
       </article>
 
@@ -605,7 +604,7 @@
             <li>多変数関数の定義域，グラフ，等高線を図で理解する。</li>
             <li>偏微分を「一つの方向だけの変化率」として理解する。</li>
             <li>偏微分可能性と可微分性の違いを区別する。</li>
-            <li>$C^n$ 級関数と混合偏微分の意味を理解する。</li>
+            <!-- <li>$C^n$ 級関数と混合偏微分の意味を理解する。</li> -->
           </ul>
         </div>
       </article>
@@ -719,26 +718,12 @@
         </div>
       </article>
 
-      <article class="slide">
-        <h2 class="slide-title">平面と等温線</h2>
-        <div class="figure-grid">
-          <figure class="figure">
-            <img src="figures/plane_surface.png" alt="z=x+y の平面">
-            <figcaption class="caption">$z=x+y$ は平面である。</figcaption>
-          </figure>
-          <figure class="figure">
-            <img src="figures/temperature_contours.png" alt="T(x,y)=100-x^2-y^2 の等温線">
-            <figcaption class="caption">$T(x,y)=100-x^2-y^2$ の等温線</figcaption>
-          </figure>
-        </div>
-      </article>
-
       <article class="slide compact">
         <h2 class="slide-title">例題：多変数関数 1</h2>
         <div class="itembox">
           <span class="box-label">Problem</span>
           <p>次の関数の等高線を考えよ。</p>
-          <p class="big-formula">$f(x,y)=x^2+y^2$</p>
+          <p class="big-formula">$f(x,y)=\frac{1}{4} x^2+y^2$</p>
         </div>
       </article>
 
@@ -746,13 +731,13 @@
         <h2 class="slide-title">例題：多変数関数 1 解答</h2>
         <div class="itembox">
           <span class="box-label">Problem</span>
-          <p>次の関数の等高線を考えよ。</p>
-          <p class="big-formula">$f(x,y)=x^2+y^2$</p>
+          <p>次の関数の等高線を図示せよ。</p>
+          <p class="big-formula">$f(x,y)=\frac{1}{4} x^2+y^2$</p>
         </div>
         <div class="box">
           <span class="box-label">Answer</span>
-          <p>$f(x,y)=c$ とおくと $x^2+y^2=c$ である。</p>
-          <p>$c\ge 0$ のとき，原点を中心とする半径 $\sqrt{c}$ の円になる。$c<0$ の等高線はない。</p>
+          <p>$f(x,y)=c$ とおくと $\frac{1}{4}x^2+y^2=c$ である。</p>
+          <p>$c\ge 0$ のとき，原点を中心とする楕円になる。$c<0$ の等高線はない。</p>
         </div>
         <div class="graph-row">
           <button type="button" class="graph-toggle" data-graph-target="graph-mv-1" aria-expanded="false">see graph</button>
@@ -767,7 +752,7 @@
         <div class="itembox">
           <span class="box-label">Problem</span>
           <p>次の関数のグラフの形を説明せよ。</p>
-          <p class="big-formula">$f(x,y)=x+y$</p>
+          <p class="big-formula">$f(x,y)=\frac{1}{4} x+y$</p>
         </div>
       </article>
 
@@ -776,11 +761,11 @@
         <div class="itembox">
           <span class="box-label">Problem</span>
           <p>次の関数のグラフの形を説明せよ。</p>
-          <p class="big-formula">$f(x,y)=x+y$</p>
+          <p class="big-formula">$f(x,y)=\frac{1}{4} x+y$</p>
         </div>
         <div class="box">
           <span class="box-label">Answer</span>
-          <p>グラフは $z=x+y$ で表される平面である。</p>
+          <p>グラフは $z=\frac{1}{4} x+y$ で表される平面である。</p>
           <p>$x$ 方向に $1$ 増やすと $z$ も $1$ 増え，$y$ 方向に $1$ 増やしても $z$ は $1$ 増える。</p>
         </div>
         <div class="graph-row">
@@ -796,7 +781,7 @@
         <div class="itembox">
           <span class="box-label">Problem</span>
           <p>次の関数の等高線を考えよ。</p>
-          <p class="big-formula">$f(x,y)=x-y$</p>
+          <p class="big-formula">$f(x,y)=\frac{1}{4} x-y$</p>
         </div>
       </article>
 
@@ -805,74 +790,18 @@
         <div class="itembox">
           <span class="box-label">Problem</span>
           <p>次の関数の等高線を考えよ。</p>
-          <p class="big-formula">$f(x,y)=x-y$</p>
+          <p class="big-formula">$f(x,y)=\frac{1}{4} x-y$</p>
         </div>
         <div class="box">
           <span class="box-label">Answer</span>
-          <p>$f(x,y)=c$ とおくと $x-y=c$，すなわち $y=x-c$ である。</p>
-          <p>等高線は傾き $1$ の平行な直線になる。</p>
+          <p>$f(x,y)=c$ とおくと $\frac{1}{4}x-y=c$，すなわち $y=\frac{1}{4}x-c$ である。</p>
+          <p>等高線は傾き $\frac{1}{4}$ の直線になる。</p>
         </div>
         <div class="graph-row">
           <button type="button" class="graph-toggle" data-graph-target="graph-mv-3" aria-expanded="false">see graph</button>
         </div>
         <figure class="answer-graph" id="graph-mv-3" hidden>
           <img src="figures/example_mv_3.svg" alt="例題：多変数関数 3 のグラフ">
-        </figure>
-      </article>
-
-      <article class="slide compact">
-        <h2 class="slide-title">例題：多変数関数 4</h2>
-        <div class="itembox">
-          <span class="box-label">Problem</span>
-          <p>次の関数の等高線を考え，中心から離れると値がどう変化するか説明せよ。</p>
-          <p class="big-formula">$f(x,y)=4-x^2-y^2$</p>
-        </div>
-      </article>
-
-      <article class="slide compact">
-        <h2 class="slide-title">例題：多変数関数 4 解答</h2>
-        <div class="itembox">
-          <span class="box-label">Problem</span>
-          <p>次の関数の等高線を考え，中心から離れると値がどう変化するか説明せよ。</p>
-          <p class="big-formula">$f(x,y)=4-x^2-y^2$</p>
-        </div>
-        <div class="box">
-          <span class="box-label">Answer</span>
-          <p>$f(x,y)=c$ とおくと $x^2+y^2=4-c$ である。</p>
-          <p>$c\le 4$ のとき原点中心の円になり，半径は $\sqrt{4-c}$ である。値は原点で最大値 $4$ をとり，中心から離れるほど小さくなる。</p>
-        </div>
-        <div class="graph-row">
-          <button type="button" class="graph-toggle" data-graph-target="graph-mv-4" aria-expanded="false">see graph</button>
-        </div>
-        <figure class="answer-graph" id="graph-mv-4" hidden>
-          <img src="figures/example_mv_4.svg" alt="例題：多変数関数 4 のグラフ">
-        </figure>
-      </article>
-
-      <article class="slide compact">
-        <h2 class="slide-title">例題：多変数関数 5</h2>
-        <div class="itembox">
-          <span class="box-label">Problem</span>
-          <p>工学的な量として，温度分布 $T(x,y)=100-x^2-y^2$ を考える。この関数の意味を説明せよ。</p>
-        </div>
-      </article>
-
-      <article class="slide compact">
-        <h2 class="slide-title">例題：多変数関数 5 解答</h2>
-        <div class="itembox">
-          <span class="box-label">Problem</span>
-          <p>工学的な量として，温度分布 $T(x,y)=100-x^2-y^2$ を考える。この関数の意味を説明せよ。</p>
-        </div>
-        <div class="box">
-          <span class="box-label">Answer</span>
-          <p>点 $(x,y)$ における温度を表す関数である。</p>
-          <p>原点で温度は最大値 $100$ になり，原点からの距離が大きくなるほど温度は下がる。等温線は原点中心の円である。</p>
-        </div>
-        <div class="graph-row">
-          <button type="button" class="graph-toggle" data-graph-target="graph-mv-5" aria-expanded="false">see graph</button>
-        </div>
-        <figure class="answer-graph" id="graph-mv-5" hidden>
-          <img src="figures/example_mv_5.svg" alt="例題：多変数関数 5 のグラフ">
         </figure>
       </article>
 
@@ -898,11 +827,11 @@
         <h2 class="slide-title">偏微分係数の定義</h2>
         <p>点 $(a,b)$ における $x$ に関する偏微分係数は</p>
         <p class="big-formula">
-          $$f_x(a,b)=\lim_{h\to 0}\frac{f(a+h,b)-f(a,b)}{h}$$
+          $$\frac{\partial f}{\partial x}(a,b)=\lim_{h\to 0}\frac{f(a+h,b)-f(a,b)}{h}$$
         </p>
         <p>同様に，$y$ に関する偏微分係数は</p>
         <p class="big-formula">
-          $$f_y(a,b)=\lim_{h\to 0}\frac{f(a,b+h)-f(a,b)}{h}$$
+          $$\frac{\partial f}{\partial y}(a,b)=\lim_{h\to 0}\frac{f(a,b+h)-f(a,b)}{h}$$
         </p>
       </article>
 
@@ -910,10 +839,10 @@
         <h2 class="slide-title">記号</h2>
         <p>偏導関数は次のように書く。</p>
         <p class="big-formula">
-          $$f_x,\quad f_y,\quad \frac{\partial f}{\partial x},\quad \frac{\partial f}{\partial y}$$
+          $\frac{\partial f}{\partial x},\quad \frac{\partial f}{\partial y}$
         </p>
         <div class="box">
-          文脈によっては $f_x(x,y)$，$f_y(x,y)$ のように変数を明記する。
+          文脈によっては $\frac{\partial f}{\partial x}(x,y)$，$\frac{\partial f}{\partial y}(x,y)$ のように変数を明記する。
         </div>
       </article>
 
@@ -922,7 +851,7 @@
         <div class="two-col">
           <div>
             <p>$\dfrac{\partial f}{\partial x}$ は $x$ 方向の変化率，$\dfrac{\partial f}{\partial y}$ は $y$ 方向の変化率を表す。</p>
-            <p>曲面 $z=f(x,y)$ を $y=b$ で切ると，一変数関数 $z=f(x,b)$ が得られ，その傾きが $f_x(a,b)$ である。</p>
+            <p>曲面 $z=f(x,y)$ を $y=b$ で切ると，一変数関数 $z=f(x,b)$ が得られ，その傾きが $\frac{\partial f}{\partial x}(a,b)$ である。</p>
           </div>
           <figure class="figure">
             <img src="figures/partial_surface.png" alt="曲面上の x 方向と y 方向の切り口">
@@ -950,14 +879,8 @@
         <div class="box">
           <span class="box-label">Answer</span>
           <p>$y$ を定数とみなして $x$ で微分する。</p>
-          <p class="big-formula">$f_x(x,y)=2x+3y$</p>
+          <p class="big-formula">$\frac{\partial f}{\partial x}(x,y)=2x+3y$</p>
         </div>
-        <div class="graph-row">
-          <button type="button" class="graph-toggle" data-graph-target="graph-partial-1" aria-expanded="false">see graph</button>
-        </div>
-        <figure class="answer-graph" id="graph-partial-1" hidden>
-          <img src="figures/example_partial_1.svg" alt="例題：偏微分 1 のグラフ">
-        </figure>
       </article>
 
       <article class="slide compact">
@@ -979,21 +902,15 @@
         <div class="box">
           <span class="box-label">Answer</span>
           <p>$x$ を定数とみなして $y$ で微分する。</p>
-          <p class="big-formula">$f_y(x,y)=x^2\cos y$</p>
+          <p class="big-formula">$\frac{\partial f}{\partial y}(x,y)=x^2\cos y$</p>
         </div>
-        <div class="graph-row">
-          <button type="button" class="graph-toggle" data-graph-target="graph-partial-2" aria-expanded="false">see graph</button>
-        </div>
-        <figure class="answer-graph" id="graph-partial-2" hidden>
-          <img src="figures/example_partial_2.svg" alt="例題：偏微分 2 のグラフ">
-        </figure>
       </article>
 
       <article class="slide compact">
         <h2 class="slide-title">例題：偏微分 3</h2>
         <div class="itembox">
           <span class="box-label">Problem</span>
-          <p>次の関数の偏導関数 $f_x,\ f_y$ を求めよ。</p>
+          <p>次の関数の偏導関数 $\frac{\partial f}{\partial x},\ \frac{\partial f}{\partial y}$ を求めよ。</p>
           <p class="big-formula">$f(x,y)=e^{xy}$</p>
         </div>
       </article>
@@ -1002,20 +919,14 @@
         <h2 class="slide-title">例題：偏微分 3 解答</h2>
         <div class="itembox">
           <span class="box-label">Problem</span>
-          <p>次の関数の偏導関数 $f_x,\ f_y$ を求めよ。</p>
+          <p>次の関数の偏導関数 $\frac{\partial f}{\partial x},\ \frac{\partial f}{\partial y}$ を求めよ。</p>
           <p class="big-formula">$f(x,y)=e^{xy}$</p>
         </div>
         <div class="box">
           <span class="box-label">Answer</span>
           <p>合成関数の微分を用いる。</p>
-          <p class="big-formula">$f_x(x,y)=ye^{xy},\quad f_y(x,y)=xe^{xy}$</p>
+          <p class="big-formula">$\frac{\partial f}{\partial x}(x,y)=ye^{xy},\quad \frac{\partial f}{\partial y}(x,y)=xe^{xy}$</p>
         </div>
-        <div class="graph-row">
-          <button type="button" class="graph-toggle" data-graph-target="graph-partial-3" aria-expanded="false">see graph</button>
-        </div>
-        <figure class="answer-graph" id="graph-partial-3" hidden>
-          <img src="figures/example_partial_3.svg" alt="例題：偏微分 3 のグラフ">
-        </figure>
       </article>
 
       <article class="slide compact">
@@ -1037,101 +948,93 @@
         <div class="box">
           <span class="box-label">Answer</span>
           <p>各変数以外を定数とみなして微分する。</p>
-          <p class="big-formula">$f_x=2xy,\quad f_y=x^2+z^3,\quad f_z=3yz^2$</p>
-        </div>
-        <div class="graph-row">
-          <button type="button" class="graph-toggle" data-graph-target="graph-partial-4" aria-expanded="false">see graph</button>
-        </div>
-        <figure class="answer-graph" id="graph-partial-4" hidden>
-          <img src="figures/example_partial_4.svg" alt="例題：偏微分 4 のグラフ">
-        </figure>
-      </article>
-
-      <article class="slide compact">
-        <h2 class="slide-title">例題：偏微分 5</h2>
-        <div class="itembox">
-          <span class="box-label">Problem</span>
-          <p>温度分布 $T(x,y)=50+2x-y^2$ について，$\partial T/\partial x$，$\partial T/\partial y$ の意味を説明せよ。</p>
+          <p class="big-formula">$\frac{\partial f}{\partial x}=2xy,\quad \frac{\partial f}{\partial y}=x^2+z^3,\quad \frac{\partial f}{\partial z}=3yz^2$</p>
         </div>
       </article>
 
-      <article class="slide compact">
-        <h2 class="slide-title">例題：偏微分 5 解答</h2>
-        <div class="itembox">
-          <span class="box-label">Problem</span>
-          <p>温度分布 $T(x,y)=50+2x-y^2$ について，$\partial T/\partial x$，$\partial T/\partial y$ の意味を説明せよ。</p>
-        </div>
-        <div class="box">
-          <span class="box-label">Answer</span>
-          <p>$\partial T/\partial x=2$ なので，$x$ 方向に $1$ 進むと温度は $2$ 上がる。</p>
-          <p>$\partial T/\partial y=-2y$ なので，$y$ 方向の温度変化は位置 $y$ によって変わる。</p>
-        </div>
-        <div class="graph-row">
-          <button type="button" class="graph-toggle" data-graph-target="graph-partial-5" aria-expanded="false">see graph</button>
-        </div>
-        <figure class="answer-graph" id="graph-partial-5" hidden>
-          <img src="figures/example_partial_5.svg" alt="例題：偏微分 5 のグラフ">
-        </figure>
-      </article>
-
+ 
       <article class="slide">
         <h2 class="slide-title">3. 偏微分可能性と可微分性</h2>
         <div class="two-col top">
           <div class="box">
             <span class="box-label">偏微分可能</span>
-            <p>点 $(a,b)$ において $f_x(a,b)$，$f_y(a,b)$ が存在するとき，その点で偏微分可能という。</p>
+            <p>点 $(a,b)$ において $\frac{\partial f}{\partial x}(a,b)$，$\frac{\partial f}{\partial y}(a,b)$ が存在するとき，その点で偏微分可能という。</p>
           </div>
           <div class="theorem">
             <div class="name">注意</div>
-            <p>偏微分可能であっても，必ずしも関数が滑らかとは限らない。</p>
+            <p>偏微分可能であっても，必ずしも関数が"同時に微分"できるとは限らない。</p>
           </div>
+        </div>
+      </article>
+
+      <article class="slide">
+        <h2 class="slide-title">ランダウの記号</h2>
+        <p>定義：$g(x)$ が $x\to0$ のとき $o(x)$ であるとは，次を満たすことである。</p>
+        <p class="big-formula">$\lim_{x\to0}\frac{g(x)}{x}=0$</p>
+        <p>つまり，$g(x)$ は $x$ よりも速く $0$ に近づく関数であることを表す。</p>
+      </article>
+
+      <article class="slide">
+        <h2 class="slide-title">ランダウの記号の例</h2>
+        <div class="box">
+          <span class="box-label">Example 1</span>
+          <p>$x^2=o(x)$：$\frac{x^2}{x}=x\to0$</p>
+        </div>
+        <div class="box">
+          <span class="box-label">Example 2</span>
+          <p>$x\sin x=o(x)$：$\frac{x\sin x}{x}=\sin x\to0$</p>
+        </div>
+        <div class="itembox">
+          <span class="box-label">Not Example</span>
+          <p>$x$ は $o(x)$ でない：$\frac{x}{x}=1\not\to0$</p>
         </div>
       </article>
 
       <article class="slide">
         <h2 class="slide-title">可微分</h2>
-        <p>関数 $f(x,y)$ が点 $(a,b)$ の近くで一次式によりよく近似できるとき，その点で可微分という。</p>
-        <p>可微分であれば，</p>
-        <p class="big-formula">$$f(a+\Delta x,b+\Delta y)$$</p>
-        <p>は</p>
-        <p class="big-formula">$$f(a,b)+f_x(a,b)\Delta x+f_y(a,b)\Delta y$$</p>
-        <p>で近似できる。</p>
+        <p>関数 $f(x,y)$ が点 $(a,b)$ で可微分であるとは，次を満たすことである。</p>
+        <p class="big-formula">$f(a+h,b+k)-f(a,b)=\frac{\partial f}{\partial x}(a,b)h+\frac{\partial f}{\partial y}(a,b)k+o(\sqrt{h^2+k^2})$</p>
+        <p>ここで，$o(\sqrt{h^2+k^2})$ は $(h,k)\to(0,0)$ のとき $\frac{o(\sqrt{h^2+k^2})}{\sqrt{h^2+k^2}}\to0$ となる項を表す。</p>
+        <p>注意：可微分なら偏微分可能である。たとえば $k=0$ として $h\to0$ とすれば $x$ 方向，同様に $h=0$ として $k\to0$ とすれば $y$ 方向の偏微分係数が得られる。</p>
+        <p>注意：可微分であるとき，$h,k$ が十分小さければ $f(a+h,b+k)\approx f(a,b)+\frac{\partial f}{\partial x}(a,b)h+\frac{\partial f}{\partial y}(a,b)k$ と近似できる。</p>
       </article>
 
-      <article class="slide">
-        <h2 class="slide-title">全微分と接平面</h2>
-        <div class="two-col">
-          <div>
-            <p>可微分な関数に対して</p>
-            <p class="big-formula">$$df=f_xdx+f_ydy$$</p>
-            <p>を全微分という。小さい変化に対して</p>
-            <p class="big-formula">$$\Delta f\simeq f_x\Delta x+f_y\Delta y$$</p>
-            <p>と考えることができる。</p>
-          </div>
-          <figure class="figure">
-            <img src="figures/tangent_plane.png" alt="z=x^2+y^2 の接平面">
-            <figcaption class="caption">$z=x^2+y^2$ を点 $(1,1,2)$ の近くで平面 $z=2x+2y-2$ によって近似する。</figcaption>
-          </figure>
-        </div>
-      </article>
-
-      <article class="slide">
-        <h2 class="slide-title">接平面の式</h2>
-        <p>$z=f(x,y)$ が可微分なら，点 $(a,b,f(a,b))$ における接平面は</p>
-        <p class="big-formula">
-          $$z=f(a,b)+f_x(a,b)(x-a)+f_y(a,b)(y-b)$$
-        </p>
+      <article class="slide compact">
+        <h2 class="slide-title">例：可微分な関数 1</h2>
         <div class="itembox">
-          接平面は，曲面を点の近くで一次式に置き換えたものである。これは一変数関数でいう接線の二変数版である。
+          <span class="box-label">Example</span>
+          <p>$f(x,y)=xy$ は任意の点 $(a,b)$ で可微分である。</p>
+        </div>
+        <div class="box">
+          <span class="box-label">Reason</span>
+          <p>$f(a+h,b+k)-f(a,b)=(a+h)(b+k)-ab=bh+ak+hk$</p>
+          <p>$\frac{\partial f}{\partial x}(a,b)=b$，$\frac{\partial f}{\partial y}(a,b)=a$ なので，一次の部分は $bh+ak$ である。</p>
+          <p>$r=\sqrt{h^2+k^2}$ とおくと，余り $hk$ は $\frac{|hk|}{r}\le\frac{r^2}{2r}=\frac{r}{2}\to0$ を満たす。</p>
+          <p>したがって $hk=o(r)$ であり，$f$ は可微分である。</p>
         </div>
       </article>
 
+      <article class="slide compact">
+        <h2 class="slide-title">例：可微分な関数 2</h2>
+        <div class="itembox">
+          <span class="box-label">Example</span>
+          <p>$f(x,y)=x^2+y^2$ は任意の点 $(a,b)$ で可微分である。</p>
+        </div>
+        <div class="box">
+          <span class="box-label">Reason</span>
+          <p>$f(a+h,b+k)-f(a,b)=2ah+2bk+h^2+k^2$</p>
+          <p>$\frac{\partial f}{\partial x}(a,b)=2a$，$\frac{\partial f}{\partial y}(a,b)=2b$ なので，一次の部分は $2ah+2bk$ である。</p>
+          <p>$r=\sqrt{h^2+k^2}$ とおくと，余り $h^2+k^2$ は $\frac{h^2+k^2}{r}=r\to0$ を満たす。</p>
+          <p>したがって $h^2+k^2=o(r)$ であり，$f$ は可微分である。</p>
+        </div>
+      </article>
+      
       <article class="slide">
         <h2 class="slide-title">重要な十分条件</h2>
-        <p>$f_x$，$f_y$ が点の近くで存在し，かつ連続ならば，$f$ はその点で可微分である。</p>
+        <p>$\frac{\partial f}{\partial x}$，$\frac{\partial f}{\partial y}$ が点の近くで存在し，かつ連続ならば，$f$ はその点で可微分である。</p>
         <div class="flow-wrap">
           <div class="flow">
-            <div class="node blue">$f_x,\ f_y$ が近くで連続</div>
+            <div class="node blue">$\frac{\partial f}{\partial x},\ \frac{\partial f}{\partial y}$ が近くで連続</div>
             <div class="arrow">$\Longrightarrow$</div>
             <div class="node green">$f$ は可微分</div>
             <div class="arrow">$\Longrightarrow$</div>
@@ -1141,9 +1044,33 @@
         <p class="caption">逆向きは一般には成り立たない。</p>
       </article>
 
+      <article class="slide">
+        <h2 class="slide-title">対偶をとると</h2>
+        <p>上の矢印は，対偶をとると次のように使える。</p>
+        <div class="flow-wrap">
+          <div class="flow">
+            <div class="node orange">$f$ は偏微分可能でない</div>
+            <div class="arrow">$\Longrightarrow$</div>
+            <div class="node green">$f$ は可微分でない</div>
+          </div>
+        </div>
+        <p class="caption">可微分なら偏微分可能である，という命題の対偶である。</p>
+      </article>
+
+
+      <article class="slide">
+        <h2 class="slide-title">偏導関数が連続ならば可微分</h2>
+        <p>点 $(a,b)$ から $(a+h,b+k)$ に動かしたときの変化を，2つの差に分けて見る。</p>
+        <p class="big-formula">$f(a+h,b+k)-f(a,b)$</p>
+        <p class="big-formula">$=\{f(a+h,b+k)-f(a+h,b)\}+\{f(a+h,b)-f(a,b)\}$</p>
+        <p>それぞれを一変数の微分で近似すると，</p>
+        <p class="big-formula">$\approx \frac{\partial f}{\partial y}(a+h,b)k+\frac{\partial f}{\partial x}(a,b)h$</p>
+        <p>となる。さらに $(a+h,b)$ が $(a,b)$ に近いので，</p>
+        <p class="big-formula">$f(a+h,b+k)-f(a,b)\approx \frac{\partial f}{\partial x}(a,b)h+\frac{\partial f}{\partial y}(a,b)k$</p>
+      </article>
       <article class="slide tight">
         <h2 class="slide-title">偏微分可能だが可微分でない例</h2>
-        <p>次の関数は原点で $f_x(0,0)=0$，$f_y(0,0)=0$ をもつが，可微分ではない。</p>
+        <p>次の関数は原点で $\frac{\partial f}{\partial x}(0,0)=0$，$\frac{\partial f}{\partial y}(0,0)=0$ をもつが，可微分ではない。</p>
         <p class="big-formula">
           $$
           f(x,y)=
@@ -1154,20 +1081,6 @@
           $$
         </p>
         <p>軸方向では値が $0$ になるが，直線 $y=x$ に沿うと $f(x,x)=|x|/\sqrt{2}$ となる。</p>
-      </article>
-
-      <article class="slide">
-        <h2 class="slide-title">方向による見え方</h2>
-        <div class="figure-grid">
-          <figure class="figure">
-            <img src="figures/nondiff_surface.png" alt="xy/sqrt(x^2+y^2) の原点近くの形">
-            <figcaption class="caption">$xy/\sqrt{x^2+y^2}$ の原点近くの形</figcaption>
-          </figure>
-          <figure class="figure">
-            <img src="figures/direction_slice.png" alt="軸方向と y=x 方向の切り口">
-            <figcaption class="caption">軸方向だけを見ると見落とす変化がある。</figcaption>
-          </figure>
-        </div>
       </article>
 
       <article class="slide compact">
@@ -1189,7 +1102,7 @@
         <div class="box">
           <span class="box-label">Answer</span>
           <p>多項式なので，すべての点で偏微分可能である。</p>
-          <p>$f_x=2x+y$，$f_y=x+2y$ より，$f_x(1,2)=4$，$f_y(1,2)=5$ である。</p>
+          <p>$\frac{\partial f}{\partial x}=2x+y$，$\frac{\partial f}{\partial y}=x+2y$ より，$\frac{\partial f}{\partial x}(1,2)=4$，$\frac{\partial f}{\partial y}(1,2)=5$ である。</p>
         </div>
         <div class="graph-row">
           <button type="button" class="graph-toggle" data-graph-target="graph-diff-1" aria-expanded="false">see graph</button>
@@ -1203,7 +1116,7 @@
         <h2 class="slide-title">例題：可微分性 2</h2>
         <div class="itembox">
           <span class="box-label">Problem</span>
-          <p>次の関数の全微分を求めよ。</p>
+          <p>次の関数の可微分性を調べよ。</p>
           <p class="big-formula">$f(x,y)=x^2y+y^3$</p>
         </div>
       </article>
@@ -1217,7 +1130,7 @@
         </div>
         <div class="box">
           <span class="box-label">Answer</span>
-          <p>$f_x=2xy$，$f_y=x^2+3y^2$ である。</p>
+          <p>$\frac{\partial f}{\partial x}=2xy$，$\frac{\partial f}{\partial y}=x^2+3y^2$ である。</p>
           <p class="big-formula">$df=2xy\,dx+(x^2+3y^2)\,dy$</p>
         </div>
         <div class="graph-row">
@@ -1232,42 +1145,13 @@
         <h2 class="slide-title">例題：可微分性 3</h2>
         <div class="itembox">
           <span class="box-label">Problem</span>
-          <p>次の関数の点 $(1,1)$ における接平面を求めよ。</p>
-          <p class="big-formula">$z=x^2+y^2$</p>
-        </div>
-      </article>
-
-      <article class="slide compact">
-        <h2 class="slide-title">例題：可微分性 3 解答</h2>
-        <div class="itembox">
-          <span class="box-label">Problem</span>
-          <p>次の関数の点 $(1,1)$ における接平面を求めよ。</p>
-          <p class="big-formula">$z=x^2+y^2$</p>
-        </div>
-        <div class="box">
-          <span class="box-label">Answer</span>
-          <p>$f(1,1)=2$，$f_x(1,1)=2$，$f_y(1,1)=2$ である。</p>
-          <p class="big-formula">$z=2+2(x-1)+2(y-1)=2x+2y-2$</p>
-        </div>
-        <div class="graph-row">
-          <button type="button" class="graph-toggle" data-graph-target="graph-diff-3" aria-expanded="false">see graph</button>
-        </div>
-        <figure class="answer-graph" id="graph-diff-3" hidden>
-          <img src="figures/example_diff_3.svg" alt="例題：可微分性 3 のグラフ">
-        </figure>
-      </article>
-
-      <article class="slide compact">
-        <h2 class="slide-title">例題：可微分性 4</h2>
-        <div class="itembox">
-          <span class="box-label">Problem</span>
           <p>次の関数が可微分であるか考えよ。</p>
           <p class="big-formula">$f(x,y)=|x|+|y|$</p>
         </div>
       </article>
 
       <article class="slide compact">
-        <h2 class="slide-title">例題：可微分性 4 解答</h2>
+        <h2 class="slide-title">例題：可微分性 3 解答</h2>
         <div class="itembox">
           <span class="box-label">Problem</span>
           <p>次の関数が可微分であるか考えよ。</p>
@@ -1279,15 +1163,15 @@
           <p>$x=0$ または $y=0$ の点では，絶対値の折れ曲がりにより対応する偏微分が存在しないので，可微分ではない。</p>
         </div>
         <div class="graph-row">
-          <button type="button" class="graph-toggle" data-graph-target="graph-diff-4" aria-expanded="false">see graph</button>
+          <button type="button" class="graph-toggle" data-graph-target="graph-diff-3" aria-expanded="false">see graph</button>
         </div>
-        <figure class="answer-graph" id="graph-diff-4" hidden>
-          <img src="figures/example_diff_4.svg" alt="例題：可微分性 4 のグラフ">
+        <figure class="answer-graph" id="graph-diff-3" hidden>
+          <img src="figures/example_diff_4.svg" alt="例題：可微分性 3 のグラフ">
         </figure>
       </article>
 
       <article class="slide compact">
-        <h2 class="slide-title">例題：可微分性 5</h2>
+        <h2 class="slide-title">例題：可微分性 4</h2>
         <div class="itembox">
           <span class="box-label">Problem</span>
           <p>上の $xy/\sqrt{x^2+y^2}$ の例について，偏微分可能性と可微分性の違いを説明せよ。</p>
@@ -1295,7 +1179,7 @@
       </article>
 
       <article class="slide compact">
-        <h2 class="slide-title">例題：可微分性 5 解答</h2>
+        <h2 class="slide-title">例題：可微分性 4 解答</h2>
         <div class="itembox">
           <span class="box-label">Problem</span>
           <p>上の $xy/\sqrt{x^2+y^2}$ の例について，偏微分可能性と可微分性の違いを説明せよ。</p>
@@ -1303,16 +1187,113 @@
         <div class="box">
           <span class="box-label">Answer</span>
           <p>原点で $x$ 軸方向と $y$ 軸方向だけを見ると変化率はどちらも $0$ なので，偏微分可能である。</p>
-          <p>しかし $y=x$ に沿うと $f(x,x)=|x|/\sqrt{2}$ となり，一次近似 $0$ では全方向の変化を表せない。したがって原点では可微分でない。</p>
+          <p>しかし $y=x$ に沿うと $f(x,x)=|x|/\sqrt{2}$ となり，一次近似 $0$ ではこの方向の変化を表せない。したがって原点では可微分でない。</p>
         </div>
         <div class="graph-row">
-          <button type="button" class="graph-toggle" data-graph-target="graph-diff-5" aria-expanded="false">see graph</button>
+          <button type="button" class="graph-toggle" data-graph-target="graph-diff-4" aria-expanded="false">see graph</button>
         </div>
-        <figure class="answer-graph" id="graph-diff-5" hidden>
-          <img src="figures/example_diff_5.svg" alt="例題：可微分性 5 のグラフ">
+        <figure class="answer-graph" id="graph-diff-4" hidden>
+          <img src="figures/example_diff_5.svg" alt="例題：可微分性 4 のグラフ">
         </figure>
       </article>
 
+
+
+      <article class="slide">
+        <h2 class="slide-title">接平面の式</h2>
+        <p>$z=f(x,y)$ が可微分なら，点 $(a,b,f(a,b))$ における接平面は</p>
+        <p class="big-formula">
+          $$z=f(a,b)+\frac{\partial f}{\partial x}(a,b)(x-a)+\frac{\partial f}{\partial y}(a,b)(y-b)$$
+        </p>
+        <div class="itembox">
+          接平面は，曲面を点の近くで一次式に置き換えたものである。これは一変数関数でいう接線の二変数版である。
+        </div>
+      </article>
+
+      
+      <article class="slide compact">
+        <h2 class="slide-title">例題：接平面 1</h2>
+        <div class="itembox">
+          <span class="box-label">Problem</span>
+          <p>次の関数の点 $(1,1)$ における接平面を求めよ。</p>
+          <p class="big-formula">$z=x^2+y^2$</p>
+        </div>
+      </article>
+
+      <article class="slide compact">
+        <h2 class="slide-title">例題：接平面 1 解答</h2>
+        <div class="itembox">
+          <span class="box-label">Problem</span>
+          <p>次の関数の点 $(1,1)$ における接平面を求めよ。</p>
+          <p class="big-formula">$z=x^2+y^2$</p>
+        </div>
+        <div class="box">
+          <span class="box-label">Answer</span>
+          <p>$f(1,1)=2$，$\frac{\partial f}{\partial x}(1,1)=2$，$\frac{\partial f}{\partial y}(1,1)=2$ である。</p>
+          <p class="big-formula">$z=2+2(x-1)+2(y-1)=2x+2y-2$</p>
+        </div>
+        <div class="graph-row">
+          <button type="button" class="graph-toggle" data-graph-target="graph-tangent-1" aria-expanded="false">see graph</button>
+        </div>
+        <figure class="answer-graph" id="graph-tangent-1" hidden>
+          <img src="figures/example_diff_3.svg" alt="例題：接平面 1 のグラフ">
+        </figure>
+      </article>
+
+      <article class="slide compact">
+        <h2 class="slide-title">例題：接平面 2</h2>
+        <div class="itembox">
+          <span class="box-label">Problem</span>
+          <p>次の関数の点 $(0,0)$ における接平面を求めよ。</p>
+          <p class="big-formula">$z=e^{x+y}+xy$</p>
+        </div>
+      </article>
+
+      <article class="slide compact">
+        <h2 class="slide-title">例題：接平面 2 解答</h2>
+        <div class="itembox">
+          <span class="box-label">Problem</span>
+          <p>次の関数の点 $(0,0)$ における接平面を求めよ。</p>
+          <p class="big-formula">$z=e^{x+y}+xy$</p>
+        </div>
+        <div class="box">
+          <span class="box-label">Answer</span>
+          <p>$f(0,0)=1$ である。</p>
+          <p>$\frac{\partial f}{\partial x}=e^{x+y}+y$，$\frac{\partial f}{\partial y}=e^{x+y}+x$ より，$\frac{\partial f}{\partial x}(0,0)=1$，$\frac{\partial f}{\partial y}(0,0)=1$ である。</p>
+          <p class="big-formula">$z=1+x+y$</p>
+        </div>
+      </article>
+
+      <article class="slide compact">
+        <h2 class="slide-title">例題：接平面 3</h2>
+        <div class="itembox">
+          <span class="box-label">Problem</span>
+          <p>次の関数の原点における接平面を求めよ。</p>
+          <p class="big-formula">$f(x,y)=x+2y+\dfrac{x^2y^2}{x^2+y^2}\quad ((x,y)\ne(0,0))$</p>
+          <p class="big-formula">$f(0,0)=0$</p>
+        </div>
+      </article>
+
+      <article class="slide compact">
+        <h2 class="slide-title">例題：接平面 3 解答</h2>
+        <div class="itembox">
+          <span class="box-label">Problem</span>
+          <p>次の関数の原点における可微分性および接平面を求めよ。</p>
+          <p class="big-formula">$f(x,y)=x+2y+\dfrac{x^2y^2}{x^2+y^2}\quad ((x,y)\ne(0,0))$</p>
+          <p class="big-formula">$f(0,0)=0$</p>
+        </div>
+        <div class="box">
+          <span class="box-label">Answer</span>
+          <p>$r=\sqrt{h^2+k^2}$ とおくと，</p>
+          <p class="big-formula">$f(h,k)-f(0,0)=h+2k+\dfrac{h^2k^2}{h^2+k^2}$</p>
+          <p>余りは $\dfrac{h^2k^2}{h^2+k^2}$ であり，$\dfrac{1}{r}\dfrac{h^2k^2}{h^2+k^2}\le r\to0$ である。</p>
+          <p>したがって余りは $o(r)$ で，$f$ は原点で可微分である。</p>
+          <p>$\frac{\partial f}{\partial x}(0,0)=1$，$\frac{\partial f}{\partial y}(0,0)=2$ なので，接平面は</p>
+          <p class="big-formula">$z=x+2y$</p>
+        </div>
+      </article>
+
+      <!-- C^n級以降は一時的に非表示
       <article class="slide">
         <h2 class="slide-title">4. $C^n$ 級関数</h2>
         <div class="box">
@@ -1320,7 +1301,7 @@
           <p>$C^1$ 級：1階偏導関数が存在し，それらが連続である。</p>
           <p>$C^2$ 級：2階偏導関数が存在し，それらが連続である。</p>
         </div>
-        <p>二変数関数では，$C^1$ 級は $f_x$，$f_y$ が存在して連続であることを意味する。</p>
+        <p>二変数関数では，$C^1$ 級は $\frac{\partial f}{\partial x}$，$\frac{\partial f}{\partial y}$ が存在して連続であることを意味する。</p>
       </article>
 
       <article class="slide">
@@ -1360,11 +1341,11 @@
           <div class="flow">
             <div class="node gray">$f$</div>
             <div class="arrow">$\to$</div>
-            <div class="node blue">$f_x$</div>
+            <div class="node blue">$\frac{\partial f}{\partial x}$</div>
             <div class="arrow">$\to$</div>
             <div class="node orange">$f_{xy}=f_{yx}$</div>
             <div class="arrow">$\leftarrow$</div>
-            <div class="node green">$f_y$</div>
+            <div class="node green">$\frac{\partial f}{\partial y}$</div>
           </div>
         </div>
       </article>
@@ -1401,7 +1382,7 @@
         </div>
         <div class="box">
           <span class="box-label">Answer</span>
-          <p>$x$ 方向の偏微分は $f_x(0,0)=\lim_{h\to0}|h|/h$ となり，極限が存在しない。</p>
+          <p>$x$ 方向の偏微分は $\frac{\partial f}{\partial x}(0,0)=\lim_{h\to0}|h|/h$ となり，極限が存在しない。</p>
           <p>したがって原点では $C^1$ 級でない。</p>
         </div>
         <div class="graph-row">
@@ -1430,7 +1411,7 @@
         </div>
         <div class="box">
           <span class="box-label">Answer</span>
-          <p>$f_x=3x^2y+y^2$，$f_y=x^3+2xy$ である。</p>
+          <p>$\frac{\partial f}{\partial x}=3x^2y+y^2$，$\frac{\partial f}{\partial y}=x^3+2xy$ である。</p>
           <p class="big-formula">$f_{xx}=6xy,\quad f_{xy}=3x^2+2y,\quad f_{yx}=3x^2+2y,\quad f_{yy}=2x$</p>
         </div>
         <div class="graph-row">
@@ -1459,7 +1440,7 @@
         </div>
         <div class="box">
           <span class="box-label">Answer</span>
-          <p>$f_x=ye^{xy}$，$f_y=xe^{xy}$ である。</p>
+          <p>$\frac{\partial f}{\partial x}=ye^{xy}$，$\frac{\partial f}{\partial y}=xe^{xy}$ である。</p>
           <p class="big-formula">$f_{xy}=(1+xy)e^{xy},\quad f_{yx}=(1+xy)e^{xy}$</p>
         </div>
         <div class="graph-row">
@@ -1488,7 +1469,7 @@
         </div>
         <div class="box">
           <span class="box-label">Answer</span>
-          <p>$f_x(x,y)=|y|$ である。</p>
+          <p>$\frac{\partial f}{\partial x}(x,y)=|y|$ である。</p>
           <p>したがって $f_{xy}(0,0)=\lim_{h\to0}|h|/h$ となり，極限が存在しない。よって原点では $C^2$ 級でない。</p>
         </div>
         <div class="graph-row">
@@ -1517,7 +1498,7 @@
         </div>
         <div class="box">
           <span class="box-label">Answer</span>
-          <p>直線 $x=0$ 上の任意の点 $(0,b)$ で，$f_x(0,b)=\lim_{h\to0}|h|/h$ となる。</p>
+          <p>直線 $x=0$ 上の任意の点 $(0,b)$ で，$\frac{\partial f}{\partial x}(0,b)=\lim_{h\to0}|h|/h$ となる。</p>
           <p>この極限は存在しないので，直線 $x=0$ 上では $C^1$ 級でない。</p>
         </div>
         <div class="graph-row">
@@ -1528,23 +1509,8 @@
         </figure>
       </article>
 
-      <article class="slide">
-        <h2 class="slide-title">まとめ</h2>
-        <ul>
-          <li>多変数関数は，複数の入力変数をもつ関数である。</li>
-          <li>偏微分は，1つの変数だけを動かして微分する操作である。</li>
-          <li>偏微分可能であっても，可微分とは限らない。</li>
-          <li>偏導関数が連続なら，可微分性が保証される。</li>
-          <li>$C^n$ 級とは，$n$ 階までの偏導関数が連続に存在する関数である。</li>
-          <li>$C^2$ 級なら，$f_{xy}=f_{yx}$ が成り立つ。</li>
-        </ul>
-        <div class="link-row">
-          <a href="../class7/class7.html">← 第7回</a>
-          <a href="../index.html">ホーム</a>
-          <a href="../class9/class9.html">第9回 →</a>
-        </div>
-      </article>
-    </section>
+      -->
+
   </main>
 
   <div class="controls" aria-label="slide controls">
