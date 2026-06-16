@@ -1,0 +1,378 @@
+\RequirePackage{iftex}
+\ifPDFTeX
+\documentclass[a4paper,12pt]{article}
+\usepackage[margin=22mm]{geometry}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{graphicx}
+\usepackage{CJKutf8}
+\else
+\documentclass[a4paper,12pt]{jsarticle}
+\usepackage[dvipdfmx,margin=22mm]{geometry}
+\usepackage[dvipdfmx]{graphicx}
+\fi
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{enumitem}
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta,calc}
+
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{0.35em}
+\setlength{\fboxsep}{8pt}
+\setlist[itemize]{leftmargin=2em,itemsep=0.25em,topsep=0.35em}
+\setlist[enumerate]{leftmargin=2.2em,itemsep=0.45em,topsep=0.35em}
+
+\newcommand{\feedbackqa}[2]{%
+\item[]
+\begin{tabular}[t]{@{}p{1.8em}@{\hspace{0.4em}}p{\dimexpr\linewidth-2.2em\relax}@{}}
+Q. & #1 \\
+A. & #2
+\end{tabular}
+\par\smallskip\hrulefill
+}
+
+\newcommand{\pointbox}[1]{%
+\begin{center}
+\fbox{%
+\begin{minipage}{0.91\linewidth}
+#1
+\end{minipage}}
+\end{center}
+}
+
+\begin{document}
+\ifPDFTeX
+\begin{CJK}{UTF8}{min}
+\fi
+
+\theoremstyle{definition}
+\newtheorem*{definition}{定義}
+\newtheorem*{theorem}{定理}
+\newtheorem*{example}{例}
+\newtheorem*{remark}{注意}
+\renewcommand{\proofname}{\normalfont 証明}
+
+\begin{center}
+{\LARGE 数学1A 第9回レジュメ}\\[0.4em]
+全微分・連鎖律・勾配
+\end{center}
+
+\section*{フィードバック}
+
+\begin{itemize}[leftmargin=1.5em,itemsep=0.7em,topsep=0.3em]
+\feedbackqa{中間試験はあるか？}{中間試験はあります。ただし、成績には
+\[
+\max\{\text{小テスト }20\%+\text{期末 }80\%,\
+\text{小テスト }10\%+\text{中間 }30\%+\text{期末 }60\%\}
+\]
+のような形で反映されます。詳しくはシラバスの成績評価を参照してください。}
+\end{itemize}
+
+\section*{1. ランダウの記号}
+
+\begin{definition}
+$r(h)$ が
+\[
+\lim_{h\to0}\frac{r(h)}{h}=0
+\]
+を満たすとき、
+\[
+r(h)=o(h)\qquad (h\to0)
+\]
+と書く。
+\end{definition}
+
+$o(h)$ は特定の一つの関数の名前ではなく、「$h$ で割ると $0$ に収束する余り」を表す記号である。例えば
+\[
+h^2=o(h),\qquad h\sin h=o(h)\qquad (h\to0)
+\]
+である。一方、$h$ 自身は $o(h)$ ではない。
+
+\begin{theorem}
+一変数関数 $x(t)$ が $t$ で微分可能であることと、
+\[
+x(t+h)-x(t)=x'(t)h+o(h)\qquad (h\to0)
+\]
+と書けることは同値である。
+\end{theorem}
+
+\begin{proof}
+微分可能なら
+\[
+r(h)=x(t+h)-x(t)-x'(t)h
+\]
+とおくことができる。微分の定義から
+\[
+\frac{r(h)}{h}
+=\frac{x(t+h)-x(t)}{h}-x'(t)\longrightarrow0
+\]
+なので $r(h)=o(h)$ である。逆に上の表示を $h$ で割って $h\to0$ とすれば、差商は $x'(t)$ に収束する。
+\end{proof}
+
+\pointbox{
+微分可能性とは、関数の変化を
+\[
+\text{一次の変化}+\text{一次より小さい誤差}
+\]
+に分けられることである。
+}
+
+\section*{2. 二変数関数の全微分可能性}
+
+$f(x,y)$ の点 $(a,b)$ における増分を
+\[
+\Delta f=f(a+h,b+k)-f(a,b)
+\]
+とする。また
+\[
+\rho=\sqrt{h^2+k^2}
+\]
+とおく。
+
+\begin{definition}
+ある定数 $A,B$ が存在して
+\[
+f(a+h,b+k)-f(a,b)=Ah+Bk+o(\rho)
+\qquad ((h,k)\to(0,0))
+\]
+と書けるとき、$f$ は $(a,b)$ で全微分可能、または単に可微分であるという。
+\end{definition}
+
+$f$ が可微分なら
+\[
+A=f_x(a,b),\qquad B=f_y(a,b)
+\]
+となる。したがって、可微分性の式は
+\[
+f(a+h,b+k)
+=f(a,b)+f_x(a,b)h+f_y(a,b)k+o(\rho)
+\]
+と書ける。
+
+\begin{theorem}[可微分性の十分条件]
+$f_x,f_y$ が $(a,b)$ の近くで存在し、$(a,b)$ で連続ならば、$f$ は $(a,b)$ で可微分である。
+\end{theorem}
+
+\begin{remark}
+偏微分可能であるだけでは、可微分とは限らない。偏導関数の連続性は可微分性を確認するための使いやすい十分条件である。
+\end{remark}
+
+\begin{example}
+$f(x,y)=x^2y+y^3$ とする。この関数は多項式なので可微分であり、
+\[
+f_x(x,y)=2xy,\qquad f_y(x,y)=x^2+3y^2
+\]
+である。したがって
+\[
+df=2xy\,dx+(x^2+3y^2)\,dy.
+\]
+点 $(1,2)$ の近くでは
+\[
+f(1+h,2+k)
+=9+4h+13k+o\left(\sqrt{h^2+k^2}\right)
+\]
+となる。
+\end{example}
+
+\section*{3. 連鎖律}
+
+\begin{theorem}[曲線に沿う連鎖律]
+$f(x,y)$ が $(x(t),y(t))$ で可微分であり、$x(t),y(t)$ が $t$ で微分可能であるとする。このとき
+\[
+g(t)=f(x(t),y(t))
+\]
+は $t$ で微分可能であり、
+\[
+\boxed{
+g'(t)
+=f_x(x(t),y(t))x'(t)
++f_y(x(t),y(t))y'(t)
+}
+\]
+が成り立つ。
+\end{theorem}
+
+\begin{proof}
+\[
+\Delta x=x(t+h)-x(t),\qquad
+\Delta y=y(t+h)-y(t)
+\]
+とおく。$x,y$ の微分可能性から
+\[
+\Delta x=x'(t)h+o(h),\qquad
+\Delta y=y'(t)h+o(h)
+\]
+である。特に
+\[
+\sqrt{(\Delta x)^2+(\Delta y)^2}=O(|h|)
+\]
+となる。
+
+$f$ の可微分性を使うと
+\[
+\begin{aligned}
+g(t+h)-g(t)
+={}&f_x(x(t),y(t))\Delta x
++f_y(x(t),y(t))\Delta y\\
+&+o\left(\sqrt{(\Delta x)^2+(\Delta y)^2}\right)\\
+={}&\left\{
+f_x(x(t),y(t))x'(t)
++f_y(x(t),y(t))y'(t)
+\right\}h+o(h).
+\end{aligned}
+\]
+両辺を $h$ で割り、$h\to0$ とすれば主張を得る。
+\end{proof}
+
+\begin{example}
+\[
+f(x,y)=x^2y,\qquad x(t)=\cos t,\qquad y(t)=\sin t
+\]
+とする。このとき
+\[
+f_x=2xy,\qquad f_y=x^2,\qquad
+x'=-\sin t,\qquad y'=\cos t
+\]
+だから
+\[
+\begin{aligned}
+\frac{d}{dt}f(\cos t,\sin t)
+&=2\cos t\sin t(-\sin t)+\cos^2t\cos t\\
+&=-2\cos t\sin^2t+\cos^3t.
+\end{aligned}
+\]
+実際、$f(\cos t,\sin t)=\cos^2t\sin t$ を直接微分しても同じ結果になる。
+\end{example}
+
+\begin{example}
+\[
+z=e^{xy},\qquad x=t^2,\qquad y=1+t
+\]
+とする。連鎖律により
+\[
+\frac{dz}{dt}
+=ye^{xy}\frac{dx}{dt}+xe^{xy}\frac{dy}{dt}.
+\]
+$x=t^2,\ y=1+t,\ x'=2t,\ y'=1$ を代入すると
+\[
+\frac{dz}{dt}
+=e^{t^2(1+t)}\left(2t(1+t)+t^2\right)
+=e^{t^2(1+t)}(2t+3t^2).
+\]
+\end{example}
+
+\section*{4. 勾配}
+
+\begin{definition}
+$f$ の点 $(a,b)$ における勾配を
+\[
+\nabla f(a,b)
+=\begin{pmatrix}
+f_x(a,b)\\
+f_y(a,b)
+\end{pmatrix}
+\]
+と定める。
+\end{definition}
+
+変位ベクトルを
+\[
+\Delta\boldsymbol{x}
+=\begin{pmatrix}h\\k\end{pmatrix}
+\]
+と書けば、可微分性の式は内積を使って
+\[
+f(a+h,b+k)-f(a,b)
+=\nabla f(a,b)\cdot\Delta\boldsymbol{x}
++o(\|\Delta\boldsymbol{x}\|)
+\]
+と表せる。したがって、勾配は関数の一次の変化をまとめて表すベクトルである。
+
+\begin{theorem}[方向微分]
+$f$ が $(a,b)$ で可微分で、$\boldsymbol{u}$ が単位ベクトルならば、$\boldsymbol{u}$ 方向の方向微分は
+\[
+D_{\boldsymbol{u}}f(a,b)
+=\nabla f(a,b)\cdot\boldsymbol{u}
+\]
+である。
+\end{theorem}
+
+内積の性質から
+\[
+D_{\boldsymbol{u}}f(a,b)
+=\|\nabla f(a,b)\|\cos\theta
+\]
+である。ここで $\theta$ は $\nabla f(a,b)$ と $\boldsymbol{u}$ のなす角である。したがって、$\nabla f(a,b)\neq\boldsymbol{0}$ なら、関数が最も速く増加する方向は勾配の方向であり、その変化率の最大値は
+\[
+\|\nabla f(a,b)\|
+\]
+である。
+
+\begin{center}
+\begin{tikzpicture}[x=1.15cm,y=1.15cm,>=Latex]
+\draw[->] (-0.2,0) -- (5.2,0) node[below] {$x$};
+\draw[->] (0,-0.2) -- (0,3.6) node[left] {$y$};
+\draw[thick] (1.0,1.5) ellipse (0.6 and 0.35);
+\draw[thick] (1.0,1.5) ellipse (1.25 and 0.72);
+\draw[thick] (1.0,1.5) ellipse (2.0 and 1.15);
+\fill (2.25,2.02) circle (2pt) node[above left] {$(a,b)$};
+\draw[->,very thick,blue] (2.25,2.02) -- (3.65,2.85)
+  node[right] {$\nabla f(a,b)$};
+\draw[dashed,gray] (1.55,2.13) -- (3.15,1.28);
+\node at (4.0,0.65) {等高線};
+\end{tikzpicture}
+\end{center}
+
+勾配は等高線に垂直である。実際、等高線に沿う曲線
+\[
+\boldsymbol{r}(t)=(x(t),y(t))
+\]
+について $f(\boldsymbol{r}(t))$ は一定なので、連鎖律から
+\[
+0=\frac{d}{dt}f(\boldsymbol{r}(t))
+=\nabla f(\boldsymbol{r}(t))\cdot\boldsymbol{r}'(t)
+\]
+となる。よって勾配と等高線の接ベクトルは直交する。
+
+\begin{example}
+\[
+f(x,y)=x^2+2y^2
+\]
+とすると
+\[
+\nabla f(x,y)=(2x,4y).
+\]
+点 $(1,1)$ では $\nabla f(1,1)=(2,4)$ である。したがって、最も速く増加する単位方向は
+\[
+\frac{\nabla f(1,1)}{\|\nabla f(1,1)\|}
+=\frac{1}{\sqrt5}(1,2)
+\]
+であり、その方向の変化率は
+\[
+\|\nabla f(1,1)\|=2\sqrt5
+\]
+である。
+\end{example}
+
+\pointbox{
+\[
+\begin{array}{c}
+\text{可微分性}\\[0.2em]
+f(a+h,b+k)-f(a,b)
+=\nabla f(a,b)\cdot(h,k)+o(\sqrt{h^2+k^2})
+\end{array}
+\]
+\[
+\begin{array}{c}
+\text{連鎖律}\\[0.2em]
+\dfrac{d}{dt}f(x(t),y(t))
+=\nabla f(x(t),y(t))\cdot(x'(t),y'(t))
+\end{array}
+\]
+}
+
+
+\ifPDFTeX
+\end{CJK}
+\fi
+\end{document}

@@ -4,9 +4,10 @@
 \usepackage[margin=24mm]{geometry}
 \usepackage[T1]{fontenc}
 \usepackage[utf8]{inputenc}
+\usepackage{CJKutf8}
 \else
-\documentclass[a4paper,12pt]{article}
-\usepackage[margin=24mm]{geometry}
+\documentclass[a4paper,12pt]{jsarticle}
+\usepackage[dvipdfmx,margin=24mm]{geometry}
 \fi
 \usepackage{amsmath,amssymb}
 \usepackage{enumitem}
@@ -15,13 +16,16 @@
 \setlength{\parskip}{0.45em}
 \setlist[enumerate]{label=(\alph*),leftmargin=3em,itemsep=0.2em,topsep=0.2em}
 
-\newcommand{\ans}[1]{\par\vspace{0.8em}\noindent{\large Problem #1}\quad}
-\newcommand{\choiceans}[1]{\par\vspace{0.8em}\noindent{\large Choice Problem #1}\quad}
+\newcommand{\ans}[1]{\par\vspace{0.8em}\noindent{\large 問題 #1}\quad}
+\newcommand{\choiceans}[1]{\par\vspace{0.8em}\noindent{\large 選択問題 #1}\quad}
 
 \begin{document}
+\ifPDFTeX
+\begin{CJK}{UTF8}{min}
+\fi
 
 \begin{center}
-{\Large Answers}
+{\Large 数学1A 中間試験 解答}
 \end{center}
 
 \ans{1}
@@ -31,227 +35,175 @@
 \end{enumerate}
 
 \ans{2}
-Continuity at $x=1$ requires
-$$
-\lim_{x\to 1-}f(x)=f(1).
-$$
-Here
-$$
-\lim_{x\to 1-}(x^2+a)=1+a,\qquad f(1)=2.
-$$
-Hence $1+a=2$, so
-$$
-a=1.
-$$
+\begin{enumerate}
+\item $x=1$ で連続であるためには
+\[
+\lim_{x\to 1-}f(x)=f(1)
+\]
+が必要である。左極限は $1+a$ であり, $f(1)=2$ だから
+\[
+1+a=2.
+\]
+よって $a=1$.
+
+\item $f(x)=x^3+x-1$ は多項式なので $[0,1]$ で連続である。また
+\[
+f(0)=-1,\qquad f(1)=1.
+\]
+したがって中間値の定理より, ある $c\in(0,1)$ が存在して
+\[
+f(c)=0
+\]
+となる。よって $x^3+x-1=0$ は $(0,1)$ に少なくとも1つの解をもつ。
+\end{enumerate}
 
 \ans{3}
-The function $f(x)=x^3+x-1$ is continuous on $[0,1]$. Also
-$$
-f(0)=-1<0,\qquad f(1)=1>0.
-$$
-By the intermediate value theorem, there exists $c\in(0,1)$ such that
-$$
-f(c)=0.
-$$
-Thus $x^3+x-1=0$ has at least one solution in $(0,1)$.
+\begin{enumerate}
+\item
+\[
+f'(x)=2x\sin x+(x^2+1)\cos x.
+\]
+\item
+\[
+g'(x)=\log x+1\qquad (x>0).
+\]
+\end{enumerate}
 
 \ans{4}
-\begin{enumerate}
-\item By the product rule,
-$$
-f'(x)=2x\sin x+(x^2+1)\cos x.
-$$
-\item By the product rule and chain rule,
-$$
-g'(x)=(\log x)^2+2\log x.
-$$
-\end{enumerate}
-
-\ans{5}
-This is a $0/0$ form, so by l'Hopital's theorem,
-$$
+分子, 分母はともに $x\to 0$ で $0$ に近づく。ロピタルの定理より
+\[
 \lim_{x\to 0}\frac{\cos(\sin x)-1}{x}
 =\lim_{x\to 0}\frac{-\sin(\sin x)\cos x}{1}=0.
-$$
+\]
+
+\ans{5}
+\[
+\frac{\partial f}{\partial x}(x,y)=3x^2y^2+ye^{xy},
+\qquad
+\frac{\partial f}{\partial y}(x,y)=2x^3y+xe^{xy}.
+\]
 
 \ans{6}
-For $f(x,y)=x^3y^2+e^{xy}$,
-$$
-\frac{\partial f}{\partial x}(x,y)=3x^2y^2+ye^{xy},
-$$
-and
-$$
-\frac{\partial f}{\partial y}(x,y)=2x^3y+xe^{xy}.
-$$
+$a=\frac{\pi}{2}$ とする。
+\[
+f(a)=1,\quad f'(a)=0,\quad f''(a)=-1,\quad f'''(a)=0.
+\]
+したがって3次のテイラー多項式は
+\[
+T_3(x)=1-\frac{1}{2}\left(x-\frac{\pi}{2}\right)^2.
+\]
 
 \ans{7}
-\begin{enumerate}
-\item For $f(x)=\sin x$ at $a=\pi/2$,
-$$
-f(a)=1,\quad f'(a)=0,\quad f''(a)=-1,\quad f'''(a)=0.
-$$
-Therefore the third degree Taylor polynomial is
-$$
-T_3(x)=1-\frac{1}{2}\left(x-\frac{\pi}{2}\right)^2.
-$$
-\item Since every derivative of $e^x$ is $e^x$ and $e^0=1$,
-$$
-T_n(x)=\sum_{k=0}^n\frac{x^k}{k!}
-=1+x+\frac{x^2}{2!}+\cdots+\frac{x^n}{n!}.
-$$
-\end{enumerate}
+\[
+e^{2x}=\sum_{n=0}^{\infty}\frac{(2x)^n}{n!}
+=1+2x+\frac{(2x)^2}{2!}+\frac{(2x)^3}{3!}+\cdots.
+\]
 
 \ans{8}
-Euler's formula gives
-$$
-\cos w=\frac{e^{iw}+e^{-iw}}{2}.
-$$
-Putting $w=ix$ gives
-$$
-\cos(ix)=\frac{e^{-x}+e^x}{2}.
-$$
-
-\choiceans{A}
-Take
-$$
-z=i\log(2+\sqrt{3}).
-$$
-Then
-$$
-\cos z=\cos\left(i\log(2+\sqrt{3})\right)
-=\cosh\left(\log(2+\sqrt{3})\right).
-$$
-Since
-$$
-\cosh t=\frac{e^t+e^{-t}}{2},
-$$
-with $t=\log(2+\sqrt{3})$ we get
-$$
-\cosh t
-=\frac{2+\sqrt{3}+\frac{1}{2+\sqrt{3}}}{2}
-=\frac{2+\sqrt{3}+2-\sqrt{3}}{2}
-=2.
-$$
-Thus $z=i\log(2+\sqrt{3})$ is one solution.
-
-\choiceans{B}
-Let
-$$
-\phi(x)=1+\sin\left(\frac{\pi x}{4}\right)-x.
-$$
-On $[0,2]$,
-$$
-\phi'(x)=\frac{\pi}{4}\cos\left(\frac{\pi x}{4}\right)-1\leq \frac{\pi}{4}-1<0.
-$$
-Also $\phi(2)=0$, so $\phi(x)\geq 0$ for $0\leq x\leq 2$.
-
-Since $a_0=0$ and $0\leq a_n\leq 2$ implies
-$$
-0\leq a_{n+1}=1+\sin\left(\frac{\pi a_n}{4}\right)\leq 2,
-$$
-the sequence is bounded above by $2$. Moreover,
-$$
-a_{n+1}-a_n=\phi(a_n)\geq 0,
-$$
-so it is increasing. Therefore it converges. If its limit is $L$, then
-$$
-L=1+\sin\left(\frac{\pi L}{4}\right).
-$$
-The function $\phi$ is strictly decreasing on $[0,2]$ and $\phi(2)=0$, hence $L=2$.
-
-\choiceans{C}
-Put $x=\tan a$ and $y=\tan b$. Then $x,y\in[0,1)$.
-It is enough to prove
-$$
-\arctan\sqrt{xy}\leq \frac{\arctan x+\arctan y}{2},
-$$
-because $\tan$ is increasing on $[0,\pi/2)$.
-
-Define
-$$
-F(t)=\arctan(e^t).
-$$
-Then
-$$
-F''(t)=\frac{e^t(1-e^{2t})}{(1+e^{2t})^2}.
-$$
-For $x,y\in[0,1)$, write $x=e^u$, $y=e^v$ with $u,v\leq 0$ when $x,y>0$. On $(-\infty,0]$, $F''(t)\geq 0$, so $F$ is convex. Hence
-$$
-\arctan\sqrt{xy}
-=F\left(\frac{u+v}{2}\right)
-\leq \frac{F(u)+F(v)}{2}
-=\frac{\arctan x+\arctan y}{2}.
-$$
-If $x=0$ or $y=0$, the left side is $0$ and the claim is immediate. Thus
-$$
-\sqrt{\tan a\,\tan b}\leq \tan\left(\frac{a+b}{2}\right).
-$$
-
-\choiceans{D}
-The displayed expression appears to intend the limit as $x\to 0$.
-Using Taylor expansions at $0$,
-$$
-e^{-x}=1-x+\frac{x^2}{2}-\frac{x^3}{6}+\frac{x^4}{24}+O(x^5),
-$$
-and
-$$
-\cos(\sin x)=1-\frac{x^2}{2}+\frac{5x^4}{24}+O(x^6).
-$$
-Therefore
-$$
-e^{-x}-\cos(\sin x)+\frac{x^3}{6}
-=-x+x^2-\frac{x^4}{6}+O(x^5).
-$$
-The first nonzero term is $-x$. Hence the required natural number is
-$$
-n=1,
-$$
-and the limit is
-$$
-\lim_{x\to 0}\frac{e^{-x}-\cos(\sin x)+x^3/6}{x}=-1.
-$$
-
-\choiceans{E}
-The blanks are
-$$
-\begin{aligned}
-\relax[1]&=\text{Brook Taylor},\\
-\relax[2]&=\text{James Gregory},\\
-\relax[3]&=\text{Maclaurin},\\
-\relax[4]&=\frac{f^{(n)}(0)}{n!}x^n.
-\end{aligned}
-$$
-Thus the expansion is
-$$
-f(x)=\sum_{n=0}^{\infty}\frac{f^{(n)}(0)}{n!}x^n.
-$$
-
-\choiceans{F}
-For $e^x$ at $a=0$,
-$$
-T_n(x)=\sum_{k=0}^n\frac{x^k}{k!}.
-$$
-By Taylor's theorem with Lagrange remainder, for some $c\in(0,1)$,
-$$
-e-T_n(1)=\frac{e^c}{(n+1)!}.
-$$
-Since $e^c<e<3$, if $n>3$, then
-$$
+$T_n(x)=\sum_{k=0}^{n}\frac{x^k}{k!}$ である。
+\begin{enumerate}
+\item テイラーの定理より, ある $\theta\in(0,1)$ が存在して
+\[
+e=T_n(1)+\frac{e^\theta}{(n+1)!}.
+\]
+よって
+\[
+e-T_n(1)=\frac{e^\theta}{(n+1)!}>0.
+\]
+$e<3$ を用いると $e^\theta<e<3$ であり, $n>3$ ならば
+\[
 0<e-T_n(1)<\frac{3}{(n+1)!}<\frac{1}{n!}.
-$$
+\]
+したがって
+\[
+0<|e-T_n(1)|<\frac{1}{n!}.
+\]
 
-Assume for contradiction that $e=p/q$ with $p,q\in\mathbb{N}$. Choose $n>3$ with $n\geq q$. Multiplying
-$$
-0<e-T_n(1)<\frac{1}{n!}
-$$
-by $n!$ gives
-$$
+\item $e$ が有理数であると仮定し, $e=\frac{p}{q}$ と書く。ただし $p,q$ は自然数である。$n>3$ かつ $n\ge q$ となる $n$ をとる。
+
+(a)より
+\[
 0<n!\left(e-T_n(1)\right)<1.
-$$
-But $n!e=n!p/q$ is an integer because $q$ divides $n!$, and
-$$
-n!T_n(1)=\sum_{k=0}^n\frac{n!}{k!}
-$$
-is also an integer. Hence $n!(e-T_n(1))$ is an integer strictly between $0$ and $1$, which is impossible. Therefore $e$ is irrational.
+\]
+一方,
+\[
+n!e=n!\frac{p}{q},\qquad
+n!T_n(1)=\sum_{k=0}^{n}\frac{n!}{k!}
+\]
+はいずれも整数である。したがって $n!(e-T_n(1))$ は整数である。これは $0$ より大きく $1$ より小さい整数が存在することを意味し, 矛盾である。よって $e$ は無理数である。
+\end{enumerate}
 
+\ans{9}
+\begin{enumerate}
+\item オイラーの公式より
+\[
+\cos w=\frac{e^{iw}+e^{-iw}}{2}.
+\]
+$w=ix$ とすると
+\[
+\cos(ix)=\frac{e^{-x}+e^x}{2}.
+\]
+
+\item (a)より, $z=it$ とおくと
+\[
+\cos(it)=\frac{e^t+e^{-t}}{2}.
+\]
+これが $2$ となるには
+\[
+e^t+e^{-t}=4.
+\]
+$u=e^t$ とおくと
+\[
+u+\frac1u=4,\qquad u^2-4u+1=0.
+\]
+よって $u=2+\sqrt3$ とできるので
+\[
+z=i\log(2+\sqrt3)
+\]
+は $\cos z=2$ を満たす。
+\end{enumerate}
+
+\ans{10}
+\begin{enumerate}
+\item
+\[
+f'(x)=\frac{\pi}{4}\cos\left(\frac{\pi}{4}x\right).
+\]
+$0<x<2$ では $0<\frac{\pi}{4}x<\frac{\pi}{2}$ だから
+\[
+\cos\left(\frac{\pi}{4}x\right)>0.
+\]
+よって $f'(x)>0$ である。したがって $f$ は $[0,2]$ 上で単調増加である。
+
+\item まず $a_0=0\in[0,2]$ であり, $x\in[0,2]$ ならば
+\[
+1\le f(x)\le 2
+\]
+である。したがってすべての $n\ge 1$ について $a_n\in[0,2]$ である。
+
+また $a_1=1\ge a_0$ であり, (a)より $f$ は単調増加だから, 帰納的に
+\[
+a_{n+1}=f(a_n)\ge f(a_{n-1})=a_n
+\]
+となる。よって $(a_n)$ は単調増加で, 上に $2$ で有界である。したがって極限 $L$ が存在する。
+
+漸化式で極限をとると
+\[
+L=1+\sin\left(\frac{\pi}{4}L\right).
+\]
+$h(x)=1+\sin\left(\frac{\pi}{4}x\right)-x$ とおくと
+\[
+h'(x)=\frac{\pi}{4}\cos\left(\frac{\pi}{4}x\right)-1<0
+\]
+が $[0,2]$ で成り立つ。また $h(2)=0$ である。したがって $[0,2]$ における解は $L=2$ のみである。
+
+よって
+\[
+\lim_{n\to\infty}a_n=2.
+\]
+\end{enumerate}
+
+\ifPDFTeX
+\end{CJK}
+\fi
 \end{document}

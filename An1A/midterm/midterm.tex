@@ -28,10 +28,9 @@
 {\Large 数学1A 中間試験}\\[0.4em]
 \end{center}
 
-計算問題では途中式も書くこと。証明問題では，どの定理を使ったか書くこと。
-問題1から問題8はすべて解答せよ。最後に選択問題Aから選択問題Eの5問の中から2問を選択して解答せよ。各10点である。
+計算問題では途中式を、証明問題ではどの定理を使ったか書くこと。各10点である。
 
-\problem{1}{10}
+\problem{1}{$5\times 2 = 10$}
 次の文を，$\mathbb{R},\mathbb{N},\forall,\exists$ などの記号を用いて書き直せ。
 
 \begin{enumerate}
@@ -39,8 +38,8 @@
 \item ある自然数 $n$ が存在して，$n^2>100$ となる。
 \end{enumerate}
 
-\problem{2}{10}
- 次の関数が $x=1$ で連続となるような実数 $a$ を求めよ。
+\problem{2}{$5\times 2 = 10$}
+(1)  次の関数が $x=1$ で連続となるような実数 $a$ を求めよ。
 \[
 f(x)=
 \begin{cases}
@@ -49,72 +48,45 @@ x^2+a & (x<1),\\
 \end{cases}
 \]
 
-\problem{3}{10}
-関数 $f(x)=x^3+x-1$ を考える。中間値の定理を用いて，方程式 $x^3+x-1=0$ が区間 $(0,1)$ に少なくとも1つの解をもつことを示せ。
+(2) 関数 $f(x)=x^3+x-1$ を考える。中間値の定理を用いて，方程式 $x^3+x-1=0$ が区間 $(0,1)$ に少なくとも1つの解をもつことを示せ。
+
+\problem{3}{$5\times 2 = 10$}
+次の関数の微分を求めよ: (1) $f(x)=(x^2+1)\sin x$,
+(2) $g(x)= x\log x $, $(x>0)$.
 
 \problem{4}{10}
-次の関数の導関数を求めよ。
-
-\begin{enumerate}
-\item $f(x)=(x^2+1)\sin x$
-\item $g(x)=x (\log x)^2$, $(x>0)$
-\end{enumerate}
-
-\problem{5}{10}
 ロピタルの定理を用いて，次の極限を求めよ。
  $$\lim_{x\to 0}\dfrac{\cos (\sin{x})-1}{x}.$$
 
+\problem{5}{10}
+二変数関数 $f(x,y)=x^3y^2+e^{xy}$ について, 偏微分
+$\frac{\partial f}{\partial x}(x,y),\,\frac{\partial f}{\partial y}(x,y)$を求めよ.
+
+
 \problem{6}{10}
-二変数関数 $f(x,y)=x^3y^2+e^{xy}$ について, 次の偏導関数を求めよ:
-$$\frac{\partial f}{\partial x}(x,y),\,\frac{\partial f}{\partial y}(x,y).$$
-
-
+$f(x)=\sin x$ の $a=\dfrac{\pi}{2}$ における3次のテイラー多項式を求めよ。
 \problem{7}{10}
-次の問いに答えよ。
+ $f(x)=e^{2x}$ の マクローリン展開（つまり$a=0$のテイラー展開）を求めよ。
 
-\begin{enumerate}
-\item $f(x)=\sin x$ の $a=\dfrac{\pi}{2}$ における3次のテイラー多項式を求めよ。
-\item $h(x)=e^{x}$ の $a=0$ における$n$次テイラー多項式を求めよ。
-\end{enumerate}
-
-\problem{8}{10}
- $e^x$ の $a=0$ における$n$次のテイラー多項式を $T_n$とおく。　
+\problem{8}{$5\times 2=10$}
+ 指数関数 $e^x$ の $a=0$ における$n$次のテイラー多項式を $T_n$とおく。
 次の手順に従って, $e$が無理数であることを示せ: 
 \begin{enumerate}
-\item テイラーの定理を用いて, $n>3$のとき次を示せ:
-$$|e - T_n(1)|<\frac{1}{n!} .$$
-\item $e$ が有理数であると仮定して矛盾を導け。(ヒント: 十分大きな$n$について, $n!$を両辺にかけると整数になることを利用する)
+\item テイラーの定理を用いて, $n>3$のとき次を示せ ($e<3$は用いてよい):
+$$0<|e - T_n(1)|<\frac{1}{n!} .$$
+\item (a)を用いて, $e$ が有理数であると仮定して矛盾を導け。
 \end{enumerate}
 
-\vspace{4mm}
- 
-\noindent 以下の選択問題Aから選択問題Eの4問の中から2問を選択して解答せよ（3問以上選択することはできない）。なお選択問題A,B,Cはそれぞれ10点, 選択問題Dは5点である。
-
-\choiceproblem{A}{$5\times 2 = 10$}
-% 問題文は後で記入する。
+\problem{9}{$5\times 2 = 10$}
 \begin{enumerate}
-\item オイラーの公式を用いて,　実数 $x$について $\cos{(i x)}$ を$e^x,e^{-x}$を用いて表せ。ここで, $i$ は虚数単位である。
+\item オイラーの公式を用いて,　実数 $x$について $\cos{(i x)}$ を$e^x,e^{-x}$を用いて表せ。ここで, $i$ は虚数単位。
 \item $\cos{z}=2$となる複素数$z$を一つ求めよ。
 \end{enumerate}
-\choiceproblem{B}{10}
-% 問題文は後で記入する。
-$a_0=0,$ $a_{n+1}=1+\sin{\left(\frac{\pi}{4} a_n \right)}$で定まる数列$(a_n)$の極限を求め、極限であることを証明せよ:
-\choiceproblem{C}{10}
-% 問題文は後で記入する。
-$a,b\in [0,\pi/4)$について, 次を証明せよ:
-$$\sqrt{\tan a  \tan b}\leq \tan(\frac{a+b}{2}).$$
-\choiceproblem{E}{5}
-テイラー展開の歴史について次の文の空欄を埋めなさい。[\hspace{3em}1\hspace{3em}] と [\hspace{3em}2\hspace{3em}] はフルネームで答えよ。
-
-テイラーの定理はイギリスの数学者 [\hspace{3em}1\hspace{3em}] によって発見された。
-同時期、スコットランドの [\hspace{3em}2\hspace{3em}] という数学者によって、見つけられていたとも言われている。
-特に $x=0$ 周りでのテイラー展開は [\hspace{3em}3\hspace{3em}] 展開とも呼ばれる。
-関数 $f$ の [\hspace{3em}3\hspace{3em}] 展開 は
-$$
-f(x) = \sum_{n=0}^{\infty} [\hspace{5em}4\hspace{5em}]
-$$
-で定義されている。
-
+\problem{10}{$5\times 2=10$}
+\begin{enumerate}
+    \item 関数$f(x) = 1+ \sin\Big(\frac{\pi}4 x\Big)$について, $f(x)$が$x\in [0,2]$で単調増加であることを示せ. (ただし$(0,2)$で$f$の微分が正ならば$[0,2]$上で単調増加であることは用いてよい).  
+\item $a_0=0,$ $a_{n+1}=1+\sin{\left(\frac{\pi}{4} a_n \right)}$で定まる数列$(a_n)$の極限を求め、その値がなぜ極限になるか説明せよ。
+\end{enumerate}
 \ifPDFTeX
 \end{CJK}
 \fi
