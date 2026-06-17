@@ -1,0 +1,147 @@
+\RequirePackage{iftex}
+\ifPDFTeX
+\documentclass[a4paper,12pt]{article}
+\usepackage[margin=22mm]{geometry}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{graphicx}
+\usepackage{CJKutf8}
+\else
+\documentclass[a4paper,12pt]{jsarticle}
+\usepackage[dvipdfmx,margin=22mm]{geometry}
+\usepackage[dvipdfmx]{graphicx}
+\fi
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{enumitem}
+
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{0.35em}
+\setlength{\fboxsep}{8pt}
+\setlist[itemize]{leftmargin=2em,itemsep=0.25em,topsep=0.35em}
+\setlist[enumerate]{leftmargin=2.2em,itemsep=0.45em,topsep=0.35em}
+
+\newcommand{\pointbox}[1]{%
+\begin{center}
+\fbox{\begin{minipage}{0.91\linewidth}#1\end{minipage}}
+\end{center}
+}
+
+\begin{document}
+\ifPDFTeX
+\begin{CJK}{UTF8}{min}
+\fi
+
+\theoremstyle{definition}
+\newtheorem*{definition}{定義}
+\newtheorem*{theorem}{定理}
+\newtheorem*{example}{例}
+\newtheorem*{remark}{注意}
+\renewcommand{\proofname}{\normalfont 証明}
+
+\begin{center}
+{\LARGE 数学1A 第14回レジュメ}\\[0.4em]
+平均値の定理の応用・まとめ
+\end{center}
+
+\section*{1. 平均値の定理の復習}
+
+\begin{theorem}[平均値の定理]
+$f:[a,b]\to\mathbb{R}$ が $[a,b]$ で連続、$(a,b)$ で微分可能であるとする。
+このとき、ある $c\in(a,b)$ が存在して
+\[
+f'(c)=\frac{f(b)-f(a)}{b-a}
+\]
+となる。
+\end{theorem}
+
+\pointbox{
+平均値の定理は、導関数の情報から関数全体の増減や評価を調べるための基本道具である。
+}
+
+\section*{2. 導関数と単調性}
+
+\begin{theorem}
+$f$ が $[a,b]$ で連続、$(a,b)$ で微分可能であるとする。
+$(a,b)$ で $f'(x)\ge0$ ならば、$f$ は $[a,b]$ で単調増加である。
+\end{theorem}
+
+\begin{proof}
+$a\le x<y\le b$ を取る。平均値の定理より、ある $c\in(x,y)$ が存在して
+\[
+\frac{f(y)-f(x)}{y-x}=f'(c)
+\]
+となる。仮定より $f'(c)\ge0$ であり、$y-x>0$ なので
+\[
+f(y)-f(x)\ge0
+\]
+である。したがって $f(x)\le f(y)$ となる。
+\end{proof}
+
+\begin{theorem}
+$(a,b)$ で $f'(x)=0$ ならば、$f$ は $[a,b]$ で定数である。
+\end{theorem}
+
+\begin{proof}
+$x<y$ を取る。平均値の定理より、ある $c\in(x,y)$ が存在して
+\[
+f(y)-f(x)=f'(c)(y-x)
+\]
+となる。仮定より右辺は $0$ なので $f(y)=f(x)$ である。
+\end{proof}
+
+\section*{3. 関数の評価}
+
+\begin{theorem}
+$f$ が $[a,b]$ で連続、$(a,b)$ で微分可能で、ある $M\ge0$ について
+\[
+|f'(x)|\le M\qquad (a<x<b)
+\]
+が成り立つとする。このとき任意の $x,y\in[a,b]$ について
+\[
+|f(x)-f(y)|\le M|x-y|
+\]
+である。
+\end{theorem}
+
+\begin{proof}
+$x=y$ のときは明らかである。$x<y$ とする。平均値の定理より、ある
+$c\in(x,y)$ が存在して
+\[
+f(y)-f(x)=f'(c)(y-x)
+\]
+となる。絶対値を取ると
+\[
+|f(y)-f(x)|=|f'(c)|\,|y-x|\le M|y-x|
+\]
+である。
+\end{proof}
+
+\begin{example}
+$|\sin x-\sin y|\le |x-y|$ が成り立つ。実際、$f(x)=\sin x$ とすれば
+$|f'(x)|=|\cos x|\le1$ である。
+\end{example}
+
+\section*{4. まとめ}
+
+\begin{itemize}
+\item 数列の収束は $\varepsilon$-$N$ 論法で定義される。
+\item 上限の性質から単調収束定理が得られる。
+\item 連続関数は数列の極限と相性がよい。
+\item 閉区間上の連続関数は中間値、最大値、最小値を持つ。
+\item 平均値の定理は導関数と関数の増減を結びつける。
+\end{itemize}
+
+\section*{5. 演習}
+
+\begin{enumerate}
+\item $\displaystyle \frac{3n+1}{n+2}\to3$ を $\varepsilon$-$N$ 論法で示せ。
+\item $f(x)=x^3-3x$ について、増減を調べよ。
+\item $x>0$ のとき $\log x\le x-1$ を平均値の定理を用いて示せ。
+\item $f:[0,1]\to\mathbb{R}$ が連続で、$0\le f(x)\le1$ を満たすとする。
+ある $c\in[0,1]$ が存在して $f(c)=c$ となることを示せ。
+\end{enumerate}
+
+\ifPDFTeX
+\end{CJK}
+\fi
+\end{document}

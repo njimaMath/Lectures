@@ -1,0 +1,186 @@
+\RequirePackage{iftex}
+\ifPDFTeX
+\documentclass[a4paper,12pt]{article}
+\usepackage[margin=22mm]{geometry}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{graphicx}
+\usepackage{CJKutf8}
+\else
+\documentclass[a4paper,12pt]{jsarticle}
+\usepackage[dvipdfmx,margin=22mm]{geometry}
+\usepackage[dvipdfmx]{graphicx}
+\fi
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{enumitem}
+
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{0.35em}
+\setlength{\fboxsep}{8pt}
+\setlist[itemize]{leftmargin=2em,itemsep=0.25em,topsep=0.35em}
+\setlist[enumerate]{leftmargin=2.2em,itemsep=0.45em,topsep=0.35em}
+
+\newcommand{\pointbox}[1]{%
+\begin{center}
+\fbox{%
+\begin{minipage}{0.91\linewidth}
+#1
+\end{minipage}}
+\end{center}
+}
+
+\begin{document}
+\ifPDFTeX
+\begin{CJK}{UTF8}{min}
+\fi
+
+\theoremstyle{definition}
+\newtheorem*{definition}{定義}
+\newtheorem*{theorem}{定理}
+\newtheorem*{example}{例}
+\newtheorem*{remark}{注意}
+\renewcommand{\proofname}{\normalfont 証明}
+
+\begin{center}
+{\LARGE 数学1A 第10回レジュメ}\\[0.4em]
+実数の連続性・数列の極限
+\end{center}
+
+\section*{1. 上限と実数の連続性}
+
+\begin{definition}
+$A\subset\mathbb{R}$ とする。実数 $M$ が $A$ の上界であるとは、任意の
+$a\in A$ について $a\le M$ が成り立つことをいう。
+
+$A$ の上界全体の中で最小のものを $A$ の上限といい、
+\[
+\sup A
+\]
+と書く。
+\end{definition}
+
+\begin{theorem}[上限の近似性]
+$A$ が空でなく上に有界で、$\alpha=\sup A$ とする。このとき任意の
+$\varepsilon>0$ に対して、ある $a\in A$ が存在して
+\[
+\alpha-\varepsilon<a\le \alpha
+\]
+となる。
+\end{theorem}
+
+\begin{proof}
+$\alpha$ は上界なので、任意の $a\in A$ について $a\le\alpha$ である。
+もし $\alpha-\varepsilon<a$ となる $a\in A$ が存在しなければ、すべての
+$a\in A$ について $a\le \alpha-\varepsilon$ となる。したがって
+$\alpha-\varepsilon$ は $A$ の上界である。これは $\alpha$ が最小の上界である
+ことに矛盾する。
+\end{proof}
+
+\pointbox{
+上限 $\sup A$ は、集合 $A$ の元そのものとは限らない。しかし、$A$ の元で
+上限にいくらでも近いものは必ず存在する。
+}
+
+\section*{2. アルキメデスの性質}
+
+\begin{theorem}[アルキメデスの性質]
+任意の $x\in\mathbb{R}$ に対して、ある $n\in\mathbb{N}$ が存在して
+\[
+n>x
+\]
+となる。
+\end{theorem}
+
+\begin{proof}
+もし任意の $n\in\mathbb{N}$ について $n\le x$ ならば、$\mathbb{N}$ は上に有界で
+ある。そこで $\alpha=\sup\mathbb{N}$ とおく。上限の近似性より、ある
+$m\in\mathbb{N}$ が存在して $\alpha-1<m$ となる。すると $m+1>\alpha$ である。
+しかし $m+1\in\mathbb{N}$ なので、$\alpha$ が $\mathbb{N}$ の上界であることに
+矛盾する。
+\end{proof}
+
+\begin{theorem}[有理数の稠密性]
+$a<b$ ならば、ある $q\in\mathbb{Q}$ が存在して
+\[
+a<q<b
+\]
+となる。
+\end{theorem}
+
+\begin{proof}
+アルキメデスの性質より、$n(b-a)>1$ となる自然数 $n$ を取る。整数 $m$ を
+\[
+m-1\le na<m
+\]
+となるように取る。このとき $a<m/n$ である。また
+\[
+\frac{m}{n}\le a+\frac{1}{n}<a+(b-a)=b
+\]
+である。よって $q=m/n$ とすればよい。
+\end{proof}
+
+\section*{3. 数列の極限}
+
+\begin{definition}
+数列 $\{a_n\}$ が実数 $a$ に収束するとは、任意の $\varepsilon>0$ に対して
+ある $N\in\mathbb{N}$ が存在し、$n>N$ ならば
+\[
+|a_n-a|<\varepsilon
+\]
+となることをいう。このとき
+\[
+\lim_{n\to\infty}a_n=a,\qquad a_n\to a
+\]
+と書く。
+\end{definition}
+
+\begin{example}
+\[
+\frac{1}{2n+1}\to 0
+\]
+である。実際、$\varepsilon>0$ に対して $N>1/(2\varepsilon)$ となる
+$N\in\mathbb{N}$ を取れば、$n>N$ のとき
+\[
+\left|\frac{1}{2n+1}-0\right|<\frac{1}{2n}<\varepsilon
+\]
+となる。
+\end{example}
+
+\begin{example}
+\[
+\frac{n^2-n}{n^2+1}\to 1
+\]
+である。実際、
+\[
+\left|\frac{n^2-n}{n^2+1}-1\right|
+=\frac{n+1}{n^2+1}\le \frac{2}{n}
+\]
+なので、$N>2/\varepsilon$ とすればよい。
+\end{example}
+
+\section*{4. 極限の一意性}
+
+\begin{theorem}
+$a_n\to a$ かつ $a_n\to b$ ならば $a=b$ である。
+\end{theorem}
+
+\begin{proof}
+任意の $\varepsilon>0$ を取る。$a_n\to a$ より、ある $N_1$ が存在して
+$n>N_1$ ならば $|a_n-a|<\varepsilon/2$ である。同様に $a_n\to b$ より、
+ある $N_2$ が存在して $n>N_2$ ならば $|a_n-b|<\varepsilon/2$ である。
+$N=\max\{N_1,N_2\}$ とし、$n>N$ とすれば
+\[
+|a-b|\le |a-a_n|+|a_n-b|<\varepsilon
+\]
+となる。任意の $\varepsilon>0$ に対して成り立つので、$a=b$ である。
+\end{proof}
+
+\pointbox{
+$\varepsilon$-$N$ 論法では、最後に示したい不等式から逆算して、
+どの程度 $n$ を大きくすればよいかを決める。
+}
+
+\ifPDFTeX
+\end{CJK}
+\fi
+\end{document}

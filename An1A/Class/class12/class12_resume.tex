@@ -1,0 +1,150 @@
+\RequirePackage{iftex}
+\ifPDFTeX
+\documentclass[a4paper,12pt]{article}
+\usepackage[margin=22mm]{geometry}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{graphicx}
+\usepackage{CJKutf8}
+\else
+\documentclass[a4paper,12pt]{jsarticle}
+\usepackage[dvipdfmx,margin=22mm]{geometry}
+\usepackage[dvipdfmx]{graphicx}
+\fi
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{enumitem}
+
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{0.35em}
+\setlength{\fboxsep}{8pt}
+\setlist[itemize]{leftmargin=2em,itemsep=0.25em,topsep=0.35em}
+\setlist[enumerate]{leftmargin=2.2em,itemsep=0.45em,topsep=0.35em}
+
+\newcommand{\pointbox}[1]{%
+\begin{center}
+\fbox{\begin{minipage}{0.91\linewidth}#1\end{minipage}}
+\end{center}
+}
+
+\begin{document}
+\ifPDFTeX
+\begin{CJK}{UTF8}{min}
+\fi
+
+\theoremstyle{definition}
+\newtheorem*{definition}{定義}
+\newtheorem*{theorem}{定理}
+\newtheorem*{example}{例}
+\newtheorem*{remark}{注意}
+\renewcommand{\proofname}{\normalfont 証明}
+
+\begin{center}
+{\LARGE 数学1A 第12回レジュメ}\\[0.4em]
+連続関数の基本性質
+\end{center}
+
+\section*{1. 連続性}
+
+\begin{definition}
+$D\subset\mathbb{R}$ とし、$f:D\to\mathbb{R}$ とする。$f$ が点 $a\in D$ で
+連続であるとは、任意の $\varepsilon>0$ に対してある $\delta>0$ が存在し、
+$x\in D$ かつ $|x-a|<\delta$ ならば
+\[
+|f(x)-f(a)|<\varepsilon
+\]
+となることをいう。
+\end{definition}
+
+\begin{theorem}[数列による連続性の判定]
+$f$ が $a$ で連続であることと、$D$ の任意の数列 $x_n$ について
+\[
+x_n\to a\quad\Rightarrow\quad f(x_n)\to f(a)
+\]
+が成り立つことは同値である。
+\end{theorem}
+
+\begin{proof}
+$f$ が $a$ で連続であるとする。$\varepsilon>0$ を取る。連続性より、
+$|x-a|<\delta$ ならば $|f(x)-f(a)|<\varepsilon$ となる $\delta>0$ がある。
+$x_n\to a$ なので、十分大きい $n$ で $|x_n-a|<\delta$ となる。したがって
+$f(x_n)\to f(a)$ である。
+
+逆に、$f$ が $a$ で連続でないとする。するとある $\varepsilon_0>0$ が存在し、
+どんな $\delta>0$ に対しても $|x-a|<\delta$ かつ
+$|f(x)-f(a)|\ge\varepsilon_0$ となる $x\in D$ が取れる。特に
+$\delta=1/n$ として $x_n$ を取れば、$x_n\to a$ だが
+$f(x_n)\to f(a)$ ではない。
+\end{proof}
+
+\section*{2. 連続関数の演算}
+
+\begin{theorem}
+$f,g$ が点 $a$ で連続ならば、$f+g$ と $fg$ も点 $a$ で連続である。
+また $g(a)\ne0$ ならば $f/g$ も点 $a$ で連続である。
+\end{theorem}
+
+\begin{proof}
+$x_n\to a$ とする。$f,g$ の連続性より $f(x_n)\to f(a)$,
+$g(x_n)\to g(a)$ である。数列の極限の和・積・商の性質を用いれば、
+\[
+(f+g)(x_n)\to (f+g)(a),\qquad (fg)(x_n)\to (fg)(a)
+\]
+が従う。$g(a)\ne0$ のときは十分大きい $n$ で $g(x_n)\ne0$ となり、
+\[
+\frac{f(x_n)}{g(x_n)}\to \frac{f(a)}{g(a)}
+\]
+である。数列による判定から結論を得る。
+\end{proof}
+
+\begin{example}
+多項式関数はすべての点で連続である。有理関数は、分母が $0$ でない点で連続である。
+\end{example}
+
+\section*{3. 中間値の定理}
+
+\begin{theorem}[中間値の定理]
+$f:[a,b]\to\mathbb{R}$ が連続で、$f(a)<\lambda<f(b)$ とする。このとき
+ある $c\in(a,b)$ が存在して
+\[
+f(c)=\lambda
+\]
+となる。$f(b)<\lambda<f(a)$ の場合も同様である。
+\end{theorem}
+
+\begin{proof}
+$S=\{x\in[a,b]\mid f(x)\le\lambda\}$ とおく。$a\in S$ なので $S$ は空でなく、
+$b$ によって上に有界である。よって $c=\sup S$ が存在する。
+
+連続性を用いて $f(c)=\lambda$ を示す。もし $f(c)<\lambda$ ならば、$c$ の十分近く
+では $f(x)<\lambda$ である。すると $c$ より大きい $S$ の元が存在し、$c$ が上界で
+あることに矛盾する。もし $f(c)>\lambda$ ならば、$c$ の十分近くでは
+$f(x)>\lambda$ である。一方、上限の近似性により $c$ に左から近い $S$ の元が
+存在するので矛盾する。したがって $f(c)=\lambda$ である。
+\end{proof}
+
+\section*{4. 最大値・最小値}
+
+\begin{theorem}[最大値・最小値の定理]
+$f:[a,b]\to\mathbb{R}$ が連続ならば、$f$ は $[a,b]$ 上で最大値と最小値を取る。
+\end{theorem}
+
+\begin{proof}
+ここでは事実として、閉区間 $[a,b]$ の任意の数列は収束部分列をもち、その極限も
+$[a,b]$ に属することを用いる。
+
+$f$ が上に有界であるとし、$M=\sup f([a,b])$ とおく。上限の近似性より、
+$f(x_n)>M-1/n$ となる $x_n\in[a,b]$ を取れる。$[a,b]$ の性質より、部分列
+$x_{n_k}$ がある $x_0\in[a,b]$ に収束する。連続性より
+$f(x_{n_k})\to f(x_0)$ であり、一方で $f(x_{n_k})\to M$ なので $f(x_0)=M$ である。
+最小値も同様に示せる。
+\end{proof}
+
+\pointbox{
+閉区間上の連続関数には、中間値を取る性質と、最大値・最小値を取る性質がある。
+どちらも閉区間と連続性が重要である。
+}
+
+\ifPDFTeX
+\end{CJK}
+\fi
+\end{document}

@@ -161,6 +161,28 @@ u+\frac1u=4,\qquad u^2-4u+1=0.
 z=i\log(2+\sqrt3)
 \]
 は $\cos z=2$ を満たす。
+
+また, 一般に
+\[
+\cos z=2
+\]
+は
+\[
+\frac{e^{iz}+e^{-iz}}{2}=2
+\]
+と同値である。$u=e^{iz}$ とおくと
+\[
+u^2-4u+1=0
+\]
+となるので
+\[
+u=2\pm\sqrt3.
+\]
+したがって
+\[
+z=2\pi n\pm i\log(2+\sqrt3)\qquad (n\in\mathbb{Z})
+\]
+が $\cos z=2$ の複素解である。
 \end{enumerate}
 
 \ans{10}
@@ -198,6 +220,32 @@ h'(x)=\frac{\pi}{4}\cos\left(\frac{\pi}{4}x\right)-1<0
 が $[0,2]$ で成り立つ。また $h(2)=0$ である。したがって $[0,2]$ における解は $L=2$ のみである。
 
 よって
+\[
+\lim_{n\to\infty}a_n=2.
+\]
+
+別解. すでに示したように, $n\ge 1$ では $1\le a_n\le 2$ である。
+$f(2)=2$ だから, 平均値の定理より, ある $\xi_n\in(a_n,2)$ が存在して
+\[
+2-a_{n+1}=f(2)-f(a_n)=f'(\xi_n)(2-a_n)
+\]
+となる。ここで $\xi_n\in[1,2]$ なので
+\[
+0\le f'(\xi_n)
+=\frac{\pi}{4}\cos\left(\frac{\pi}{4}\xi_n\right)
+\le \frac{\pi}{4}\cos\frac{\pi}{4}
+=\frac{\pi\sqrt2}{8}<1.
+\]
+したがって
+\[
+0\le 2-a_{n+1}\le \frac{\pi\sqrt2}{8}(2-a_n)\qquad (n\ge 1)
+\]
+である。これを繰り返すと
+\[
+0\le 2-a_n\le
+\left(\frac{\pi\sqrt2}{8}\right)^{n-1}(2-a_1)
+\]
+となる。右辺は $0$ に収束するので
 \[
 \lim_{n\to\infty}a_n=2.
 \]

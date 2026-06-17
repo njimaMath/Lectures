@@ -1,0 +1,161 @@
+\RequirePackage{iftex}
+\ifPDFTeX
+\documentclass[a4paper,12pt]{article}
+\usepackage[margin=22mm]{geometry}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{graphicx}
+\usepackage{CJKutf8}
+\else
+\documentclass[a4paper,12pt]{jsarticle}
+\usepackage[dvipdfmx,margin=22mm]{geometry}
+\usepackage[dvipdfmx]{graphicx}
+\fi
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{enumitem}
+
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{0.35em}
+\setlength{\fboxsep}{8pt}
+\setlist[itemize]{leftmargin=2em,itemsep=0.25em,topsep=0.35em}
+\setlist[enumerate]{leftmargin=2.2em,itemsep=0.45em,topsep=0.35em}
+
+\newcommand{\pointbox}[1]{%
+\begin{center}
+\fbox{\begin{minipage}{0.91\linewidth}#1\end{minipage}}
+\end{center}
+}
+
+\begin{document}
+\ifPDFTeX
+\begin{CJK}{UTF8}{min}
+\fi
+
+\theoremstyle{definition}
+\newtheorem*{definition}{定義}
+\newtheorem*{theorem}{定理}
+\newtheorem*{example}{例}
+\newtheorem*{remark}{注意}
+\renewcommand{\proofname}{\normalfont 証明}
+
+\begin{center}
+{\LARGE 数学1A 第11回レジュメ}\\[0.4em]
+数列の極限と基本性質
+\end{center}
+
+\section*{1. 収束の定義}
+
+\begin{definition}
+数列 $\{a_n\}$ が $a$ に収束するとは、
+\[
+\forall \varepsilon>0\ \exists N\in\mathbb{N}\ \forall n>N\quad
+|a_n-a|<\varepsilon
+\]
+が成り立つことをいう。
+\end{definition}
+
+\begin{remark}
+既知の収束を使うときは、目標の $\varepsilon$ と区別して
+$\varepsilon_1,\varepsilon_2$ などを用いると混乱しにくい。
+\end{remark}
+
+\section*{2. 和・積・商の極限}
+
+\begin{theorem}
+$a_n\to a,\ b_n\to b$ とする。このとき
+\[
+a_n+b_n\to a+b,\qquad a_nb_n\to ab
+\]
+が成り立つ。また $b\ne0$ ならば
+\[
+\frac{a_n}{b_n}\to \frac{a}{b}
+\]
+である。
+\end{theorem}
+
+\begin{proof}
+和について示す。$\varepsilon>0$ を取る。$a_n\to a$ より、ある $N_1$ が存在して
+$n>N_1$ ならば $|a_n-a|<\varepsilon/2$ である。同様に、ある $N_2$ が存在して
+$n>N_2$ ならば $|b_n-b|<\varepsilon/2$ である。$N=\max\{N_1,N_2\}$ とすると
+\[
+|(a_n+b_n)-(a+b)|\le |a_n-a|+|b_n-b|<\varepsilon
+\]
+となる。
+
+積については、まず $a_n\to a$ から十分大きい $n$ で $|a_n|\le |a|+1$ となる。
+また
+\[
+|a_nb_n-ab|
+\le |a_n|\,|b_n-b|+|b|\,|a_n-a|
+\]
+である。右辺を $\varepsilon$ より小さくするように
+$|a_n-a|$ と $|b_n-b|$ を十分小さくすればよい。
+
+商については、$b\ne0$ なので十分大きい $n$ で $|b_n|\ge |b|/2$ となる。この範囲で
+\[
+\left|\frac{a_n}{b_n}-\frac{a}{b}\right|
+=\left|\frac{b(a_n-a)-a(b_n-b)}{bb_n}\right|
+\]
+を用いれば、積の場合と同様に示せる。
+\end{proof}
+
+\section*{3. 単調列}
+
+\begin{definition}
+$a_n\le a_{n+1}$ がすべての $n$ で成り立つとき、$\{a_n\}$ は単調増加である
+という。$a_n\ge a_{n+1}$ がすべての $n$ で成り立つとき、単調減少であるという。
+\end{definition}
+
+\begin{theorem}[単調収束定理]
+$\{a_n\}$ が単調増加で上に有界ならば、$\{a_n\}$ は収束し、
+\[
+\lim_{n\to\infty}a_n=\sup\{a_n\mid n\in\mathbb{N}\}
+\]
+である。
+\end{theorem}
+
+\begin{proof}
+$\alpha=\sup\{a_n\mid n\in\mathbb{N}\}$ とおく。$\varepsilon>0$ を取る。
+上限の近似性より、ある $N$ が存在して $\alpha-\varepsilon<a_N$ となる。
+単調増加性より、$n>N$ ならば
+\[
+\alpha-\varepsilon<a_N\le a_n\le\alpha
+\]
+である。したがって $|a_n-\alpha|<\varepsilon$ であり、$a_n\to\alpha$ である。
+\end{proof}
+
+\section*{4. 部分列}
+
+\begin{definition}
+$n_1<n_2<\cdots$ を自然数の狭義単調増加列とする。このとき
+\[
+a_{n_1},a_{n_2},\ldots
+\]
+を $\{a_n\}$ の部分列という。
+\end{definition}
+
+\begin{theorem}
+$a_n\to a$ ならば、任意の部分列 $a_{n_k}$ も $a$ に収束する。
+\end{theorem}
+
+\begin{proof}
+$\varepsilon>0$ を取る。$a_n\to a$ より、ある $N$ が存在して $n>N$ ならば
+$|a_n-a|<\varepsilon$ である。$n_k\ge k$ なので、$k>N$ ならば
+$n_k>N$ である。したがって $|a_{n_k}-a|<\varepsilon$ となる。
+\end{proof}
+
+\begin{example}
+$a_n=(-1)^n$ は収束しない。実際、偶数番目の部分列は $1$ に収束し、奇数番目の
+部分列は $-1$ に収束する。もし元の数列が収束するなら、すべての部分列は同じ
+極限に収束しなければならない。
+\end{example}
+
+\pointbox{
+部分列は、収束しないことを示すときにも有効である。異なる極限をもつ部分列を
+二つ見つければ、元の数列は収束しない。
+}
+
+\ifPDFTeX
+\end{CJK}
+\fi
+\end{document}

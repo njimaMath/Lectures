@@ -56,7 +56,7 @@ A. & #2
 {\LARGE 数学1A 第9回レジュメ}\\[0.4em]
 全微分・連鎖律・勾配
 \end{center}
-
+\iffalse
 \section*{フィードバック}
 
 \begin{itemize}[leftmargin=1.5em,itemsep=0.7em,topsep=0.3em]
@@ -67,7 +67,7 @@ A. & #2
 \]
 のような形で反映されます。詳しくはシラバスの成績評価を参照してください。}
 \end{itemize}
-
+\fi
 \section*{1. ランダウの記号}
 
 \begin{definition}
@@ -109,13 +109,6 @@ r(h)=x(t+h)-x(t)-x'(t)h
 なので $r(h)=o(h)$ である。逆に上の表示を $h$ で割って $h\to0$ とすれば、差商は $x'(t)$ に収束する。
 \end{proof}
 
-\pointbox{
-微分可能性とは、関数の変化を
-\[
-\text{一次の変化}+\text{一次より小さい誤差}
-\]
-に分けられることである。
-}
 
 \section*{2. 二変数関数の全微分可能性}
 
@@ -123,16 +116,11 @@ $f(x,y)$ の点 $(a,b)$ における増分を
 \[
 \Delta f=f(a+h,b+k)-f(a,b)
 \]
-とする。また
-\[
-\rho=\sqrt{h^2+k^2}
-\]
-とおく。
-
+とする。
 \begin{definition}
 ある定数 $A,B$ が存在して
 \[
-f(a+h,b+k)-f(a,b)=Ah+Bk+o(\rho)
+f(a+h,b+k)-f(a,b)=Ah+Bk+o(\sqrt{h^2+k^2})
 \qquad ((h,k)\to(0,0))
 \]
 と書けるとき、$f$ は $(a,b)$ で全微分可能、または単に可微分であるという。
@@ -145,7 +133,7 @@ A=f_x(a,b),\qquad B=f_y(a,b)
 となる。したがって、可微分性の式は
 \[
 f(a+h,b+k)
-=f(a,b)+f_x(a,b)h+f_y(a,b)k+o(\rho)
+=f(a,b)+f_x(a,b)h+f_y(a,b)k+o(\sqrt{h^2+k^2})
 \]
 と書ける。
 
