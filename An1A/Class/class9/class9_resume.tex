@@ -56,17 +56,13 @@ A. & #2
 {\LARGE 数学1A 第9回レジュメ}\\[0.4em]
 全微分・連鎖律・勾配
 \end{center}
-\iffalse
+
 \section*{フィードバック}
 
 \begin{itemize}[leftmargin=1.5em,itemsep=0.7em,topsep=0.3em]
-\feedbackqa{中間試験はあるか？}{中間試験はあります。ただし、成績には
-\[
-\max\{\text{小テスト }20\%+\text{期末 }80\%,\
-\text{小テスト }10\%+\text{中間 }30\%+\text{期末 }60\%\}
-\]
-のような形で反映されます。詳しくはシラバスの成績評価を参照してください。}
+\feedbackqa{全微分可能性でなぜ偏微分可能だけではだめか？}{偏微分可能だけだと、x軸方向とy軸方向の微分は存在するけど、すべての方向の微分が存在するとは限らないからです。来週少し触れます。}
 \end{itemize}
+\iffalse
 \fi
 \section*{1. ランダウの記号}
 
@@ -190,19 +186,68 @@ g'(t)
 \Delta x=x'(t)h+o(h),\qquad
 \Delta y=y'(t)h+o(h)
 \]
-である。特に
+である。つまり、ある関数 $\alpha(h),\beta(h)$ を用いて
 \[
-\sqrt{(\Delta x)^2+(\Delta y)^2}=O(|h|)
+\Delta x=x'(t)h+h\alpha(h),\qquad
+\Delta y=y'(t)h+h\beta(h),
+\qquad \alpha(h)\to0,\ \beta(h)\to0
 \]
-となる。
+と書ける。
 
-$f$ の可微分性を使うと
+一方、$f$ が $(x(t),y(t))$ で可微分であることから、ある関数 $\varepsilon(u,v)$ が存在して
+\[
+\varepsilon(u,v)\to0\qquad ((u,v)\to(0,0))
+\]
+かつ
+\[
+\begin{aligned}
+&f(x(t)+u,y(t)+v)-f(x(t),y(t))\\
+&\qquad =f_x(x(t),y(t))u+f_y(x(t),y(t))v
++\sqrt{u^2+v^2}\,\varepsilon(u,v)
+\end{aligned}
+\]
+と書ける。ここで $u=\Delta x$, $v=\Delta y$ を代入すると
 \[
 \begin{aligned}
 g(t+h)-g(t)
 ={}&f_x(x(t),y(t))\Delta x
 +f_y(x(t),y(t))\Delta y\\
-&+o\left(\sqrt{(\Delta x)^2+(\Delta y)^2}\right)\\
+&+\sqrt{(\Delta x)^2+(\Delta y)^2}\,\varepsilon(\Delta x,\Delta y).
+\end{aligned}
+\]
+
+最後の項が $o(h)$ であることを確かめる。上の表示から
+\[
+\frac{\Delta x}{h}=x'(t)+\alpha(h),\qquad
+\frac{\Delta y}{h}=y'(t)+\beta(h)
+\]
+であるから、$h$ が十分小さいとき $\Delta x/h,\Delta y/h$ は有界である。したがって、ある定数 $C>0$ が存在して
+\[
+\sqrt{(\Delta x)^2+(\Delta y)^2}\le C|h|
+\]
+となる。また、$h\to0$ のとき $\Delta x\to0$, $\Delta y\to0$ なので
+\[
+\varepsilon(\Delta x,\Delta y)\to0.
+\]
+よって
+\[
+\rho(h)=\sqrt{(\Delta x)^2+(\Delta y)^2}\,\varepsilon(\Delta x,\Delta y)
+\]
+とおくと
+\[
+\left|\frac{\rho(h)}{h}\right|
+\le C\,|\varepsilon(\Delta x,\Delta y)|\to0,
+\]
+すなわち
+\[
+\rho(h)=o(h)
+\]
+である。したがって
+\[
+\begin{aligned}
+g(t+h)-g(t)
+={}&f_x(x(t),y(t))\Delta x
++f_y(x(t),y(t))\Delta y+o(h)\\
 ={}&\left\{
 f_x(x(t),y(t))x'(t)
 +f_y(x(t),y(t))y'(t)
@@ -248,116 +293,6 @@ $x=t^2,\ y=1+t,\ x'=2t,\ y'=1$ を代入すると
 =e^{t^2(1+t)}(2t+3t^2).
 \]
 \end{example}
-
-\section*{4. 勾配}
-
-\begin{definition}
-$f$ の点 $(a,b)$ における勾配を
-\[
-\nabla f(a,b)
-=\begin{pmatrix}
-f_x(a,b)\\
-f_y(a,b)
-\end{pmatrix}
-\]
-と定める。
-\end{definition}
-
-変位ベクトルを
-\[
-\Delta\boldsymbol{x}
-=\begin{pmatrix}h\\k\end{pmatrix}
-\]
-と書けば、可微分性の式は内積を使って
-\[
-f(a+h,b+k)-f(a,b)
-=\nabla f(a,b)\cdot\Delta\boldsymbol{x}
-+o(\|\Delta\boldsymbol{x}\|)
-\]
-と表せる。したがって、勾配は関数の一次の変化をまとめて表すベクトルである。
-
-\begin{theorem}[方向微分]
-$f$ が $(a,b)$ で可微分で、$\boldsymbol{u}$ が単位ベクトルならば、$\boldsymbol{u}$ 方向の方向微分は
-\[
-D_{\boldsymbol{u}}f(a,b)
-=\nabla f(a,b)\cdot\boldsymbol{u}
-\]
-である。
-\end{theorem}
-
-内積の性質から
-\[
-D_{\boldsymbol{u}}f(a,b)
-=\|\nabla f(a,b)\|\cos\theta
-\]
-である。ここで $\theta$ は $\nabla f(a,b)$ と $\boldsymbol{u}$ のなす角である。したがって、$\nabla f(a,b)\neq\boldsymbol{0}$ なら、関数が最も速く増加する方向は勾配の方向であり、その変化率の最大値は
-\[
-\|\nabla f(a,b)\|
-\]
-である。
-
-\begin{center}
-\begin{tikzpicture}[x=1.15cm,y=1.15cm,>=Latex]
-\draw[->] (-0.2,0) -- (5.2,0) node[below] {$x$};
-\draw[->] (0,-0.2) -- (0,3.6) node[left] {$y$};
-\draw[thick] (1.0,1.5) ellipse (0.6 and 0.35);
-\draw[thick] (1.0,1.5) ellipse (1.25 and 0.72);
-\draw[thick] (1.0,1.5) ellipse (2.0 and 1.15);
-\fill (2.25,2.02) circle (2pt) node[above left] {$(a,b)$};
-\draw[->,very thick,blue] (2.25,2.02) -- (3.65,2.85)
-  node[right] {$\nabla f(a,b)$};
-\draw[dashed,gray] (1.55,2.13) -- (3.15,1.28);
-\node at (4.0,0.65) {等高線};
-\end{tikzpicture}
-\end{center}
-
-勾配は等高線に垂直である。実際、等高線に沿う曲線
-\[
-\boldsymbol{r}(t)=(x(t),y(t))
-\]
-について $f(\boldsymbol{r}(t))$ は一定なので、連鎖律から
-\[
-0=\frac{d}{dt}f(\boldsymbol{r}(t))
-=\nabla f(\boldsymbol{r}(t))\cdot\boldsymbol{r}'(t)
-\]
-となる。よって勾配と等高線の接ベクトルは直交する。
-
-\begin{example}
-\[
-f(x,y)=x^2+2y^2
-\]
-とすると
-\[
-\nabla f(x,y)=(2x,4y).
-\]
-点 $(1,1)$ では $\nabla f(1,1)=(2,4)$ である。したがって、最も速く増加する単位方向は
-\[
-\frac{\nabla f(1,1)}{\|\nabla f(1,1)\|}
-=\frac{1}{\sqrt5}(1,2)
-\]
-であり、その方向の変化率は
-\[
-\|\nabla f(1,1)\|=2\sqrt5
-\]
-である。
-\end{example}
-
-\pointbox{
-\[
-\begin{array}{c}
-\text{可微分性}\\[0.2em]
-f(a+h,b+k)-f(a,b)
-=\nabla f(a,b)\cdot(h,k)+o(\sqrt{h^2+k^2})
-\end{array}
-\]
-\[
-\begin{array}{c}
-\text{連鎖律}\\[0.2em]
-\dfrac{d}{dt}f(x(t),y(t))
-=\nabla f(x(t),y(t))\cdot(x'(t),y'(t))
-\end{array}
-\]
-}
 
 
 \ifPDFTeX
