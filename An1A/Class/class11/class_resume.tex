@@ -1,0 +1,327 @@
+\RequirePackage{iftex}
+\ifPDFTeX
+\documentclass[a4paper,12pt]{article}
+\usepackage[margin=22mm]{geometry}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{graphicx}
+\usepackage{CJKutf8}
+\else
+\documentclass[a4paper,12pt]{jsarticle}
+\usepackage[dvipdfmx,margin=22mm]{geometry}
+\usepackage[dvipdfmx]{graphicx}
+\fi
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{enumitem}
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta,calc}
+
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{0.35em}
+\setlength{\fboxsep}{8pt}
+\setlist[itemize]{leftmargin=2em,itemsep=0.25em,topsep=0.35em}
+\setlist[enumerate]{leftmargin=2.2em,itemsep=0.45em,topsep=0.35em}
+
+\newcommand{\feedbackqa}[2]{%
+\item[]
+\begin{tabular}[t]{@{}p{1.8em}@{\hspace{0.4em}}p{\dimexpr\linewidth-2.2em\relax}@{}}
+Q. & #1 \\
+A. & #2
+\end{tabular}
+\par\smallskip\hrulefill
+}
+
+\newcommand{\pointbox}[1]{%
+\begin{center}
+\fbox{%
+\begin{minipage}{0.91\linewidth}
+#1
+\end{minipage}}
+\end{center}
+}
+
+\begin{document}
+\ifPDFTeX
+\begin{CJK}{UTF8}{min}
+\fi
+
+\theoremstyle{definition}
+\newtheorem*{definition}{定義}
+\newtheorem*{theorem}{定理}
+\newtheorem*{example}{例}
+\newtheorem*{remark}{注意}
+\renewcommand{\proofname}{\normalfont 証明}
+
+\begin{center}
+{\LARGE 数学1A 第11回レジュメ}\\[0.4em]
+方向微分・勾配・高階偏微分・$C^n$級関数
+\end{center}
+
+\section*{フィードバック}
+
+\begin{itemize}[leftmargin=1.5em,itemsep=0.7em,topsep=0.3em]
+\feedbackqa{AIで数学の未解決問題が解かれていることについてどう思うか？}{率直に言って、凄まじい進化だと思います。自分の分野では、AIに自律的に予想を解いてもらうというよりは、共同して研究を進めていく段階なので、研究としては楽しいです。一方で、こうした状況も長くは続かないと思いますし、数学者としての取り組み方や、数学研究に対する考え方を変える必要はあると思います。私はAIの研究への活用については比較的楽観的な立場なので、十年後も研究者として何かしらやることはあると思っています。ただ、それが社会に求められるかどうかという点は、今はよくわかりません。}
+\feedbackqa{ランダウ記号がよくわからない}{$r(h)=o(g(h))$ とは、$\lim_{h\to0}\dfrac{r(h)}{g(h)}=0$ を満たすことです。つまり、$r(h)$ は $g(h)$ と比べて無視できるという意味です。}
+\feedbackqa{$\partial/\partial x$と$d/dx$の違いは？}{ざっくりいうと、$\partial/\partial x$ は二変数関数の偏微分に対して、$d/dx$ は一変数関数の微分に対して使います。}
+\feedbackqa{朝が眠すぎるから対策を教えてほしい}{私も逆の立場だったら眠いと思うので、わかりません。ディスカッションの時間を増やしましょうかね？}
+\feedbackqa{全微分可能と可微分の違い}{全微分可能と可微分は、この授業では同じ意味です。一方で、偏微分可能というのは、$x$ 方向や $y$ 方向など、特定の方向に沿って微分が可能ということを意味する概念です。}
+\feedbackqa{期末は難しい？全クラスで共通？}{期末は全クラス共通で行います。誰が問題を作っているかはわかりませんが、難易度はそうとう高いです。特に計算問題がかなり多く、計算力がないと点数が取れません。教科書の作成者が問題を作るので、教科書をよく読んでおくことが重要になると思います。}
+\feedbackqa{期末では授業で触れていないところは出るか？}{出ます。教科書の範囲（7章まで）はすべて出題範囲です。自分で自習する必要があります。}
+\feedbackqa{連鎖律の実用的な応用}{曲線に沿った微分のときに出てきます。物理の説明でよく使われます。}
+\feedbackqa{鎌田大地に似ている}{とても光栄です}
+\feedbackqa{物理が落単していないか不安}{大丈夫だと思います。たぶん、おそらく。}
+\feedbackqa{(1)の解法が正しいか見てほしい（学籍番号の末尾が8）。}{これは偏導関数が連続でないことを示しているだけなので、全微分可能でないことの証明としては十分ではありません。}
+\feedbackqa{数学が苦手、期末で挽回できるか}{もちろんです。期末頑張りましょう。}
+\feedbackqa{ノートを取るためのiPadを家に置いてきた。}{紙はいいですよ、やはり。}
+  \end{itemize}
+
+
+
+\section*{小テスト}
+
+\begin{enumerate}
+\item
+次の関数
+\[
+f(x,y)=\frac{xy}{\sqrt{x^2+y^2}}
+\]
+について、点 $(0,0)$ で全微分可能かどうかを調べよ。
+
+\medskip
+解説\par
+このままの式では $(0,0)$ で分母が $0$ になるので、まず関数 $f$ 自体が $(0,0)$ で定義されていない。したがって、このままでは $(0,0)$ で全微分可能であるとはいえない。
+
+授業でよくある補足として
+\[
+f(0,0)=0
+\]
+と定めて拡張した場合を考える。このとき、全微分可能なら
+\[
+f(h,k)=f(0,0)+Ah+Bk+o\left(\sqrt{h^2+k^2}\right)
+\]
+と書けるはずである。
+
+実際には
+\[
+f(h,k)=\frac{hk}{\sqrt{h^2+k^2}}
+\]
+なので、もし $A=B=0$ なら
+\[
+\frac{f(h,k)}{\sqrt{h^2+k^2}}
+=\frac{hk}{h^2+k^2}
+\]
+が $0$ に近づかなければならない。ところが $k=h$ とすると
+\[
+\frac{hk}{h^2+k^2}
+=\frac{h^2}{2h^2}=\frac12
+\]
+となり、$0$ に近づかない。よって、拡張しても $(0,0)$ で全微分可能ではない。
+
+したがって結論は、元の関数は $(0,0)$ で未定義なので全微分可能ではなく、さらに $f(0,0)=0$ と補っても全微分可能ではない。
+
+\item
+\[
+f(x,y)=xe^{xy},\qquad x(t)=t,\qquad y(t)=t^2+1
+\]
+とする。合成関数
+\[
+g(t)=f(x(t),y(t))
+\]
+の導関数 $g'(t)$ を連鎖律を用いて求めよ。
+
+\medskip
+解説\par
+まず偏導関数を求めると
+\[
+f_x(x,y)=e^{xy}+xye^{xy}=e^{xy}(1+xy),
+\qquad
+f_y(x,y)=x^2e^{xy}
+\]
+である。また
+\[
+x'(t)=1,\qquad y'(t)=2t
+\]
+である。
+
+したがって連鎖律より
+\[
+g'(t)=f_x(x(t),y(t))x'(t)+f_y(x(t),y(t))y'(t)
+\]
+となる。ここに
+\[
+x(t)=t,\qquad y(t)=t^2+1
+\]
+を代入すると
+\[
+\begin{aligned}
+g'(t)
+&=e^{t(t^2+1)}\bigl(1+t(t^2+1)\bigr)\cdot1
++t^2e^{t(t^2+1)}\cdot2t\\
+&=e^{t^3+t}\bigl(1+t^3+t+2t^3\bigr)\\
+&=e^{t^3+t}(1+t+3t^3).
+\end{aligned}
+\]
+
+よって
+\[
+\boxed{g'(t)=e^{t^3+t}(1+t+3t^3)}
+\]
+である。
+\end{enumerate}
+
+
+\section*{1. 方向微分}
+
+点 $(a,b)$ と単位ベクトル
+\[
+\boldsymbol{u}=(u_1,u_2),\qquad \|\boldsymbol{u}\|=1
+\]
+をとる。$f$ の $(a,b)$ における $\boldsymbol{u}$ 方向の方向微分を
+\[
+D_{\boldsymbol{u}}f(a,b)
+=\lim_{t\to0}
+\frac{f(a+tu_1,b+tu_2)-f(a,b)}{t}
+\]
+と定める。
+
+$f$ が $(a,b)$ で全微分可能なら、連鎖律より
+\[
+D_{\boldsymbol{u}}f(a,b)
+=f_x(a,b)u_1+f_y(a,b)u_2
+=\nabla f(a,b)\cdot\boldsymbol{u}.
+\]
+
+\begin{example}
+$f(x,y)=x^2+2y^2$ とする。点 $(1,1)$ において
+\[
+\nabla f(1,1)=(2,4)
+\]
+である。$\boldsymbol{u}=(1/\sqrt2,1/\sqrt2)$ のとき
+\[
+D_{\boldsymbol{u}}f(1,1)
+=(2,4)\cdot
+\left(\frac1{\sqrt2},\frac1{\sqrt2}\right)
+=3\sqrt2.
+\]
+\end{example}
+
+\section*{2. 勾配}
+
+$f$ の勾配を
+\[
+\nabla f(x,y)=\bigl(f_x(x,y),f_y(x,y)\bigr)
+\]
+と定める。方向微分は
+\[
+D_{\boldsymbol{u}}f
+=\nabla f\cdot\boldsymbol{u}
+=\|\nabla f\|\cos\theta
+\]
+と書ける。ここで $\theta$ は $\nabla f$ と $\boldsymbol{u}$ のなす角である。
+
+したがって、$\nabla f\neq\boldsymbol{0}$ のとき、次が成り立つ。
+\begin{itemize}
+\item 関数が最も速く増加する方向は $\nabla f$ の方向である。
+\item その方向の変化率は $\|\nabla f\|$ である。
+\item 勾配は等高線 $f(x,y)=c$ に垂直である。
+\end{itemize}
+
+\section*{3. 高階偏微分}
+
+偏導関数をさらに偏微分して得られる関数を高階偏導関数という。二階偏導関数は
+\[
+f_{xx}=\frac{\partial}{\partial x}f_x,\qquad
+f_{xy}=\frac{\partial}{\partial y}f_x,\qquad
+f_{yx}=\frac{\partial}{\partial x}f_y,\qquad
+f_{yy}=\frac{\partial}{\partial y}f_y
+\]
+である。$f_{xy}$ と $f_{yx}$ を混合偏導関数という。
+
+\begin{example}
+$f(x,y)=x^2y+xy^2$ とすると
+\[
+f_x=2xy+y^2,\qquad f_y=x^2+2xy
+\]
+であり、
+\[
+f_{xx}=2y,\qquad
+f_{xy}=2x+2y,\qquad
+f_{yx}=2x+2y,\qquad
+f_{yy}=2x.
+\]
+\end{example}
+
+\section*{4. $C^n$ 級関数}
+
+\begin{itemize}
+\item $f$ が連続であるとき、$f$ は $C^0$ 級であるという。
+\item 一階までのすべての偏導関数が存在して連続であるとき、$f$ は $C^1$ 級であるという。
+\item 二階までのすべての偏導関数が存在して連続であるとき、$f$ は $C^2$ 級であるという。
+\item $n$ 階までのすべての偏導関数が存在して連続であるとき、$f$ は $C^n$ 級であるという。
+\item すべての階数の偏導関数が存在して連続であるとき、$f$ は $C^\infty$ 級であるという。
+\end{itemize}
+
+\[
+C^\infty\Longrightarrow\cdots\Longrightarrow
+C^2\Longrightarrow C^1\Longrightarrow C^0.
+\]
+
+\begin{theorem}[混合偏微分の交換]
+$f$ が点 $(a,b)$ の近傍で $C^2$ 級ならば、
+\[
+\partial_{xy}f(a,b)=\partial_{yx}f(a,b)
+\]
+が成り立つ。ただし
+\[
+\partial_{xy}f=\frac{\partial}{\partial y}
+\left(\frac{\partial f}{\partial x}\right),
+\qquad
+\partial_{yx}f=\frac{\partial}{\partial x}
+\left(\frac{\partial f}{\partial y}\right)
+\]
+とする。
+\end{theorem}
+
+\begin{proof}
+$h,k\neq0$ を十分小さくとり、長方形の四隅における差
+\[
+A(h,k)
+=f(a+h,b+k)-f(a+h,b)-f(a,b+k)+f(a,b)
+\]
+を考える。
+
+まず $x$ 方向、次に $y$ 方向に平均値の定理を用いる。ある
+$\theta,\eta\in(0,1)$ が存在して
+\[
+\begin{aligned}
+A(h,k)
+&=h\{f_x(a+\theta h,b+k)-f_x(a+\theta h,b)\}\\
+&=hk\,\partial_{xy}f(a+\theta h,b+\eta k)
+\end{aligned}
+\]
+となる。
+
+一方、$y$ 方向、次に $x$ 方向に平均値の定理を用いると、ある
+$\theta',\eta'\in(0,1)$ が存在して
+\[
+\begin{aligned}
+A(h,k)
+&=k\{f_y(a+h,b+\eta' k)-f_y(a,b+\eta' k)\}\\
+&=hk\,\partial_{yx}f(a+\theta' h,b+\eta' k)
+\end{aligned}
+\]
+となる。したがって
+\[
+\partial_{xy}f(a+\theta h,b+\eta k)
+=\partial_{yx}f(a+\theta' h,b+\eta' k).
+\]
+$h,k\to0$ とすると、二階偏導関数の連続性より
+\[
+\partial_{xy}f(a,b)=\partial_{yx}f(a,b)
+\]
+を得る。
+\end{proof}
+\ifPDFTeX
+\end{CJK}
+\fi
+\end{document}

@@ -1,0 +1,143 @@
+\RequirePackage{iftex}
+\ifPDFTeX
+\documentclass[a4paper,12pt]{article}
+\usepackage[margin=24mm]{geometry}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{CJKutf8}
+\else
+\documentclass[a4paper,12pt]{jsarticle}
+\usepackage[dvipdfmx,margin=24mm]{geometry}
+\fi
+\usepackage{amsmath,amssymb}
+\usepackage{enumitem}
+
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{0.35em}
+\setlist[enumerate]{leftmargin=2.2em,itemsep=0.35em,topsep=0.35em}
+
+\newcommand{\problem}[1]{\par\vspace{0.85em}\noindent{\large 問題 #1}\quad（10点）\quad\ignorespaces}
+\newcommand{\R}{\mathbb{R}}
+
+\begin{document}
+
+\ifPDFTeX
+\begin{CJK}{UTF8}{min}
+\fi
+
+\begin{center}
+{\Large 数学1A レポート}\\[0.3em]
+各問題10点，満点100点
+\end{center}
+
+計算問題では途中式も書くこと。判定問題では，判定に用いた理由を簡潔に書くこと。
+
+\problem{1}
+関数
+\[
+f(x,y)=x^2y+e^{xy}-\sin(x-y)
+\]
+について，次を求めよ。
+\begin{enumerate}[label=(\alph*)]
+\item $f_x(x,y)$ と $f_y(x,y)$
+\item $f_x(0,0)$ と $f_y(0,0)$
+\end{enumerate}
+
+\problem{2}
+関数
+\[
+f(x,y)=
+\begin{cases}
+\dfrac{x^2y}{x^2+y^2} & ((x,y)\ne(0,0)),\\[0.7em]
+0 & ((x,y)=(0,0))
+\end{cases}
+\]
+について，次の問いに答えよ。
+\begin{enumerate}[label=(\alph*)]
+\item $f_x(0,0)$ と $f_y(0,0)$ を定義から求めよ。
+\item $f$ は $(0,0)$ で全微分可能かどうか判定せよ。
+\end{enumerate}
+
+\problem{3}
+関数
+\[
+f(x,y)=\sqrt{1+x+2y}
+\]
+を考える。点 $(0,0)$ において $f$ が全微分可能であることを用いて，
+\[
+f(h,k)=f(0,0)+Ah+Bk+o\left(\sqrt{h^2+k^2}\right)
+\qquad ((h,k)\to(0,0))
+\]
+の形に表せ。ただし，$A,B$ を具体的に求めること。
+
+\problem{4}
+曲面
+\[
+z=x^2+xy+y^2
+\]
+について，点 $(1,-1,1)$ における接平面の方程式を求めよ。
+
+\problem{5}
+関数
+\[
+f(x,y)=e^{xy}+x^2y
+\]
+について，次を求めよ。
+\begin{enumerate}[label=(\alph*)]
+\item $f_{xx}(x,y)$，$f_{xy}(x,y)$，$f_{yy}(x,y)$
+\item $f_{xy}(1,0)$ と $f_{yx}(1,0)$
+\end{enumerate}
+
+\problem{6}
+$\rho=\sqrt{h^2+k^2}$ とする。次の問いに答えよ。
+\begin{enumerate}[label=(\alph*)]
+\item $h^2+k^2=o(\rho)$ が成り立つことを示せ。
+\item $hk=o(\rho^2)$ が成り立つかどうか判定せよ。
+\item $e^{h+2k}$ を $1+Ah+Bk+o(\rho)$ の形に表せ。
+\end{enumerate}
+
+\problem{7}
+関数
+\[
+f(x,y)=x^3+y^3-3xy
+\]
+の停留点をすべて求め，それぞれが極小点，極大点，鞍点のどれであるか判定せよ。
+
+\problem{8}
+次の二次形式について，正定値，負定値，不定値，半正定値のどれであるか判定せよ。
+\begin{enumerate}[label=(\alph*)]
+\item $Q_1(x,y)=3x^2+4xy+2y^2$
+\item $Q_2(x,y)=x^2-4xy+4y^2$
+\item $Q_3(x,y)=-x^2+2xy-y^2$
+\item $Q_4(x,y)=x^2-2xy-3y^2$
+\end{enumerate}
+
+\problem{9}
+関数
+\[
+f(x,y)=x^2y+y^3
+\]
+を考える。点 $(1,1)$ において，次を求めよ。
+\begin{enumerate}[label=(\alph*)]
+\item 単位ベクトル $u=\dfrac{1}{\sqrt5}(1,2)$ 方向の方向微分 $D_uf(1,1)$
+\item $f$ が最も大きく増加する方向
+\item その方向での方向微分の値
+\end{enumerate}
+
+\problem{10}
+平面上の温度を
+\[
+T(x,y)=100-x^2-2y^2
+\]
+で表す。点 $(1,2)$ において，次の問いに答えよ。
+\begin{enumerate}[label=(\alph*)]
+\item $\nabla T(1,2)$ を求めよ。
+\item 温度が最も大きく増加する方向と，その増加率を求めよ。
+\item 点 $(1,2)$ を通る等温線 $T(x,y)=T(1,2)$ の接線の方程式を求めよ。
+\end{enumerate}
+
+\ifPDFTeX
+\end{CJK}
+\fi
+
+\end{document}
