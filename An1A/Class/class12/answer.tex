@@ -1,0 +1,245 @@
+\RequirePackage{iftex}
+\ifPDFTeX
+\documentclass[a4paper,12pt]{article}
+\usepackage[hmargin=16mm,vmargin=24mm]{geometry}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{CJKutf8}
+\else
+\documentclass[a4paper,12pt]{jsarticle}
+\usepackage[dvipdfmx,hmargin=16mm,vmargin=24mm]{geometry}
+\fi
+\usepackage{amsmath,amssymb}
+\usepackage{enumitem}
+
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{0.35em}
+\setlist[enumerate]{leftmargin=2.2em,itemsep=0.35em,topsep=0.35em}
+
+\newcommand{\problem}[2][10]{\par\vspace{0.85em}\noindent{\large 問題 #2}\quad（#1点）\quad\ignorespaces}
+\newcommand{\R}{\mathbb{R}}
+
+\begin{document}
+
+\ifPDFTeX
+\begin{CJK}{UTF8}{min}
+\fi
+
+\begin{center}
+{\Large 数学1A レポート解答}
+\end{center}
+
+\problem{1}
+$f(0,0)=0$ である。まず
+\[
+\partial_x f(0,0)
+=\lim_{h\to 0}\frac{f(h,0)-f(0,0)}{h}=0,
+\qquad
+\partial_y f(0,0)
+=\lim_{k\to 0}\frac{f(0,k)-f(0,0)}{k}=0.
+\]
+したがって，もし全微分可能なら一次近似は $0$ でなければならない。
+
+ところが $y=x$ とおくと
+\[
+f(x,x)=\frac{x^3}{2x^2}=\frac{x}{2}
+\]
+であり，
+\[
+\frac{|f(x,x)-0|}{\sqrt{x^2+x^2}}
+=\frac{1}{2\sqrt{2}}
+\]
+となって $0$ に近づかない。よって $f$ は $(0,0)$ で全微分可能でない。
+
+\problem{2}
+\[
+f_x(x,y)=\frac{1}{2\sqrt{1+x+2y}},
+\qquad
+f_y(x,y)=\frac{1}{\sqrt{1+x+2y}}.
+\]
+したがって
+\[
+f(0,0)=1,\qquad f_x(0,0)=\frac12,\qquad f_y(0,0)=1.
+\]
+$f$ は $(0,0)$ の近くで $C^1$ 級なので，
+\[
+f(h,k)=1+\frac12h+k+o\left(\sqrt{h^2+k^2}\right)
+\qquad ((h,k)\to(0,0)).
+\]
+よって
+\[
+A=\frac12,\qquad B=1.
+\]
+
+\problem{3}
+$F(x,y)=x^2+xy+y^2$ とおくと
+\[
+F_x=2x+y,\qquad F_y=x+2y.
+\]
+点 $(1,-1)$ では
+\[
+F(1,-1)=1,\qquad F_x(1,-1)=1,\qquad F_y(1,-1)=-1.
+\]
+接平面は
+\[
+z-1=(x-1)-(y+1)
+\]
+である。すなわち
+\[
+z=x-y-1.
+\]
+
+\problem{4}
+ランダウのオー記号は，関数の増大や誤差の大きさを比較する記号である。
+例えば $f(x)=O(g(x))$ は，ある定数 $C>0$ により
+$|f(x)|\le C|g(x)|$ と評価できることを表す。
+$o(g(x))$ は $f(x)/g(x)\to 0$ を意味し，より小さい量であることを表す。
+
+\problem{5}
+$s=h+2k$ とおくと，
+\[
+\log(1+s)=s-\frac{s^2}{2}+o(s^2)
+\qquad (s\to 0).
+\]
+ここで $s=O(\sqrt{h^2+k^2})$ であるから，
+\[
+\log(1+h+2k)
+=h+2k-\frac12(h+2k)^2+o(h^2+k^2).
+\]
+整理すると
+\[
+f(h,k)
+=h+2k-\frac12h^2-2hk-2k^2+o(h^2+k^2).
+\]
+よって
+\[
+A=1,\qquad B=2,\qquad C=-\frac12,\qquad D=-2,\qquad E=-2.
+\]
+
+\problem{6}
+\[
+f_x=3x^2-3y,\qquad f_y=3y^2-3x.
+\]
+停留点は
+\[
+y=x^2,\qquad x=y^2
+\]
+を満たす点である。これより
+\[
+x=x^4
+\]
+となるので $x=0,1$。したがって停留点は
+\[
+(0,0),\qquad (1,1)
+\]
+である。
+
+ヘッセ行列は
+\[
+H=
+\begin{pmatrix}
+6x & -3\\
+-3 & 6y
+\end{pmatrix}.
+\]
+$(0,0)$ では
+\[
+\det H=-9<0
+\]
+なので鞍点である。$(1,1)$ では
+\[
+\det H=27>0,\qquad f_{xx}(1,1)=6>0
+\]
+なので極小点である。極大点は存在しない。
+
+\problem[20]{7}
+\begin{enumerate}[label=(\alph*)]
+\item
+\[
+\nabla T(x,y)=(-2x,-4y)
+\]
+であるから，
+\[
+\nabla T(1,2)=(-2,-8).
+\]
+
+\item
+$T(1,2)=100-1-8=91$ である。等温線 $T(x,y)=91$ の接線は
+\[
+\nabla T(1,2)\cdot ((x,y)-(1,2))=0
+\]
+より
+\[
+-2(x-1)-8(y-2)=0.
+\]
+したがって
+\[
+x+4y-9=0.
+\]
+\end{enumerate}
+
+\problem[20]{8}
+\begin{enumerate}[label=(\alph*)]
+\item
+\[
+(g_a)_x=4x^3-4ay,\qquad (g_a)_y=4y^3-4ax.
+\]
+停留点は
+\[
+x^3=ay,\qquad y^3=ax
+\]
+を満たす点である。
+
+$a=0$ のとき，停留点は
+\[
+(0,0)
+\]
+のみである。
+
+$a>0$ のとき，停留点は
+\[
+(0,0),\qquad (\sqrt a,\sqrt a),\qquad (-\sqrt a,-\sqrt a)
+\]
+である。
+
+$a<0$ のとき，停留点は
+\[
+(0,0),\qquad (\sqrt{-a},-\sqrt{-a}),\qquad (-\sqrt{-a},\sqrt{-a})
+\]
+である。
+
+\item
+ヘッセ行列は
+\[
+H=
+\begin{pmatrix}
+12x^2 & -4a\\
+-4a & 12y^2
+\end{pmatrix}.
+\]
+
+$a=0$ のとき，
+\[
+g_0(x,y)=x^4+y^4\ge 0
+\]
+なので，$(0,0)$ は極小点である。
+
+$a\ne 0$ のとき，$(0,0)$ では
+\[
+\det H=-16a^2<0
+\]
+なので鞍点である。
+
+非零の停留点では $x^2=y^2=|a|$ であるから，
+\[
+\det H=144a^2-16a^2=128a^2>0,\qquad
+g_{xx}=12|a|>0.
+\]
+したがって，非零の停留点はいずれも極小点である。極大点は存在しない。
+\end{enumerate}
+
+\ifPDFTeX
+\end{CJK}
+\fi
+
+\end{document}

@@ -13,12 +13,24 @@
 \fi
 \usepackage{amsmath,amssymb,amsthm}
 \usepackage{enumitem}
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta,positioning}
 
 \setlength{\parindent}{0pt}
 \setlength{\parskip}{0.35em}
 \setlength{\fboxsep}{8pt}
 \setlist[itemize]{leftmargin=2em,itemsep=0.25em,topsep=0.35em}
 \setlist[enumerate]{leftmargin=2.2em,itemsep=0.45em,topsep=0.35em}
+
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\feedbackqa}[2]{%
+\item[]
+\begin{tabular}[t]{@{}p{1.8em}@{\hspace{0.4em}}p{\dimexpr\linewidth-2.2em\relax}@{}}
+Q. & #1 \\
+A. & #2
+\end{tabular}
+\par\smallskip\hrulefill
+}
 
 \newcommand{\pointbox}[1]{%
 \begin{center}
@@ -40,109 +52,461 @@
 
 \begin{center}
 {\LARGE 数学1A 第12回レジュメ}\\[0.4em]
-連続関数の基本性質
+極値，二次形式，2変数のテイラーの定理，一般の $n$ 変数関数の極値判定
 \end{center}
 
-\section*{1. 連続性}
+\section*{フィードバック}
+
+\begin{itemize}[leftmargin=1.5em,itemsep=0.7em,topsep=0.3em]
+\feedbackqa{期末試験の範囲は？}{§1から§6までです}
+\feedbackqa{全微分がわからない}{練習問題をたくさん解けば、そんなに難しく感じないと思います。}
+\feedbackqa{熱中症対策は？}{水を飲みましょう}
+\feedbackqa{教科書と順番が違う}{おっしゃる通りです。最終的に§6まですべて扱う予定ではいますが、自分が説明しやすい順番に変えています}
+\feedbackqa{日本が負けて悔しい}{同じ気持ちです。}
+\feedbackqa{冷房はいつ効く？}{わからない。}
+\feedbackqa{方向微分は単位ベクトルを求めている？}{求めているのは、指定したベクトル方向への微分係数なので、ベクトルではなく値です。}
+\feedbackqa{$C^k$ 級の概念についてぴんとこない}{$k$ 階までの偏導関数が存在し、それらがすべて連続であるという意味ですが、確かにどんな関数か想像しずらいですね}
+\feedbackqa{期末試験を優しくして}{どなたが期末の問題作っているんでしょうかね}
+\end{itemize}
+
+\section*{小テスト}
+
+\subsection*{問題}
+
+\begin{enumerate}
+\item
+$$
+f(x,y) = \begin{cases}
+    \dfrac{x^4 y^4}{x^2+y^2} & (x,y)\neq (0,0) \\
+    0 & (x,y)=(0,0)
+\end{cases}
+$$
+が $(0,0)$で全微分可能かどうか判定せよ。
+\item
+$f(x,y)=x|x|+y|y|$ について $\partial_x f$ を求めよ.
+\end{enumerate}
+
+\subsection*{解答}
+
+\begin{enumerate}
+\item
+まず偏導関数を定義から求める。
+$$
+f_x(0,0)=\lim_{h\to0}\frac{f(h,0)-f(0,0)}{h}=\lim_{h\to0}\frac{0}{h}=0,
+$$
+同様に $f_y(0,0)=0$。
+
+全微分可能性を確かめるため，
+$$
+\lim_{(h,k)\to(0,0)}\frac{f(h,k)-f(0,0)-0\cdot h-0\cdot k}{\sqrt{h^2+k^2}}
+=\lim_{(h,k)\to(0,0)}\frac{h^4k^4}{(h^2+k^2)^{3/2}}
+$$
+を調べる。$r=\sqrt{h^2+k^2}$ とおくと $|h|\le r$，$|k|\le r$ なので
+$$
+0\le\frac{h^4k^4}{(h^2+k^2)^{3/2}}\le\frac{r^8}{r^3}=r^5\to0\quad(r\to0).
+$$
+よって $f$ は $(0,0)$ で全微分可能であり，$df_{(0,0)}=0$ である。
+
+\item
+一変数関数 $g(t)=t|t|$ を考える。$t>0$ では $g'(t)=2t$，$t<0$ では
+$g'(t)=-2t$ である。また
+$$
+g'(0)=\lim_{h\to0}\frac{h|h|-0}{h}=\lim_{h\to0}|h|=0.
+$$
+よって $g'(t)=2|t|$ がすべての $t$ で成り立つ。$f(x,y)=g(x)+g(y)$ なので
+$$
+\partial_x f(x,y)=g'(x)=2|x|.
+$$
+\end{enumerate}
+
+\section*{1. 極値と停留点}
 
 \begin{definition}
-$D\subset\mathbb{R}$ とし、$f:D\to\mathbb{R}$ とする。$f$ が点 $a\in D$ で
-連続であるとは、任意の $\varepsilon>0$ に対してある $\delta>0$ が存在し、
-$x\in D$ かつ $|x-a|<\delta$ ならば
-\[
-|f(x)-f(a)|<\varepsilon
-\]
-となることをいう。
+$f:\R^2\to\R$ とする。点 $(a,b)$ の近くのすべての点 $(x,y)$ について
+$$
+f(x,y)\ge f(a,b)
+$$
+が成り立つとき，$(a,b)$ を極小点という。同様に，近くのすべての点について
+$$
+f(x,y)\le f(a,b)
+$$
+が成り立つとき，$(a,b)$ を極大点という。極小点と極大点をあわせて極値点という。
 \end{definition}
 
-\begin{theorem}[数列による連続性の判定]
-$f$ が $a$ で連続であることと、$D$ の任意の数列 $x_n$ について
-\[
-x_n\to a\quad\Rightarrow\quad f(x_n)\to f(a)
-\]
-が成り立つことは同値である。
+\begin{theorem}[極値を取るための必要条件]
+$f$ が $(a,b)$ の近くで定義され，$(a,b)$ で全微分可能であるとする。$(a,b)$ が内点の極値点ならば
+$$
+f_x(a,b)=0,\qquad f_y(a,b)=0
+$$
+である。
 \end{theorem}
 
 \begin{proof}
-$f$ が $a$ で連続であるとする。$\varepsilon>0$ を取る。連続性より、
-$|x-a|<\delta$ ならば $|f(x)-f(a)|<\varepsilon$ となる $\delta>0$ がある。
-$x_n\to a$ なので、十分大きい $n$ で $|x_n-a|<\delta$ となる。したがって
-$f(x_n)\to f(a)$ である。
+$y=b$ と固定して，一変数関数 $g(x)=f(x,b)$ を考える。$(a,b)$ が極値点なら，$g$ は $x=a$ で極値を取る。したがって一変数関数の場合の必要条件より $g'(a)=0$ である。これは $f_x(a,b)=0$ を意味する。
 
-逆に、$f$ が $a$ で連続でないとする。するとある $\varepsilon_0>0$ が存在し、
-どんな $\delta>0$ に対しても $|x-a|<\delta$ かつ
-$|f(x)-f(a)|\ge\varepsilon_0$ となる $x\in D$ が取れる。特に
-$\delta=1/n$ として $x_n$ を取れば、$x_n\to a$ だが
-$f(x_n)\to f(a)$ ではない。
+同様に，$x=a$ と固定して $h(y)=f(a,y)$ を考えると $f_y(a,b)=0$ を得る。
 \end{proof}
 
-\section*{2. 連続関数の演算}
+\begin{definition}
+$$
+f_x(a,b)=0,\qquad f_y(a,b)=0
+$$
+を満たす点 $(a,b)$ を停留点という。
+\end{definition}
 
-\begin{theorem}
-$f,g$ が点 $a$ で連続ならば、$f+g$ と $fg$ も点 $a$ で連続である。
-また $g(a)\ne0$ ならば $f/g$ も点 $a$ で連続である。
+\begin{remark}
+停留点は極値点の候補である。しかし，停留点が必ず極値点になるわけではない。
+\end{remark}
+
+\begin{example}
+$$
+f(x,y)=x^2+y^2
+$$
+は $(0,0)$ で極小値を取る。一方，
+$$
+g(x,y)=x^2-y^2
+$$
+は $(0,0)$ で停留点をもつが，極大点でも極小点でもない。実際，$x$ 軸方向では $g(x,0)=x^2\ge0$ であり，$y$ 軸方向では $g(0,y)=-y^2\le0$ である。
+\end{example}
+
+\begin{center}
+\begin{tikzpicture}[>=Latex,x=0.82cm,y=0.82cm]
+  \begin{scope}[xshift=-4.2cm]
+    \draw[->,gray] (-2.3,0)--(2.3,0) node[right] {$x$};
+    \draw[->,gray] (0,-2.1)--(0,2.1) node[above] {$y$};
+    \foreach \r in {0.55,1.05,1.55}{\draw[blue!70!black,thick] (0,0) circle (\r);}
+    \fill (0,0) circle (2pt);
+    \draw[->,red!70!black,thick] (1.85,0.8)--(0.45,0.2);
+    \node[align=center] at (0,-2.65) {$f=x^2+y^2$\\内側ほど低い：極小};
+  \end{scope}
+  \begin{scope}[xshift=4.2cm]
+    \draw[->,gray] (-2.3,0)--(2.3,0) node[right] {$x$};
+    \draw[->,gray] (0,-2.1)--(0,2.1) node[above] {$y$};
+    \foreach \c in {0.45,1.0}{
+      \draw[red!75!black,thick] plot[domain=-1.55:1.55,samples=50] ({sqrt(\x*\x+\c)},\x);
+      \draw[red!75!black,thick] plot[domain=-1.55:1.55,samples=50] ({-sqrt(\x*\x+\c)},\x);
+      \draw[blue!70!black,thick] plot[domain=-1.55:1.55,samples=50] (\x,{sqrt(\x*\x+\c)});
+      \draw[blue!70!black,thick] plot[domain=-1.55:1.55,samples=50] (\x,{-sqrt(\x*\x+\c)});
+    }
+    \fill (0,0) circle (2pt);
+    \node[red!75!black] at (1.55,0.35) {$g>0$};
+    \node[blue!70!black] at (0.45,1.65) {$g<0$};
+    \node[align=center] at (0,-2.65) {$g=x^2-y^2$\\方向で符号が変わる：鞍点};
+  \end{scope}
+\end{tikzpicture}
+
+{\small 図：停留点のまわりの等高線}
+\end{center}
+
+\pointbox{
+極値を調べるときは，まず停留点を求める。その後，その点のまわりで関数が上に曲がるか，下に曲がるか，方向によって変わるかを2次の項で調べる。
+}
+
+\section*{2. 二次形式}
+
+\begin{definition}
+$$
+Q(h,k)=Ah^2+2Bhk+Ck^2
+$$
+の形の式を2変数の二次形式という。
+\end{definition}
+
+二次形式は行列を使って
+$$
+Q(h,k)
+=
+\begin{pmatrix}h&k\end{pmatrix}
+\begin{pmatrix}A&B\\B&C\end{pmatrix}
+\begin{pmatrix}h\\k\end{pmatrix}
+$$
+と書ける。
+
+\begin{definition}
+$(h,k)\ne(0,0)$ に対して常に $Q(h,k)>0$ となるとき，$Q$ は正定値であるという。
+常に $Q(h,k)<0$ となるとき，$Q$ は負定値であるという。正の値も負の値も取るとき，不定であるという。
+\end{definition}
+
+\begin{theorem}[2変数二次形式の符号判定]
+$Q(h,k)=Ah^2+2Bhk+Ck^2$ とし，
+$$
+D=AC-B^2
+$$
+とおく。
+\begin{itemize}
+\item $D>0$ かつ $A>0$ なら，$Q$ は正定値である。
+\item $D>0$ かつ $A<0$ なら，$Q$ は負定値である。
+\item $D<0$ なら，$Q$ は不定 (極値ではない) である。
+\item $D=0$ のときは，この判定だけでは決まらない。
+\end{itemize}
 \end{theorem}
 
 \begin{proof}
-$x_n\to a$ とする。$f,g$ の連続性より $f(x_n)\to f(a)$,
-$g(x_n)\to g(a)$ である。数列の極限の和・積・商の性質を用いれば、
-\[
-(f+g)(x_n)\to (f+g)(a),\qquad (fg)(x_n)\to (fg)(a)
-\]
-が従う。$g(a)\ne0$ のときは十分大きい $n$ で $g(x_n)\ne0$ となり、
-\[
-\frac{f(x_n)}{g(x_n)}\to \frac{f(a)}{g(a)}
-\]
-である。数列による判定から結論を得る。
+$A\ne0$ のとき，平方完成により
+$$
+Q(h,k)
+=A\left(h+\frac{B}{A}k\right)^2
++\frac{AC-B^2}{A}k^2
+$$
+と書ける。この式から $D>0$ の場合は $A$ と同じ符号にそろうことがわかる。
+
+$D<0$ の場合は，$k=0$ とすると $Q(h,0)=Ah^2$ であり，また $h=-Bk/A$ と選ぶと
+$$
+Q\left(-\frac{B}{A}k,k\right)=\frac{D}{A}k^2
+$$
+となる。この2つは反対の符号を取るので，$Q$ は不定である。
 \end{proof}
 
 \begin{example}
-多項式関数はすべての点で連続である。有理関数は、分母が $0$ でない点で連続である。
+$$
+Q(h,k)=2h^2+2hk+2k^2
+$$
+では $A=2, B=1, C=2$ なので
+$$
+D=AC-B^2=4-1=3>0,\qquad A>0.
+$$
+したがって $Q$ は正定値である。
 \end{example}
 
-\section*{3. 中間値の定理}
+\begin{center}
+\begin{tikzpicture}[>=Latex,x=1cm,y=1cm]
+  \draw[->,gray] (-3.1,0)--(3.1,0);
+  \node[gray] at (2.65,0.38) {$h$};
+  \draw[->,gray] (0,-2.35)--(0,2.35) node[above] {$k$};
+  \foreach \a/\b in {0.75/0.43,1.45/0.84,2.15/1.24}{
+    \draw[blue!70!black,thick,rotate=-45] (0,0)
+      ellipse [x radius=\a,y radius=\b];
+  }
+  \draw[dashed,red!70!black] (-2,-2)--(2,2) node[above right] {$h=k$};
+  \draw[dashed,green!45!black] (-2,2)--(2,-2) node[below right] {$h=-k$};
+  \fill (0,0) circle (2pt) node[below left] {$Q=0$};
+  \node[align=left] at (5.3,0.7) {$h=k$ 方向：$Q=6h^2$};
+  \node[align=left] at (5.3,-0.1) {$h=-k$ 方向：$Q=2h^2$};
+  \node[align=left] at (5.3,-1.1) {どの方向でも $Q>0$};
+\end{tikzpicture}
 
-\begin{theorem}[中間値の定理]
-$f:[a,b]\to\mathbb{R}$ が連続で、$f(a)<\lambda<f(b)$ とする。このとき
-ある $c\in(a,b)$ が存在して
-\[
-f(c)=\lambda
-\]
-となる。$f(b)<\lambda<f(a)$ の場合も同様である。
+{\small 図：$Q(h,k)=2h^2+2hk+2k^2$ の等高線と主軸}
+\end{center}
+
+\section*{3. 2変数のテイラーの定理}
+
+\begin{theorem}[2次のテイラーの定理]
+$f$ が点 $(a,b)$ の近くで $C^2$ 級であるとする。このとき $(h,k)\to(0,0)$ で
+$$
+\begin{aligned}
+f(a+h,b+k)
+=&\,f(a,b)+f_x(a,b)h+f_y(a,b)k\\
+&+\frac12\left\{
+f_{xx}(a,b)h^2+2f_{xy}(a,b)hk+f_{yy}(a,b)k^2
+\right\}
++o(h^2+k^2)
+\end{aligned}
+$$
+が成り立つ。
 \end{theorem}
 
-\begin{proof}
-$S=\{x\in[a,b]\mid f(x)\le\lambda\}$ とおく。$a\in S$ なので $S$ は空でなく、
-$b$ によって上に有界である。よって $c=\sup S$ が存在する。
+\begin{remark}
+一次の項は勾配による近似である。停留点では一次の項が消えるので，極値判定では2次の項が主役になる。
+\end{remark}
 
-連続性を用いて $f(c)=\lambda$ を示す。もし $f(c)<\lambda$ ならば、$c$ の十分近く
-では $f(x)<\lambda$ である。すると $c$ より大きい $S$ の元が存在し、$c$ が上界で
-あることに矛盾する。もし $f(c)>\lambda$ ならば、$c$ の十分近くでは
-$f(x)>\lambda$ である。一方、上限の近似性により $c$ に左から近い $S$ の元が
-存在するので矛盾する。したがって $f(c)=\lambda$ である。
-\end{proof}
+\begin{center}
+\begin{minipage}{0.95\linewidth}
+\centering
+\begin{tikzpicture}[>=Latex,x=1.15cm,y=1.15cm]
+  \draw[->,gray] (-2.5,0)--(2.6,0) node[right] {$t$};
+  \draw[->,gray] (0,-0.75)--(0,2.65) node[above] {$f(\boldsymbol a+t\boldsymbol u)$};
+  \draw[gray!70,dashed,domain=-2.1:2.1,samples=60]
+    plot (\x,{0.30*\x});
+  \draw[blue!70!black,thick,domain=-2.1:2.1,samples=60]
+    plot (\x,{0.30*\x+0.45*\x*\x});
+  \draw[red!75!black,very thick,domain=-2.1:2.1,samples=60]
+    plot (\x,{0.30*\x+0.45*\x*\x+0.06*\x*\x*\x});
+  \fill (0,0) circle (2pt) node[below right] {$t=0$};
+  \draw[gray!70,dashed] (1.0,0.3)--(2.65,0.3) node[right,black] {一次近似};
+  \draw[blue!70!black] (1.45,1.38)--(2.65,1.38) node[right,black] {二次近似};
+  \draw[red!75!black] (1.8,2.22)--(2.65,2.22) node[right,black] {もとの関数};
+\end{tikzpicture}
 
-\section*{4. 最大値・最小値}
+{\small 図：方向 $\boldsymbol u$ に沿う断面で見たテイラー近似}
+\end{minipage}
+\end{center}
 
-\begin{theorem}[最大値・最小値の定理]
-$f:[a,b]\to\mathbb{R}$ が連続ならば、$f$ は $[a,b]$ 上で最大値と最小値を取る。
-\end{theorem}
-
-\begin{proof}
-ここでは事実として、閉区間 $[a,b]$ の任意の数列は収束部分列をもち、その極限も
-$[a,b]$ に属することを用いる。
-
-$f$ が上に有界であるとし、$M=\sup f([a,b])$ とおく。上限の近似性より、
-$f(x_n)>M-1/n$ となる $x_n\in[a,b]$ を取れる。$[a,b]$ の性質より、部分列
-$x_{n_k}$ がある $x_0\in[a,b]$ に収束する。連続性より
-$f(x_{n_k})\to f(x_0)$ であり、一方で $f(x_{n_k})\to M$ なので $f(x_0)=M$ である。
-最小値も同様に示せる。
-\end{proof}
+\begin{example}
+$$
+f(x,y)=\log(1+x+2y)
+$$
+を $(0,0)$ の近くで2次まで展開する。まず
+$$
+f(0,0)=0,\qquad f_x(0,0)=1,\qquad f_y(0,0)=2
+$$
+である。また
+$$
+f_{xx}(0,0)=-1,\qquad f_{xy}(0,0)=-2,\qquad f_{yy}(0,0)=-4.
+$$
+したがって
+$$
+\log(1+h+2k)
+=h+2k-\frac12h^2-2hk-2k^2+o(h^2+k^2)
+$$
+である。
+\end{example}
 
 \pointbox{
-閉区間上の連続関数には、中間値を取る性質と、最大値・最小値を取る性質がある。
-どちらも閉区間と連続性が重要である。
+2次のテイラー展開では
+$$
+f_{xx}h^2+2f_{xy}hk+f_{yy}k^2
+$$
+という二次形式が現れる。この二次形式の符号が，停留点の形を決める。
 }
+
+\section*{4. 2変数関数の極値判定}
+
+$f$ が $C^2$ 級で，$(a,b)$ が停留点であるとする。ヘッセ行列を
+$$
+H_f(a,b)=
+\begin{pmatrix}
+f_{xx}(a,b)&f_{xy}(a,b)\\
+f_{xy}(a,b)&f_{yy}(a,b)
+\end{pmatrix}
+$$
+と書く。
+
+\begin{theorem}[2変数関数の極値判定]
+$(a,b)$ が停留点であるとし，
+$$
+D=f_{xx}(a,b)f_{yy}(a,b)-f_{xy}(a,b)^2
+$$
+とおく。
+\begin{itemize}
+\item $D>0$ かつ $f_{xx}(a,b)>0$ なら，$(a,b)$ は極小点である。
+\item $D>0$ かつ $f_{xx}(a,b)<0$ なら，$(a,b)$ は極大点である。
+\item $D<0$ なら，$(a,b)$ は鞍点である。
+\item $D=0$ のときは，この判定だけでは決まらない。
+\end{itemize}
+\end{theorem}
+
+\begin{proof}
+$(a,b)$ は停留点なので $f_x(a,b)=f_y(a,b)=0$ である。テイラーの定理より
+$$
+\begin{aligned}
+f(a+h,b+k)-f(a,b)
+=&\,\frac12\left\{
+f_{xx}(a,b)h^2+2f_{xy}(a,b)hk+f_{yy}(a,b)k^2
+\right\}\\
+&+o(h^2+k^2)
+\end{aligned}
+$$
+となる。したがって，原点に十分近いところでは，増減は主にこの二次形式の符号で決まる。二次形式が正定値なら極小，負定値なら極大，不定なら方向によって増減が変わるので鞍点である。
+\end{proof}
+
+\begin{example}
+$$
+f(x,y)=x^3+y^3-3xy
+$$
+の極値を調べる。偏導関数は
+$$
+f_x=3x^2-3y,\qquad f_y=3y^2-3x
+$$
+である。停留点は
+$$
+y=x^2,\qquad x=y^2
+$$
+を満たす点なので，
+$$
+(x,y)=(0,0),\ (1,1)
+$$
+である。
+
+2階偏導関数は
+$$
+f_{xx}=6x,\qquad f_{xy}=-3,\qquad f_{yy}=6y.
+$$
+したがって
+$$
+D=36xy-9
+$$
+である。$(0,0)$ では $D=-9<0$ なので鞍点である。$(1,1)$ では $D=27>0$ かつ $f_{xx}(1,1)=6>0$ なので極小点である。
+\end{example}
+
+\begin{remark}
+$D=0$ の場合は注意が必要である。例えば $f(x,y)=x^4+y^4$ は $(0,0)$ で極小値を取るが，ヘッセ行列は零行列である。一方，$g(x,y)=x^3+y^2$ も $(0,0)$ で $D=0$ だが，極小点ではない。
+\end{remark}
+
+\section*{5. 一般の $n$ 変数関数の場合}
+
+$f:\R^n\to\R$ とし，点 $\boldsymbol{a}\in\R^n$ の近くで $C^2$ 級であるとする。勾配とヘッセ行列を
+$$
+\nabla f(\boldsymbol{a})
+=\left(\frac{\partial f}{\partial x_1}(\boldsymbol{a}),\ldots,
+\frac{\partial f}{\partial x_n}(\boldsymbol{a})\right),
+$$
+$$
+H_f(\boldsymbol{a})
+=\left(
+\frac{\partial^2 f}{\partial x_i\partial x_j}(\boldsymbol{a})
+\right)_{1\le i,j\le n}
+$$
+と書く。
+
+2次のテイラー展開は
+$$
+f(\boldsymbol{a}+\boldsymbol{h})
+=f(\boldsymbol{a})
++\nabla f(\boldsymbol{a})\cdot\boldsymbol{h}
++\frac12\boldsymbol{h}^{T}H_f(\boldsymbol{a})\boldsymbol{h}
++o(\|\boldsymbol{h}\|^2)
+$$
+となる。
+
+\begin{theorem}[一般の場合の極値判定]
+$\nabla f(\boldsymbol{a})=\boldsymbol{0}$ とする。
+\begin{itemize}
+\item $H_f(\boldsymbol{a})$ が正定値なら，$\boldsymbol{a}$ は極小点である。
+\item $H_f(\boldsymbol{a})$ が負定値なら，$\boldsymbol{a}$ は極大点である。
+\item $H_f(\boldsymbol{a})$ が不定なら，$\boldsymbol{a}$ は鞍点である。
+\end{itemize}
+\end{theorem}
+
+\begin{remark}
+一般の $n$ 変数では，正定値性は固有値がすべて正であることと同値である。負定値性は固有値がすべて負であることと同値である。この授業では，計算問題としては2変数の場合の判定をまず確実に使えるようにする。
+\end{remark}
+
+\clearpage
+\vspace*{\fill}
+\section*{まとめ}
+
+\pointbox{
+極値判定の流れ:
+\begin{itemize}
+\item 偏導関数を計算し，停留点を求める。
+\item 2階偏導関数を計算し，ヘッセ行列を作る。
+\item 2変数なら $D=f_{xx}f_{yy}-f_{xy}^2$ を見て，極小・極大・鞍点を判定する。
+\end{itemize}
+}
+
+\begin{center}
+\begin{tikzpicture}[
+  >=Latex,
+  node distance=7mm and 10mm,
+  box/.style={draw,rounded corners,align=center,minimum height=8mm,inner xsep=8pt},
+  result/.style={draw,rounded corners,align=center,minimum width=28mm,minimum height=9mm}
+]
+  \node[box] (stationary) {$\nabla f(\boldsymbol a)=\boldsymbol0$ を解く\\停留点 $\boldsymbol a$};
+  \node[box,right=of stationary] (hessian) {ヘッセ行列\\$H_f(\boldsymbol a)$ を計算};
+  \node[box,right=of hessian] (sign) {二次形式の\\符号を判定};
+  \draw[->,thick] (stationary)--(hessian);
+  \draw[->,thick] (hessian)--(sign);
+  \node[result,below=12mm of sign] (max) {負定値\\極大};
+  \node[result,left=4mm of max] (min) {正定値\\極小};
+  \node[result,right=4mm of max] (saddle) {不定\\鞍点};
+  \draw[->] (sign)--(min);
+  \draw[->] (sign)--(max);
+  \draw[->] (sign)--(saddle);
+\end{tikzpicture}
+
+{\small 図：極値判定の手順}
+\end{center}
+
+\vspace*{\fill}
 
 \ifPDFTeX
 \end{CJK}

@@ -1,10 +1,10 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.28 (TeX Live 2025) (preloaded format=pdflatex 2026.2.1)  30 JUN 2026 22:25
+This is pdfTeX, Version 3.141592653-2.6-1.40.28 (TeX Live 2025) (preloaded format=pdflatex 2026.2.1)  30 JUN 2026 22:21
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
  %&-line parsing enabled.
-**c:/Users/Public/Github/Lectures/An1A/Class/class12/report.tex
-(c:/Users/Public/Github/Lectures/An1A/Class/class12/report.tex
+**c:/Users/Public/Github/Lectures/An1A/Class/class12/answer.tex
+(c:/Users/Public/Github/Lectures/An1A/Class/class12/answer.tex
 LaTeX2e <2025-11-01>
 L3 programming layer <2026-01-19>
 (c:/texlive/2025/texmf-dist/tex/generic/iftex/iftex.sty
@@ -213,8 +213,8 @@ Package: enumitem 2025/02/06 v3.11 Customized lists
 ) (c:/texlive/2025/texmf-dist/tex/latex/l3backend/l3backend-pdftex.def
 File: l3backend-pdftex.def 2025-10-09 L3 backend support: PDF output (pdfTeX)
 \l__color_backend_stack_int=\count300
-) (./report.aux)
-\openout1 = `report.aux'.
+) (./answer.aux)
+\openout1 = `answer.aux'.
 
 LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 22.
 LaTeX Font Info:    ... okay on input line 22.
@@ -342,34 +342,34 @@ File: c70min.fd 2021/10/16 4.8.5
 ) (c:/texlive/2025/texmf-dist/tex/latex/cjk/contrib/wadalab/c70min.fdx
 File: c70min.fdx 2021/10/16 4.8.5
 )
-LaTeX Font Info:    Trying to load font information for U+msa on input line 37.
+LaTeX Font Info:    Trying to load font information for U+msa on input line 33.
  (c:/texlive/2025/texmf-dist/tex/latex/amsfonts/umsa.fd
 File: umsa.fd 2013/01/14 v3.01 AMS symbols A
 )
-LaTeX Font Info:    Trying to load font information for U+msb on input line 37.
+LaTeX Font Info:    Trying to load font information for U+msb on input line 33.
  (c:/texlive/2025/texmf-dist/tex/latex/amsfonts/umsb.fd
 File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 ) [1
 
-{c:/texlive/2025/texmf-var/fonts/map/pdftex/updmap/pdftex.map}{c:/texlive/2025/texmf-dist/fonts/enc/dvips/cm-super/cm-super-t1.enc}] (./report.aux)
+{c:/texlive/2025/texmf-var/fonts/map/pdftex/updmap/pdftex.map}{c:/texlive/2025/texmf-dist/fonts/enc/dvips/cm-super/cm-super-t1.enc}] [2] [3] (./answer.aux)
  ***********
 LaTeX2e <2025-11-01>
 L3 programming layer <2026-01-19>
  ***********
  ) 
 Here is how much of TeX's memory you used:
- 4655 strings out of 467533
- 63760 string characters out of 5423669
- 481569 words of memory out of 5000000
- 33367 multiletter control sequences out of 15000+600000
- 668586 words of font info for 194 fonts, out of 8000000 for 9000
+ 4578 strings out of 467533
+ 62747 string characters out of 5423669
+ 476569 words of memory out of 5000000
+ 33297 multiletter control sequences out of 15000+600000
+ 668234 words of font info for 192 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 57i,8n,65p,274b,958s stack positions out of 10000i,1000n,20000p,200000b,200000s
-<c:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi12.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi8.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb><c:/texlive/2025/texmf-dist/fonts/type1/wadalab/dmj/dmjhira.pfb><c:/texlive/2025/texmf-dist/fonts/type1/wadalab/dmj/dmjka.pfb><c:/texlive/2025/texmf-dist/fonts/type1/wadalab/dmj/dmjkata.pfb><c:/texlive/2025/texmf-dist/fonts/type1/wadalab/dmj/dmjkb.pfb><c:/texlive/2025/texmf-dist/fonts/type1/wadalab/dmj/dmjkc.pfb><c:/texlive/2025/texmf-dist/fonts/type1/wadalab/dmj/dmjkd.pfb><c:/texlive/2025/texmf-dist/fonts/type1/wadalab/dmj/dmjke.pfb><c:/texlive/2025/texmf-dist/fonts/type1/wadalab/dmj/dmjkf.pfb><c:/texlive/2025/texmf-dist/fonts/type1/wadalab/dmj/dmjkg.pfb><c:/texlive/2025/texmf-dist/fonts/type1/wadalab/dmj/dmjkh.pfb><c:/texlive/2025/texmf-dist/fonts/type1/wadalab/dmj/dmjki.pfb><c:/texlive/2025/texmf-dist/fonts/type1/wadalab/dmj/dmjkj.pfb><c:/texlive/2025/texmf-dist/fonts/type1/wadalab/dmj/dmjkk.pfb><c:/texlive/2025/texmf-dist/fonts/type1/wadalab/dmj/dmjkl.pfb><c:/texlive/2025/texmf-dist/fonts/type1/wadalab/dmj/dmjroma.pfb><c:/texlive/2025/texmf-dist/fonts/type1/wadalab/dmj/dmjsy.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/symbols/msbm10.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/cm-super/sfrm1200.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/cm-super/sfrm1440.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/cm-super/sfrm1728.pfb>
-Output written on report.pdf (1 page, 180142 bytes).
+ 57i,7n,65p,274b,958s stack positions out of 10000i,1000n,20000p,200000b,200000s
+<c:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi12.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi8.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb><c:/texlive/2025/texmf-dist/fonts/type1/wadalab/dmj/dmjhira.pfb><c:/texlive/2025/texmf-dist/fonts/type1/wadalab/dmj/dmjka.pfb><c:/texlive/2025/texmf-dist/fonts/type1/wadalab/dmj/dmjkata.pfb><c:/texlive/2025/texmf-dist/fonts/type1/wadalab/dmj/dmjkb.pfb><c:/texlive/2025/texmf-dist/fonts/type1/wadalab/dmj/dmjkc.pfb><c:/texlive/2025/texmf-dist/fonts/type1/wadalab/dmj/dmjkd.pfb><c:/texlive/2025/texmf-dist/fonts/type1/wadalab/dmj/dmjke.pfb><c:/texlive/2025/texmf-dist/fonts/type1/wadalab/dmj/dmjkf.pfb><c:/texlive/2025/texmf-dist/fonts/type1/wadalab/dmj/dmjkg.pfb><c:/texlive/2025/texmf-dist/fonts/type1/wadalab/dmj/dmjkh.pfb><c:/texlive/2025/texmf-dist/fonts/type1/wadalab/dmj/dmjki.pfb><c:/texlive/2025/texmf-dist/fonts/type1/wadalab/dmj/dmjkj.pfb><c:/texlive/2025/texmf-dist/fonts/type1/wadalab/dmj/dmjkk.pfb><c:/texlive/2025/texmf-dist/fonts/type1/wadalab/dmj/dmjkl.pfb><c:/texlive/2025/texmf-dist/fonts/type1/wadalab/dmj/dmjsy.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/cm-super/sfrm1200.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/cm-super/sfrm1440.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/cm-super/sfrm1728.pfb>
+Output written on answer.pdf (3 pages, 182100 bytes).
 PDF statistics:
- 176 PDF objects out of 1000 (max. 8388607)
- 83 compressed objects within 1 object stream
+ 172 PDF objects out of 1000 (max. 8388607)
+ 84 compressed objects within 1 object stream
  0 named destinations out of 1000 (max. 500000)
- 149 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 129 words of extra memory for PDF output out of 10000 (max. 10000000)
 
