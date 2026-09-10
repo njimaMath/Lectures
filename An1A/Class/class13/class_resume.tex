@@ -31,6 +31,10 @@ A. & #2
 \par\smallskip\hrulefill
 }
 
+\newcommand{\feedbacknote}[1]{%
+\item[] #1\par\smallskip\hrulefill
+}
+
 \newcommand{\pointbox}[1]{%
 \begin{center}
 \fbox{%
@@ -53,324 +57,123 @@ A. & #2
 \renewcommand{\proofname}{\normalfont 証明}
 
 \begin{center}
-{\LARGE 数学1A 第9回レジュメ}\\[0.4em]
-全微分・連鎖律・勾配
+{\LARGE 数学1A 第14回レジュメ}\\[0.4em]
 \end{center}
 
 \section*{フィードバック}
 
 \begin{itemize}[leftmargin=1.5em,itemsep=0.7em,topsep=0.3em]
-\feedbackqa{中間試験はあるか？}{中間試験はあります。ただし、成績には
-\[
-\max\{\text{小テスト }20\%+\text{期末 }80\%,\
-\text{小テスト }10\%+\text{中間 }30\%+\text{期末 }60\%\}
-\]
-のような形で反映されます。詳しくはシラバスの成績評価を参照してください。}
+\feedbackqa{$G(x,y)=x^3-y^2=0$ のもとで、$F(x,y)=x$ の最小値は？}{非常に良い問題ですね。ラグランジュ関数を\[L(x,y,\lambda)=x-\lambda(x^3-y^2)\]とおきます。通常のラグランジュの未定乗数法では、\[L_x=1-3\lambda x^2=0,\qquad L_y=2\lambda y=0,\qquad x^3-y^2=0\]を連立して解きます。第1式から $\lambda\ne0$ なので、第2式より $y=0$ です。すると制約条件から $x=0$ となりますが、第1式は $1=0$ となり矛盾します。つまり、$\nabla G\ne0$ である通常の候補点はありません。ここで $(0,0)$ では $\nabla G(0,0)=(0,0)$ となり、ラグランジュの未定乗数法の正則性の仮定が成り立たないため、この点を別に調べる必要があります。制約 $x^3-y^2=0$ は $y^2=x^3$ と書けるので、制約を満たす点では $x\geq0$ です。また $(0,0)$ は制約を満たし、$F(0,0)=0$ です。したがって、\[{\text{最小値は }0\text{、それを与える点は }(0,0)}\]となります。}
+\feedbackqa{夏休みに先取りをしたほうがよいか？}{時間をかけて、先取りすべきかはその人次第ですが、少しの時間（10分くらい）でも何をやるのかを見ておくだけでも、理解の進度がだいぶ変わると思います。}
+\feedbackqa{1限の授業だったが、毎回出席できた。}{お疲れさまでした。1限は大変ですが、継続した経験はこれからにつながると思います。}
+\feedbackqa{ラグランジュの $\lambda$ は常に $\lambda\ne0$ か？}{常に $0$ でないとは限りません。ラグランジュの未定乗数法では、候補点で\[\nabla f=\lambda\nabla g\]が成り立ちます。$\lambda=0$ のときは $\nabla f=0$ となるだけで、矛盾ではありません。例えば、制約 $x^2+y^2=1$ のもとで $f(x,y)=x^2$ を最小にすることを考えます。$(0,1)$ と $(0,-1)$ では $\nabla f=(2x,0)=(0,0)$ なので、上の式は $\lambda=0$ で成り立ちます。実際、この2点で最小値 $0$ をとります。したがって、途中で $\lambda$ で割るときは、先に $\lambda=0$ の場合を除外できるか確認する必要があります。今回の解答のように $3-2\lambda x=0$ という式がある場合は、$\lambda=0$ なら $3=0$ となってしまうため、$\lambda\ne0$ と分かります。}
+\feedbackqa{教科書の問題が初見で解けない。普段どのように教科書を読んでいるか？}{解けずに悩むこと自体が大切です。今は解けなくても、少し時間を置くと解けるようになることはよくあります。教科書を読むときは、「なぜそうなるのか」「これは本当に正しいのか」と批判的に読むのがよいといわれています。}
+\feedbackqa{教科書の問題はどの程度解くべきか？}{できればすべて解くのがよいと思います。時間がなければ、基礎問題を自分で選んで解きましょう。チュートリアルアワーで相談してもよいでしょう。}
+\feedbackqa{黒板の端に書かれると見えない。}{ご指摘ありがとうございます。気を付けます。}
+\feedbackqa{やり方が分かってもゴールが見えず、何をしているのか分からない。}{目標を先に理解することは大切です。あらかじめ誰かに聞いたり、自分で調べたりすることを勧めます。}
+\feedbackqa{小テストの問題を LMS にアップしてほしい。}{小テストの問題は毎回レジュメに載せているので、そちらを確認してください。}
+\feedbackqa{ラグランジュはなぜ変数を増やそうと思ったのか？}{物理（特に熱力学）では、補助変数という新しい変数を導入して式を書き換えることがよくあったので、そこから来ているような気がします。ただ、天才が考えることはよくわかりません。}
 \end{itemize}
 
-\section*{1. ランダウの記号}
+\section*{小テスト}
 
-\begin{definition}
-$r(h)$ が
+\begin{enumerate}
+\item 曲線
 \[
-\lim_{h\to0}\frac{r(h)}{h}=0
+x^2+xy+y^2=7
 \]
-を満たすとき、
-\[
-r(h)=o(h)\qquad (h\to0)
-\]
-と書く。
-\end{definition}
+について、次の問いに答えよ。
+\begin{enumerate}[label=(\alph*)]
+\item $\dfrac{dy}{dx}$ を $x,y$ を用いて表せ。
+\item 点 $(1,2)$ における接線の方程式を求めよ。
+\end{enumerate}
 
-$o(h)$ は特定の一つの関数の名前ではなく、「$h$ で割ると $0$ に収束する余り」を表す記号である。例えば
+\item 制約条件 $x^2+y^2=1$ のもとで、関数
 \[
-h^2=o(h),\qquad h\sin h=o(h)\qquad (h\to0)
+f(x,y)=3x+4y
 \]
-である。一方、$h$ 自身は $o(h)$ ではない。
+の最大値と、それを与える点をラグランジュの未定乗数法を用いて求めよ。
+\end{enumerate}
 
-\begin{theorem}
-一変数関数 $x(t)$ が $t$ で微分可能であることと、
-\[
-x(t+h)-x(t)=x'(t)h+o(h)\qquad (h\to0)
-\]
-と書けることは同値である。
-\end{theorem}
+\section*{解答}
 
-\begin{proof}
-微分可能なら
-\[
-r(h)=x(t+h)-x(t)-x'(t)h
-\]
-とおくことができる。微分の定義から
-\[
-\frac{r(h)}{h}
-=\frac{x(t+h)-x(t)}{h}-x'(t)\longrightarrow0
-\]
-なので $r(h)=o(h)$ である。逆に上の表示を $h$ で割って $h\to0$ とすれば、差商は $x'(t)$ に収束する。
-\end{proof}
+\subsection*{1. 陰関数の微分}
 
-\pointbox{
-微分可能性とは、関数の変化を
+与えられた式
 \[
-\text{一次の変化}+\text{一次より小さい誤差}
+x^2+xy+y^2=7
 \]
-に分けられることである。
-}
+を $x$ で微分すると、
+\[
+2x+\left(x\frac{dy}{dx}+y\right)+2y\frac{dy}{dx}=0
+\]
+となる。したがって、
+\[
+\left(x+2y\right)\frac{dy}{dx}=-(2x+y),
+\qquad
+\frac{dy}{dx}=-\frac{2x+y}{x+2y}
+\]
+を得る。
 
-\section*{2. 二変数関数の全微分可能性}
-
-$f(x,y)$ の点 $(a,b)$ における増分を
+点 $(1,2)$ では
 \[
-\Delta f=f(a+h,b+k)-f(a,b)
+\frac{dy}{dx}=-\frac{2\cdot1+2}{1+2\cdot2}=-\frac45
 \]
-とする。また
+である。よって、この点における接線は
 \[
-\rho=\sqrt{h^2+k^2}
-\]
-とおく。
-
-\begin{definition}
-ある定数 $A,B$ が存在して
-\[
-f(a+h,b+k)-f(a,b)=Ah+Bk+o(\rho)
-\qquad ((h,k)\to(0,0))
-\]
-と書けるとき、$f$ は $(a,b)$ で全微分可能、または単に可微分であるという。
-\end{definition}
-
-$f$ が可微分なら
-\[
-A=f_x(a,b),\qquad B=f_y(a,b)
-\]
-となる。したがって、可微分性の式は
-\[
-f(a+h,b+k)
-=f(a,b)+f_x(a,b)h+f_y(a,b)k+o(\rho)
-\]
-と書ける。
-
-\begin{theorem}[可微分性の十分条件]
-$f_x,f_y$ が $(a,b)$ の近くで存在し、$(a,b)$ で連続ならば、$f$ は $(a,b)$ で可微分である。
-\end{theorem}
-
-\begin{remark}
-偏微分可能であるだけでは、可微分とは限らない。偏導関数の連続性は可微分性を確認するための使いやすい十分条件である。
-\end{remark}
-
-\begin{example}
-$f(x,y)=x^2y+y^3$ とする。この関数は多項式なので可微分であり、
-\[
-f_x(x,y)=2xy,\qquad f_y(x,y)=x^2+3y^2
-\]
-である。したがって
-\[
-df=2xy\,dx+(x^2+3y^2)\,dy.
-\]
-点 $(1,2)$ の近くでは
-\[
-f(1+h,2+k)
-=9+4h+13k+o\left(\sqrt{h^2+k^2}\right)
-\]
-となる。
-\end{example}
-
-\section*{3. 連鎖律}
-
-\begin{theorem}[曲線に沿う連鎖律]
-$f(x,y)$ が $(x(t),y(t))$ で可微分であり、$x(t),y(t)$ が $t$ で微分可能であるとする。このとき
-\[
-g(t)=f(x(t),y(t))
-\]
-は $t$ で微分可能であり、
-\[
-\boxed{
-g'(t)
-=f_x(x(t),y(t))x'(t)
-+f_y(x(t),y(t))y'(t)
-}
-\]
-が成り立つ。
-\end{theorem}
-
-\begin{proof}
-\[
-\Delta x=x(t+h)-x(t),\qquad
-\Delta y=y(t+h)-y(t)
-\]
-とおく。$x,y$ の微分可能性から
-\[
-\Delta x=x'(t)h+o(h),\qquad
-\Delta y=y'(t)h+o(h)
-\]
-である。特に
-\[
-\sqrt{(\Delta x)^2+(\Delta y)^2}=O(|h|)
-\]
-となる。
-
-$f$ の可微分性を使うと
-\[
-\begin{aligned}
-g(t+h)-g(t)
-={}&f_x(x(t),y(t))\Delta x
-+f_y(x(t),y(t))\Delta y\\
-&+o\left(\sqrt{(\Delta x)^2+(\Delta y)^2}\right)\\
-={}&\left\{
-f_x(x(t),y(t))x'(t)
-+f_y(x(t),y(t))y'(t)
-\right\}h+o(h).
-\end{aligned}
-\]
-両辺を $h$ で割り、$h\to0$ とすれば主張を得る。
-\end{proof}
-
-\begin{example}
-\[
-f(x,y)=x^2y,\qquad x(t)=\cos t,\qquad y(t)=\sin t
-\]
-とする。このとき
-\[
-f_x=2xy,\qquad f_y=x^2,\qquad
-x'=-\sin t,\qquad y'=\cos t
-\]
-だから
-\[
-\begin{aligned}
-\frac{d}{dt}f(\cos t,\sin t)
-&=2\cos t\sin t(-\sin t)+\cos^2t\cos t\\
-&=-2\cos t\sin^2t+\cos^3t.
-\end{aligned}
-\]
-実際、$f(\cos t,\sin t)=\cos^2t\sin t$ を直接微分しても同じ結果になる。
-\end{example}
-
-\begin{example}
-\[
-z=e^{xy},\qquad x=t^2,\qquad y=1+t
-\]
-とする。連鎖律により
-\[
-\frac{dz}{dt}
-=ye^{xy}\frac{dx}{dt}+xe^{xy}\frac{dy}{dt}.
-\]
-$x=t^2,\ y=1+t,\ x'=2t,\ y'=1$ を代入すると
-\[
-\frac{dz}{dt}
-=e^{t^2(1+t)}\left(2t(1+t)+t^2\right)
-=e^{t^2(1+t)}(2t+3t^2).
-\]
-\end{example}
-
-\section*{4. 勾配}
-
-\begin{definition}
-$f$ の点 $(a,b)$ における勾配を
-\[
-\nabla f(a,b)
-=\begin{pmatrix}
-f_x(a,b)\\
-f_y(a,b)
-\end{pmatrix}
-\]
-と定める。
-\end{definition}
-
-変位ベクトルを
-\[
-\Delta\boldsymbol{x}
-=\begin{pmatrix}h\\k\end{pmatrix}
-\]
-と書けば、可微分性の式は内積を使って
-\[
-f(a+h,b+k)-f(a,b)
-=\nabla f(a,b)\cdot\Delta\boldsymbol{x}
-+o(\|\Delta\boldsymbol{x}\|)
-\]
-と表せる。したがって、勾配は関数の一次の変化をまとめて表すベクトルである。
-
-\begin{theorem}[方向微分]
-$f$ が $(a,b)$ で可微分で、$\boldsymbol{u}$ が単位ベクトルならば、$\boldsymbol{u}$ 方向の方向微分は
-\[
-D_{\boldsymbol{u}}f(a,b)
-=\nabla f(a,b)\cdot\boldsymbol{u}
-\]
-である。
-\end{theorem}
-
-内積の性質から
-\[
-D_{\boldsymbol{u}}f(a,b)
-=\|\nabla f(a,b)\|\cos\theta
-\]
-である。ここで $\theta$ は $\nabla f(a,b)$ と $\boldsymbol{u}$ のなす角である。したがって、$\nabla f(a,b)\neq\boldsymbol{0}$ なら、関数が最も速く増加する方向は勾配の方向であり、その変化率の最大値は
-\[
-\|\nabla f(a,b)\|
+y-2=-\frac45(x-1)
 \]
 である。
 
 \begin{center}
-\begin{tikzpicture}[x=1.15cm,y=1.15cm,>=Latex]
-\draw[->] (-0.2,0) -- (5.2,0) node[below] {$x$};
-\draw[->] (0,-0.2) -- (0,3.6) node[left] {$y$};
-\draw[thick] (1.0,1.5) ellipse (0.6 and 0.35);
-\draw[thick] (1.0,1.5) ellipse (1.25 and 0.72);
-\draw[thick] (1.0,1.5) ellipse (2.0 and 1.15);
-\fill (2.25,2.02) circle (2pt) node[above left] {$(a,b)$};
-\draw[->,very thick,blue] (2.25,2.02) -- (3.65,2.85)
-  node[right] {$\nabla f(a,b)$};
-\draw[dashed,gray] (1.55,2.13) -- (3.15,1.28);
-\node at (4.0,0.65) {等高線};
+\begin{tikzpicture}[x=0.9cm,y=0.9cm]
+\draw[->] (-4.2,0) -- (4.2,0) node[right] {$x$};
+\draw[->] (0,-3.8) -- (0,3.8) node[above] {$y$};
+\draw[blue!65!black,thick,samples=120,domain=0:360,smooth,variable=\t]
+  plot ({(sqrt(14/3)*cos(\t)+sqrt(14)*sin(\t))/sqrt(2)},
+        {(sqrt(14/3)*cos(\t)-sqrt(14)*sin(\t))/sqrt(2)});
+\draw[red!70!black,thick,domain=-1.2:4.2,samples=2]
+  plot (\x,{-0.8*\x+2.8});
+\fill[red!70!black] (1,2) circle (2pt) node[above right] {$(1,2)$};
+\node[blue!65!black] at (-2.3,-3.1) {$x^2+xy+y^2=7$};
+\node[red!70!black] at (3.0,0.1) {接線};
 \end{tikzpicture}
 \end{center}
 
-勾配は等高線に垂直である。実際、等高線に沿う曲線
-\[
-\boldsymbol{r}(t)=(x(t),y(t))
-\]
-について $f(\boldsymbol{r}(t))$ は一定なので、連鎖律から
-\[
-0=\frac{d}{dt}f(\boldsymbol{r}(t))
-=\nabla f(\boldsymbol{r}(t))\cdot\boldsymbol{r}'(t)
-\]
-となる。よって勾配と等高線の接ベクトルは直交する。
+青が曲線 $x^2+xy+y^2=7$、赤が点 $(1,2)$ における接線である。
 
-\begin{example}
+\subsection*{2. ラグランジュ未定乗数法（最大値）}
+
+制約条件を $x^2+y^2=1$ とする。ラグランジュ関数を
 \[
-f(x,y)=x^2+2y^2
+\Phi(x,y,\lambda):=3x+4y-\lambda(x^2+y^2-1)
 \]
-とすると
+と定義する。極値候補では各変数に関する偏微分がすべて $0$ となるので、
 \[
-\nabla f(x,y)=(2x,4y).
+\Phi_x=3-2\lambda x=0,\qquad
+\Phi_y=4-2\lambda y=0,\qquad
+\Phi_\lambda=-(x^2+y^2-1)=0
 \]
-点 $(1,1)$ では $\nabla f(1,1)=(2,4)$ である。したがって、最も速く増加する単位方向は
+を連立して解けばよい。最初の二式から
 \[
-\frac{\nabla f(1,1)}{\|\nabla f(1,1)\|}
-=\frac{1}{\sqrt5}(1,2)
+x=\frac{3}{2\lambda},\qquad y=\frac{2}{\lambda}
 \]
-であり、その方向の変化率は
+であり、これを制約条件に代入すると
 \[
-\|\nabla f(1,1)\|=2\sqrt5
+\lambda=\pm\frac52
+\]
+となる。したがって、極値候補は
+\[
+(x,y)=\left(\frac35,\frac45\right),\qquad
+\left(-\frac35,-\frac45\right)
+\]
+である。それぞれでの関数値は $5,-5$ なので、最大値を与える点と最大値は
+\[
+{(x,y)=\left(\frac35,\frac45\right)},
+\qquad
+{\text{最大値は }5}
 \]
 である。
-\end{example}
-
-\pointbox{
-\[
-\begin{array}{c}
-\text{可微分性}\\[0.2em]
-f(a+h,b+k)-f(a,b)
-=\nabla f(a,b)\cdot(h,k)+o(\sqrt{h^2+k^2})
-\end{array}
-\]
-\[
-\begin{array}{c}
-\text{連鎖律}\\[0.2em]
-\dfrac{d}{dt}f(x(t),y(t))
-=\nabla f(x(t),y(t))\cdot(x'(t),y'(t))
-\end{array}
-\]
-}
-
 
 \ifPDFTeX
 \end{CJK}

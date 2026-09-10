@@ -1,0 +1,1444 @@
+﻿<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="2層因果 Transformer による次単語予測の数理的な定式化">
+  <title>次単語予測のための2層因果Transformer</title>
+  <script>
+    window.MathJax = {
+      tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']],
+        displayMath: [['\\[', '\\]']],
+        macros: {
+          R: '\\mathbb{R}', V: '\\mathcal{V}', D: '\\mathcal{D}',
+          softmax: '\\operatorname{softmax}', LN: '\\operatorname{LayerNorm}',
+          ReLU: '\\operatorname{ReLU}', argmin: '\\operatorname*{arg\\,min}', argmax: '\\operatorname*{arg\\,max}'
+        }
+      },
+      options: { skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'] }
+    };
+  </script>
+  <script defer src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+  <style>
+    :root { --ink:#172033; --muted:#5b667a; --rule:#dce2ec; --paper:#ffffff; --ground:#f4f6fa; --accent:#315fda; --serif:"Iowan Old Style","Noto Serif JP","Yu Mincho",serif; --sans:Inter,"Noto Sans JP","Hiragino Sans","Yu Gothic",sans-serif; }
+    * { box-sizing:border-box; }
+    html { scroll-behavior:smooth; }
+    body { margin:0; background:var(--ground); color:var(--ink); font-family:var(--sans); font-size:16px; line-height:1.9; text-rendering:optimizeLegibility; }
+    .progress { position:fixed; inset:0 auto auto 0; z-index:20; width:0; height:3px; background:var(--accent); transition:width .12s linear; }
+    .masthead { padding:18px 28px; border-bottom:1px solid rgba(220,226,236,.85); background:rgba(244,246,250,.88); backdrop-filter:blur(12px); }
+    .masthead-inner { display:flex; align-items:center; justify-content:space-between; max-width:1260px; margin:auto; }
+    .eyebrow { margin:0; color:var(--accent); font-size:11px; font-weight:750; letter-spacing:.14em; }
+    .edition { color:var(--muted); font-size:12px; letter-spacing:.04em; }
+    .hero { max-width:1260px; margin:0 auto; padding:76px 28px 62px; animation:rise .55s ease-out both; }
+    .hero-kicker { color:var(--accent); margin:0 0 16px; font-size:12px; letter-spacing:.13em; font-weight:750; }
+    h1 { max-width:900px; margin:0; font-family:var(--serif); font-size:clamp(35px,5vw,68px); font-weight:500; line-height:1.2; letter-spacing:-.045em; }
+    .hero-summary { max-width:640px; margin:28px 0 0; color:var(--muted); font-size:17px; line-height:1.85; }
+    .hero-rule { width:72px; height:2px; margin-top:38px; background:var(--accent); }
+    .shell { display:grid; grid-template-columns:210px minmax(0, 790px); gap:clamp(36px,7vw,112px); max-width:1260px; margin:0 auto; padding:0 28px 100px; }
+    .toc { align-self:start; position:sticky; top:28px; padding-top:10px; }
+    .toc-label { display:block; margin-bottom:13px; color:var(--muted); font-size:11px; font-weight:750; letter-spacing:.13em; }
+    .toc a { display:block; padding:7px 0; color:var(--muted); font-size:12px; line-height:1.45; text-decoration:none; transition:color .18s ease, transform .18s ease; }
+    .toc a span { display:inline-block; width:31px; color:#94a0b6; font-variant-numeric:tabular-nums; }
+    .toc a:hover, .toc a.active { color:var(--accent); transform:translateX(3px); }
+    article { min-width:0; padding:0 0 50px; animation:rise .7s .08s ease-out both; }
+    h2, h3, h4 { scroll-margin-top:32px; }
+    h2 { margin:0; padding:48px 0 16px; border-top:1px solid var(--rule); font-family:var(--serif); font-size:30px; font-weight:500; letter-spacing:-.025em; line-height:1.42; }
+    article > h2:first-child { padding-top:0; border-top:0; }
+    h3 { margin:38px 0 12px; font-size:20px; font-weight:700; line-height:1.55; letter-spacing:-.02em; }
+    h4 { margin:28px 0 9px; color:#26324a; font-size:16px; font-weight:700; line-height:1.65; }
+    .heading-number { display:block; margin-bottom:6px; color:var(--accent); font-family:var(--sans); font-size:11px; font-weight:750; letter-spacing:.12em; }
+    h3 .heading-number, h4 .heading-number { display:inline; margin:0 10px 0 0; }
+    p { margin:0 0 18px; }
+    .equation { overflow-x:auto; margin:24px 0 27px; padding:4px 0; color:#101829; text-align:center; }
+    .equation mjx-container[display="true"] { margin:0 !important; }
+    .notes { margin:15px 0 22px; padding:0; list-style:none; }
+    .notes li { position:relative; margin:0 0 17px; padding-left:24px; }
+    .notes li::before { position:absolute; left:1px; top:.92em; width:7px; height:7px; border-radius:50%; background:var(--accent); content:""; }
+    .notes .equation { margin:17px 0; text-align:left; }
+    .notes .equation mjx-container[display="true"] { text-align:left !important; }
+    .table-scroll { overflow-x:auto; margin:27px 0 30px; border-top:2px solid var(--ink); border-bottom:1px solid var(--rule); }
+    table { width:100%; border-collapse:collapse; font-size:13px; line-height:1.55; text-align:left; }
+    th, td { padding:9px 11px; vertical-align:top; border-bottom:1px solid var(--rule); }
+    thead th { color:var(--muted); font-size:11px; font-weight:750; letter-spacing:.08em; }
+    tbody tr:last-child td { border-bottom:0; }
+    .table-group th { padding-top:18px; color:var(--accent); font-size:11px; font-weight:750; letter-spacing:.08em; }
+    em { font-family:var(--serif); }
+    footer { max-width:1260px; margin:0 auto; padding:0 28px 40px; color:var(--muted); font-size:12px; }
+    footer::before { display:block; max-width:790px; height:1px; margin-left:calc(210px + clamp(36px,7vw,112px)); margin-bottom:20px; background:var(--rule); content:""; }
+    @keyframes rise { from { opacity:0; transform:translateY(12px); } to { opacity:1; transform:translateY(0); } }
+    @media (max-width:800px) { .masthead { padding:15px 20px; } .edition { display:none; } .hero { padding:52px 20px 42px; } .shell { display:block; padding:0 20px 70px; } .toc { position:static; margin:0 0 35px; padding:16px 0; border-top:1px solid var(--rule); border-bottom:1px solid var(--rule); } .toc a { display:inline-block; width:50%; padding:6px 8px 6px 0; } h2 { padding-top:38px; font-size:27px; } h3 { margin-top:31px; } footer { padding:0 20px 28px; } footer::before { margin-left:0; } }
+    @media (max-width:480px) { body { font-size:15px; line-height:1.82; } .toc a { width:100%; } h1 { font-size:36px; } th, td { min-width:135px; padding:8px; } }
+  </style>
+</head>
+<body>
+  <div class="progress" id="reading-progress" aria-hidden="true"></div>
+  <header class="masthead"><div class="masthead-inner"><p class="eyebrow">MATHEMATICAL NOTES</p><span class="edition">CAUSAL TRANSFORMER · 2 BLOCKS</span></div></header>
+  <main>
+    <section class="hero" aria-labelledby="page-title">
+      <p class="hero-kicker">NEXT-TOKEN PREDICTION</p>
+      <h1 id="page-title">次単語予測のための2層因果Transformer</h1>
+      <p class="hero-summary">因果マスクを備えた2層 Transformer を、入力、順伝播、損失関数、具体例まで一貫した記法で定式化する。</p>
+      <div class="hero-rule" aria-hidden="true"></div>
+    </section>
+    <div class="shell">
+      <nav class="toc" aria-label="目次"><span class="toc-label">CONTENTS</span><a href="#section-1"><span>01</span>予測問題</a>
+<a href="#section-2"><span>02</span>Transformerのアーキテクチャ</a>
+<a href="#section-3"><span>03</span>学習と予測</a>
+<a href="#section-4"><span>04</span>$N=3$, $M=10$, $K=5$ の具体的な学習例</a></nav>
+      <article><h2 id="section-1"><span class="heading-number">01</span>予測問題</h2>
+<p>
+$K$ 個の単語を含む語彙を 
+</p>
+<div class="equation">
+\[
+\V:=\{1,\dots,K\}
+\]
+</div>
+<p>
+とする。 
+</p>
+<p>
+各学習文はちょうど $N$ 個の単語からなる。第 $m$ 文を 
+</p>
+<div class="equation">
+\[
+s^{(m)} := \bigl( w^{(m)}_1,\dots,w^{(m)}_N \bigr) \in\V^N, \quad m=1,\dots,M
+\]
+</div>
+<p>
+とする。 
+</p>
+<p>
+したがって、学習データ全体は 
+</p>
+<div class="equation">
+\[
+\D:=
+\bigl(
+s^{(1)},\dots,s^{(M)}
+\bigr).
+\]
+</div>
+<p>
+各文 $m$ と各予測対象位置 
+\( 
+t=2,\dots,N 
+\) 
+について、モデルは接頭列 
+\( 
+w^{(m)}_1,\dots,w^{(m)}_{t-1} 
+\) 
+を用いて 
+\( 
+w^{(m)}_t 
+\) 
+を予測する。 
+</p>
+<p>
+したがって、文 $m$ からは次の $N-1$ 個の予測問題が得られる。 
+</p>
+<div class="equation">
+\[
+\begin{aligned}
+w^{(m)}_1
+&amp;\longrightarrow
+w^{(m)}_2,
+\\
+w^{(m)}_1,w^{(m)}_2
+&amp;\longrightarrow
+w^{(m)}_3,
+\\
+&amp;\ \vdots
+\\
+w^{(m)}_1,\dots,w^{(m)}_{N-1}
+&amp;\longrightarrow
+w^{(m)}_N.
+\end{aligned}
+\]
+</div>
+<p>
+これは通常の自己回帰的な次トークン予測の目的である。 
+</p>
+<h3 id="section-1-1"><span class="heading-number">1.1</span>入力と教師信号</h3>
+<p>
+LayerNorm の定数 $\varepsilon&gt;0$ も固定する。 
+</p>
+<p>
+各文 $m\in\{1,\dots,M\}$ について、次を定める。 
+</p>
+<ul class="notes">
+<li>与えられた入力列:
+<div class="equation">
+\[
+u^{(m)}:=(w^{(m)}_1,\dots,w^{(m)}_{N-1})\in\V^{N-1}.
+\]
+</div>
+その成分 $u^{(m)}_i=w^{(m)}_i$ は、位置 $i$ で観測されたトークンである。 
+</li>
+<li>与えられた教師列:
+<div class="equation">
+\[
+y^{(m)}:=(w^{(m)}_2,\dots,w^{(m)}_N)\in\V^{N-1}.
+\]
+</div>
+その成分 $y^{(m)}_i=w^{(m)}_{i+1}$ は、正しい次トークンである。 
+したがって教師列は、入力列に対して文を1位置だけずらしたものになっている。 
+どちらの列も学習中は固定されている。 
+</li>
+<li>次元: 正の整数 $d,H,d_k,d_v,d_{\mathrm{ff}}$ を固定し、それぞれを次の意味で用いる。
+<div class="equation">
+\[
+\begin{array}{c@{\quad}l}
+d &amp; \text{トークン埋め込みと隠れ状態の次元},\\
+H &amp; \text{各ブロックにおけるアテンションヘッド数},\\
+d_k &amp; \text{各ヘッドのクエリベクトルとキーベクトルの次元},\\
+d_v &amp; \text{各ヘッドのバリューベクトルと出力ベクトルの次元},\\
+d_{\mathrm{ff}} &amp; \text{各フィードフォワードネットワークの隠れ次元}.
+\end{array}
+\]
+</div>
+連結したヘッド出力の次元は $Hd_v$ であり、そこから次元 $d$ に射影する。 
+各フィードフォワードネットワークは 
+$\R^d\to\R^{d_{\mathrm{ff}}}\to\R^d$ 
+と写像する。 
+通常は $Hd_v=d$ かつ $d_{\mathrm{ff}}&gt;d$ だが、どちらの関係も必須ではない。 
+系列長 $N-1$ と語彙サイズ $K$ は、それぞれ入力位置の個数と出力ロジットの個数を決める。 
+これらの次元は固定されている。 
+</li>
+<li>位置 $i\in\{1,\dots,N-1\}$ における予測:
+モデルは $w^{(m)}_1,\dots,w^{(m)}_i$ だけを用いて 
+$w^{(m)}_{i+1}$ を予測する。この予測を計算するとき、未来の単語は利用できない。 
+</li>
+<li>学習可能パラメータ: $\Theta$ は、すべての学習可能な行列とベクトルからなる組である。
+ブロック $\ell\in\{1,2\}$ とアテンションヘッド $a\in\{1,\dots,H\}$ について、クエリ、キー、バリュー行列 
+<div class="equation">
+\[
+W_Q^{(\ell,a)},W_K^{(\ell,a)}\in\R^{d_k\times d},
+\quad W_V^{(\ell,a)}\in\R^{d_v\times d},
+\]
+</div>
+およびアテンション出力行列 $W_O^{(\ell)}\in\R^{d\times Hd_v}$ が含まれる。 
+その他の学習可能パラメータは、トークン埋め込み行列と位置埋め込み行列 
+<div class="equation">
+\[
+E\in\R^{d\times K},\quad P:=(p_1,\dots,p_{N-1})\in\R^{d\times(N-1)};
+\]
+</div>
+フィードフォワード行列とバイアス 
+<div class="equation">
+\[
+W_1^{(\ell)}\in\R^{d_{\mathrm{ff}}\times d},
+\quad b_1^{(\ell)}\in\R^{d_{\mathrm{ff}}},
+\quad W_2^{(\ell)}\in\R^{d\times d_{\mathrm{ff}}},
+\quad b_2^{(\ell)}\in\R^d;
+\]
+</div>
+LayerNorm のベクトル 
+<div class="equation">
+\[
+\gamma^{(\ell,r)},\beta^{(\ell,r)}\in\R^d
+\quad (r\in\{1,2\}),
+\quad \gamma^{(\mathrm{final})},\beta^{(\mathrm{final})}\in\R^d;
+\]
+</div>
+そして語彙出力行列とバイアス 
+<div class="equation">
+\[
+U\in\R^{K\times d},\quad b\in\R^K
+\]
+</div>
+である。 
+ここで $p_i$ は入力位置 $i$ の位置ベクトルである。 
+各ブロックと各正規化モジュールはそれぞれ固有のパラメータを持ち、それらはすべての文とトークン位置で共有される。 
+それぞれの役割は以下で詳しく述べる。 
+</li>
+</ul>
+<p>
+次の表は、上で述べたデータとパラメータが属する空間をまとめたものである。 
+ここで $m=1,\dots,M$、$\ell\in\{1,2\}$、$a=1,\dots,H$、$r\in\{1,2\}$ である。 
+複数のベクトルを列挙している行では、記載された空間は各ベクトルそれぞれに適用される。 
+</p>
+<div class="table-scroll"><table class="symbol-table">
+<thead><tr>
+<th>対象</th>
+<th>意味</th>
+<th>空間</th>
+</tr></thead>
+<tbody>
+<tr class="table-group"><th colspan="3">データ（学習中は固定）</th></tr>
+<tr>
+<td>$\D$</td>
+<td>学習データ全体</td>
+<td>$(\V^N)^M$</td>
+</tr>
+<tr>
+<td>$s^{(m)}$</td>
+<td>学習文</td>
+<td>$\V^N$</td>
+</tr>
+<tr>
+<td>$w_j^{(m)}$, $1\le j\le N$</td>
+<td>観測トークン</td>
+<td>$\V=\{1,\dots,K\}$</td>
+</tr>
+<tr>
+<td>$u^{(m)}$</td>
+<td>入力列</td>
+<td>$\V^{N-1}$</td>
+</tr>
+<tr>
+<td>$y^{(m)}$</td>
+<td>教師列</td>
+<td>$\V^{N-1}$</td>
+</tr>
+<tr class="table-group"><th colspan="3">学習可能パラメータ</th></tr>
+<tr>
+<td>$E$</td>
+<td>トークン埋め込み行列</td>
+<td>$\R^{d\times K}$</td>
+</tr>
+<tr>
+<td>$P$</td>
+<td>位置埋め込み行列</td>
+<td>$\R^{d\times(N-1)}$</td>
+</tr>
+<tr>
+<td>$p_i$, $1\le i&lt;N$</td>
+<td>$P$ の第 $i$ 列</td>
+<td>$\R^d$</td>
+</tr>
+<tr>
+<td>$W_Q^{(\ell,a)}$</td>
+<td>クエリ射影</td>
+<td>$\R^{d_k\times d}$</td>
+</tr>
+<tr>
+<td>$W_K^{(\ell,a)}$</td>
+<td>キー射影</td>
+<td>$\R^{d_k\times d}$</td>
+</tr>
+<tr>
+<td>$W_V^{(\ell,a)}$</td>
+<td>バリュー射影</td>
+<td>$\R^{d_v\times d}$</td>
+</tr>
+<tr>
+<td>$W_O^{(\ell)}$</td>
+<td>アテンション出力射影</td>
+<td>$\R^{d\times Hd_v}$</td>
+</tr>
+<tr>
+<td>$W_1^{(\ell)}$</td>
+<td>第1フィードフォワード行列</td>
+<td>$\R^{d_{\mathrm{ff}}\times d}$</td>
+</tr>
+<tr>
+<td>$b_1^{(\ell)}$</td>
+<td>第1フィードフォワードバイアス</td>
+<td>$\R^{d_{\mathrm{ff}}}$</td>
+</tr>
+<tr>
+<td>$W_2^{(\ell)}$</td>
+<td>第2フィードフォワード行列</td>
+<td>$\R^{d\times d_{\mathrm{ff}}}$</td>
+</tr>
+<tr>
+<td>$b_2^{(\ell)}$</td>
+<td>第2フィードフォワードバイアス</td>
+<td>$\R^d$</td>
+</tr>
+<tr>
+<td>$\gamma^{(\ell,r)},\beta^{(\ell,r)}$</td>
+<td>ブロック内LayerNormのスケールとシフト</td>
+<td>$\R^d$</td>
+</tr>
+<tr>
+<td>$\gamma^{(\mathrm{final})},\beta^{(\mathrm{final})}$</td>
+<td>最終LayerNormのスケールとシフト</td>
+<td>$\R^d$</td>
+</tr>
+<tr>
+<td>$U$</td>
+<td>語彙出力行列</td>
+<td>$\R^{K\times d}$</td>
+</tr>
+<tr>
+<td>$b$</td>
+<td>語彙出力バイアス</td>
+<td>$\R^K$</td>
+</tr>
+</tbody>
+</table></div>
+<p>
+組 $\Theta$ は、表に示したパラメータ空間の直積に属する。 
+ここでは、示された各ブロック、ヘッド、正規化モジュールごとに1つの因子を取る。 
+列 $p_i$ はすでに $P$ に含まれているので、追加の因子にはならない。 
+</p>
+<h3 id="section-1-2"><span class="heading-number">1.2</span>あらかじめ定められた関数と演算</h3>
+<p>
+以下の関数と演算は、アーキテクチャの固定された一部である。 
+抽象的な関数記号のままにしないため、その定義を明示する。 
+</p>
+<ul class="notes">
+<li>one-hot 符号化 $\delta:\V\to\R^K$:
+$j=a$ なら $\delta(a)_j:=1$、それ以外なら $\delta(a)_j:=0$ とする。 
+この関数には学習可能パラメータはない。 
+</li>
+<li>Softmax $\softmax:\R^q\to(0,1)^q$（整数 $q\ge2$ に対して）:
+<div class="equation">
+\[
+[\softmax(z)]_j:=\frac{\exp(z_j)}{\sum_{c=1}^{q}\exp(z_c)},
+\quad j=1,\dots,q.
+\]
+</div>
+出力の総和は1である。$q=1$ のとき、出力は $(1)$ である。 
+マスク付きアテンションでは、$\exp(-\infty):=0$ として同じ式を用いる。ただし少なくとも1つのスコアは有限でなければならない。 
+</li>
+<li>Rectified Linear Unit（ReLU）$\ReLU:\R\to\R$:
+<div class="equation">
+\[
+\ReLU(t):=\max\{0,t\}.
+\]
+</div>
+ベクトル $z\in\R^q$ に対しては、ReLU は各座標ごとに作用する: 
+$[\ReLU(z)]_j:=\ReLU(z_j)$。以下では常にこの厳密な定義を用いる。 
+</li>
+<li>連結は、列ベクトルを指定された順序で縦に積み重ねる:
+<div class="equation">
+\[
+\operatorname{concat}(v_1,\dots,v_H)
+:=\begin{pmatrix}v_1\\ \vdots\\ v_H\end{pmatrix}\in\R^{Hd_v},
+\quad v_a\in\R^{d_v}.
+\]
+</div>
+</li>
+<li>LayerNorm はパラメータ付き関数
+$\LN_{\gamma,\beta}:\R^d\to\R^d$ であり、アーキテクチャの節で以下に定義する。 
+計算規則は固定されているが、スケール $\gamma$ とシフト $\beta$ は学習可能である。 
+</li>
+</ul>
+<p>
+条件付き確率 $p_\Theta(a\mid w_1,\dots,w_i)$ は、以下で定義する Transformer の出力である。 
+これは入力、上の演算、そして $\Theta$ によって決まり、追加で与えられる関数でも独立した学習対象でもない。 
+</p>
+<h2 id="section-2"><span class="heading-number">02</span>Transformerのアーキテクチャ</h2>
+<h3 id="section-2-1"><span class="heading-number">2.1</span>単語をベクトルへ変換する</h3>
+<h4 id="section-2-1-1"><span class="heading-number">2.1.1</span>one-hot表現</h4>
+<p>
+各単語 $a\in\V$ に対し、 
+$\delta(a)\in\R^K$ を第 $a$ 標準基底ベクトルとする。 
+</p>
+<div class="equation">
+\[
+\delta(a)
+=\bigl(\delta(a)_j\bigr)_{j=1}^{K},
+\qquad
+\delta(a)_j:=
+\begin{cases}
+1, &amp; j=a,\\
+0, &amp; j\ne a.
+\end{cases}
+\]
+</div>
+<p>
+ベクトル $\delta(a)$ は単語の識別情報だけを記録する。 
+</p>
+<h4 id="section-2-1-2"><span class="heading-number">2.1.2</span>トークン埋め込み行列</h4>
+<p>
+入力と教師信号の小節で定めた $E$ を用いると、単語 $a$ の埋め込みは 
+$e(a):=E\delta(a)\in\R^d$ である。 
+したがって $e(a)$ は $E$ の第 $a$ 列である。 
+</p>
+<h4 id="section-2-1-3"><span class="heading-number">2.1.3</span>位置埋め込み</h4>
+<p>
+$P$ の第 $i$ 列 $p_i$ は、位置 $i$ に関する情報を与える。 
+</p>
+<p>
+文 $m$ と入力位置 $i$ に対して 
+$x^{(m)}_i := E\delta(w^{(m)}_i)+p_i \in\R^d$ 
+と定義する。 
+ベクトル $x^{(m)}_1,\dots,x^{(m)}_{N-1}$ は Transformer の初期隠れ状態である。 
+</p>
+<h3 id="section-2-2"><span class="heading-number">2.2</span>2つのTransformerデコーダブロック</h3>
+<p>
+ここでは2つの Transformer ブロックを用いる。各ブロックは次を含む。 
+\begin{enumerate}[leftmargin=2em] 
+\item LayerNorm; 
+\item マスク付きマルチヘッド自己アテンション; 
+\item 残差接続; 
+\item 2つ目の LayerNorm; 
+\item 位置ごとのフィードフォワードネットワーク; 
+\item もう1つの残差接続。 
+\end{enumerate} 
+</p>
+<p>
+これは標準的な <em>pre-normalization</em> Transformer ブロックである。 
+</p>
+<h3 id="section-2-3"><span class="heading-number">2.3</span>LayerNorm（層正規化）</h3>
+<p>
+LayerNorm は、1つのトークン位置にある1つの隠れベクトルの $d$ 個の座標に作用する。 
+$z=(z_1,\dots,z_d)^{\mathsf T}\in\R^d$ に対し、座標の平均と分散を 
+</p>
+<div class="equation">
+\[
+\mu(z):=\frac{1}{d}\sum_{j=1}^{d}z_j,
+\qquad
+\sigma^2(z):=\frac{1}{d}\sum_{j=1}^{d}\bigl(z_j-\mu(z)\bigr)^2
+\]
+</div>
+<p>
+と定義する。 
+</p>
+<p>
+固定定数 $\varepsilon$ により、$z$ の全座標が等しい場合でも分母は正に保たれる。 
+正規化後の座標と LayerNorm の出力を 
+</p>
+<div class="equation">
+\[
+\widehat z_j:=\frac{z_j-\mu(z)}{\sqrt{\sigma^2(z)+\varepsilon}},
+\qquad
+\bigl[\LN_{\gamma,\beta}(z)\bigr]_j
+:=\gamma_j\widehat z_j+\beta_j,
+\quad j=1,\dots,d
+\]
+</div>
+<p>
+と定義する。 
+ここで $\gamma,\beta$ は、適用しているモジュールのスケールとシフトを表す。 
+</p>
+<p>
+学習されたスケールとシフトを適用する前には、座標は 
+</p>
+<div class="equation">
+\[
+\frac{1}{d}\sum_{j=1}^{d}\widehat z_j=0,
+\qquad
+\frac{1}{d}\sum_{j=1}^{d}\widehat z_j^2
+=\frac{\sigma^2(z)}{\sigma^2(z)+\varepsilon}
+\]
+</div>
+<p>
+を満たす。 
+したがって、$\sigma^2(z)$ が $\varepsilon$ より十分大きいとき、その分散は1に近いが、厳密に1ではない。 
+$\gamma$ と $\beta$ を適用した後の出力は、平均0や分散1である必要はない。 
+$z$ の全座標が等しい場合、出力は正確に $\beta$ となる。 
+</p>
+<p>
+例えば、$d=3$、$z=(1,2,3)^{\mathsf T}$ とすると、$\mu(z)=2$、$\sigma^2(z)=2/3$ である。 
+さらに $\gamma=(1,1,1)^{\mathsf T}$、$\beta=(0,0,0)^{\mathsf T}$ とすると、 
+</p>
+<div class="equation">
+\[
+\LN_{\gamma,\beta}(z)
+=\frac{1}{\sqrt{2/3+\varepsilon}}(-1,0,1)^{\mathsf T}.
+\]
+</div>
+<p>
+記号 $\LN^{(\ell,r)}$ は、パラメータ $\gamma^{(\ell,r)},\beta^{(\ell,r)}$ を持つこの演算を表す。 
+ここで $\ell\in\{1,2\}$ はブロック番号、$r=1$ はアテンション前の正規化、$r=2$ はフィードフォワードネットワーク前の正規化を表す。 
+これら4つのモジュールと最終モジュール $\LN^{(\mathrm{final})}$ は、それぞれ固有のパラメータ対を持ち、それらはすべての文とトークン位置で共有される。 
+したがって、このモデルの学習可能な LayerNorm パラメータは $5\times 2d=10d$ 個である。 
+</p>
+<h3 id="section-2-4"><span class="heading-number">2.4</span>因果マスク</h3>
+<p>
+位置 $i$ では、モデルは位置 $1,\dots,i$ のみにアテンションを向けることができる。 
+位置 $i+1,\dots,N-1$ にはアテンションを向けることができない。 
+</p>
+<p>
+因果マスクを 
+</p>
+<div class="equation">
+\[
+M_{ij}
+:=
+\begin{cases}
+0, &amp; j\le i,\\
+-\infty, &amp; j&gt;i
+\end{cases}
+\]
+</div>
+<p>
+と定義する。 
+</p>
+<p>
+アテンションスコアに $M_{ij}$ を加えると、すべての未来位置 $j&gt;i$ の softmax 重みが0になる。 
+したがって位置 $i$ の表現は、接頭列 $w_1,\dots,w_i$ だけに依存する。 
+これにより、未来の情報を漏らすことなく、すべての次単語予測を同時に学習できる。 
+</p>
+<h3 id="section-2-5"><span class="heading-number">2.5</span>第1マルチヘッド自己アテンション層</h3>
+<p>
+$h^{(m,0)}_i:=x^{(m)}_i$ とおく。 
+アテンションの前に LayerNorm を適用する: 
+</p>
+<div class="equation">
+\[
+\widetilde h^{(m,0)}_i
+:=
+\LN^{(1,1)}
+\left(
+h^{(m,0)}_i
+\right).
+\]
+</div>
+<h4 id="section-2-5-1"><span class="heading-number">2.5.1</span>クエリ、キー、バリュー</h4>
+<p>
+文 $m$、ヘッド $a$、位置 $i$ に対して、 
+</p>
+<div class="equation">
+\[
+q^{(m,1,a)}_i := W^{(1,a)}_Q \widetilde h^{(m,0)}_i \in\R^{d_k},
+\]
+</div>
+<div class="equation">
+\[
+k^{(m,1,a)}_j := W^{(1,a)}_K \widetilde h^{(m,0)}_j \in\R^{d_k},
+\]
+</div>
+<div class="equation">
+\[
+v^{(m,1,a)}_j := W^{(1,a)}_V \widetilde h^{(m,0)}_j \in\R^{d_v}
+\]
+</div>
+<p>
+と定義する。 
+</p>
+<h4 id="section-2-5-2"><span class="heading-number">2.5.2</span>マスク付きアテンションスコア</h4>
+<p>
+クエリ位置 $i$ からキー位置 $j$ へのスコアは 
+</p>
+<div class="equation">
+\[
+c^{(m,1,a)}_{ij}
+:=
+\frac{
+\left(q^{(m,1,a)}_i\right)^{\mathsf T}
+k^{(m,1,a)}_j
+}{
+\sqrt{d_k}
+}
++
+M_{ij}.
+\]
+</div>
+<p>
+アテンション重みは 
+</p>
+<div class="equation">
+\[
+\alpha^{(m,1,a)}_{ij}
+:=
+\frac{
+\exp\left(c^{(m,1,a)}_{ij}\right)
+}{
+\displaystyle
+\sum_{\ell=1}^{N-1}
+\exp\left(c^{(m,1,a)}_{i\ell}\right)
+}.
+\]
+</div>
+<p>
+因果マスクにより、$j&gt;i$ なら 
+$\alpha^{(m,1,a)}_{ij}=0$ である。 
+したがって、同値に 
+</p>
+<div class="equation">
+\[
+\alpha^{(m,1,a)}_{ij}
+=
+\frac{
+\exp\left(
+\frac{
+(q^{(m,1,a)}_i)^{\mathsf T}k^{(m,1,a)}_j
+}{
+\sqrt{d_k}
+}
+\right)
+}{
+\displaystyle
+\sum_{\ell=1}^{i}
+\exp\left(
+\frac{
+(q^{(m,1,a)}_i)^{\mathsf T}k^{(m,1,a)}_\ell
+}{
+\sqrt{d_k}
+}
+\right)
+},
+\qquad
+j\le i
+\]
+</div>
+<p>
+と書ける。 
+</p>
+<p>
+位置 $i$ におけるヘッド $a$ の出力は 
+</p>
+<div class="equation">
+\[
+o^{(m,1,a)}_i
+:=
+\sum_{j=1}^{i}
+\alpha^{(m,1,a)}_{ij}
+v^{(m,1,a)}_j
+\in\R^{d_v}.
+\]
+</div>
+<p>
+すべてのヘッドを連結する: 
+</p>
+<div class="equation">
+\[
+o^{(m,1)}_i
+:=
+\operatorname{concat}
+\left(
+o^{(m,1,1)}_i,
+\dots,
+o^{(m,1,H)}_i
+\right)
+\in\R^{Hd_v}.
+\]
+</div>
+<p>
+次に出力射影を適用する: 
+</p>
+<div class="equation">
+\[
+a^{(m,1)}_i := W^{(1)}_O o^{(m,1)}_i \in\R^d.
+\]
+</div>
+<p>
+最後に残差接続を加える: 
+</p>
+<div class="equation">
+\[
+r^{(m,1)}_i := h^{(m,0)}_i + a^{(m,1)}_i= x^{(m)}_i + a^{(m,1)}_i.
+\]
+</div>
+<h3 id="section-2-6"><span class="heading-number">2.6</span>第1フィードフォワードネットワーク</h3>
+<p>
+2つ目の LayerNorm を適用する: 
+</p>
+<div class="equation">
+\[
+\widetilde r^{(m,1)}_i
+:=
+\LN^{(1,2)}
+\left(
+r^{(m,1)}_i
+\right).
+\]
+</div>
+<p>
+フィードフォワードネットワークは各位置に独立に適用される。 
+</p>
+<div class="equation">
+\[
+f^{(m,1)}_i
+:=
+W^{(1)}_2
+\ReLU
+\left(
+W^{(1)}_1
+\widetilde r^{(m,1)}_i
++
+b^{(1)}_1
+\right)
++
+b^{(1)}_2
+\in\R^d
+\]
+</div>
+<p>
+と定義する。 
+</p>
+<p>
+次に残差接続を加える: 
+</p>
+<div class="equation">
+\[
+h^{(m,1)}_i := r^{(m,1)}_i + f^{(m,1)}_i.
+\]
+</div>
+<p>
+したがって $h^{(m,1)}_i$ は Transformer ブロック1の出力である。 
+</p>
+<h3 id="section-2-7"><span class="heading-number">2.7</span>第2マルチヘッド自己アテンション層</h3>
+<p>
+まず LayerNorm を適用する: 
+</p>
+<div class="equation">
+\[
+\widetilde h^{(m,1)}_i
+:=
+\LN^{(2,1)}
+\left(
+h^{(m,1)}_i
+\right).
+\]
+</div>
+<h4 id="section-2-7-1"><span class="heading-number">2.7.1</span>第2層のクエリ、キー、バリュー</h4>
+<div class="equation">
+\[
+q^{(m,2,a)}_i := W^{(2,a)}_Q \widetilde h^{(m,1)}_i,
+\]
+</div>
+<div class="equation">
+\[
+k^{(m,2,a)}_j := W^{(2,a)}_K \widetilde h^{(m,1)}_j,
+\]
+</div>
+<p>
+および 
+</p>
+<div class="equation">
+\[
+v^{(m,2,a)}_j := W^{(2,a)}_V \widetilde h^{(m,1)}_j
+\]
+</div>
+<p>
+と定義する。 
+</p>
+<p>
+マスク付きスコアは 
+</p>
+<div class="equation">
+\[
+c^{(m,2,a)}_{ij}
+:=
+\frac{
+\left(q^{(m,2,a)}_i\right)^{\mathsf T}
+k^{(m,2,a)}_j
+}{
+\sqrt{d_k}
+}
++
+M_{ij}.
+\]
+</div>
+<p>
+アテンション重みは 
+</p>
+<div class="equation">
+\[
+\alpha^{(m,2,a)}_{ij}
+:=
+\frac{
+\exp\left(c^{(m,2,a)}_{ij}\right)
+}{
+\displaystyle
+\sum_{\ell=1}^{N-1}
+\exp\left(c^{(m,2,a)}_{i\ell}\right)
+}.
+\]
+</div>
+<p>
+ヘッド出力は 
+</p>
+<div class="equation">
+\[
+o^{(m,2,a)}_i
+:=
+\sum_{j=1}^{i}
+\alpha^{(m,2,a)}_{ij}
+v^{(m,2,a)}_j.
+\]
+</div>
+<p>
+ヘッドを連結する: 
+</p>
+<div class="equation">
+\[
+o^{(m,2)}_i
+:=
+\operatorname{concat}
+\left(
+o^{(m,2,1)}_i,\dots,o^{(m,2,H)}_i
+\right).
+\]
+</div>
+<p>
+モデル次元へ射影し直す: 
+</p>
+<div class="equation">
+\[
+a^{(m,2)}_i := W^{(2)}_O o^{(m,2)}_i.
+\]
+</div>
+<p>
+残差接続を加える: 
+</p>
+<div class="equation">
+\[
+r^{(m,2)}_i := h^{(m,1)}_i + a^{(m,2)}_i.
+\]
+</div>
+<h3 id="section-2-8"><span class="heading-number">2.8</span>第2フィードフォワードネットワーク</h3>
+<p>
+さらに LayerNorm を適用する: 
+</p>
+<div class="equation">
+\[
+\widetilde r^{(m,2)}_i
+:=
+\LN^{(2,2)}
+\left(
+r^{(m,2)}_i
+\right).
+\]
+</div>
+<div class="equation">
+\[
+f^{(m,2)}_i
+:=
+W^{(2)}_2
+\ReLU
+\left(
+W^{(2)}_1
+\widetilde r^{(m,2)}_i
++
+b^{(2)}_1
+\right)
++
+b^{(2)}_2
+\]
+</div>
+<p>
+と定義する。 
+</p>
+<p>
+すると 
+</p>
+<div class="equation">
+\[
+h^{(m,2)}_i := r^{(m,2)}_i + f^{(m,2)}_i.
+\]
+</div>
+<p>
+これが Transformer ブロック2の出力である。 
+</p>
+<h3 id="section-2-9"><span class="heading-number">2.9</span>最終正規化と語彙確率</h3>
+<p>
+現代の decoder-only Transformer では、出力層の前に最終 LayerNorm を適用することが一般的である。 
+</p>
+<div class="equation">
+\[
+g^{(m)}_i
+:=
+\LN^{(\mathrm{final})}
+\left(
+h^{(m,2)}_i
+\right)
+\]
+</div>
+<p>
+と定義する。 
+</p>
+<p>
+位置 $i$ におけるロジットは 
+</p>
+<div class="equation">
+\[
+\ell^{(m)}_i := Ug^{(m)}_i+b \in\R^K.
+\]
+</div>
+<p>
+次単語の候補 $a\in\V$ に対して、 
+</p>
+<div class="equation">
+\[
+p_\Theta
+\left(
+a
+\mid
+w^{(m)}_1,\dots,w^{(m)}_i
+\right)
+:=
+\frac{
+\exp\left(\ell^{(m)}_{i,a}\right)
+}{
+\displaystyle
+\sum_{c=1}^{K}
+\exp\left(\ell^{(m)}_{i,c}\right)
+}.
+\]
+</div>
+<p>
+したがって、位置 $i$ のベクトルは位置 $i+1$ の単語を予測する。 
+</p>
+<p>
+例えば、 
+</p>
+<div class="equation">
+\[
+g^{(m)}_1 \quad\text{は}\quad w^{(m)}_2 \quad\text{を予測する},
+\]
+</div>
+<div class="equation">
+\[
+g^{(m)}_2 \quad\text{は}\quad w^{(m)}_3 \quad\text{を予測する},
+\]
+</div>
+<p>
+そして一般に 
+</p>
+<div class="equation">
+\[
+g^{(m)}_i \quad\text{は}\quad w^{(m)}_{i+1} \quad\text{を予測する}.
+\]
+</div>
+<p>
+最後の隠れベクトル $g^{(m)}_{N-1}$ は $w^{(m)}_N$ を予測する。 
+</p>
+<h2 id="section-3"><span class="heading-number">03</span>学習と予測</h2>
+<p>
+学習中、各入力列 $u^{(m)}$ は並列に処理される。 
+因果マスクにより、位置 $i$ での予測は位置 $1,\dots,i$ のみに依存し、$y^{(m)}_i$ と比較される。 
+</p>
+<h3 id="section-3-1"><span class="heading-number">3.1</span>全位置にわたる損失</h3>
+<p>
+文 $m$ に対し、負の対数尤度を 
+</p>
+<div class="equation">
+\[
+L_m(\Theta)
+:=
+-\frac{1}{N-1}
+\sum_{i=1}^{N-1}
+\log
+p_\Theta
+\left(
+w^{(m)}_{i+1}
+\mid
+w^{(m)}_1,\dots,w^{(m)}_i
+\right)
+\]
+</div>
+<p>
+と定義する。 
+</p>
+<p>
+したがって損失には、第2単語、第3単語、そして第 $N$ 単語までの予測が含まれる。 
+</p>
+<p>
+学習損失全体は 
+</p>
+<div class="equation">
+\[
+L(\Theta)
+:=
+-\frac{1}{M(N-1)}
+\sum_{m=1}^{M}
+\sum_{i=1}^{N-1}
+\log
+p_\Theta
+\left(
+w^{(m)}_{i+1}
+\mid
+w^{(m)}_1,\dots,w^{(m)}_i
+\right).
+\]
+</div>
+<p>
+学習済みパラメータの組は形式的には 
+</p>
+<div class="equation">
+\[
+\Theta^\star
+\in
+\argmin_{\Theta}
+L(\Theta)
+\]
+</div>
+<p>
+と書ける。 
+</p>
+<p>
+実際には、最適化は確率的な勾配法に基づく数値計算によって行われる。 
+</p>
+<h3 id="section-3-2"><span class="heading-number">3.2</span>学習後の予測</h3>
+<p>
+モデルが学習済みで、接頭列 
+</p>
+<div class="equation">
+\[
+x_1,\dots,x_t, \quad 1\le t\le N-1
+\]
+</div>
+<p>
+が与えられたとする。 
+</p>
+<p>
+次単語の分布は 
+</p>
+<div class="equation">
+\[
+p_{\Theta^\star}
+\left(
+a
+\mid
+x_1,\dots,x_t
+\right),
+\qquad
+a\in\V.
+\]
+</div>
+<p>
+貪欲法による次単語予測は 
+</p>
+<div class="equation">
+\[
+\widehat{x}_{t+1}
+:=
+\argmax_{a\in\V}
+p_{\Theta^\star}
+\left(
+a
+\mid
+x_1,\dots,x_t
+\right).
+\]
+</div>
+<p>
+新しい単語を予測した後、その単語を接頭列の末尾に加え、もう一度モデルを適用できる。 
+これにより自己回帰生成が得られる: 
+</p>
+<div class="equation">
+\[
+x_1,\dots,x_t
+\longrightarrow
+\widehat{x}_{t+1}
+\longrightarrow
+\widehat{x}_{t+2}
+\longrightarrow
+\cdots.
+\]
+</div>
+<p>
+ただし学習中には、データセット中の真の過去単語を接頭列として用いる。 
+これは標準的な teacher forcing の定式化である。 
+</p>
+<h2 id="section-4"><span class="heading-number">04</span>$N=3$, $M=10$, $K=5$ の具体的な学習例</h2>
+<h3 id="section-4-1"><span class="heading-number">4.1</span>語彙と学習データ</h3>
+<p>
+$\V=\{1,2,3,4,5\}$ とし、単語ラベルを次のように定める: 
+</p>
+<div class="equation">
+\[
+\begin{array}{c@{\qquad}ccccc}
+\text{ラベル} &amp; 1 &amp; 2 &amp; 3 &amp; 4 &amp; 5\\
+\text{単語} &amp; \text{Alice} &amp; \text{Bob} &amp; \text{likes}
+&amp; \text{tea} &amp; \text{coffee}
+\end{array}
+\]
+</div>
+<p>
+この例を通して、数式中に現れる単語は対応する語彙ラベルを表すものとする。 
+学習集合は次の10文からなる: 
+</p>
+<div class="equation">
+\[
+\begin{array}{c@{\qquad}ccc}
+\toprule
+m &amp; w_1^{(m)} &amp; w_2^{(m)} &amp; w_3^{(m)}\\
+\midrule
+1 &amp; \text{Alice} &amp; \text{likes} &amp; \text{tea}\\
+2 &amp; \text{Alice} &amp; \text{likes} &amp; \text{tea}\\
+3 &amp; \text{Alice} &amp; \text{likes} &amp; \text{tea}\\
+4 &amp; \text{Alice} &amp; \text{likes} &amp; \text{coffee}\\
+5 &amp; \text{Alice} &amp; \text{likes} &amp; \text{tea}\\
+6 &amp; \text{Bob} &amp; \text{likes} &amp; \text{coffee}\\
+7 &amp; \text{Bob} &amp; \text{likes} &amp; \text{coffee}\\
+8 &amp; \text{Bob} &amp; \text{likes} &amp; \text{coffee}\\
+9 &amp; \text{Bob} &amp; \text{likes} &amp; \text{tea}\\
+10 &amp; \text{Bob} &amp; \text{likes} &amp; \text{coffee}\\
+\bottomrule
+\end{array}
+\]
+</div>
+<p>
+文 $m$ について、入力列と教師列はそれぞれ 
+</p>
+<div class="equation">
+\[
+u^{(m)}=(w_1^{(m)},w_2^{(m)}),\qquad
+y^{(m)}=(w_2^{(m)},w_3^{(m)}).
+\]
+</div>
+<p>
+したがって、このデータから $M(N-1)=20$ 個の次単語予測の教師信号が得られる: 
+</p>
+<div class="equation">
+\[
+w_1^{(m)}\longrightarrow w_2^{(m)},\qquad
+(w_1^{(m)},w_2^{(m)})\longrightarrow w_3^{(m)}.
+\]
+</div>
+<h3 id="section-4-2"><span class="heading-number">4.2</span>モデルと学習可能パラメータ</h3>
+<p>
+2つのアテンション層と残差接続を持つ、簡略化した因果 Transformer を考える。 
+$d=2$、$H=2$、$d_k=d_v=1$ とする。 
+このモデルでは位置埋め込み、LayerNorm、フィードフォワード部分層を省略する。 
+その順伝播写像を以下で指定する。 
+</p>
+<p>
+$\ell,a\in\{1,2\}$ に対して、学習可能な行列とバイアスは 
+</p>
+<div class="equation">
+\[
+\begin{gathered}
+E\in\R^{2\times5},\qquad
+W_Q^{(\ell,a)},W_K^{(\ell,a)},W_V^{(\ell,a)}\in\R^{1\times2},\\
+W_O^{(\ell)}\in\R^{2\times2},\qquad
+U\in\R^{5\times2},\qquad b\in\R^5.
+\end{gathered}
+\]
+</div>
+<p>
+それらの成分を次のように書く: 
+</p>
+<div class="equation">
+\[
+W_X^{(\ell,a)}=
+\begin{pmatrix}
+w_{X,1}^{(\ell,a)} &amp; w_{X,2}^{(\ell,a)}
+\end{pmatrix}
+\quad (X\in\{Q,K,V\}),
+\qquad
+W_O^{(\ell)}=
+\begin{pmatrix}
+w_{O,11}^{(\ell)} &amp; w_{O,12}^{(\ell)}\\
+w_{O,21}^{(\ell)} &amp; w_{O,22}^{(\ell)}
+\end{pmatrix}.
+\]
+</div>
+<p>
+したがって、各 $w_{X,r}^{(\ell,a)}$ と $w_{O,rs}^{(\ell)}$ はスカラーの学習可能パラメータである。 
+$h=(h_1,h_2)^{\mathsf T}$ に対して、 
+</p>
+<div class="equation">
+\begin{align*}
+W_X^{(\ell,a)}h
+&amp;=w_{X,1}^{(\ell,a)}h_1+w_{X,2}^{(\ell,a)}h_2,\\
+W_O^{(\ell)}
+\begin{pmatrix}o_1\\o_2\end{pmatrix}
+&amp;=
+\begin{pmatrix}
+w_{O,11}^{(\ell)}o_1+w_{O,12}^{(\ell)}o_2\\
+w_{O,21}^{(\ell)}o_1+w_{O,22}^{(\ell)}o_2
+\end{pmatrix}.
+\end{align*}
+</div>
+<p>
+パラメータを組 
+</p>
+<div class="equation">
+\[
+\Theta:=
+\left(
+E,\,
+\bigl(W_Q^{(\ell,a)},W_K^{(\ell,a)},W_V^{(\ell,a)}\bigr)_{\ell,a=1}^{2},
+\bigl(W_O^{(\ell)}\bigr)_{\ell=1}^{2},\,
+U,b
+\right)
+\]
+</div>
+<p>
+にまとめる。 
+文は固定されている一方、$\Theta$ は学習中に最適化される。 
+</p>
+<h3 id="section-4-3"><span class="heading-number">4.3</span>接頭列に対する順伝播写像</h3>
+<p>
+$c=(c_1,\dots,c_t)\in\V^t$ を接頭列とし、$t\in\{1,2\}$ とする。 
+$h_i^{(\ell)}(c)$ を、層 $\ell$ の後の位置 $i$ における隠れ状態とする。 
+$\Theta$ への依存は記法上省略する。 
+初期状態は 
+</p>
+<div class="equation">
+\[
+h_i^{(0)}(c):=E\delta(c_i)\in\R^2,\qquad 1\le i\le t.
+\]
+</div>
+<p>
+各 $\ell,a\in\{1,2\}$ に対し、スカラーのクエリ、キー、バリューを 
+</p>
+<div class="equation">
+\begin{align*}
+q_i^{(\ell,a)}(c)&amp;:=W_Q^{(\ell,a)}h_i^{(\ell-1)}(c),\\
+k_i^{(\ell,a)}(c)&amp;:=W_K^{(\ell,a)}h_i^{(\ell-1)}(c),\\
+v_i^{(\ell,a)}(c)&amp;:=W_V^{(\ell,a)}h_i^{(\ell-1)}(c)
+\end{align*}
+</div>
+<p>
+と定義する。 
+$\sqrt{d_k}=1$ なので、因果アテンション重みは 
+</p>
+<div class="equation">
+\[
+\alpha_{ij}^{(\ell,a)}(c):=
+\begin{cases}
+\displaystyle
+\frac{\exp\bigl(q_i^{(\ell,a)}(c)k_j^{(\ell,a)}(c)\bigr)}
+{\sum_{r=1}^{i}\exp\bigl(q_i^{(\ell,a)}(c)k_r^{(\ell,a)}(c)\bigr)},
+&amp; j\le i,\\[3mm]
+0,&amp;j&gt;i
+\end{cases}
+\]
+</div>
+<p>
+である。 
+</p>
+<p>
+ヘッド出力と残差更新は 
+</p>
+<div class="equation">
+\begin{align*}
+o_i^{(\ell,a)}(c)
+&amp;:=\sum_{j=1}^{i}\alpha_{ij}^{(\ell,a)}(c)v_j^{(\ell,a)}(c),\\
+h_i^{(\ell)}(c)
+&amp;:=h_i^{(\ell-1)}(c)+W_O^{(\ell)}
+\begin{pmatrix}o_i^{(\ell,1)}(c)\\o_i^{(\ell,2)}(c)\end{pmatrix}.
+\end{align*}
+</div>
+<p>
+これらの更新を $\ell=1,2$ について適用する。 
+第1位置では $\alpha_{11}^{(\ell,a)}(c)=1$ である。 
+第2位置では、各ヘッドは位置1と位置2のバリューの凸結合を作る。 
+</p>
+<p>
+最終隠れ状態から次単語のロジットと確率が決まる: 
+</p>
+<div class="equation">
+\[
+z_\Theta(c):=Uh_t^{(2)}(c)+b\in\R^5,
+\]
+</div>
+<div class="equation">
+\[
+p_\Theta(v\mid c):=
+\frac{\exp([z_\Theta(c)]_v)}
+{\sum_{r=1}^{5}\exp([z_\Theta(c)]_r)},\qquad v\in\V.
+\]
+</div>
+<p>
+したがって文 $m$ について、位置 $i$ での出力は 
+$p_\Theta(\,\cdot\mid w_1^{(m)},\dots,w_i^{(m)})$ であり、その教師信号は $w_{i+1}^{(m)}$ である。 
+因果マスクにより、両方の位置を1回の順伝播で評価できる。 
+</p>
+<h3 id="section-4-4"><span class="heading-number">4.4</span>文脈の出現回数と学習損失</h3>
+<p>
+20個の予測問題のうち、異なる接頭列は4つだけである。 
+各接頭列に対する教師単語の出現回数は次の通りである: 
+</p>
+<div class="equation">
+\[
+\begin{array}{l@{\qquad}rrrr}
+\toprule
+\text{接頭列 }c &amp; \text{likes} &amp; \text{tea} &amp; \text{coffee}
+&amp; \text{合計}\\
+\midrule
+(\text{Alice}) &amp; 5 &amp; 0 &amp; 0 &amp; 5\\
+(\text{Bob}) &amp; 5 &amp; 0 &amp; 0 &amp; 5\\
+(\text{Alice},\text{likes}) &amp; 0 &amp; 4 &amp; 1 &amp; 5\\
+(\text{Bob},\text{likes}) &amp; 0 &amp; 1 &amp; 4 &amp; 5\\
+\bottomrule
+\end{array}
+\]
+</div>
+<p>
+Alice も Bob も教師単語としては現れない。 
+同一の接頭列をまとめると、平均負の対数尤度は次のようになる: 
+</p>
+<div class="equation">
+\begin{align*}
+L(\Theta)=-\frac{1}{20}\Bigl[
+&amp;5\log p_\Theta(\text{likes}\mid\text{Alice})\\
+&amp;+5\log p_\Theta(\text{likes}\mid\text{Bob})\\
+&amp;+4\log p_\Theta(\text{tea}\mid\text{Alice},\text{likes})\\
+&amp;+\log p_\Theta(\text{coffee}\mid\text{Alice},\text{likes})\\
+&amp;+\log p_\Theta(\text{tea}\mid\text{Bob},\text{likes})\\
+&amp;+4\log p_\Theta(\text{coffee}\mid\text{Bob},\text{likes})
+\Bigr].
+\end{align*}
+</div>
+<p>
+この損失は、先に定義した順伝播写像を通じて $\Theta$ の明示的な関数となっている。 
+同値に、各項はロジットから 
+</p>
+<div class="equation">
+\[
+-\log p_\Theta(v\mid c)
+=\log\left(\sum_{r=1}^{5}\exp([z_\Theta(c)]_r)\right)
+-[z_\Theta(c)]_v
+\]
+</div>
+<p>
+として計算される。 
+</p>
+<p>
+学習では $L(\Theta)$ を数値的に最小化する。 
+例えば、学習率 $\eta_s&gt;0$ の勾配降下法では、パラメータを 
+</p>
+<div class="equation">
+\[
+\Theta^{(s+1)}=\Theta^{(s)}-\eta_s\nabla_\Theta L(\Theta^{(s)})
+\]
+</div>
+<p>
+によって更新する。 
+学習手続きが返すパラメータを $\widehat\Theta$ と書くことにする。 
+この記法は、大域的最小値に到達したことを主張するものではない。 
+列挙したすべてのパラメータを最適化器は利用できるが、このデータセット上では勾配が0になるものもある。 
+特に、$E$ の tea 列と coffee 列は入力として一度も使われないため $L(\Theta)$ に影響しない。 
+$U$ は別の出力行列である。 
+</p>
+<h3 id="section-4-5"><span class="heading-number">4.5</span>教師分布と予測</h3>
+<p>
+語彙の順序を $(\text{Alice},\text{Bob},\text{likes},\text{tea},\text{coffee})$ とすると、経験的な条件付き分布は 
+</p>
+<div class="equation">
+\begin{align*}
+\widehat p(\,\cdot\mid\text{Alice})
+&amp;=\widehat p(\,\cdot\mid\text{Bob})=(0,0,1,0,0),\\
+\widehat p(\,\cdot\mid\text{Alice},\text{likes})
+&amp;=(0,0,0,4/5,1/5),\\
+\widehat p(\,\cdot\mid\text{Bob},\text{likes})
+&amp;=(0,0,0,1/5,4/5).
+\end{align*}
+</div>
+<p>
+各接頭列に任意の分布を割り当てられるなら、これらの分布がクロスエントロピーを最小化する。 
+これらは、共有された1つのパラメータ組を用いてモデルが表現しようとする経験的な教師分布である。 
+</p>
+<p>
+有限のパラメータに対して、softmax はすべての単語に厳密に正の確率を与える。 
+したがって、上の0成分を厳密に実現することはできない。 
+近似の質は、モデルの表現能力と最適化手続きに依存する。 
+</p>
+<p>
+学習後、接頭列 $c$ に対する貪欲法の次単語予測は 
+</p>
+<div class="equation">
+\[
+\widehat v(c)\in\argmax_{v\in\V}p_{\widehat\Theta}(v\mid c)
+\]
+</div>
+<p>
+のいずれかであり、同点の場合は固定した規則で決める。 
+学習された分布が対応する経験分布に十分近ければ、モデルはどちらの名前の後にも <em>likes</em> を、<em>Alice likes</em> の後には <em>tea</em> を、<em>Bob likes</em> の後には <em>coffee</em> を予測する。 
+</p></article>
+    </div>
+  </main>
+  <footer>次単語予測のための2層因果 Transformer</footer>
+  <script>
+    const progress = document.getElementById('reading-progress');
+    const updateProgress = () => { const max = document.documentElement.scrollHeight - innerHeight; progress.style.width = (max > 0 ? scrollY / max * 100 : 0) + '%'; };
+    addEventListener('scroll', updateProgress, { passive: true }); updateProgress();
+    const links = [...document.querySelectorAll('.toc a')];
+    const observer = new IntersectionObserver(entries => entries.forEach(entry => { if (entry.isIntersecting) { links.forEach(link => link.classList.toggle('active', link.getAttribute('href') === '#' + entry.target.id)); } }), { rootMargin: '-25% 0px -65% 0px' });
+    document.querySelectorAll('article h2').forEach(heading => observer.observe(heading));
+  </script>
+</body>
+</html>
