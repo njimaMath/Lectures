@@ -9,7 +9,7 @@
     window.MathJax = {
       tex: {
         inlineMath: [['$', '$'], ['\\(', '\\)']],
-        displayMath: [['\\[', '\\]']],
+        displayMath: [['$$', '$$'], ['\\[', '\\]']],
         macros: {
           R: '\\mathbb{R}', V: '\\mathcal{V}', D: '\\mathcal{D}',
           softmax: '\\operatorname{softmax}', LN: '\\operatorname{LayerNorm}',
@@ -70,16 +70,18 @@
     @media (max-width:800px) { .masthead { padding:15px 20px; } .edition { display:none; } .hero { padding:52px 20px 42px; } .shell { display:block; padding:0 20px 70px; } .toc { position:static; margin:0 0 35px; padding:16px 0; border-top:1px solid var(--rule); border-bottom:1px solid var(--rule); } .toc a { display:inline-block; width:50%; padding:6px 8px 6px 0; } h2 { padding-top:38px; font-size:27px; } h3 { margin-top:31px; } footer { padding:0 20px 28px; } footer::before { margin-left:0; } }
     @media (max-width:480px) { body { font-size:15px; line-height:1.82; } .toc a { width:100%; } h1 { font-size:36px; } th, td { min-width:135px; padding:8px; } }
   </style>
+  <link rel="stylesheet" href="transformer.css">
 </head>
-<body>
+<body id="top">
+<a class="skip-link" href="#section-1">本文へ移動</a>
   <div class="progress" id="reading-progress" aria-hidden="true"></div>
   <header class="masthead"><div class="masthead-inner"><p class="eyebrow">MATHEMATICAL NOTES</p><span class="edition">CAUSAL TRANSFORMER · 2 BLOCKS</span></div></header>
   <main>
     <section class="hero" aria-labelledby="page-title">
       <p class="hero-kicker">NEXT-TOKEN PREDICTION</p>
-      <h1 id="page-title">次単語予測のための2層因果Transformer</h1>
+      <h1 id="page-title">次単語予測のための<br>2層因果Transformer</h1>
       <p class="hero-summary">因果マスクを備えた2層 Transformer を、入力、順伝播、損失関数、具体例まで一貫した記法で定式化する。</p>
-      <div class="hero-rule" aria-hidden="true"></div>
+      <a class="start-link" href="#section-1">ノートを読む <span aria-hidden="true">↗</span></a><div id="hero-visual"></div>
     </section>
     <div class="shell">
       <nav class="toc" aria-label="目次"><span class="toc-label">CONTENTS</span><a href="#section-1"><span>01</span>予測問題</a>
@@ -463,15 +465,15 @@ $x^{(m)}_i := E\delta(w^{(m)}_i)+p_i \in\R^d$
 <h3 id="section-2-2"><span class="heading-number">2.2</span>2つのTransformerデコーダブロック</h3>
 <p>
 ここでは2つの Transformer ブロックを用いる。各ブロックは次を含む。 
-\begin{enumerate}[leftmargin=2em] 
-\item LayerNorm; 
-\item マスク付きマルチヘッド自己アテンション; 
-\item 残差接続; 
-\item 2つ目の LayerNorm; 
-\item 位置ごとのフィードフォワードネットワーク; 
-\item もう1つの残差接続。 
-\end{enumerate} 
 </p>
+<ul class="notes">
+<li>LayerNorm</li>
+<li>マスク付きマルチヘッド自己アテンション</li>
+<li>残差接続</li>
+<li>2つ目の LayerNorm</li>
+<li>位置ごとのフィードフォワードネットワーク</li>
+<li>もう1つの残差接続</li>
+</ul>
 <p>
 これは標準的な <em>pre-normalization</em> Transformer ブロックである。 
 </p>
@@ -1141,9 +1143,9 @@ $\V=\{1,2,3,4,5\}$ とし、単語ラベルを次のように定める:
 <div class="equation">
 \[
 \begin{array}{c@{\qquad}ccc}
-\toprule
+\hline
 m &amp; w_1^{(m)} &amp; w_2^{(m)} &amp; w_3^{(m)}\\
-\midrule
+\hline
 1 &amp; \text{Alice} &amp; \text{likes} &amp; \text{tea}\\
 2 &amp; \text{Alice} &amp; \text{likes} &amp; \text{tea}\\
 3 &amp; \text{Alice} &amp; \text{likes} &amp; \text{tea}\\
@@ -1154,7 +1156,7 @@ m &amp; w_1^{(m)} &amp; w_2^{(m)} &amp; w_3^{(m)}\\
 8 &amp; \text{Bob} &amp; \text{likes} &amp; \text{coffee}\\
 9 &amp; \text{Bob} &amp; \text{likes} &amp; \text{tea}\\
 10 &amp; \text{Bob} &amp; \text{likes} &amp; \text{coffee}\\
-\bottomrule
+\hline
 \end{array}
 \]
 </div>
@@ -1335,15 +1337,15 @@ $p_\Theta(\,\cdot\mid w_1^{(m)},\dots,w_i^{(m)})$ であり、その教師信号
 <div class="equation">
 \[
 \begin{array}{l@{\qquad}rrrr}
-\toprule
+\hline
 \text{接頭列 }c &amp; \text{likes} &amp; \text{tea} &amp; \text{coffee}
 &amp; \text{合計}\\
-\midrule
+\hline
 (\text{Alice}) &amp; 5 &amp; 0 &amp; 0 &amp; 5\\
 (\text{Bob}) &amp; 5 &amp; 0 &amp; 0 &amp; 5\\
 (\text{Alice},\text{likes}) &amp; 0 &amp; 4 &amp; 1 &amp; 5\\
 (\text{Bob},\text{likes}) &amp; 0 &amp; 1 &amp; 4 &amp; 5\\
-\bottomrule
+\hline
 \end{array}
 \]
 </div>
@@ -1431,7 +1433,7 @@ $U$ は別の出力行列である。
 </p></article>
     </div>
   </main>
-  <footer>次単語予測のための2層因果 Transformer</footer>
+  <footer><span>MATHEMATICAL NOTES / TRANSFORMER</span><a href="#top">ページの先頭へ ↑</a></footer>
   <script>
     const progress = document.getElementById('reading-progress');
     const updateProgress = () => { const max = document.documentElement.scrollHeight - innerHeight; progress.style.width = (max > 0 ? scrollY / max * 100 : 0) + '%'; };
@@ -1440,5 +1442,6 @@ $U$ は別の出力行列である。
     const observer = new IntersectionObserver(entries => entries.forEach(entry => { if (entry.isIntersecting) { links.forEach(link => link.classList.toggle('active', link.getAttribute('href') === '#' + entry.target.id)); } }), { rootMargin: '-25% 0px -65% 0px' });
     document.querySelectorAll('article h2').forEach(heading => observer.observe(heading));
   </script>
+  <script src="transformer.js"></script>
 </body>
 </html>
