@@ -1,0 +1,94 @@
+\documentclass[a4paper,10pt,dvipdfmx]{jsarticle}
+\usepackage{../an26handout}
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta}
+\renewcommand{\topic}[1]{\par\vspace{2pt}{\large\sffamily\color{accent}#1}\par}
+\begin{document}
+\handout{1}{逆関数と逆三角関数}
+
+\topic{定義域と値域}
+関数 $f:A\to B$ とは、集合 $A$ の各要素 $x$ に対して、集合 $B$ の要素
+$y=f(x)$ をただ一つ対応させる規則である。$A$ を $f$ の定義域という。
+$x$ が定義域全体を動くときに $f(x)$ が実際にとる値の集合
+\[
+ f(A)=\{f(x)\mid x\in A\}
+\]
+を $f$ の値域という。逆関数を考えるときは、始めに定義域と値域を確認する。
+
+\topic{逆関数の定義}
+$f:A\to B$ が一対一対応であるとする。このとき、$y=f(x)$ となるただ一つの
+$x\in A$ を $y\in B$ に対応させる関数 $g:B\to A$ を $f$ の逆関数といい、
+$g=f^{-1}$ と書く。すなわち
+\[
+ \boxed{\ f(g(y))=y\quad(y\in B),\qquad g(f(x))=x\quad(x\in A)\ }
+\]
+である。式を求めるには、$y=f(x)$ を $x$ について解けばよい。
+
+\begin{center}
+\begin{tikzpicture}[>=Latex,scale=.82,every node/.style={font=\small}]
+  \draw[->] (-.3,0)--(4.8,0) node[right] {$x$};
+  \draw[->] (0,-.3)--(0,3.25) node[above] {$y$};
+  \draw[dashed,gray] (-.1,-.1)--(3.25,3.25) node[above right] {$y=x$};
+  \draw[very thick,accent]
+    plot coordinates {(.35,.25) (1.1,.65) (1.65,1.35) (2.15,1.65) (2.65,2.55) (3.1,2.9)};
+  \draw[very thick,ink]
+    plot coordinates {(.25,.35) (.65,1.1) (1.35,1.65) (1.65,2.15) (2.55,2.65) (2.9,3.1)};
+  \fill[accent] (2.65,2.55) circle (1.8pt);
+  \draw[dotted] (2.65,0) node[below] {$x$} -- (2.65,2.55)
+    -- (0,2.55) node[left] {$y$};
+  \node[accent,anchor=west] at (3.15,2.78) {$y=f(x)$};
+  \node[ink,anchor=west] at (.55,2.75) {$y=g(x)$};
+  \node[anchor=west] at (5.45,2.35) {$x\ \xmapsto{\ f\ }\ y=f(x)$};
+  \node[anchor=west] at (5.45,1.25) {$y\ \xmapsto{\ g\ }\ x=g(y)$};
+  \draw[<->,thick] (5.1,.65)--(9.15,.65)
+    node[midway,below=3pt] {行って戻ると元の値};
+\end{tikzpicture}
+\end{center}
+$f$ と $g$ のグラフは直線 $y=x$ に関して対称である。図の折れ線でも、点
+$(x,y)$ を入れ替えた点 $(y,x)$ が逆関数のグラフ上にあることが見える。
+
+\topic{逆関数の微分公式}
+$y=f(x)$、$x=g(y)$ とする。$f$ が微分可能で $f'(g(y))\ne0$ ならば、
+$f(g(y))=y$ の両辺を $y$ で微分して
+\[
+ f'(g(y))g'(y)=1,\qquad
+ \boxed{\ g'(y)=\frac{1}{f'(g(y))}\ }.
+\]
+逆関数のグラフでは横と縦が入れ替わるため、その傾きは元の傾きの逆数になる。
+
+\topic{逆三角関数の定義}
+三角関数の定義域を一対一になる区間に制限して、その逆関数を定める。
+\[
+\begin{array}{c|c|c|c}
+\text{逆関数}&\text{定義域}&\text{値域}&\text{定義}\\
+\hline
+\arcsin y&[-1,1]&[-\pi/2,\pi/2]&\sin(\arcsin y)=y\\
+\arccos y&[-1,1]&[0,\pi]&\cos(\arccos y)=y\\
+\arctan y&\mathbb R&(-\pi/2,\pi/2)&\tan(\arctan y)=y
+\end{array}
+\]
+たとえば $\arcsin(1/2)=\pi/6$ であり、$5\pi/6$ は値域の外なので主値ではない。
+
+\topic{逆三角関数の微分と積分}
+\[
+\begin{aligned}
+(\arcsin x)'&=\frac1{\sqrt{1-x^2}} &&(-1<x<1),&
+\int\frac{dx}{\sqrt{1-x^2}}&=\arcsin x+C,\\
+(\arccos x)'&=-\frac1{\sqrt{1-x^2}} &&(-1<x<1),&
+\int\frac{-dx}{\sqrt{1-x^2}}&=\arccos x+C,\\
+(\arctan x)'&=\frac1{1+x^2} &&(x\in\mathbb R),&
+\int\frac{dx}{1+x^2}&=\arctan x+C.
+\end{aligned}
+\]
+\keybox{確認点：逆関数では式だけでなく定義域と値域を確認する。平方根の符号は、逆三角関数の値域から決まる。}
+
+\exercises
+\begin{problems}
+\item $f(x)=3x-5$ の逆関数 $g$ を求め、$f(g(y))=y$ と $g(f(x))=x$ を確かめよ。\problemspace
+\item $f(x)=x^2+2x$、$x\ge-1$ の逆関数とその定義域を求めよ。\problemspace
+\item $\arcsin(-\sqrt3/2)$、$\arccos(-1/2)$、$\arctan(1)$ を求めよ。\problemspace
+\item $y=\arcsin x$ を陰関数微分して導関数を導け。\problemspace
+\item $\displaystyle\int_0^{1/2}\frac{dx}{\sqrt{1-x^2}}$ を求めよ。\problemspace
+\item $\displaystyle\int\frac{x^4}{1+x^2}\,dx$ を多項式除法を用いて求めよ。\problemspace
+\end{problems}
+\end{document}
