@@ -1,0 +1,758 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>確率論の基礎：歴史とコイン投げ</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Cabin:wght@500&family=Noto+Sans+JP:wght@400;500;700&display=swap');
+
+        :root {
+            --background: radial-gradient(120% 120% at 20% 20%, #1e3a8a 0%, #0f172a 55%, #020617 100%);
+            --card-bg: rgba(255, 255, 255, 0.88);
+            --card-border: rgba(255, 255, 255, 0.25);
+            --accent: #4c6ef5;
+            --accent-soft: rgba(76, 110, 245, 0.14);
+            --accent-strong: #2c3791;
+            --text-primary: #0f172a;
+            --text-secondary: #475569;
+            --highlight: #facc15;
+            --shadow: 0 18px 45px -25px rgba(15, 23, 42, 0.75);
+        }
+
+        *, *::before, *::after {
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Noto Sans JP', 'Hiragino Sans', 'Meiryo', sans-serif;
+            line-height: 1.7;
+            margin: 0;
+            min-height: 100vh;
+            padding: 60px 24px;
+            color: var(--text-primary);
+            background: var(--background);
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+        }
+
+        body::before {
+            content: "";
+            position: fixed;
+            inset: 0;
+            background: repeating-linear-gradient(135deg, rgba(255, 255, 255, 0.04) 0, rgba(255, 255, 255, 0.04) 12px, transparent 12px, transparent 24px);
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        main {
+            width: min(960px, 100%);
+            background: var(--card-bg);
+            backdrop-filter: blur(18px);
+            border: 1px solid var(--card-border);
+            border-radius: 28px;
+            padding: 56px 64px;
+            position: relative;
+            z-index: 1;
+            box-shadow: var(--shadow);
+        }
+
+        header.hero {
+            text-align: center;
+            margin-bottom: 52px;
+            display: grid;
+            gap: 18px;
+        }
+
+        .hero-label {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 6px 16px;
+            border-radius: 999px;
+            font-size: 14px;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            color: var(--accent-strong);
+            background: var(--accent-soft);
+            font-family: 'Cabin', sans-serif;
+        }
+
+        h1 {
+            font-size: clamp(32px, 4vw, 44px);
+            margin: 0;
+            color: var(--accent-strong);
+            letter-spacing: 0.05em;
+        }
+
+        .hero p {
+            margin: 0 auto;
+            max-width: 640px;
+            color: var(--text-secondary);
+            font-size: 17px;
+        }
+
+        section.outline-section {
+            background: rgba(255, 255, 255, 0.78);
+            border: 1px solid rgba(148, 163, 184, 0.25);
+            padding: 32px 36px;
+            border-radius: 22px;
+            margin-bottom: 32px;
+            box-shadow: 0 24px 40px -32px rgba(15, 23, 42, 0.35);
+        }
+
+        section.outline-section:last-of-type {
+            margin-bottom: 0;
+        }
+
+        section.outline-section h2 {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            font-size: 24px;
+            margin: 0 0 24px;
+            color: var(--accent-strong);
+        }
+
+        section.outline-section h2::before {
+            content: "";
+            width: 42px;
+            height: 4px;
+            border-radius: 999px;
+            background: linear-gradient(90deg, var(--accent) 0%, rgba(76, 110, 245, 0.2) 100%);
+        }
+
+        section.outline-section h3 {
+            margin: 28px 0 14px;
+            font-size: 19px;
+            color: var(--accent-strong);
+        }
+
+        section.outline-section p {
+            margin: 0 0 16px;
+            color: var(--text-secondary);
+        }
+
+        .timeline {
+            display: grid;
+            gap: 26px;
+            margin-top: 22px;
+        }
+
+        .milestone {
+            position: relative;
+            padding: 24px 24px 24px 88px;
+            border-radius: 20px;
+            background: rgba(248, 250, 252, 0.92);
+            border: 1px solid rgba(148, 163, 184, 0.25);
+            box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.55);
+        }
+
+        .milestone::before {
+            content: "";
+            position: absolute;
+            left: 40px;
+            top: 28px;
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: var(--accent);
+            box-shadow: 0 0 0 8px rgba(76, 110, 245, 0.12);
+        }
+
+        .milestone-era {
+            position: absolute;
+            left: 0;
+            top: 24px;
+            width: 64px;
+            padding: 6px 0;
+            border-radius: 999px;
+            text-align: center;
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--accent-strong);
+            background: rgba(76, 110, 245, 0.16);
+            font-family: 'Cabin', sans-serif;
+        }
+
+        .milestone h3 {
+            margin: 0 0 10px;
+        }
+
+        .insight {
+            margin-top: 12px;
+            padding: 14px 18px;
+            border-radius: 16px;
+            background: rgba(76, 110, 245, 0.08);
+            border: 1px solid rgba(76, 110, 245, 0.14);
+            font-size: 15px;
+            color: var(--accent-strong);
+        }
+
+        .key-figures {
+            list-style: none;
+            margin: 28px 0 0;
+            padding: 0;
+            display: grid;
+            gap: 14px;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+        }
+
+        .key-figures li {
+            padding: 18px 20px;
+            border-radius: 18px;
+            background: rgba(255, 255, 255, 0.85);
+            border: 1px solid rgba(148, 163, 184, 0.22);
+            box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.5);
+            color: var(--text-secondary);
+        }
+
+        .key-figures strong {
+            display: block;
+            margin-bottom: 6px;
+            color: var(--accent-strong);
+        }
+
+        .figure {
+            margin: 34px auto;
+            text-align: center;
+            padding: 22px;
+            border-radius: 20px;
+            background: rgba(15, 23, 42, 0.04);
+            border: 1px solid rgba(148, 163, 184, 0.18);
+        }
+
+        .figure svg {
+            width: 100%;
+            height: auto;
+        }
+
+        .figure-caption {
+            margin-top: 14px;
+            font-size: 15px;
+            color: var(--text-secondary);
+            font-style: italic;
+        }
+
+        .pill-list {
+            counter-reset: item;
+            list-style: none;
+            margin: 18px 0 0;
+            padding: 0;
+            display: grid;
+            gap: 12px;
+        }
+
+        .pill-list li {
+            position: relative;
+            margin: 0;
+            padding: 18px 24px 18px 60px;
+            border-radius: 18px;
+            background: rgba(248, 250, 252, 0.86);
+            border: 1px solid rgba(148, 163, 184, 0.25);
+            color: var(--text-secondary);
+            font-size: 16px;
+            box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.55);
+        }
+
+        .pill-list li::before {
+            content: counter(item);
+            counter-increment: item;
+            position: absolute;
+            left: 20px;
+            top: 18px;
+            display: inline-flex;
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            align-items: center;
+            justify-content: center;
+            font-size: 13px;
+            color: var(--accent-strong);
+            background: rgba(76, 110, 245, 0.18);
+            font-family: 'Cabin', sans-serif;
+            font-weight: 600;
+        }
+
+        .focus-card {
+            background: rgba(76, 110, 245, 0.08);
+            border: 1px solid rgba(76, 110, 245, 0.22);
+            box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.4), 0 20px 32px -28px rgba(76, 110, 245, 0.55);
+        }
+
+        .example {
+            background: rgba(76, 110, 245, 0.12);
+            border: 1px solid rgba(76, 110, 245, 0.22);
+            border-radius: 18px;
+            padding: 22px 26px;
+            margin: 22px 0;
+            box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.45);
+        }
+
+        .example h3 {
+            margin-top: 0;
+            color: var(--accent-strong);
+        }
+
+        .example h4 {
+            margin: 0 0 12px;
+            color: var(--accent-strong);
+            font-size: 17px;
+        }
+
+        .definition {
+            background: rgba(250, 204, 21, 0.16);
+            border: 1px solid rgba(250, 204, 21, 0.32);
+            border-radius: 18px;
+            padding: 22px 26px;
+            margin: 22px 0;
+            box-shadow: inset 0 1px 0 rgba(255, 240, 200, 0.4);
+        }
+
+        .definition h3 {
+            margin-top: 0;
+        }
+
+        .theorem {
+            background: rgba(76, 110, 245, 0.1);
+            border: 1px solid rgba(76, 110, 245, 0.28);
+            border-radius: 18px;
+            padding: 22px 26px;
+            margin: 22px 0;
+            box-shadow: inset 0 1px 0 rgba(209, 227, 255, 0.45);
+        }
+
+        .theorem h3 {
+            margin-top: 0;
+            color: var(--accent-strong);
+        }
+
+        .proof {
+            margin-top: 18px;
+            padding-left: 18px;
+            border-left: 3px solid rgba(76, 110, 245, 0.3);
+            color: var(--text-secondary);
+        }
+
+        .coin-toss {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 26px;
+            margin: 18px 0 24px;
+            flex-wrap: wrap;
+        }
+
+        .coin {
+            width: 96px;
+            height: 96px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-weight: 700;
+            color: var(--text-primary);
+            background: radial-gradient(circle at 30% 30%, #fff7bf, #facc15, #d97706);
+            box-shadow: 0 14px 24px -12px rgba(217, 119, 6, 0.55);
+        }
+
+        ol, ul {
+            color: var(--text-secondary);
+        }
+
+        .example ul, .definition ol {
+            margin: 0;
+            padding-left: 20px;
+        }
+
+        .navigation {
+            margin-top: 36px;
+            padding-top: 24px;
+            border-top: 1px solid rgba(148, 163, 184, 0.35);
+            display: flex;
+            justify-content: space-between;
+            gap: 16px;
+        }
+
+        .navigation a {
+            flex: 1;
+            display: inline-flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+            padding: 12px 24px;
+            border-radius: 14px;
+            background: var(--accent-strong);
+            color: #fff;
+            text-decoration: none;
+            font-weight: 600;
+            transition: background 0.2s ease;
+        }
+
+        .navigation a:hover {
+            background: var(--accent);
+        }
+
+        footer {
+            margin-top: 40px;
+            text-align: center;
+            color: var(--text-secondary);
+            font-size: 14px;
+        }
+
+        @media (max-width: 768px) {
+            body {
+                padding: 32px 16px;
+            }
+
+            main {
+                padding: 36px 24px;
+            }
+
+            section.outline-section {
+                padding: 24px;
+            }
+
+            .milestone {
+                padding: 22px 22px 22px 68px;
+            }
+
+            .milestone-era {
+                left: 8px;
+            }
+
+            .navigation {
+                flex-direction: column;
+            }
+        }
+    </style>
+    <script>
+        window.MathJax = {
+            tex: { inlineMath: [['$', '$'], ['\(', '\)']], displayMath: [['$$', '$$'], ['\[', '\]']] },
+            svg: { fontCache: 'global' }
+        };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+    </head>
+<body>
+    <main>
+        <header class="hero">
+            <span class="hero-label">Lecture 01</span>
+            <h1>確率論の基礎：歴史とコイン投げ</h1>
+            <p>17世紀の賭博問題から始まった確率論がどのように発展し, 現代の科学や技術を支えているのかを歴史を見ていく
+                。</p>
+        </header>
+
+        <section class="outline-section">
+            <h2>1. 歴史のハイライト</h2>
+            <p>確率論はパスカルとフェルマーがゲームの配当問題を議論した書簡の往復から生まれ, 次第に数学・科学の幅広い分野へと広がっていった。</p>
+            <div class="timeline">
+                <article class="milestone">
+                    <span class="milestone-era">17世紀</span>
+                    <h3>ゲームとギャンブルから生まれた戦略思考</h3>
+                    <p>パスカルやフェルマーは偶然のゲームで勝利を導くための定量的戦略を追究し, 離散確率論の枠組みを築き上げた。</p>
+                    <p class="insight">当時のニュートン力学は決定論的であり, 確率的な視点とはまだ交わっていなかった。</p>
+                </article>
+
+                <article class="milestone">
+                    <span class="milestone-era">19世紀</span>
+                    <h3>相転移の謎に挑んだ統計物理</h3>
+                    <p>マクスウェルやボルツマンは氷・水・水蒸気の相転移を説明するため, 巨視的現象を微視的粒子の確率モデルとして捉え直した。</p>
+                    <p class="insight">統計物理では初期条件や観測時間に不確かさを導入し, 決定論的な力学に意図的に確率を重ね合わせる。</p>
+                </article>
+
+                <article class="milestone">
+                    <span class="milestone-era">20世紀</span>
+                    <h3>量子ゆらぎが切り開いた新たな確率論</h3>
+                    <p>ボルンらによる量子力学は粒子の位置と速度を同時に確定できないことを示し, 連続的な確率モデルと公理的確率論へと発展した。</p>
+                    <p class="insight">波動関数の確率解釈によって, 確率論は物理学の基礎概念へと飛躍する。</p>
+                </article>
+            </div>
+            <ul class="key-figures">
+                <li><strong>ブレーズ・パスカル (1623-1662)</strong>期待値の概念と「パスカルの三角形」を発展させ, ゲームに確率の視点を導入した。</li>
+                <li><strong>ピエール・ド・フェルマー (1607-1665)</strong>賭博問題を組み合わせ論で解く方針を示し, 離散構造の解析に道を開いた。</li>
+                <li><strong>ヤコブ・ベルヌーイ (1654-1705)</strong>『推測術』で大数の法則を示し, 長期的な安定性の概念を確立した。</li>
+                <li><strong>ピエール＝シモン・ラプラス (1749-1827)</strong>確率を解析的に体系化し, ベイズ推論や天体運動への応用を推進した。</li>
+                <li><strong>アンドレイ・コルモゴロフ (1903-1987)</strong>測度論的公理系を提示し, 現代確率論の土台を築いた。</li>
+            </ul>
+        </section>
+
+
+        <section class="outline-section focus-card">
+            <h2>2.　確率論と他分野</h2>
+
+            <h3>2.1 確率と統計3>
+            <p>確率空間はモデル側と観測側をつなぐ基盤であり, 確率論と統計学がどのように往復しながら知識を更新していくのかを理解する鍵になる。</p>
+
+            <div class="figure">
+                <svg width="700" height="350" viewBox="0 0 700 350">
+                    <rect x="50" y="50" width="600" height="250" fill="#f8fafc" stroke="#cbd5f5" stroke-width="1.4" rx="12" ry="12"/>
+
+                    <rect x="80" y="100" width="240" height="170" fill="#e3f2fd" stroke="#1565c0" stroke-width="2" rx="8" ry="8"/>
+                    <text x="200" y="86" text-anchor="middle" font-weight="bold" font-size="18">確率論</text>
+                    <text x="200" y="130" text-anchor="middle" font-size="14">モデルから予測へ</text>
+                    <text x="200" y="155" text-anchor="middle" font-size="14">(Model → Prediction)</text>
+                    <text x="200" y="204" text-anchor="middle" font-style="italic" font-size="12">「モデルが正しければ, このデータが観測</text>
+                    <text x="200" y="224" text-anchor="middle" font-style="italic" font-size="12">される確率はどのくらいか？」</text>
+
+                    <rect x="400" y="100" width="200" height="170" fill="#f9fbe7" stroke="#827717" stroke-width="2" rx="8" ry="8"/>
+                    <text x="500" y="86" text-anchor="middle" font-weight="bold" font-size="18">統計学</text>
+                    <text x="500" y="130" text-anchor="middle" font-size="14">データからモデルへ</text>
+                    <text x="500" y="155" text-anchor="middle" font-size="14">(Data → Model)</text>
+                    <text x="500" y="204" text-anchor="middle" font-style="italic" font-size="12">「観測されたデータから, </text>
+                    <text x="500" y="224" text-anchor="middle" font-style="italic" font-size="12">最も妥当なモデルは何か？」</text>
+
+                    <path d="M 320 125 L 350 125 L 400 125" fill="none" stroke="#1976d2" stroke-width="2" marker-end="url(#arrowBlue)"/>
+                    <text x="350" y="114" text-anchor="middle" font-size="12" fill="#1976d2">理論的基礎</text>
+
+                    <path d="M 400 175 L 350 175 L 320 175" fill="none" stroke="#558b2f" stroke-width="2" marker-end="url(#arrowGreen)"/>
+                    <text x="350" y="196" text-anchor="middle" font-size="12" fill="#558b2f">検証と改良</text>
+
+                    <defs>
+                        <marker id="arrowBlue" markerWidth="12" markerHeight="12" refX="10" refY="4" orient="auto" markerUnits="strokeWidth">
+                            <path d="M0,0 L0,8 L11,4 z" fill="#1976d2"/>
+                        </marker>
+                        <marker id="arrowGreen" markerWidth="12" markerHeight="12" refX="10" refY="4" orient="auto" markerUnits="strokeWidth">
+                            <path d="M0,0 L0,8 L11,4 z" fill="#558b2f"/>
+                        </marker>
+                    </defs>
+
+                    <circle cx="500" cy="288" r="16" fill="#f44336" opacity="0.7"/>
+                    <text x="528" y="288" text-anchor="start" dominant-baseline="middle" font-size="12" fill="#475569">実世界のデータ</text>
+
+                    <circle cx="200" cy="288" r="16" fill="#0284c7" opacity="0.7"/>
+                    <text x="228" y="288" text-anchor="start" dominant-baseline="middle" font-size="12" fill="#475569">確率モデル</text>
+                </svg>
+                <div class="figure-caption">図1: モデルとデータの往復</div>
+            </div>
+
+            <ul class="pill-list">
+                <li>天気予報で示される「降水確率40%」は, 気象データを基に構築された確率モデルによる推定値である。</li>
+                <li>医療の検査精度や治療成功率は確率測度として表現され, 意思決定やリスク評価に利用される。</li>
+                <li>交通渋滞の予測や公共交通機関のダイヤ設計には, 確率的な需要モデルが組み込まれている。</li>
+                <li>カードゲームや宝くじなどの娯楽は確率計算に基づいて設計され, フェアネスや期待値の議論に直結する。</li>
+            </ul>
+
+            <h3>2.2 学際的な広がり</h3>
+            <div class="figure">
+                <svg width="700" height="500" viewBox="0 0 700 500">
+                    <circle cx="350" cy="250" r="100" fill="#3f51b5" opacity="0.8"/>
+                    <text x="350" y="250" text-anchor="middle" fill="white" font-weight="bold" font-size="20">確率論</text>
+
+                    <circle cx="550" cy="150" r="70" fill="#e91e63" opacity="0.75"/>
+                    <text x="550" y="150" text-anchor="middle" fill="white" font-weight="bold" font-size="16">統計学</text>
+                    <line x1="425" y1="200" x2="500" y2="170" stroke="#999" stroke-width="2"/>
+
+                    <circle cx="550" cy="350" r="70" fill="#009688" opacity="0.75"/>
+                    <text x="550" y="350" text-anchor="middle" fill="white" font-weight="bold" font-size="16">量子力学</text>
+                    <line x1="425" y1="300" x2="500" y2="330" stroke="#999" stroke-width="2"/>
+
+                    <circle cx="200" cy="400" r="70" fill="#ff9800" opacity="0.75"/>
+                    <text x="200" y="400" text-anchor="middle" fill="white" font-weight="bold" font-size="16">金融工学</text>
+                    <line x1="290" y1="325" x2="240" y2="360" stroke="#999" stroke-width="2"/>
+
+                    <circle cx="150" cy="150" r="70" fill="#4caf50" opacity="0.75"/>
+                    <text x="150" y="150" text-anchor="middle" fill="white" font-weight="bold" font-size="16">機械学習</text>
+                    <line x1="275" y1="200" x2="200" y2="170" stroke="#999" stroke-width="2"/>
+
+                    <circle cx="350" cy="100" r="50" fill="#673ab7" opacity="0.75"/>
+                    <text x="350" y="100" text-anchor="middle" fill="white" font-weight="bold" font-size="14">情報理論</text>
+                    <line x1="350" y1="150" x2="350" y2="120" stroke="#999" stroke-width="2"/>
+
+                    <circle cx="350" cy="400" r="50" fill="#2196f3" opacity="0.75"/>
+                    <text x="350" y="400" text-anchor="middle" fill="white" font-weight="bold" font-size="14">暗号技術</text>
+                    <line x1="350" y1="350" x2="350" y2="380" stroke="#999" stroke-width="2"/>
+
+                    <circle cx="500" cy="250" r="40" fill="#8bc34a" opacity="0.75"/>
+                    <text x="500" y="250" text-anchor="middle" fill="white" font-weight="bold" font-size="12">遺伝学</text>
+                    <line x1="450" y1="250" x2="480" y2="250" stroke="#999" stroke-width="2"/>
+
+                    <circle cx="200" cy="250" r="40" fill="#f44336" opacity="0.75"/>
+                    <text x="200" y="250" text-anchor="middle" fill="white" font-weight="bold" font-size="12">保険数理</text>
+                    <line x1="250" y1="250" x2="220" y2="250" stroke="#999" stroke-width="2"/>
+                </svg>
+                <div class="figure-caption">図2: 確率論が結ぶ学際領域の例</div>
+            </div>
+<h2>3 コイン投げで学ぶ確率空間</h2>
+            <h3>3.1 コイントスで学ぶ標本空間</h3>
+            <div class="example">
+                <h4>1回のコイン投げ</h4>
+                <div class="coin-toss">
+                    <div class="coin">表 (H)</div>
+                    <div class="coin">裏 (T)</div>
+                </div>
+                <p>$\Omega = \{H, T\}$ とおき, 公平なコインなら $P(H) = P(T) = \tfrac{1}{2}$ とする。</p>
+            </div>
+
+            <div class="example">
+                <h3>3.2 2回のコイン投げ</h3>
+                <p>標本空間は $\Omega = \{(H,H), (H,T), (T,H), (T,T)\}$ となり, 各要素の確率は $\tfrac{1}{4}$。</p>
+                <p>「少なくとも1回は表」という事象 $A = \{(H,H), (H,T), (T,H)\}$ の確率は $P(A) = \tfrac{3}{4}$。</p>
+            </div>
+
+            <div class="figure">
+                <svg width="720" height="230" viewBox="0 0 720 230">
+                    <defs>
+                        <radialGradient id="grad-hh" cx="35%" cy="35%" r="70%">
+                            <stop offset="0%" stop-color="#ffffff"/>
+                            <stop offset="55%" stop-color="#bfdbfe"/>
+                            <stop offset="100%" stop-color="#0284c7"/>
+                        </radialGradient>
+                        <radialGradient id="grad-ht" cx="35%" cy="35%" r="70%">
+                            <stop offset="0%" stop-color="#ffffff"/>
+                            <stop offset="55%" stop-color="#bbf7d0"/>
+                            <stop offset="100%" stop-color="#10b981"/>
+                        </radialGradient>
+                        <radialGradient id="grad-th" cx="35%" cy="35%" r="70%">
+                            <stop offset="0%" stop-color="#ffffff"/>
+                            <stop offset="55%" stop-color="#fde68a"/>
+                            <stop offset="100%" stop-color="#f59e0b"/>
+                        </radialGradient>
+                        <radialGradient id="grad-tt" cx="35%" cy="35%" r="70%">
+                            <stop offset="0%" stop-color="#ffffff"/>
+                            <stop offset="55%" stop-color="#fecaca"/>
+                            <stop offset="100%" stop-color="#ef4444"/>
+                        </radialGradient>
+                    </defs>
+
+                    <text x="360" y="40" text-anchor="middle" font-size="15" fill="#475569">2回のコイントスの標本空間 Ω</text>
+
+                    <g transform="translate(130 124)" font-family="'Cabin', 'Noto Sans JP', sans-serif">
+                        <rect x="-72" y="-60" width="144" height="116" rx="28" fill="url(#grad-hh)" stroke="#0f172a" stroke-opacity="0.08" stroke-width="3"/>
+                        <text y="-52" text-anchor="middle" font-size="17" font-weight="600" fill="#0f172a">(H, H)</text>
+                        <g transform="translate(-28 4)">
+                            <circle r="18" fill="#bfdbfe" stroke="#1d4ed8" stroke-width="2"/>
+                            <text y="5" text-anchor="middle" font-size="13" font-weight="700" fill="#0f172a">H</text>
+                        </g>
+                        <g transform="translate(28 4)">
+                            <circle r="18" fill="#bfdbfe" stroke="#1d4ed8" stroke-width="2"/>
+                            <text y="5" text-anchor="middle" font-size="13" font-weight="700" fill="#0f172a">H</text>
+                        </g>
+                        <text y="50" text-anchor="middle" font-size="12" fill="#1e293b">確率 1/4</text>
+                    </g>
+
+                    <g transform="translate(310 124)" font-family="'Cabin', 'Noto Sans JP', sans-serif">
+                        <rect x="-72" y="-60" width="144" height="116" rx="28" fill="url(#grad-ht)" stroke="#0f172a" stroke-opacity="0.08" stroke-width="3"/>
+                        <text y="-52" text-anchor="middle" font-size="17" font-weight="600" fill="#0f172a">(H, T)</text>
+                        <g transform="translate(-28 4)">
+                            <circle r="18" fill="#bbf7d0" stroke="#047857" stroke-width="2"/>
+                            <text y="5" text-anchor="middle" font-size="13" font-weight="700" fill="#065f46">H</text>
+                        </g>
+                        <g transform="translate(28 4)">
+                            <circle r="18" fill="#fecaca" stroke="#b91c1c" stroke-width="2"/>
+                            <text y="5" text-anchor="middle" font-size="13" font-weight="700" fill="#7f1d1d">T</text>
+                        </g>
+                        <text y="50" text-anchor="middle" font-size="12" fill="#1e293b">確率 1/4</text>
+                    </g>
+
+                    <g transform="translate(490 124)" font-family="'Cabin', 'Noto Sans JP', sans-serif">
+                        <rect x="-72" y="-60" width="144" height="116" rx="28" fill="url(#grad-th)" stroke="#0f172a" stroke-opacity="0.08" stroke-width="3"/>
+                        <text y="-52" text-anchor="middle" font-size="17" font-weight="600" fill="#0f172a">(T, H)</text>
+                        <g transform="translate(-28 4)">
+                            <circle r="18" fill="#fecaca" stroke="#b91c1c" stroke-width="2"/>
+                            <text y="5" text-anchor="middle" font-size="13" font-weight="700" fill="#7f1d1d">T</text>
+                        </g>
+                        <g transform="translate(28 4)">
+                            <circle r="18" fill="#bbf7d0" stroke="#047857" stroke-width="2"/>
+                            <text y="5" text-anchor="middle" font-size="13" font-weight="700" fill="#065f46">H</text>
+                        </g>
+                        <text y="50" text-anchor="middle" font-size="12" fill="#1e293b">確率 1/4</text>
+                    </g>
+
+                    <g transform="translate(660 124)" font-family="'Cabin', 'Noto Sans JP', sans-serif">
+                        <rect x="-72" y="-60" width="144" height="116" rx="28" fill="url(#grad-tt)" stroke="#0f172a" stroke-opacity="0.08" stroke-width="3"/>
+                        <text y="-52" text-anchor="middle" font-size="17" font-weight="600" fill="#0f172a">(T, T)</text>
+                        <g transform="translate(-28 4)">
+                            <circle r="18" fill="#fecaca" stroke="#b91c1c" stroke-width="2"/>
+                            <text y="5" text-anchor="middle" font-size="13" font-weight="700" fill="#7f1d1d">T</text>
+                        </g>
+                        <g transform="translate(28 4)">
+                            <circle r="18" fill="#fecaca" stroke="#b91c1c" stroke-width="2"/>
+                            <text y="5" text-anchor="middle" font-size="13" font-weight="700" fill="#7f1d1d">T</text>
+                        </g>
+                        <text y="50" text-anchor="middle" font-size="12" fill="#1e293b">確率 1/4</text>
+                    </g>
+                </svg>
+                <div class="figure-caption">図3: 2回のコイントスで得られる結果</div>
+            </div>
+
+
+            <h3>3.3 有限確率空間の一般形</h3>
+            <p>$\Omega$ を有限集合とし, 各 $\omega \in \Omega$ に $0$ 以上 $1$ 以下の重み $p(\omega)$ を割り当て, 総和を $1$ に正規化する。</p>
+            <ul class="pill-list">
+                <li>確率測度 $P(A) = \sum_{\omega \in A} p(\omega)$ と定めると, $(\Omega, 2^{\Omega}, P)$ が有限確率空間となる。</li>
+                <li>例: 三回のコイントス, 二つのサイコロ, 有限状態マルコフ連鎖など。</li>
+            </ul>
+
+            <p class="note">非加算的な場合, 単点集合の確率が 0 でも集合全体に正の確率を割り当てられる。</p>
+<h2>4 測度論的確率論の基礎</h2>
+            <h3>4.1 シグマ加法族</h3>
+            <p>集合 $\Omega$ 上の族 $\mathcal{F}$ が次の条件を満たすとき $\mathcal{F}$ をシグマ加法族と呼ぶ。</p>
+            <ul class="pill-list">
+                <li>$\Omega \in \mathcal{F}$</li>
+                <li>もし $A \in \mathcal{F}$ ならば $A^{c} \in \mathcal{F}$</li>
+                <li>$A_i \in \mathcal{F}$, $i \in \mathbb{N}$ ならば $\bigcup_{i=1}^{\infty} A_i \in \mathcal{F}$</li>
+            </ul>
+<p>集合の列$A_i$について、$A_i\cap A_j=\emptyset\quad (i\neq j)$であるとき、互いに素であると呼ぶ。</p>
+<h3>4.2 確率測度の定義</h3>
+            <p>集合 $\Omega$ 上のシグマ加法族 $\mathcal{F}$ に対して, 写像 $P : \mathcal{F} \to [0,1]$ が次の三条件を満たすとき, $P$ を確率測度と呼ぶ。</p>
+            <ul class="pill-list">
+                <li>$P(A) \ge 0$ （非負性）</li>
+                <li>$P(\Omega) = 1$ （全体の確率は1）</li>
+                <li>互いに素な $A_i \in \mathcal{F}$ に対して $P\!\left(\bigcup_{i=1}^{\infty} A_i\right) = \sum_{i=1}^{\infty} P(A_i)$ （可算加法性）</li>
+            </ul>
+            <div class="insight">確率測度は測度論の枠組みに基づくものであり, その定義はルベーグ測度の拡張と対応している。したがって確率空間 $(\Omega, \mathcal{F}, P)$ は, 測度空間の特別な場合とみなせる。</div>
+            <div class="insight">$\mathbb{R}^d$ のボレルシグマ代数は開集合族から生成され, 連続モデルの標準的な選択となる。</div>
+            <p>確率空間は三つ組 $(\Omega, \mathcal{F}, P)$ であり, 測度 $P$ は $\mathcal{F}$ 上の可算加法的な写像となる。</p>
+
+
+            <h3>4.3 確率空間の基本性質</h3>
+            <p>公理から直ちに導かれる性質を整理する。</p>
+            <ul class="pill-list">
+                <li>$P(A^{c}) = 1 - P(A)$</li>
+                <li>$A \subseteq B$ ならば $P(A) \le P(B)$</li>
+                <li>$P(A \cup B) = P(A) + P(B) - P(A \cap B)$</li>
+                <li>$P\bigl(\bigcup_{i=1}^{\infty} A_i\bigr) \le \sum_{i=1}^{\infty} P(A_i)$（可算劣加法性）</li>
+            </ul>
+            <div class="note">包含排除の公式は有限個の事象にも拡張され, 交差部分の情報を補正項として扱う。</div>
+     
+
+
+            <div class="definition">
+                <h3>定義（単調増加列）</h3>
+                <p>可測集合列 $(A_n)_{n\ge 1}$ が <em>単調増加</em> であるとは, すべての $n$ に対して $A_n \subseteq A_{n+1}$ が成り立つことをいう。このとき $A_n$ が極限に向かって「広がっていく」ので $(A_n)$ を増加列とも呼ぶ。</p>
+            </div>
+            <div class="theorem">
+                <h3>定理（単調増加列に対する連続性）</h3>
+                <p>測度空間 $(\Omega, \mathcal{F}, P)$ 上の可測集合列 $(A_n)_{n\ge 1}$ が単調増加であるとする。$A = \bigcup_{n=1}^{\infty} A_n$ とおくと, 次が成り立つ。</p>
+                <p>$$\lim_{n\to\infty} P(A_n) = P\!\left(\bigcup_{n=1}^{\infty} A_n\right).$$</p>
+                <div class="proof">
+                    <strong>証明.</strong>
+                    <p>$C_1 = A_1$, $C_n = A_n \setminus A_{n-1}$（$n\ge 2$）と定めると, $C_n$ は互いに素で $A_m = \bigcup_{k=1}^{m} C_k$, $A = \bigcup_{k=1}^{\infty} C_k$ となる。</p>
+                    <p>可算加法性より $P(A_m) = \sum_{k=1}^{m} P(C_k)$, $P(A) = \sum_{k=1}^{\infty} P(C_k)$。右辺は非負項の級数なので部分和の極限が全和に一致し, $\lim_{m\to\infty} P(A_m) = P(A)$ が従う。$\square$</p>
+                </div>
+            </div>
+
+        <section class="outline-section">
+            <h2>6 レポート課題</h2>
+            <p>講義内容を踏まえ, 以下の問いについてレポートとしてまとめてください。必要に応じて参考文献や図表を添付し, 根拠を明確に示しましょう。</p>
+            <ol>
+                <li>歴史の中で興味を持った出来事または人物を一つ選び, 当時の背景や影響を深掘りせよ。</li>
+                <li>$[0, 1]$ 内のすべての部分集合に確率が定義できると仮定したときに生じる問題点を議論せよ。</li>
+                <li>単調増加列に対する連続性を用いて、可算劣加法性を示せ: $$P\bigl(\bigcup_{i=1}^{\infty} A_i\bigr) \le \sum_{i=1}^{\infty} P(A_i)$$</li>
+            </ol>
+        </section>
+
+
+        <div class="navigation">
+            <a href="../index.html">← ホームに戻る</a>
+            <a href="../class2/class2.html">次のクラス →</a>
+        </div>
+
+        <footer>© 2025 確率論講義 - すべての権利を留保します</footer>
+    </main>
+</body>
+</html>

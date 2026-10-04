@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>確率論 演習問題</title>
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 20px;
+            line-height: 1.6;
+            background-color: #f5f5f5;
+        }
+        .container {
+            background-color: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #2c3e50;
+            border-bottom: 3px solid #3498db;
+            padding-bottom: 10px;
+        }
+        h2 {
+            color: #34495e;
+            margin-top: 30px;
+        }
+        .problem {
+            background-color: #ecf0f1;
+            padding: 20px;
+            margin: 20px 0;
+            border-left: 4px solid #3498db;
+            border-radius: 4px;
+        }
+        .answer {
+            background-color: #e8f5e9;
+            padding: 20px;
+            margin: 20px 0;
+            border-left: 4px solid #4caf50;
+            border-radius: 4px;
+            display: none;
+        }
+        .answer.show {
+            display: block;
+        }
+        button {
+            background-color: #3498db;
+            color: white;
+            padding: 12px 30px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            margin: 20px 0;
+            transition: background-color 0.3s;
+        }
+        button:hover {
+            background-color: #2980b9;
+        }
+        .answer-label {
+            font-weight: bold;
+            color: #2e7d32;
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>確率論 演習問題</h1>
+
+        <div class="problem">
+            <h2>問題1（偏ったコイン2回）</h2>
+            <p>表の確率 \(0.6\)、裏の確率 \(0.4\) のコインを独立に2回投げる。</p>
+            <p>(1) 確率空間 \((\Omega,\mathcal F,P)\) を定義せよ。</p>
+            <p>(2) \(P(\text{少なくとも1回表})\)，\(P(\text{ちょうど1回表})\)，\(P(\text{2回とも同じ面})\) を求めよ。</p>
+            <p>(3) 条件付き確率 \(P(\text{1回目が表}\mid \text{少なくとも1回表})\) を求めよ。</p>
+        </div>
+
+        <div class="problem">
+            <h2>問題2（サイコロ2回）</h2>
+            <p>公平な6面サイコロを独立に2回投げる。</p>
+            <p>(1) 確率空間 \((\Omega,\mathcal F,P)\) を定義せよ。</p>
+            <p>(2) \(P(\text{和が }7)\)，\(P(\text{少なくとも一方が }6)\)，\(P(\text{1回目}<\text{2回目})\)，\(P(\text{積が偶数})\) を求めよ。</p>
+            <p>(3) 事象 \(A=\{\text{和が偶数}\}\)，\(B=\{\text{1回目が偶数}\}\) は独立か判定せよ。</p>
+        </div>
+
+        <div class="problem">
+            <h2>問題3（シグマ代数の基礎）</h2>
+            <p>(1) \(\{\mathcal F_\alpha\}_{\alpha\in I}\) を \(\Omega\) 上の \(\sigma\)-代数の族とする。\(\bigcap_{\alpha\in I}\mathcal F_\alpha\) が \(\sigma\)-代数であることを示せ。</p>
+            <p>(2) \(\Omega=\{1,2,3,4\}\)，\(A=\{1,2\}\) とする。\(\sigma(A)\) を求めよ。</p>
+            <p>(3) 同じ \(\Omega\) で \(A=\{1,2\},\ B=\{2,3\}\) とする。\(\sigma(\{A,B\})\) を求めよ。</p>
+        </div>
+
+        <div class="problem">
+            <h2>問題4（確率測度の基本性質の証明）</h2>
+            <p>確率測度 \(P\) に対して以下を証明せよ。</p>
+            <p>(a) \(P(A^c)=1-P(A)\)。</p>
+            <p>(b) \(A\subset B\) なら \(P(A)\le P(B)\)（単調性）。</p>
+            <p>(c) \(P\!\left(\bigcup_{i=1}^\infty A_i\right)\le \sum_{i=1}^\infty P(A_i)\)（可算劣加法性）。</p>
+            <p>(d) \(P(A\cup B)=P(A)+P(B)-P(A\cap B)\)。</p>
+            <p>(e) \((A_n)\) が単調増加なら \(P\!\left(\bigcup_n A_n\right)=\lim_n P(A_n)\)（下からの連続性）。単調減少なら \(P\!\left(\bigcap_n A_n\right)=\lim_n P(A_n)\)（上からの連続性）。</p>
+        </div>
+
+        <div class="problem">
+            <h2>問題5（\([-1,1]\) 上の特異な確率測度）</h2>
+            <p>\(\Omega=[-1,1]\)，\(\mathcal F=2^\Omega\) とし，
+            \[
+            P(A)=\begin{cases}
+            1 & (0\in A),\\
+            0 & (0\notin A)
+            \end{cases}
+            \]
+            で定義する。この \(P\) が確率測度であることを示せ。</p>
+        </div>
+
+        <button onclick="toggleAnswers()">解答を表示/非表示</button>
+
+        <div class="answer" id="answer1">
+            <div class="answer-label">解答1</div>
+            <p>(1) \(\Omega=\{HH,HT,TH,TT\}\)，\(\mathcal F=2^\Omega\)，独立より
+            \[
+            P(HH)=0.36,\ P(HT)=0.24,\ P(TH)=0.24,\ P(TT)=0.16.
+            \]</p>
+            <p>(2) \(P(\text{少なくとも1回表})=1-P(TT)=1-0.16=0.84\).<br>
+            \(P(\text{ちょうど1回表})=P(HT)+P(TH)=0.24+0.24=0.48\).<br>
+            \(P(\text{2回とも同じ面})=P(HH)+P(TT)=0.36+0.16=0.52\).</p>
+            <p>(3) \(P(\text{1回目が表}\mid \text{少なくとも1回表})=\dfrac{0.6}{0.84}=\dfrac{5}{7}\)。</p>
+        </div>
+
+        <div class="answer" id="answer2">
+            <div class="answer-label">解答2</div>
+            <p>(1) \(\Omega=\{1,\dots,6\}^2\)，\(\mathcal F=2^\Omega\)，各元は確率 \(1/36\)。</p>
+            <p>(2) 和が7：6通り \(\Rightarrow 6/36=1/6\).<br>
+            少なくとも一方が6：\(1-(5/6)^2=11/36\).<br>
+            1回目<2回目：\(\binom{6}{2}=15\) 通り \(\Rightarrow 15/36=5/12\).<br>
+            積が偶数：両方奇数（\(3\times3=9\)）の補集合 \(\Rightarrow 27/36=3/4\).</p>
+            <p>(3) \(P(A)=18/36=1/2,\ P(B)=1/2,\ P(A\cap B)=9/36=1/4\)。よって \(P(A\cap B)=P(A)P(B)\) で独立。</p>
+        </div>
+
+        <div class="answer" id="answer3">
+            <div class="answer-label">解答3</div>
+            <p>(1) 任意交わりは \(\Omega\) を含み，補集合・可算和について閉じる性質が保たれるため \(\sigma\)-代数。</p>
+            <p>(2) \(\sigma(A)=\{\varnothing,\Omega,A,A^c\}=\{\varnothing,\{1,2,3,4\},\{1,2\},\{3,4\}\}\)。</p>
+            <p>(3) 原子的分割は \(\{1\},\{2\},\{3\},\{4\}\) となる（\(A\) と \(B\) の交差・差で分割）。したがって \(\sigma(\{A,B\})=2^\Omega\)。</p>
+        </div>
+
+        <div class="answer" id="answer4">
+            <div class="answer-label">解答4（要点）</div>
+            <p>(a) \(\Omega=A\cup A^c\) かつ互いに素より \(1=P(\Omega)=P(A)+P(A^c)\)。</p>
+            <p>(b) \(B=A\cup(B\setminus A)\)，互いに素より \(P(B)=P(A)+P(B\setminus A)\ge P(A)\)。</p>
+            <p>(c) 可算和の不等式は，互いに素な和への分解（\(A_1,\ A_2\setminus A_1,\ A_3\setminus(A_1\cup A_2),\dots\)）と \(\sigma\)-加法性から従う。</p>
+            <p>(d) \(A\cup B=(A\setminus B)\cup(B\setminus A)\cup(A\cap B)\) の分解と \(\sigma\)-加法性。</p>
+            <p>(e) 増加列は互いに素な差分 \(C_1=A_1,\ C_n=A_n\setminus A_{n-1}\) に分解でき，\(\bigcup_n A_n=\biguplus_n C_n\)。ゆえに \(P(\bigcup_n A_n)=\sum_n P(C_n)=\lim_n \sum_{k\le n}P(C_k)=\lim_n P(A_n)\)。減少列は補集合をとって増加列に帰着。</p>
+        </div>
+
+        <div class="answer" id="answer5">
+            <div class="answer-label">解答5</div>
+            <p>正値性は明らか。\(P(\Omega)=1\)，\(P(\varnothing)=0\)。互いに素な族 \((A_i)_{i\ge1}\) に対し，\(0\) を含む集合は高々1つである（互いに素だから）。\(\bigcup_i A_i\) が \(0\) を含まなければ両辺とも \(0\)，ちょうど一つ \(A_j\) が \(0\) を含めば \(P(\bigcup_i A_i)=1=\sum_i P(A_i)\)。したがって可算加法性が成り立つ。ゆえに \((\Omega,\mathcal F,P)\) は確率空間である（\(P\) は実はディラック測度 \(\delta_0\)）。</p>
+        </div>
+    </div>
+
+    <script>
+        function toggleAnswers() {
+            const answers = document.querySelectorAll('.answer');
+            answers.forEach(answer => {
+                answer.classList.toggle('show');
+            });
+        }
+    </script>
+</body>
+</html>

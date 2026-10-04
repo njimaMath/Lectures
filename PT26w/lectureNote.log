@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.28 (TeX Live 2025) (preloaded format=pdflatex 2026.2.1)  4 OCT 2026 10:13
+This is pdfTeX, Version 3.141592653-2.6-1.40.28 (TeX Live 2025) (preloaded format=pdflatex 2026.2.1)  4 OCT 2026 10:14
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -212,6 +212,41 @@ File: UTF8.bdg 2021/10/16 4.8.5
 \jsKanjiSkip=\skip55
 \jsXKanjiSkip=\skip56
 ))
+(c:/texlive/2025/texmf-dist/tex/latex/lm/lmodern.sty
+Package: lmodern 2015/05/01 v1.6.1 Latin Modern Fonts
+LaTeX Font Info:    Overwriting symbol font `operators' in version `normal'
+(Font)                  OT1/cmr/m/n --> OT1/lmr/m/n on input line 22.
+LaTeX Font Info:    Overwriting symbol font `letters' in version `normal'
+(Font)                  OML/cmm/m/it --> OML/lmm/m/it on input line 23.
+LaTeX Font Info:    Overwriting symbol font `symbols' in version `normal'
+(Font)                  OMS/cmsy/m/n --> OMS/lmsy/m/n on input line 24.
+LaTeX Font Info:    Overwriting symbol font `largesymbols' in version `normal'
+(Font)                  OMX/cmex/m/n --> OMX/lmex/m/n on input line 25.
+LaTeX Font Info:    Overwriting symbol font `operators' in version `bold'
+(Font)                  OT1/cmr/bx/n --> OT1/lmr/bx/n on input line 26.
+LaTeX Font Info:    Overwriting symbol font `letters' in version `bold'
+(Font)                  OML/cmm/b/it --> OML/lmm/b/it on input line 27.
+LaTeX Font Info:    Overwriting symbol font `symbols' in version `bold'
+(Font)                  OMS/cmsy/b/n --> OMS/lmsy/b/n on input line 28.
+LaTeX Font Info:    Overwriting symbol font `largesymbols' in version `bold'
+(Font)                  OMX/cmex/m/n --> OMX/lmex/m/n on input line 29.
+LaTeX Font Info:    Overwriting math alphabet `\mathbf' in version `normal'
+(Font)                  OT1/cmr/bx/n --> OT1/lmr/bx/n on input line 31.
+LaTeX Font Info:    Overwriting math alphabet `\mathsf' in version `normal'
+(Font)                  OT1/cmss/m/n --> OT1/lmss/m/n on input line 32.
+LaTeX Font Info:    Overwriting math alphabet `\mathit' in version `normal'
+(Font)                  OT1/cmr/m/it --> OT1/lmr/m/it on input line 33.
+LaTeX Font Info:    Overwriting math alphabet `\mathtt' in version `normal'
+(Font)                  OT1/cmtt/m/n --> OT1/lmtt/m/n on input line 34.
+LaTeX Font Info:    Overwriting math alphabet `\mathbf' in version `bold'
+(Font)                  OT1/cmr/bx/n --> OT1/lmr/bx/n on input line 35.
+LaTeX Font Info:    Overwriting math alphabet `\mathsf' in version `bold'
+(Font)                  OT1/cmss/bx/n --> OT1/lmss/bx/n on input line 36.
+LaTeX Font Info:    Overwriting math alphabet `\mathit' in version `bold'
+(Font)                  OT1/cmr/bx/it --> OT1/lmr/bx/it on input line 37.
+LaTeX Font Info:    Overwriting math alphabet `\mathtt' in version `bold'
+(Font)                  OT1/cmtt/m/n --> OT1/lmtt/m/n on input line 38.
+)
 (c:/texlive/2025/texmf-dist/tex/latex/amsmath/amsmath.sty
 Package: amsmath 2025/07/09 v2.17z AMS math features
 \@mathmargin=\skip57
@@ -592,10 +627,15 @@ Package: titlesec 2025/01/04 v2.17 Sectioning titles
 \titlewidthlast=\dimen268
 \titlewidthfirst=\dimen269
 )
-Package hyperref Info: Option `colorlinks' set `true' on input line 22.
+Package hyperref Info: Option `colorlinks' set `true' on input line 23.
 Package bxjsarticle Info: Patch to fancyhdr is applied.
 \c@theorem=\count335
+LaTeX Font Info:    Trying to load font information for OT1+lmr on input line 7
+5.
 
+(c:/texlive/2025/texmf-dist/tex/latex/lm/ot1lmr.fd
+File: ot1lmr.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
+)
 (c:/texlive/2025/texmf-dist/tex/latex/l3backend/l3backend-pdftex.def
 File: l3backend-pdftex.def 2025-10-09 L3 backend support: PDF output (pdfTeX)
 \l__color_backend_stack_int=\count336
@@ -603,88 +643,88 @@ File: l3backend-pdftex.def 2025-10-09 L3 backend support: PDF output (pdfTeX)
 (./lectureNote.aux)
 \openout1 = `lectureNote.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 74.
-LaTeX Font Info:    ... okay on input line 74.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 74.
-LaTeX Font Info:    ... okay on input line 74.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 74.
-LaTeX Font Info:    ... okay on input line 74.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 74.
-LaTeX Font Info:    ... okay on input line 74.
-LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 74.
-LaTeX Font Info:    ... okay on input line 74.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 74.
-LaTeX Font Info:    ... okay on input line 74.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 74.
-LaTeX Font Info:    ... okay on input line 74.
-LaTeX Font Info:    Checking defaults for C00/song/m/n on input line 74.
-LaTeX Font Info:    ... okay on input line 74.
-LaTeX Font Info:    Checking defaults for C05/song/m/n on input line 74.
-LaTeX Font Info:    ... okay on input line 74.
-LaTeX Font Info:    Checking defaults for C09/song/m/n on input line 74.
-LaTeX Font Info:    ... okay on input line 74.
-LaTeX Font Info:    Checking defaults for C10/song/m/n on input line 74.
-LaTeX Font Info:    ... okay on input line 74.
-LaTeX Font Info:    Checking defaults for C20/song/m/n on input line 74.
-LaTeX Font Info:    ... okay on input line 74.
-LaTeX Font Info:    Checking defaults for C19/song/m/n on input line 74.
-LaTeX Font Info:    ... okay on input line 74.
-LaTeX Font Info:    Checking defaults for C40/song/m/n on input line 74.
-LaTeX Font Info:    ... okay on input line 74.
-LaTeX Font Info:    Checking defaults for C42/song/m/n on input line 74.
-LaTeX Font Info:    ... okay on input line 74.
-LaTeX Font Info:    Checking defaults for C43/song/m/n on input line 74.
-LaTeX Font Info:    ... okay on input line 74.
-LaTeX Font Info:    Checking defaults for C50/song/m/n on input line 74.
-LaTeX Font Info:    ... okay on input line 74.
-LaTeX Font Info:    Checking defaults for C52/song/m/n on input line 74.
-LaTeX Font Info:    ... okay on input line 74.
-LaTeX Font Info:    Checking defaults for C49/song/m/n on input line 74.
-LaTeX Font Info:    ... okay on input line 74.
-LaTeX Font Info:    Checking defaults for C60/mj/m/n on input line 74.
-LaTeX Font Info:    ... okay on input line 74.
-LaTeX Font Info:    Checking defaults for C61/mj/m/n on input line 74.
-LaTeX Font Info:    ... okay on input line 74.
-LaTeX Font Info:    Checking defaults for C63/mj/m/n on input line 74.
-LaTeX Font Info:    ... okay on input line 74.
-LaTeX Font Info:    Checking defaults for C64/mj/m/n on input line 74.
-LaTeX Font Info:    ... okay on input line 74.
-LaTeX Font Info:    Checking defaults for C65/mj/m/n on input line 74.
-LaTeX Font Info:    ... okay on input line 74.
-LaTeX Font Info:    Checking defaults for C70/song/m/n on input line 74.
-LaTeX Font Info:    ... okay on input line 74.
-LaTeX Font Info:    Checking defaults for C31/song/m/n on input line 74.
-LaTeX Font Info:    ... okay on input line 74.
-LaTeX Font Info:    Checking defaults for C32/song/m/n on input line 74.
-LaTeX Font Info:    ... okay on input line 74.
-LaTeX Font Info:    Checking defaults for C33/song/m/n on input line 74.
-LaTeX Font Info:    ... okay on input line 74.
-LaTeX Font Info:    Checking defaults for C34/song/m/n on input line 74.
-LaTeX Font Info:    ... okay on input line 74.
-LaTeX Font Info:    Checking defaults for C35/song/m/n on input line 74.
-LaTeX Font Info:    ... okay on input line 74.
-LaTeX Font Info:    Checking defaults for C36/song/m/n on input line 74.
-LaTeX Font Info:    ... okay on input line 74.
-LaTeX Font Info:    Checking defaults for C37/song/m/n on input line 74.
-LaTeX Font Info:    ... okay on input line 74.
-LaTeX Font Info:    Checking defaults for C80/song/m/n on input line 74.
-LaTeX Font Info:    ... okay on input line 74.
-LaTeX Font Info:    Checking defaults for C81/song/m/n on input line 74.
-LaTeX Font Info:    ... okay on input line 74.
-LaTeX Font Info:    Checking defaults for C01/song/m/n on input line 74.
-LaTeX Font Info:    ... okay on input line 74.
-LaTeX Font Info:    Checking defaults for C11/song/m/n on input line 74.
-LaTeX Font Info:    ... okay on input line 74.
-LaTeX Font Info:    Checking defaults for C21/song/m/n on input line 74.
-LaTeX Font Info:    ... okay on input line 74.
-LaTeX Font Info:    Checking defaults for C41/song/m/n on input line 74.
-LaTeX Font Info:    ... okay on input line 74.
-LaTeX Font Info:    Checking defaults for C62/song/m/n on input line 74.
-LaTeX Font Info:    ... okay on input line 74.
-LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 74.
-LaTeX Font Info:    ... okay on input line 74.
-LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 74.
-LaTeX Font Info:    ... okay on input line 74.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 75.
+LaTeX Font Info:    ... okay on input line 75.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 75.
+LaTeX Font Info:    ... okay on input line 75.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 75.
+LaTeX Font Info:    ... okay on input line 75.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 75.
+LaTeX Font Info:    ... okay on input line 75.
+LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 75.
+LaTeX Font Info:    ... okay on input line 75.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 75.
+LaTeX Font Info:    ... okay on input line 75.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 75.
+LaTeX Font Info:    ... okay on input line 75.
+LaTeX Font Info:    Checking defaults for C00/song/m/n on input line 75.
+LaTeX Font Info:    ... okay on input line 75.
+LaTeX Font Info:    Checking defaults for C05/song/m/n on input line 75.
+LaTeX Font Info:    ... okay on input line 75.
+LaTeX Font Info:    Checking defaults for C09/song/m/n on input line 75.
+LaTeX Font Info:    ... okay on input line 75.
+LaTeX Font Info:    Checking defaults for C10/song/m/n on input line 75.
+LaTeX Font Info:    ... okay on input line 75.
+LaTeX Font Info:    Checking defaults for C20/song/m/n on input line 75.
+LaTeX Font Info:    ... okay on input line 75.
+LaTeX Font Info:    Checking defaults for C19/song/m/n on input line 75.
+LaTeX Font Info:    ... okay on input line 75.
+LaTeX Font Info:    Checking defaults for C40/song/m/n on input line 75.
+LaTeX Font Info:    ... okay on input line 75.
+LaTeX Font Info:    Checking defaults for C42/song/m/n on input line 75.
+LaTeX Font Info:    ... okay on input line 75.
+LaTeX Font Info:    Checking defaults for C43/song/m/n on input line 75.
+LaTeX Font Info:    ... okay on input line 75.
+LaTeX Font Info:    Checking defaults for C50/song/m/n on input line 75.
+LaTeX Font Info:    ... okay on input line 75.
+LaTeX Font Info:    Checking defaults for C52/song/m/n on input line 75.
+LaTeX Font Info:    ... okay on input line 75.
+LaTeX Font Info:    Checking defaults for C49/song/m/n on input line 75.
+LaTeX Font Info:    ... okay on input line 75.
+LaTeX Font Info:    Checking defaults for C60/mj/m/n on input line 75.
+LaTeX Font Info:    ... okay on input line 75.
+LaTeX Font Info:    Checking defaults for C61/mj/m/n on input line 75.
+LaTeX Font Info:    ... okay on input line 75.
+LaTeX Font Info:    Checking defaults for C63/mj/m/n on input line 75.
+LaTeX Font Info:    ... okay on input line 75.
+LaTeX Font Info:    Checking defaults for C64/mj/m/n on input line 75.
+LaTeX Font Info:    ... okay on input line 75.
+LaTeX Font Info:    Checking defaults for C65/mj/m/n on input line 75.
+LaTeX Font Info:    ... okay on input line 75.
+LaTeX Font Info:    Checking defaults for C70/song/m/n on input line 75.
+LaTeX Font Info:    ... okay on input line 75.
+LaTeX Font Info:    Checking defaults for C31/song/m/n on input line 75.
+LaTeX Font Info:    ... okay on input line 75.
+LaTeX Font Info:    Checking defaults for C32/song/m/n on input line 75.
+LaTeX Font Info:    ... okay on input line 75.
+LaTeX Font Info:    Checking defaults for C33/song/m/n on input line 75.
+LaTeX Font Info:    ... okay on input line 75.
+LaTeX Font Info:    Checking defaults for C34/song/m/n on input line 75.
+LaTeX Font Info:    ... okay on input line 75.
+LaTeX Font Info:    Checking defaults for C35/song/m/n on input line 75.
+LaTeX Font Info:    ... okay on input line 75.
+LaTeX Font Info:    Checking defaults for C36/song/m/n on input line 75.
+LaTeX Font Info:    ... okay on input line 75.
+LaTeX Font Info:    Checking defaults for C37/song/m/n on input line 75.
+LaTeX Font Info:    ... okay on input line 75.
+LaTeX Font Info:    Checking defaults for C80/song/m/n on input line 75.
+LaTeX Font Info:    ... okay on input line 75.
+LaTeX Font Info:    Checking defaults for C81/song/m/n on input line 75.
+LaTeX Font Info:    ... okay on input line 75.
+LaTeX Font Info:    Checking defaults for C01/song/m/n on input line 75.
+LaTeX Font Info:    ... okay on input line 75.
+LaTeX Font Info:    Checking defaults for C11/song/m/n on input line 75.
+LaTeX Font Info:    ... okay on input line 75.
+LaTeX Font Info:    Checking defaults for C21/song/m/n on input line 75.
+LaTeX Font Info:    ... okay on input line 75.
+LaTeX Font Info:    Checking defaults for C41/song/m/n on input line 75.
+LaTeX Font Info:    ... okay on input line 75.
+LaTeX Font Info:    Checking defaults for C62/song/m/n on input line 75.
+LaTeX Font Info:    ... okay on input line 75.
+LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 75.
+LaTeX Font Info:    ... okay on input line 75.
+LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 75.
+LaTeX Font Info:    ... okay on input line 75.
 
 *geometry* driver: auto-detecting
 *geometry* detected driver: pdftex
@@ -706,7 +746,7 @@ LaTeX Font Info:    ... okay on input line 74.
 * \headheight=15.0pt
 * \headsep=0.0pt
 * \topskip=10.95001pt
-* \footskip=0.0pt
+* \footskip=30.0pt
 * \marginparwidth=0.0pt
 * \marginparsep=0.0pt
 * \columnsep=21.90002pt
@@ -765,22 +805,22 @@ Package epstopdf-base Info: Redefining graphics rule for `.eps' on input line 4
 File: epstopdf-sys.cfg 2010/07/13 v1.3 Configuration of (r)epstopdf for TeX Liv
 e
 ))
-Package hyperref Info: Link coloring ON on input line 74.
+Package hyperref Info: Link coloring ON on input line 75.
 
 (./lectureNote.out) (./lectureNote.out)
 \@outlinefile=\write3
 \openout3 = `lectureNote.out'.
 
-LaTeX Info: Redefining \microtypecontext on input line 74.
-Package microtype Info: Applying patch `item' on input line 74.
-Package microtype Info: Applying patch `toc' on input line 74.
-Package microtype Info: Applying patch `eqnum' on input line 74.
+LaTeX Info: Redefining \microtypecontext on input line 75.
+Package microtype Info: Applying patch `item' on input line 75.
+Package microtype Info: Applying patch `toc' on input line 75.
+Package microtype Info: Applying patch `eqnum' on input line 75.
 
 
-Package microtype Warning: Unable to apply patch `footnote' on input line 74.
+Package microtype Warning: Unable to apply patch `footnote' on input line 75.
 
-Package microtype Info: Applying patch `verbatim' on input line 74.
-LaTeX Info: Redefining \microtypesetup on input line 74.
+Package microtype Info: Applying patch `verbatim' on input line 75.
+LaTeX Info: Redefining \microtypesetup on input line 75.
 Package microtype Info: Generating PDF output.
 Package microtype Info: Character protrusion enabled (level 2).
 Package microtype Info: Using default protrusion set `alltext'.
@@ -795,16 +835,9 @@ Package microtype Info: No adjustment of character kerning.
 File: mt-cmr.cfg 2013/05/19 v2.2 microtype config. file: Computer Modern Roman 
 (RS)
 )
-
-LaTeX Font Warning: Font shape `OT1/cmr/m/n' in size <18.92162> not available
-(Font)              size <17.28> substituted on input line 76.
-
-
-LaTeX Font Warning: Font shape `OT1/cmr/bx/n' in size <18.92162> not available
-(Font)              size <17.28> substituted on input line 76.
-
 LaTeX Font Info:    Trying to load font information for C70+ipxm on input line 
-76.
+77.
+
 (c:/texlive/2025/texmf-dist/tex/latex/ipaex-type1/c70ipxm.fd
 File: c70ipxm.fd 2018/05/05 v0.5
 )
@@ -814,45 +847,41 @@ File: c70ipxm.fdx 2018/05/05 v0.5
 LaTeX Font Info:    Font shape `C70/ipxm/bx/n'
 (Font)              in size <18.92162> not available.
 (Font)              Font shape `C70/ipxm/m/n'
-(Font)              tried instead on input line 76.
+(Font)              tried instead on input line 77.
 Package CJKpunct Info: punctuation spaces for family 'ipxm' do not exist. Use f
-amily 'def' instead. on input line 76.
-
-
-LaTeX Font Warning: Font shape `OT1/cmr/bx/n' in size <15.768> not available
-(Font)              size <14.4> substituted on input line 76.
-
+amily 'def' instead. on input line 77.
 LaTeX Font Info:    Font shape `C70/ipxm/bx/n'
 (Font)              in size <15.768> not available.
 (Font)              Font shape `C70/ipxm/m/n'
-(Font)              tried instead on input line 76.
-
-LaTeX Font Warning: Font shape `OT1/cmr/m/n' in size <13.14001> not available
-(Font)              size <12> substituted on input line 76.
-
-LaTeX Font Info:    Calculating math sizes for size <13.14001> on input line 76
+(Font)              tried instead on input line 77.
+LaTeX Font Info:    Calculating math sizes for size <13.14001> on input line 77
 .
+LaTeX Font Info:    Trying to load font information for OML+lmm on input line 7
+7.
 
-LaTeX Font Warning: Font shape `OT1/cmr/m/n' in size <6.57> not available
-(Font)              size <7> substituted on input line 76.
+(c:/texlive/2025/texmf-dist/tex/latex/lm/omllmm.fd
+File: omllmm.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
+)
+LaTeX Font Info:    Trying to load font information for OMS+lmsy on input line 
+77.
 
+(c:/texlive/2025/texmf-dist/tex/latex/lm/omslmsy.fd
+File: omslmsy.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
+)
+LaTeX Font Info:    Trying to load font information for OMX+lmex on input line 
+77.
 
-LaTeX Font Warning: Font shape `OML/cmm/m/it' in size <13.14001> not available
-(Font)              size <12> substituted on input line 76.
+(c:/texlive/2025/texmf-dist/tex/latex/lm/omxlmex.fd
+File: omxlmex.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
+)
+LaTeX Font Info:    External font `lmex10' loaded for size
+(Font)              <13.14001> on input line 77.
+LaTeX Font Info:    External font `lmex10' loaded for size
+(Font)              <9.19797> on input line 77.
+LaTeX Font Info:    External font `lmex10' loaded for size
+(Font)              <6.57> on input line 77.
+LaTeX Font Info:    Trying to load font information for U+msa on input line 77.
 
-
-LaTeX Font Warning: Font shape `OML/cmm/m/it' in size <6.57> not available
-(Font)              size <7> substituted on input line 76.
-
-
-LaTeX Font Warning: Font shape `OMS/cmsy/m/n' in size <13.14001> not available
-(Font)              size <12> substituted on input line 76.
-
-
-LaTeX Font Warning: Font shape `OMS/cmsy/m/n' in size <6.57> not available
-(Font)              size <7> substituted on input line 76.
-
-LaTeX Font Info:    Trying to load font information for U+msa on input line 76.
 
 (c:/texlive/2025/texmf-dist/tex/latex/amsfonts/umsa.fd
 File: umsa.fd 2013/01/14 v3.01 AMS symbols A
@@ -860,7 +889,7 @@ File: umsa.fd 2013/01/14 v3.01 AMS symbols A
 (c:/texlive/2025/texmf-dist/tex/latex/microtype/mt-msa.cfg
 File: mt-msa.cfg 2006/02/04 v1.1 microtype config. file: AMS symbols (a) (RS)
 )
-LaTeX Font Info:    Trying to load font information for U+msb on input line 76.
+LaTeX Font Info:    Trying to load font information for U+msb on input line 77.
 
 
 (c:/texlive/2025/texmf-dist/tex/latex/amsfonts/umsb.fd
@@ -869,22 +898,15 @@ File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 (c:/texlive/2025/texmf-dist/tex/latex/microtype/mt-msb.cfg
 File: mt-msb.cfg 2005/06/01 v1.0 microtype config. file: AMS symbols (b) (RS)
 )
-LaTeX Font Info:    Calculating math sizes for size <10.95001> on input line 81
+LaTeX Font Info:    Calculating math sizes for size <10.95001> on input line 82
 .
-
-
-LaTeX Font Warning: Font shape `OT1/cmr/m/n' in size <5.475> not available
-(Font)              size <5> substituted on input line 81.
-
-
-LaTeX Font Warning: Font shape `OML/cmm/m/it' in size <5.475> not available
-(Font)              size <5> substituted on input line 81.
-
-
-LaTeX Font Warning: Font shape `OMS/cmsy/m/n' in size <5.475> not available
-(Font)              size <5> substituted on input line 81.
-
-[1
+LaTeX Font Info:    External font `lmex10' loaded for size
+(Font)              <10.95001> on input line 82.
+LaTeX Font Info:    External font `lmex10' loaded for size
+(Font)              <7.66496> on input line 82.
+LaTeX Font Info:    External font `lmex10' loaded for size
+(Font)              <5.475> on input line 82.
+ [1
 
 {c:/texlive/2025/texmf-var/fonts/map/pdftex/updmap/pdftex.map}{c:/texlive/2025/
 texmf-dist/fonts/enc/dvips/ipaex-type1/ipxt1-u78.enc}{c:/texlive/2025/texmf-dis
@@ -892,22 +914,29 @@ t/fonts/enc/dvips/ipaex-type1/ipxt1-u73.enc}{c:/texlive/2025/texmf-dist/fonts/e
 nc/dvips/ipaex-type1/ipxt1-u8a.enc}{c:/texlive/2025/texmf-dist/fonts/enc/dvips/
 ipaex-type1/ipxt1-u30.enc}{c:/texlive/2025/texmf-dist/fonts/enc/dvips/ipaex-typ
 e1/ipxt1-u7d.enc}{c:/texlive/2025/texmf-dist/fonts/enc/dvips/ipaex-type1/ipxt1-
-u5b.enc}{c:/texlive/2025/texmf-dist/fonts/enc/dvips/ipaex-type1/ipxt1-u7b.enc}{
-c:/texlive/2025/texmf-dist/fonts/enc/dvips/ipaex-type1/ipxt1-u56.enc}{c:/texliv
-e/2025/texmf-dist/fonts/enc/dvips/ipaex-type1/ipxt1-u8b.enc}{c:/texlive/2025/te
-xmf-dist/fonts/enc/dvips/ipaex-type1/ipxt1-u7f.enc}{c:/texlive/2025/texmf-dist/
-fonts/enc/dvips/ipaex-type1/ipxt1-u4e.enc}{c:/texlive/2025/texmf-dist/fonts/enc
-/dvips/ipaex-type1/ipxt1-u5c.enc}{c:/texlive/2025/texmf-dist/fonts/enc/dvips/ip
-aex-type1/ipxt1-u79.enc}{c:/texlive/2025/texmf-dist/fonts/enc/dvips/ipaex-type1
-/ipxt1-u59.enc}{c:/texlive/2025/texmf-dist/fonts/enc/dvips/ipaex-type1/ipxt1-u5
-e.enc}{c:/texlive/2025/texmf-dist/fonts/enc/dvips/ipaex-type1/ipxt1-u51.enc}{c:
-/texlive/2025/texmf-dist/fonts/enc/dvips/ipaex-type1/ipxt1-u67.enc}]
+u5b.enc}{c:/texlive/2025/texmf-dist/fonts/enc/dvips/lm/lm-rm.enc}{c:/texlive/20
+25/texmf-dist/fonts/enc/dvips/ipaex-type1/ipxt1-u7b.enc}{c:/texlive/2025/texmf-
+dist/fonts/enc/dvips/ipaex-type1/ipxt1-u56.enc}{c:/texlive/2025/texmf-dist/font
+s/enc/dvips/ipaex-type1/ipxt1-u8b.enc}{c:/texlive/2025/texmf-dist/fonts/enc/dvi
+ps/ipaex-type1/ipxt1-u7f.enc}{c:/texlive/2025/texmf-dist/fonts/enc/dvips/ipaex-
+type1/ipxt1-u4e.enc}{c:/texlive/2025/texmf-dist/fonts/enc/dvips/ipaex-type1/ipx
+t1-u5c.enc}{c:/texlive/2025/texmf-dist/fonts/enc/dvips/ipaex-type1/ipxt1-u79.en
+c}{c:/texlive/2025/texmf-dist/fonts/enc/dvips/ipaex-type1/ipxt1-u59.enc}{c:/tex
+live/2025/texmf-dist/fonts/enc/dvips/ipaex-type1/ipxt1-u5e.enc}{c:/texlive/2025
+/texmf-dist/fonts/enc/dvips/ipaex-type1/ipxt1-u51.enc}{c:/texlive/2025/texmf-di
+st/fonts/enc/dvips/ipaex-type1/ipxt1-u67.enc}]
+LaTeX Font Info:    Trying to load font information for OT1+lmss on input line 
+86.
+
+(c:/texlive/2025/texmf-dist/tex/latex/lm/ot1lmss.fd
+File: ot1lmss.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
+)
 Package microtype Info: Loading generic protrusion settings for font family
-(microtype)             `cmss' (encoding: OT1).
+(microtype)             `lmss' (encoding: OT1).
 (microtype)             For optimal results, create family-specific settings.
 (microtype)             See the microtype manual for details.
 LaTeX Font Info:    Trying to load font information for C70+ipxg on input line 
-85.
+86.
 
 (c:/texlive/2025/texmf-dist/tex/latex/ipaex-type1/c70ipxg.fd
 File: c70ipxg.fd 2018/05/05 v0.5
@@ -915,424 +944,255 @@ File: c70ipxg.fd 2018/05/05 v0.5
 (c:/texlive/2025/texmf-dist/tex/latex/ipaex-type1/c70ipxg.fdx
 File: c70ipxg.fdx 2018/05/05 v0.5
 )
-
-LaTeX Font Warning: Font shape `OT1/cmr/m/n' in size <15.768> not available
-(Font)              size <14.4> substituted on input line 85.
-
-
-LaTeX Font Warning: Font shape `OT1/cmss/bx/n' in size <15.768> not available
-(Font)              size <14.4> substituted on input line 85.
-
 LaTeX Font Info:    Font shape `C70/ipxg/bx/n'
 (Font)              in size <15.768> not available.
 (Font)              Font shape `C70/ipxg/m/n'
-(Font)              tried instead on input line 85.
+(Font)              tried instead on input line 86.
+
 (./lectureNote.toc
 Package CJKpunct Info: punctuation spaces for family 'ipxg' do not exist. Use f
 amily 'def' instead. on input line 1.
-
-
-Package fancyhdr Warning: \footskip is too small (0.0pt): 
-(fancyhdr)                Make it at least 17.52pt, for example:
-(fancyhdr)                \setlength{\footskip}{17.52pt}.
-
-[2
+ [2
 
 {c:/texlive/2025/texmf-dist/fonts/enc/dvips/ipaex-type1/ipxt1-u76.enc}{c:/texli
 ve/2025/texmf-dist/fonts/enc/dvips/ipaex-type1/ipxt1-u6b.enc}{c:/texlive/2025/t
 exmf-dist/fonts/enc/dvips/ipaex-type1/ipxt1-u57.enc}{c:/texlive/2025/texmf-dist
 /fonts/enc/dvips/ipaex-type1/ipxt1-uff.enc}{c:/texlive/2025/texmf-dist/fonts/en
 c/dvips/ipaex-type1/ipxt1-u53.enc}{c:/texlive/2025/texmf-dist/fonts/enc/dvips/i
-paex-type1/ipxt1-u62.enc}{c:/texlive/2025/texmf-dist/fonts/enc/dvips/ipaex-type
-1/ipxt1-u52.enc}{c:/texlive/2025/texmf-dist/fonts/enc/dvips/ipaex-type1/ipxt1-u
-6c.enc}{c:/texlive/2025/texmf-dist/fonts/enc/dvips/ipaex-type1/ipxt1-u65.enc}{c
-:/texlive/2025/texmf-dist/fonts/enc/dvips/ipaex-type1/ipxt1-u96.enc}{c:/texlive
-/2025/texmf-dist/fonts/enc/dvips/ipaex-type1/ipxt1-u6a.enc}{c:/texlive/2025/tex
-mf-dist/fonts/enc/dvips/ipaex-type1/ipxt1-u7a.enc}{c:/texlive/2025/texmf-dist/f
-onts/enc/dvips/ipaex-type1/ipxt1-u95.enc}{c:/texlive/2025/texmf-dist/fonts/enc/
-dvips/ipaex-type1/ipxt1-u54.enc}{c:/texlive/2025/texmf-dist/fonts/enc/dvips/ipa
-ex-type1/ipxt1-u5f.enc}{c:/texlive/2025/texmf-dist/fonts/enc/dvips/ipaex-type1/
-ipxt1-u89.enc}{c:/texlive/2025/texmf-dist/fonts/enc/dvips/ipaex-type1/ipxt1-u6e
-.enc}{c:/texlive/2025/texmf-dist/fonts/enc/dvips/ipaex-type1/ipxt1-u50.enc}{c:/
-texlive/2025/texmf-dist/fonts/enc/dvips/ipaex-type1/ipxt1-u82.enc}{c:/texlive/2
-025/texmf-dist/fonts/enc/dvips/ipaex-type1/ipxt1-u60.enc}{c:/texlive/2025/texmf
--dist/fonts/enc/dvips/ipaex-type1/ipxt1-u97.enc}{c:/texlive/2025/texmf-dist/fon
-ts/enc/dvips/ipaex-type1/ipxt1-u8c.enc}{c:/texlive/2025/texmf-dist/fonts/enc/dv
-ips/ipaex-type1/ipxt1-u74.enc}{c:/texlive/2025/texmf-dist/fonts/enc/dvips/ipaex
--type1/ipxt1-u88.enc}{c:/texlive/2025/texmf-dist/fonts/enc/dvips/ipaex-type1/ip
-xt1-u90.enc}{c:/texlive/2025/texmf-dist/fonts/enc/dvips/ipaex-type1/ipxt1-u98.e
-nc}{c:/texlive/2025/texmf-dist/fonts/enc/dvips/ipaex-type1/ipxt1-u8f.enc}{c:/te
-xlive/2025/texmf-dist/fonts/enc/dvips/ipaex-type1/ipxt1-u4f.enc}{c:/texlive/202
-5/texmf-dist/fonts/enc/dvips/ipaex-type1/ipxt1-u72.enc}{c:/texlive/2025/texmf-d
-ist/fonts/enc/dvips/ipaex-type1/ipxt1-u63.enc}]
-
-Package fancyhdr Warning: \footskip is too small (0.0pt): 
-(fancyhdr)                Make it at least 17.52pt, for example:
-(fancyhdr)                \setlength{\footskip}{17.52pt}.
-
-[3{c:/texlive/2025/texmf-dist/fonts/enc/dvips/ipaex-type1/ipxt1-u69.enc}{c:/tex
-live/2025/texmf-dist/fonts/enc/dvips/ipaex-type1/ipxt1-u6f.enc}{c:/texlive/2025
-/texmf-dist/fonts/enc/dvips/ipaex-type1/ipxt1-u58.enc}{c:/texlive/2025/texmf-di
-st/fonts/enc/dvips/ipaex-type1/ipxt1-u71.enc}{c:/texlive/2025/texmf-dist/fonts/
-enc/dvips/ipaex-type1/ipxt1-u8d.enc}])
+paex-type1/ipxt1-u62.enc}{c:/texlive/2025/texmf-dist/fonts/enc/dvips/lm/lm-math
+it.enc}{c:/texlive/2025/texmf-dist/fonts/enc/dvips/ipaex-type1/ipxt1-u52.enc}{c
+:/texlive/2025/texmf-dist/fonts/enc/dvips/ipaex-type1/ipxt1-u6c.enc}{c:/texlive
+/2025/texmf-dist/fonts/enc/dvips/ipaex-type1/ipxt1-u65.enc}{c:/texlive/2025/tex
+mf-dist/fonts/enc/dvips/ipaex-type1/ipxt1-u96.enc}{c:/texlive/2025/texmf-dist/f
+onts/enc/dvips/ipaex-type1/ipxt1-u6a.enc}{c:/texlive/2025/texmf-dist/fonts/enc/
+dvips/ipaex-type1/ipxt1-u7a.enc}{c:/texlive/2025/texmf-dist/fonts/enc/dvips/ipa
+ex-type1/ipxt1-u95.enc}{c:/texlive/2025/texmf-dist/fonts/enc/dvips/ipaex-type1/
+ipxt1-u54.enc}{c:/texlive/2025/texmf-dist/fonts/enc/dvips/ipaex-type1/ipxt1-u5f
+.enc}{c:/texlive/2025/texmf-dist/fonts/enc/dvips/ipaex-type1/ipxt1-u89.enc}{c:/
+texlive/2025/texmf-dist/fonts/enc/dvips/ipaex-type1/ipxt1-u6e.enc}{c:/texlive/2
+025/texmf-dist/fonts/enc/dvips/ipaex-type1/ipxt1-u50.enc}{c:/texlive/2025/texmf
+-dist/fonts/enc/dvips/ipaex-type1/ipxt1-u82.enc}{c:/texlive/2025/texmf-dist/fon
+ts/enc/dvips/ipaex-type1/ipxt1-u60.enc}{c:/texlive/2025/texmf-dist/fonts/enc/dv
+ips/ipaex-type1/ipxt1-u97.enc}{c:/texlive/2025/texmf-dist/fonts/enc/dvips/ipaex
+-type1/ipxt1-u8c.enc}{c:/texlive/2025/texmf-dist/fonts/enc/dvips/ipaex-type1/ip
+xt1-u74.enc}{c:/texlive/2025/texmf-dist/fonts/enc/dvips/ipaex-type1/ipxt1-u88.e
+nc}{c:/texlive/2025/texmf-dist/fonts/enc/dvips/ipaex-type1/ipxt1-u90.enc}{c:/te
+xlive/2025/texmf-dist/fonts/enc/dvips/ipaex-type1/ipxt1-u98.enc}{c:/texlive/202
+5/texmf-dist/fonts/enc/dvips/ipaex-type1/ipxt1-u8f.enc}{c:/texlive/2025/texmf-d
+ist/fonts/enc/dvips/ipaex-type1/ipxt1-u4f.enc}{c:/texlive/2025/texmf-dist/fonts
+/enc/dvips/ipaex-type1/ipxt1-u72.enc}{c:/texlive/2025/texmf-dist/fonts/enc/dvip
+s/ipaex-type1/ipxt1-u63.enc}] [3{c:/texlive/2025/texmf-dist/fonts/enc/dvips/ipa
+ex-type1/ipxt1-u69.enc}{c:/texlive/2025/texmf-dist/fonts/enc/dvips/ipaex-type1/
+ipxt1-u6f.enc}{c:/texlive/2025/texmf-dist/fonts/enc/dvips/ipaex-type1/ipxt1-u58
+.enc}{c:/texlive/2025/texmf-dist/fonts/enc/dvips/ipaex-type1/ipxt1-u71.enc}{c:/
+texlive/2025/texmf-dist/fonts/enc/dvips/ipaex-type1/ipxt1-u8d.enc}])
 \tf@toc=\write4
 \openout4 = `lectureNote.toc'.
 
-
-
-Package fancyhdr Warning: \footskip is too small (0.0pt): 
-(fancyhdr)                Make it at least 17.52pt, for example:
-(fancyhdr)                \setlength{\footskip}{17.52pt}.
-
-[4]
-LaTeX Font Info:    Calculating math sizes for size <15.768> on input line 88.
-
-
-LaTeX Font Warning: Font shape `OML/cmm/m/it' in size <15.768> not available
-(Font)              size <14.4> substituted on input line 88.
-
-
-LaTeX Font Warning: Font shape `OMS/cmsy/m/n' in size <15.768> not available
-(Font)              size <14.4> substituted on input line 88.
-
-
-LaTeX Font Warning: Font shape `OT1/cmr/bx/n' in size <13.14001> not available
-(Font)              size <12> substituted on input line 89.
-
-
-LaTeX Font Warning: Font shape `OT1/cmss/bx/n' in size <13.14001> not available
-
-(Font)              size <12> substituted on input line 89.
-
+ [4]
+LaTeX Font Info:    Calculating math sizes for size <15.768> on input line 89.
+LaTeX Font Info:    External font `lmex10' loaded for size
+(Font)              <15.768> on input line 89.
+LaTeX Font Info:    External font `lmex10' loaded for size
+(Font)              <11.03755> on input line 89.
+LaTeX Font Info:    External font `lmex10' loaded for size
+(Font)              <7.884> on input line 89.
 LaTeX Font Info:    Font shape `C70/ipxg/bx/n'
 (Font)              in size <13.14001> not available.
 (Font)              Font shape `C70/ipxg/m/n'
-(Font)              tried instead on input line 89.
+(Font)              tried instead on input line 90.
 LaTeX Font Info:    Font shape `C70/ipxm/bx/n'
 (Font)              in size <10.95001> not available.
 (Font)              Font shape `C70/ipxm/m/n'
-(Font)              tried instead on input line 117.
-
-Package fancyhdr Warning: \footskip is too small (0.0pt): 
-(fancyhdr)                Make it at least 17.52pt, for example:
-(fancyhdr)                \setlength{\footskip}{17.52pt}.
-
-[5
+(Font)              tried instead on input line 118.
+ [5
 
 {c:/texlive/2025/texmf-dist/fonts/enc/dvips/ipaex-type1/ipxt1-u55.enc}{c:/texli
 ve/2025/texmf-dist/fonts/enc/dvips/ipaex-type1/ipxt1-u91.enc}{c:/texlive/2025/t
 exmf-dist/fonts/enc/dvips/ipaex-type1/ipxt1-u80.enc}{c:/texlive/2025/texmf-dist
 /fonts/enc/dvips/ipaex-type1/ipxt1-u7c.enc}{c:/texlive/2025/texmf-dist/fonts/en
-c/dvips/ipaex-type1/ipxt1-u77.enc}{c:/texlive/2025/texmf-dist/fonts/enc/dvips/i
-paex-type1/ipxt1-u70.enc}]
-
-LaTeX Font Warning: Font shape `OT1/cmss/m/n' in size <13.14001> not available
-(Font)              size <12> substituted on input line 142.
-
-
-LaTeX Font Warning: Font shape `OT1/cmr/bx/n' in size <5.475> not available
-(Font)              size <5> substituted on input line 149.
-
+c/dvips/ipaex-type1/ipxt1-u77.enc}{c:/texlive/2025/texmf-dist/fonts/enc/dvips/l
+m/lm-mathsy.enc}{c:/texlive/2025/texmf-dist/fonts/enc/dvips/ipaex-type1/ipxt1-u
+70.enc}{c:/texlive/2025/texmf-dist/fonts/enc/dvips/lm/lm-mathex.enc}]
 LaTeX Font Info:    Font shape `C70/ipxg/bx/n'
 (Font)              in size <9.85501> not available.
 (Font)              Font shape `C70/ipxg/m/n'
-(Font)              tried instead on input line 161.
+(Font)              tried instead on input line 162.
+ [6{c:/texlive/2025/texmf-dist/fonts/enc/dvips/ipaex-type1/ipxt1-u5d.enc}{c:/te
+xlive/2025/texmf-dist/fonts/enc/dvips/ipaex-type1/ipxt1-u9a.enc}{c:/texlive/202
+5/texmf-dist/fonts/enc/dvips/ipaex-type1/ipxt1-u68.enc}{c:/texlive/2025/texmf-d
+ist/fonts/enc/dvips/ipaex-type1/ipxt1-u75.enc}{c:/texlive/2025/texmf-dist/fonts
+/enc/dvips/ipaex-type1/ipxt1-u66.enc}{c:/texlive/2025/texmf-dist/fonts/enc/dvip
+s/ipaex-type1/ipxt1-u81.enc}] [7{c:/texlive/2025/texmf-dist/fonts/enc/dvips/ipa
+ex-type1/ipxt1-u61.enc}] [8{c:/texlive/2025/texmf-dist/fonts/enc/dvips/ipaex-ty
+pe1/ipxt1-u84.enc}] [9] [10] [11] [12] [13{c:/texlive/2025/texmf-dist/fonts/enc
+/dvips/ipaex-type1/ipxt1-u8e.enc}] [14] [15] [16] [17] [18] [19]
+[20] [21{c:/texlive/2025/texmf-dist/fonts/enc/dvips/ipaex-type1/ipxt1-u6d.enc}]
 
-Package fancyhdr Warning: \footskip is too small (0.0pt): 
-(fancyhdr)                Make it at least 17.52pt, for example:
-(fancyhdr)                \setlength{\footskip}{17.52pt}.
-
-[6{c:/texlive/2025/texmf-dist/fonts/enc/dvips/ipaex-type1/ipxt1-u5d.enc}{c:/tex
-live/2025/texmf-dist/fonts/enc/dvips/ipaex-type1/ipxt1-u9a.enc}{c:/texlive/2025
-/texmf-dist/fonts/enc/dvips/ipaex-type1/ipxt1-u68.enc}{c:/texlive/2025/texmf-di
-st/fonts/enc/dvips/ipaex-type1/ipxt1-u75.enc}{c:/texlive/2025/texmf-dist/fonts/
-enc/dvips/ipaex-type1/ipxt1-u66.enc}{c:/texlive/2025/texmf-dist/fonts/enc/dvips
-/ipaex-type1/ipxt1-u81.enc}]
-
-Package fancyhdr Warning: \footskip is too small (0.0pt): 
-(fancyhdr)                Make it at least 17.52pt, for example:
-(fancyhdr)                \setlength{\footskip}{17.52pt}.
-
-[7{c:/texlive/2025/texmf-dist/fonts/enc/dvips/ipaex-type1/ipxt1-u61.enc}]
-
-Package fancyhdr Warning: \footskip is too small (0.0pt): 
-(fancyhdr)                Make it at least 17.52pt, for example:
-(fancyhdr)                \setlength{\footskip}{17.52pt}.
-
-[8{c:/texlive/2025/texmf-dist/fonts/enc/dvips/ipaex-type1/ipxt1-u84.enc}]
-
-Package fancyhdr Warning: \footskip is too small (0.0pt): 
-(fancyhdr)                Make it at least 17.52pt, for example:
-(fancyhdr)                \setlength{\footskip}{17.52pt}.
-
-[9]
-
-Package fancyhdr Warning: \footskip is too small (0.0pt): 
-(fancyhdr)                Make it at least 17.52pt, for example:
-(fancyhdr)                \setlength{\footskip}{17.52pt}.
-
-[10]
-
-Package fancyhdr Warning: \footskip is too small (0.0pt): 
-(fancyhdr)                Make it at least 17.52pt, for example:
-(fancyhdr)                \setlength{\footskip}{17.52pt}.
-
-[11]
-
-Package fancyhdr Warning: \footskip is too small (0.0pt): 
-(fancyhdr)                Make it at least 17.52pt, for example:
-(fancyhdr)                \setlength{\footskip}{17.52pt}.
-
-[12]
-
-Package fancyhdr Warning: \footskip is too small (0.0pt): 
-(fancyhdr)                Make it at least 17.52pt, for example:
-(fancyhdr)                \setlength{\footskip}{17.52pt}.
-
-[13{c:/texlive/2025/texmf-dist/fonts/enc/dvips/ipaex-type1/ipxt1-u8e.enc}]
-
-Package fancyhdr Warning: \footskip is too small (0.0pt): 
-(fancyhdr)                Make it at least 17.52pt, for example:
-(fancyhdr)                \setlength{\footskip}{17.52pt}.
-
-[14]
-
-Package fancyhdr Warning: \footskip is too small (0.0pt): 
-(fancyhdr)                Make it at least 17.52pt, for example:
-(fancyhdr)                \setlength{\footskip}{17.52pt}.
-
-[15]
-
-Package fancyhdr Warning: \footskip is too small (0.0pt): 
-(fancyhdr)                Make it at least 17.52pt, for example:
-(fancyhdr)                \setlength{\footskip}{17.52pt}.
-
-[16]
-
-Package fancyhdr Warning: \footskip is too small (0.0pt): 
-(fancyhdr)                Make it at least 17.52pt, for example:
-(fancyhdr)                \setlength{\footskip}{17.52pt}.
-
-[17]
-
-Package fancyhdr Warning: \footskip is too small (0.0pt): 
-(fancyhdr)                Make it at least 17.52pt, for example:
-(fancyhdr)                \setlength{\footskip}{17.52pt}.
-
-[18]
-
-Package fancyhdr Warning: \footskip is too small (0.0pt): 
-(fancyhdr)                Make it at least 17.52pt, for example:
-(fancyhdr)                \setlength{\footskip}{17.52pt}.
-
-[19]
-
-Package fancyhdr Warning: \footskip is too small (0.0pt): 
-(fancyhdr)                Make it at least 17.52pt, for example:
-(fancyhdr)                \setlength{\footskip}{17.52pt}.
-
-[20]
-
-Package fancyhdr Warning: \footskip is too small (0.0pt): 
-(fancyhdr)                Make it at least 17.52pt, for example:
-(fancyhdr)                \setlength{\footskip}{17.52pt}.
-
-[21{c:/texlive/2025/texmf-dist/fonts/enc/dvips/ipaex-type1/ipxt1-u6d.enc}]
-
-LaTeX Font Warning: Font shape `OT1/cmr/bx/n' in size <6.57> not available
-(Font)              size <7> substituted on input line 803.
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                removing `math shift' on input line 804.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `math shift' on input line 803.
+(hyperref)                removing `\sigma' on input line 804.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `\sigma' on input line 803.
+(hyperref)                removing `math shift' on input line 804.
 
-
-Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `math shift' on input line 803.
-
-
-Package fancyhdr Warning: \footskip is too small (0.0pt): 
-(fancyhdr)                Make it at least 17.52pt, for example:
-(fancyhdr)                \setlength{\footskip}{17.52pt}.
-
-[22{c:/texlive/2025/texmf-dist/fonts/enc/dvips/cm-super/cm-super-ts1.enc}]
-
-Package fancyhdr Warning: \footskip is too small (0.0pt): 
-(fancyhdr)                Make it at least 17.52pt, for example:
-(fancyhdr)                \setlength{\footskip}{17.52pt}.
-
-[23]
-
-Package fancyhdr Warning: \footskip is too small (0.0pt): 
-(fancyhdr)                Make it at least 17.52pt, for example:
-(fancyhdr)                \setlength{\footskip}{17.52pt}.
-
-[24]
-
-Package fancyhdr Warning: \footskip is too small (0.0pt): 
-(fancyhdr)                Make it at least 17.52pt, for example:
-(fancyhdr)                \setlength{\footskip}{17.52pt}.
-
-[25] (./lectureNote.aux)
+LaTeX Font Info:    Trying to load font information for TS1+lmr on input line 8
+17.
+(c:/texlive/2025/texmf-dist/tex/latex/lm/ts1lmr.fd
+File: ts1lmr.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
+) [22{c:/texlive/2025/texmf-dist/fonts/enc/dvips/lm/lm-ts1.enc}] [23] [24] [25]
+ (./lectureNote.aux)
  ***********
 LaTeX2e <2025-11-01>
 L3 programming layer <2026-01-19>
  ***********
-
-
-LaTeX Font Warning: Size substitutions with differences
-(Font)              up to 1.64162pt have occurred.
-
 Package rerunfilecheck Info: File `lectureNote.out' has not changed.
 (rerunfilecheck)             Checksum: 6CD691C518C7F22E3EA1F567B544AA3E;7619.
  ) 
 Here is how much of TeX's memory you used:
- 22319 strings out of 467533
- 361837 string characters out of 5423669
- 764216 words of memory out of 5000000
- 49532 multiletter control sequences out of 15000+600000
- 712585 words of font info for 408 fonts, out of 8000000 for 9000
+ 22469 strings out of 467533
+ 365818 string characters out of 5423669
+ 764565 words of memory out of 5000000
+ 49643 multiletter control sequences out of 15000+600000
+ 790784 words of font info for 415 fonts, out of 8000000 for 9000
  1146 hyphenation exceptions out of 8191
- 87i,13n,86p,1008b,899s stack positions out of 10000i,1000n,20000p,200000b,200000s
-<c:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb><c:/tex
-live/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb><c:/texlive/2025
-/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb><c:/texlive/2025/texmf-di
-st/fonts/type1/public/amsfonts/cm/cmmi10.pfb><c:/texlive/2025/texmf-dist/fonts/
-type1/public/amsfonts/cm/cmmi12.pfb><c:/texlive/2025/texmf-dist/fonts/type1/pub
-lic/amsfonts/cm/cmmi5.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/amsfon
-ts/cm/cmmi8.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmr1
-0.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb><c:/
-texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmr5.pfb><c:/texlive/202
-5/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8.pfb><c:/texlive/2025/texmf-dis
-t/fonts/type1/public/amsfonts/cm/cmss10.pfb><c:/texlive/2025/texmf-dist/fonts/t
-ype1/public/amsfonts/cm/cmssbx10.pfb><c:/texlive/2025/texmf-dist/fonts/type1/pu
-blic/amsfonts/cm/cmsy10.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/amsf
-onts/cm/cmsy8.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cm
-ti10.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/ipaex-type1/ipxg-r-u30.
-pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/ipaex-type1/ipxg-r-u4e.pfb><
-c:/texlive/2025/texmf-dist/fonts/type1/public/ipaex-type1/ipxg-r-u4f.pfb><c:/te
-xlive/2025/texmf-dist/fonts/type1/public/ipaex-type1/ipxg-r-u50.pfb><c:/texlive
-/2025/texmf-dist/fonts/type1/public/ipaex-type1/ipxg-r-u51.pfb><c:/texlive/2025
-/texmf-dist/fonts/type1/public/ipaex-type1/ipxg-r-u52.pfb><c:/texlive/2025/texm
-f-dist/fonts/type1/public/ipaex-type1/ipxg-r-u53.pfb><c:/texlive/2025/texmf-dis
-t/fonts/type1/public/ipaex-type1/ipxg-r-u54.pfb><c:/texlive/2025/texmf-dist/fon
-ts/type1/public/ipaex-type1/ipxg-r-u56.pfb><c:/texlive/2025/texmf-dist/fonts/ty
-pe1/public/ipaex-type1/ipxg-r-u57.pfb><c:/texlive/2025/texmf-dist/fonts/type1/p
-ublic/ipaex-type1/ipxg-r-u58.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public
-/ipaex-type1/ipxg-r-u59.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/ipae
-x-type1/ipxg-r-u5b.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/ipaex-typ
-e1/ipxg-r-u5c.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/ipaex-type1/ip
-xg-r-u5e.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/ipaex-type1/ipxg-r-
-u5f.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/ipaex-type1/ipxg-r-u60.p
-fb><c:/texlive/2025/texmf-dist/fonts/type1/public/ipaex-type1/ipxg-r-u62.pfb><c
-:/texlive/2025/texmf-dist/fonts/type1/public/ipaex-type1/ipxg-r-u63.pfb><c:/tex
-live/2025/texmf-dist/fonts/type1/public/ipaex-type1/ipxg-r-u65.pfb><c:/texlive/
-2025/texmf-dist/fonts/type1/public/ipaex-type1/ipxg-r-u67.pfb><c:/texlive/2025/
-texmf-dist/fonts/type1/public/ipaex-type1/ipxg-r-u69.pfb><c:/texlive/2025/texmf
--dist/fonts/type1/public/ipaex-type1/ipxg-r-u6a.pfb><c:/texlive/2025/texmf-dist
-/fonts/type1/public/ipaex-type1/ipxg-r-u6b.pfb><c:/texlive/2025/texmf-dist/font
-s/type1/public/ipaex-type1/ipxg-r-u6c.pfb><c:/texlive/2025/texmf-dist/fonts/typ
-e1/public/ipaex-type1/ipxg-r-u6e.pfb><c:/texlive/2025/texmf-dist/fonts/type1/pu
-blic/ipaex-type1/ipxg-r-u6f.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/
-ipaex-type1/ipxg-r-u71.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/ipaex
--type1/ipxg-r-u72.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/ipaex-type
-1/ipxg-r-u73.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/ipaex-type1/ipx
-g-r-u74.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/ipaex-type1/ipxg-r-u
-75.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/ipaex-type1/ipxg-r-u76.pf
-b><c:/texlive/2025/texmf-dist/fonts/type1/public/ipaex-type1/ipxg-r-u78.pfb><c:
-/texlive/2025/texmf-dist/fonts/type1/public/ipaex-type1/ipxg-r-u79.pfb><c:/texl
-ive/2025/texmf-dist/fonts/type1/public/ipaex-type1/ipxg-r-u7a.pfb><c:/texlive/2
-025/texmf-dist/fonts/type1/public/ipaex-type1/ipxg-r-u7b.pfb><c:/texlive/2025/t
-exmf-dist/fonts/type1/public/ipaex-type1/ipxg-r-u7d.pfb><c:/texlive/2025/texmf-
-dist/fonts/type1/public/ipaex-type1/ipxg-r-u7f.pfb><c:/texlive/2025/texmf-dist/
-fonts/type1/public/ipaex-type1/ipxg-r-u81.pfb><c:/texlive/2025/texmf-dist/fonts
-/type1/public/ipaex-type1/ipxg-r-u82.pfb><c:/texlive/2025/texmf-dist/fonts/type
-1/public/ipaex-type1/ipxg-r-u88.pfb><c:/texlive/2025/texmf-dist/fonts/type1/pub
-lic/ipaex-type1/ipxg-r-u89.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/i
-paex-type1/ipxg-r-u8a.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/ipaex-
-type1/ipxg-r-u8c.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/ipaex-type1
-/ipxg-r-u8d.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/ipaex-type1/ipxg
--r-u8f.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/ipaex-type1/ipxg-r-u9
-0.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/ipaex-type1/ipxg-r-u95.pfb
-><c:/texlive/2025/texmf-dist/fonts/type1/public/ipaex-type1/ipxg-r-u96.pfb><c:/
-texlive/2025/texmf-dist/fonts/type1/public/ipaex-type1/ipxg-r-u97.pfb><c:/texli
-ve/2025/texmf-dist/fonts/type1/public/ipaex-type1/ipxg-r-u98.pfb><c:/texlive/20
-25/texmf-dist/fonts/type1/public/ipaex-type1/ipxg-r-uff.pfb><c:/texlive/2025/te
-xmf-dist/fonts/type1/public/ipaex-type1/ipxm-r-u30.pfb><c:/texlive/2025/texmf-d
-ist/fonts/type1/public/ipaex-type1/ipxm-r-u4e.pfb><c:/texlive/2025/texmf-dist/f
-onts/type1/public/ipaex-type1/ipxm-r-u4f.pfb><c:/texlive/2025/texmf-dist/fonts/
-type1/public/ipaex-type1/ipxm-r-u50.pfb><c:/texlive/2025/texmf-dist/fonts/type1
-/public/ipaex-type1/ipxm-r-u51.pfb><c:/texlive/2025/texmf-dist/fonts/type1/publ
-ic/ipaex-type1/ipxm-r-u52.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/ip
-aex-type1/ipxm-r-u53.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/ipaex-t
-ype1/ipxm-r-u54.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/ipaex-type1/
-ipxm-r-u55.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/ipaex-type1/ipxm-
-r-u56.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/ipaex-type1/ipxm-r-u57
-.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/ipaex-type1/ipxm-r-u58.pfb>
-<c:/texlive/2025/texmf-dist/fonts/type1/public/ipaex-type1/ipxm-r-u59.pfb><c:/t
-exlive/2025/texmf-dist/fonts/type1/public/ipaex-type1/ipxm-r-u5b.pfb><c:/texliv
-e/2025/texmf-dist/fonts/type1/public/ipaex-type1/ipxm-r-u5c.pfb><c:/texlive/202
-5/texmf-dist/fonts/type1/public/ipaex-type1/ipxm-r-u5d.pfb><c:/texlive/2025/tex
-mf-dist/fonts/type1/public/ipaex-type1/ipxm-r-u5e.pfb><c:/texlive/2025/texmf-di
-st/fonts/type1/public/ipaex-type1/ipxm-r-u5f.pfb><c:/texlive/2025/texmf-dist/fo
-nts/type1/public/ipaex-type1/ipxm-r-u60.pfb><c:/texlive/2025/texmf-dist/fonts/t
-ype1/public/ipaex-type1/ipxm-r-u61.pfb><c:/texlive/2025/texmf-dist/fonts/type1/
-public/ipaex-type1/ipxm-r-u62.pfb><c:/texlive/2025/texmf-dist/fonts/type1/publi
-c/ipaex-type1/ipxm-r-u63.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/ipa
-ex-type1/ipxm-r-u65.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/ipaex-ty
-pe1/ipxm-r-u66.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/ipaex-type1/i
-pxm-r-u67.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/ipaex-type1/ipxm-r
--u68.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/ipaex-type1/ipxm-r-u69.
-pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/ipaex-type1/ipxm-r-u6a.pfb><
-c:/texlive/2025/texmf-dist/fonts/type1/public/ipaex-type1/ipxm-r-u6b.pfb><c:/te
-xlive/2025/texmf-dist/fonts/type1/public/ipaex-type1/ipxm-r-u6c.pfb><c:/texlive
-/2025/texmf-dist/fonts/type1/public/ipaex-type1/ipxm-r-u6d.pfb><c:/texlive/2025
-/texmf-dist/fonts/type1/public/ipaex-type1/ipxm-r-u6e.pfb><c:/texlive/2025/texm
-f-dist/fonts/type1/public/ipaex-type1/ipxm-r-u6f.pfb><c:/texlive/2025/texmf-dis
-t/fonts/type1/public/ipaex-type1/ipxm-r-u70.pfb><c:/texlive/2025/texmf-dist/fon
-ts/type1/public/ipaex-type1/ipxm-r-u71.pfb><c:/texlive/2025/texmf-dist/fonts/ty
-pe1/public/ipaex-type1/ipxm-r-u72.pfb><c:/texlive/2025/texmf-dist/fonts/type1/p
-ublic/ipaex-type1/ipxm-r-u73.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public
-/ipaex-type1/ipxm-r-u74.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/ipae
-x-type1/ipxm-r-u75.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/ipaex-typ
-e1/ipxm-r-u76.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/ipaex-type1/ip
-xm-r-u77.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/ipaex-type1/ipxm-r-
-u78.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/ipaex-type1/ipxm-r-u79.p
-fb><c:/texlive/2025/texmf-dist/fonts/type1/public/ipaex-type1/ipxm-r-u7a.pfb><c
-:/texlive/2025/texmf-dist/fonts/type1/public/ipaex-type1/ipxm-r-u7b.pfb><c:/tex
-live/2025/texmf-dist/fonts/type1/public/ipaex-type1/ipxm-r-u7c.pfb><c:/texlive/
-2025/texmf-dist/fonts/type1/public/ipaex-type1/ipxm-r-u7d.pfb><c:/texlive/2025/
-texmf-dist/fonts/type1/public/ipaex-type1/ipxm-r-u7f.pfb><c:/texlive/2025/texmf
--dist/fonts/type1/public/ipaex-type1/ipxm-r-u80.pfb><c:/texlive/2025/texmf-dist
-/fonts/type1/public/ipaex-type1/ipxm-r-u81.pfb><c:/texlive/2025/texmf-dist/font
-s/type1/public/ipaex-type1/ipxm-r-u82.pfb><c:/texlive/2025/texmf-dist/fonts/typ
-e1/public/ipaex-type1/ipxm-r-u84.pfb><c:/texlive/2025/texmf-dist/fonts/type1/pu
-blic/ipaex-type1/ipxm-r-u88.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/
-ipaex-type1/ipxm-r-u89.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/ipaex
--type1/ipxm-r-u8a.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/ipaex-type
-1/ipxm-r-u8b.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/ipaex-type1/ipx
-m-r-u8c.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/ipaex-type1/ipxm-r-u
-8d.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/ipaex-type1/ipxm-r-u8e.pf
-b><c:/texlive/2025/texmf-dist/fonts/type1/public/ipaex-type1/ipxm-r-u8f.pfb><c:
-/texlive/2025/texmf-dist/fonts/type1/public/ipaex-type1/ipxm-r-u90.pfb><c:/texl
-ive/2025/texmf-dist/fonts/type1/public/ipaex-type1/ipxm-r-u91.pfb><c:/texlive/2
-025/texmf-dist/fonts/type1/public/ipaex-type1/ipxm-r-u95.pfb><c:/texlive/2025/t
-exmf-dist/fonts/type1/public/ipaex-type1/ipxm-r-u96.pfb><c:/texlive/2025/texmf-
-dist/fonts/type1/public/ipaex-type1/ipxm-r-u97.pfb><c:/texlive/2025/texmf-dist/
-fonts/type1/public/ipaex-type1/ipxm-r-u98.pfb><c:/texlive/2025/texmf-dist/fonts
-/type1/public/ipaex-type1/ipxm-r-u9a.pfb><c:/texlive/2025/texmf-dist/fonts/type
-1/public/ipaex-type1/ipxm-r-uff.pfb><c:/texlive/2025/texmf-dist/fonts/type1/pub
-lic/amsfonts/symbols/msbm10.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/
-amsfonts/symbols/msbm7.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/cm-su
-per/sfrm1095.pfb>
-Output written on lectureNote.pdf (25 pages, 1223649 bytes).
+ 87i,13n,86p,1008b,897s stack positions out of 10000i,1000n,20000p,200000b,200000s
+<c:/texlive/2025/texmf-dist/fonts/type1/public/ipaex-type1/ipxg-r-u30.pfb><c:
+/texlive/2025/texmf-dist/fonts/type1/public/ipaex-type1/ipxg-r-u4e.pfb><c:/texl
+ive/2025/texmf-dist/fonts/type1/public/ipaex-type1/ipxg-r-u4f.pfb><c:/texlive/2
+025/texmf-dist/fonts/type1/public/ipaex-type1/ipxg-r-u50.pfb><c:/texlive/2025/t
+exmf-dist/fonts/type1/public/ipaex-type1/ipxg-r-u51.pfb><c:/texlive/2025/texmf-
+dist/fonts/type1/public/ipaex-type1/ipxg-r-u52.pfb><c:/texlive/2025/texmf-dist/
+fonts/type1/public/ipaex-type1/ipxg-r-u53.pfb><c:/texlive/2025/texmf-dist/fonts
+/type1/public/ipaex-type1/ipxg-r-u54.pfb><c:/texlive/2025/texmf-dist/fonts/type
+1/public/ipaex-type1/ipxg-r-u56.pfb><c:/texlive/2025/texmf-dist/fonts/type1/pub
+lic/ipaex-type1/ipxg-r-u57.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/i
+paex-type1/ipxg-r-u58.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/ipaex-
+type1/ipxg-r-u59.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/ipaex-type1
+/ipxg-r-u5b.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/ipaex-type1/ipxg
+-r-u5c.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/ipaex-type1/ipxg-r-u5
+e.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/ipaex-type1/ipxg-r-u5f.pfb
+><c:/texlive/2025/texmf-dist/fonts/type1/public/ipaex-type1/ipxg-r-u60.pfb><c:/
+texlive/2025/texmf-dist/fonts/type1/public/ipaex-type1/ipxg-r-u62.pfb><c:/texli
+ve/2025/texmf-dist/fonts/type1/public/ipaex-type1/ipxg-r-u63.pfb><c:/texlive/20
+25/texmf-dist/fonts/type1/public/ipaex-type1/ipxg-r-u65.pfb><c:/texlive/2025/te
+xmf-dist/fonts/type1/public/ipaex-type1/ipxg-r-u67.pfb><c:/texlive/2025/texmf-d
+ist/fonts/type1/public/ipaex-type1/ipxg-r-u69.pfb><c:/texlive/2025/texmf-dist/f
+onts/type1/public/ipaex-type1/ipxg-r-u6a.pfb><c:/texlive/2025/texmf-dist/fonts/
+type1/public/ipaex-type1/ipxg-r-u6b.pfb><c:/texlive/2025/texmf-dist/fonts/type1
+/public/ipaex-type1/ipxg-r-u6c.pfb><c:/texlive/2025/texmf-dist/fonts/type1/publ
+ic/ipaex-type1/ipxg-r-u6e.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/ip
+aex-type1/ipxg-r-u6f.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/ipaex-t
+ype1/ipxg-r-u71.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/ipaex-type1/
+ipxg-r-u72.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/ipaex-type1/ipxg-
+r-u73.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/ipaex-type1/ipxg-r-u74
+.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/ipaex-type1/ipxg-r-u75.pfb>
+<c:/texlive/2025/texmf-dist/fonts/type1/public/ipaex-type1/ipxg-r-u76.pfb><c:/t
+exlive/2025/texmf-dist/fonts/type1/public/ipaex-type1/ipxg-r-u78.pfb><c:/texliv
+e/2025/texmf-dist/fonts/type1/public/ipaex-type1/ipxg-r-u79.pfb><c:/texlive/202
+5/texmf-dist/fonts/type1/public/ipaex-type1/ipxg-r-u7a.pfb><c:/texlive/2025/tex
+mf-dist/fonts/type1/public/ipaex-type1/ipxg-r-u7b.pfb><c:/texlive/2025/texmf-di
+st/fonts/type1/public/ipaex-type1/ipxg-r-u7d.pfb><c:/texlive/2025/texmf-dist/fo
+nts/type1/public/ipaex-type1/ipxg-r-u7f.pfb><c:/texlive/2025/texmf-dist/fonts/t
+ype1/public/ipaex-type1/ipxg-r-u81.pfb><c:/texlive/2025/texmf-dist/fonts/type1/
+public/ipaex-type1/ipxg-r-u82.pfb><c:/texlive/2025/texmf-dist/fonts/type1/publi
+c/ipaex-type1/ipxg-r-u88.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/ipa
+ex-type1/ipxg-r-u89.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/ipaex-ty
+pe1/ipxg-r-u8a.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/ipaex-type1/i
+pxg-r-u8c.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/ipaex-type1/ipxg-r
+-u8d.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/ipaex-type1/ipxg-r-u8f.
+pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/ipaex-type1/ipxg-r-u90.pfb><
+c:/texlive/2025/texmf-dist/fonts/type1/public/ipaex-type1/ipxg-r-u95.pfb><c:/te
+xlive/2025/texmf-dist/fonts/type1/public/ipaex-type1/ipxg-r-u96.pfb><c:/texlive
+/2025/texmf-dist/fonts/type1/public/ipaex-type1/ipxg-r-u97.pfb><c:/texlive/2025
+/texmf-dist/fonts/type1/public/ipaex-type1/ipxg-r-u98.pfb><c:/texlive/2025/texm
+f-dist/fonts/type1/public/ipaex-type1/ipxg-r-uff.pfb><c:/texlive/2025/texmf-dis
+t/fonts/type1/public/ipaex-type1/ipxm-r-u30.pfb><c:/texlive/2025/texmf-dist/fon
+ts/type1/public/ipaex-type1/ipxm-r-u4e.pfb><c:/texlive/2025/texmf-dist/fonts/ty
+pe1/public/ipaex-type1/ipxm-r-u4f.pfb><c:/texlive/2025/texmf-dist/fonts/type1/p
+ublic/ipaex-type1/ipxm-r-u50.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public
+/ipaex-type1/ipxm-r-u51.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/ipae
+x-type1/ipxm-r-u52.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/ipaex-typ
+e1/ipxm-r-u53.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/ipaex-type1/ip
+xm-r-u54.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/ipaex-type1/ipxm-r-
+u55.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/ipaex-type1/ipxm-r-u56.p
+fb><c:/texlive/2025/texmf-dist/fonts/type1/public/ipaex-type1/ipxm-r-u57.pfb><c
+:/texlive/2025/texmf-dist/fonts/type1/public/ipaex-type1/ipxm-r-u58.pfb><c:/tex
+live/2025/texmf-dist/fonts/type1/public/ipaex-type1/ipxm-r-u59.pfb><c:/texlive/
+2025/texmf-dist/fonts/type1/public/ipaex-type1/ipxm-r-u5b.pfb><c:/texlive/2025/
+texmf-dist/fonts/type1/public/ipaex-type1/ipxm-r-u5c.pfb><c:/texlive/2025/texmf
+-dist/fonts/type1/public/ipaex-type1/ipxm-r-u5d.pfb><c:/texlive/2025/texmf-dist
+/fonts/type1/public/ipaex-type1/ipxm-r-u5e.pfb><c:/texlive/2025/texmf-dist/font
+s/type1/public/ipaex-type1/ipxm-r-u5f.pfb><c:/texlive/2025/texmf-dist/fonts/typ
+e1/public/ipaex-type1/ipxm-r-u60.pfb><c:/texlive/2025/texmf-dist/fonts/type1/pu
+blic/ipaex-type1/ipxm-r-u61.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/
+ipaex-type1/ipxm-r-u62.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/ipaex
+-type1/ipxm-r-u63.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/ipaex-type
+1/ipxm-r-u65.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/ipaex-type1/ipx
+m-r-u66.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/ipaex-type1/ipxm-r-u
+67.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/ipaex-type1/ipxm-r-u68.pf
+b><c:/texlive/2025/texmf-dist/fonts/type1/public/ipaex-type1/ipxm-r-u69.pfb><c:
+/texlive/2025/texmf-dist/fonts/type1/public/ipaex-type1/ipxm-r-u6a.pfb><c:/texl
+ive/2025/texmf-dist/fonts/type1/public/ipaex-type1/ipxm-r-u6b.pfb><c:/texlive/2
+025/texmf-dist/fonts/type1/public/ipaex-type1/ipxm-r-u6c.pfb><c:/texlive/2025/t
+exmf-dist/fonts/type1/public/ipaex-type1/ipxm-r-u6d.pfb><c:/texlive/2025/texmf-
+dist/fonts/type1/public/ipaex-type1/ipxm-r-u6e.pfb><c:/texlive/2025/texmf-dist/
+fonts/type1/public/ipaex-type1/ipxm-r-u6f.pfb><c:/texlive/2025/texmf-dist/fonts
+/type1/public/ipaex-type1/ipxm-r-u70.pfb><c:/texlive/2025/texmf-dist/fonts/type
+1/public/ipaex-type1/ipxm-r-u71.pfb><c:/texlive/2025/texmf-dist/fonts/type1/pub
+lic/ipaex-type1/ipxm-r-u72.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/i
+paex-type1/ipxm-r-u73.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/ipaex-
+type1/ipxm-r-u74.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/ipaex-type1
+/ipxm-r-u75.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/ipaex-type1/ipxm
+-r-u76.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/ipaex-type1/ipxm-r-u7
+7.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/ipaex-type1/ipxm-r-u78.pfb
+><c:/texlive/2025/texmf-dist/fonts/type1/public/ipaex-type1/ipxm-r-u79.pfb><c:/
+texlive/2025/texmf-dist/fonts/type1/public/ipaex-type1/ipxm-r-u7a.pfb><c:/texli
+ve/2025/texmf-dist/fonts/type1/public/ipaex-type1/ipxm-r-u7b.pfb><c:/texlive/20
+25/texmf-dist/fonts/type1/public/ipaex-type1/ipxm-r-u7c.pfb><c:/texlive/2025/te
+xmf-dist/fonts/type1/public/ipaex-type1/ipxm-r-u7d.pfb><c:/texlive/2025/texmf-d
+ist/fonts/type1/public/ipaex-type1/ipxm-r-u7f.pfb><c:/texlive/2025/texmf-dist/f
+onts/type1/public/ipaex-type1/ipxm-r-u80.pfb><c:/texlive/2025/texmf-dist/fonts/
+type1/public/ipaex-type1/ipxm-r-u81.pfb><c:/texlive/2025/texmf-dist/fonts/type1
+/public/ipaex-type1/ipxm-r-u82.pfb><c:/texlive/2025/texmf-dist/fonts/type1/publ
+ic/ipaex-type1/ipxm-r-u84.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/ip
+aex-type1/ipxm-r-u88.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/ipaex-t
+ype1/ipxm-r-u89.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/ipaex-type1/
+ipxm-r-u8a.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/ipaex-type1/ipxm-
+r-u8b.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/ipaex-type1/ipxm-r-u8c
+.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/ipaex-type1/ipxm-r-u8d.pfb>
+<c:/texlive/2025/texmf-dist/fonts/type1/public/ipaex-type1/ipxm-r-u8e.pfb><c:/t
+exlive/2025/texmf-dist/fonts/type1/public/ipaex-type1/ipxm-r-u8f.pfb><c:/texliv
+e/2025/texmf-dist/fonts/type1/public/ipaex-type1/ipxm-r-u90.pfb><c:/texlive/202
+5/texmf-dist/fonts/type1/public/ipaex-type1/ipxm-r-u91.pfb><c:/texlive/2025/tex
+mf-dist/fonts/type1/public/ipaex-type1/ipxm-r-u95.pfb><c:/texlive/2025/texmf-di
+st/fonts/type1/public/ipaex-type1/ipxm-r-u96.pfb><c:/texlive/2025/texmf-dist/fo
+nts/type1/public/ipaex-type1/ipxm-r-u97.pfb><c:/texlive/2025/texmf-dist/fonts/t
+ype1/public/ipaex-type1/ipxm-r-u98.pfb><c:/texlive/2025/texmf-dist/fonts/type1/
+public/ipaex-type1/ipxm-r-u9a.pfb><c:/texlive/2025/texmf-dist/fonts/type1/publi
+c/ipaex-type1/ipxm-r-uff.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/lm/
+lmbx10.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/lm/lmbx12.pfb><c:/tex
+live/2025/texmf-dist/fonts/type1/public/lm/lmex10.pfb><c:/texlive/2025/texmf-di
+st/fonts/type1/public/lm/lmmi10.pfb><c:/texlive/2025/texmf-dist/fonts/type1/pub
+lic/lm/lmmi12.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/lm/lmmi5.pfb><
+c:/texlive/2025/texmf-dist/fonts/type1/public/lm/lmmi8.pfb><c:/texlive/2025/tex
+mf-dist/fonts/type1/public/lm/lmr10.pfb><c:/texlive/2025/texmf-dist/fonts/type1
+/public/lm/lmr12.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/lm/lmr5.pfb
+><c:/texlive/2025/texmf-dist/fonts/type1/public/lm/lmr8.pfb><c:/texlive/2025/te
+xmf-dist/fonts/type1/public/lm/lmri10.pfb><c:/texlive/2025/texmf-dist/fonts/typ
+e1/public/lm/lmss10.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/lm/lmssb
+x10.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/lm/lmsy10.pfb><c:/texliv
+e/2025/texmf-dist/fonts/type1/public/lm/lmsy8.pfb><c:/texlive/2025/texmf-dist/f
+onts/type1/public/amsfonts/symbols/msbm10.pfb><c:/texlive/2025/texmf-dist/fonts
+/type1/public/amsfonts/symbols/msbm7.pfb>
+Output written on lectureNote.pdf (25 pages, 1282629 bytes).
 PDF statistics:
- 1263 PDF objects out of 1440 (max. 8388607)
- 878 compressed objects within 9 object streams
+ 1265 PDF objects out of 1440 (max. 8388607)
+ 881 compressed objects within 9 object streams
  93 named destinations out of 1000 (max. 500000)
  56005 words of extra memory for PDF output out of 61914 (max. 10000000)
 
