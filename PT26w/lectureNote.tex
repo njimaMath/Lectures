@@ -1,0 +1,931 @@
+
+
+
+\documentclass[a4paper,11pt,pdflatex,ja=standard,jafont=ipaex-type1,
+  magstyle=real,scale=1]{bxjsarticle}
+\usepackage{amsmath,amssymb,mathtools,amsthm}
+\usepackage{geometry}
+\geometry{reset,top=24mm,bottom=25mm,left=24mm,right=24mm,headheight=15pt}
+\usepackage{xcolor}
+\usepackage{enumitem}
+\usepackage{booktabs,longtable,array}
+\usepackage{changepage}
+\usepackage{fancyhdr}
+\usepackage{hyperref}
+\usepackage{microtype}
+\usepackage{setspace}
+\usepackage{titlesec}
+
+\definecolor{Accent}{HTML}{385A70}
+\definecolor{ColumnText}{HTML}{4C5961}
+\definecolor{SoftGray}{HTML}{6C7378}
+\hypersetup{colorlinks=true,linkcolor=Accent,urlcolor=Accent,citecolor=Accent,pdfauthor={中島秀太},pdftitle={確率論と統計学 I 講義ノート  第1--13回}}
+
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\small 確率論と統計学 I}
+\fancyhead[R]{\small 講義ノート}
+\fancyfoot[C]{\thepage}
+\renewcommand{\headrulewidth}{0.3pt}
+
+\titleformat{\section}{\Large\bfseries\sffamily\color{Accent}}{第\thesection 回}{1em}{}
+\titleformat{\subsection}{\large\bfseries\sffamily}{\thesubsection}{0.8em}{}
+\titleformat{\subsubsection}{\normalsize\bfseries\sffamily}{\thesubsubsection}{0.7em}{}
+\setlist[itemize]{leftmargin=2em,itemsep=.25em,topsep=.3em}
+\setlist[enumerate]{leftmargin=2.2em,itemsep=.25em,topsep=.3em}
+\setlength{\parindent}{1em}
+\setlength{\parskip}{0.25em}
+\onehalfspacing
+
+\newtheorem{theorem}{定理}[section]
+\newtheorem{proposition}[theorem]{命題}
+\newtheorem{lemma}[theorem]{補題}
+\newtheorem{corollary}[theorem]{系}
+\theoremstyle{definition}
+\newtheorem{definition}[theorem]{定義}
+\newtheorem{example}[theorem]{例}
+\theoremstyle{remark}
+\newtheorem{remark}[theorem]{注意}
+
+% 「コラム」は箱で囲まず、字下げ・色・横罫だけで本文と区別する。
+\newenvironment{columnnote}[1]
+{\par\medskip\begin{adjustwidth}{1.8em}{1.2em}\small\sffamily\color{ColumnText}
+{\large\bfseries\color{Accent}コラム　#1}\par\vspace{0.25em}{\color{Accent}\hrule height 0.7pt}\vspace{0.65em}}
+{\par\vspace{0.45em}{\color{Accent}\hrule height 0.3pt}\end{adjustwidth}\medskip}
+
+\newenvironment{exerciseblock}
+{\par\medskip\begin{adjustwidth}{1em}{1em}\small\sffamily{\bfseries\color{SoftGray}演習・補足}\par\vspace{0.2em}}
+{\end{adjustwidth}\medskip}
+
+\newcommand{\E}{\mathbb E}
+\newcommand{\Pp}{\mathbb P}
+\newcommand{\R}{\mathbb R}
+\newcommand{\N}{\mathbb N}
+\newcommand{\1}{\mathbf 1}
+\newcommand{\Var}{\operatorname{Var}}
+\newcommand{\Cov}{\operatorname{Cov}}
+\newcommand{\supp}{\operatorname{supp}}
+\newcommand{\Law}{\operatorname{Law}}
+
+\title{\bfseries 確率論と統計学 I\\[0.3em]\Large  第1--13回 講義ノート}
+\author{中島秀太}
+\date{2026年度冬学期}
+
+\begin{document}
+\maketitle
+\thispagestyle{empty}
+\vfill
+\begin{center}
+\begin{minipage}{0.84\textwidth}
+\small
+\end{minipage}
+\end{center}
+\vfill
+\clearpage
+\tableofcontents
+\clearpage
+
+\section{確率論の基礎：歴史、コイン投げ、\texorpdfstring{$\sigma$}{sigma}-加法族}
+\subsection{確率論の歴史}
+確率論の原型は17世紀の賭博問題にある。Pascal と Fermat は、ゲームが途中で中断されたときの配当をどう分けるべきかという問いを通じて、有限個の可能性を数え上げる方法を発展させた。その後 Bernoulli の大数の法則、Laplace の解析的手法、19世紀の統計物理、20世紀の量子論を経て、Kolmogorov が1933年に測度論を基礎とする公理系を与えた。
+
+確率論と統計学は向きが逆である。確率論は「モデルから観測の分布を予測する」学問であり、統計学は「観測データからモデルや未知量を推測する」学問である。両者を往復する基盤が確率空間である。
+
+\subsection{有限標本空間}
+公平なコインを1回投げるなら
+\[
+\Omega=\{H,T\},\qquad \Pp(H)=\Pp(T)=\frac12.
+\]
+2回投げると
+\[
+\Omega=\{(H,H),(H,T),(T,H),(T,T)\},
+\]
+各点の確率は $1/4$ である。「少なくとも1回表」という事象を $A$ とすれば
+\[
+A=\{(H,H),(H,T),(T,H)\},\qquad \Pp(A)=\frac34.
+\]
+より一般に有限集合 $\Omega$ と重み $p(\omega)\ge0$, $\sum_{\omega\in\Omega}p(\omega)=1$ があれば
+\[
+\Pp(A)=\sum_{\omega\in A}p(\omega)
+\]
+で有限確率空間が得られる。
+
+\subsection{なぜ集合族が必要か}
+非可算集合では、すべての1点の確率を足し合わせる方法では一様分布を表せない。例えば $[0,1]$ の一様分布では各一点の確率は0だが、全区間の確率は1である。したがって確率は単点の重みの和ではなく、測度として定める必要がある。
+
+\begin{definition}
+集合 $\Omega$ の部分集合族 $\mathcal F$ が
+\begin{enumerate}
+\item $\Omega\in\mathcal F$,
+\item $A\in\mathcal F$ なら $A^c\in\mathcal F$,
+\item $A_n\in\mathcal F$ なら $\bigcup_{n\ge1}A_n\in\mathcal F$
+\end{enumerate}
+を満たすとき、$\mathcal F$ を $\sigma$-加法族という。
+\end{definition}
+
+\begin{definition}
+$(\Omega,\mathcal F)$ 上の写像 $\Pp:\mathcal F\to[0,1]$ が
+\[
+\Pp(\Omega)=1,
+\qquad
+\Pp\Bigl(\bigsqcup_{n=1}^\infty A_n\Bigr)=\sum_{n=1}^\infty \Pp(A_n)
+\]
+を満たすとき、$(\Omega,\mathcal F,\Pp)$ を確率空間という。
+\end{definition}
+
+公理から補集合公式、単調性、有限加法性、可算劣加法性が従う。とくに $A_n\uparrow A$ なら
+\[
+\Pp(A_n)\longrightarrow \Pp(A).
+\]
+これは互いに素な差分 $C_1=A_1$, $C_n=A_n\setminus A_{n-1}$ に分解すれば可算加法性から直ちに従う。
+
+\begin{columnnote}{「数え上げ」から「情報」へ}
+中学・高校の確率では、等確率な場合の
+\[
+\Pp(A)=\frac{\# A}{\#\Omega}
+\]
+が出発点になる。非等確率なら「数える」代わりに各単事象の確率を足す。さらに連続分布では和は積分に置き換わる。例えば $[0,1]$ の一様分布なら
+\[
+\Pp(A)=\int_0^1 \1_A(x)\,dx.
+\]
+
+$\sigma$-加法族にはもう一つ重要な解釈がある。それは「利用可能な情報の集合」である。2回のコイン投げで、時刻0,1,2の情報を
+\[
+\mathcal F_0=\{\varnothing,\Omega\},\qquad
+\mathcal F_1=\sigma(\text{1回目の結果}),\qquad
+\mathcal F_2=2^\Omega
+\]
+とすれば、$\mathcal F_0\subset\mathcal F_1\subset\mathcal F_2$ は時間とともに情報が増える様子を表す。条件付き期待値を学ぶと、この見方が中心的になる。
+\end{columnnote}
+
+\begin{exerciseblock}
+偏ったコインを2回投げる場合の確率空間を明示し、「少なくとも1回表」「ちょうど1回表」「2回とも同じ面」の確率を求めよ。また $[0,1]$ のすべての部分集合に自然な長さを同時に定義しようとすると何が問題になるか考えよ。
+\end{exerciseblock}
+
+\section{確率変数：標本空間から観測値への写像}
+\subsection{有限確率空間での確率変数}
+2回のコイン投げで表の個数を $X$ とする。すると
+\[
+X(H,H)=2,
+\quad X(H,T)=X(T,H)=1,
+\quad X(T,T)=0.
+\]
+確率変数は「ランダムな数」ではなく、標本 $\omega\in\Omega$ から観測値を取り出す写像 $X:\Omega\to\R$ である。
+
+有限確率空間なら分布は
+\[
+\Pp(X=x)=\sum_{\omega:\,X(\omega)=x}p_\omega,
+\]
+分布関数は
+\[
+F_X(a)=\Pp(X\le a)
+\]
+で定義される。
+
+\subsection{一般の確率変数と可測性}
+\begin{definition}
+確率空間 $(\Omega,\mathcal F,\Pp)$ 上の写像 $X:\Omega\to\R$ が確率変数であるとは、任意の Borel 集合 $B\subset\R$ に対して
+\[
+X^{-1}(B)=\{\omega:X(\omega)\in B\}\in\mathcal F
+\]
+が成り立つことをいう。
+\end{definition}
+
+可測性は「観測値 $X$ に関する事象が、もとの確率空間で確率を測れる」という条件である。$X$ の分布は押し出し測度
+\[
+\mu_X(B)=\Pp(X\in B)=\Pp(X^{-1}(B))
+\]
+として定める。したがって確率変数とその分布は別物である。同じ分布をもつ確率変数でも、定義されている標本空間や他の確率変数との依存関係は異なり得る。
+
+分布関数
+\[
+F_X(x)=\Pp(X\le x)
+\]
+は非減少・右連続で、$F_X(-\infty)=0$, $F_X(+\infty)=1$ を満たす。
+
+\begin{columnnote}{なぜ「写像」として定義するのか}
+サイコロを1回だけ振るなら、標本空間そのものを $\{1,\dots,6\}$ としてしまえるので、確率変数を写像と呼ぶ必然性は見えにくい。ところが2回振ると標本は $(\omega_1,\omega_2)$ であり、「1回目の目」は
+\[
+X_1(\omega_1,\omega_2)=\omega_1
+\]
+という射影になる。確率的に標本を選ぶ機構と、その標本から何を観測するかを分離することで、$X+Y$, $g(X)$, 条件付き期待値、確率過程などが同じ言葉で扱える。
+
+さらに情報の観点では可測性が重要である。時刻1で2回目のコインの結果を参照するような写像は $\mathcal F_1$-可測ではなく、「まだ見えていない情報を使っている」と数学的に判定できる。
+\end{columnnote}
+
+\begin{exerciseblock}
+同じ $\omega\in[0,1]$ に対して $X(\omega)=\omega$, $Y(\omega)=\omega+1$ とする。$S=X+Y$ と $P=XY$ の分布関数を求めよ。この例では $X,Y$ が独立でないことにも注意せよ。
+\end{exerciseblock}
+
+\section{期待値と積分：有限和から Lebesgue 積分へ}
+\subsection{有限確率空間での期待値}
+有限確率空間では
+\[
+\E[X]=\sum_{\omega\in\Omega}X(\omega)p_\omega
+=\sum_x x\Pp(X=x).
+\]
+線形性は有限和の線形性そのものである。
+
+\subsection{非負確率変数の期待値}
+一般の確率空間では、まず単関数
+\[
+X=\sum_{j=1}^m a_j\1_{A_j},\qquad a_j\ge0
+\]
+に対して
+\[
+\E[X]=\sum_{j=1}^m a_j\Pp(A_j)
+\]
+と定める。非負可測 $X$ は下から単関数で近似できるので
+\[
+\E[X]=\sup\{\E[Y]:0\le Y\le X,\ Y\text{ は単関数}\}
+\]
+と定義する。
+
+一般の実数値確率変数について
+\[
+X^+=\max\{X,0\},\qquad X^-=\max\{-X,0\}
+\]
+とし、$\E[X^+]+\E[X^-]<\infty$ のとき $X$ を可積分と呼び
+\[
+\E[X]=\E[X^+]-\E[X^-]
+\]
+と定める。
+
+\subsection{収束定理}
+\begin{theorem}[単調収束定理]
+$0\le X_n\uparrow X$ なら
+\[
+\E[X_n]\uparrow \E[X].
+\]
+\end{theorem}
+\begin{theorem}[優収束定理]
+$X_n\to X$ a.s. かつ $|X_n|\le Y$ で $\E[|Y|]<\infty$ なら
+\[
+\E[X_n]\to\E[X].
+\]
+\end{theorem}
+これらは極限と期待値を交換するための基本原理であり、以後ほぼすべての章で使う。
+
+\subsection{分布だけで期待値を計算する}
+$\mu_X$ を $X$ の分布とする。可測関数 $g$ で $g(X)$ が可積分なら
+\[
+\E[g(X)]=\int_{\R}g(x)\,\mu_X(dx).
+\]
+この公式は LOTUS (law of the unconscious statistician) と呼ばれることがある。確率空間の詳細を忘れて、分布だけから期待値を計算できる点が重要である。
+
+\begin{columnnote}{期待値は「実際に出る値」とは限らない}
+表なら100円、裏なら0円を得る公平なゲームの期待値は50円である。しかし1回のゲームで50円を受け取ることはない。期待値の最も基本的な意味は、独立反復を多数回行ったときの長期平均である。
+
+一方、極端に稀な大きな値がある分布では、期待値は「典型的な値」と大きくずれる。例えば確率 $10^{-12}$ で $10^{12}$ 円、その他は0円なら期待値は1円だが、ほぼ常に0円である。したがって中央値、分位点、尾確率なども同時に見る必要がある。現代確率論では「平均そのもの」よりも「平均からのずれ」を調べることがしばしば主題になる。
+\end{columnnote}
+
+\begin{exerciseblock}
+重み付きサイコロ $\Pp(\{k\})=k/21$ で $X(\omega)=\omega$ の期待値を求めよ。また一様な置換 $\sigma\in S_4$ の不動点数の期待値を、指示関数の和として計算せよ。
+\end{exerciseblock}
+
+
+
+\section{代表的な確率分布}
+\subsection{分布測度と密度}
+確率変数 $X$ の分布を $\mu_X$ とする。$\mu_X=\mu_Y$ なら、可積分な可測関数 $g$ に対し
+\[
+\E[g(X)]=\int g\,d\mu_X=\int g\,d\mu_Y=\E[g(Y)].
+\]
+もし
+\[
+\mu_X(A)=\int_A f_X(x)\,dx
+\]
+と書けるなら $f_X$ を確率密度関数という。分布関数が連続なら点質量は0だが、連続分布関数を持つことと Lebesgue 密度を持つことは一般には同値ではないので注意する。
+
+\subsection{離散分布}
+Bernoulli 試行の和 $S_n$ は二項分布
+\[
+\Pp(S_n=k)=\binom nk p^k(1-p)^{n-k},\qquad
+\E[S_n]=np,
+\quad \Var(S_n)=np(1-p)
+\]
+に従う。
+
+$np_n\to\lambda$ の稀事象極限では
+\[
+\binom nk p_n^k(1-p_n)^{n-k}\to e^{-\lambda}\frac{\lambda^k}{k!},
+\]
+すなわち Poisson$(\lambda)$ 分布が現れる。
+
+幾何分布は
+\[
+\Pp(X=k)=(1-p)^{k-1}p,
+\quad k\ge1,
+\quad \E[X]=\frac1p,
+\quad \Var(X)=\frac{1-p}{p^2}
+\]
+で、離散的な記憶なし性質をもつ。
+
+\subsection{連続分布}
+一様分布 $U(a,b)$ の密度は $(b-a)^{-1}\1_{[a,b]}$ で
+\[
+\E[X]=\frac{a+b}{2},\qquad \Var(X)=\frac{(b-a)^2}{12}.
+\]
+指数分布 $\operatorname{Exp}(\lambda)$ は
+\[
+f(x)=\lambda e^{-\lambda x}\1_{x\ge0},
+\quad \E[X]=\lambda^{-1},
+\quad \Var(X)=\lambda^{-2}
+\]
+であり
+\[
+\Pp(X>t+s\mid X>t)=\Pp(X>s)
+\]
+を満たす。
+
+Gamma$(\alpha,\beta)$（rate 表示）は
+\[
+f(x)=\frac{\beta^\alpha}{\Gamma(\alpha)}x^{\alpha-1}e^{-\beta x}\1_{x\ge0},
+\]
+\[
+\E[X]=\frac{\alpha}{\beta},\qquad
+\Var(X)=\frac{\alpha}{\beta^2}.
+\]
+指数分布は $\alpha=1$ の場合である。
+
+\begin{columnnote}{なぜ Poisson 分布が「回数」に現れるのか}
+1年間を $n$ 個の短い区間に分け、各区間で事象が起こる確率を $p_n$ とすると、独立性の仮定のもとで総回数は Bin$(n,p_n)$ である。$np_n\to\lambda$ なら Poisson$(\lambda)$ が極限として現れる。
+
+連続時間で時刻 $t$ までの回数を $N(t)$ とし、定常独立増分と
+\[
+\Pp(N(h)=1)=\lambda h+o(h),\qquad
+\Pp(N(h)\ge2)=o(h)
+\]
+を仮定すると、$p_k(t)=\Pp(N(t)=k)$ は
+\[
+p_0'(t)=-\lambda p_0(t),\qquad
+p_k'(t)=-\lambda p_k(t)+\lambda p_{k-1}(t)
+\]
+を満たし、
+\[
+p_k(t)=e^{-\lambda t}\frac{(\lambda t)^k}{k!}
+\]
+が得られる。現実のデータが Poisson から大きく外れるなら、独立増分や一定 rate の仮定が壊れている可能性を疑うべきである。
+\end{columnnote}
+
+\begin{exerciseblock}
+指数分布の記憶なし性質と分散を直接計算せよ。さらに Gamma 分布が記憶なし性質をもつのは $\alpha=1$ に限ることを示せ。
+\end{exerciseblock}
+
+\section{二項分布から正規分布へ：de Moivre--Laplace と CLT}
+\subsection{二項分布の中心と幅}
+$X_i\sim\mathrm{Bernoulli}(1/2)$ を独立とし $S_n=\sum_{i=1}^nX_i$ とする。
+\[
+\E[S_n]=\frac n2,
+\qquad
+\Var(S_n)=\frac n4,
+\qquad
+\Pp(S_n=k)=\binom nk2^{-n}.
+\]
+標準偏差は $\sqrt n/2$ なので、$n$ が大きいと確率質量は $n/2$ から $O(\sqrt n)$ の幅に集中する。
+
+\subsection{Stirling 公式と局所近似}
+Stirling 公式
+\[
+n!\sim\sqrt{2\pi n}\left(\frac ne\right)^n
+\]
+から
+\[
+\binom n{n/2}\sim 2^n\sqrt{\frac{2}{\pi n}}
+\]
+を得る。さらに
+\[
+k=\frac n2+\frac x2\sqrt n,
+\quad x=O(1)
+\]
+とすれば
+\[
+\Pp(S_n=k)\approx \frac1{\sqrt{2\pi}}e^{-x^2/2}\frac{2}{\sqrt n}.
+\]
+右辺は「正規密度 $	imes$ 格子幅」である。
+
+\subsection{分布関数への移行}
+\[
+Z_n=\frac{S_n-n/2}{\sqrt n/2}
+\]
+の格子幅は $2/\sqrt n$ である。局所近似を和にすると Riemann 和になり、
+\[
+\Pp(Z_n\le t)\to \Phi(t)
+=\int_{-\infty}^t\frac1{\sqrt{2\pi}}e^{-x^2/2}\,dx.
+\]
+中心領域では Stirling 近似を一様に使い、尾は Chebyshev の不等式などで小さく抑えるというのが証明の基本構造である。
+
+\subsection{正規分布と Gauss 積分}
+正規密度が確率密度であるための基本積分は
+\[
+\int_{\R}e^{-x^2}\,dx=\sqrt\pi.
+\]
+二乗して $\R^2$ の積分にし、極座標変換すれば
+\[
+\left(\int e^{-x^2}dx\right)^2
+=2\pi\int_0^\infty e^{-r^2}r\,dr=\pi.
+\]
+この Gauss 核は次回の Fourier 解析にも現れる。
+
+\begin{columnnote}{ランダムウォークから Brown 運動へ}
+$Y_i=2X_i-1\in\{-1,+1\}$ とし $S_n=\sum_{i=1}^nY_i$ とおくと、対称単純ランダムウォークを得る。各固定時刻については CLT により $S_n/\sqrt n$ が正規分布に近づく。
+
+この現象を「1時点」ではなく「軌跡全体」に拡張したのが Donsker の不変原理である。平均 $\mu$、分散 $\sigma^2$ の iid 列に対して
+\[
+W_t^{(n)}=\frac1{\sqrt n}\sum_{i=1}^{\lfloor nt\rfloor}\frac{X_i-\mu}{\sigma},\qquad 0\le t\le1,
+\]
+を適切に補間すると、関数空間上で Brown 運動へ弱収束する。通常の CLT は、その有限次元の影の一つと見ることができる。
+\end{columnnote}
+
+\begin{exerciseblock}
+$n=100$ の公平なコイントスについて $S_n$ のヒストグラムをシミュレーションし、平均50・分散25の正規密度と比較せよ。中心部と尾部で誤差の見え方がどう違うか観察せよ。
+\end{exerciseblock}
+
+\section{特性関数と Fourier 解析}
+\subsection{特性関数}
+\begin{definition}
+実数値確率変数 $X$ の特性関数を
+\[
+\varphi_X(\xi)=\E[e^{i\xi X}]
+\]
+と定める。
+\end{definition}
+$|e^{i\xi X}|=1$ なので特性関数は常に存在し
+\[
+|\varphi_X(\xi)|\le1,
+\qquad \varphi_X(0)=1.
+\]
+独立な $X,Y$ について
+\[
+\varphi_{X+Y}(\xi)=\varphi_X(\xi)\varphi_Y(\xi)
+\]
+が成り立つため、独立和の解析に非常に強い。
+
+\subsection{分布を特徴づける}
+有界連続関数に対する積分がすべて一致すれば分布は一致する。すなわち
+\[
+\int f\,d\mu_X=\int f\,d\mu_Y\quad(\forall f\in C_b(\R))
+\]
+なら $\mu_X=\mu_Y$ である。開区間の指示関数を連続関数で近似し、開集合を可算個の互いに素な区間に分解し、最後に Borel 集合へ拡張するのが一つの証明である。
+
+\subsection{正則化された Fourier 逆変換}
+$f\in C_c(\R)$ とし、Gauss 核
+\[
+\phi_\delta(x)=\sqrt{\frac\delta\pi}e^{-\delta x^2}
+\]
+を用いると $f*\phi_\delta\to f$ が一様に成り立つ。また
+\[
+\widehat{\phi_\delta}(\xi)=e^{-\xi^2/(4\delta)}
+\]
+であり、直接計算から
+\[
+(f*\phi_\delta)(x)
+=\frac1{2\pi}\int_{\R}\hat f(\xi)e^{-\xi^2/(4\delta)}e^{ix\xi}\,d\xi.
+\]
+したがって
+\[
+f(x)=\lim_{\delta\to\infty}
+\frac1{2\pi}\int_{\R}\hat f(\xi)e^{-\xi^2/(4\delta)}e^{ix\xi}\,d\xi.
+\]
+$\hat f\in L^1$ なら優収束定理で Gauss 因子を外し、古典的逆変換公式を得る。
+
+\subsection{L\'evy の連続性定理}
+特性関数が分布を一意に決めるだけでなく、収束も検出する。
+\begin{theorem}[L\'evy の連続性定理の基本形]
+$X_n,X$ を実数値確率変数とすると
+\[
+X_n\Rightarrow X
+\quad\Longleftrightarrow\quad
+\varphi_{X_n}(t)\to\varphi_X(t)\quad(\forall t\in\R).
+\]
+\end{theorem}
+この定理と独立和の積構造により CLT の証明が短くなる。
+
+\begin{columnnote}{なぜ MGF より特性関数が安定なのか}
+積率母関数 $M_X(t)=\E[e^{tX}]$ は存在すれば便利だが、重い尾をもつ分布では $t\ne0$ で発散することがある。例えば Cauchy 分布には非自明な MGF がない。一方、特性関数は $|e^{itX}|=1$ のため必ず存在する。
+
+平均0・分散1の iid 列で
+\[
+S_n=\frac1{\sqrt n}\sum_{j=1}^nX_j
+\]
+とすると
+\[
+\varphi_{S_n}(t)=\left(\varphi_X(t/\sqrt n)\right)^n.
+\]
+原点近傍で
+\[
+\varphi_X(u)=1-\frac{u^2}{2}+o(u^2)
+\]
+だから
+\[
+\varphi_{S_n}(t)\to e^{-t^2/2}.
+\]
+L\'evy の定理で標準正規分布への収束が従う。
+\end{columnnote}
+
+\begin{exerciseblock}
+Gauss 核による正則化逆変換の証明を、(i) 近似恒等写像、(ii) Gauss 核の Fourier 変換、(iii) Fubini による畳み込みの変換、(iv) 極限、の4段階に分けて書け。
+\end{exerciseblock}
+
+\section{確率変数列の三つの収束}
+\subsection{概収束}
+$X_n,X$ が同じ確率空間上にあるとき
+\[
+\Pp(\{\omega:X_n(\omega)\to X(\omega)\})=1
+\]
+なら $X_n\to X$ a.s. という。これは標本ごとの収束で最も強い。
+
+\subsection{確率収束}
+任意の $\varepsilon>0$ に対して
+\[
+\Pp(|X_n-X|>\varepsilon)\to0
+\]
+なら $X_n\xrightarrow{\Pp}X$ という。概収束は確率収束を導く。
+
+\subsection{分布収束}
+任意の有界連続関数 $f$ に対して
+\[
+\E[f(X_n)]\to\E[f(X)]
+\]
+なら $X_n\Rightarrow X$ という。確率収束は分布収束を導く。
+
+したがって
+\[
+X_n\to X\ \text{a.s.}
+\quad\Longrightarrow\quad
+X_n\xrightarrow{\Pp}X
+\quad\Longrightarrow\quad
+X_n\Rightarrow X.
+\]
+逆向きは一般に成り立たない。
+
+\subsection{演算との関係}
+概収束と確率収束は、和・積など同じ確率空間上の演算と相性がよい。一方、分布収束は周辺分布だけを見ており、$X_n\Rightarrow X$ と $Y_n\Rightarrow Y$ だけでは $X_n+Y_n$ の極限は決まらない。依存構造の情報が失われているためである。
+
+\begin{columnnote}{逆向きが壊れる反例と Borel--Cantelli}
+分布収束は「分布の形が近づく」だけで、同じ $\omega$ における値の近さを保証しない。例えば各 $X_n$ が常に Bernoulli$(1/2)$ 分布を持ちながら、同じ標本上では0と1を交互に行き来するように作れば、分布は一定でも点ごとの極限は存在しない。
+
+確率収束から概収束も一般には従わないが、誤差確率が十分速く減れば従う。任意の $\varepsilon>0$ に対して
+\[
+\sum_{n=1}^\infty \Pp(|X_n-X|>\varepsilon)<\infty
+\]
+なら Borel--Cantelli 補題により、$|X_n-X|>\varepsilon$ はほぼ確実に有限回しか起こらない。$\varepsilon=1/m$ を可算個同時に扱えば $X_n\to X$ a.s. が得られる。
+
+また、確率収束からは概収束する部分列を取ることができる。分布収束についても、Skorokhod 表現定理により別の確率空間上で同じ分布を保ったまま概収束として実現できる場合がある。
+\end{columnnote}
+
+\begin{exerciseblock}
+$X_n\xrightarrow{\Pp}X$, $Y_n\xrightarrow{\Pp}Y$ なら $X_nY_n\xrightarrow{\Pp}XY$ を示せ。また確率収束するが概収束しない具体例を一つ構成せよ。
+\end{exerciseblock}
+
+\section{弱収束、tightnessの定理}
+\subsection{Portmanteau の定理}
+確率測度 $\mu_n,\mu$ の弱収束
+\[
+\mu_n\Rightarrow\mu
+\quad\Longleftrightarrow\quad
+\int f\,d\mu_n\to\int f\,d\mu
+\quad(\forall f\in C_b)
+\]
+から、開集合 $O$ と閉集合 $F$ に対して
+\[
+\mu(O)\le\liminf_n\mu_n(O),
+\qquad
+\limsup_n\mu_n(F)\le\mu(F)
+\]
+が従う。開集合の指示関数を下から連続関数で近似するのが基本である。逆向きも成り立ち、これらは弱収束の等価な特徴づけを与える。
+
+\subsection{tightness}
+確率測度列 $(\mu_n)$ が tight であるとは、任意の $\varepsilon>0$ に対してコンパクト $K$ があり
+\[
+\inf_n\mu_n(K)\ge1-\varepsilon
+\]
+となることである。$\R^d$ では「確率質量が一様に無限遠へ逃げない」という意味である。
+
+Prokhorov の定理は tightness から弱収束部分列の存在を与える。一次元なら分布関数を有理点上で対角抽出し、極限分布関数を構成する証明もできる。
+
+
+
+\begin{exerciseblock}
+開集合 $O\subset\R$ に対して $x\mapsto d(x,O^c)$ が連続であることを示せ。また Portmanteau の開集合不等式を、この距離関数から作る連続関数近似を用いて証明せよ。
+\end{exerciseblock}
+
+\section{独立性、共分散、pairwise と mutual}
+\subsection{二つの確率変数の独立性}
+\begin{definition}
+確率変数 $X,Y$ が独立であるとは、任意の Borel 集合 $A,B$ に対して
+\[
+\Pp(X\in A,Y\in B)=\Pp(X\in A)\Pp(Y\in B)
+\]
+が成り立つことをいう。
+\end{definition}
+$\Pp(Y\in B)>0$ なら
+\[
+\Pp(X\in A\mid Y\in B)=\Pp(X\in A),
+\]
+すなわち $Y$ に関する情報を得ても $X$ の分布が変わらない。
+
+\subsection{可測写像による独立性の保存}
+$X,Y$ が独立で $f,g$ が可測なら $f(X),g(Y)$ も独立である。可積分なら
+\[
+\E[f(X)g(Y)]=\E[f(X)]\E[g(Y)].
+\]
+まず単関数で示し、一般の場合は単関数近似で拡張する。
+
+\subsection{分散と共分散}
+\[
+\Var(X)=\E[(X-\E X)^2],
+\qquad
+\Cov(X,Y)=\E[(X-\E X)(Y-\E Y)].
+\]
+二次モーメントが有限な独立変数なら
+\[
+\Cov(X,Y)=0,
+\qquad
+\Var(X+Y)=\Var(X)+\Var(Y).
+\]
+ただし無相関 $\Cov(X,Y)=0$ は一般には独立性を意味しない。
+
+\subsection{pairwise 独立と mutual 独立}
+$\{X_i\}_{i\in I}$ が mutual（同時）独立であるとは、任意の有限部分族と Borel 集合 $A_k$ に対し
+\[
+\Pp(X_{i_1}\in A_1,\dots,X_{i_m}\in A_m)
+=\prod_{k=1}^m\Pp(X_{i_k}\in A_k)
+\]
+が成り立つことをいう。pairwise 独立は $m=2$ の場合だけを要求する。
+
+独立な Bernoulli$(1/2)$ 変数 $X,Y$ に対して
+\[
+Z=X\oplus Y
+\]
+とおくと、$(X,Y),(X,Z),(Y,Z)$ は各々独立だが
+\[
+\Pp(X=0,Y=0,Z=0)=\frac14\ne\frac18
+\]
+なので三つ組は mutual 独立ではない。
+
+\begin{columnnote}{pairwise 独立だけでは「全体の自由さ」は保証されない}
+$\{\pm1\}$ 値の独立な Rademacher 変数 $X,Y$ に $Z=XY$ を付け加えると、各ペアは独立だが
+\[
+XYZ=1\qquad\text{a.s.}
+\]
+という完全な三者関係がある。さらに独立な $X_1,\dots,X_{n-1}$ に
+\[
+X_n=\prod_{j=1}^{n-1}X_j
+\]
+と置けば、任意の $n-1$ 個は独立でも $n$ 個全体は独立でない例になる。
+
+一方、$(X_1,\dots,X_n)$ が共同 Gaussian であるという強い仮定のもとでは、共分散行列が対角、pairwise 独立、mutual 独立が一致する。この「Gaussian では無相関が独立を意味する」という性質は特別であり、一般の分布へ持ち込んではならない。
+\end{columnnote}
+
+\begin{exerciseblock}
+独立な $X\sim\mathrm{Poi}(\lambda)$, $Y\sim\mathrm{Poi}(\mu)$ について特性関数を用い $X+Y\sim\mathrm{Poi}(\lambda+\mu)$ を示せ。補充演習として、Berry--Esseen 不等式が CLT の誤差を $O(n^{-1/2})$ で評価することの意味を調べよ。
+\end{exerciseblock}
+
+\section{大数の法則と一般の中心極限定理}
+\subsection{Markov と Chebyshev の不等式}
+$X\ge0$ なら
+\[
+\Pp(X\ge a)\le\frac{\E[X]}a\qquad(a>0).
+\]
+特に $a=1$ が講義 HTML の形である。これを $(X-\E X)^2$ に適用すると
+\[
+\Pp(|X-\E X|\ge t)\le\frac{\Var(X)}{t^2}
+\]
+を得る。
+
+\subsection{弱大数の法則}
+$X_1,X_2,\dots$ を iid、$m=\E[X_1]$, $\Var(X_1)=v<\infty$ とし
+\[
+\bar X_n=\frac1n\sum_{i=1}^nX_i
+\]
+とおく。独立性から
+\[
+\Var(\bar X_n)=\frac vn.
+\]
+Chebyshev により
+\[
+\Pp(|\bar X_n-m|>\varepsilon)
+\le\frac{v}{n\varepsilon^2}\to0.
+\]
+したがって $\bar X_n\xrightarrow{\Pp}m$。
+
+\subsection{強大数の法則の一つの十分条件}
+講義 HTML では4次モーメントを仮定した証明を扱う。$\E[X_1^4]<\infty$ なら、ある $C$ が存在して
+\[
+\E[(\bar X_n-m)^4]\le Cn^{-2}.
+\]
+したがって
+\[
+\sum_n\Pp(|\bar X_n-m|>\varepsilon)
+\le \varepsilon^{-4}\sum_n \E[(\bar X_n-m)^4]<\infty.
+\]
+Borel--Cantelli から $\bar X_n\to m$ a.s. が従う。一般の強大数の法則はより弱い仮定 $\E|X_1|<\infty$ で成り立つが、その証明は別の道具を要する。
+
+\subsection{一般の中心極限定理}
+$X_i$ を iid、$m=\E[X_1]$, $v=\Var(X_1)<\infty$ とすると
+\[
+Y_n=\sqrt n(\bar X_n-m)
+=\frac1{\sqrt n}\sum_{i=1}^n(X_i-m)
+\Rightarrow N(0,v).
+\]
+特性関数は
+\[
+\varphi_{Y_n}(\xi)
+=\left(\E\exp\left(\frac{i\xi}{\sqrt n}(X_1-m)\right)\right)^n.
+\]
+Taylor 展開と優収束から
+\[
+\E\exp\left(\frac{i\xi}{\sqrt n}(X_1-m)\right)
+=1-\frac{v\xi^2}{2n}+o(n^{-1}),
+\]
+ゆえに
+\[
+\varphi_{Y_n}(\xi)\to e^{-v\xi^2/2}.
+\]
+L\'evy の連続性定理から CLT が従う。
+
+\begin{columnnote}{平均の法則と揺らぎの法則}
+大数の法則と CLT は同じ標本平均を異なるスケールで見ている。
+\[
+\bar X_n-m\to0
+\]
+というのが大数の法則であり、誤差そのものは消える。一方、誤差を $\sqrt n$ 倍すると
+\[
+\sqrt n(\bar X_n-m)
+\]
+は消えず、正規分布という普遍的な揺らぎを残す。したがって「平均は安定する」と「その安定化の速度と形はどうか」は別の問いである。
+
+講義の補講 HTML はテンプレート形式であったため、ここではその意図に沿って復習観点を明示した。弱法則では二次モーメント、講義版の強法則では四次モーメント、CLT では二次モーメントがどこで使われるかを区別して読むことが重要である。
+\end{columnnote}
+
+\begin{exerciseblock}
+$(\bar X_n-m)^4$ を展開し、独立性と中心化を使って $\E[(\bar X_n-m)^4]=O(n^{-2})$ を示せ。また $a_n\to a$ なら $(1-a_n/n)^n\to e^{-a}$ を証明せよ。元の exercise11.html にある補充問題として、単調変換による密度変換公式も復習せよ。
+\end{exerciseblock}
+
+\section{条件付き期待値：情報に関する平均}
+\subsection{有限確率空間での条件付き分布}
+有限確率空間で確率変数 $X,Y_1,\dots,Y_n$ を考える。$\Pp(Y_1=y_1,\dots,Y_n=y_n)>0$ なら
+\[
+\Pp(X=x\mid Y_1=y_1,\dots,Y_n=y_n)
+=\frac{\Pp(X=x,Y_1=y_1,\dots,Y_n=y_n)}
+{\Pp(Y_1=y_1,\dots,Y_n=y_n)}
+\]
+と定める。条件付き期待値は
+\[
+\E[X\mid Y_1=y_1,\dots,Y_n=y_n]
+=\sum_x x\Pp(X=x\mid Y_1=y_1,\dots,Y_n=y_n).
+\]
+これを $(y_1,\dots,y_n)$ の関数 $f_X$ とみなし
+\[
+\E[X\mid Y_1,\dots,Y_n](\omega)
+=f_X(Y_1(\omega),\dots,Y_n(\omega))
+\]
+と定めると、条件付き期待値自身が確率変数になる。
+
+\subsection{有限例}
+2回の公平なコイン投げで
+\[
+X=\1_{\{\text{1回目が表}\}},
+\qquad
+Y=\text{表の総数}
+\]
+とする。すると
+\[
+\E[X\mid Y=2]=1,
+\quad
+\E[X\mid Y=1]=\frac12,
+\quad
+\E[X\mid Y=0]=0.
+\]
+したがって $\E[X\mid Y]$ は $Y$ の値だけで決まる。
+
+\subsection{$\sigma$-加法族に関する定義}
+$\mathcal G\subset\mathcal F$ を $\sigma$-加法族、$X$ を可積分とする。
+\begin{definition}
+$\mathcal G$-可測な可積分確率変数 $Z$ が
+\[
+\E[X\1_A]=\E[Z\1_A]
+\qquad(\forall A\in\mathcal G)
+\]
+を満たすとき、$Z$ を $\E[X\mid\mathcal G]$ と書く。
+\end{definition}
+
+二つの条件が意味することは明確である。
+\begin{itemize}
+\item $\mathcal G$-可測性：答えは手元の情報 $\mathcal G$ だけを使っている。
+\item 積分一致：$\mathcal G$ で区別できるすべての事象上で、元の $X$ と同じ平均を持つ。
+\end{itemize}
+
+存在は Radon--Nikodym 定理から従う。$A\in\mathcal G$ に対し
+\[
+\nu(A)=\E[X\1_A]
+\]
+と置けば、$\nu$ は $\Pp|_{\mathcal G}$ に絶対連続な有限符号付き測度であり、その密度が条件付き期待値である。一意性は a.s. の意味で成り立つ。
+
+\subsection{基本性質}
+可積分な $X,Y$ と定数 $a,b$ に対し
+\[
+\E[aX+bY\mid\mathcal G]
+=a\E[X\mid\mathcal G]+b\E[Y\mid\mathcal G].
+\]
+$X$ が $\mathcal G$-可測なら
+\[
+\E[X\mid\mathcal G]=X\qquad\text{a.s.}
+\]
+また $\Omega\in\mathcal G$ を定義式に入れるだけで
+\[
+\E[\E[X\mid\mathcal G]]=\E[X]
+\]
+を得る。さらに $\mathcal H\subset\mathcal G$ なら塔の性質
+\[
+\E[\E[X\mid\mathcal G]\mid\mathcal H]
+=\E[X\mid\mathcal H]
+\]
+が成り立つ。
+
+\begin{columnnote}{条件付き期待値は「情報に基づく最良予測」}
+$\mathcal G$ を現在までに知っている情報とみなすと、$\E[X\mid\mathcal G]$ はその情報だけを用いた $X$ の平均的予測である。二乗誤差の意味では、$L^2$ のとき
+\[
+\E[X\mid\mathcal G]
+\]
+は $\mathcal G$-可測な確率変数全体の中で $\E[(X-Z)^2]$ を最小化する直交射影として理解できる。
+
+この視点から、martingale は
+\[
+\E[X_{t+1}\mid\mathcal F_t]=X_t
+\]
+を満たす「現在値が将来値の最良予測になっている過程」として現れる。第1回のコラムで出てきた「$\sigma$-加法族は情報」という見方が、ここで具体的な計算原理になる。
+
+元の st12.html は復習用テンプレートだったため、本コラムではその数式メモの趣旨を条件付き期待値の幾何学的解釈へ発展させた。
+\end{columnnote}
+
+\begin{exerciseblock}
+公平なサイコロ2個の出目を $X,Y$、和を $S=X+Y$ とする。$\E[X\mid S]$ を求めよ。対称性から答えを予想した後、条件付き分布で確認せよ。また $\E[\E[X\mid\mathcal G]]=\E[X]$ を定義から証明せよ。exercise12.html の総合演習として、第1--11回の主要定理の仮定と結論を自分の言葉で整理せよ。
+\end{exerciseblock}
+\section{Kolmogorov の拡張定理と無限回の試行}
+\subsection{なぜ有限モデルだけでは足りないか}
+$n$ 回の公平なコイン投げは $\Omega_n=\{-1,+1\}^n$ 上の一様確率で記述できる。しかし「無限回投げる」ことを $n\to\infty$ の形式的極限だけで定義することはできない。無限列
+\[
+\Omega=\{-1,+1\}^{\N}
+\]
+そのものを標本空間として、その上に確率測度を構成する必要がある。
+
+\subsection{円筒集合と整合性}
+射影
+\[
+\pi_n(\omega)=(\omega_1,\dots,\omega_n)
+\]
+を考え、有限次元分布 $P_n$ が整合的であるとする。すなわち $m>n$ のとき、$P_m$ を最初の $n$ 座標へ射影した分布が $P_n$ に一致する。円筒集合
+\[
+\pi_n^{-1}(A),\qquad A\subset\Omega_n
+\]
+に
+\[
+\mu(\pi_n^{-1}(A))=P_n(A)
+\]
+と定めると、整合性により well-defined な有限加法的前測度が得られる。
+
+\subsection{外測度による拡張}
+円筒集合の有限加法族を $\mathcal S$ とし、任意の $A\subset\Omega$ に
+\[
+P^*(A)=\inf\left\{\sum_{k=1}^\infty \mu(B_k):
+A\subset\bigcup_{k=1}^\infty B_k,\ B_k\in\mathcal S\right\}
+\]
+を定める。Carathéodory の定理により、適切な可測集合族上で $P^*$ は可算加法的測度となり、$\sigma(\mathcal S)$ 上に拡張された確率測度 $P$ が得られる。
+
+この証明で本質的なのは、(i) 円筒集合上の有限加法性、(ii) 外測度の可算劣加法性、(iii) 円筒集合上で $P^*=\mu$ が保たれること、(iv) 生成される $\sigma$-加法族上で可算加法性を回復することである。
+
+\begin{theorem}[Kolmogorov 拡張定理の理念]
+有限次元分布族が整合条件を満たすなら、それらを有限次元周辺分布としてもつ無限次元確率測度が存在する。標準的な設定では一意性も成り立つ。
+\end{theorem}
+
+\subsection{収束定理の再確認}
+この回の HTML では、拡張定理に入る前に可積分性、単調収束、優収束を復習している。無限次元空間を扱うと「有限から無限へ移る」議論が増えるため、極限と期待値・測度を交換する道具が必要になる。
+
+\begin{columnnote}{無限コイントスは $[0,1]$ の二進展開でも見える}
+$x\in[0,1]$ を
+\[
+x=\sum_{j=1}^\infty \frac{\varepsilon_j(x)}{2^j},\qquad \varepsilon_j(x)\in\{0,1\}
+\]
+と二進展開し、$\phi(x)=(\varepsilon_1(x),\varepsilon_2(x),\dots)$ とする。二進有理点の二重表現は零集合なので、規約を一つ決めればよい。
+
+Lebesgue 測度 $\lambda$ を $\phi$ で押し出すと、長さ $n$ の先頭列を固定したシリンダー集合 $C(e_1,\dots,e_n)$ の確率は
+\[
+\lambda(\phi^{-1}(C(e_1,\dots,e_n)))=2^{-n}
+\]
+となる。したがって各桁は独立な Bernoulli$(1/2)$ に見える。この構成は直観的だが、一般の状態空間や一般の確率過程へ拡張しにくい。Kolmogorov の拡張定理の強みは、その一般性にある。
+\end{columnnote}
+
+\begin{exerciseblock}
+円筒集合上の $\mu$ が表示の仕方に依存しないことを整合性から示せ。また、互いに素な集合 $A_i$ と一般の集合 $B_i$ に対し、$D_n=B_n\setminus\bigcup_{j<n}B_j$ とおいたとき
+\[
+A_n\subset D_n\cup\bigcup_{j=1}^n(A_j\triangle B_j)
+\]
+を示せ。
+\end{exerciseblock}
+
+
+
+
+\end{document}

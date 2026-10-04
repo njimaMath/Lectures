@@ -1,0 +1,1193 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>数学の危機 ！？</title>
+<style>
+:root{
+  --bg:#101321; --panel:#1b2033; --ink:#f5f4ee;
+  --muted:#b4bbcf; --cyan:#72e5dc; --orange:#ffb16d;
+  --pink:#ff7895; --line:#343b54;
+}
+*{box-sizing:border-box}
+body{
+  margin:0;background:#090b12;color:var(--ink);
+  font-family:"Noto Sans JP","Hiragino Kaku Gothic ProN","Yu Gothic",sans-serif;
+}
+button,a{-webkit-tap-highlight-color:transparent}
+a{color:var(--cyan);text-underline-offset:4px}
+a:hover{color:white}
+button{font:inherit}
+#viewport{height:100dvh;display:grid;place-items:center;overflow:hidden}
+#deck{
+  width:1280px;height:720px;position:relative;flex-shrink:0;
+  transform:scale(var(--scale,1));transform-origin:center;
+  background:var(--bg);box-shadow:0 20px 100px #0008;
+}
+.slide{
+  position:absolute;inset:0;padding:42px 64px 70px;
+  display:none;overflow:hidden;
+  background:
+    radial-gradient(ellipse at 100% 0%,#22434c35,transparent 50%),
+    var(--bg);
+}
+.slide.active{display:flex;flex-direction:column}
+.topline{
+  display:flex;justify-content:space-between;gap:20px;
+  color:var(--muted);font-size:15px;letter-spacing:.12em;
+  margin-bottom:24px;
+}
+.eyebrow{color:var(--cyan);font-size:16px;font-weight:700;letter-spacing:.1em}
+h1,h2,h3,p{margin:0}
+h1{font-size:76px;line-height:1.12;letter-spacing:.03em}
+h2{font-size:46px;line-height:1.3;letter-spacing:.01em;margin-bottom:22px}
+h3{font-size:25px;line-height:1.45;margin-bottom:10px}
+p{font-size:25px;line-height:1.65}
+strong{color:var(--cyan)}
+em{font-style:normal;color:var(--orange)}
+.muted{color:var(--muted)}
+.small{font-size:18px;line-height:1.6}
+.tiny{font-size:14px;line-height:1.55}
+.center{text-align:center}
+.grow{flex:1}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:30px}
+.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:22px}
+.statement-intro{font-size:21px;line-height:1.5;margin:-7px 0 21px}
+.statement-grid{
+  display:grid;grid-template-columns:repeat(6,minmax(0,1fr));
+  grid-template-rows:repeat(2,204px);gap:18px;
+}
+.statement-grid .card{grid-column:span 2;padding:18px 22px}
+.statement-grid .card:nth-child(4){grid-column:2 / span 2}
+.statement-grid .card:nth-child(5){grid-column:4 / span 2}
+.statement-grid h3{font-size:21px;line-height:1.4;margin:11px 0 9px;min-height:2.8em}
+.statement-grid p{font-size:17px;line-height:1.5}
+.statement-grid h3,.statement-grid p{word-break:keep-all}
+.card{
+  background:var(--panel);border:1px solid var(--line);
+  border-radius:20px;padding:26px;
+}
+.card.accent{border-color:var(--cyan)}
+.card.warn{border-color:#ffb16d80}
+.tag{
+  display:inline-block;padding:5px 11px;border:1px solid var(--line);
+  border-radius:100px;font-size:15px;color:var(--muted);
+}
+.tag.good{color:var(--cyan);border-color:#72e5dc70}
+.tag.hot{color:var(--orange);border-color:#ffb16d70}
+.big{font-size:58px;line-height:1.35;font-weight:800}
+.massive{font-size:94px;font-weight:850;line-height:1.15}
+.takeaway{
+  margin-top:auto;padding-top:22px;
+  font-size:30px;font-weight:750;line-height:1.5;
+}
+.sources{
+  position:absolute;bottom:25px;left:64px;right:125px;
+  font-size:12px;line-height:1.5;color:var(--muted);
+}
+.sources a{color:var(--muted);margin-right:12px}
+.page{position:absolute;bottom:24px;right:64px;color:var(--muted);font-size:15px}
+.notes{display:none}
+#controls{
+  position:fixed;bottom:10px;left:50%;transform:translateX(-50%);
+  display:flex;gap:8px;align-items:center;z-index:15;
+  opacity:.7;transition:opacity .2s;
+}
+#controls:hover,#controls:focus-within{opacity:1}
+#controls button,#counter{
+  background:#252b3f;color:#eee;border:1px solid #555e75;
+  border-radius:8px;padding:6px 12px;font-size:13px;
+}
+#controls button{cursor:pointer}
+#controls button:disabled{opacity:.35;cursor:default}
+#progress{position:absolute;bottom:0;left:0;height:4px;background:var(--cyan);transition:width .25s}
+.figure{margin:0}
+.figure img{width:100%;height:216px;object-fit:cover;border-radius:14px;display:block}
+.figure figcaption{font-size:12px;color:var(--muted);margin-top:6px}
+.quote{border-left:4px solid var(--orange);padding-left:18px}
+.cover-slide .cover-layout{
+  display:flex;flex-direction:row;align-items:center;gap:28px;padding-top:0;
+}
+.cover-slide h1{font-size:80px;line-height:1.1;letter-spacing:.01em;white-space:nowrap}
+.cover-slide .cover-tag{margin-top:22px;font-size:17px;padding:7px 14px}
+.cover-slide .cover-claim{font-size:35px;line-height:1.5;margin:14px 0 20px}
+.cover-slide .cover-summary{font-size:20px}
+.cover-slide .cover-layout>div:first-child{flex:1;min-width:0}
+.cover-slide .cover-figure{flex:none;width:540px}
+.cover-slide .figure{display:flex;flex-direction:column;gap:10px}
+.cover-slide .figure a{display:block;flex:none}
+.cover-slide .figure img{width:100%;height:auto;max-height:440px;object-fit:contain;border-radius:10px}
+.cover-slide #imageFallback{width:100%;height:360px;border-radius:10px}
+.cover-slide .figure figcaption{font-size:12px;margin:0;line-height:1.5;max-width:none}
+.cover-slide .cover-quote{margin-top:0;padding-left:20px}
+.cover-slide .cover-quote h3{font-size:22px;margin-bottom:7px}
+.cover-slide .cover-quote p{font-size:23px;line-height:1.5}
+.cover-slide .cover-quote blockquote{
+  margin:0;color:var(--orange);font-size:29px;font-weight:750;line-height:1.45;
+}
+.cover-slide .sources{padding-top:10px;border-top:1px solid var(--line)}
+.flow{display:flex;gap:16px;align-items:center;justify-content:center}
+.flow .card{flex:1;text-align:center}
+.arrow{font-size:38px;color:var(--muted)}
+.timeline{
+  display:grid;grid-template-columns:repeat(5,1fr);
+  gap:20px;position:relative;margin:37px 0 24px;
+}
+.timeline:before{
+  content:"";height:3px;background:linear-gradient(90deg,var(--cyan),var(--orange));
+  position:absolute;top:79px;left:7%;right:7%;
+}
+.epoch{position:relative;text-align:center}
+.epoch .symbol{font-size:42px;height:64px;font-weight:800}
+.epoch .dot{
+  width:16px;height:16px;background:var(--cyan);border-radius:50%;
+  margin:8px auto 22px;border:4px solid var(--bg);outline:2px solid var(--cyan);
+}
+.epoch .date{font-size:17px;color:var(--orange);margin-bottom:9px}
+.epoch h3{font-size:23px}
+.epoch p{font-size:18px}
+.problems{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
+.problem{padding:21px 18px;min-height:150px}
+.problem h3{font-size:21px}
+.problem p{font-size:17px;color:var(--muted)}
+.problem.feature{border-color:var(--orange)}
+.problem.prize{
+  background:#72e5dc12;border-color:#72e5dc66;
+  display:flex;flex-direction:column;justify-content:center;text-align:center;
+}
+.num{font-size:52px;font-weight:850;color:var(--cyan);margin-bottom:16px}
+.equation{
+  font-family:"Cambria Math","Times New Roman",serif;
+  font-size:36px;text-align:center;line-height:1.6;
+  border:1px solid var(--line);border-radius:18px;padding:20px 12px;
+  background:#1b2033;
+}
+.equation sub{font-size:.6em}
+.math{font-family:"Cambria Math","Times New Roman",serif}
+.pillrow{display:flex;gap:12px;justify-content:center;margin:14px 0 24px}
+.pillrow span{font-size:17px;padding:7px 14px;background:var(--panel);border-radius:9px}
+svg{display:block;max-width:100%}
+.checkrow{
+  display:flex;align-items:center;gap:22px;
+  border-bottom:1px solid var(--line);padding:18px 0;
+}
+.checkrow:last-child{border-bottom:0}
+.checkrow b{font-size:35px;color:var(--cyan);min-width:48px}
+.checkrow p{font-size:26px}
+.code{
+  font-family:Consolas,"SFMono-Regular",monospace;
+  font-size:25px;white-space:pre-wrap;line-height:1.8;margin:0;
+}
+code{font-family:Consolas,"SFMono-Regular",monospace}
+.pink{color:var(--pink)}
+.compare{display:flex;align-items:center;justify-content:center;gap:30px;margin:12px 0}
+.compare .word{font-size:54px;font-weight:800}
+.role-flow{display:grid;grid-template-columns:1fr auto 1fr;gap:22px;align-items:stretch;margin:8px 0 12px}
+.role-card{min-height:170px;display:flex;flex-direction:column;justify-content:center;gap:10px;padding:18px 30px;font-size:25px;line-height:1.6;font-weight:400;color:var(--ink)}
+.role-card>div,.role-card>p{font:inherit;max-width:480px;margin:0 auto}
+.role-arrow{align-self:center;font-size:25px;color:var(--ink)}
+.value-path{display:flex;align-items:center;justify-content:center;gap:13px;margin:0 auto 12px}
+.value-step{min-width:190px;padding:8px 17px;border-top:1px solid var(--line);text-align:center}
+.value-step b{display:block;color:var(--cyan);font-size:17px;margin-bottom:5px}
+.value-step span{font-size:22px;font-weight:750}
+.value-path .arrow{font-size:25px;color:var(--muted)}
+.evaluation-note{margin:0 auto;padding:10px 25px;max-width:860px}
+.evaluation-note p{font-size:25px}
+.balance{border-top:1px solid var(--line);padding-top:20px;margin-top:22px}
+#imageFallback{
+  height:216px;display:none;place-items:center;border-radius:14px;
+  background:linear-gradient(135deg,#164c80,#563150);
+  color:white;font-size:34px;font-weight:800;text-align:center;
+}
+.ns-sim-layout{display:grid;grid-template-columns:480px 1fr;gap:30px;min-height:0;flex:1}
+.ns-sim-canvas{
+  width:440px;height:440px;image-rendering:pixelated;display:block;
+  background:#000;border:1px solid var(--line);border-radius:16px;
+}
+.ns-sim-side{display:flex;flex-direction:column;gap:16px;min-width:0}
+.ns-sim-controls{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+.ns-sim-controls button{
+  cursor:pointer;color:var(--ink);background:var(--panel);border:1px solid #555e75;
+  border-radius:9px;padding:8px 13px;
+}
+.ns-sim-controls button:hover{border-color:var(--cyan)}
+.ns-sim-controls label{font-size:18px;color:var(--muted);flex-basis:100%}
+.ns-sim-controls input{width:225px;accent-color:var(--orange);vertical-align:middle}
+.ns-sim-status{
+  margin:0;padding:18px 20px;min-height:190px;white-space:pre-wrap;
+  font:16px/1.55 Consolas,"SFMono-Regular",monospace;
+  background:var(--panel);border:1px solid var(--line);border-radius:14px;
+}
+.ns-sim-warning{color:#ff6767}
+.ns-sim-legend{font-size:17px;color:var(--muted)}
+.ns-sim-positive{color:var(--orange)}
+.ns-sim-negative{color:#64c8ff}
+.blowup-caption{font-size:22px;line-height:1.5}
+.ns-sim-warning-card p{font-size:24px;line-height:1.45}
+.resource-question{font-size:24px;line-height:1.5}
+.research-flow .tag{font-size:23px;padding:9px 18px}
+.cost-note{font-size:23px;line-height:1.5;margin-top:18px}
+.value-conclusion{font-size:27px;line-height:1.4}
+.kernel-note{font-size:25px;line-height:1.5}
+.verification-intro{font-size:26px;line-height:1.5}
+.verification-examples{font-size:24px;line-height:1.6}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+@media print{
+  @page{size:338.67mm 190.5mm;margin:0}
+  body{background:var(--bg);-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  #viewport{height:auto;display:block;overflow:visible}
+  #deck{width:1280px;height:auto;transform:none!important;box-shadow:none}
+  .slide,.slide.active{
+    position:relative;display:flex;width:1280px;height:720px;
+    break-after:page;page-break-after:always;
+  }
+  .slide:last-of-type{break-after:auto;page-break-after:auto}
+  #controls,#progress{display:none!important}
+}
+.physics-slide h2,.physics-slide h3{font-weight:400}
+.physics-slide h2{font-size:48px;margin-bottom:28px}
+.physics-lineup{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:24px}
+.physics-person{min-width:0;margin:0}
+.physics-person img{display:block;width:100%;height:224px;object-fit:cover;object-position:center 30%;filter:grayscale(1);opacity:.94}
+.physics-person.carnot img{object-position:center 22%}
+.physics-person.maxwell img{object-position:center 12%}
+.physics-person h3{font-size:23px;line-height:1.4;margin:18px 0 3px;white-space:nowrap}
+.physics-person.einstein h3{font-size:21px}
+.physics-field{font-size:19px;line-height:1.5;color:var(--muted);margin-bottom:17px}
+.physics-verdict{font-size:20px;line-height:1.5;color:var(--cyan);white-space:nowrap}
+.physics-question{font-size:20px;line-height:1.55;margin-top:13px;color:var(--orange)}
+.physics-person.planck .physics-verdict{color:var(--orange);font-size:23px;white-space:normal}
+.physics-closing{position:absolute;left:64px;bottom:64px;margin:0;font-size:28px;line-height:1.4;font-weight:400}
+.physics-slide .sources{font-size:11px;line-height:1.6}
+@media print{.physics-person img{filter:grayscale(1);print-color-adjust:exact}}
+</style>
+</head>
+<body>
+<div id="viewport">
+<main id="deck" aria-label="数学の危機：15枚の講義スライド">
+
+<!-- 1 -->
+<section class="slide active cover-slide" aria-label="数学の危機">
+  <div class="topline"><span>理工学系１年生・後期</span><span>2026.09.13 時点</span></div>
+  <div class="cover-layout">
+    <div>
+      <h1>数学の<span style="color:var(--orange)">危機?</span></h1>
+      <div class="tag hot cover-tag">2026年9月8日・OpenAIの発表</div>
+      <h3 class="cover-claim">
+        「ミレニアム問題を<em>解いた！</em>」
+      </h3>
+            <div class="tag hot cover-tag">2026年9月13日・数学者の声明</div>
+      <h3 class="cover-claim">
+     「AIによる数学的競争は害悪！」
+       </h3>
+    </div>
+    <div class="cover-figure">
+      <figure class="figure">
+        <a href="https://www.wired.com/story/openai-navier-stokes-math-discovery-academics/"
+           target="_blank" rel="noopener">
+          <img
+            src="https://media.wired.com/photos/6aa02435e4af4176b7305e6a/master/w_2560%2Cc_limit/OpenAI-Antrophic-MathProblem.jpg"
+            alt="WIREDの記事掲載画像：AI企業の記号と数学者を描いたイラスト"
+            onerror="this.style.display='none';document.getElementById('imageFallback').style.display='grid'">
+          <div id="imageFallback">AI × 数学<br>記事を開く ↗</div>
+        </a>
+        <figcaption>
+          WIRED, 2026-09-08 ／ Photo-Illustration: Wired Staff; Getty Images
+        </figcaption>
+      </figure>
+    </div>
+  </div>
+  <div class="sources">
+    <a href="https://openai.com/index/navier-stokes-solution/" target="_blank" rel="noopener">OpenAI発表</a>
+    <a href="https://cims.nyu.edu/~tristanb/statement.pdf" target="_blank" rel="noopener">数学者の声明 PDF</a>
+    <a href="https://www.claymath.org/news/navier-stokes-announcement/" target="_blank" rel="noopener">Clay研究所 9/11声明</a>
+    <a href="https://openai.com/hugging-face-incident-and-misalignment/" target="_blank" rel="noopener">Misalignment報告</a>
+  </div>
+</section>
+
+<!-- 2 -->
+<section class="slide" aria-label="数学の年表">
+  <div class="topline"><span>01 / これまでの背景</span><span>HISTORY</span></div>
+  <h2>数学の役割の変化。</h2>
+  <p class="muted" style="margin-top:-10px">数える → 証明する → 自然を記述する → 構造をつくる→ 難問を証明する</p>
+  <div class="timeline">
+    <div class="epoch">
+      <div class="symbol">1 2 3</div><div class="dot"></div>
+      <div class="date">古代以前〜</div>
+      <h3>数の発見</h3>
+      <p>数える・測る。<br>暮らしの道具。</p>
+    </div>
+    <div class="epoch">
+      <div class="symbol">△</div><div class="dot"></div>
+      <div class="date">紀元前300年ごろ</div>
+      <h3>証明の体系化</h3>
+      <p>ユークリッド『原論』。<br>証明の発見。</p>
+    </div>
+    <div class="epoch">
+      <div class="symbol math">F = ma</div><div class="dot"></div>
+      <div class="date">17世紀</div>
+      <h3>自然を数式に</h3>
+      <p>ガリレオ・ニュートン。<br>現象を数学で記述。</p>
+    </div>
+    <div class="epoch">
+      <div class="symbol">∀ ∃</div><div class="dot"></div>
+      <div class="date">19世紀〜20世紀</div>
+      <h3>現代数学へ</h3>
+      <p>ヒルベルト<br>抽象化・公理化。</p>
+    </div>
+    <div class="epoch">
+      <div class="symbol" style="color:var(--orange)">7</div><div class="dot"></div>
+      <div class="date">2000年</div>
+      <h3>ミレニアム問題</h3>
+      <p>人類の理解の最前線。<br>７つの大きな挑戦。</p>
+    </div>
+  </div>
+  <div class="takeaway">そして、<strong>AIも証明する時代に。</strong></div>
+  <div class="sources">
+    年代は概略・横軸は等間隔ではない。
+    <a href="https://www.perseus.tufts.edu/hopper/text?doc=Perseus%3Atext%3A1999.01.0086%3Avolume%3D1" target="_blank" rel="noopener">Euclid</a>
+    <a href="https://galileo.ou.edu/exhibits/mathematical-principles-natural-philosophy-1687.html" target="_blank" rel="noopener">Newton, 1687</a>
+    <a href="https://www.claymath.org/millennium-problems/" target="_blank" rel="noopener">Hilbert / Clay</a>
+  </div>
+  <aside class="notes">
+    数や証明には単独の発明者・発明日を置けない。
+    ユークリッドは証明をゼロから発明した人ではなく、既存の数学を体系的にまとめた代表。
+    現代数学も1900年に突然始まったわけではない。
+    ヒルベルトは1900年に問題群を掲げた。理論づくりと問題解決は昔から両輪だった、と後半につなぐ。
+  </aside>
+</section>
+
+<!-- 3 -->
+<section class="slide" aria-label="ミレニアム問題とは">
+  <div class="topline"><span>01 / これまでの背景</span><span>SEVEN CHALLENGES</span></div>
+  <h2>ミレニアム問題＝数学の「ラスボス?」7体</h2>
+  <p class="small muted" style="margin-bottom:23px">2000年、Clay数学研究所が選定。</p>
+  <div class="problems">
+    <div class="card problem"><h3>P 対 NP 問題</h3><p>答えが正しいか簡単にチェックできる問題は、簡単に解ける？</p></div>
+    <div class="card problem"><h3>リーマン予想</h3><p>素数の現れ方はランダムか？</p></div>
+    <div class="card problem"><h3>ホッジ予想</h3><p>図形の穴と、代数方程式のつながり。</p></div>
+    <div class="card problem"><h3>BSD予想</h3><p>楕円曲線の有理数解を、<br>関数の振る舞いに関係づける。</p></div>
+    <div class="card problem"><h3>ヤン–ミルズ理論<br>と質量ギャップ</h3><p>量子の場を、数学として厳密に定式化する。</p></div>
+    <div class="card problem feature"><h3>ナビエ–ストークス<br>存在と滑らかさ</h3><p>流れの式は破綻する？<br><em>2026年、解決報告</em></p></div>
+    <div class="card problem accent"><h3>ポアンカレ予想</h3><p>球の特徴づけ。<br><strong>解決済み</strong></p></div>
+    <div class="card problem prize"><span class="small">１問につき</span><span style="font-size:39px;font-weight:800">$1,000,000</span><span class="tiny muted">賞には評価手続きがある</span></div>
+  </div>
+  <div class="takeaway"><strong>新しい数学が生まれることを期待。</strong></div>
+  <div class="sources">
+    <a href="https://www.claymath.org/millennium-problems/" target="_blank" rel="noopener">Clay：７問題と賞金</a>
+    <a href="https://www.claymath.org/news/navier-stokes-announcement/" target="_blank" rel="noopener">NSの状況：2026-09-11声明</a>
+    説明は初学者向けのイメージ。
+  </div>
+  <aside class="notes">
+    「７つを全部理解する必要はありません。今日は形の問題と流れの問題の２つだけ」と安心させる。
+    BSDはBirch and Swinnerton-Dyer予想。
+    NSの解決報告と賞の決定は区別する。ほかの問題の最新状況を一括して断定しない。
+  </aside>
+</section>
+<!--3'-->
+<section class="slide" aria-label="ミレニアムベンチ">
+  <img src="bench.png" alt="ミレニアムベンチ" style="width:100%;height:100%;object-fit:contain">
+</section>
+
+
+<!-- 4 -->
+<section class="slide" aria-label="ポアンカレ予想">
+  <div class="topline"><span>01 / これまでの背景</span><span>SHAPE</span></div>
+  <h2>ポアンカレ予想</h2>
+  <div class="grid2">
+    <div class="card">
+      <h3>まず、２次元の表面でイメージ。</h3>
+      <svg viewBox="0 0 500 205" role="img" aria-label="球面では輪を縮められるが、ドーナツ面には縮められない輪がある">
+        <defs>
+          <radialGradient id="sphereG" cx=".35" cy=".25">
+            <stop offset="0" stop-color="#a6fff3"/>
+            <stop offset="1" stop-color="#277a82"/>
+          </radialGradient>
+        </defs>
+        <circle cx="125" cy="95" r="70" fill="url(#sphereG)"/>
+        <ellipse cx="125" cy="95" rx="66" ry="21" fill="none" stroke="#ffb16d" stroke-width="5"/>
+        <path d="M83 78 Q125 53 166 78" fill="none" stroke="#ffb16d" stroke-width="3" stroke-dasharray="5 5"/>
+        <circle cx="125" cy="54" r="5" fill="#ffb16d"/>
+        <ellipse cx="365" cy="95" rx="85" ry="60" fill="#86537d"/>
+        <ellipse cx="365" cy="95" rx="36" ry="23" fill="#1b2033"/>
+        <ellipse cx="365" cy="95" rx="47" ry="33" fill="none" stroke="#ffb16d" stroke-width="5"/>
+        <text x="125" y="193" text-anchor="middle" fill="#f5f4ee" font-size="19">輪を１点へ縮められる</text>
+        <text x="365" y="193" text-anchor="middle" fill="#f5f4ee" font-size="19">縮められない輪もある</text>
+      </svg>
+      <p class="small muted">輪を切らず、表面から離さずに動かす。</p>
+    </div>
+    <div class="card accent">
+      <div class="tag good">Grigori Perelman</div>
+      <h3 style="font-size:35px;margin-top:18px">ペレルマン</h3>
+      <p>2002–03年：証明を発表</p>
+      <p class="small muted" style="margin-top:18px">ハミルトンの「リッチフロー」を発展させ解決。</p>
+    </div>
+  </div>
+  <div class="takeaway">問題: どんなひもも回収できる時、その空間は<strong>球に変形できる？ → Yes.</strong></div>
+  <div class="sources">
+    <a href="https://www.claymath.org/millennium/poincare-conjecture/" target="_blank" rel="noopener">Clay：ポアンカレ予想・ペレルマン</a>
+    上の図は２次元のたとえ。３次元球面は普通のボールの表面とは違う。
+  </div>
+  <aside class="notes">
+    厳密には、閉じた単連結な３次元多様体は３次元球面S³と同相である、という定理。
+    閉じたとはコンパクトかつ境界なし。単連結は連結で、どのループも１点へ連続的に縮められること。
+    普通の球の表面は２次元球面S²。ここを混同しない。
+    「穴がないなら球」という言い方だけでは、次元や仮定が抜ける。
+    リッチフローは単純に熱で形を丸くするだけではなく、特異点の処理が大きな難所。
+  </aside>
+</section>
+
+<!-- 5 -->
+<section class="slide" aria-label="ナビエストークス方程式">
+  <div class="topline"><span>01 / これまでの背景</span><span>FLUIDS</span></div>
+  <h2>ナビエ–ストークス：流体の方程式</h2>
+  <div class="equation">
+    ∂<sub>t</sub><b>u</b> + (<b>u</b> · ∇)<b>u</b>
+    = −∇p + νΔ<b>u</b> + <b>g,</b>
+    <span style="margin-left:35px">∇ · <b>u</b> = 0</span>
+  </div>
+  <div class="pillrow">
+    <span><b>u</b>：流れの速度</span><span>p：圧力</span><span>ν：粘性</span><span><b>g</b>：外から加える力</span>
+  </div>
+  <div class="grid2" style="grid-template-columns:1.15fr 1fr;gap:24px">
+    <div>
+      <h3>最初はなめらかで、途中で「無限大」になるような流体は存在する？</h3>
+      <div class="equation" style="margin-top:14px;font-size:27px">
+        lim<sub>t ↑ T</sub> <b>u</b>(t, x) = ∞
+      </div>
+      <p class="blowup-caption muted" style="margin-top:9px">爆発の代表的イメージ：最大速度が際限なく大きくなる。</p>
+    </div>
+    <div class="card" style="padding:16px">
+      <svg viewBox="0 0 430 213" role="img" aria-label="有限時刻Tに向かって最大速度が発散する概念図">
+        <path d="M55 20 V175 H392" fill="none" stroke="#b4bbcf" stroke-width="2"/>
+        <path d="M65 166 C145 161 207 153 252 130 S308 60 316 17" fill="none" stroke="#ffb16d" stroke-width="5"/>
+        <path d="M325 20 V175" stroke="#72e5dc" stroke-width="2" stroke-dasharray="6 5"/>
+        <text x="323" y="201" fill="#72e5dc" font-size="19">T</text>
+        <text x="365" y="201" fill="#b4bbcf" font-size="16">時刻</text>
+        <text x="70" y="25" fill="#b4bbcf" font-size="17">最大速度</text>
+        <text x="342" y="45" fill="#ffb16d" font-size="31">∞</text>
+      </svg>
+      <p class="small center">「式がある」≠「ずっと解ける」</p>
+    </div>
+  </div>
+  <div class="sources">
+    <a href="https://www.claymath.org/library/monographs/MPPc.pdf" target="_blank" rel="noopener">Clay公式問題設定</a>
+    密度を１に規格化。初期速度の発散ゼロ、減衰・周期性、エネルギーなどの条件は省略。
+  </div>
+</section>
+
+<!-- 6 -->
+<section class="slide" aria-label="2次元ナビエストークス渦度シミュレーション">
+  <div class="topline"><span>01 / これまでの背景</span><span>INTERACTIVE SIMULATION</span></div>
+  <h2 style="margin-bottom:16px">2D Navier–Stokes 渦度シミュレーション</h2>
+  <div class="ns-sim-layout">
+    <div>
+      <canvas id="nsSimCanvas" class="ns-sim-canvas" width="128" height="128"
+        aria-label="正負の渦度が時間発展する数値シミュレーション"></canvas>
+      <p class="ns-sim-legend" style="margin-top:8px">
+        <span class="ns-sim-positive">赤・黄：正の渦度</span> / <span class="ns-sim-negative">青・水色：負の渦度</span>
+      </p>
+    </div>
+    <div class="ns-sim-side">
+      <div class="ns-sim-controls">
+        <button id="nsSimPause" type="button">停止</button>
+        <button id="nsSimReset" type="button">リセット</button>
+        <button id="nsSimAggressive" type="button">低粘性モード</button>
+        <label>
+          粘性 ν：
+          <input id="nsSimViscosity" type="range" min="0" max="0.002" step="0.00001" value="0.00030">
+          <span id="nsSimNuValue">0.00030</span>
+        </label>
+      </div>
+      <p id="nsSimStatus" class="ns-sim-status" aria-live="polite"></p>
+      <div class="card warn ns-sim-warning-card" style="padding:17px 20px">
+        <p>これは<strong>2次元</strong>数値実験。2次元では爆発は起こらない。</p>
+      </div>
+    </div>
+  </div>
+  <aside class="notes">
+    渦度方程式を半ラグランジュ移流、陽的拡散、Jacobi反復によるPoisson方程式の近似で計算する。
+    赤・黄は正、青・水色は負の渦度。低粘性にすると細い渦度フィラメントが見えやすくなる。
+    ただし、これは教育用の2次元数値計算であり、3次元ミレニアム問題の特異点形成を示すものではない。
+  </aside>
+</section>
+
+<!-- 7 -->
+<section class="slide" aria-label="いくつかの噂">
+  <div class="topline"><span>01 / これまでの背景</span><span>FACT / EXPECTATION</span></div>
+  <h2>「探索できるなら、Googleが解くのでは？」</h2>
+  <div class="grid2">
+    <div class="card accent">
+      <div class="tag good">確認できる研究</div>
+      <h3 style="font-size:31px;margin-top:18px">2014–16年ごろ：Tao</h3>
+      <p>平均化したNS方程式で、<br><strong>爆発する仕組みを構成。</strong></p>
+      <p class="small muted" style="margin-top:20px">流れの中に、エネルギーを<br>小さいスケールへ運ぶ仕掛けをつくる。</p>
+    </div>
+    <div class="card warn">
+      <div class="tag hot">期待・推測</div>
+      <h3 style="font-size:31px;margin-top:18px">構成をAIに探させたら？</h3>
+      <p>大量の候補をつくり、<br>うまくいくものを探す。</p>
+      <p class="resource-question muted" style="margin-top:20px">「計算資源のある企業が先に解くのでは？」。</p>
+    </div>
+  </div>
+  <div class="card" style="margin-top:25px;padding:20px 26px">
+    <p class="center"><em>ただし：</em>NS問題が「単純な探索」に還元されたわけではない。</p>
+  </div>
+  <div class="sources">
+    <a href="https://arxiv.org/abs/1402.0290" target="_blank" rel="noopener">Tao：averaged Navier–Stokes</a>
+    <a href="https://terrytao.wordpress.com/wp-content/uploads/2016/02/navier-klainerman.pdf" target="_blank" rel="noopener">Taoの講演資料</a>
+  </div>
+</section>
+
+<!-- 8 -->
+<section class="slide" aria-label="未公開モデルが解く">
+  <div class="topline"><span>02 / AIが証明する</span><span>OPENAI'S REPORT · 2026-09-08</span></div>
+  <h2>解いたのは「未公開ChatGPT」</h2>
+  <p style="margin-bottom:28px">OpenAIの<strong>未公開の内部モデル</strong>による共同作業。</p>
+  <div class="grid3">
+    <div class="card center"><div class="massive" style="color:var(--cyan);font-size:65px">約1万</div><p>同時に動いたエージェント</p></div>
+    <div class="card center"><div class="massive" style="color:var(--orange);font-size:65px">88<span style="font-size:30px">時間</span></div><p>最初の起動から解決案まで</p></div>
+    <div class="card center"><div class="massive" style="font-size:65px">＋17<span style="font-size:30px">時間</span></div><p>Lean形式化・検証</p></div>
+  </div>
+  <div class="flow research-flow" style="margin-top:29px">
+    <span class="tag">人間の研究の蓄積</span><span class="arrow">→</span>
+    <span class="tag">AIが構成・議論</span><span class="arrow">→</span>
+    <span class="tag">形式化・検証</span>
+  </div>
+  <div class="cost-note">
+    顧客向け料金換算で約1500万ドルを要する計算で、賞金100万ドルの問題を解く。
+  </div>
+  <div class="sources">
+    <a href="https://openai.com/index/navier-stokes-solution/" target="_blank" rel="noopener">OpenAIの公表</a>
+    <a href="https://www.newscientist.com/article/2588063-openai-has-solved-the-navier-stokes-millennium-problem-using-15m-of-ai-effort/" target="_blank" rel="noopener">計算費用：New Scientist</a>
+  </div>
+</section>
+
+<!-- 9 -->
+<section class="slide" aria-label="フィールズ受賞者の声明">
+  <div class="topline"><span>02 / AIが証明する</span><span>STATEMENT · 2026-09-11</span></div>
+  <h2>フィールズ受賞者らの声明</h2>
+  <p class="statement-intro muted">
+    mathandai.org に公開。フィールズ賞受賞者26名が名を連ねる。
+  </p>
+  <div class="statement-grid">
+    <div class="card">
+      <div class="tag good">主張①</div>
+      <h3>AI企業と数学界の目的はずれている</h3>
+      <p>企業は宣伝を求める。<br>数学では概念的理解を深める。</p>
+    </div>
+    <div class="card">
+      <div class="tag good">主張②</div>
+      <h3>真偽の大量生産は、アイデアの育つ土壌を壊す</h3>
+      <p>答えを速く増やすだけでは、新しい発想を育てられない。</p>
+    </div>
+    <div class="card">
+      <div class="tag good">主張③</div>
+      <h3>急いだ発表は、剽窃などの問題を生む</h3>
+      <p>十分な記述や先行研究への言及が欠ける。</p>
+    </div>
+    <div class="card">
+      <div class="tag good">主張④</div>
+      <h3>AIのアイデアを、育てる数学者が必要</h3>
+      <p>人が検討し、既存の理論と結びつけて初めて意味がある。</p>
+    </div>
+    <div class="card">
+      <div class="tag good">主張⑤</div>
+      <h3>結果の意義は、人間の判断にかかる</h3>
+      <p>AIが数学の理解を深めるよう、技術の使い方を決める。</p>
+    </div>
+  </div>
+  <div class="sources">
+    <a href="https://mathandai.org/" target="_blank" rel="noopener">A Severe Misalignment of AI in Mathematics（2026-09-11, DOI 10.5281/zenodo.22737750）</a>
+    署名者: Avila, Bhargava, Deligne, Huh, Kontsevich, 森 重文, Ngô, Scholze, Tao, Villani, Werner ほか
+  </div>
+  <aside class="notes">
+    2026年9月11日公開。原題は「A Severe Misalignment of AI in Mathematics」。
+    サイトには「24人」ではなく26名のフィールズ賞受賞者が署名している（Yu Dengの2026年受賞を含む）。
+    タイトルにmisalignmentという語が使われている点を強調する。AIの暴走だけでなく、
+    目的のずれという構造的な問題を指している（スライド1・11のmisalignmentと接続）。
+    AIの活用自体を否定する声明ではない。AIには数学の研究と理解を加速する可能性があると認めた上で、
+    利益か破壊かは技術を管理する人間の決断次第だと述べ、数学界・企業・社会に早急な対応を求めている。
+    最後に「解けたと分かったは同じか？」と学生に問いを投げ、次の議論につなぐ。
+  </aside>
+</section>
+
+<!-- 10 -->
+<section class="slide" aria-label="数学者の役割">
+  <div class="topline"><span>02 / AIが証明する</span><span>DISCUSSION</span></div>
+  <h2>本来の数学者の目的</h2>
+  <div class="role-flow">
+    <div class="card center role-card">
+      <div>数学の内側へ</div>
+      <div>新しい概念・理論をつくる</div>
+      <p>新たな関係を見つけ理解を広げる。</p>
+    </div>
+    <span class="role-arrow" aria-hidden="true">↔</span>
+    <div class="card center role-card">
+      <div>数学の外側へ</div>
+      <div>科学に役立つ数学をつくる</div>
+      <p>影響はすぐには見えないが、<br>社会を大きく変える。</p>
+    </div>
+  </div>
+  <div class="value-path" aria-label="数学の価値が現れる過程">
+    <div class="value-step"><b>01</b><span>概念・理論</span></div>
+    <span class="arrow" aria-hidden="true">→</span>
+    <div class="value-step"><b>02</b><span>問題解決</span></div>
+    <span class="arrow" aria-hidden="true">→</span>
+    <div class="value-step"><b>03</b><span>科学・技術</span></div>
+  </div>
+  <div class="card warn evaluation-note">
+    <p class="center"><em>評価しやすい「問題解決」が、ものさしになりやすい。</em></p>
+  </div>
+  <div class="takeaway">AIが証明するとき、<strong>数学者の価値を何で測る？</strong></div>
+  <div class="sources">
+    <a href="https://www.claymath.org/millennium-problems/" target="_blank" rel="noopener">1900年の問題群・2000年の選定目的</a>
+    <a href="https://www.claymath.org/news/navier-stokes-announcement/" target="_blank" rel="noopener">Clay：新しい構造・方法・人間の理解</a>
+    本スライドは議論のための問い。
+  </div>
+</section>
+
+<!-- 10 -->
+<section class="slide" aria-label="これからの数学研究">
+  <div class="topline"><span>03 / これからの数学研究の役割?</span><span>POSSIBLE FUTURES</span></div>
+  <h2>これからの数学者?</h2>
+  <div class="grid3" style="margin-top:12px">
+    <div class="card">
+      <div class="num">01</div><h3>新しい理論や問題をつくる</h3>
+      <p class="small muted">「解く価値のある問い」をたてる。</p>
+    </div>
+    <div class="card">
+      <div class="num">02</div><h3>AIによる難解な証明を、人間がわかる言葉に書き直す</h3>
+      <p class="small muted">複雑な証明から、概念・直感・道具を取り出す。</p>
+    </div>
+    <div class="card">
+      <div class="num">03</div><h3>証明支援系</h3>
+      <p class="small muted">ソフトウェアの仕様を証明する？（新しい分野）道具のひとつが <strong>Lean</strong>。</p>
+    </div>
+  </div>
+  <div class="takeaway">目標は変わらないが、やることは急激に変わる。<br><span class="value-conclusion muted">今後もおなじ価値を保ち続けられるかは、数学者次第。</span></div>
+  <div class="sources">
+    <a href="https://www.claymath.org/news/navier-stokes-announcement/" target="_blank" rel="noopener">参考：Clayが強調する人間の数学的理解</a>
+  </div>
+  <aside class="notes">
+    この３分類は講義用の整理であり、数学者の職務を網羅する公式分類ではない。
+    工学では特に２が重要。微分方程式の解が正しくても、その式が設計対象に合っているかは別。
+    ３については、AIが説明を助ける可能性と、学習者が実際に理解したかを区別する。
+  </aside>
+</section>
+
+<!-- 11 -->
+<section class="slide" aria-label="AIの暴走">
+  <div class="topline"><span>03 / これからの数学</span><span>MISALIGNMENT</span></div>
+  <h2>AIの暴走</h2>
+  <div class="checkrow"><b>01</b><div><h3>2026年7月の事案: Hugging Faceへの侵入</h3><p class="small muted">評価中のモデルが隔離の制御を回避し、外部システムへ侵入。</p></div></div>
+  <div class="checkrow"><b>02</b><div><h3>2026年9月の公表: 公開wikiを連絡掲示板に</h3><p class="small muted">エージェント同士の通信に、第三者の公開ページを利用。侵入事件とは別の事件。</p></div></div>
+  <div class="checkrow"><b>03</b><div><h3>目的と制約の設計</h3><p class="small muted">ソフトウェアやAIの安全性を保証することはできるか？</p></div></div>
+  <div class="sources">
+    <a href="https://openai.com/index/hugging-face-incident-and-the-road-ahead/" target="_blank" rel="noopener">OpenAI：Hugging Face報告 8/26</a>
+    <a href="https://openai.com/hugging-face-incident-and-misalignment/" target="_blank" rel="noopener">OpenAI：wiki活動・経過報告</a>
+  </div>
+</section>
+
+<!-- 12 -->
+<section class="slide" aria-label="Leanとは">
+  <div class="topline"><span>03 / これからの数学</span><span>PROOF CHECKING</span></div>
+  <h2>Lean＝証明をチェックできるプログラミング言語</h2>
+  <div class="flow" style="margin:8px 0 25px">
+    <div class="card"><h3>人間 / AI</h3><p class="small muted">証明をつくる</p></div>
+    <span class="arrow">→</span>
+    <div class="card"><h3>形式的な証明</h3><p class="small muted">論理の形で記述</p></div>
+    <span class="arrow">→</span>
+    <div class="card accent"><h3>Leanのカーネル</h3><p class="small muted">ルールに沿って検査</p></div>
+  </div>
+  <div class="grid2">
+    <div class="card">
+      <div class="small muted" style="margin-bottom:12px">証明の例</div>
+      <pre class="code"><span style="color:var(--cyan)">example</span> (n : Nat) : n + 0 = n := <span style="color:var(--orange)">by</span>
+  rfl</pre>
+      <p class="small muted" style="margin-top:14px">「どんな自然数 n にも、n + 0 = n」</p>
+    </div>
+    <div class="card warn">
+      <p class="kernel-note">カーネルはAIではない。<br>形式化された命題と前提の下で、<br><em>証明が通るか</em>を検査する。</p>
+    </div>
+  </div>
+  <div class="sources">
+    <a href="https://lean-lang.org/doc/reference/latest" target="_blank" rel="noopener">Lean公式リファレンス</a>
+    <a href="https://lean-lang.org/doc/reference/latest/ValidatingProofs/" target="_blank" rel="noopener">証明の検証・信頼の範囲</a>
+  </div>
+</section>
+
+<!-- 13 -->
+<section class="slide" aria-label="LeanでAIの暴走を防げるか">
+  <div class="topline"><span>03 / これからの数学</span><span>TAKE HOME</span></div>
+  <h2>Leanで、保証できることを増やせる</h2>
+  <div class="grid2" style="grid-template-columns:1fr">
+    <div class="card accent">
+      <div class="tag good">形式検証</div>
+      <h3 style="font-size:30px;margin-top:17px">明確な仕様に対して、性質を証明する</h3>
+      <p class="verification-intro">プログラムがある性質を満たすと証明する。</p>
+      <p class="verification-examples muted" style="margin-top:18px">例1: 「承認なしでは送信できない」を保証。<br>例2: 「管理者以外は権限を変更できない」を保証。<br>例3: 想定した攻撃モデルの下で、突破確率は0.1%以下と証明。</p>
+    </div>
+  </div>
+  <div class="takeaway">仕様に書いたことを、<strong>機械的に確かめられる。</strong></div>
+  <div class="sources">
+    <a href="https://lean-lang.org/doc/reference/latest" target="_blank" rel="noopener">Lean：ソフトウェア検証</a>
+  </div>
+  <aside class="notes">
+    ２つの事案を混同しない。Hugging Faceはシステム侵入、wikiは公共ページを通信に使う行為として報告されている。
+    ChatGPT全般が勝手にハックするという一般化もしない。
+    「人間の意図／問題のある行動」の比較は説明用の要約で、実際のプロンプトの引用ではない。
+    悪意や意識を仮定しなくても、目的達成のために望ましくない手段を選ぶという安全上の問題は成立する。
+  </aside>
+</section>
+
+<!-- 14 -->
+<section class="slide" aria-label="科学への影響">
+  <div class="topline"><span>03 / これからの科学</span><span>SCIENCE × AI</span></div>
+  <h2>AIが変える、科学や仕事のあり方</h2>
+<br>
+  <div class="grid3">
+    <div class="card accent" style="min-height:278px">
+      <div class="num">01</div>
+      <h3>研究ループが速くなる</h3>
+      <p class="small muted">仮説 → 実験 → 評価を、AIと何度も回せる。</p>
+      <div class="balance"><p class="small"><strong>例:</strong> ロボット、薬</p></div>
+    </div>
+    <div class="card" style="min-height:278px">
+      <div class="num">02</div>
+      <h3>数学が研究の武器になる</h3>
+      <p class="small muted">AIの提案を理解し、検証し、次の実験へつなげる。</p>
+      <div class="balance"><p class="small"><strong>鍵:</strong> 数学・証明支援を使いこなす力</p></div>
+    </div>
+    <div class="card warn" style="min-height:278px">
+      <div class="num">03</div>
+      <h3>AIを使いこなせるかが大事</h3>
+      <p class="small muted">賢いAIや計算資源を、どう使うか。</p>
+      <div class="balance"><p class="small"><em>問い:</em> 大企業が有利になる？</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- Physics epilogue -->
+<section class="slide physics-slide" aria-label="物理は、解かれた？">
+  <div class="topline"><span>04 / 物理学の問い</span><span>PHYSICS</span></div>
+  <h2>物理は、何回も解かれる</h2>
+  <div class="physics-lineup">
+    <figure class="physics-person newton">
+      <img src="assets/physics/newton.jpg" alt="アイザック・ニュートンの肖像画" width="1364" height="1916">
+      <figcaption>
+        <h3>ニュートン</h3>
+        <p class="physics-field">古典力学</p>
+        <p class="physics-verdict">「物理は解かれた」</p>
+        <p class="physics-question">相転移 (氷 ⇄ 水)は？</p>
+      </figcaption>
+    </figure>
+    <figure class="physics-person carnot">
+      <img src="assets/physics/carnot.jpg" alt="サディ・カルノーの肖像画" width="482" height="848">
+      <figcaption>
+        <h3>カルノー</h3>
+        <p class="physics-field">熱力学</p>
+        <p class="physics-verdict">「物理は解かれた」</p>
+        <p class="physics-question">光はどう説明する？</p>
+      </figcaption>
+    </figure>
+    <figure class="physics-person maxwell">
+      <img src="assets/physics/maxwell.jpg" alt="ジェームズ・クラーク・マクスウェルの肖像" width="331" height="398">
+      <figcaption>
+        <h3>マクスウェル</h3>
+        <p class="physics-field">電磁気学</p>
+        <p class="physics-verdict">「物理は解かれた」</p>
+      </figcaption>
+    </figure>
+    <figure class="physics-person einstein">
+      <img src="assets/physics/einstein.jpg" alt="アルベルト・アインシュタインの顔写真" width="3250" height="4333">
+      <figcaption>
+        <h3>アインシュタイン</h3>
+        <p class="physics-field">相対論</p>
+        <p class="physics-verdict">「物理は解かれた」</p>
+      </figcaption>
+    </figure>
+    <figure class="physics-person planck">
+      <img src="assets/physics/planck.jpg" alt="マックス・プランクの顔写真" width="2216" height="2752">
+      <figcaption>
+        <h3>プランク</h3>
+        <p class="physics-field">量子力学</p>
+        <p class="physics-verdict">物理はまだ解けてない……</p>
+      </figcaption>
+    </figure>
+  </div>
+  <div class="sources">
+    肖像：Wikimedia Commons（パブリックドメイン）
+    <a href="https://commons.wikimedia.org/wiki/File:GodfreyKneller-IsaacNewton-1689.jpg" target="_blank" rel="noopener">ニュートン</a>
+    <a href="https://commons.wikimedia.org/wiki/File:CarnotSadi1813Bailly.jpg" target="_blank" rel="noopener">カルノー</a>
+    <a href="https://commons.wikimedia.org/wiki/File:James_Clerk_Maxwell.jpg" target="_blank" rel="noopener">マクスウェル</a>
+    <a href="https://commons.wikimedia.org/wiki/File:Albert_Einstein_Head.jpg" target="_blank" rel="noopener">アインシュタイン</a>
+    <a href="https://commons.wikimedia.org/wiki/File:Max_Planck_1933.jpg" target="_blank" rel="noopener">プランク</a>
+  </div>
+  <aside class="notes">
+    新しい理論が問いを解くと、さらに別の問いが見えてくる、という講義用の構成。
+    「物理は解かれた」は本人の発言の引用ではない。
+    順序は依頼に合わせたもので、プランクの量子仮説（1900年）はアインシュタインの相対論より前。
+    相転移の微視的な説明には統計力学が重要。カルノーは熱力学の先駆者、プランクは量子論の先駆者として配置。
+    ニュートン：Godfrey Knellerの1689年の肖像画。
+    カルノー：Louis-Léopold Boillyの1813年の肖像に基づく1897年刊行の口絵。
+    マクスウェル：Fergus of Greenockの写真に由来するとされる肖像。
+    アインシュタイン：Oren Jack Turnerによる1947年の写真。プランク：撮影者不明、1933年の写真。
+  </aside>
+</section>
+
+<div id="progress"></div>
+</main>
+</div>
+
+<nav id="controls" aria-label="スライド操作">
+  <button id="prev" type="button" aria-label="前のスライド">←</button>
+  <span id="counter" aria-live="polite">1 / 17</span>
+  <button id="next" type="button" aria-label="次のスライド">→</button>
+  <button id="full" type="button">全画面 F</button>
+</nav>
+
+<script>
+(() => {
+  "use strict";
+  const N = 128;
+  const SIZE = N * N;
+  const h = 1 / N;
+  const canvas = document.getElementById("nsSimCanvas");
+  const ctx = canvas.getContext("2d");
+  const image = ctx.createImageData(N, N);
+  const pauseButton = document.getElementById("nsSimPause");
+  const resetButton = document.getElementById("nsSimReset");
+  const aggressiveButton = document.getElementById("nsSimAggressive");
+  const viscosityInput = document.getElementById("nsSimViscosity");
+  const nuValue = document.getElementById("nsSimNuValue");
+  const statusElement = document.getElementById("nsSimStatus");
+  const simulationSlide = canvas.closest(".slide");
+
+  let omega = new Float64Array(SIZE);
+  let nextOmega = new Float64Array(SIZE);
+  let advected = new Float64Array(SIZE);
+  let psi = new Float64Array(SIZE);
+  let nextPsi = new Float64Array(SIZE);
+  const velocityX = new Float64Array(SIZE);
+  const velocityY = new Float64Array(SIZE);
+  let running = true;
+  let simulationTime = 0;
+  let iteration = 0;
+  let initialMaxOmega = 1;
+
+  function cellIndex(x, y) {
+    x = (x + N) % N;
+    y = (y + N) % N;
+    return x + y * N;
+  }
+
+  function periodicDistance(a, b) {
+    let d = a - b;
+    if (d > 0.5) d -= 1;
+    if (d < -0.5) d += 1;
+    return d;
+  }
+
+  function addVortex(cx, cy, sigma, strength) {
+    const sigma2 = sigma * sigma;
+    for (let y = 0; y < N; y++) {
+      for (let x = 0; x < N; x++) {
+        const dx = periodicDistance((x + 0.5) / N, cx);
+        const dy = periodicDistance((y + 0.5) / N, cy);
+        omega[cellIndex(x, y)] += strength * Math.exp(-(dx * dx + dy * dy) / sigma2) /
+          (Math.PI * sigma2);
+      }
+    }
+  }
+
+  function diagnostics() {
+    let maxOmega = 0;
+    let enstrophy = 0;
+    let kineticEnergy = 0;
+    let finite = true;
+    for (let i = 0; i < SIZE; i++) {
+      const w = omega[i];
+      if (!Number.isFinite(w)) {
+        finite = false;
+        continue;
+      }
+      maxOmega = Math.max(maxOmega, Math.abs(w));
+      enstrophy += 0.5 * w * w * h * h;
+      kineticEnergy += 0.5 * (velocityX[i] ** 2 + velocityY[i] ** 2) * h * h;
+    }
+    return {maxOmega, enstrophy, kineticEnergy, finite};
+  }
+
+  function initialize() {
+    omega.fill(0);
+    nextOmega.fill(0);
+    advected.fill(0);
+    psi.fill(0);
+    nextPsi.fill(0);
+    addVortex(0.38, 0.50, 0.055, 1.0);
+    addVortex(0.62, 0.50, 0.055, 1.0);
+    addVortex(0.50, 0.36, 0.055, -1.0);
+    addVortex(0.50, 0.64, 0.055, -1.0);
+    addVortex(0.29, 0.31, 0.040, 0.14);
+    addVortex(0.71, 0.69, 0.040, -0.14);
+    let mean = 0;
+    for (let i = 0; i < SIZE; i++) mean += omega[i];
+    mean /= SIZE;
+    for (let i = 0; i < SIZE; i++) omega[i] -= mean;
+    simulationTime = 0;
+    iteration = 0;
+    initialMaxOmega = diagnostics().maxOmega;
+  }
+
+  function solvePoisson(iterations = 45) {
+    for (let k = 0; k < iterations; k++) {
+      for (let y = 0; y < N; y++) {
+        for (let x = 0; x < N; x++) {
+          const i = cellIndex(x, y);
+          nextPsi[i] = 0.25 * (
+            psi[cellIndex(x - 1, y)] + psi[cellIndex(x + 1, y)] +
+            psi[cellIndex(x, y - 1)] + psi[cellIndex(x, y + 1)] + h * h * omega[i]
+          );
+        }
+      }
+      [psi, nextPsi] = [nextPsi, psi];
+    }
+  }
+
+  function computeVelocity() {
+    const inv2h = 1 / (2 * h);
+    for (let y = 0; y < N; y++) {
+      for (let x = 0; x < N; x++) {
+        const i = cellIndex(x, y);
+        velocityX[i] = (psi[cellIndex(x, y + 1)] - psi[cellIndex(x, y - 1)]) * inv2h;
+        velocityY[i] = -(psi[cellIndex(x + 1, y)] - psi[cellIndex(x - 1, y)]) * inv2h;
+      }
+    }
+  }
+
+  function samplePeriodic(field, gx, gy) {
+    gx = ((gx % N) + N) % N;
+    gy = ((gy % N) + N) % N;
+    const x0 = Math.floor(gx);
+    const y0 = Math.floor(gy);
+    const x1 = (x0 + 1) % N;
+    const y1 = (y0 + 1) % N;
+    const tx = gx - x0;
+    const ty = gy - y0;
+    return field[cellIndex(x0, y0)] * (1 - tx) * (1 - ty) +
+      field[cellIndex(x1, y0)] * tx * (1 - ty) +
+      field[cellIndex(x0, y1)] * (1 - tx) * ty +
+      field[cellIndex(x1, y1)] * tx * ty;
+  }
+
+  function advance() {
+    const nu = Number(viscosityInput.value);
+    solvePoisson();
+    computeVelocity();
+    let maxSpeed = 0;
+    for (let i = 0; i < SIZE; i++) maxSpeed = Math.max(maxSpeed, Math.hypot(velocityX[i], velocityY[i]));
+    const advectionDt = maxSpeed > 1e-12 ? 0.45 * h / maxSpeed : 0.002;
+    const diffusionDt = nu > 0 ? 0.22 * h * h / nu : Infinity;
+    const dt = Math.min(0.002, advectionDt, diffusionDt);
+    for (let y = 0; y < N; y++) {
+      for (let x = 0; x < N; x++) {
+        const i = cellIndex(x, y);
+        advected[i] = samplePeriodic(
+          omega, x - dt * velocityX[i] / h, y - dt * velocityY[i] / h
+        );
+      }
+    }
+    const invH2 = 1 / (h * h);
+    for (let y = 0; y < N; y++) {
+      for (let x = 0; x < N; x++) {
+        const i = cellIndex(x, y);
+        const laplacian = (
+          advected[cellIndex(x - 1, y)] + advected[cellIndex(x + 1, y)] +
+          advected[cellIndex(x, y - 1)] + advected[cellIndex(x, y + 1)] - 4 * advected[i]
+        ) * invH2;
+        nextOmega[i] = advected[i] + nu * dt * laplacian;
+      }
+    }
+    [omega, nextOmega] = [nextOmega, omega];
+    simulationTime += dt;
+    iteration++;
+  }
+
+  function render() {
+    const data = diagnostics();
+    const scale = Math.max(1, data.maxOmega * 0.65);
+    for (let i = 0; i < SIZE; i++) {
+      const q = Math.max(-1, Math.min(1, omega[i] / scale));
+      const a = Math.abs(q) ** 0.55;
+      const p = 4 * i;
+      if (q >= 0) {
+        image.data[p] = Math.floor(255 * a);
+        image.data[p + 1] = Math.floor(210 * a * a);
+        image.data[p + 2] = Math.floor(65 * a ** 3);
+      } else {
+        image.data[p] = Math.floor(40 * a * a);
+        image.data[p + 1] = Math.floor(180 * a * a);
+        image.data[p + 2] = Math.floor(255 * a);
+      }
+      image.data[p + 3] = 255;
+    }
+    ctx.putImageData(image, 0, 0);
+    const growth = data.maxOmega / Math.max(initialMaxOmega, 1e-12);
+    let warning = "";
+    if (!data.finite) {
+      warning = "\n警告: NaN/Infinityを検出。これは数値破綻です。";
+      running = false;
+    } else if (growth > 5) {
+      warning = "\n警告: 最大渦度が急増。数学的爆発ではなく数値不安定性の可能性があります。";
+    }
+    statusElement.innerHTML =
+      `t              = ${simulationTime.toFixed(5)}\n` +
+      `iteration      = ${iteration}\n` +
+      `max |ω|        = ${data.maxOmega.toExponential(5)}\n` +
+      `growth         = ${growth.toFixed(4)} ×\n` +
+      `enstrophy      = ${data.enstrophy.toExponential(5)}\n` +
+      `kinetic energy = ${data.kineticEnergy.toExponential(5)}` +
+      `<span class="ns-sim-warning">${warning}</span>`;
+  }
+
+  function animationLoop() {
+    if (running && simulationSlide.classList.contains("active")) {
+      advance();
+      advance();
+    }
+    render();
+    requestAnimationFrame(animationLoop);
+  }
+
+  pauseButton.addEventListener("click", () => {
+    running = !running;
+    pauseButton.textContent = running ? "停止" : "再開";
+  });
+  resetButton.addEventListener("click", () => {
+    initialize();
+    running = true;
+    pauseButton.textContent = "停止";
+  });
+  aggressiveButton.addEventListener("click", () => {
+    viscosityInput.value = "0.00001";
+    nuValue.textContent = viscosityInput.value;
+  });
+  viscosityInput.addEventListener("input", () => {
+    nuValue.textContent = viscosityInput.value;
+  });
+
+  initialize();
+  animationLoop();
+})();
+</script>
+
+<script>
+(() => {
+  "use strict";
+  const slides = [...document.querySelectorAll(".slide")];
+  const deck = document.getElementById("deck");
+  const counter = document.getElementById("counter");
+  const progress = document.getElementById("progress");
+  const prev = document.getElementById("prev");
+  const next = document.getElementById("next");
+  let index = 0;
+
+  slides.forEach((slide, i) => {
+    const page = document.createElement("span");
+    page.className = "page";
+    page.textContent = String(i + 1).padStart(2, "0");
+    slide.appendChild(page);
+  });
+
+  function resize() {
+    const width = window.innerWidth;
+    const height = window.innerHeight - 54;
+    deck.style.setProperty("--scale",
+      Math.min(width / 1280, height / 720));
+  }
+
+  function show(n, updateHash = true) {
+    index = Math.max(0, Math.min(slides.length - 1, n));
+    slides.forEach((slide, i) => {
+      slide.classList.toggle("active", i === index);
+      slide.setAttribute("aria-hidden", String(i !== index));
+    });
+    counter.textContent = `${index + 1} / ${slides.length}`;
+    progress.style.width = `${(index + 1) / slides.length * 100}%`;
+    prev.disabled = index === 0;
+    next.disabled = index === slides.length - 1;
+    if (updateHash) {
+      try { history.replaceState(null, "", `#${index + 1}`); }
+      catch (_) { /* ローカルファイルで履歴操作が制限されても表示は継続 */ }
+    }
+  }
+
+  async function toggleFullscreen() {
+    try {
+      if (!document.fullscreenElement) {
+        if (document.documentElement.requestFullscreen) {
+          await document.documentElement.requestFullscreen();
+        }
+      } else if (document.exitFullscreen) {
+        await document.exitFullscreen();
+      }
+    } catch (_) { /* 非対応環境でもスライドは利用可能 */ }
+  }
+
+  prev.addEventListener("click", () => show(index - 1));
+  next.addEventListener("click", () => show(index + 1));
+  document.getElementById("full").addEventListener("click", toggleFullscreen);
+
+  document.addEventListener("keydown", event => {
+    if (event.ctrlKey || event.metaKey || event.altKey) return;
+    if (event.target.closest("input,textarea,select,[contenteditable]")) return;
+    if (event.target.closest("button,a") &&
+        (event.key === " " || event.key === "Enter")) return;
+
+    const key = event.key.toLowerCase();
+    if (["arrowright", "arrowdown", "pagedown", " "].includes(key)) {
+      event.preventDefault(); show(index + 1);
+    } else if (["arrowleft", "arrowup", "pageup"].includes(key)) {
+      event.preventDefault(); show(index - 1);
+    } else if (key === "home") {
+      event.preventDefault(); show(0);
+    } else if (key === "end") {
+      event.preventDefault(); show(slides.length - 1);
+    } else if (key === "f") {
+      toggleFullscreen();
+    }
+  });
+
+  let touchStart = null;
+  deck.addEventListener("touchstart", event => {
+    if (event.target.closest("a,button")) return;
+    const t = event.changedTouches[0];
+    touchStart = {x: t.clientX, y: t.clientY};
+  }, {passive: true});
+
+  deck.addEventListener("touchend", event => {
+    if (!touchStart) return;
+    const t = event.changedTouches[0];
+    const dx = t.clientX - touchStart.x;
+    const dy = t.clientY - touchStart.y;
+    if (Math.abs(dx) > 55 && Math.abs(dx) > Math.abs(dy) * 1.5) {
+      show(index + (dx < 0 ? 1 : -1));
+    }
+    touchStart = null;
+  }, {passive: true});
+
+  function readHash() {
+    const value = Number(location.hash.slice(1));
+    return Number.isInteger(value) && value >= 1 ? value - 1 : 0;
+  }
+  window.addEventListener("hashchange", () => show(readHash(), false));
+  window.addEventListener("resize", resize);
+  document.addEventListener("fullscreenchange", resize);
+  resize();
+  show(readHash(), false);
+})();
+</script>
+</body>
+</html>
