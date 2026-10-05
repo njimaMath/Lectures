@@ -61,7 +61,7 @@
 \begin{itemize}
   \item 標本空間・事象・確率測度を区別し、具体的な確率モデルを構成できる。
   \item 確率変数の分布・期待値・独立性を説明し、基本的な計算ができる。
-  \item 確率変数列の収束の違いを理解し、極限定理の仮定と結論を説明できる。
+  \item 確率変数列の収束の違いを理解する。
 \end{itemize}
 
 \topic{授業計画（予定）}
@@ -74,12 +74,12 @@
 1 & 離散確率空間と一般の確率空間、$\sigma$-加法族 \\
 2 & 確率変数と確率分布、分布関数 \\
 3 & 期待値とルベーグ積分\\
-4 & 代表的な確率分布：二項・幾何・ポアソン・正規分布など \\
-5 & 二項分布の正規近似 \\
-6 & 特性関数とフーリエ解析、分布の一意性 \\
-7 & 確率変数列の収束：概収束・確率収束 \\
-8 & 分布の弱収束、極限定理 \\
-9 & 独立性と共分散 \\
+4 & 独立性と共分散 \\
+5 & 代表的な確率分布：二項・幾何・ポアソン・正規分布など \\
+6 & 二項分布の正規近似 \\
+7 & 特性関数とフーリエ解析、分布の一意性 \\
+8 & 確率変数列の収束：概収束・確率収束 \\
+9 & 分布の弱収束、極限定理 \\
 10 & 大数の法則と一般の中心極限定理 \\
 11 & 条件付き期待値、情報に関する平均 \\
 12 & Kolmogorovの拡張定理、無限回の試行の確率空間 \\
@@ -100,6 +100,10 @@
 各回の配布資料を用いる。
 関連する教科書：熊谷 隆『確率論』（新しい解析学の流れ）。
 
+\topic{評価}
+期末テスト 60\% + 授業レポート 20\% + 演習 20\%
+
+総合得点が60\%以上で合格とし、合格者の成績は相対評価で決定する。
 
 \newpage
 \fontsize{10pt}{13.5pt}\selectfont
@@ -122,58 +126,47 @@ $$
 このとき $(\Omega,2^\Omega,P)$ は離散確率空間であり、
 $p_\omega=P(\{\omega\})$ である。
 
-\examplelabel{例1：公平なコインを1回投げる。}
+\examplelabel{例：公平なコインを1回投げる。}
 $H$ を表、$T$ を裏とすると、
 $$
   \Omega=\{H,T\},\quad p_H=p_T=\frac12,\quad
   \F=\{\varnothing,\{H\},\{T\},\Omega\},\quad P(\{H\})=\frac12.
 $$
 
-\examplelabel{例2：公平なサイコロを独立に2回投げる。}
-結果を順序対 $(i,j)$ で表す。
-$$
-  \Omega=\{1,\ldots,6\}^2,\quad p_{(i,j)}=\frac1{36},\quad
-  \F=2^\Omega,\quad P(A)=\frac{|A|}{36}.
-$$
-ここで $|A|$ は $A$ の要素数。出た目の和が7となる事象は
-$$A=\{(1,6),(2,5),(3,4),(4,3),(5,2),(6,1)\}$$
- で、\mbox{$P(A)=6/36=1/6$}。
-
 \topic{一般の確率空間の公理}
-確率空間は三つ組 $(\Omega,\F,P)$ である。
-$\Omega\ne\varnothing$ は標本空間、$\F\subseteq2^\Omega$ は
-次を満たす $\sigma$-加法族であり、$\F$ の要素を事象と呼ぶ。
+$\Omega\ne\varnothing$ は集合、$\F\subseteq2^\Omega$ は
+次を満たす $\sigma$-加法族とする。
 $$
   \Omega\in\F,\qquad
   A\in\F\ \Longrightarrow\ A^c:=\Omega\setminus A\in\F,\qquad
   (A_n\in\F\ \forall n\ge1)\ \Longrightarrow\
   \bigcup_{n=1}^\infty A_n\in\F.
 $$
-写像 $P:\F\to[0,1]$ は確率測度と呼ばれ、正規化と可算加法性を満たす。
+次をみたす写像 $P:\F\to[0,1]$ は確率測度と呼ばれる:
 $$
   P(\Omega)=1,\qquad
   P\!\left(\bigcup_{n=1}^\infty A_n\right)
     =\sum_{n=1}^\infty P(A_n)
   \quad\left(A_n\in\F,\ A_n\cap A_m=\varnothing\ (n\ne m)\right).
 $$
-値域の条件より $P(A)\ge0$。また公理から $P(\varnothing)=0$、$P(A^c)=1-P(A)$ が従う。
+三つ組 $(\Omega,\F,P)$ を確率空間と呼ぶ。公理から $P(\varnothing)=0$、$P(A^c)=1-P(A)$ が従う。
 
-\examplelabel{例3：$[0,1]$ 上の一様分布。}
+\examplelabel{例2：$[0,1]$ 上の一様分布。}
 $$
   \Omega=[0,1],\qquad \F=\mathcal B([0,1]),\qquad
   P(A)=\lambda(A),\quad P([a,b])=b-a\quad(0\le a\le b\le1).
 $$
-$\mathcal B([0,1])$ は相対開集合から生成される最小の $\sigma$-加法族
+$\mathcal B([0,1])$ を$[0,1]$に含まれる開集合から生成される最小の $\sigma$-加法族
 （ボレル集合族）、$\lambda$ はルベーグ測度（長さ）である。
-各点の確率は $P(\{x\})=0$ だが、$P([0,1])=1$。
 
-\examplelabel{例4：実数上の標準正規分布。}
-$$
-  \Omega=\R,\qquad \F=\mathcal B(\R),\qquad
-  P(A)=\frac1{\sqrt{2\pi}}\int_A e^{-x^2/2}\,dx.
-$$
-$\mathcal B(\R)$ は開集合から生成されるボレル集合族。
-積分はルベーグ積分で、$P(\R)=1$、$P(( -\infty,0])=1/2$。
+
+\topic{演習問題}
+\begin{enumerate}[label=\arabic*.]
+  \item 公平なサイコロを独立に2回投げる試行の離散確率空間 $(\Omega,\F,P)$ を構成し、
+  出た目の合計が3となる確率を求めよ。
+  \item $(\Omega,\F,P)$ を確率空間とする。任意の $A,B\in\F$ に対して、
+  $A\cap B\in\F$ および $P(A\cup B)=P(A)+P(B)-P(A\cap B)$ を示せよ。
+\end{enumerate}
 
 \topic{レポート問題}
 \begin{enumerate}[label=\arabic*.]

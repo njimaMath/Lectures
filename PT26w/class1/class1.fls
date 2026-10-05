@@ -269,8 +269,6 @@ INPUT c:/texlive/2025/texmf-dist/fonts/tfm/public/ipaex-type1/ipxm-r-u7b.tfm
 INPUT c:/texlive/2025/texmf-dist/fonts/tfm/public/ipaex-type1/ipxm-r-u90.tfm
 INPUT c:/texlive/2025/texmf-dist/fonts/tfm/public/ipaex-type1/ipxm-r-u74.tfm
 INPUT c:/texlive/2025/texmf-dist/fonts/tfm/public/ipaex-type1/ipxm-r-u89.tfm
-INPUT c:/texlive/2025/texmf-dist/fonts/tfm/public/ipaex-type1/ipxm-r-u96.tfm
-INPUT c:/texlive/2025/texmf-dist/fonts/tfm/public/ipaex-type1/ipxm-r-u7d.tfm
 INPUT c:/texlive/2025/texmf-dist/fonts/tfm/public/ipaex-type1/ipxg-r-u8a.tfm
 INPUT c:/texlive/2025/texmf-dist/fonts/tfm/public/ipaex-type1/ipxg-r-u75.tfm
 INPUT c:/texlive/2025/texmf-dist/fonts/tfm/public/ipaex-type1/ipxg-r-uff.tfm
@@ -307,6 +305,7 @@ INPUT c:/texlive/2025/texmf-dist/fonts/tfm/public/amsfonts/symbols/msbm10.tfm
 INPUT c:/texlive/2025/texmf-dist/fonts/tfm/public/amsfonts/symbols/msbm7.tfm
 INPUT c:/texlive/2025/texmf-dist/fonts/tfm/public/amsfonts/symbols/msbm5.tfm
 INPUT c:/texlive/2025/texmf-dist/fonts/tfm/public/ipaex-type1/ipxm-r-u56.tfm
+INPUT c:/texlive/2025/texmf-dist/fonts/tfm/public/ipaex-type1/ipxm-r-u96.tfm
 INPUT c:/texlive/2025/texmf-dist/fonts/tfm/public/ipaex-type1/ipxm-r-u82.tfm
 INPUT c:/texlive/2025/texmf-dist/fonts/tfm/public/ipaex-type1/ipxm-r-u6c.tfm
 INPUT c:/texlive/2025/texmf-dist/fonts/tfm/public/ipaex-type1/ipxm-r-u88.tfm
@@ -317,6 +316,7 @@ INPUT c:/texlive/2025/texmf-dist/fonts/tfm/public/ipaex-type1/ipxm-r-u8f.tfm
 INPUT c:/texlive/2025/texmf-dist/fonts/tfm/public/ipaex-type1/ipxm-r-u61.tfm
 INPUT c:/texlive/2025/texmf-dist/fonts/tfm/public/ipaex-type1/ipxm-r-u58.tfm
 INPUT c:/texlive/2025/texmf-dist/fonts/tfm/public/ipaex-type1/ipxm-r-u71.tfm
+INPUT c:/texlive/2025/texmf-dist/fonts/tfm/public/ipaex-type1/ipxm-r-u7d.tfm
 INPUT c:/texlive/2025/texmf-dist/fonts/tfm/public/ipaex-type1/ipxm-r-u54.tfm
 INPUT c:/texlive/2025/texmf-dist/fonts/tfm/public/ipaex-type1/ipxm-r-u6f.tfm
 INPUT c:/texlive/2025/texmf-dist/fonts/tfm/public/ipaex-type1/ipxm-r-u7f.tfm
@@ -343,6 +343,9 @@ INPUT c:/texlive/2025/texmf-dist/fonts/tfm/public/ipaex-type1/ipxm-r-u84.tfm
 INPUT c:/texlive/2025/texmf-dist/fonts/tfm/public/ipaex-type1/ipxg-r-u67.tfm
 INPUT c:/texlive/2025/texmf-dist/fonts/tfm/public/ipaex-type1/ipxm-r-u91.tfm
 INPUT c:/texlive/2025/texmf-dist/fonts/tfm/public/ipaex-type1/ipxm-r-u6d.tfm
+INPUT c:/texlive/2025/texmf-dist/fonts/tfm/public/ipaex-type1/ipxm-r-u68.tfm
+INPUT c:/texlive/2025/texmf-dist/fonts/tfm/public/ipaex-type1/ipxm-r-u80.tfm
+INPUT c:/texlive/2025/texmf-dist/fonts/tfm/public/ipaex-type1/ipxm-r-u7e.tfm
 INPUT c:/texlive/2025/texmf-dist/fonts/tfm/public/ipaex-type1/ipxm-r-u78.tfm
 INPUT c:/texlive/2025/texmf-dist/fonts/tfm/public/ipaex-type1/ipxm-r-u73.tfm
 INPUT c:/texlive/2025/texmf-dist/fonts/tfm/public/ipaex-type1/ipxm-r-u8a.tfm
@@ -396,8 +399,8 @@ INPUT c:/texlive/2025/texmf-dist/fonts/enc/dvips/ipaex-type1/ipxt1-u72.enc
 INPUT c:/texlive/2025/texmf-dist/fonts/enc/dvips/ipaex-type1/ipxt1-u60.enc
 INPUT c:/texlive/2025/texmf-dist/fonts/enc/dvips/ipaex-type1/ipxt1-u66.enc
 INPUT c:/texlive/2025/texmf-dist/fonts/enc/dvips/ipaex-type1/ipxt1-u74.enc
-INPUT c:/texlive/2025/texmf-dist/fonts/enc/dvips/ipaex-type1/ipxt1-u96.enc
 INPUT c:/texlive/2025/texmf-dist/fonts/enc/dvips/ipaex-type1/ipxt1-u75.enc
+INPUT c:/texlive/2025/texmf-dist/fonts/enc/dvips/ipaex-type1/ipxt1-u96.enc
 INPUT c:/texlive/2025/texmf-dist/fonts/enc/dvips/ipaex-type1/ipxt1-u82.enc
 INPUT c:/texlive/2025/texmf-dist/fonts/enc/dvips/lm/lm-mathit.enc
 INPUT c:/texlive/2025/texmf-dist/fonts/enc/dvips/ipaex-type1/ipxt1-u6c.enc
@@ -415,6 +418,9 @@ INPUT c:/texlive/2025/texmf-dist/fonts/enc/dvips/ipaex-type1/ipxt1-u81.enc
 INPUT c:/texlive/2025/texmf-dist/fonts/enc/dvips/ipaex-type1/ipxt1-u84.enc
 INPUT c:/texlive/2025/texmf-dist/fonts/enc/dvips/ipaex-type1/ipxt1-u91.enc
 INPUT c:/texlive/2025/texmf-dist/fonts/enc/dvips/ipaex-type1/ipxt1-u6d.enc
+INPUT c:/texlive/2025/texmf-dist/fonts/enc/dvips/ipaex-type1/ipxt1-u68.enc
+INPUT c:/texlive/2025/texmf-dist/fonts/enc/dvips/ipaex-type1/ipxt1-u80.enc
+INPUT c:/texlive/2025/texmf-dist/fonts/enc/dvips/ipaex-type1/ipxt1-u7e.enc
 INPUT c:/texlive/2025/texmf-dist/fonts/tfm/public/ipaex-type1/ipxm-r-u7b.tfm
 INPUT c:/texlive/2025/texmf-dist/fonts/tfm/public/ipaex-type1/ipxm-r-u56.tfm
 INPUT c:/texlive/2025/texmf-dist/fonts/tfm/public/ipaex-type1/ipxm-r-u78.tfm
@@ -434,8 +440,6 @@ INPUT c:/texlive/2025/texmf-dist/fonts/tfm/public/ipaex-type1/ipxg-r-u5e.tfm
 INPUT c:/texlive/2025/texmf-dist/fonts/tfm/public/ipaex-type1/ipxg-r-u30.tfm
 INPUT c:/texlive/2025/texmf-dist/fonts/tfm/public/ipaex-type1/ipxg-r-u56.tfm
 INPUT c:/texlive/2025/texmf-dist/fonts/tfm/public/ipaex-type1/ipxg-r-u62.tfm
-INPUT c:/texlive/2025/texmf-dist/fonts/tfm/public/ipaex-type1/ipxg-r-u72.tfm
-INPUT c:/texlive/2025/texmf-dist/fonts/tfm/public/ipaex-type1/ipxg-r-u7a.tfm
 INPUT c:/texlive/2025/texmf-dist/fonts/tfm/public/ipaex-type1/ipxg-r-u82.tfm
 INPUT c:/texlive/2025/texmf-dist/fonts/tfm/public/ipaex-type1/ipxg-r-u51.tfm
 INPUT c:/texlive/2025/texmf-dist/fonts/tfm/public/ipaex-type1/ipxg-r-u74.tfm
@@ -443,12 +447,7 @@ INPUT c:/texlive/2025/texmf-dist/fonts/tfm/public/ipaex-type1/ipxg-r-u4e.tfm
 INPUT c:/texlive/2025/texmf-dist/fonts/tfm/public/ipaex-type1/ipxg-r-u69.tfm
 INPUT c:/texlive/2025/texmf-dist/fonts/tfm/public/ipaex-type1/ipxg-r-u52.tfm
 INPUT c:/texlive/2025/texmf-dist/fonts/tfm/public/ipaex-type1/ipxm-r-u5c.tfm
-INPUT c:/texlive/2025/texmf-dist/fonts/tfm/public/ipaex-type1/ipxg-r-u5b.tfm
-INPUT c:/texlive/2025/texmf-dist/fonts/tfm/public/ipaex-type1/ipxg-r-u65.tfm
-INPUT c:/texlive/2025/texmf-dist/fonts/tfm/public/ipaex-type1/ipxg-r-u6a.tfm
-INPUT c:/texlive/2025/texmf-dist/fonts/tfm/public/ipaex-type1/ipxg-r-u6e.tfm
-INPUT c:/texlive/2025/texmf-dist/fonts/tfm/public/ipaex-type1/ipxg-r-u6b.tfm
-INPUT c:/texlive/2025/texmf-dist/fonts/tfm/public/ipaex-type1/ipxg-r-u89.tfm
+INPUT c:/texlive/2025/texmf-dist/fonts/tfm/public/ipaex-type1/ipxg-r-u6f.tfm
 INPUT c:/texlive/2025/texmf-dist/fonts/tfm/public/ipaex-type1/ipxg-r-u55.tfm
 INPUT c:/texlive/2025/texmf-dist/fonts/tfm/public/ipaex-type1/ipxg-r-u98.tfm
 INPUT c:/texlive/2025/texmf-dist/fonts/enc/dvips/lm/lm-mathsy.enc
@@ -473,9 +472,7 @@ INPUT c:/texlive/2025/texmf-dist/fonts/type1/public/ipaex-type1/ipxg-r-u65.pfb
 INPUT c:/texlive/2025/texmf-dist/fonts/type1/public/ipaex-type1/ipxg-r-u67.pfb
 INPUT c:/texlive/2025/texmf-dist/fonts/type1/public/ipaex-type1/ipxg-r-u69.pfb
 INPUT c:/texlive/2025/texmf-dist/fonts/type1/public/ipaex-type1/ipxg-r-u6a.pfb
-INPUT c:/texlive/2025/texmf-dist/fonts/type1/public/ipaex-type1/ipxg-r-u6b.pfb
-INPUT c:/texlive/2025/texmf-dist/fonts/type1/public/ipaex-type1/ipxg-r-u6e.pfb
-INPUT c:/texlive/2025/texmf-dist/fonts/type1/public/ipaex-type1/ipxg-r-u72.pfb
+INPUT c:/texlive/2025/texmf-dist/fonts/type1/public/ipaex-type1/ipxg-r-u6f.pfb
 INPUT c:/texlive/2025/texmf-dist/fonts/type1/public/ipaex-type1/ipxg-r-u73.pfb
 INPUT c:/texlive/2025/texmf-dist/fonts/type1/public/ipaex-type1/ipxg-r-u74.pfb
 INPUT c:/texlive/2025/texmf-dist/fonts/type1/public/ipaex-type1/ipxg-r-u75.pfb
@@ -517,6 +514,7 @@ INPUT c:/texlive/2025/texmf-dist/fonts/type1/public/ipaex-type1/ipxm-r-u63.pfb
 INPUT c:/texlive/2025/texmf-dist/fonts/type1/public/ipaex-type1/ipxm-r-u65.pfb
 INPUT c:/texlive/2025/texmf-dist/fonts/type1/public/ipaex-type1/ipxm-r-u66.pfb
 INPUT c:/texlive/2025/texmf-dist/fonts/type1/public/ipaex-type1/ipxm-r-u67.pfb
+INPUT c:/texlive/2025/texmf-dist/fonts/type1/public/ipaex-type1/ipxm-r-u68.pfb
 INPUT c:/texlive/2025/texmf-dist/fonts/type1/public/ipaex-type1/ipxm-r-u69.pfb
 INPUT c:/texlive/2025/texmf-dist/fonts/type1/public/ipaex-type1/ipxm-r-u6a.pfb
 INPUT c:/texlive/2025/texmf-dist/fonts/type1/public/ipaex-type1/ipxm-r-u6b.pfb
@@ -536,7 +534,9 @@ INPUT c:/texlive/2025/texmf-dist/fonts/type1/public/ipaex-type1/ipxm-r-u79.pfb
 INPUT c:/texlive/2025/texmf-dist/fonts/type1/public/ipaex-type1/ipxm-r-u7a.pfb
 INPUT c:/texlive/2025/texmf-dist/fonts/type1/public/ipaex-type1/ipxm-r-u7b.pfb
 INPUT c:/texlive/2025/texmf-dist/fonts/type1/public/ipaex-type1/ipxm-r-u7d.pfb
+INPUT c:/texlive/2025/texmf-dist/fonts/type1/public/ipaex-type1/ipxm-r-u7e.pfb
 INPUT c:/texlive/2025/texmf-dist/fonts/type1/public/ipaex-type1/ipxm-r-u7f.pfb
+INPUT c:/texlive/2025/texmf-dist/fonts/type1/public/ipaex-type1/ipxm-r-u80.pfb
 INPUT c:/texlive/2025/texmf-dist/fonts/type1/public/ipaex-type1/ipxm-r-u81.pfb
 INPUT c:/texlive/2025/texmf-dist/fonts/type1/public/ipaex-type1/ipxm-r-u82.pfb
 INPUT c:/texlive/2025/texmf-dist/fonts/type1/public/ipaex-type1/ipxm-r-u84.pfb
@@ -557,7 +557,6 @@ INPUT c:/texlive/2025/texmf-dist/fonts/type1/public/lm/lmmi10.pfb
 INPUT c:/texlive/2025/texmf-dist/fonts/type1/public/lm/lmmi7.pfb
 INPUT c:/texlive/2025/texmf-dist/fonts/type1/public/lm/lmr10.pfb
 INPUT c:/texlive/2025/texmf-dist/fonts/type1/public/lm/lmr12.pfb
-INPUT c:/texlive/2025/texmf-dist/fonts/type1/public/lm/lmr5.pfb
 INPUT c:/texlive/2025/texmf-dist/fonts/type1/public/lm/lmr7.pfb
 INPUT c:/texlive/2025/texmf-dist/fonts/type1/public/lm/lmr9.pfb
 INPUT c:/texlive/2025/texmf-dist/fonts/type1/public/lm/lmss10.pfb
