@@ -283,6 +283,77 @@ $\mu_X$ を $X$ の分布とする。可測関数 $g$ で $g(X)$ が可積分な
 \begin{exerciseblock}
 重み付きサイコロ $\Pp(\{k\})=k/21$ で $X(\omega)=\omega$ の期待値を求めよ。また一様な置換 $\sigma\in S_4$ の不動点数の期待値を、指示関数の和として計算せよ。
 \end{exerciseblock}
+\section{独立性、共分散、pairwise と mutual}
+\subsection{二つの確率変数の独立性}
+\begin{definition}
+確率変数 $X,Y$ が独立であるとは、任意の Borel 集合 $A,B$ に対して
+\[
+\Pp(X\in A,Y\in B)=\Pp(X\in A)\Pp(Y\in B)
+\]
+が成り立つことをいう。
+\end{definition}
+$\Pp(Y\in B)>0$ なら
+\[
+\Pp(X\in A\mid Y\in B)=\Pp(X\in A),
+\]
+すなわち $Y$ に関する情報を得ても $X$ の分布が変わらない。
+
+\subsection{可測写像による独立性の保存}
+$X,Y$ が独立で $f,g$ が可測なら $f(X),g(Y)$ も独立である。可積分なら
+\[
+\E[f(X)g(Y)]=\E[f(X)]\E[g(Y)].
+\]
+まず単関数で示し、一般の場合は単関数近似で拡張する。
+
+\subsection{分散と共分散}
+\[
+\Var(X)=\E[(X-\E X)^2],
+\qquad
+\Cov(X,Y)=\E[(X-\E X)(Y-\E Y)].
+\]
+二次モーメントが有限な独立変数なら
+\[
+\Cov(X,Y)=0,
+\qquad
+\Var(X+Y)=\Var(X)+\Var(Y).
+\]
+ただし無相関 $\Cov(X,Y)=0$ は一般には独立性を意味しない。
+
+\subsection{pairwise 独立と mutual 独立}
+$\{X_i\}_{i\in I}$ が mutual（同時）独立であるとは、任意の有限部分族と Borel 集合 $A_k$ に対し
+\[
+\Pp(X_{i_1}\in A_1,\dots,X_{i_m}\in A_m)
+=\prod_{k=1}^m\Pp(X_{i_k}\in A_k)
+\]
+が成り立つことをいう。pairwise 独立は $m=2$ の場合だけを要求する。
+
+独立な Bernoulli$(1/2)$ 変数 $X,Y$ に対して
+\[
+Z=X\oplus Y
+\]
+とおくと、$(X,Y),(X,Z),(Y,Z)$ は各々独立だが
+\[
+\Pp(X=0,Y=0,Z=0)=\frac14\ne\frac18
+\]
+なので三つ組は mutual 独立ではない。
+
+\begin{columnnote}{pairwise 独立だけでは「全体の自由さ」は保証されない}
+$\{\pm1\}$ 値の独立な Rademacher 変数 $X,Y$ に $Z=XY$ を付け加えると、各ペアは独立だが
+\[
+XYZ=1\qquad\text{a.s.}
+\]
+という完全な三者関係がある。さらに独立な $X_1,\dots,X_{n-1}$ に
+\[
+X_n=\prod_{j=1}^{n-1}X_j
+\]
+と置けば、任意の $n-1$ 個は独立でも $n$ 個全体は独立でない例になる。
+
+一方、$(X_1,\dots,X_n)$ が共同 Gaussian であるという強い仮定のもとでは、共分散行列が対角、pairwise 独立、mutual 独立が一致する。この「Gaussian では無相関が独立を意味する」という性質は特別であり、一般の分布へ持ち込んではならない。
+\end{columnnote}
+
+\begin{exerciseblock}
+独立な $X\sim\mathrm{Poi}(\lambda)$, $Y\sim\mathrm{Poi}(\mu)$ について特性関数を用い $X+Y\sim\mathrm{Poi}(\lambda+\mu)$ を示せ。補充演習として、Berry--Esseen 不等式が CLT の誤差を $O(n^{-1/2})$ で評価することの意味を調べよ。
+\end{exerciseblock}
 
 
 
@@ -611,77 +682,6 @@ Prokhorov の定理は tightness から弱収束部分列の存在を与える�
 開集合 $O\subset\R$ に対して $x\mapsto d(x,O^c)$ が連続であることを示せ。また Portmanteau の開集合不等式を、この距離関数から作る連続関数近似を用いて証明せよ。
 \end{exerciseblock}
 
-\section{独立性、共分散、pairwise と mutual}
-\subsection{二つの確率変数の独立性}
-\begin{definition}
-確率変数 $X,Y$ が独立であるとは、任意の Borel 集合 $A,B$ に対して
-\[
-\Pp(X\in A,Y\in B)=\Pp(X\in A)\Pp(Y\in B)
-\]
-が成り立つことをいう。
-\end{definition}
-$\Pp(Y\in B)>0$ なら
-\[
-\Pp(X\in A\mid Y\in B)=\Pp(X\in A),
-\]
-すなわち $Y$ に関する情報を得ても $X$ の分布が変わらない。
-
-\subsection{可測写像による独立性の保存}
-$X,Y$ が独立で $f,g$ が可測なら $f(X),g(Y)$ も独立である。可積分なら
-\[
-\E[f(X)g(Y)]=\E[f(X)]\E[g(Y)].
-\]
-まず単関数で示し、一般の場合は単関数近似で拡張する。
-
-\subsection{分散と共分散}
-\[
-\Var(X)=\E[(X-\E X)^2],
-\qquad
-\Cov(X,Y)=\E[(X-\E X)(Y-\E Y)].
-\]
-二次モーメントが有限な独立変数なら
-\[
-\Cov(X,Y)=0,
-\qquad
-\Var(X+Y)=\Var(X)+\Var(Y).
-\]
-ただし無相関 $\Cov(X,Y)=0$ は一般には独立性を意味しない。
-
-\subsection{pairwise 独立と mutual 独立}
-$\{X_i\}_{i\in I}$ が mutual（同時）独立であるとは、任意の有限部分族と Borel 集合 $A_k$ に対し
-\[
-\Pp(X_{i_1}\in A_1,\dots,X_{i_m}\in A_m)
-=\prod_{k=1}^m\Pp(X_{i_k}\in A_k)
-\]
-が成り立つことをいう。pairwise 独立は $m=2$ の場合だけを要求する。
-
-独立な Bernoulli$(1/2)$ 変数 $X,Y$ に対して
-\[
-Z=X\oplus Y
-\]
-とおくと、$(X,Y),(X,Z),(Y,Z)$ は各々独立だが
-\[
-\Pp(X=0,Y=0,Z=0)=\frac14\ne\frac18
-\]
-なので三つ組は mutual 独立ではない。
-
-\begin{columnnote}{pairwise 独立だけでは「全体の自由さ」は保証されない}
-$\{\pm1\}$ 値の独立な Rademacher 変数 $X,Y$ に $Z=XY$ を付け加えると、各ペアは独立だが
-\[
-XYZ=1\qquad\text{a.s.}
-\]
-という完全な三者関係がある。さらに独立な $X_1,\dots,X_{n-1}$ に
-\[
-X_n=\prod_{j=1}^{n-1}X_j
-\]
-と置けば、任意の $n-1$ 個は独立でも $n$ 個全体は独立でない例になる。
-
-一方、$(X_1,\dots,X_n)$ が共同 Gaussian であるという強い仮定のもとでは、共分散行列が対角、pairwise 独立、mutual 独立が一致する。この「Gaussian では無相関が独立を意味する」という性質は特別であり、一般の分布へ持ち込んではならない。
-\end{columnnote}
-
-\begin{exerciseblock}
-独立な $X\sim\mathrm{Poi}(\lambda)$, $Y\sim\mathrm{Poi}(\mu)$ について特性関数を用い $X+Y\sim\mathrm{Poi}(\lambda+\mu)$ を示せ。補充演習として、Berry--Esseen 不等式が CLT の誤差を $O(n^{-1/2})$ で評価することの意味を調べよ。
-\end{exerciseblock}
 
 \section{大数の法則と一般の中心極限定理}
 \subsection{Markov と Chebyshev の不等式}
