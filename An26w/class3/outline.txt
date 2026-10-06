@@ -1,0 +1,72 @@
+1. 定積分と区分求積法
+
+Fをfの不定積分とする。(つまりF'=f)
+
+int_a^b f(x) dx = F(b)-F(a)¥¥
+= [f(x)の区間[a,b]での面積] 
+
+¥underline{区分求積法}
+区間[a,b]のN等分を考える ->　それぞれの区間のサイズは ¥Delta := (b-a)/N 
+面積を長方形で近似
+
+S_N := [長方形の面積の和]　= ¥sum_{i=1}^{N} f(x_i) ¥Delta
+ = ¥frac{b-a}{N}  ¥sum_{i=1}^N f(¥frac{N-i}{N} a + ¥frac{i}{N}b)
+
+ 定理: もしfが連続関数であれば、¥lim_{N¥to ¥infty} S_N= ¥int_a^b f(x) dx
+
+
+2. 長方形上の重積分
+
+fをK = [a,b]¥times [c,d]上の関数とする。
+
+上の原理で¥iint_{K} f(x)dxdyを定義したい。
+
+[a,b]をN等分, [c,d]をM等分する -> それぞれのサイズは¥Delta ¥times ¥Delta', ここで, Delta = ¥frac{b-a}{N}, ¥Delta' =¥frac{d-c}{M}
+
+それぞれの直方体の体積はDelta¥times ¥Delta' ¥times f(x_{ij}), ここでx_{ij} = (¥frac{N-i}{N} a + ¥frac{i}{N}b, frac{M-j}{M} c + ¥frac{j}{M}d)
+
+それらを足し合わせたものをS_{N,M} = ¥sum_{i=1}^N ¥sum_{j=1}^M f(x_{ij}) ¥Delta ¥Delta'
+で定義する。
+
+定義: ¥lim_{N,M¥to ¥infty} S_{N,M}が収束するときその値を¥iint_{K} fdxdyと定義する。
+
+
+例題 1) ¥int_{[0,1]¥times [0,1]} xy dx dy
+2) ¥int_{[1,2]¥times [0,1]} x + y dx dy
+
+3. 一般の定義域での重積分
+
+D ¥subset R^2 (有界集合)とする。fをDで定義された関数とする。
+
+¥tilde{f}(x,y) =  
+¥begin{cases}
+f(x,y)& (x,y)¥in D¥¥
+0 & (x,y)¥notin d¥end{cases}
+
+D¥subset K= [a,b]¥times [c,d]となる長方形を選ぶ。このとき, 
+¥iint_D f(x,y) dxdy := ¥iint_K ¥tilde{f}(x,y) dxdy
+で定義する。
+
+来週一般の定義域での重積分を計算する。
+
+定理: fがD上連続関数ならば、¥iint_D f(x,y) dxdyは定義できる
+
+証明の概略: 簡単のため、D=[0,1]¥times [0,1]とする。f^{¥min}(x_{ij}):= ¥min_{(x,y)¥in x_{ij}+[-1/N,0]¥times [-1/M,0]}f(x,y), f^{¥max}(x_{ij})]= ¥max_{(x,y)¥in x_{ij}+[-1/N,0]¥times [-1/M,0]}f(x,y)
+
+S^min_{N,M} = ¥frac{1}{NM} ¥sum_{i=1}^N ¥sum_{i=1}^M f^min(x_ij)
+S^max_{N,M} = ¥frac{1}{NM} ¥sum_{i=1}^N ¥sum_{i=1}^M f^max(x_ij)
+とおく。
+
+Step 1. n¥to S^min_{2^n,2^n}は単調増加, n¥to S^max_{2^n,2^n}は単調減少かつ連続性からf^{¥min}(x_{ij}) ¥approx f^{¥max}(x_{ij})より
+¥lim_{n¥to ¥infty }S^min_{2^n,2^n}=¥lim_{n¥to ¥infty }S^max_{2^n,2^n} =¥exists S.
+
+Step 2. (一般のN,Mについて) nをとる。N,Mを2^nより十分おおきくとると, S^min(N,M)¥geq S^min(2^n,2^n) + (誤差), S^max(N,M)¥geq S^max(2^n,2^n) + (誤差). したがって, 
+
+S^min_{2^n,2^n}¥leq ¥lim_{N,M¥to ¥infty}S^min_{N,M}¥leq ¥lim_{N,M¥to ¥infty}S^max_{N,M}¥leq S^max_{2^n,2^n} 
+
+はさみうちの原理より, n¥to ¥inftyとして全ての極限はSとなる
+
+演習問題
+1) ¥iint_{[-1,1]¥times [0,1]}xy dxdy 
+2) ¥iint_{[0,2]¥times [0,1]} x^2 y dxdy 
+3) ¥iint_{[0,1]¥times [0,¥pi/2]} x sin(y) dxdy 

@@ -1,0 +1,128 @@
+% Build in this directory: pdflatex -interaction=nonstopmode -halt-on-error class3_handout.tex
+\documentclass[a4paper,10pt,pdflatex,ja=standard,jafont=ipaex-type1,
+  magstyle=real,scale=1]{bxjsarticle}
+\usepackage{lmodern}
+\usepackage{amsmath,amssymb,mathtools}
+\usepackage{geometry}
+\geometry{reset,left=22mm,right=22mm,top=20mm,bottom=17mm,
+  headheight=13pt,headsep=6mm,footskip=10mm}
+\usepackage{xcolor}
+\usepackage{enumitem}
+\usepackage{array,booktabs,tabularx}
+\usepackage{fancyhdr}
+
+\definecolor{ink}{HTML}{193A5C}
+\definecolor{accent}{HTML}{237D82}
+\definecolor{soft}{HTML}{EAF3F3}
+\definecolor{muted}{HTML}{52616B}
+\newcommand{\coursename}{解析学 II}
+\newcommand{\handoutnumber}{3}
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\small\color{ink}\coursename{}・授業要約と演習}
+\fancyhead[R]{\small\color{ink}第\handoutnumber 回}
+\fancyfoot[C]{\small\color{ink}\thepage/2}
+\renewcommand{\headrulewidth}{0.3pt}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{2pt}
+\setlength{\abovedisplayskip}{5pt}
+\setlength{\belowdisplayskip}{5pt}
+\setlength{\abovedisplayshortskip}{3pt}
+\setlength{\belowdisplayshortskip}{4pt}
+\setlist[itemize]{leftmargin=1.8em,itemsep=1pt,topsep=2pt,parsep=0pt}
+
+\newcommand{\handouttitle}[1]{%
+  \begin{center}
+    {\Large\color{ink}#1}\par\vspace{3mm}
+    {\color{accent}\rule{0.88\linewidth}{0.7pt}}
+  \end{center}\vspace{-2mm}}
+\newcommand{\handout}[2]{%
+  \renewcommand{\handoutnumber}{#1}%
+  \handouttitle{第#1回\quad #2}}
+\newcommand{\topic}[1]{\par\vspace{5pt}%
+  {\large\sffamily\mdseries\color{accent}#1}\par\vspace{2pt}}
+\newcommand{\keybox}[1]{\par\vspace{3pt}\begingroup
+  \setlength{\fboxsep}{4pt}%
+  \colorbox{soft}{\parbox{\dimexpr\linewidth-2\fboxsep\relax}{\small #1}}%
+  \endgroup\par\vspace{2pt}}
+\newenvironment{problems}
+  {\begin{enumerate}[leftmargin=2em,itemsep=3pt,topsep=3pt,parsep=0pt,
+    font=\color{accent}]}
+  {\end{enumerate}}
+
+
+\newcommand{\examplelabel}[1]{{\sffamily\mdseries\color{ink}#1}}
+\newcommand{\answerroom}{\par\vspace{16mm}}
+
+\begin{document}
+\fontsize{10pt}{13.5pt}\selectfont
+\setlength{\abovedisplayskip}{4pt}
+\setlength{\belowdisplayskip}{4pt}
+\handout{3}{重積分の定義}
+\topic{1変数のリーマン和から2変数へ}
+$K=[a,b]\times[c,d]$、$a<b$、$c<d$ を長方形とする。
+各辺を $N,M$ 等分し、$\Delta x=(b-a)/N$、$\Delta y=(d-c)/M$ とおく。
+小長方形 $Q_{ij}$ の代表点 $\xi_{ij}=(x_{ij}^*,y_{ij}^*)$ を選び
+$$
+ S_{N,M}(f)=\sum_{i=1}^N\sum_{j=1}^M
+ f(\xi_{ij})\,\Delta x\,\Delta y
+$$
+をリーマン和という。高さ $f(\xi_{ij})$ に底面積 $\Delta x\Delta y$ を掛けて足す。
+
+\topic{重積分と可積分性}
+$f:K\to\mathbb R$ を有界とする。一般の長方形分割 $\mathcal P$ に対しても、
+代表点を選んで $S_{\mathcal P}(f)=\sum_Q f(\xi_Q)\operatorname{Area}(Q)$ と定める。
+分割の最大直径 $|\mathcal P|$ を0に近づけたとき、分割・代表点によらず同じ有限値に収束するなら
+$$
+ \iint_K f(x,y)\,dx\,dy:=\lim_{|\mathcal P|\to0}S_{\mathcal P}(f)
+$$
+と定義し、$f$ はリーマン可積分であるという。
+
+\topic{連続関数の積分が存在する理由}
+$f$ が $K$ 上連続なら一様連続である。各 $Q\in\mathcal P$ 上の最小値・最大値を
+$m_Q,M_Q$ として、下和 $L$ と上和 $U$ を定めると
+$$
+ L=\sum_Q m_Q\operatorname{Area}(Q)\le S_{\mathcal P}(f)
+ \le\sum_Q M_Q\operatorname{Area}(Q)=U.
+$$
+振動の上限を $\omega_f(\delta)=\sup_{|p-q|\le\delta}|f(p)-f(q)|$ とおけば
+$$
+ 0\le U-L\le\operatorname{Area}(K)\,\omega_f(|\mathcal P|)\longrightarrow0.
+$$
+したがって上和・下和は同じ値に近づき、代表点の選び方によらず積分が存在する。
+
+\topic{一般の領域と積分の意味}
+$D\subset K$ の外側で $f$ を0に延長した関数を $\widetilde f$ とする。
+この関数が $K$ 上可積分なら
+$$
+ \iint_D f\,dx\,dy:=\iint_K\widetilde f\,dx\,dy,\qquad
+ \widetilde f(p)=\begin{cases}f(p),&p\in D,\\0,&p\in K\setminus D.\end{cases}
+$$
+と定める。値は $D$ を含む長方形の選び方によらない。
+たとえば $D$ が有界で境界の面積が0、$f$ が $\overline D$ 上連続なら可積分である。
+$$
+ \iint_D1\,dx\,dy=\operatorname{Area}(D),\qquad
+ f\ge0\ \Longrightarrow\ \iint_Df=\text{グラフの下の体積}.
+$$
+
+\examplelabel{例：単位正方形上の $f(x,y)=xy$。}
+$n\times n$ 分割の中点を選ぶと、すべての $n\ge1$ に対し
+$$
+ S_{n,n}=\frac1{n^4}
+ \left(\sum_{i=1}^n(i-\tfrac12)\right)^2
+ =\frac1{n^4}\left(\frac{n^2}{2}\right)^2=\frac14.
+$$
+\keybox{連続性だけでなく領域の条件も確認する。重積分は「代表点によらないリーマン和の極限」である。}
+
+\newpage
+\handouttitle{第3回\quad 演習問題}
+計算過程を記し、必要な条件・積分領域・向きを明示すること。
+\begin{problems}
+\item $K=[0,2]\times[0,3]$ を $N=2,M=3$ 等分する。小長方形の面積と、定数関数 $f\equiv4$ のリーマン和を求めよ。\answerroom
+\item $K=[0,1]^2$、$f(x,y)=x+y$ とする。$n\times n$ 分割で右上の頂点を代表点に取ったリーマン和を計算し、その極限を求めよ。\answerroom
+\item $K=[0,1]^2$、$f(x,y)=xy$ を $2\times2$ に分割したとき、上和・下和・中点のリーマン和を求めよ。\answerroom
+\item $D=\{(x,y):0\le x\le1,\ 0\le y\le x\}$ とする。$\iint_D1\,dx\,dy$ の値を図形の面積から求め、正方形 $[0,1]^2$ 上の0延長を書け。\answerroom
+\item 可積分な $f$ が $D$ 上で $m\le f\le M$ を満たすとき、$m\operatorname{Area}(D)\le\iint_Df\le M\operatorname{Area}(D)$ を上和・下和から説明せよ。\answerroom
+\item $[0,1]^2$ 上で、$x,y$ がともに有理数なら $f(x,y)=1$、それ以外では0とする。代表点を2通りに選び、この関数がリーマン可積分でないことを示せ。\answerroom
+\end{problems}
+\end{document}

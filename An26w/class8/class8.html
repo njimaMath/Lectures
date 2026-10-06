@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>第8回 前半まとめ（1〜7回）</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Cabin:wght@500&family=Noto+Sans+JP:wght@400;500;700&display=swap');
+
+        :root {
+            --background: radial-gradient(120% 120% at 20% 20%, #1e3a8a 0%, #0f172a 55%, #020617 100%);
+            --card-bg: rgba(255, 255, 255, 0.88);
+            --card-border: rgba(255, 255, 255, 0.25);
+            --accent: #4c6ef5;
+            --accent-soft: rgba(76, 110, 245, 0.14);
+            --accent-strong: #2c3791;
+            --text-primary: #0f172a;
+            --text-secondary: #475569;
+            --highlight: #facc15;
+            --shadow: 0 18px 45px -25px rgba(15, 23, 42, 0.75);
+        }
+
+        *, *::before, *::after {
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Noto Sans JP', 'Hiragino Sans', 'Meiryo', sans-serif;
+            line-height: 1.7;
+            margin: 0;
+            min-height: 100vh;
+            padding: 60px 24px;
+            color: var(--text-primary);
+            background: var(--background);
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+        }
+
+        body::before {
+            content: "";
+            position: fixed;
+            inset: 0;
+            background: repeating-linear-gradient(135deg, rgba(255, 255, 255, 0.04) 0, rgba(255, 255, 255, 0.04) 12px, transparent 12px, transparent 24px);
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        main {
+            width: min(960px, 100%);
+            background: var(--card-bg);
+            backdrop-filter: blur(18px);
+            border: 1px solid var(--card-border);
+            border-radius: 28px;
+            padding: 56px 64px;
+            position: relative;
+            z-index: 1;
+            box-shadow: var(--shadow);
+        }
+
+        header.hero {
+            text-align: center;
+            margin-bottom: 48px;
+            display: grid;
+            gap: 18px;
+        }
+
+        .hero-label {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 6px 16px;
+            border-radius: 999px;
+            font-size: 14px;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            color: var(--accent-strong);
+            background: var(--accent-soft);
+            font-family: 'Cabin', sans-serif;
+        }
+
+        h1 {
+            font-size: clamp(32px, 4vw, 44px);
+            margin: 0;
+            color: var(--accent-strong);
+            letter-spacing: 0.05em;
+        }
+
+        header.hero p {
+            margin: 0 auto;
+            max-width: 620px;
+            color: var(--text-secondary);
+            font-size: 17px;
+        }
+
+        section.outline-section {
+            background: rgba(255, 255, 255, 0.78);
+            border: 1px solid rgba(148, 163, 184, 0.25);
+            padding: 32px 36px;
+            border-radius: 22px;
+            margin-bottom: 32px;
+            box-shadow: 0 24px 40px -32px rgba(15, 23, 42, 0.35);
+        }
+
+        section.outline-section:last-of-type {
+            margin-bottom: 0;
+        }
+
+        h2 {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            font-size: 24px;
+            margin: 0 0 24px;
+            color: var(--accent-strong);
+        }
+
+        h2::before {
+            content: "";
+            width: 42px;
+            height: 4px;
+            border-radius: 999px;
+            background: linear-gradient(90deg, var(--accent) 0%, rgba(76, 110, 245, 0.2) 100%);
+        }
+
+        h3 {
+            font-size: 19px;
+            margin-top: 28px;
+            color: var(--accent-strong);
+        }
+
+        p {
+            margin: 0 0 16px;
+            color: var(--text-secondary);
+        }
+
+        ol, ul {
+            margin: 0 0 18px;
+            padding-left: 24px;
+            color: var(--text-secondary);
+        }
+
+        .concept-card,
+        .theorem,
+        .definition,
+        .proof,
+        .note,
+        .example {
+            margin: 18px 0;
+            padding: 18px 22px;
+            border-radius: 18px;
+            background: rgba(248, 250, 252, 0.86);
+            border: 1px solid rgba(148, 163, 184, 0.25);
+            box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.55);
+            color: var(--text-secondary);
+        }
+
+        .focus-card {
+            background: rgba(76, 110, 245, 0.08);
+            border: 1px solid rgba(76, 110, 245, 0.22);
+            box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.4), 0 20px 32px -28px rgba(76, 110, 245, 0.55);
+        }
+
+        .theorem {
+            border-left: 6px solid rgba(76, 110, 245, 0.65);
+        }
+
+        .definition {
+            border-left: 6px solid rgba(34, 197, 94, 0.65);
+        }
+
+        .proof {
+            border-left: 6px solid rgba(148, 163, 184, 0.65);
+        }
+
+        .note {
+            border-left: 6px solid rgba(250, 204, 21, 0.7);
+            background: rgba(250, 204, 21, 0.08);
+        }
+
+        .example {
+            border-left: 6px solid rgba(14, 165, 233, 0.7);
+            background: rgba(14, 165, 233, 0.08);
+        }
+
+        .concept-card strong,
+        .theorem strong,
+        .definition strong,
+        .proof strong,
+        .note strong,
+        .example strong {
+            display: block;
+            font-family: 'Cabin', sans-serif;
+            font-weight: 600;
+            color: var(--accent-strong);
+            letter-spacing: 0.04em;
+            margin-bottom: 8px;
+        }
+
+        .formula {
+            background: rgba(76, 110, 245, 0.08);
+            padding: 18px;
+            border-radius: 16px;
+            margin: 18px 0;
+            overflow-x: auto;
+            text-align: center;
+            font-size: 1.05rem;
+            font-family: 'Latin Modern Math', 'Cambria Math', serif;
+            color: var(--accent-strong);
+            border: 1px solid rgba(76, 110, 245, 0.2);
+            box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.35);
+        }
+
+        .nav-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 16px;
+            margin-top: 48px;
+            padding-top: 32px;
+            border-top: 2px solid rgba(148, 163, 184, 0.2);
+        }
+
+        .nav-buttons a {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 12px 24px;
+            background: var(--accent);
+            color: white;
+            text-decoration: none;
+            border-radius: 12px;
+            font-weight: 600;
+            font-family: 'Cabin', sans-serif;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 12px rgba(76, 110, 245, 0.3);
+        }
+
+        .nav-buttons a:hover {
+            background: var(--accent-strong);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(76, 110, 245, 0.4);
+        }
+
+        mjx-container[display="true"] {
+            overflow-x: auto;
+            overflow-y: hidden;
+        }
+
+        @media (max-width: 768px) {
+            body {
+                padding: 32px 16px;
+            }
+
+            main {
+                padding: 36px 24px;
+                border-radius: 22px;
+            }
+
+            section.outline-section {
+                padding: 28px 24px;
+            }
+
+            h2 {
+                font-size: 22px;
+            }
+
+            h3 {
+                font-size: 18px;
+            }
+        }
+    </style>
+    <script>
+        window.MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\\[', '\\]']]
+            },
+            options: {
+                skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+            }
+        };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js" crossorigin="anonymous"></script>
+</head>
+<body>
+    <main>
+        <header class="hero">
+            <span class="hero-label">第8回</span>
+            <h1>第8回 前半まとめ（1〜7回）</h1>
+            <p>逆関数から重積分の応用まで、これまで学んだ核心を一気に整理します。</p>
+        </header>
+
+        <section class="outline-section">
+            <h2>第1節 1〜7回のハイライト</h2>
+            <div class="concept-card">
+                <strong>第1回 逆関数と逆三角関数</strong>
+                <ul>
+                    <li>単射・全射・逆写像の復習と、逆関数の導出方法。</li>
+                    <li>$\arcsin x,\arccos x,\arctan x$ の定義域・値域と基本公式。</li>
+                    <li>逆三角関数の微分：$\dfrac{d}{dx}\arcsin x=\dfrac{1}{\sqrt{1-x^2}}$、$\dfrac{d}{dx}\arctan x=\dfrac{1}{1+x^2}$ など。</li>
+                </ul>
+            </div>
+            <div class="concept-card">
+                <strong>第2回 有理関数の積分</strong>
+                <ul>
+                    <li>有理関数（多項式の比）の定義と部分分数分解の手順。</li>
+                    <li>一次因子・二次因子ごとの分解形と係数決定のコツ。</li>
+                    <li>積分公式の組み合わせで有理関数を処理する流れを確認。</li>
+                </ul>
+            </div>
+            <div class="concept-card">
+                <strong>第3回 重積分の定義</strong>
+                <ul>
+                    <li>リーマン和を二変数に拡張し、長方形領域 $K=[a,b]\times[c,d]$ 上の重積分を定義。</li>
+                    <li>可積分性（連続なら存在）と重積分の図形的イメージ。</li>
+                    <li>一般領域への拡張に向けた指示関数の考え方。</li>
+                </ul>
+            </div>
+            <div class="concept-card">
+                <strong>第4回 重積分の計算と累次積分</strong>
+                <ul>
+                    <li>フビニ（トネリ）定理で順序を入れ替えた累次積分を正当化。</li>
+                    <li>Type I/II（縦切り・横切り）領域の記述と積分設定。</li>
+                    <li>対称性を利用した計算簡略化のポイント。</li>
+                </ul>
+            </div>
+            <div class="concept-card">
+                <strong>第5回 広義積分</strong>
+                <ul>
+                    <li>区間の端点が無限大・特異点を含むときの広義積分の定義。</li>
+                    <li>$p$ 判定など収束判定の目安と、二変数の場合の扱い方。</li>
+                    <li>「積分値」だけでなく「収束するか」を常に確認する姿勢。</li>
+                </ul>
+            </div>
+            <div class="concept-card">
+                <strong>第6回 変数変換とヤコビアン</strong>
+                <ul>
+                    <li>区分求積に基づく変数変換公式の導出とヤコビアン $\dfrac{\partial(x,y)}{\partial(u,v)}$。</li>
+                    <li>極座標変換：$x=r\cos\theta,\ y=r\sin\theta,\ |J|=r$ の再確認。</li>
+                    <li>写像の像・定義域対応を図で押さえ、積分の範囲を正しく移す。</li>
+                </ul>
+            </div>
+            <div class="concept-card">
+                <strong>第7回 重積分の応用</strong>
+                <ul>
+                    <li>変数変換の実践（極座標ほか）と計算手順の整理。</li>
+                    <li>体積の表現：$V=\int_D (\psi-\varphi)\,dx\,dy$ で立体の体積を求める。</li>
+                    <li>密度からの総量計算：$\displaystyle \int_V \rho(x,y,z)\,dx\,dy\,dz$ で質量・電荷・エネルギーを評価。</li>
+                </ul>
+            </div>
+        </section>
+
+        <section class="outline-section">
+            <h2>第2節 主要な公式と手順</h2>
+            <div class="formula">
+                $$\iint_{K=[a,b]\times[c,d]} f(x,y)\,dx\,dy
+                =\int_c^d\!\left(\int_a^b f(x,y)\,dx\right)dy
+                =\int_a^b\!\left(\int_c^d f(x,y)\,dy\right)dx$$
+            </div>
+            <div class="formula">
+                $$\iint_{R} f(x,y)\,dx\,dy
+                =\iint_{R'} f\bigl(x(u,v),y(u,v)\bigr)\,
+                \left|\frac{\partial(x,y)}{\partial(u,v)}\right|\,du\,dv$$
+            </div>
+            <div class="note">
+                <strong>使い方の要点</strong>
+                <ul>
+                    <li>変数変換は「範囲の写し替え」「ヤコビアン」「元の関数の置き換え」の3点セット。</li>
+                    <li>広義積分は必ず「極限の存在」を確認し、必要なら比較・極座標で判定する。</li>
+                    <li>逆三角関数や部分分数分解など一変数の道具は、多変数計算の途中でも頻出。</li>
+                </ul>
+            </div>
+        </section>
+
+        <section class="outline-section">
+            <h2>第3節 中間試験に向けた確認ポイント</h2>
+            <div class="definition">
+                <strong>理解しておきたいこと</strong>
+                <ul>
+                    <li>定義レベルで説明できるか（重積分の可積分性、広義積分、ヤコビアンの意味など）。</li>
+                    <li>計算手順を文章で述べられるか（領域の記述→積分の設定→計算）。</li>
+                    <li>図を使って領域や変換の対応を描けるか（特に Type I/II と極座標）。</li>
+                </ul>
+            </div>
+            <div class="proof">
+                <strong>資料整理のヒント</strong>
+                <ul>
+                    <li>各回の代表公式を一枚にまとめ、使用条件と典型的な組み合わせを書き添える。</li>
+                    <li>「どこでつまずいたか」をメモし、似た計算手順を並べて共通点を確認する。</li>
+                    <li>計算の途中で登場する一変数積分も含め、符号・範囲・定義域の確認を習慣にする。</li>
+                </ul>
+            </div>
+        </section>
+
+        <div class="nav-buttons">
+            <a href="../class7/class7.html">← 前回</a>
+            <a href="../index.html">🏠 ホーム</a>
+            <a href="../class9/class9.html">次へ →</a>
+        </div>
+    </main>
+</body>
+</html>

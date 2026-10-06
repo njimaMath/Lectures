@@ -1,0 +1,128 @@
+% Build in this directory: pdflatex -interaction=nonstopmode -halt-on-error class4_handout.tex
+\documentclass[a4paper,10pt,pdflatex,ja=standard,jafont=ipaex-type1,
+  magstyle=real,scale=1]{bxjsarticle}
+\usepackage{lmodern}
+\usepackage{amsmath,amssymb,mathtools}
+\usepackage{geometry}
+\geometry{reset,left=22mm,right=22mm,top=20mm,bottom=17mm,
+  headheight=13pt,headsep=6mm,footskip=10mm}
+\usepackage{xcolor}
+\usepackage{enumitem}
+\usepackage{array,booktabs,tabularx}
+\usepackage{fancyhdr}
+
+\definecolor{ink}{HTML}{193A5C}
+\definecolor{accent}{HTML}{237D82}
+\definecolor{soft}{HTML}{EAF3F3}
+\definecolor{muted}{HTML}{52616B}
+\newcommand{\coursename}{解析学 II}
+\newcommand{\handoutnumber}{4}
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\small\color{ink}\coursename{}・授業要約と演習}
+\fancyhead[R]{\small\color{ink}第\handoutnumber 回}
+\fancyfoot[C]{\small\color{ink}\thepage/2}
+\renewcommand{\headrulewidth}{0.3pt}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{2pt}
+\setlength{\abovedisplayskip}{5pt}
+\setlength{\belowdisplayskip}{5pt}
+\setlength{\abovedisplayshortskip}{3pt}
+\setlength{\belowdisplayshortskip}{4pt}
+\setlist[itemize]{leftmargin=1.8em,itemsep=1pt,topsep=2pt,parsep=0pt}
+
+\newcommand{\handouttitle}[1]{%
+  \begin{center}
+    {\Large\color{ink}#1}\par\vspace{3mm}
+    {\color{accent}\rule{0.88\linewidth}{0.7pt}}
+  \end{center}\vspace{-2mm}}
+\newcommand{\handout}[2]{%
+  \renewcommand{\handoutnumber}{#1}%
+  \handouttitle{第#1回\quad #2}}
+\newcommand{\topic}[1]{\par\vspace{5pt}%
+  {\large\sffamily\mdseries\color{accent}#1}\par\vspace{2pt}}
+\newcommand{\keybox}[1]{\par\vspace{3pt}\begingroup
+  \setlength{\fboxsep}{4pt}%
+  \colorbox{soft}{\parbox{\dimexpr\linewidth-2\fboxsep\relax}{\small #1}}%
+  \endgroup\par\vspace{2pt}}
+\newenvironment{problems}
+  {\begin{enumerate}[leftmargin=2em,itemsep=3pt,topsep=3pt,parsep=0pt,
+    font=\color{accent}]}
+  {\end{enumerate}}
+
+
+\newcommand{\examplelabel}[1]{{\sffamily\mdseries\color{ink}#1}}
+\newcommand{\answerroom}{\par\vspace{16mm}}
+
+\begin{document}
+\fontsize{10pt}{13.5pt}\selectfont
+\setlength{\abovedisplayskip}{4pt}
+\setlength{\belowdisplayskip}{4pt}
+\handout{4}{重積分の計算と累次積分}
+\topic{長方形上の累次積分}
+$K=[a,b]\times[c,d]$ 上で $f$ が連続なら、重積分を1変数の積分の繰り返しで計算できる。
+$$
+ \iint_K f(x,y)\,dx\,dy
+ =\int_a^b\left(\int_c^d f(x,y)\,dy\right)dx
+ =\int_c^d\left(\int_a^b f(x,y)\,dx\right)dy.
+$$
+内側の積分では、外側の変数を定数として扱う。特に $f(x,y)=g(x)h(y)$ なら
+$$
+ \iint_K g(x)h(y)\,dx\,dy
+ =\left(\int_a^bg(x)\,dx\right)\left(\int_c^dh(y)\,dy\right).
+$$
+より一般に、絶対可積分な関数ではフビニの定理により順序を交換できる。
+非負関数の交換は、積分値が無限大の場合もトネリの定理で扱える。
+
+\topic{一般領域：縦に切る・横に切る}
+連続な境界関数 $\phi\le\psi$ を用いて領域を
+$$
+ D=\{(x,y):a\le x\le b,\ \phi(x)\le y\le\psi(x)\}
+$$
+と表すと、$D$ 上連続な $f$ に対して
+$$
+ \iint_D f(x,y)\,dx\,dy
+ =\int_a^b\left(\int_{\phi(x)}^{\psi(x)}f(x,y)\,dy\right)dx.
+$$
+横に切って $D=\{(x,y):c\le y\le d,\ \alpha(y)\le x\le\beta(y)\}$ と表せるなら
+$$
+ \iint_Df(x,y)\,dx\,dy
+ =\int_c^d\left(\int_{\alpha(y)}^{\beta(y)}f(x,y)\,dx\right)dy.
+$$
+順序の変更では、同じ領域を別の不等式で書き直す。境界が途中で変わるときは領域を分割する。
+
+\topic{例：三角形の積分を2通りに計算する}
+$D=\{(x,y):0\le y\le x\le1\}$ は、横に切ると $0\le y\le1,\ y\le x\le1$ となる。
+$$
+ \begin{aligned}
+ \iint_Dx\,dx\,dy
+ &=\int_0^1\left(\int_0^xx\,dy\right)dx
+ =\int_0^1x^2\,dx=\frac13,\\
+ &=\int_0^1\left(\int_y^1x\,dx\right)dy
+ =\frac12\int_0^1(1-y^2)\,dy=\frac13.
+ \end{aligned}
+$$
+
+\topic{計算しやすい順序と対称性}
+$D$ が $x\mapsto-x$ で不変で、$f(-x,y)=-f(x,y)$ なら $\iint_Df=0$。
+積分範囲と関数の両方の対称性を確認する。
+\par\examplelabel{例：原始関数が取りにくいとき。}
+$$
+ \int_0^1\left(\int_x^1 e^{y^2}\,dy\right)dx
+ =\int_0^1\left(\int_0^y e^{y^2}\,dx\right)dy
+ =\int_0^1y e^{y^2}\,dy=\frac{e-1}{2}.
+$$
+\keybox{領域を描く → 外側の範囲を決める → 固定した外側変数に対する内側の範囲を決める → 積分する。}
+
+\newpage
+\handouttitle{第4回\quad 演習問題}
+計算過程を記し、必要な条件・積分領域・向きを明示すること。
+\begin{problems}
+\item $\displaystyle\iint_{[-1,1]\times[0,2]}(2x+1)y\,dx\,dy$ を、2通りの積分順序で計算せよ。\answerroom
+\item $D=\{(x,y):0\le y\le x\le1\}$ とする。$\iint_D(x+y)\,dx\,dy$ を求め、順序を交換した式も書け。\answerroom
+\item $D=\{(x,y):0\le x\le1,\ x^2\le y\le x\}$ を描き、$\iint_Dxy\,dx\,dy$ を求めよ。\answerroom
+\item $\displaystyle\int_0^1\left(\int_y^1e^{x^2}\,dx\right)dy$ の領域を描き、積分順序を変えて計算せよ。\answerroom
+\item $D=\{(x,y):x\ge0,\ y\ge0,\ x+y\le1\}$ 上の $\iint_Dx^2\,dx\,dy$ を求めよ。\answerroom
+\item $D=\{(x,y):x^2+y^2\le1\}$ とする。$\iint_Dx e^{x^2+y^2}\,dx\,dy$ を、領域と被積分関数の対称性から求めよ。\answerroom
+\end{problems}
+\end{document}

@@ -1,0 +1,134 @@
+% Build in this directory: pdflatex -interaction=nonstopmode -halt-on-error class8_handout.tex
+\documentclass[a4paper,10pt,pdflatex,ja=standard,jafont=ipaex-type1,
+  magstyle=real,scale=1]{bxjsarticle}
+\usepackage{lmodern}
+\usepackage{amsmath,amssymb,mathtools}
+\usepackage{geometry}
+\geometry{reset,left=22mm,right=22mm,top=20mm,bottom=17mm,
+  headheight=13pt,headsep=6mm,footskip=10mm}
+\usepackage{xcolor}
+\usepackage{enumitem}
+\usepackage{array,booktabs,tabularx}
+\usepackage{fancyhdr}
+
+\definecolor{ink}{HTML}{193A5C}
+\definecolor{accent}{HTML}{237D82}
+\definecolor{soft}{HTML}{EAF3F3}
+\definecolor{muted}{HTML}{52616B}
+\newcommand{\coursename}{解析学 II}
+\newcommand{\handoutnumber}{8}
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\small\color{ink}\coursename{}・授業要約と演習}
+\fancyhead[R]{\small\color{ink}第\handoutnumber 回}
+\fancyfoot[C]{\small\color{ink}\thepage/2}
+\renewcommand{\headrulewidth}{0.3pt}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{2pt}
+\setlength{\abovedisplayskip}{5pt}
+\setlength{\belowdisplayskip}{5pt}
+\setlength{\abovedisplayshortskip}{3pt}
+\setlength{\belowdisplayshortskip}{4pt}
+\setlist[itemize]{leftmargin=1.8em,itemsep=1pt,topsep=2pt,parsep=0pt}
+
+\newcommand{\handouttitle}[1]{%
+  \begin{center}
+    {\Large\color{ink}#1}\par\vspace{3mm}
+    {\color{accent}\rule{0.88\linewidth}{0.7pt}}
+  \end{center}\vspace{-2mm}}
+\newcommand{\handout}[2]{%
+  \renewcommand{\handoutnumber}{#1}%
+  \handouttitle{第#1回\quad #2}}
+\newcommand{\topic}[1]{\par\vspace{5pt}%
+  {\large\sffamily\mdseries\color{accent}#1}\par\vspace{2pt}}
+\newcommand{\keybox}[1]{\par\vspace{3pt}\begingroup
+  \setlength{\fboxsep}{4pt}%
+  \colorbox{soft}{\parbox{\dimexpr\linewidth-2\fboxsep\relax}{\small #1}}%
+  \endgroup\par\vspace{2pt}}
+\newenvironment{problems}
+  {\begin{enumerate}[leftmargin=2em,itemsep=3pt,topsep=3pt,parsep=0pt,
+    font=\color{accent}]}
+  {\end{enumerate}}
+
+
+\newcommand{\examplelabel}[1]{{\sffamily\mdseries\color{ink}#1}}
+\newcommand{\answerroom}{\par\vspace{16mm}}
+
+\begin{document}
+\fontsize{10pt}{13.5pt}\selectfont
+\setlength{\abovedisplayskip}{4pt}
+\setlength{\belowdisplayskip}{4pt}
+\handout{8}{前半まとめ：第1回から第7回}
+\topic{逆関数と逆三角関数}
+一対一対応 $f:A\to B$ の逆関数を $g:B\to A$ とすると
+$$
+ f(g(y))=y,\quad g(f(x))=x,\qquad
+ g'(y)=\frac1{f'(g(y))}.
+$$
+微分公式では $A,B$ を開区間、$f$ を $C^1$ 級、$f'(g(y))\ne0$ とする。
+逆三角関数の値域は $\arcsin x\in[-\pi/2,\pi/2]$、$\arccos x\in[0,\pi]$、
+$\arctan x\in(-\pi/2,\pi/2)$ である。
+$$
+ (\arcsin x)'=\frac1{\sqrt{1-x^2}},\quad
+ (\arccos x)'=-\frac1{\sqrt{1-x^2}}\quad(|x|<1),\qquad
+ (\arctan x)'=\frac1{1+x^2}.
+$$
+
+\topic{有理関数の積分}
+多項式除法 → 分母の実因子分解 → 部分分数分解 → 基本公式で積分する。
+一次因子の項には定数分子、既約二次因子の項には一次式の分子を置く。
+$$
+ \int\frac{dx}{x-a}=\log|x-a|+C,\qquad
+ \int\frac{dx}{x^2+c^2}=\frac1c\arctan\frac xc+C\quad(c>0).
+$$
+
+\topic{重積分の定義と累次積分}
+重積分は $\sum_Qf(\xi_Q)\operatorname{Area}(Q)$ の、代表点によらない細分極限である。
+長方形上の連続関数は可積分。一般の有界領域では境界の条件も確認する。
+$$
+ D=\{(x,y):a\le x\le b,\ \phi(x)\le y\le\psi(x)\}
+ \ \Longrightarrow\ 
+ \iint_Df=\int_a^b\left(\int_{\phi(x)}^{\psi(x)}f(x,y)\,dy\right)dx.
+$$
+同じ領域を横に切る形へ書き直せば、積分順序を交換できる。
+
+\topic{広義積分：特異点と無限遠}
+特異点の各側で極限を別々に取る。符号が変わる関数では絶対収束を確認する。
+$$
+ \int_0^1x^{-p}\,dx<\infty\iff p<1,\qquad
+ \int_1^\infty x^{-p}\,dx<\infty\iff p>1.
+$$
+非負関数の積分は、領域を単調に増やした極限で扱える。
+
+\topic{変数変換とヤコビアン}
+$D=T(E)$ の両領域は有界で境界の面積が0とする。
+$T(u,v)=(x(u,v),y(u,v))$ が $E$ の近傍で $C^1$ 級、内部で1対1かつ $\det DT\ne0$ なら
+$$
+ \iint_{T(E)}f(x,y)\,dx\,dy
+ =\iint_E f(T(u,v))\,|\det DT(u,v)|\,du\,dv.
+$$
+極座標では $x=r\cos\theta,\ y=r\sin\theta$、$dx\,dy=r\,dr\,d\theta$。
+円・扇形・円環では半径と角度の範囲を先に決める。
+
+\topic{体積・密度・総量}
+$V=\{(x,y,z):(x,y)\in D,\ \phi\le z\le\psi\}$、$\phi\le\psi$ のとき
+$$
+ \operatorname{Vol}(V)=\iint_D(\psi-\phi)\,dx\,dy,\qquad
+ M=\iiint_V\rho\,dV.
+$$
+体積・質量の計算でも、積分領域と座標変換を正しく書くことが出発点となる。
+\keybox{公式を選ぶ前に、定義域・特異点・領域の形・可積分性を点検する。計算結果だけでなく設定の理由も説明する。}
+
+\newpage
+\handouttitle{第8回\quad 演習問題}
+計算過程を記し、必要な条件・積分領域・向きを明示すること。
+\begin{problems}
+\item $f(x)=x^2+2x$（$x\ge-1$）の逆関数とその定義域を求めよ。また $\arcsin(-1/2)$ と $\arccos(-1/2)$ を求めよ。\answerroom
+\item $\displaystyle\int\frac{x^2+1}{x(x+1)}\,dx$ を求めよ。多項式部分と部分分数の項を明記すること。\answerroom
+\item $[0,1]^2$ 上の連続関数 $f$ の重積分をリーマン和で定義せよ。$f(x,y)=xy$ について、累次積分で値を計算せよ。\answerroom
+\item $D=\{(x,y):0\le y\le x\le1\}$ 上で $\iint_D(x^2+y^2)\,dx\,dy$ を求めよ。順序を交換した式も書け。\answerroom
+\item $p\in\mathbb R$ に対して $\displaystyle\int_0^\infty\frac{dx}{(1+x)^p}$ の収束条件と、収束する場合の値を求めよ。\answerroom
+\item $a,b>0$、$D=\{(x,y):x^2/a^2+y^2/b^2\le1\}$ とする。$\iint_D(x^2/a^2+y^2/b^2)\,dx\,dy$ を変数変換で求めよ。\answerroom
+\item $V=\{(x,y,z):x^2+y^2\le1,\ 0\le z\le2\}$、$\rho=1+z$ の質量を求めよ。円柱座標で積分を設定すること。\answerroom
+\end{problems}
+\end{document}

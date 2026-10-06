@@ -1,0 +1,126 @@
+% Build in this directory: pdflatex -interaction=nonstopmode -halt-on-error class12_handout.tex
+\documentclass[a4paper,10pt,pdflatex,ja=standard,jafont=ipaex-type1,
+  magstyle=real,scale=1]{bxjsarticle}
+\usepackage{lmodern}
+\usepackage{amsmath,amssymb,mathtools}
+\usepackage{geometry}
+\geometry{reset,left=22mm,right=22mm,top=20mm,bottom=17mm,
+  headheight=13pt,headsep=6mm,footskip=10mm}
+\usepackage{xcolor}
+\usepackage{enumitem}
+\usepackage{array,booktabs,tabularx}
+\usepackage{fancyhdr}
+
+\definecolor{ink}{HTML}{193A5C}
+\definecolor{accent}{HTML}{237D82}
+\definecolor{soft}{HTML}{EAF3F3}
+\definecolor{muted}{HTML}{52616B}
+\newcommand{\coursename}{解析学 II}
+\newcommand{\handoutnumber}{12}
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\small\color{ink}\coursename{}・授業要約と演習}
+\fancyhead[R]{\small\color{ink}第\handoutnumber 回}
+\fancyfoot[C]{\small\color{ink}\thepage/2}
+\renewcommand{\headrulewidth}{0.3pt}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{2pt}
+\setlength{\abovedisplayskip}{5pt}
+\setlength{\belowdisplayskip}{5pt}
+\setlength{\abovedisplayshortskip}{3pt}
+\setlength{\belowdisplayshortskip}{4pt}
+\setlist[itemize]{leftmargin=1.8em,itemsep=1pt,topsep=2pt,parsep=0pt}
+
+\newcommand{\handouttitle}[1]{%
+  \begin{center}
+    {\Large\color{ink}#1}\par\vspace{3mm}
+    {\color{accent}\rule{0.88\linewidth}{0.7pt}}
+  \end{center}\vspace{-2mm}}
+\newcommand{\handout}[2]{%
+  \renewcommand{\handoutnumber}{#1}%
+  \handouttitle{第#1回\quad #2}}
+\newcommand{\topic}[1]{\par\vspace{5pt}%
+  {\large\sffamily\mdseries\color{accent}#1}\par\vspace{2pt}}
+\newcommand{\keybox}[1]{\par\vspace{3pt}\begingroup
+  \setlength{\fboxsep}{4pt}%
+  \colorbox{soft}{\parbox{\dimexpr\linewidth-2\fboxsep\relax}{\small #1}}%
+  \endgroup\par\vspace{2pt}}
+\newenvironment{problems}
+  {\begin{enumerate}[leftmargin=2em,itemsep=3pt,topsep=3pt,parsep=0pt,
+    font=\color{accent}]}
+  {\end{enumerate}}
+
+
+\newcommand{\examplelabel}[1]{{\sffamily\mdseries\color{ink}#1}}
+\newcommand{\answerroom}{\par\vspace{16mm}}
+
+\begin{document}
+\fontsize{10pt}{13.5pt}\selectfont
+\setlength{\abovedisplayskip}{4pt}
+\setlength{\belowdisplayskip}{4pt}
+\handout{12}{曲線・曲面の向き}
+\topic{曲線の向きと線積分の符号}
+曲線の表示 $\vec r(t)$（$a\le t\le b$）は、$t$ の増加方向に向きを与える。
+逆向きの表示は $\widetilde{\vec r}(t)=\vec r(a+b-t)$ である。
+$$
+ \int_{-C}\vec F\cdot d\vec r=-\int_C\vec F\cdot d\vec r,
+ \qquad \int_{-C}f\,ds=\int_Cf\,ds.
+$$
+平面の単純閉曲線は、囲む領域を左に見る向きが正である。
+開いた線分には自然な「正」の向きはなく、始点・終点で指定する。
+
+\topic{曲面の媒介変数表示と正則性}
+$D\subset\mathbb R^2$ 上の $C^1$ 級写像
+$\vec r(u,v)=(x(u,v),y(u,v),z(u,v))$ で曲面 $S$ を表す。
+内部で $\vec r_u\times\vec r_v\ne\vec0$ なら、2本の接ベクトルは独立である。
+$$
+ \vec N=\vec r_u\times\vec r_v,\qquad
+ \vec n=\frac{\vec N}{|\vec N|},\qquad dS=|\vec N|\,du\,dv.
+$$
+表示は内部で1対1とする。球面などは必要に応じて複数の座標で覆う。
+
+\topic{曲面の向きと法線}
+連続な単位法線 $\vec n$ を選べる曲面を向き付け可能という。
+連結な曲面の向きは $\vec n$ と $-\vec n$ の2通り。
+パラメータの順序を交換すると、外積の向きが逆になる。
+$$
+ \vec r_v\times\vec r_u=-\vec r_u\times\vec r_v.
+$$
+グラフ $z=f(x,y)$ を $(x,y)$ の順で表すと $\vec N=(-f_x,-f_y,1)$ は上向き。
+閉曲面が立体を囲む場合は、外向きか内向きかを指定する。
+
+\topic{例：円柱と球面を外向きに表す}
+半径1の円柱側面では $\vec r(\theta,z)=(\cos\theta,\sin\theta,z)$ とすれば
+$$
+ \vec r_\theta\times\vec r_z=(\cos\theta,\sin\theta,0)
+$$
+は外向きである。
+球面では $\vec r(\alpha,\theta)=(\sin\alpha\cos\theta,\sin\alpha\sin\theta,\cos\alpha)$ として
+$$
+ 0<\alpha<\pi,\quad0\le\theta<2\pi,\qquad
+ \vec r_\alpha\times\vec r_\theta=\sin\alpha\,\vec r.
+$$
+これも外向きである。極で外積が0になるのは、この座標表示の退化であり、球面自体の特異点ではない。
+
+\topic{曲面の向きから境界の向きを決める}
+右手の親指を法線方向に向けたとき、他の指が曲がる方向を境界の正の向きとする。
+曲面上を進み、選んだ法線側から見て内部が左になる向きに対応する。
+$$
+ \text{円板の法線が }+z\text{ 方向}\ \Longrightarrow\
+ \partial S\text{ は }+z\text{ 側から見て反時計回り}.
+$$
+法線を反転すると、誘導される境界の向きも反転する。
+\keybox{媒介変数の順序・外積の向き・指定された法線・境界の進む方向を、一組として確認する。}
+
+\newpage
+\handouttitle{第12回\quad 演習問題}
+計算過程を記し、必要な条件・積分領域・向きを明示すること。
+\begin{problems}
+\item $(-1,1)$ から $(0,1)$ への線分と、その逆向きの線分をそれぞれ媒介変数で表せ。$0\le t\le1$ を用いること。\answerroom
+\item $a,b>0$ の楕円 $x^2/a^2+y^2/b^2=1$ を、反時計回り・時計回りの両方で表せ。$t=0$ での位置と速度で向きを確認せよ。\answerroom
+\item $z=x^2+y^2$、$x^2+y^2\le1$ の曲面を上向きに表し、接ベクトル・単位法線・面積要素を求めよ。\answerroom
+\item 半径 $R>0$、高さ $H>0$ の円柱側面を外向きに表し、外積を計算せよ。パラメータの順序を交換すると何が変わるか。\answerroom
+\item 単位球面の表示 $\vec r(\alpha,\theta)=(\sin\alpha\cos\theta,\sin\alpha\sin\theta,\cos\alpha)$ の外積を計算し、外向きであることを確かめよ。極をどう扱うかも説明せよ。\answerroom
+\item 単位立方体の上面 $z=1$ と下面 $z=0$ を外向きに向き付ける。それぞれの境界を $+z$ 側から見ると、正の向きは時計回りか反時計回りか。理由も述べよ。\answerroom
+\end{problems}
+\end{document}

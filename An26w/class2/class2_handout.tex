@@ -1,0 +1,130 @@
+% Build in this directory: pdflatex -interaction=nonstopmode -halt-on-error class2_handout.tex
+\documentclass[a4paper,10pt,pdflatex,ja=standard,jafont=ipaex-type1,
+  magstyle=real,scale=1]{bxjsarticle}
+\usepackage{lmodern}
+\usepackage{amsmath,amssymb,mathtools}
+\usepackage{geometry}
+\geometry{reset,left=22mm,right=22mm,top=20mm,bottom=17mm,
+  headheight=13pt,headsep=6mm,footskip=10mm}
+\usepackage{xcolor}
+\usepackage{enumitem}
+\usepackage{array,booktabs,tabularx}
+\usepackage{fancyhdr}
+
+\definecolor{ink}{HTML}{193A5C}
+\definecolor{accent}{HTML}{237D82}
+\definecolor{soft}{HTML}{EAF3F3}
+\definecolor{muted}{HTML}{52616B}
+\newcommand{\coursename}{解析学 II}
+\newcommand{\handoutnumber}{2}
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\small\color{ink}\coursename{}・授業要約と演習}
+\fancyhead[R]{\small\color{ink}第\handoutnumber 回}
+\fancyfoot[C]{\small\color{ink}\thepage/2}
+\renewcommand{\headrulewidth}{0.3pt}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{2pt}
+\setlength{\abovedisplayskip}{5pt}
+\setlength{\belowdisplayskip}{5pt}
+\setlength{\abovedisplayshortskip}{3pt}
+\setlength{\belowdisplayshortskip}{4pt}
+\setlist[itemize]{leftmargin=1.8em,itemsep=1pt,topsep=2pt,parsep=0pt}
+
+\newcommand{\handouttitle}[1]{%
+  \begin{center}
+    {\Large\color{ink}#1}\par\vspace{3mm}
+    {\color{accent}\rule{0.88\linewidth}{0.7pt}}
+  \end{center}\vspace{-2mm}}
+\newcommand{\handout}[2]{%
+  \renewcommand{\handoutnumber}{#1}%
+  \handouttitle{第#1回\quad #2}}
+\newcommand{\topic}[1]{\par\vspace{5pt}%
+  {\large\sffamily\mdseries\color{accent}#1}\par\vspace{2pt}}
+\newcommand{\keybox}[1]{\par\vspace{3pt}\begingroup
+  \setlength{\fboxsep}{4pt}%
+  \colorbox{soft}{\parbox{\dimexpr\linewidth-2\fboxsep\relax}{\small #1}}%
+  \endgroup\par\vspace{2pt}}
+\newenvironment{problems}
+  {\begin{enumerate}[leftmargin=2em,itemsep=3pt,topsep=3pt,parsep=0pt,
+    font=\color{accent}]}
+  {\end{enumerate}}
+
+
+\newcommand{\examplelabel}[1]{{\sffamily\mdseries\color{ink}#1}}
+\newcommand{\answerroom}{\par\vspace{16mm}}
+
+\begin{document}
+\fontsize{10pt}{13.5pt}\selectfont
+\setlength{\abovedisplayskip}{4pt}
+\setlength{\belowdisplayskip}{4pt}
+\handout{2}{有理関数の積分}
+\topic{有理関数と多項式除法}
+実係数多項式 $P,Q$（$Q\not\equiv0$）に対し、$P/Q$ を有理関数という。
+積分は $Q(x)\ne0$ となる区間で考える。まず多項式除法により
+$$
+ \frac{P(x)}{Q(x)}=H(x)+\frac{R(x)}{Q(x)},\qquad \deg R<\deg Q
+$$
+と書き、多項式部分 $H$ と真分数部分を別々に積分する。
+
+\topic{一次因子・二次因子の基本公式}
+$n\ge1$ を整数とすると、$x\ne\alpha$ の区間で
+$$
+ \int\frac{dx}{(x-\alpha)^n}=
+ \begin{cases}
+ \log|x-\alpha|+C,&n=1,\\[2pt]
+ -\dfrac{1}{(n-1)(x-\alpha)^{n-1}}+C,&n\ge2.
+ \end{cases}
+$$
+$q(x)=x^2+ax+b$、$D=a^2-4b$ とおく。$D>0$ のとき、異なる実根を
+$\alpha,\beta$ として $q(x)=(x-\alpha)(x-\beta)$ と書けば
+$$
+ \int\frac{dx}{q(x)}=
+ \begin{cases}
+ \dfrac{1}{\alpha-\beta}\log\left|\dfrac{x-\alpha}{x-\beta}\right|+C,&D>0,\\[5pt]
+ -\dfrac{1}{x+a/2}+C,&D=0,\\[5pt]
+ \dfrac{2}{\sqrt{4b-a^2}}\arctan\dfrac{2x+a}{\sqrt{4b-a^2}}+C,&D<0.
+ \end{cases}
+$$
+二次式に一次式の分子があるときは、$cx+d=\tfrac c2 q'(x)+(d-\tfrac{ac}{2})$
+と分け、$q'/q$ の項を対数で積分する。
+
+\topic{部分分数分解}
+$Q$ を実数上で一次因子と既約二次因子に分解すると
+$$
+ \frac{P}{Q}=H+
+ \sum_i\sum_{k=1}^{m_i}\frac{A_{ik}}{(x-\alpha_i)^k}
+ +\sum_j\sum_{k=1}^{n_j}\frac{B_{jk}x+C_{jk}}{(x^2+a_jx+b_j)^k},
+ \qquad a_j^2-4b_j<0.
+$$
+分母を払って多項式の係数を比較する。重複因子では、1乗から最大のべきまで
+すべての項を用意する。
+
+\topic{二次因子の高いべき}
+積分定数を最後にまとめ、$I_1(x)=\arctan x$ と選ぶと
+$$
+ I_n(x)=\frac{x}{2(n-1)(1+x^2)^{n-1}}
+       +\frac{2n-3}{2(n-1)}I_{n-1}(x)\quad(n\ge2)
+$$
+は $(1+x^2)^{-n}$ の原始関数になる。平方完成と一次置換により、
+一般の既約二次因子にも使える。
+
+\examplelabel{例：多項式除法から積分する。}
+$$
+ \frac{x^2}{x^2-1}=1+\frac12\left(\frac1{x-1}-\frac1{x+1}\right),\qquad
+ \int\frac{x^2}{x^2-1}\,dx=x+\frac12\log\left|\frac{x-1}{x+1}\right|+C.
+$$
+\keybox{分母の零点を除いた各区間で原始関数を求める。定積分では、区間内に特異点がないかも確認する。}
+
+\newpage
+\handouttitle{第2回\quad 演習問題}
+計算過程を記し、必要な条件・積分領域・向きを明示すること。
+\begin{problems}
+\item $\displaystyle\int\frac{2x+3}{x^2+x-2}\,dx$ を部分分数分解で求めよ。原始関数を考える区間も述べよ。\answerroom
+\item $\displaystyle\int\frac{x^3}{x^2+1}\,dx$ を求めよ。まず多項式除法を行うこと。\answerroom
+\item $\displaystyle\int\frac{x+1}{x^2+2x+5}\,dx$ を求め、微分して確認せよ。\answerroom
+\item 帰納公式を用いて $\displaystyle\int\frac{dx}{(1+x^2)^2}$ を求めよ。\answerroom
+\item $\displaystyle\frac{x+1}{x(x-1)^2}=\frac A{x}+\frac B{x-1}+\frac C{(x-1)^2}$ の係数を決め、原始関数を求めよ。\answerroom
+\item $\displaystyle\int_0^1\frac{dx}{x^2+2x+2}$ を平方完成と置換積分で求めよ。\answerroom
+\end{problems}
+\end{document}

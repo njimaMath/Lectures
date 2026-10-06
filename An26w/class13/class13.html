@@ -1,0 +1,554 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>第13回 面積分とグリーンの定理</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Cabin:wght@500&family=Noto+Sans+JP:wght@400;500;700&display=swap');
+
+        :root {
+            --background: radial-gradient(120% 120% at 20% 20%, #1e3a8a 0%, #0f172a 55%, #020617 100%);
+            --card-bg: rgba(255, 255, 255, 0.88);
+            --card-border: rgba(255, 255, 255, 0.25);
+            --accent: #4c6ef5;
+            --accent-soft: rgba(76, 110, 245, 0.14);
+            --accent-strong: #2c3791;
+            --text-primary: #0f172a;
+            --text-secondary: #475569;
+            --highlight: #facc15;
+            --shadow: 0 18px 45px -25px rgba(15, 23, 42, 0.75);
+        }
+
+        *, *::before, *::after {
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Noto Sans JP', 'Hiragino Sans', 'Meiryo', sans-serif;
+            line-height: 1.7;
+            margin: 0;
+            min-height: 100vh;
+            padding: 60px 24px;
+            color: var(--text-primary);
+            background: var(--background);
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+        }
+
+        body::before {
+            content: "";
+            position: fixed;
+            inset: 0;
+            background: repeating-linear-gradient(135deg, rgba(255, 255, 255, 0.04) 0, rgba(255, 255, 255, 0.04) 12px, transparent 12px, transparent 24px);
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        main {
+            width: min(960px, 100%);
+            background: var(--card-bg);
+            backdrop-filter: blur(18px);
+            border: 1px solid var(--card-border);
+            border-radius: 28px;
+            padding: 56px 64px;
+            position: relative;
+            z-index: 1;
+            box-shadow: var(--shadow);
+        }
+
+        header.hero {
+            text-align: center;
+            margin-bottom: 48px;
+            display: grid;
+            gap: 18px;
+        }
+
+        .hero-label {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 6px 16px;
+            border-radius: 999px;
+            font-size: 14px;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            color: var(--accent-strong);
+            background: var(--accent-soft);
+            font-family: 'Cabin', sans-serif;
+        }
+
+        h1 {
+            font-size: clamp(32px, 4vw, 44px);
+            margin: 0;
+            color: var(--accent-strong);
+            letter-spacing: 0.05em;
+        }
+
+        header.hero p {
+            margin: 0 auto;
+            max-width: 620px;
+            color: var(--text-secondary);
+            font-size: 17px;
+        }
+
+        section.outline-section {
+            background: rgba(255, 255, 255, 0.78);
+            border: 1px solid rgba(148, 163, 184, 0.25);
+            padding: 32px 36px;
+            border-radius: 22px;
+            margin-bottom: 32px;
+            box-shadow: 0 24px 40px -32px rgba(15, 23, 42, 0.35);
+        }
+
+        section.outline-section:last-of-type {
+            margin-bottom: 0;
+        }
+
+        h2 {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            font-size: 24px;
+            margin: 0 0 24px;
+            color: var(--accent-strong);
+        }
+
+        h2::before {
+            content: "";
+            width: 42px;
+            height: 4px;
+            border-radius: 999px;
+            background: linear-gradient(90deg, var(--accent) 0%, rgba(76, 110, 245, 0.2) 100%);
+        }
+
+        h3 {
+            font-size: 19px;
+            margin-top: 28px;
+            color: var(--accent-strong);
+        }
+
+        p {
+            margin: 0 0 16px;
+            color: var(--text-secondary);
+        }
+
+        ol, ul {
+            margin: 0 0 18px;
+            padding-left: 24px;
+            color: var(--text-secondary);
+        }
+
+        .concept-card,
+        .theorem,
+        .definition,
+        .proof,
+        .note,
+        .example {
+            margin: 18px 0;
+            padding: 18px 22px;
+            border-radius: 18px;
+            background: rgba(248, 250, 252, 0.86);
+            border: 1px solid rgba(148, 163, 184, 0.25);
+            box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.55);
+            color: var(--text-secondary);
+        }
+
+        .focus-card {
+            background: rgba(76, 110, 245, 0.08);
+            border: 1px solid rgba(76, 110, 245, 0.22);
+            box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.4), 0 20px 32px -28px rgba(76, 110, 245, 0.55);
+        }
+
+        .theorem {
+            border-left: 6px solid rgba(76, 110, 245, 0.65);
+        }
+
+        .definition {
+            border-left: 6px solid rgba(34, 197, 94, 0.65);
+        }
+
+        .proof {
+            border-left: 6px solid rgba(148, 163, 184, 0.65);
+        }
+
+        .note {
+            border-left: 6px solid rgba(250, 204, 21, 0.7);
+            background: rgba(250, 204, 21, 0.08);
+        }
+
+        .example {
+            border-left: 6px solid rgba(14, 165, 233, 0.7);
+            background: rgba(14, 165, 233, 0.08);
+        }
+
+        .concept-card strong,
+        .theorem strong,
+        .definition strong,
+        .proof strong,
+        .note strong,
+        .example strong {
+            display: block;
+            font-family: 'Cabin', sans-serif;
+            font-weight: 600;
+            color: var(--accent-strong);
+            letter-spacing: 0.04em;
+            margin-bottom: 8px;
+        }
+
+        .formula {
+            background: rgba(76, 110, 245, 0.08);
+            padding: 18px;
+            border-radius: 16px;
+            margin: 18px 0;
+            overflow-x: auto;
+            text-align: center;
+            font-size: 1.05rem;
+            font-family: 'Latin Modern Math', 'Cambria Math', serif;
+            color: var(--accent-strong);
+            border: 1px solid rgba(76, 110, 245, 0.2);
+            box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.35);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 18px 0;
+            background: rgba(255, 255, 255, 0.92);
+            border-radius: 18px;
+            overflow: hidden;
+            border: 1px solid rgba(148, 163, 184, 0.3);
+            box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.4);
+        }
+
+        th, td {
+            border-bottom: 1px solid rgba(148, 163, 184, 0.25);
+            padding: 12px 16px;
+            text-align: center;
+            color: var(--text-secondary);
+        }
+
+        th {
+            background: rgba(76, 110, 245, 0.1);
+            font-weight: 600;
+            color: var(--accent-strong);
+            font-family: 'Cabin', sans-serif;
+            letter-spacing: 0.04em;
+        }
+
+        tr:last-child td {
+            border-bottom: 0;
+        }
+
+        .graph {
+            text-align: center;
+            margin: 24px 0;
+        }
+
+        .graph svg {
+            max-width: 100%;
+            height: auto;
+            border-radius: 16px;
+            background: rgba(255, 255, 255, 0.92);
+            border: 1px solid rgba(148, 163, 184, 0.25);
+            box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.4), 0 16px 28px -24px rgba(15, 23, 42, 0.6);
+        }
+
+        .exercise-list {
+            background: rgba(250, 204, 21, 0.12);
+            border: 1px solid rgba(250, 204, 21, 0.32);
+            padding: 22px 24px;
+            border-radius: 18px;
+            margin: 22px 0;
+            box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.4);
+            color: var(--text-secondary);
+        }
+
+        code {
+            font-family: 'Source Code Pro', 'Courier New', monospace;
+            background: rgba(15, 23, 42, 0.12);
+            padding: 2px 6px;
+            border-radius: 6px;
+            color: var(--accent-strong);
+        }
+
+        .katex-display {
+            overflow-x: auto;
+            overflow-y: hidden;
+        }
+
+        .nav-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 16px;
+            margin-top: 48px;
+            padding-top: 32px;
+            border-top: 2px solid rgba(148, 163, 184, 0.2);
+        }
+
+        .nav-buttons a {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 12px 24px;
+            background: var(--accent);
+            color: white;
+            text-decoration: none;
+            border-radius: 12px;
+            font-weight: 600;
+            font-family: 'Cabin', sans-serif;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 12px rgba(76, 110, 245, 0.3);
+        }
+
+        .nav-buttons a:hover {
+            background: var(--accent-strong);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(76, 110, 245, 0.4);
+        }
+
+        @media (max-width: 768px) {
+            body {
+                padding: 32px 16px;
+            }
+
+            main {
+                padding: 36px 24px;
+                border-radius: 22px;
+            }
+
+            section.outline-section {
+                padding: 28px 24px;
+            }
+
+            h2 {
+                font-size: 22px;
+            }
+
+            h3 {
+                font-size: 18px;
+            }
+        }
+    </style>
+    <script>
+        window.MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\\[', '\\]']],
+                processEscapes: true
+            },
+            options: {
+                skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+            },
+            chtml: {
+                matchFontHeight: false
+            }
+        };
+    </script>
+    <script defer src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js" crossorigin="anonymous"></script>
+</head>
+<body>
+    <main>
+        <header class="hero">
+            <span class="hero-label">第13回</span>
+            <h1>第13回 面積分とグリーンの定理</h1>
+            <p>曲面の向きを確認したうえで曲面上の面積分（スカラー場・ベクトル場）を定義し、平面領域ではグリーンの定理として線積分と面積分が結びつくことを確認します。</p>
+        </header>
+
+        <section class="outline-section">
+            <h2>第1節 曲面の媒介変数表示の向き</h2>
+            <div class="definition">
+                <strong>向きと単位法線</strong>
+                <p>曲面の集合 $S$ に対し、媒介変数表示 $\mathbf{r}:D\to S$（$D\subset\mathbb{R}^2$）が与えられているとする。</p>
+                <p>法線ベクトルは $\partial_u\mathbf{r}\times\partial_v\mathbf{r}$、単位法線ベクトルは</p>
+                <div class="formula">$$\mathbf{n}(u,v)=\frac{\partial_u\mathbf{r}\times\partial_v\mathbf{r}}{\left|\partial_u\mathbf{r}\times\partial_v\mathbf{r}\right|}$$</div>
+                <p>で与えられるが、向きは 2 通り（$\mathbf{n}$ と $-\mathbf{n}$）ある。</p>
+            </div>
+            <div class="note">
+                <strong>向きの指定</strong>
+                <ul>
+                    <li>曲面が立体を囲むとき：内向き / 外向き</li>
+                    <li>$z$ 軸に対して：$\mathbf{n}$ の $z$ 成分が正 / 負</li>
+                </ul>
+            </div>
+            <div class="concept-card focus-card">
+                <strong>問題の出しかた</strong>
+                <p>「法線ベクトルが $z$ 軸に対して正となるような媒介変数表示を求めよ」</p>
+            </div>
+            <div class="note">
+                <strong>注意：向きを反転させる</strong>
+                <p>たとえば $\mathbf{r}(-u,v)$ とすると法線ベクトルは逆向きになる。ただし値域が同じ曲面 $S$ に一致するように、$D$ の取り方に注意する。</p>
+            </div>
+        </section>
+
+        <section class="outline-section">
+            <h2>第2節 スカラー場の曲面積</h2>
+            <div class="definition">
+                <strong>定義</strong>
+                <p>$D\subset\mathbb{R}^2$ 上の曲面 $\mathbf{r}(u,v)=(x(u,v),y(u,v),z(u,v))$ により $S=\{\mathbf{r}(u,v)\mid (u,v)\in D\}$ を与える。$S$ 上のスカラー場 $\phi:S\to\mathbb{R}$ に対し</p>
+                <div class="formula">$$\iint_S \phi\,dS=\iint_D \phi(\mathbf{r}(u,v))\left|\partial_u\mathbf{r}\times\partial_v\mathbf{r}\right|\,du\,dv$$</div>
+                <p>で定義する（$\partial_u\mathbf{r}\times\partial_v\mathbf{r}$ は外積）。</p>
+            </div>
+            <div class="note">
+                <strong>$z=f(u,v)$ の場合</strong>
+                <p>$x=u,\ y=v,\ z=f(u,v)$ とおくと</p>
+                <div class="formula">$$\partial_u\mathbf{r}\times\partial_v\mathbf{r}=(-\partial_u f,-\partial_v f,1)$$</div>
+                <p>よって $\phi\equiv1$ のとき曲面の面積は</p>
+                <div class="formula">$$\iint_S 1\,dS=\iint_D\sqrt{(\partial_u f)^2+(\partial_v f)^2+1}\,du\,dv$$</div>
+            </div>
+            <div class="example">
+                <strong>例1</strong>
+                <div class="formula">$$\mathbf{r}(u,v)=(\cos u\cos v,\ \cos u\sin v,\ \sin u),\quad 0\le u\le\pi,\ 0\le v<2\pi$$</div>
+                <p>$\phi=1$ と $\phi=x^2+y^2+z^2$ の曲面積分を考える。</p>
+                <div class="formula">$$\partial_u\mathbf{r}=(-\sin u\cos v,-\sin u\sin v,\cos u),\quad \partial_v\mathbf{r}=(-\cos u\sin v,\cos u\cos v,0)$$</div>
+                <div class="formula">$$\partial_u\mathbf{r}\times\partial_v\mathbf{r}=(-\cos^2 u\cos v,-\cos^2 u\sin v,-\sin u\cos u)$$</div>
+            </div>
+            <div class="example">
+                <strong>例2</strong>
+                <div class="formula">$$\mathbf{r}(u,v)=(u\cos v,\ u\sin v,\ v),\quad 0\le u\le1,\ 0\le v<2\pi$$</div>
+                <p>$\phi=1$ と $\phi=z$ の曲面積分を考える。</p>
+                <div class="formula">$$\partial_u\mathbf{r}=(\cos v,\sin v,0),\quad \partial_v\mathbf{r}=(-u\sin v,\ u\cos v,\ 1)$$</div>
+                <div class="formula">$$\partial_u\mathbf{r}\times\partial_v\mathbf{r}=(\sin v,-\cos v,u)$$</div>
+            </div>
+        </section>
+
+        <section class="outline-section">
+            <h2>第3節 ベクトル場の曲面積分</h2>
+            <div class="definition">
+                <strong>定義</strong>
+                <p>$S$ 上のベクトル場 $\mathbf{F}:S\to\mathbb{R}^3$ に対し</p>
+                <div class="formula">$$\iint_S \mathbf{F}\cdot d\mathbf{S}=\iint_D \mathbf{F}(\mathbf{r}(u,v))\cdot(\partial_u\mathbf{r}\times\partial_v\mathbf{r})\,du\,dv$$</div>
+                <p>で定義する（向きは媒介変数表示の外積で決まる）。</p>
+            </div>
+            <div class="note">
+                <strong>行列式表示</strong>
+                <p>$\mathbf{F}=(P,Q,R)$ のとき</p>
+                <div class="formula">$$\iint_S \mathbf{F}\cdot d\mathbf{S}=\iint_D
+\begin{vmatrix}
+P(\mathbf{r}(u,v)) & Q(\mathbf{r}(u,v)) & R(\mathbf{r}(u,v)) \\
+\partial_u x & \partial_u y & \partial_u z \\
+\partial_v x & \partial_v y & \partial_v z
+\end{vmatrix}\,du\,dv$$</div>
+            </div>
+            <div class="example">
+                <strong>例1</strong>
+                <p>第2節 例1 の $\mathbf{r}(u,v)$ を用い、$\mathbf{F}(x,y,z)=(x,y,z)$ とする。</p>
+                <div class="formula">$$\partial_u\mathbf{r}\times\partial_v\mathbf{r}=(-\cos^2 u\cos v,-\cos^2 u\sin v,-\sin u\cos u)$$</div>
+            </div>
+            <div class="example">
+                <strong>例2</strong>
+                <p>第2節 例2 の $\mathbf{r}(u,v)$ を用い、$\mathbf{F}(x,y,z)=(x,0,0)$ および $\mathbf{F}(x,y,z)=(0,0,z)$ の曲面積分を考える。</p>
+                <div class="formula">$$\partial_u\mathbf{r}\times\partial_v\mathbf{r}=(\sin v,-\cos v,u)$$</div>
+            </div>
+        </section>
+
+        <section class="outline-section">
+            <h2>第4節 グリーンの定理</h2>
+            <div class="theorem">
+                <strong>定理（グリーン）</strong>
+                <p>$D\subset\mathbb{R}^2$ を単純閉曲線 $C=\partial D$ で囲まれた領域（境界は区分的に滑らか）とし、$P,Q$ が $D$ を含む開集合上で $C^1$ 級とする。このとき</p>
+                <div class="formula">$$\oint_{\partial D} P\,dx+Q\,dy=\iint_D\left(\frac{\partial Q}{\partial x}-\frac{\partial P}{\partial y}\right)\,dA$$</div>
+                <p>が成り立つ（$C$ は正の向き）。</p>
+            </div>
+            <div class="note">
+                <strong>回転（2 次元の curl）</strong>
+                <p>平面ベクトル場 $\mathbf{F}=(P,Q)$ に対し</p>
+                <div class="formula">$$\operatorname{rot}\mathbf{F}=\frac{\partial Q}{\partial x}-\frac{\partial P}{\partial y}$$</div>
+                <p>とおけば、$\displaystyle \oint_{\partial D}\mathbf{F}\cdot d\mathbf{r}=\iint_D \operatorname{rot}\mathbf{F}\,dA$ と書ける。</p>
+            </div>
+            <div class="note">
+                <strong>穴のある領域</strong>
+                <p>境界が複数成分でも、境界全体を「正の向き」（外側は反時計回り・内側は時計回り）にとれば同様に成り立つ。</p>
+            </div>
+            <div class="note">
+                <strong>ストークスの定理へのつながり</strong>
+                <p>グリーンの定理はストークスの定理の 2 次元版として理解できる：</p>
+                <div class="formula">$$\oint_{\partial S}\mathbf{F}\cdot d\mathbf{r}=\iint_S(\nabla\times\mathbf{F})\cdot d\mathbf{S}$$</div>
+            </div>
+        </section>
+
+        <section class="outline-section">
+            <h2>第5節 証明の流れ（概略）</h2>
+            <div class="proof">
+                <strong>縦に切れる領域で示す</strong>
+                <p>たとえば</p>
+                <div class="formula">$$D=\{(x,y)\mid a\le x\le b,\ g_1(x)\le y\le g_2(x)\}$$</div>
+                <p>なら境界は上側 $y=g_2(x)$ と下側 $y=g_1(x)$ に分けられる。これらの寄与を比べると</p>
+                <div class="formula">$$\oint_{\partial D}P\,dx=-\iint_D\frac{\partial P}{\partial y}\,dA$$</div>
+                <p>が出る（$y$ についての微分積分学の基本定理）。同様に横に切れる形で</p>
+                <div class="formula">$$\oint_{\partial D}Q\,dy=\iint_D\frac{\partial Q}{\partial x}\,dA$$</div>
+                <p>を得て、足し合わせると主張が従う。一般の領域はこの形の領域の和に分割して処理する。</p>
+            </div>
+            <div class="proof">
+                <strong>長方形 $D=[a,b]\times[c,d]$ の場合</strong>
+                <div class="formula">$$\begin{aligned}
+\oint_{\partial D} P\,dx+Q\,dy
+&= \int_a^b P(x,c)\,dx + \int_c^d Q(b,y)\,dy + \int_b^a P(x,d)\,dx + \int_d^c Q(a,y)\,dy \\
+&= \int_a^b\bigl(P(x,c)-P(x,d)\bigr)\,dx + \int_c^d\bigl(Q(b,y)-Q(a,y)\bigr)\,dy \\
+&= -\int_a^b\int_c^d \frac{\partial P}{\partial y}\,dy\,dx + \int_c^d\int_a^b \frac{\partial Q}{\partial x}\,dx\,dy \\
+&= \iint_D\left(\frac{\partial Q}{\partial x}-\frac{\partial P}{\partial y}\right)\,dx\,dy
+\end{aligned}$$</div>
+            </div>
+        </section>
+
+        <section class="outline-section">
+            <h2>第6節 応用1：循環の計算</h2>
+            <div class="concept-card focus-card">
+                <strong>回転が一定なら「面積×一定」</strong>
+                <p>$\operatorname{rot}\mathbf{F}$ が $D$ で一定 $c$ なら</p>
+                <div class="formula">$$\oint_{\partial D} P\,dx+Q\,dy=c\cdot\operatorname{Area}(D)$$</div>
+            </div>
+            <div class="example">
+                <strong>例：$\mathbf{F}=(-y,x)$ を単位円周で積分</strong>
+                <p>$P=-y,\ Q=x$ なので $\operatorname{rot}\mathbf{F}=1-(-1)=2$。単位円板の面積は $\pi$ だから</p>
+                <div class="formula">$$\oint_{\partial D}(-y)\,dx+x\,dy=\iint_D 2\,dA=2\pi$$</div>
+            </div>
+        </section>
+
+        <section class="outline-section">
+            <h2>第7節 応用2：面積公式</h2>
+            <div class="theorem">
+                <strong>面積を線積分で表す</strong>
+                <p>$\operatorname{Area}(D)=\iint_D 1\,dA$ に対し、$1=\frac{\partial Q}{\partial x}-\frac{\partial P}{\partial y}$ となる $(P,Q)$ を選べばよい。代表例：</p>
+                <div class="formula">$$\operatorname{Area}(D)=\oint_{\partial D}x\,dy=-\oint_{\partial D}y\,dx=\frac12\oint_{\partial D}(x\,dy-y\,dx)$$</div>
+            </div>
+            <div class="example">
+                <strong>例：楕円 $x=a\cos t,\ y=b\sin t$ の面積</strong>
+                <p>$x'=-a\sin t,\ y'=b\cos t$ より</p>
+                <div class="formula">$$\operatorname{Area}(D)=\frac12\int_0^{2\pi}\bigl(xy'-yx'\bigr)\,dt=\frac12\int_0^{2\pi}ab\,dt=\pi ab$$</div>
+            </div>
+        </section>
+
+        <section class="outline-section">
+            <h2>第8節 演習課題</h2>
+            <div class="exercise-list">
+                <strong>問題</strong>
+                <ol>
+                    <li>$D=[0,1]\times[0,2]$ の境界を正の向きに回るとき $\oint_{\partial D} (x^2-y)\,dx+(x+y^2)\,dy$ を求めよ（グリーンの定理で計算）。</li>
+                    <li>$C$ を半径 $R$ の円周（反時計回り）として $\oint_C (-y)\,dx+x\,dy$ を求めよ。</li>
+                    <li>単純閉曲線 $C$ が $(x(t),y(t))$（$0\le t\le 2\pi$）で与えられるとき、$\displaystyle \operatorname{Area}(D)=\frac12\int_0^{2\pi}(x y'-y x')\,dt$ を示せ。</li>
+                    <li>$\operatorname{rot}\mathbf{F}=0$ が成り立つとき、$D$ が単連結なら $\mathbf{F}$ が保存力場になることを説明せよ（既習事項と結びつけて）。</li>
+                </ol>
+            </div>
+        </section>
+
+        <section class="outline-section">
+            <h2>次回までに</h2>
+            <ul>
+                <li>境界の正の向き（反時計回り）と符号を確認する。</li>
+                <li>$\operatorname{rot}\mathbf{F}$ を計算して面積分に落とす練習をする。</li>
+                <li>面積公式 $\frac12\oint(x\,dy-y\,dx)$ を使えるようにする。</li>
+            </ul>
+        </section>
+
+        <div class="nav-buttons">
+            <a href="../class12/class12.html">← 前回</a>
+            <a href="../index.html">🏠 ホーム</a>
+            <a href="../class14/class14.html">次へ →</a>
+        </div>
+    </main>
+</body>
+</html>

@@ -1,0 +1,124 @@
+% Build in this directory: pdflatex -interaction=nonstopmode -halt-on-error class14_handout.tex
+\documentclass[a4paper,10pt,pdflatex,ja=standard,jafont=ipaex-type1,
+  magstyle=real,scale=1]{bxjsarticle}
+\usepackage{lmodern}
+\usepackage{amsmath,amssymb,mathtools}
+\usepackage{geometry}
+\geometry{reset,left=22mm,right=22mm,top=20mm,bottom=17mm,
+  headheight=13pt,headsep=6mm,footskip=10mm}
+\usepackage{xcolor}
+\usepackage{enumitem}
+\usepackage{array,booktabs,tabularx}
+\usepackage{fancyhdr}
+
+\definecolor{ink}{HTML}{193A5C}
+\definecolor{accent}{HTML}{237D82}
+\definecolor{soft}{HTML}{EAF3F3}
+\definecolor{muted}{HTML}{52616B}
+\newcommand{\coursename}{解析学 II}
+\newcommand{\handoutnumber}{14}
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\small\color{ink}\coursename{}・授業要約と演習}
+\fancyhead[R]{\small\color{ink}第\handoutnumber 回}
+\fancyfoot[C]{\small\color{ink}\thepage/2}
+\renewcommand{\headrulewidth}{0.3pt}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{2pt}
+\setlength{\abovedisplayskip}{5pt}
+\setlength{\belowdisplayskip}{5pt}
+\setlength{\abovedisplayshortskip}{3pt}
+\setlength{\belowdisplayshortskip}{4pt}
+\setlist[itemize]{leftmargin=1.8em,itemsep=1pt,topsep=2pt,parsep=0pt}
+
+\newcommand{\handouttitle}[1]{%
+  \begin{center}
+    {\Large\color{ink}#1}\par\vspace{3mm}
+    {\color{accent}\rule{0.88\linewidth}{0.7pt}}
+  \end{center}\vspace{-2mm}}
+\newcommand{\handout}[2]{%
+  \renewcommand{\handoutnumber}{#1}%
+  \handouttitle{第#1回\quad #2}}
+\newcommand{\topic}[1]{\par\vspace{5pt}%
+  {\large\sffamily\mdseries\color{accent}#1}\par\vspace{2pt}}
+\newcommand{\keybox}[1]{\par\vspace{3pt}\begingroup
+  \setlength{\fboxsep}{4pt}%
+  \colorbox{soft}{\parbox{\dimexpr\linewidth-2\fboxsep\relax}{\small #1}}%
+  \endgroup\par\vspace{2pt}}
+\newenvironment{problems}
+  {\begin{enumerate}[leftmargin=2em,itemsep=3pt,topsep=3pt,parsep=0pt,
+    font=\color{accent}]}
+  {\end{enumerate}}
+
+
+\newcommand{\examplelabel}[1]{{\sffamily\mdseries\color{ink}#1}}
+\newcommand{\answerroom}{\par\vspace{16mm}}
+
+\begin{document}
+\fontsize{10pt}{13.5pt}\selectfont
+\setlength{\abovedisplayskip}{4pt}
+\setlength{\belowdisplayskip}{4pt}
+\handout{14}{ストークスとガウスの定理}
+\topic{ストークスの定理：回転と境界の循環}
+$S$ を境界を含むコンパクトな、向き付けられた区分的に滑らかな曲面とする。
+$\vec F$ はその近傍で $C^1$ 級とする。
+単位法線 $\vec n$ と境界 $\partial S$ の向きを右手の規則でそろえると
+$$
+ \oint_{\partial S}\vec F\cdot d\vec r
+ =\iint_S(\nabla\times\vec F)\cdot\vec n\,dS.
+$$
+曲面内部の回転の総和が境界の循環に等しい。
+同じ向きの境界をもつ別の曲面に置き換えると、計算が簡単になることがある。
+平面 $z=0$、法線 $+z$ の場合はグリーンの定理になる。
+
+\topic{例：円板上の循環}
+$\vec F=(-y,x,0)$、$S=\{z=h,\ x^2+y^2\le R^2\}$ を上向きに取ると
+$$
+ \nabla\times\vec F=(0,0,2),\qquad
+ \oint_{\partial S}\vec F\cdot d\vec r
+ =\iint_S2\,dS=2\pi R^2.
+$$
+一方 $\vec G=(yz,xz,xy)=\nabla(xyz)$ では、$\nabla\times\vec G=\vec0$。
+したがって、$\mathbb R^3$ 内の任意の区分的に滑らかな閉曲線に沿う循環は0である。
+
+\topic{ガウスの発散定理：発散と閉曲面の流束}
+$V$ を区分的に滑らかな境界をもつ有界立体、$\vec F$ を $\overline V$ の近傍で
+$C^1$ 級とする。境界の単位法線 $\vec n$ を外向きに取ると
+$$
+ \iint_{\partial V}\vec F\cdot\vec n\,dS
+ =\iiint_V\nabla\cdot\vec F\,dV.
+$$
+立体内部の湧き出しの総量が、閉曲面を通って外へ出る流束に等しい。
+開いた曲面へ使うときは、補助曲面を加えて閉じ、その流束を差し引く。
+
+\topic{例：球面の流束と対称性}
+$\vec F=(x,y,z)$ なら $\nabla\cdot\vec F=3$。半径 $R>0$ の球 $V$ について
+$$
+ \iint_{\partial V}\vec F\cdot\vec n\,dS
+ =3\operatorname{Vol}(V)=4\pi R^3.
+$$
+$\vec H=(x^2,y^2,z^2)$ なら $\nabla\cdot\vec H=2x+2y+2z$。
+原点中心の球では対称性から各項の体積積分が0となり、全流束も0である。
+
+\topic{定理を使い分ける}
+循環の計算には回転とストークス、閉曲面の流束には発散とガウスを用いる。
+$$
+ \text{境界曲線の循環}\ \longleftrightarrow\ \text{曲面上の回転},\qquad
+ \text{閉曲面の流束}\ \longleftrightarrow\ \text{立体内の発散}.
+$$
+場に特異点があれば、定理の仮定を満たす領域へ分ける。
+境界の向き・法線の向き・補助曲面の寄与を式に書いてから計算する。
+\keybox{境界積分と内部積分を結ぶ公式には、滑らかさと向きの条件がある。特異点を含む立体に発散定理を直接使わない。}
+
+\newpage
+\handouttitle{第14回\quad 演習問題}
+計算過程を記し、必要な条件・積分領域・向きを明示すること。
+\begin{problems}
+\item $\vec F=(-y,x,0)$、$C=\{z=2,\ x^2+y^2=1\}$ を $+z$ 側から見て反時計回りに取る。$\oint_C\vec F\cdot d\vec r$ をストークスの定理で求めよ。\answerroom
+\item $S=\{z=1-x^2-y^2,\ x^2+y^2\le1\}$ を上向きに取り、$\vec F=(-y/2,x/2,0)$ とする。$\partial S$ の向きを指定し、境界の循環と回転の面積分が一致することを確かめよ。\answerroom
+\item 半径 $R>0$ の球面を外向きに取る。$\vec F=(x,y,z)$ の流束を、ガウスの定理と直接の球面上の計算で求めよ。\answerroom
+\item $V=[0,1]^3$、$\vec F=(xy,yz,zx)$ とする。外向きの全流束を発散定理で求め、6面の寄与を足す方法でも確かめよ。\answerroom
+\item 単位上半球の曲面を外向きに取り、$\vec F=(0,0,z)$ とする。底面を加えて閉曲面を作り、上半球の曲面を通る流束を求めよ。\answerroom
+\item $\vec F=\vec r/|\vec r|^3$（$\vec r=(x,y,z)\ne\vec0$）の発散を求めよ。原点中心の半径 $R$ の球面を通る流束を直接計算し、球全体に発散定理を適用できない理由を説明せよ。\answerroom
+\end{problems}
+\end{document}

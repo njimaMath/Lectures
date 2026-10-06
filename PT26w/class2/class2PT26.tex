@@ -1,0 +1,192 @@
+% Build in this directory: pdflatex -interaction=nonstopmode -halt-on-error class2PT26.tex
+% Lecture topics follow PT26w/lectureNote.tex, sections 2 and 3.
+\documentclass[a4paper,10pt,pdflatex,ja=standard,jafont=ipaex-type1,
+  magstyle=real,scale=1]{bxjsarticle}
+\usepackage{lmodern}
+\usepackage{amsmath,amssymb,mathtools}
+\usepackage{geometry}
+\geometry{reset,left=22mm,right=22mm,top=20mm,bottom=17mm,
+  headheight=13pt,headsep=6mm,footskip=10mm}
+\usepackage{xcolor}
+\usepackage{enumitem}
+\usepackage{array,booktabs,tabularx}
+\usepackage{fancyhdr}
+\usepackage{hyperref}
+
+\definecolor{ink}{HTML}{193A5C}
+\definecolor{accent}{HTML}{237D82}
+\definecolor{soft}{HTML}{EAF3F3}
+\definecolor{muted}{HTML}{52616B}
+\newcommand{\coursename}{確率論と統計学 I}
+\newcommand{\lecturenumber}{2}
+\hypersetup{unicode=true,colorlinks=true,urlcolor=accent,linkcolor=ink,
+  pdfauthor={中島秀太},pdftitle={第2・3回：確率変数と分布、期待値と積分}}
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\small\color{ink}\coursename{}・授業要約と演習}
+\fancyhead[R]{\small\color{ink}第\lecturenumber 回}
+\fancyfoot[C]{\small\color{ink}\thepage/2}
+\renewcommand{\headrulewidth}{0.3pt}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{2pt}
+\setlength{\abovedisplayskip}{4pt}
+\setlength{\belowdisplayskip}{4pt}
+\setlength{\abovedisplayshortskip}{3pt}
+\setlength{\belowdisplayshortskip}{4pt}
+\setlist[itemize]{leftmargin=1.8em,itemsep=1pt,topsep=2pt,parsep=0pt}
+\setlist[enumerate]{leftmargin=2em,itemsep=3pt,topsep=3pt,parsep=0pt}
+\newcommand{\topic}[1]{\par\vspace{5pt}
+  {\large\sffamily\mdseries\color{accent}#1}\par\vspace{2pt}}
+\newcommand{\handouttitle}[1]{%
+  \begin{center}
+    {\Large\color{ink}#1}\par\vspace{3mm}
+    {\color{accent}\rule{0.88\linewidth}{0.7pt}}
+  \end{center}\vspace{-2mm}}
+\newcommand{\keybox}[1]{\par\vspace{3pt}\begingroup
+  \setlength{\fboxsep}{5pt}
+  \colorbox{soft}{\parbox{\dimexpr\linewidth-2\fboxsep\relax}{#1}}%
+  \endgroup\par\vspace{2pt}}
+\newcommand{\examplelabel}[1]{{\sffamily\mdseries\color{ink}#1}}
+\newcommand{\F}{\mathcal F}
+\newcommand{\R}{\mathbb R}
+\newcommand{\E}{\mathbb E}
+
+\begin{document}
+\fontsize{10pt}{13.5pt}\selectfont
+\handouttitle{第2回\quad 確率変数と確率分布}
+
+\topic{確率変数と可測性}
+$(\Omega,\F,P)$ を確率空間、$\mathcal B(\R)$ を実数の開集合から生成される
+最小の $\sigma$-加法族（ボレル集合族）とする。写像 $X:\Omega\to\R$ が
+確率変数であるとは、次の可測性を満たすことである。
+$$
+  X^{-1}(B):=\{\omega\in\Omega:X(\omega)\in B\}\in\F
+  \qquad\bigl(B\in\mathcal B(\R)\bigr).
+$$
+これは、観測値 $X$ に関する事象の確率を測れるという条件である。
+可測性は $\{X\le x\}\in\F$ がすべての $x\in\R$ について成り立つことと同値である。
+
+\topic{確率分布：観測値の空間上の確率測度}
+$X$ の分布（押し出し測度）$\mu_X$ を、$\mathcal B(\R)$ 上で
+$$
+  \mu_X(B)=P(X\in B):=P\bigl(X^{-1}(B)\bigr)
+  \qquad\bigl(B\in\mathcal B(\R)\bigr)
+$$
+と定める。離散確率空間では、各値 $x\in\R$ の確率は
+$$
+  P(X=x)=\sum_{\omega\in\Omega:\,X(\omega)=x}p_\omega.
+$$
+\keybox{確率変数 $X$ は写像、分布 $\mu_X$ は測度である。同じ分布をもつ確率変数でも、
+標本空間や他の確率変数との関係は異なり得る。}
+
+\topic{分布関数}
+$F_X(x):=P(X\le x)=\mu_X(({-\infty},x])$ と定める。次の性質をもつ。
+$$
+  \begin{aligned}
+    x\le y&\ \Longrightarrow\ F_X(x)\le F_X(y),
+    &\lim_{h\downarrow0}F_X(x+h)&=F_X(x),\\
+    \lim_{x\to-\infty}F_X(x)&=0,
+    &\lim_{x\to+\infty}F_X(x)&=1.
+  \end{aligned}
+$$
+特に $a<b$ に対して $P(a<X\le b)=F_X(b)-F_X(a)$ である。
+分布関数は分布 $\mu_X$ を一意に定める。
+
+\examplelabel{例：公平なコインを独立に2回投げ、表の個数を $X$ とする。}
+$$
+  X(H,H)=2,\quad X(H,T)=X(T,H)=1,\quad X(T,T)=0,
+$$
+$$
+  P(X=0)=\frac14,\qquad P(X=1)=\frac12,\qquad P(X=2)=\frac14.
+$$
+したがって $F_X(0)=1/4$、$F_X(1)=3/4$、$F_X(2)=1$ となる。
+
+\topic{演習問題}
+\begin{enumerate}[label=\arabic*.]
+  \item 公平なサイコロを1回投げ、出た目を $X$ とする。
+  $X$ の分布と、すべての $x\in\R$ に対する分布関数 $F_X(x)$ を求めよ。
+  \item $\Omega=[0,1]$、$\F=\mathcal B([0,1])$、$P=\lambda$（ルベーグ測度）とする。
+  $X(\omega)=\omega$、$Y(\omega)=\omega+1$ に対し、$S=X+Y$ の分布関数を求めよ。
+\end{enumerate}
+
+\topic{レポート問題}
+\begin{enumerate}[label=\arabic*.]
+  \item 演習第2問と同じ確率空間と $X,Y$ に対し、$T=XY$ の分布関数を求めよ。
+  $X,Y$ は同じ標本 $\omega$ の関数であることに注意せよ。
+  \item 集合 $\{X\le x+1/n\}$ の列を用いて、$F_X$ の右連続性を示せよ。
+  $A_n\downarrow A$ なら $P(A_n)\downarrow P(A)$ となる性質を用いてよい。
+  \item $F_X(x-):=\lim_{y\uparrow x}F_X(y)$ とおく。
+  $P(X=x)=F_X(x)-F_X(x-)$ を示し、分布関数の跳びの意味を説明せよ。
+\end{enumerate}
+
+\newpage
+\renewcommand{\lecturenumber}{3}
+\handouttitle{第3回\quad 期待値とルベーグ積分}
+
+\topic{有限和から非負確率変数の積分へ}
+以下、$(\Omega,\F,P)$ を確率空間とする。$A\in\F$ の指示関数 $\chi_A$ は
+$A$ 上で1、それ以外で0をとる。非負単関数 $Z=\sum_{j=1}^m a_j\chi_{A_j}$
+（$a_j\ge0$、$A_j\in\F$）について
+$$
+  \E[Z]:=\sum_{j=1}^m a_jP(A_j)
+$$
+と定める。この値は単関数の表示によらない。非負確率変数 $X$ について
+$$
+  \E[X]:=\int_\Omega X\,dP
+  =\sup\{\E[Z]:0\le Z\le X,\ Z\text{ は非負単関数}\}\in[0,\infty]
+$$
+と定義する。下からの単関数近似 $0\le Z_n\uparrow X$ により積分を構成する。
+
+\topic{可積分性と期待値の基本性質}
+$X^+:=\max\{X,0\}$、$X^-:=\max\{-X,0\}$ とおく。
+$$
+  X=X^+-X^-,\qquad |X|=X^++X^-,\qquad
+  \E[|X|]=\E[X^+]+\E[X^-].
+$$
+$\E[|X|]<\infty$ のとき $X$ は可積分であり、$\E[X]:=\E[X^+]-\E[X^-]$ と定める。
+可積分な $X,Y$ と $a,b\in\R$ に対して
+$$
+  \E[aX+bY]=a\E[X]+b\E[Y],\qquad
+  X\le Y\ \Longrightarrow\ \E[X]\le\E[Y],\qquad
+  |\E[X]|\le\E[|X|].
+$$
+
+\topic{分布から期待値を計算する}
+$\mu_X$ を $X$ の分布とする。ボレル可測関数 $g:\R\to\R$ について、
+$g\ge0$ または $\E[|g(X)|]<\infty$ なら
+$$
+  \E[g(X)]=\int_\R g(x)\,\mu_X(dx).
+$$
+離散分布 $P(X=x_k)=q_k$ なら $\E[X]=\sum_k x_kq_k$。
+密度 $f$、すなわち $\mu_X(B)=\int_B f(x)\,dx$ をもつなら
+$\E[X]=\int_\R xf(x)\,dx$ である（いずれも非負または可積分の場合）。
+\keybox{期待値は実際に出る値とは限らない。表なら100円、裏なら0円を得る公平なゲームでは、
+期待値は50円だが、1回の結果は0円か100円である。}
+
+\topic{極限と期待値の交換}
+\examplelabel{単調収束定理：}
+$0\le X_n\uparrow X$ がほとんど確実に成り立つなら $\E[X_n]\uparrow\E[X]$。
+値 $+\infty$ も許される。
+
+\examplelabel{優収束定理：}
+$X_n\to X$ がほとんど確実に成り立ち、すべての $n$ について
+$|X_n|\le Y$ がほとんど確実に成り立つ可積分な $Y\ge0$ があれば、
+$X$ も可積分で $\E[X_n]\to\E[X]$。
+「ほとんど確実に」とは、確率1の事象上で成り立つことである。
+
+\topic{演習問題}
+\begin{enumerate}[label=\arabic*.]
+  \item 重み付きサイコロ $P(\{k\})=k/21$（$k=1,\ldots,6$）で、出た目 $X$ の期待値を求めよ。
+  \item $\{1,2,3,4\}$ の24個の置換を等確率で選ぶ。不動点数
+  $N(\sigma)=\#\{i:\sigma(i)=i\}$ を指示関数の和で表し、$\E[N]$ を求めよ。
+\end{enumerate}
+
+\topic{レポート問題}
+以下、$\Omega=(0,1)$、$\F=\mathcal B((0,1))$、$P=\lambda$ とする。
+\begin{enumerate}[label=\arabic*.]
+  \item $X_n(\omega)=n\chi_{(0,1/n)}(\omega)$ とする。
+  $X_n\to0$ と $\E[X_n]=1$ を示し、優収束定理を適用できない理由を述べよ。
+  \item $X(\omega)=\omega^{-1/2}$、$X_n=\min\{X,n\}$ とする。
+  $\E[X_n]$ を計算し、単調収束定理を用いて $\E[X]$ を求めよ。
+\end{enumerate}
+\end{document}

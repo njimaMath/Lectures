@@ -1,64 +1,136 @@
-\documentclass[a4paper,10pt,dvipdfmx]{jsarticle}
-\usepackage{../an26handout}
-\usepackage{tikz}
-\usetikzlibrary{arrows.meta}
-\renewcommand{\topic}[1]{\par\vspace{2pt}{\large\sffamily\color{accent}#1}\par}
+% Build in this directory: pdflatex -interaction=nonstopmode -halt-on-error class1_handout.tex
+\documentclass[a4paper,10pt,pdflatex,ja=standard,jafont=ipaex-type1,
+  magstyle=real,scale=1]{bxjsarticle}
+\usepackage{lmodern}
+\usepackage{amsmath,amssymb,mathtools}
+\usepackage{geometry}
+\geometry{reset,left=22mm,right=22mm,top=20mm,bottom=17mm,
+  headheight=13pt,headsep=6mm,footskip=10mm}
+\usepackage{xcolor}
+\usepackage{enumitem}
+\usepackage{array,booktabs,tabularx}
+\usepackage{fancyhdr}
+
+\definecolor{ink}{HTML}{193A5C}
+\definecolor{accent}{HTML}{237D82}
+\definecolor{soft}{HTML}{EAF3F3}
+\definecolor{muted}{HTML}{52616B}
+\newcommand{\coursename}{解析学 II}
+\newcommand{\handoutnumber}{1}
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\small\color{ink}\coursename{}・授業要約と演習}
+\fancyhead[R]{\small\color{ink}第\handoutnumber 回}
+\fancyfoot[C]{\small\color{ink}\thepage/2}
+\renewcommand{\headrulewidth}{0.3pt}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{2pt}
+\setlength{\abovedisplayskip}{5pt}
+\setlength{\belowdisplayskip}{5pt}
+\setlength{\abovedisplayshortskip}{3pt}
+\setlength{\belowdisplayshortskip}{4pt}
+\setlist[itemize]{leftmargin=1.8em,itemsep=1pt,topsep=2pt,parsep=0pt}
+
+\newcommand{\handouttitle}[1]{%
+  \begin{center}
+    {\Large\color{ink}#1}\par\vspace{3mm}
+    {\color{accent}\rule{0.88\linewidth}{0.7pt}}
+  \end{center}\vspace{-2mm}}
+\newcommand{\handout}[2]{%
+  \renewcommand{\handoutnumber}{#1}%
+  \handouttitle{第#1回\quad #2}}
+\newcommand{\topic}[1]{\par\vspace{5pt}%
+  {\large\sffamily\mdseries\color{accent}#1}\par\vspace{2pt}}
+\newcommand{\keybox}[1]{\par\vspace{3pt}\begingroup
+  \setlength{\fboxsep}{4pt}%
+  \colorbox{soft}{\parbox{\dimexpr\linewidth-2\fboxsep\relax}{\small #1}}%
+  \endgroup\par\vspace{2pt}}
+\newenvironment{problems}
+  {\begin{enumerate}[leftmargin=2em,itemsep=3pt,topsep=3pt,parsep=0pt,
+    font=\color{accent}]}
+  {\end{enumerate}}
+
 \begin{document}
+\handouttitle{ガイダンス}
+{\large\color{ink}\coursename}\hfill
+{\small 2026年度冬学期\quad 講義担当：中島 秀太}
+
+\topic{授業の概要}
+1変数関数の積分を復習し、多変数関数の積分へと進む。
+重積分の定義・計算・変数変換を学び、曲面積、線積分、面積分、グリーンの定理を扱う。
+
+\topic{到達目標}
+\begin{itemize}
+  \item 積分の定義を理解し、積分領域や積分の存在条件を説明できる。
+  \item 累次積分・変数変換・ヤコビアンを用いて重積分を計算できる。
+  \item スカラー場・ベクトル場を理解し、線積分・面積分とグリーンの定理を使える。
+\end{itemize}
+
+\topic{授業計画（予定）}
+\begingroup
+\renewcommand{\arraystretch}{1.23}
+\begin{tabularx}{\linewidth}{@{}>{\centering\arraybackslash}p{12mm}X@{}}
+\toprule
+回 & 内容 \\
+\midrule
+1 & 逆三角関数 \\
+2 & 1変数関数の（不）定積分 \\
+3 & 重積分の定義 \\
+4 & 重積分の計算、累次積分 \\
+5 & 広義積分 \\
+6 & 重積分の変数変換（ヤコビアン） \\
+7 & 重積分の応用 \\
+8 & 中間試験およびまとめ \\
+9 & 空間内の曲面、曲面積 \\
+10 & スカラー場とベクトル場 \\
+11 & 線積分 \\
+12 & 面積分 \\
+13 & グリーンの定理 \\
+14 & まとめ \\
+\bottomrule
+\end{tabularx}
+\endgroup
+\smallskip
+{\small\color{muted}授業の進度に応じて、内容や順序を変更することがある。}
+
+\topic{履修に必要な知識・学習の進め方}
+1変数関数の微分・積分、平面・空間の座標とベクトルの基礎を前提とする。
+各回の定義を具体例で確かめ、授業後に演習問題を解いて計算を復習する。
+
+\topic{教材}
+各回の配布資料と指定教科書を用いる。授業前に該当回の教科書に目を通しておく。
+
+\topic{成績評価}
+$$
+\max\bigl\{60\%\,\text{期末}+30\%\,\text{中間}+10\%\,\text{小テスト},\;
+80\%\,\text{期末}+20\%\,\text{小テスト}\bigr\}
+$$
+
+\newpage
+\fontsize{10pt}{13.5pt}\selectfont
+\setlength{\abovedisplayskip}{4pt}
+\setlength{\belowdisplayskip}{4pt}
 \handout{1}{逆関数と逆三角関数}
 
-\topic{定義域と値域}
-関数 $f:A\to B$ とは、集合 $A$ の各要素 $x$ に対して、集合 $B$ の要素
-$y=f(x)$ をただ一つ対応させる規則である。$A$ を $f$ の定義域という。
-$x$ が定義域全体を動くときに $f(x)$ が実際にとる値の集合
-\[
- f(A)=\{f(x)\mid x\in A\}
-\]
-を $f$ の値域という。逆関数を考えるときは、始めに定義域と値域を確認する。
-
 \topic{逆関数の定義}
-$f:A\to B$ が一対一対応であるとする。このとき、$y=f(x)$ となるただ一つの
-$x\in A$ を $y\in B$ に対応させる関数 $g:B\to A$ を $f$ の逆関数といい、
-$g=f^{-1}$ と書く。すなわち
-\[
- \boxed{\ f(g(y))=y\quad(y\in B),\qquad g(f(x))=x\quad(x\in A)\ }
-\]
-である。式を求めるには、$y=f(x)$ を $x$ について解けばよい。
-
-\begin{center}
-\begin{tikzpicture}[>=Latex,scale=.82,every node/.style={font=\small}]
-  \draw[->] (-.3,0)--(4.8,0) node[right] {$x$};
-  \draw[->] (0,-.3)--(0,3.25) node[above] {$y$};
-  \draw[dashed,gray] (-.1,-.1)--(3.25,3.25) node[above right] {$y=x$};
-  \draw[very thick,accent]
-    plot coordinates {(.35,.25) (1.1,.65) (1.65,1.35) (2.15,1.65) (2.65,2.55) (3.1,2.9)};
-  \draw[very thick,ink]
-    plot coordinates {(.25,.35) (.65,1.1) (1.35,1.65) (1.65,2.15) (2.55,2.65) (2.9,3.1)};
-  \fill[accent] (2.65,2.55) circle (1.8pt);
-  \draw[dotted] (2.65,0) node[below] {$x$} -- (2.65,2.55)
-    -- (0,2.55) node[left] {$y$};
-  \node[accent,anchor=west] at (3.15,2.78) {$y=f(x)$};
-  \node[ink,anchor=west] at (.55,2.75) {$y=g(x)$};
-  \node[anchor=west] at (5.45,2.35) {$x\ \xmapsto{\ f\ }\ y=f(x)$};
-  \node[anchor=west] at (5.45,1.25) {$y\ \xmapsto{\ g\ }\ x=g(y)$};
-  \draw[<->,thick] (5.1,.65)--(9.15,.65)
-    node[midway,below=3pt] {行って戻ると元の値};
-\end{tikzpicture}
-\end{center}
-$f$ と $g$ のグラフは直線 $y=x$ に関して対称である。図の折れ線でも、点
-$(x,y)$ を入れ替えた点 $(y,x)$ が逆関数のグラフ上にあることが見える。
+関数$f$に対し、次を満たすとき$g$を$f$の逆関数と呼ぶ:
+$$
+ {\ f(g(y))=y\quad(y\in B),\qquad g(f(x))=x\quad(x\in A)\ }
+$$
+ここで$A$は$f$の定義域、$B$は$g$の定義域。式を求めるには、$y=f(x)$ を $x$ について解けばよい。
 
 \topic{逆関数の微分公式}
 $y=f(x)$、$x=g(y)$ とする。$f$ が微分可能で $f'(g(y))\ne0$ ならば、
 $f(g(y))=y$ の両辺を $y$ で微分して
-\[
+$$
  f'(g(y))g'(y)=1,\qquad
- \boxed{\ g'(y)=\frac{1}{f'(g(y))}\ }.
-\]
+ {\ g'(y)=\frac{1}{f'(g(y))}\ }.
+$$
 逆関数のグラフでは横と縦が入れ替わるため、その傾きは元の傾きの逆数になる。
 
 \topic{逆三角関数の定義}
 三角関数の定義域を一対一になる区間に制限して、その逆関数を定める。
-\[
+$$
 \begin{array}{c|c|c|c}
 \text{逆関数}&\text{定義域}&\text{値域}&\text{定義}\\
 \hline
@@ -66,11 +138,11 @@ $f(g(y))=y$ の両辺を $y$ で微分して
 \arccos y&[-1,1]&[0,\pi]&\cos(\arccos y)=y\\
 \arctan y&\mathbb R&(-\pi/2,\pi/2)&\tan(\arctan y)=y
 \end{array}
-\]
+$$
 たとえば $\arcsin(1/2)=\pi/6$ であり、$5\pi/6$ は値域の外なので主値ではない。
 
 \topic{逆三角関数の微分と積分}
-\[
+$$
 \begin{aligned}
 (\arcsin x)'&=\frac1{\sqrt{1-x^2}} &&(-1<x<1),&
 \int\frac{dx}{\sqrt{1-x^2}}&=\arcsin x+C,\\
@@ -79,16 +151,15 @@ $f(g(y))=y$ の両辺を $y$ で微分して
 (\arctan x)'&=\frac1{1+x^2} &&(x\in\mathbb R),&
 \int\frac{dx}{1+x^2}&=\arctan x+C.
 \end{aligned}
-\]
+$$
 \keybox{確認点：逆関数では式だけでなく定義域と値域を確認する。平方根の符号は、逆三角関数の値域から決まる。}
 
-\exercises
+\topic{演習問題}
 \begin{problems}
-\item $f(x)=3x-5$ の逆関数 $g$ を求め、$f(g(y))=y$ と $g(f(x))=x$ を確かめよ。\problemspace
-\item $f(x)=x^2+2x$、$x\ge-1$ の逆関数とその定義域を求めよ。\problemspace
-\item $\arcsin(-\sqrt3/2)$、$\arccos(-1/2)$、$\arctan(1)$ を求めよ。\problemspace
-\item $y=\arcsin x$ を陰関数微分して導関数を導け。\problemspace
-\item $\displaystyle\int_0^{1/2}\frac{dx}{\sqrt{1-x^2}}$ を求めよ。\problemspace
-\item $\displaystyle\int\frac{x^4}{1+x^2}\,dx$ を多項式除法を用いて求めよ。\problemspace
+\item $f(x)=3x-5$ の逆関数 $g$ を求めよ.
+\item $f(x)=x^2+2x$、$x\ge-1$ の逆関数とその定義域を求めよ。
+\item $\arcsin(-\sqrt3/2)$、$\arccos(-1/2)$、$\arctan(1)$ を求めよ。
+\item $y=\arccos x$ の微分を導け。
+\item $\displaystyle\int_0^{1/2}\frac{dx}{\sqrt{1-x^2}}$ を求めよ。
 \end{problems}
 \end{document}

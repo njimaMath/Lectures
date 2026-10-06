@@ -1,0 +1,270 @@
+% Build in this directory: pdflatex -interaction=nonstopmode -halt-on-error class1PT26.tex
+% Syllabus topics follow PT26w/lectureNote.tex.
+\documentclass[a4paper,10pt,pdflatex,ja=standard,jafont=ipaex-type1,
+  magstyle=real,scale=1]{bxjsarticle}
+\usepackage{lmodern}
+\usepackage{amsmath,amssymb,mathtools}
+\usepackage{geometry}
+\geometry{reset,left=22mm,right=22mm,top=20mm,bottom=17mm,
+  headheight=13pt,headsep=6mm,footskip=10mm}
+\usepackage{xcolor}
+\usepackage{enumitem}
+\usepackage{array,booktabs,tabularx}
+\usepackage{fancyhdr}
+\usepackage{hyperref}
+
+\definecolor{ink}{HTML}{193A5C}
+\definecolor{accent}{HTML}{237D82}
+\definecolor{soft}{HTML}{EAF3F3}
+\definecolor{muted}{HTML}{52616B}
+\newcommand{\coursename}{確率論と統計学 I}
+\hypersetup{unicode=true,colorlinks=true,urlcolor=accent,linkcolor=ink,
+  pdfauthor={中島秀太},pdftitle={第1回：シラバスと確率空間}}
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\small\color{ink}\coursename{}・授業要約と演習}
+\fancyhead[R]{\small\color{ink}第1回}
+\fancyfoot[C]{\small\color{ink}\thepage/4}
+\renewcommand{\headrulewidth}{0.3pt}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{2pt}
+\setlength{\abovedisplayskip}{5pt}
+\setlength{\belowdisplayskip}{5pt}
+\setlength{\abovedisplayshortskip}{3pt}
+\setlength{\belowdisplayshortskip}{4pt}
+\setlist[itemize]{leftmargin=1.8em,itemsep=1pt,topsep=2pt,parsep=0pt}
+\setlist[enumerate]{leftmargin=2em,itemsep=3pt,topsep=3pt,parsep=0pt}
+\newcommand{\topic}[1]{\par\vspace{5pt}
+  {\large\sffamily\mdseries\color{accent}#1}\par\vspace{2pt}}
+\newcommand{\handouttitle}[1]{%
+  \begin{center}
+    {\Large\color{ink}#1}\par\vspace{3mm}
+    {\color{accent}\rule{0.88\linewidth}{0.7pt}}
+  \end{center}\vspace{-2mm}}
+\newcommand{\keybox}[1]{\par\vspace{3pt}\begingroup
+  \setlength{\fboxsep}{5pt}
+  \colorbox{soft}{\parbox{\dimexpr\linewidth-2\fboxsep\relax}{#1}}%
+  \endgroup\par\vspace{2pt}}
+\newcommand{\examplelabel}[1]{{\sffamily\mdseries\color{ink}#1}}
+\newcommand{\F}{\mathcal F}
+\newcommand{\R}{\mathbb R}
+
+\begin{document}
+\handouttitle{シラバス}
+{\large\color{ink}\coursename}\hfill
+{\small 2026年度冬学期\quad 講義担当：中島 秀太}
+
+\topic{授業の概要}
+確率空間・確率変数・確率分布を出発点に、ルベーグ積分に基づく確率論を学ぶ。
+
+\topic{到達目標}
+\begin{itemize}
+  \item 標本空間・事象・確率測度を区別し、具体的な確率モデルを構成できる。
+  \item 確率変数の分布・期待値・独立性を説明し、基本的な計算ができる。
+  \item 確率変数列の収束の違いを理解する。
+\end{itemize}
+
+\topic{授業計画（予定）}
+\begingroup
+\renewcommand{\arraystretch}{1.23}
+\begin{tabularx}{\linewidth}{@{}>{\centering\arraybackslash}p{12mm}X@{}}
+\toprule
+回 & 内容 \\
+\midrule
+1 & 離散確率空間と一般の確率空間、$\sigma$-加法族 \\
+2 & 確率変数と確率分布、分布関数 \\
+3 & 期待値とルベーグ積分\\
+4 & 独立性と共分散 \\
+5 & 代表的な確率分布：二項・幾何・ポアソン・正規分布など \\
+6 & 二項分布の正規近似 \\
+7 & 特性関数とフーリエ解析、分布の一意性 \\
+8 & 確率変数列の収束：概収束・確率収束 \\
+9 & 分布の弱収束、極限定理 \\
+10 & 大数の法則と一般の中心極限定理 \\
+11 & 条件付き期待値、情報に関する平均 \\
+12 & Kolmogorovの拡張定理 \\
+13 & 無限回の試行の確率空間 \\
+\bottomrule
+\end{tabularx}
+\endgroup
+\smallskip
+{\small\color{muted}授業の進度に応じて、内容や順序を変更することがある。}
+
+\topic{履修に必要な知識・学習の進め方}
+集合と写像、数列・級数、微分積分、およびルベーグ積分の基礎を前提とする。
+各回の定義を具体例で確かめ、講義後に証明と計算を復習する。
+レポート問題の解答は、授業4回に一度、紙で提出する。
+
+\topic{教材}
+各回の配布資料を用いる。
+関連する教科書：熊谷 隆『確率論』（新しい解析学の流れ）。
+
+\topic{評価}
+期末テスト 60\% + 授業レポート 20\% + 演習 20\%
+
+総合得点が60\%以上で合格とし、合格者の成績は相対評価で決定する。
+
+\newpage
+\fontsize{10pt}{13.5pt}\selectfont
+\setlength{\abovedisplayskip}{4pt}
+\setlength{\belowdisplayskip}{4pt}
+\handouttitle{第1回\quad 確率空間}
+
+\topic{離散確率空間}
+$\Omega$ を空でない可算集合（有限集合を含む）とする。
+各結果 $\omega\in\Omega$ に重み $p_\omega$ を与え、
+$$
+  p_\omega\in[0,1]\quad(\omega\in\Omega),
+  \qquad \sum_{\omega\in\Omega}p_\omega=1
+$$
+を仮定する。$\Omega$ を標本空間、その部分集合 $A\subseteq\Omega$ を事象と呼ぶ。
+$$
+{\ P(A)=\sum_{\omega\in A}p_\omega\ },
+  \qquad \F=2^\Omega=\{A\mid A\subseteq\Omega\}.
+$$
+このとき $(\Omega,2^\Omega,P)$ は離散確率空間であり、
+$p_\omega=P(\{\omega\})$ である。
+
+\examplelabel{例：公平なコインを1回投げる。}
+$H$ を表、$T$ を裏とすると、
+$$
+  \Omega=\{H,T\},\quad p_H=p_T=\frac12,\quad
+  \F=\{\varnothing,\{H\},\{T\},\Omega\},\quad P(\{H\})=\frac12.
+$$
+
+\topic{一般の確率空間の公理}
+$\Omega\ne\varnothing$ は集合、$\F\subseteq2^\Omega$ は
+次を満たす $\sigma$-加法族とする。
+$$
+  \Omega\in\F,\qquad
+  A\in\F\ \Longrightarrow\ A^c:=\Omega\setminus A\in\F,\qquad
+  (A_n\in\F\ \forall n\ge1)\ \Longrightarrow\
+  \bigcup_{n=1}^\infty A_n\in\F.
+$$
+次をみたす写像 $P:\F\to[0,1]$ は確率測度と呼ばれる:
+$$
+  P(\Omega)=1,\qquad
+  P\!\left(\bigcup_{n=1}^\infty A_n\right)
+    =\sum_{n=1}^\infty P(A_n)
+  \quad\left(A_n\in\F,\ A_n\cap A_m=\varnothing\ (n\ne m)\right).
+$$
+三つ組 $(\Omega,\F,P)$ を確率空間と呼ぶ。公理から $P(\varnothing)=0$、$P(A^c)=1-P(A)$ が従う。
+
+\examplelabel{例2：$[0,1]$ 上の一様分布。}
+$$
+  \Omega=[0,1],\qquad \F=\mathcal B([0,1]),\qquad
+  P(A)=\lambda(A),\quad P([a,b])=b-a\quad(0\le a\le b\le1).
+$$
+$\mathcal B([0,1])$ を$[0,1]$に含まれる開集合から生成される最小の $\sigma$-加法族
+（ボレル集合族）、$\lambda$ はルベーグ測度（長さ）である。
+
+
+\topic{演習問題}
+\begin{enumerate}[label=\arabic*.]
+  \item 公平なサイコロを独立に2回投げる試行の離散確率空間 $(\Omega,\F,P)$ を構成し、
+  出た目の合計が3となる確率を求めよ。
+  \item $(\Omega,\F,P)$ を確率空間とする。任意の $A,B\in\F$ に対して、
+  $A\cap B\in\F$ および $P(A\cup B)=P(A)+P(B)-P(A\cap B)$ を示せよ。
+\end{enumerate}
+
+\topic{レポート問題}
+\begin{enumerate}[label=\arabic*.]
+  \item 晴れの確率が30\%、くもりが50\%、雨が20\%となる確率空間を構成せよ。（ただし$\mathbb P$を具体的に構成する必要はなく、$p_{\omega}$のみでよい）
+  \item 一般の確率空間で、確率を測れる集合を $\F$ に制限する理由を説明せよ。
+  \item 第2問と関連して、自然に求める性質を保つために $\F$をすべての$\Omega$の部分集合 とできない例を一つ挙げ、
+  どの性質が両立しないのか述べよ。
+\end{enumerate}
+\keybox{レポート問題の第2,3問はAIと相談してもよいが、その場合はどのような議論をしたかも書くこと。ただし、内容を自分で理解したうえで、
+自分の言葉で説明すること。}
+
+\newpage
+\begingroup
+\fontsize{10pt}{13.5pt}\selectfont
+\setlength{\parskip}{2.5pt}
+\setlength{\abovedisplayskip}{4pt}
+\setlength{\belowdisplayskip}{4pt}
+\newcommand{\columnheading}[1]{\par\vspace{5pt}
+  {\fontsize{11pt}{15pt}\selectfont\sffamily\mdseries\color{accent}#1}\par\vspace{2pt}}
+\newcommand{\columncontinuation}{%
+  {\small\sffamily\mdseries\color{accent}コラム（続き）}\par
+  \vspace{3pt}
+  {\color{accent}\rule{\linewidth}{0.7pt}}\par\vspace{3pt}}
+
+{\small\sffamily\mdseries\color{accent}発展的内容\quad }\par
+\vspace{4pt}
+{\Large\color{ink}確率は「数え上げ」から、「$\sigma$-加法族」へ}\par
+
+\vspace{2pt}
+{\color{accent}\rule{\linewidth}{0.7pt}}\par
+\vspace{4pt}
+
+大学の確率論で最初に触れるのは、面積（あるいは長さ・体積）で確率をとらえる考え方である。事象を集合として描けば、面積が大きいほど「起こりやすい」と感じられる。学びを進めると、次に立ちはだかる壁は、なぜ確率空間に $\sigma$ 加法族が現れるのかという点である。その道筋をざっくり説明する。\par
+
+\columnheading{等確率の原理：数え上げから始まる}
+中学で扱う確率は数え上げから始まる。より正確には、事象 $A$ の確率は\par
+
+\begin{equation*}
+\mathbb P(A)=\frac{\text{Aの数}}{\text{全体の数}}\tag{★}
+\end{equation*}
+
+で与えられる。結局のところ、全体の数と $A$ の数を数える作業に帰着する。例えば、表と裏が同確率 $1/2$ のコインを2回投げ、表の数がちょうど1回になる確率では、全体 $4$ 通り、該当が $2$ 通りとなり、確率は $2/4=1/2$ になる。\par
+
+{\small\color{muted} 公式（★）は、各「単事象」が同じ確率で現れるという等確率の原理を前提にしている点を押さえておきたい。}\par
+
+\columnheading{非等確率への拡張：足し合わせに移る}
+単事象の起こりやすさが異なる場合、確率は構成する単事象の確率を足し合わせて求めることになる。例えば、表の確率が $1/4$、裏が $3/4$ のコインを2回投げ、表がちょうど1回となる確率は次のように求める:\par
+
+$$ \mathbb P(\text{表裏})=\tfrac{1}{4}\cdot\tfrac{3}{4}=\tfrac{3}{16},\quad \mathbb P(\text{裏表})=\tfrac{3}{4}\cdot\tfrac{1}{4}=\tfrac{3}{16}, $$ $$\Rightarrow\ \mathbb P(\text{表がちょうど1回})=\tfrac{3}{16}+\tfrac{3}{16}=\tfrac{3}{8}. $$
+
+先の公式（★）は、単事象がすべて $1/(\text{全体の数})$ の確率で現れるという仮定のもとでの特別な姿にすぎない。非等確率では「数え上げ」から「足し合わせ」に概念を拡張している。\par
+
+\columnheading{無限集合の壁：「数え上げ」をそのままには使えない}
+上の定義を実数のような（非可算）無限集合の世界へ、概念を広げたくなるのは自然である。たとえば $[0,1]$ から一様に点を選ぶ操作を、数学的にきちんと表したくなる。しかし全体が非可算になると、素朴な足し算は行き詰まる。実際次のような定理が成り立つ:\par
+
+\keybox{
+\examplelabel{定理}\par
+正値列 $(a_i)_{i\in I}$ が $$ \sup_{F\subset I\ \text{有限}}\sum_{i\in F} a_i < \infty $$ を満たすなら、$I$ は可算である。\par
+
+{\small\color{muted} したがって $\sum_{i\in \Omega} p_i = 1$ を仮定した瞬間に、$\{i:\,p_i>0\}$ は可算になり、非可算な「全体」を単純な重み付きの和で考えることは不可能となる。}\par
+}
+
+\newpage
+\columncontinuation
+
+\columnheading{コルモゴロフの視点：和から積分へ}
+非可算な全体の上で確率を考えるときに重要になるのは、和 $\sum$ を積分 $\int$ に置き換えるという考え方である。たとえば $[0,1]$ 上で一様に点をとるモデルを考えると、区間 $[a,b]$ にその点が含まれる確率は長さ $|b-a|$ と定めるのが自然である。このとき $$ |b-a| = \int_{0}^{1} \mathrm{1}\{x \in [a,b]\}\, dx $$ のように、確率が指示関数の積分として表現される。ここで $\mathrm{1}\{A\}$ は事象 $A$ が起これば $1$、そうでなければ $0$ を返す関数である。この発想を一般化し、確率論に統一的な枠組みを与えたのがコルモゴロフである。コルモゴロフは、さらに可算と非可算を同時に扱うため、ルベーグ測度論を採用するに至った。たとえば\par
+
+$$ P(A)=\tfrac{1}{2}\,\mathrm{1}_{\{0\in A\}}+\tfrac{1}{2}\,\lambda(A\cap[0,1]) $$
+
+のように、点 $0$ の原子と $[0,1]$ 上の一様分布（ルベーグ測度 $\lambda$）を組み合わせた確率を素直に定義できる。鍵は、面積をあらゆる集合で測ろうとせず、性質の良い集合族（ボレル可測集合）に対象を絞ることである。\par
+
+\columnheading{なぜ一般の $\sigma$ 加法族か：情報という見方}
+確率論では「情報」という視点が重要になる。たとえば毎日の天気を考えると、今日までの天気は知っているが、明日以降はまだ知らないと捉えるのが自然だ。このとき、今日までの天気で条件づけたときの、明日の天気が晴れである確率を計算するといった問題が考えられる。つまり、今日までに得た「情報」をどのような数学的対象として記述するかが課題になる。\par
+
+コルモゴロフの革新的なアイデアは、情報を $\sigma$ 加法族で表すという発想にある。より具体的には、ある時刻$t$で知ることのできる事象の集まりを、その時刻の $\sigma$ 加法族 $\mathcal F_t$ に対応させる。\par
+
+例としてコイン投げを二回行うモデル（時刻 $1$ に一回目、時刻 $2$ に二回目）を考える。標本空間は\par
+
+$$ \Omega=\{(H,H),(H,T),(T,H),(T,T)\} $$
+
+とおく。時刻 $0$ では何も観測していないので、情報は自明な\par
+
+$$ \mathcal F_0=\{\emptyset,\Omega\} $$
+
+になる。時刻 $1$ では一回目の結果だけが分かる。$A_H=\{(H,H),(H,T)\}$（一回目が表）、$A_T=\{(T,H),(T,T)\}$（一回目が裏）として、\par
+
+$$ \mathcal F_1=\{\emptyset,\Omega,A_H,A_T\} $$
+
+となる。これは「一回目の結果で区別できる事象の全体」を表す。時刻 $2$ になると二回分の結果がそろうため、情報は\par
+
+$$ \mathcal F_2=2^{\Omega}=\{A: A\subset \Omega\} $$
+
+に一致する。このようにして $ \mathcal F_0\subset \mathcal F_1\subset \mathcal F_2 $ という$\sigma$加法族の列が得られ、時間とともに情報が増えていくという直観に沿っている。\par
+
+\columnheading{まとめ}
+短い期間で測度論の必要性を納得するのは難しいと思うが、慣れると自然に感じてくると思う。情報に関するより詳しい説明は条件付き確率の際にすることにする。\par
+
+{\small\color{muted} 注）本文中の $\lambda$ はルベーグ測度。定義域はボレル可測集合族。}\par
+
+\endgroup
+\end{document}

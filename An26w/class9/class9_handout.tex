@@ -1,0 +1,131 @@
+% Build in this directory: pdflatex -interaction=nonstopmode -halt-on-error class9_handout.tex
+\documentclass[a4paper,10pt,pdflatex,ja=standard,jafont=ipaex-type1,
+  magstyle=real,scale=1]{bxjsarticle}
+\usepackage{lmodern}
+\usepackage{amsmath,amssymb,mathtools}
+\usepackage{geometry}
+\geometry{reset,left=22mm,right=22mm,top=20mm,bottom=17mm,
+  headheight=13pt,headsep=6mm,footskip=10mm}
+\usepackage{xcolor}
+\usepackage{enumitem}
+\usepackage{array,booktabs,tabularx}
+\usepackage{fancyhdr}
+
+\definecolor{ink}{HTML}{193A5C}
+\definecolor{accent}{HTML}{237D82}
+\definecolor{soft}{HTML}{EAF3F3}
+\definecolor{muted}{HTML}{52616B}
+\newcommand{\coursename}{解析学 II}
+\newcommand{\handoutnumber}{9}
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\small\color{ink}\coursename{}・授業要約と演習}
+\fancyhead[R]{\small\color{ink}第\handoutnumber 回}
+\fancyfoot[C]{\small\color{ink}\thepage/2}
+\renewcommand{\headrulewidth}{0.3pt}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{2pt}
+\setlength{\abovedisplayskip}{5pt}
+\setlength{\belowdisplayskip}{5pt}
+\setlength{\abovedisplayshortskip}{3pt}
+\setlength{\belowdisplayshortskip}{4pt}
+\setlist[itemize]{leftmargin=1.8em,itemsep=1pt,topsep=2pt,parsep=0pt}
+
+\newcommand{\handouttitle}[1]{%
+  \begin{center}
+    {\Large\color{ink}#1}\par\vspace{3mm}
+    {\color{accent}\rule{0.88\linewidth}{0.7pt}}
+  \end{center}\vspace{-2mm}}
+\newcommand{\handout}[2]{%
+  \renewcommand{\handoutnumber}{#1}%
+  \handouttitle{第#1回\quad #2}}
+\newcommand{\topic}[1]{\par\vspace{5pt}%
+  {\large\sffamily\mdseries\color{accent}#1}\par\vspace{2pt}}
+\newcommand{\keybox}[1]{\par\vspace{3pt}\begingroup
+  \setlength{\fboxsep}{4pt}%
+  \colorbox{soft}{\parbox{\dimexpr\linewidth-2\fboxsep\relax}{\small #1}}%
+  \endgroup\par\vspace{2pt}}
+\newenvironment{problems}
+  {\begin{enumerate}[leftmargin=2em,itemsep=3pt,topsep=3pt,parsep=0pt,
+    font=\color{accent}]}
+  {\end{enumerate}}
+
+
+\newcommand{\examplelabel}[1]{{\sffamily\mdseries\color{ink}#1}}
+\newcommand{\answerroom}{\par\vspace{16mm}}
+
+\begin{document}
+\fontsize{10pt}{13.5pt}\selectfont
+\setlength{\abovedisplayskip}{4pt}
+\setlength{\belowdisplayskip}{4pt}
+\handout{9}{空間内の曲面と曲面積}
+\topic{外積と平行四辺形の面積}
+$\vec a=(a_1,a_2,a_3)$、$\vec b=(b_1,b_2,b_3)$ に対し
+$$
+ \vec a\times\vec b=
+ (a_2b_3-a_3b_2,\ a_3b_1-a_1b_3,\ a_1b_2-a_2b_1).
+$$
+外積は両方のベクトルに直交し、順序を逆にすると符号が変わる。
+$$
+ |\vec a\times\vec b|^2=|\vec a|^2|\vec b|^2-(\vec a\cdot\vec b)^2,
+ \qquad
+ \operatorname{Area}(\text{平行四辺形})=|\vec a\times\vec b|.
+$$
+三角形の面積は、この半分である。
+
+\topic{グラフで与えられる曲面}
+有界な積分可能領域 $D$ の近傍で $f$ が $C^1$ 級とする。
+曲面を $S=\{(x,y,f(x,y)):(x,y)\in D\}$ と表すと、接ベクトルは
+$$
+ \vec r_x=(1,0,f_x),\qquad \vec r_y=(0,1,f_y),\qquad
+ \vec r_x\times\vec r_y=(-f_x,-f_y,1).
+$$
+微小領域の像を接平面上の平行四辺形で近似すると
+$$
+ dS=\sqrt{1+f_x^2+f_y^2}\,dx\,dy,\qquad
+ \operatorname{Area}(S)=\iint_D\sqrt{1+f_x^2+f_y^2}\,dx\,dy.
+$$
+曲面の面積は、$xy$ 平面への投影面積に局所的な傾きの効果を掛けたものになる。
+
+\topic{リーマン和による面積要素の見方}
+辺の差を $(\Delta x,0,\delta_x f)$、$(0,\Delta y,\delta_y f)$ と近似すると
+$$
+ \Delta S\approx\Delta x\Delta y
+ \sqrt{1+\left(\frac{\delta_xf}{\Delta x}\right)^2
+          +\left(\frac{\delta_yf}{\Delta y}\right)^2}.
+$$
+細分極限で差商が偏微分に近づき、上の曲面積公式になる。
+特に $dS\ge dx\,dy$ なので、グラフの面積は投影面積以上である。
+
+\topic{例：平面と放物面}
+平面 $z=ax+by+c$ の $D$ 上の部分では
+$$
+ \operatorname{Area}(S)=\sqrt{1+a^2+b^2}\,\operatorname{Area}(D).
+$$
+放物面 $z=x^2+y^2$、$x^2+y^2\le R^2$（$R>0$）では
+$$
+ \begin{aligned}
+ \operatorname{Area}(S)
+ &=\int_0^{2\pi}\int_0^R\sqrt{1+4r^2}\,r\,dr\,d\theta\\
+ &=\frac\pi6\left((1+4R^2)^{3/2}-1\right).
+ \end{aligned}
+$$
+
+\topic{滑らかでない点と表示の選び方}
+折れ目のあるグラフは、滑らかな部分に分けて面積を足す。
+面積0の境界線は積分値に影響しない。
+球面など1枚のグラフで表せない曲面は、複数の部分に分けるか媒介変数表示を用いる。
+\keybox{曲面積を計算する前に、偏微分と投影領域を確認する。$dx\,dy$ と $dS$ を取り違えない。}
+
+\newpage
+\handouttitle{第9回\quad 演習問題}
+計算過程を記し、必要な条件・積分領域・向きを明示すること。
+\begin{problems}
+\item $\vec a=(1,0,1)$、$\vec b=(0,1,1)$ の外積を求め、両者が張る平行四辺形と三角形の面積を求めよ。\answerroom
+\item $z=2x-y$、$(x,y)\in[0,1]\times[0,2]$ で表される曲面の面積を求めよ。\answerroom
+\item $z=x^2+y^2$、$x^2+y^2\le1$ で表される曲面の面積を、極座標を用いて求めよ。\answerroom
+\item $z=xy$、$(x,y)\in[0,1]^2$ の曲面積を重積分で表せ。さらに、その面積が1以上 $\sqrt3$ 以下であることを示せ。\answerroom
+\item $z=|x+y|$、$(x,y)\in[-1,1]^2$ の面積を、領域を分割して求めよ。折れ目があることをどう扱ったか述べよ。\answerroom
+\item 半径 $R>0$ の上半球を $z=\sqrt{R^2-x^2-y^2}$ と表す。まず $x^2+y^2\le b^2$（$0<b<R$）の部分の面積を求め、$b\uparrow R$ の極限で上半球の面積を求めよ。\answerroom
+\end{problems}
+\end{document}

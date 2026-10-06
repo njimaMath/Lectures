@@ -1,0 +1,47 @@
+1. 曲面の媒介変数表示の向き
+
+曲面の集合Sに対し、媒介変数表示$r:D \to S$が与えられたとする. 
+
+S上の点$r(u,v)$の単位法線ベクトルを$n(u,v)$とすると, 二つの向きを取りうる。この時、次のようにして、向きを指定する
+
+指定1: 曲面がある立体を囲む場合、立体に対して内向きか外向きか
+指定2: $z$軸に対して,  正の向きか負の向きか
+
+問題の出しかた: ある曲面(の集合)に対して, 法線ベクトルがz軸に対して正となるような媒介変数表示を求めよ
+
+注意: $r(-u,v)$とすると, 逆向きの法線ベクトルが得られる。ただし値域がSに一致しているかは注意が必要
+
+
+2. スカラー場の曲面積
+
+定義: D⊂R^2上の曲面r(u,v)=(x(u,v),y(u,v),z(u,v)), S上のスカラー場\phi: S→Rに対し、S上の\phiの曲面積を次で定義する。
+( \iint_S \phi dS = \iint_D \phi(r(u,v)) \left| \partial_u r \times \partial_v r \right| du dv )
+ここで、\partial_u r \times \partial_v rはrのu,vに関する偏微分ベクトルの外積である。
+
+注意: \phi(x,y,z)=1のとき、x=u,y=v, z=f(u,v)の時. S上の\phiの曲面積はSの面積になる。
+実際, \partial_u r \times \partial_v r = (-\partial_u f, -\partial_v f, 1)となり、
+( \iint_S 1 dS = \iint_D \sqrt{(\partial_u f)^2 + (\partial_v f)^2 + 1} du dv )
+
+例: r(u,v)=(cos u cos v, cos u sin v, sin u) (0≤u≤π, 0≤v<2π)とする。\phi= 1, x^2 + y^2 + z^2のとき、S上の\phiの曲面積を求めよ。
+解: \partial_u r = (-sin u cos v, -sin u sin v, cos u), \quad \partial_v r = (-cos u sin v, cos u cos v, 0)より、
+( \partial_u r \times \partial_v r = (-cos^2 u cos v, -cos^2 u sin v, -sin u cos u) )
+
+例2: r(u,v)=(u cos v, u sin v, v) (0≤u≤1, 0≤v<2π)とする。\phi= 1, zのとき、S上の\phiの曲面積を求めよ。
+解: \partial_u r = (cos v, sin v, 0), \quad \partial_v r = (-u sin v, u cos v, 1)より、
+( \partial_u r \times \partial_v r = (sin v, -cos v, u) )   
+
+3. ベクトル場の曲面積分
+定義: D⊂R^2上の曲面r(u,v)=(x(u,v),y(u,v),z(u,v)), S上のベクトル場F: S→R^3に対し、S上のFの曲面積分を次で定義する。
+( \iint_S F \cdot dS = \iint_D F(r(u,v)) \cdot (\partial_u r \times \partial_v r) du dv )
+
+注意: F(x,y,z)=(P(x,y,z), Q(x,y,z), R(x,y,z))のとき、
+( \iint_S F \cdot dS = \iint_D \begin{vmatrix} P(r(u,v)) & Q(r(u,v)) & R(r(u,v)) \\ \partial_u x & \partial_u y & \partial_u z \\ \partial_v x & \partial_v y & \partial_v z \end{vmatrix} du dv )     
+
+例: r(u,v)=(cos u cos v, cos u sin v, sin u) (0≤u≤π, 0≤v<2π)とする。F(x,y,z)=(x,y,z)のとき、S上のFの曲面積分を求めよ。
+
+解: \partial_u r = (-sin u cos v, -sin u sin v, cos u), \quad \partial_v r = (-cos u sin v, cos u cos v, 0)より、
+( \partial_u r \times \partial_v r = (-cos^2 u cos v, -cos^2 u sin v, -sin u cos u) )   
+例2: r(u,v)=(u cos v, u sin v, v) (0≤u≤1, 0≤v<2π)とする。F(x,y,z)=(x,0,0), (0,0,z)のとき、S上のFの曲面積分を求めよ。
+解: \partial_u r = (cos v, sin v, 0), \quad \partial_v r = (-u sin v, u cos v, 1)より、
+( \partial_u r \times \partial_v r = (sin v, -cos v, u) )   
+

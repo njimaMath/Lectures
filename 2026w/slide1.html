@@ -3,34 +3,40 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="darkreader-lock">
 <title>数学の危機 ！？</title>
 <style>
 :root{
-  --bg:#101321; --panel:#1b2033; --ink:#f5f4ee;
-  --muted:#b4bbcf; --cyan:#72e5dc; --orange:#ffb16d;
-  --pink:#ff7895; --line:#343b54;
+  color-scheme:light;
+  --bg:#f6f3ec; --panel:#fffcf7; --ink:#203044;
+  --muted:#5d6774; --cyan:#146b67; --orange:#a44e2c;
+  --pink:#97566f; --line:#d8d8cd; --stage:#e5e4dd;
+  --accent-soft:#e8f1ec; --accent-line:#a2c5bc;
+  --warm-soft:#f6ece2; --warm-line:#d7b196;
+  --warning:#ae3736; --blue:#2463a0;
 }
 *{box-sizing:border-box}
 body{
-  margin:0;background:#090b12;color:var(--ink);
+  margin:0;background:var(--stage);color:var(--ink);
   font-family:"Noto Sans JP","Hiragino Kaku Gothic ProN","Yu Gothic",sans-serif;
 }
 button,a{-webkit-tap-highlight-color:transparent}
 a{color:var(--cyan);text-underline-offset:4px}
-a:hover{color:white}
+a:hover{color:var(--orange)}
+a:focus-visible,button:focus-visible,input:focus-visible{
+  outline:2px solid var(--cyan);outline-offset:4px;
+}
 button{font:inherit}
 #viewport{height:100dvh;display:grid;place-items:center;overflow:hidden}
 #deck{
   width:1280px;height:720px;position:relative;flex-shrink:0;
   transform:scale(var(--scale,1));transform-origin:center;
-  background:var(--bg);box-shadow:0 20px 100px #0008;
+  background:var(--bg);box-shadow:0 16px 60px #2030441a;
 }
 .slide{
   position:absolute;inset:0;padding:42px 64px 70px;
   display:none;overflow:hidden;
-  background:
-    radial-gradient(ellipse at 100% 0%,#22434c35,transparent 50%),
-    var(--bg);
+  background:var(--bg);
 }
 .slide.active{display:flex;flex-direction:column}
 .topline{
@@ -68,14 +74,14 @@ em{font-style:normal;color:var(--orange)}
   background:var(--panel);border:1px solid var(--line);
   border-radius:20px;padding:26px;
 }
-.card.accent{border-color:var(--cyan)}
-.card.warn{border-color:#ffb16d80}
+.card.accent{background:var(--accent-soft);border-color:var(--accent-line)}
+.card.warn{background:var(--warm-soft);border-color:var(--warm-line)}
 .tag{
   display:inline-block;padding:5px 11px;border:1px solid var(--line);
   border-radius:100px;font-size:15px;color:var(--muted);
 }
-.tag.good{color:var(--cyan);border-color:#72e5dc70}
-.tag.hot{color:var(--orange);border-color:#ffb16d70}
+.tag.good{color:var(--cyan);background:var(--accent-soft);border-color:var(--accent-line)}
+.tag.hot{color:var(--orange);background:var(--warm-soft);border-color:var(--warm-line)}
 .big{font-size:58px;line-height:1.35;font-weight:800}
 .massive{font-size:94px;font-weight:850;line-height:1.15}
 .takeaway{
@@ -87,19 +93,21 @@ em{font-style:normal;color:var(--orange)}
   font-size:12px;line-height:1.5;color:var(--muted);
 }
 .sources a{color:var(--muted);margin-right:12px}
+.sources a:hover{color:var(--orange)}
 .page{position:absolute;bottom:24px;right:64px;color:var(--muted);font-size:15px}
 .notes{display:none}
 #controls{
   position:fixed;bottom:10px;left:50%;transform:translateX(-50%);
   display:flex;gap:8px;align-items:center;z-index:15;
-  opacity:.7;transition:opacity .2s;
+  opacity:.9;transition:opacity .2s;
 }
 #controls:hover,#controls:focus-within{opacity:1}
 #controls button,#counter{
-  background:#252b3f;color:#eee;border:1px solid #555e75;
+  background:var(--panel);color:var(--ink);border:1px solid var(--line);
   border-radius:8px;padding:6px 12px;font-size:13px;
 }
 #controls button{cursor:pointer}
+#controls button:hover:not(:disabled){background:var(--accent-soft);border-color:var(--cyan)}
 #controls button:disabled{opacity:.35;cursor:default}
 #progress{position:absolute;bottom:0;left:0;height:4px;background:var(--cyan);transition:width .25s}
 .figure{margin:0}
@@ -153,7 +161,7 @@ em{font-style:normal;color:var(--orange)}
 .problem p{font-size:17px;color:var(--muted)}
 .problem.feature{border-color:var(--orange)}
 .problem.prize{
-  background:#72e5dc12;border-color:#72e5dc66;
+  background:var(--accent-soft);border-color:var(--accent-line);
   display:flex;flex-direction:column;justify-content:center;text-align:center;
 }
 .num{font-size:52px;font-weight:850;color:var(--cyan);margin-bottom:16px}
@@ -161,7 +169,7 @@ em{font-style:normal;color:var(--orange)}
   font-family:"Cambria Math","Times New Roman",serif;
   font-size:36px;text-align:center;line-height:1.6;
   border:1px solid var(--line);border-radius:18px;padding:20px 12px;
-  background:#1b2033;
+  background:var(--panel);
 }
 .equation sub{font-size:.6em}
 .math{font-family:"Cambria Math","Times New Roman",serif}
@@ -197,8 +205,8 @@ code{font-family:Consolas,"SFMono-Regular",monospace}
 .balance{border-top:1px solid var(--line);padding-top:20px;margin-top:22px}
 #imageFallback{
   height:216px;display:none;place-items:center;border-radius:14px;
-  background:linear-gradient(135deg,#164c80,#563150);
-  color:white;font-size:34px;font-weight:800;text-align:center;
+  background:var(--accent-soft);
+  color:var(--cyan);font-size:34px;font-weight:800;text-align:center;
 }
 .ns-sim-layout{display:grid;grid-template-columns:480px 1fr;gap:30px;min-height:0;flex:1}
 .ns-sim-canvas{
@@ -208,10 +216,10 @@ code{font-family:Consolas,"SFMono-Regular",monospace}
 .ns-sim-side{display:flex;flex-direction:column;gap:16px;min-width:0}
 .ns-sim-controls{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
 .ns-sim-controls button{
-  cursor:pointer;color:var(--ink);background:var(--panel);border:1px solid #555e75;
+  cursor:pointer;color:var(--ink);background:var(--panel);border:1px solid var(--line);
   border-radius:9px;padding:8px 13px;
 }
-.ns-sim-controls button:hover{border-color:var(--cyan)}
+.ns-sim-controls button:hover{background:var(--accent-soft);border-color:var(--cyan)}
 .ns-sim-controls label{font-size:18px;color:var(--muted);flex-basis:100%}
 .ns-sim-controls input{width:225px;accent-color:var(--orange);vertical-align:middle}
 .ns-sim-status{
@@ -219,10 +227,10 @@ code{font-family:Consolas,"SFMono-Regular",monospace}
   font:16px/1.55 Consolas,"SFMono-Regular",monospace;
   background:var(--panel);border:1px solid var(--line);border-radius:14px;
 }
-.ns-sim-warning{color:#ff6767}
+.ns-sim-warning{color:var(--warning)}
 .ns-sim-legend{font-size:17px;color:var(--muted)}
 .ns-sim-positive{color:var(--orange)}
-.ns-sim-negative{color:#64c8ff}
+.ns-sim-negative{color:var(--blue)}
 .blowup-caption{font-size:22px;line-height:1.5}
 .ns-sim-warning-card p{font-size:24px;line-height:1.45}
 .resource-question{font-size:24px;line-height:1.5}
@@ -269,7 +277,8 @@ code{font-family:Consolas,"SFMono-Regular",monospace}
 
 <!-- 1 -->
 <section class="slide active cover-slide" aria-label="数学の危機">
-  <div class="topline"><span>理工学系１年生・後期</span><span>2026.09.13 時点</span></div>
+
+  <div aria-hidden="true" style="height:48px;flex-shrink:0"></div>
   <div class="cover-layout">
     <div>
       <h1>数学の<span style="color:var(--orange)">危機?</span></h1>
@@ -345,7 +354,6 @@ code{font-family:Consolas,"SFMono-Regular",monospace}
   </div>
   <div class="takeaway">そして、<strong>AIも証明する時代に。</strong></div>
   <div class="sources">
-    年代は概略・横軸は等間隔ではない。
     <a href="https://www.perseus.tufts.edu/hopper/text?doc=Perseus%3Atext%3A1999.01.0086%3Avolume%3D1" target="_blank" rel="noopener">Euclid</a>
     <a href="https://galileo.ou.edu/exhibits/mathematical-principles-natural-philosophy-1687.html" target="_blank" rel="noopener">Newton, 1687</a>
     <a href="https://www.claymath.org/millennium-problems/" target="_blank" rel="noopener">Hilbert / Clay</a>
@@ -371,13 +379,12 @@ code{font-family:Consolas,"SFMono-Regular",monospace}
     <div class="card problem"><h3>ヤン–ミルズ理論<br>と質量ギャップ</h3><p>量子の場を、数学として厳密に定式化する。</p></div>
     <div class="card problem feature"><h3>ナビエ–ストークス<br>存在と滑らかさ</h3><p>流れの式は破綻する？<br><em>2026年、解決報告</em></p></div>
     <div class="card problem accent"><h3>ポアンカレ予想</h3><p>球の特徴づけ。<br><strong>解決済み</strong></p></div>
-    <div class="card problem prize"><span class="small">１問につき</span><span style="font-size:39px;font-weight:800">$1,000,000</span><span class="tiny muted">賞には評価手続きがある</span></div>
+    <div class="card problem prize"><span class="small">１問につき</span><span style="font-size:39px;font-weight:800">$1,000,000</span></div>
   </div>
   <div class="takeaway"><strong>新しい数学が生まれることを期待。</strong></div>
   <div class="sources">
     <a href="https://www.claymath.org/millennium-problems/" target="_blank" rel="noopener">Clay：７問題と賞金</a>
     <a href="https://www.claymath.org/news/navier-stokes-announcement/" target="_blank" rel="noopener">NSの状況：2026-09-11声明</a>
-    説明は初学者向けのイメージ。
   </div>
   <aside class="notes">
     「７つを全部理解する必要はありません。今日は形の問題と流れの問題の２つだけ」と安心させる。
@@ -397,23 +404,23 @@ code{font-family:Consolas,"SFMono-Regular",monospace}
   <h2>ポアンカレ予想</h2>
   <div class="grid2">
     <div class="card">
-      <h3>まず、２次元の表面でイメージ。</h3>
+      <h3>簡単な図形でイメージ。</h3>
       <svg viewBox="0 0 500 205" role="img" aria-label="球面では輪を縮められるが、ドーナツ面には縮められない輪がある">
         <defs>
           <radialGradient id="sphereG" cx=".35" cy=".25">
-            <stop offset="0" stop-color="#a6fff3"/>
-            <stop offset="1" stop-color="#277a82"/>
+            <stop offset="0" stop-color="#d5eee5"/>
+            <stop offset="1" stop-color="#70a99b"/>
           </radialGradient>
         </defs>
         <circle cx="125" cy="95" r="70" fill="url(#sphereG)"/>
-        <ellipse cx="125" cy="95" rx="66" ry="21" fill="none" stroke="#ffb16d" stroke-width="5"/>
-        <path d="M83 78 Q125 53 166 78" fill="none" stroke="#ffb16d" stroke-width="3" stroke-dasharray="5 5"/>
-        <circle cx="125" cy="54" r="5" fill="#ffb16d"/>
-        <ellipse cx="365" cy="95" rx="85" ry="60" fill="#86537d"/>
-        <ellipse cx="365" cy="95" rx="36" ry="23" fill="#1b2033"/>
-        <ellipse cx="365" cy="95" rx="47" ry="33" fill="none" stroke="#ffb16d" stroke-width="5"/>
-        <text x="125" y="193" text-anchor="middle" fill="#f5f4ee" font-size="19">輪を１点へ縮められる</text>
-        <text x="365" y="193" text-anchor="middle" fill="#f5f4ee" font-size="19">縮められない輪もある</text>
+        <ellipse cx="125" cy="95" rx="66" ry="21" fill="none" stroke="var(--orange)" stroke-width="5"/>
+        <path d="M83 78 Q125 53 166 78" fill="none" stroke="var(--orange)" stroke-width="3" stroke-dasharray="5 5"/>
+        <circle cx="125" cy="54" r="5" fill="var(--orange)"/>
+        <ellipse cx="365" cy="95" rx="85" ry="60" fill="#c7b4c0"/>
+        <ellipse cx="365" cy="95" rx="36" ry="23" fill="var(--panel)"/>
+        <ellipse cx="365" cy="95" rx="47" ry="33" fill="none" stroke="var(--orange)" stroke-width="5"/>
+        <text x="125" y="193" text-anchor="middle" fill="var(--ink)" font-size="19">輪を１点へ縮められる</text>
+        <text x="365" y="193" text-anchor="middle" fill="var(--ink)" font-size="19">縮められない輪もある</text>
       </svg>
       <p class="small muted">輪を切らず、表面から離さずに動かす。</p>
     </div>
@@ -427,7 +434,6 @@ code{font-family:Consolas,"SFMono-Regular",monospace}
   <div class="takeaway">問題: どんなひもも回収できる時、その空間は<strong>球に変形できる？ → Yes.</strong></div>
   <div class="sources">
     <a href="https://www.claymath.org/millennium/poincare-conjecture/" target="_blank" rel="noopener">Clay：ポアンカレ予想・ペレルマン</a>
-    上の図は２次元のたとえ。３次元球面は普通のボールの表面とは違う。
   </div>
   <aside class="notes">
     厳密には、閉じた単連結な３次元多様体は３次元球面S³と同相である、という定理。
@@ -460,20 +466,19 @@ code{font-family:Consolas,"SFMono-Regular",monospace}
     </div>
     <div class="card" style="padding:16px">
       <svg viewBox="0 0 430 213" role="img" aria-label="有限時刻Tに向かって最大速度が発散する概念図">
-        <path d="M55 20 V175 H392" fill="none" stroke="#b4bbcf" stroke-width="2"/>
-        <path d="M65 166 C145 161 207 153 252 130 S308 60 316 17" fill="none" stroke="#ffb16d" stroke-width="5"/>
-        <path d="M325 20 V175" stroke="#72e5dc" stroke-width="2" stroke-dasharray="6 5"/>
-        <text x="323" y="201" fill="#72e5dc" font-size="19">T</text>
-        <text x="365" y="201" fill="#b4bbcf" font-size="16">時刻</text>
-        <text x="70" y="25" fill="#b4bbcf" font-size="17">最大速度</text>
-        <text x="342" y="45" fill="#ffb16d" font-size="31">∞</text>
+        <path d="M55 20 V175 H392" fill="none" stroke="var(--muted)" stroke-width="2"/>
+        <path d="M65 166 C145 161 207 153 252 130 S308 60 316 17" fill="none" stroke="var(--orange)" stroke-width="5"/>
+        <path d="M325 20 V175" stroke="var(--cyan)" stroke-width="2" stroke-dasharray="6 5"/>
+        <text x="323" y="201" fill="var(--cyan)" font-size="19">T</text>
+        <text x="365" y="201" fill="var(--muted)" font-size="16">時刻</text>
+        <text x="70" y="25" fill="var(--muted)" font-size="17">最大速度</text>
+        <text x="342" y="45" fill="var(--orange)" font-size="31">∞</text>
       </svg>
       <p class="small center">「式がある」≠「ずっと解ける」</p>
     </div>
   </div>
   <div class="sources">
     <a href="https://www.claymath.org/library/monographs/MPPc.pdf" target="_blank" rel="noopener">Clay公式問題設定</a>
-    密度を１に規格化。初期速度の発散ゼロ、減衰・周期性、エネルギーなどの条件は省略。
   </div>
 </section>
 
@@ -486,7 +491,7 @@ code{font-family:Consolas,"SFMono-Regular",monospace}
       <canvas id="nsSimCanvas" class="ns-sim-canvas" width="128" height="128"
         aria-label="正負の渦度が時間発展する数値シミュレーション"></canvas>
       <p class="ns-sim-legend" style="margin-top:8px">
-        <span class="ns-sim-positive">赤・黄：正の渦度</span> / <span class="ns-sim-negative">青・水色：負の渦度</span>
+        <span class="ns-sim-positive">オレンジ：正の渦度</span> / <span class="ns-sim-negative">青：負の渦度</span>
       </p>
     </div>
     <div class="ns-sim-side">
@@ -644,14 +649,13 @@ code{font-family:Consolas,"SFMono-Regular",monospace}
   <div class="sources">
     <a href="https://www.claymath.org/millennium-problems/" target="_blank" rel="noopener">1900年の問題群・2000年の選定目的</a>
     <a href="https://www.claymath.org/news/navier-stokes-announcement/" target="_blank" rel="noopener">Clay：新しい構造・方法・人間の理解</a>
-    本スライドは議論のための問い。
-  </div>
+   </div>
 </section>
 
 <!-- 10 -->
 <section class="slide" aria-label="これからの数学研究">
-  <div class="topline"><span>03 / これからの数学研究の役割?</span><span>POSSIBLE FUTURES</span></div>
-  <h2>これからの数学者?</h2>
+  <div class="topline"><span>03 / これからの数学研究?</span><span>POSSIBLE FUTURES</span></div>
+  <h2>これからの数学研究?</h2>
   <div class="grid3" style="margin-top:12px">
     <div class="card">
       <div class="num">01</div><h3>新しい理論や問題をつくる</h3>
@@ -666,7 +670,7 @@ code{font-family:Consolas,"SFMono-Regular",monospace}
       <p class="small muted">ソフトウェアの仕様を証明する？（新しい分野）道具のひとつが <strong>Lean</strong>。</p>
     </div>
   </div>
-  <div class="takeaway">目標は変わらないが、やることは急激に変わる。<br><span class="value-conclusion muted">今後もおなじ価値を保ち続けられるかは、数学者次第。</span></div>
+  <div class="takeaway">目標は変わらないが、やることは急激に変わる。</div>
   <div class="sources">
     <a href="https://www.claymath.org/news/navier-stokes-announcement/" target="_blank" rel="noopener">参考：Clayが強調する人間の数学的理解</a>
   </div>
@@ -745,26 +749,24 @@ code{font-family:Consolas,"SFMono-Regular",monospace}
 <!-- 14 -->
 <section class="slide" aria-label="科学への影響">
   <div class="topline"><span>03 / これからの科学</span><span>SCIENCE × AI</span></div>
-  <h2>AIが変える、科学や仕事のあり方</h2>
+  <h2>これからの科学や仕事のあり方</h2>
 <br>
   <div class="grid3">
     <div class="card accent" style="min-height:278px">
       <div class="num">01</div>
-      <h3>研究ループが速くなる</h3>
-      <p class="small muted">仮説 → 実験 → 評価を、AIと何度も回せる。</p>
+      <h3>開発ループが速くなる</h3>
+      <p class="small muted">仮説 → 実験 → 評価を自動で回す。</p>
       <div class="balance"><p class="small"><strong>例:</strong> ロボット、薬</p></div>
     </div>
     <div class="card" style="min-height:278px">
       <div class="num">02</div>
-      <h3>数学が研究の武器になる</h3>
-      <p class="small muted">AIの提案を理解し、検証し、次の実験へつなげる。</p>
-      <div class="balance"><p class="small"><strong>鍵:</strong> 数学・証明支援を使いこなす力</p></div>
-    </div>
+      <h3>数学やプログラミングが研究の武器になる</h3>
+      <p class="small muted">数学やプログラミングの価値が下がるのでうまく使いこなすことが重要。</p>
+      </div>
     <div class="card warn" style="min-height:278px">
       <div class="num">03</div>
       <h3>AIを使いこなせるかが大事</h3>
-      <p class="small muted">賢いAIや計算資源を、どう使うか。</p>
-      <div class="balance"><p class="small"><em>問い:</em> 大企業が有利になる？</p></div>
+      <p class="small muted">AIをどう使うか。</p>
     </div>
   </div>
 </section>

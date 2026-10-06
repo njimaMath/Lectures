@@ -1,0 +1,126 @@
+% Build in this directory: pdflatex -interaction=nonstopmode -halt-on-error class10_handout.tex
+\documentclass[a4paper,10pt,pdflatex,ja=standard,jafont=ipaex-type1,
+  magstyle=real,scale=1]{bxjsarticle}
+\usepackage{lmodern}
+\usepackage{amsmath,amssymb,mathtools}
+\usepackage{geometry}
+\geometry{reset,left=22mm,right=22mm,top=20mm,bottom=17mm,
+  headheight=13pt,headsep=6mm,footskip=10mm}
+\usepackage{xcolor}
+\usepackage{enumitem}
+\usepackage{array,booktabs,tabularx}
+\usepackage{fancyhdr}
+
+\definecolor{ink}{HTML}{193A5C}
+\definecolor{accent}{HTML}{237D82}
+\definecolor{soft}{HTML}{EAF3F3}
+\definecolor{muted}{HTML}{52616B}
+\newcommand{\coursename}{解析学 II}
+\newcommand{\handoutnumber}{10}
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\small\color{ink}\coursename{}・授業要約と演習}
+\fancyhead[R]{\small\color{ink}第\handoutnumber 回}
+\fancyfoot[C]{\small\color{ink}\thepage/2}
+\renewcommand{\headrulewidth}{0.3pt}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{2pt}
+\setlength{\abovedisplayskip}{5pt}
+\setlength{\belowdisplayskip}{5pt}
+\setlength{\abovedisplayshortskip}{3pt}
+\setlength{\belowdisplayshortskip}{4pt}
+\setlist[itemize]{leftmargin=1.8em,itemsep=1pt,topsep=2pt,parsep=0pt}
+
+\newcommand{\handouttitle}[1]{%
+  \begin{center}
+    {\Large\color{ink}#1}\par\vspace{3mm}
+    {\color{accent}\rule{0.88\linewidth}{0.7pt}}
+  \end{center}\vspace{-2mm}}
+\newcommand{\handout}[2]{%
+  \renewcommand{\handoutnumber}{#1}%
+  \handouttitle{第#1回\quad #2}}
+\newcommand{\topic}[1]{\par\vspace{5pt}%
+  {\large\sffamily\mdseries\color{accent}#1}\par\vspace{2pt}}
+\newcommand{\keybox}[1]{\par\vspace{3pt}\begingroup
+  \setlength{\fboxsep}{4pt}%
+  \colorbox{soft}{\parbox{\dimexpr\linewidth-2\fboxsep\relax}{\small #1}}%
+  \endgroup\par\vspace{2pt}}
+\newenvironment{problems}
+  {\begin{enumerate}[leftmargin=2em,itemsep=3pt,topsep=3pt,parsep=0pt,
+    font=\color{accent}]}
+  {\end{enumerate}}
+
+
+\newcommand{\examplelabel}[1]{{\sffamily\mdseries\color{ink}#1}}
+\newcommand{\answerroom}{\par\vspace{16mm}}
+
+\begin{document}
+\fontsize{10pt}{13.5pt}\selectfont
+\setlength{\abovedisplayskip}{4pt}
+\setlength{\belowdisplayskip}{4pt}
+\handout{10}{スカラー場とベクトル場}
+\topic{場と微分演算子}
+開集合 $U\subset\mathbb R^3$ 上の関数 $f:U\to\mathbb R$ をスカラー場、
+$\vec F=(P,Q,R):U\to\mathbb R^3$ をベクトル場という。
+以下、成分は $C^1$ 級とする。温度・密度はスカラー場、速度・力はベクトル場の例である。
+
+\topic{勾配：スカラー場からベクトル場へ}
+$$
+ \nabla f=(f_x,f_y,f_z),\qquad
+ D_{\vec u}f=\nabla f\cdot\vec u\quad(|\vec u|=1).
+$$
+方向微分の最大値は $|\nabla f|$。$\nabla f\ne0$ なら、最大になる方向は
+$\vec u=\nabla f/|\nabla f|$ である。等位面 $f=c$ の正則点では $\nabla f$ は法線になる。
+曲線 $\vec r(t)$ に沿う変化率は連鎖律により
+$$
+ \frac d{dt}f(\vec r(t))=\nabla f(\vec r(t))\cdot\vec r'(t).
+$$
+
+\topic{発散と回転}
+発散はスカラー場、回転はベクトル場を与える。
+$$
+ \operatorname{div}\vec F=\nabla\cdot\vec F=P_x+Q_y+R_z,
+$$
+$$
+ \operatorname{curl}\vec F=\nabla\times\vec F
+ =(R_y-Q_z,\ P_z-R_x,\ Q_x-P_y).
+$$
+速度場の発散は局所的な湧き出し・吸い込み、回転は局所的な渦の向きと強さを表す。
+\par\examplelabel{例：$\vec F=(-y,x,0)$。}
+$$
+ \operatorname{div}\vec F=0,\qquad
+ \operatorname{curl}\vec F=(0,0,2).
+$$
+発散が0でも、回転が0とは限らない。
+
+\topic{ポテンシャルと恒等式}
+$\vec F=\nabla\phi$ と書けるとき、$\phi$ をスカラーポテンシャルという。
+$C^2$ 級の $\phi$、$\vec A$ について、混合偏微分の交換から
+$$
+ \nabla\times(\nabla\phi)=\vec0,\qquad
+ \nabla\cdot(\nabla\times\vec A)=0.
+$$
+$\vec F=\nabla\times\vec A$ と書けるとき、$\vec A$ はベクトルポテンシャルである。
+星形の開集合上では、$C^1$ 級の $\vec F$ に対する $\operatorname{curl}\vec F=\vec0$ は
+スカラーポテンシャルの存在を導く。領域に穴がある場合は、この条件だけでは十分でない。
+
+\topic{例：ポテンシャルを成分から求める}
+$\vec F=(2xy,x^2,0)$ に対して $\phi_x=2xy$ を積分すると
+$\phi=x^2y+h(y,z)$。残りの成分から $h_y=h_z=0$ なので
+$$
+ \phi=x^2y+C,\qquad \nabla\phi=(2xy,x^2,0).
+$$
+\keybox{勾配・発散・回転の入力と出力を確認する。ポテンシャルの存在を判断するときは、場の微分だけでなく領域の条件も調べる。}
+
+\newpage
+\handouttitle{第10回\quad 演習問題}
+計算過程を記し、必要な条件・積分領域・向きを明示すること。
+\begin{problems}
+\item $f=x^2+2y^2+3z^2$ の勾配を求めよ。点 $(1,1,1)$ における最大の方向微分と、その方向の単位ベクトルを求めよ。\answerroom
+\item $\vec F=(xy,yz,zx)$ の発散と回転を計算し、それぞれがスカラーかベクトルかを確認せよ。\answerroom
+\item $\vec F=(yz,xz,xy)$ の発散・回転を求め、スカラーポテンシャルを一つ求めよ。\answerroom
+\item $f=x^2-y^2+z^2$ の $\nabla f=\vec0$ となる点を求めよ。その点が極大・極小か、座標軸上での関数値を比較して判断せよ。\answerroom
+\item $C^2$ 級の $f$ に対して $\nabla\times(\nabla f)=\vec0$ を、成分ごとに混合偏微分を用いて示せ。\answerroom
+\item $\vec F=(-y,x,0)$ のベクトルポテンシャルを、$\vec A=(0,0,h(x,y))$ の形で一つ求めよ。また、この $\vec F$ がスカラーポテンシャルをもたない理由を述べよ。\answerroom
+\end{problems}
+\end{document}

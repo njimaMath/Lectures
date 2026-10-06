@@ -1,0 +1,135 @@
+% Build in this directory: pdflatex -interaction=nonstopmode -halt-on-error class13_handout.tex
+\documentclass[a4paper,10pt,pdflatex,ja=standard,jafont=ipaex-type1,
+  magstyle=real,scale=1]{bxjsarticle}
+\usepackage{lmodern}
+\usepackage{amsmath,amssymb,mathtools}
+\usepackage{geometry}
+\geometry{reset,left=22mm,right=22mm,top=20mm,bottom=17mm,
+  headheight=13pt,headsep=6mm,footskip=10mm}
+\usepackage{xcolor}
+\usepackage{enumitem}
+\usepackage{array,booktabs,tabularx}
+\usepackage{fancyhdr}
+
+\definecolor{ink}{HTML}{193A5C}
+\definecolor{accent}{HTML}{237D82}
+\definecolor{soft}{HTML}{EAF3F3}
+\definecolor{muted}{HTML}{52616B}
+\newcommand{\coursename}{解析学 II}
+\newcommand{\handoutnumber}{13}
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\small\color{ink}\coursename{}・授業要約と演習}
+\fancyhead[R]{\small\color{ink}第\handoutnumber 回}
+\fancyfoot[C]{\small\color{ink}\thepage/2}
+\renewcommand{\headrulewidth}{0.3pt}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{2pt}
+\setlength{\abovedisplayskip}{5pt}
+\setlength{\belowdisplayskip}{5pt}
+\setlength{\abovedisplayshortskip}{3pt}
+\setlength{\belowdisplayshortskip}{4pt}
+\setlist[itemize]{leftmargin=1.8em,itemsep=1pt,topsep=2pt,parsep=0pt}
+
+\newcommand{\handouttitle}[1]{%
+  \begin{center}
+    {\Large\color{ink}#1}\par\vspace{3mm}
+    {\color{accent}\rule{0.88\linewidth}{0.7pt}}
+  \end{center}\vspace{-2mm}}
+\newcommand{\handout}[2]{%
+  \renewcommand{\handoutnumber}{#1}%
+  \handouttitle{第#1回\quad #2}}
+\newcommand{\topic}[1]{\par\vspace{5pt}%
+  {\large\sffamily\mdseries\color{accent}#1}\par\vspace{2pt}}
+\newcommand{\keybox}[1]{\par\vspace{3pt}\begingroup
+  \setlength{\fboxsep}{4pt}%
+  \colorbox{soft}{\parbox{\dimexpr\linewidth-2\fboxsep\relax}{\small #1}}%
+  \endgroup\par\vspace{2pt}}
+\newenvironment{problems}
+  {\begin{enumerate}[leftmargin=2em,itemsep=3pt,topsep=3pt,parsep=0pt,
+    font=\color{accent}]}
+  {\end{enumerate}}
+
+
+\newcommand{\examplelabel}[1]{{\sffamily\mdseries\color{ink}#1}}
+\newcommand{\answerroom}{\par\vspace{16mm}}
+
+\begin{document}
+\fontsize{10pt}{13.5pt}\selectfont
+\setlength{\abovedisplayskip}{4pt}
+\setlength{\belowdisplayskip}{4pt}
+\handout{13}{面積分とグリーンの定理}
+\topic{スカラー場の面積分とベクトル場の流束}
+$D$ を有界な積分可能領域、$\phi,\vec F$ を $S$ 上連続とする。
+正則な $C^1$ 級表示 $\vec r:D\to S$ は、内部で1対1とする。
+$\vec N=\vec r_u\times\vec r_v$、$\vec n=\vec N/|\vec N|$ とおけば
+$$
+ \iint_S\phi\,dS=\iint_D\phi(\vec r(u,v))\,|\vec N|\,du\,dv,
+$$
+$$
+ \iint_S\vec F\cdot\vec n\,dS
+ =\iint_D\vec F(\vec r(u,v))\cdot\vec N\,du\,dv.
+$$
+スカラーの面積分は向きを変えても不変。流束は法線を反転すると符号が変わる。
+
+\topic{グラフ上の計算}
+$z=f(x,y)$ を上向きに取ると $\vec N=(-f_x,-f_y,1)$。
+$\vec F=(P,Q,R)$ に対し、各成分を $z=f(x,y)$ で評価して
+$$
+ \iint_S\phi\,dS=\iint_D\phi(x,y,f)\sqrt{1+f_x^2+f_y^2}\,dx\,dy,
+$$
+$$
+ \iint_S\vec F\cdot\vec n\,dS
+ =\iint_D\bigl[-P(x,y,f)f_x-Q(x,y,f)f_y+R(x,y,f)\bigr]\,dx\,dy.
+$$
+後者では法線の大きさが面積要素と組み合わされており、平方根をもう一度掛けない。
+
+\topic{グリーンの定理}
+$D$ を区分的に滑らかな境界をもつ有界平面領域とし、
+$P,Q$ は $\overline D$ を含む開集合で $C^1$ 級とする。
+境界を領域が左に見える正の向きに取ると
+$$
+ \oint_{\partial D}(P\,dx+Q\,dy)
+ =\iint_D(Q_x-P_y)\,dx\,dy.
+$$
+外側の境界は反時計回り、穴の境界は時計回りである。
+場が領域内で特異点をもつときは、そのまま定理を適用できない。
+
+\topic{長方形での証明の要点}
+$D=[a,b]\times[c,d]$ の各辺を正の向きに積分する。
+1変数の微分積分学の基本定理より
+$$
+ \begin{aligned}
+ \oint_{\partial D}P\,dx
+ &=\int_a^b(P(x,c)-P(x,d))\,dx=-\iint_DP_y\,dx\,dy,\\
+ \oint_{\partial D}Q\,dy
+ &=\int_c^d(Q(b,y)-Q(a,y))\,dy=\iint_DQ_x\,dx\,dy.
+ \end{aligned}
+$$
+両式を足すと定理が得られる。領域を分けたとき、内部の共通辺の積分は逆向きとなって相殺する。
+
+\topic{循環と面積への応用}
+$\vec F=(-y,x)$ では $Q_x-P_y=2$。半径 $R$ の円周を反時計回りに回ると
+$$
+ \oint_{\partial D}(-y\,dx+x\,dy)=2\operatorname{Area}(D)=2\pi R^2.
+$$
+一般に、面積は境界上の積分でも表せる。
+$$
+ \operatorname{Area}(D)=\oint_{\partial D}x\,dy
+ =-\oint_{\partial D}y\,dx
+ =\frac12\oint_{\partial D}(x\,dy-y\,dx).
+$$
+\keybox{面積分では単位法線と面積要素を、グリーンの定理では境界の向きと場の定義域を確認する。}
+
+\newpage
+\handouttitle{第13回\quad 演習問題}
+計算過程を記し、必要な条件・積分領域・向きを明示すること。
+\begin{problems}
+\item $S=\{(x,y,1):0\le x,y\le1\}$ を上向きに取る。$\iint_S(z+x)\,dS$ と、$\vec F=(x,y,z)$ の $S$ を通る流束を求めよ。\answerroom
+\item $\vec r(u,v)=(u\cos v,u\sin v,v)$（$0\le u\le1,\ 0\le v\le2\pi$）の外積を求めよ。$\iint_S1\,dS$ と $\vec F=(0,0,z)$ の流束を求めよ。向きは表示の外積による。\answerroom
+\item $D=[0,1]\times[0,2]$ の境界を正の向きに取る。$\oint_{\partial D}((x^2-y)\,dx+(x+y^2)\,dy)$ をグリーンの定理で求めよ。\answerroom
+\item 半径 $R>0$ の円周 $C$ を反時計回りに取る。$\oint_C(-y\,dx+x\,dy)$ を直接の媒介変数表示とグリーンの定理の両方で求めよ。\answerroom
+\item $a,b>0$、$x=a\cos t,\ y=b\sin t$（$0\le t\le2\pi$）で表される楕円の面積を、境界上の面積公式で求めよ。\answerroom
+\item 円環 $1\le x^2+y^2\le4$ 上の $\vec F=(-y/(x^2+y^2),x/(x^2+y^2))$ について、$Q_x-P_y$ と外側・内側の各循環を求めよ。境界全体でグリーンの定理を確かめ、原点を含む円板には直接適用できない理由を述べよ。\answerroom
+\end{problems}
+\end{document}
