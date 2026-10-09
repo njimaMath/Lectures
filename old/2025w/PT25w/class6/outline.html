@@ -1,0 +1,99 @@
+
+
+1. Gauss integral
+
+Theorem. $\displaystyle \int_{\mathbb{R}} e^{-x^2},dx=\sqrt{\pi}$.
+
+Proof.
+
+\Bigl(\int_{\mathbb{R}} e^{-x^2}\,dx\Bigr)^2
+=\iint_{\mathbb{R}^2} e^{-(x^2+y^2)}\,dx\,dy
+=\int_{0}^{2\pi}\int_{0}^{\infty} e^{-r^2} r\,dr\,d\theta
+=2\pi\cdot \tfrac12=\pi.
+
+
+---
+
+2. Standard normal distribution $N(m,\sigma^2)$
+
+Definition. $X\sim N(m,\sigma^2)$ if for every Borel set $B\subset\mathbb{R}$,
+
+\mathbb{P}(X\in B)=\int_B \frac{1}{\sqrt{2\pi}\,\sigma}\exp\!\Bigl(-\frac{(x-m)^2}{2\sigma^2}\Bigr)\,dx.
+
+Properties.
+
+1. $\displaystyle \int_{\mathbb{R}} f_X(x),dx=1$.
+
+
+2. $\mathbb{E}[X]=m$, $\operatorname{Var}(X)=\sigma^2$.
+
+
+3. If $X_i\sim N(m_i,\sigma_i^2)$ are independent, then $\sum_i X_i\sim N!\bigl(\sum_i m_i,\sum_i \sigma_i^2\bigr)$. (We will check (3) in the next class via characteristic functions.)
+
+
+
+
+---
+
+3. Coin flip (Bernoulli) and normal approximation
+
+Definition (coin flip). Let $X_i\in{0,1}$ be i.i.d. with
+
+\mathbb{P}(X_i=1)=\mathbb{P}(X_i=0)=\tfrac12.
+
+Theorem. $\mathbb{E}[S_n]=\tfrac{n}{2}$ and $\operatorname{Var}(S_n)=\tfrac{n}{4}$.
+
+Proof. $\mathbb{E}[S_n]=\sum \mathbb{E}[X_i]=n\cdot \tfrac12=\tfrac{n}{2}$, and
+
+\operatorname{Var}(S_n)=\sum \operatorname{Var}(X_i)=n\cdot \tfrac14=\tfrac{n}{4}.
+
+Z_n:=\frac{S_n-\tfrac{n}{2}}{\sqrt{n}/2}=\frac{2S_n-n}{\sqrt{n}}
+
+De Moivre–Laplace Theorem. For any $a<b$,
+
+\mathbb{P}\!\left(a\le \frac{S_n-\tfrac{n}{2}}{\sqrt{n}/2}\le b\right)
+\;\longrightarrow\; \int_a^b \frac{1}{\sqrt{2\pi}}e^{-x^2/2}\,dx
+\qquad (n\to\infty).
+
+Remark. This is the same limit as for the ${\pm1}$ model because $2S_n-n$ equals the difference “#heads − #tails.”
+
+
+---
+
+4. Proof (via Stirling) in the ${0,1}$ setting
+
+Stirling’s formula. $n!\sim \sqrt{2\pi n},(n/e)^n$ as $n\to\infty$.
+
+Binomial mass near the center. For $k\in{0,1,\dots,n}$,
+
+\mathbb{P}(S_n=k)=\binom{n}{k}\Bigl(\tfrac12\Bigr)^n.
+
+k=\frac{n}{2}+\frac{x}{2}\sqrt{n},\qquad x\in[a,b],
+
+\Delta x=\frac{2}{\sqrt{n}}\quad\text{(since $k$ steps by $1$).}
+
+Apply Stirling to $\binom{n}{k}=\dfrac{n!}{k!,(n-k)!}$ and expand the log about $k=n/2$ (standard local limit expansion for $p=\tfrac12$). One obtains uniformly for $|x|=O(1)$:
+
+\mathbb{P}(S_n=k)
+\;\sim\;
+\frac{1}{\sqrt{2\pi\,n\,p(1-p)}}\,
+\exp\!\Bigl(-\frac{(k-np)^2}{2n p(1-p)}\Bigr)
+\quad\text{with }p=\tfrac12.
+
+\mathbb{P}(S_n=k)
+\;\sim\;
+\frac{2}{\sqrt{2\pi n}}\,
+\exp\!\Bigl(-\frac{x^2}{2}\Bigr)
+\;=\;
+\frac{1}{\sqrt{2\pi}}e^{-x^2/2}\cdot \frac{2}{\sqrt{n}}.
+
+Riemann-sum passage. Therefore,
+
+\begin{aligned}
+\mathbb{P}\!\left(a\le \frac{S_n-\tfrac{n}{2}}{\sqrt{n}/2}\le b\right)
+&=\sum_{k:\, a\le \frac{2k-n}{\sqrt{n}}\le b}\mathbb{P}(S_n=k)\\[4pt]
+&\sim \sum_{x\in[a,b]\cap \{a + j\cdot 2/\sqrt{n}\}}
+\frac{1}{\sqrt{2\pi}}e^{-x^2/2}\cdot \frac{2}{\sqrt{n}}
+\;\longrightarrow\;
+\int_a^b \frac{1}{\sqrt{2\pi}}e^{-x^2/2}\,dx.
+\end{aligned}

@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>確率変数を「写像」として捉える理由</title>
+
+  <style>
+    :root{
+      --ink:#1a1a1a;
+      --sub:#6b6b6b;
+      --accent:#6b2e2e;
+      --rule:#e8e7e5;
+      --bg:#fffaf6;
+      --card-bg:#ffffff;
+      --serif: "Noto Serif JP","Yu Mincho","Hiragino Mincho ProN","Source Han Serif","MS PMincho",serif;
+      --sans: "Noto Sans JP","Yu Gothic","Hiragino Kaku Gothic ProN","Meiryo",sans-serif;
+      --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+      --max: 820px;
+      --radius: 12px;
+      --gap: 16px;
+    }
+
+    html,body{
+      background: var(--bg);
+      color: var(--ink);
+      margin:0;
+      padding:0;
+      -webkit-font-smoothing:antialiased;
+      -moz-osx-font-smoothing:grayscale;
+      font-family: var(--serif);
+    }
+
+    header{
+      background: linear-gradient(180deg, rgba(255,255,255,0.9), rgba(255,255,255,0.85));
+      box-shadow: 0 1px 0 rgba(19,19,19,0.03);
+      position: sticky;
+      top:0;
+      z-index: 10;
+      backdrop-filter: blur(3px);
+    }
+    .masthead{
+      max-width: var(--max);
+      margin: 0 auto;
+      padding: 12px var(--gap);
+      display:flex;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+      font-family: var(--sans);
+    }
+    .brand{
+      font-size: 16px;
+      color: var(--accent);
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      background: linear-gradient(90deg, rgba(107,46,46,0.06), transparent);
+      padding: 6px 10px;
+      border-radius: 8px;
+    }
+    .section{
+      font-size: 13px;
+      color: var(--sub);
+      padding: 6px 8px;
+      border-radius: 8px;
+      background: rgba(0,0,0,0.02);
+      margin-left: auto;
+    }
+
+    main{
+      max-width: var(--max);
+      margin: 22px auto;
+      padding: 20px var(--gap) 72px;
+    }
+
+    h1{
+      font-family: var(--serif);
+      font-size: 30px;
+      line-height: 1.28;
+      font-weight:700;
+      margin: 6px 0 6px;
+      color: var(--ink);
+    }
+    .dek{
+      font-family: var(--sans);
+      font-size: 15px;
+      color: var(--sub);
+      margin: 8px 0 14px;
+    }
+    .meta{
+      font-family: var(--sans);
+      font-size: 13px;
+      color: var(--sub);
+      display:flex;
+      gap:12px;
+      flex-wrap:wrap;
+      margin-bottom: 18px;
+    }
+    .meta div{ padding:6px 10px; background: rgba(0,0,0,0.02); border-radius:8px; }
+
+    article{
+      font-family: var(--serif);
+      font-size: 17px;
+      line-height: 1.9;
+      color: var(--ink);
+      background: linear-gradient(180deg, rgba(255,255,255,0.95), rgba(255,255,255,0.98));
+      padding: 20px;
+      border-radius: var(--radius);
+      box-shadow: 0 8px 20px rgba(16,16,16,0.03);
+      border: 1px solid var(--rule);
+    }
+
+    p{ margin: 0 0 1.05em; }
+
+    .lead{
+      position: relative;
+      padding-top: 4px;
+    }
+    .lead::first-letter{
+      float:left;
+      font-size: 36px;
+      line-height: 1;
+      padding-right: 8px;
+      padding-top: 2px;
+      font-family: var(--serif);
+      font-weight: 700;
+      color: var(--accent);
+      background: rgba(107,46,46,0.04);
+      border-radius: 6px;
+      padding-left: 6px;
+      padding-right: 6px;
+      margin-right: 8px;
+    }
+
+    h2{
+      font-family: var(--sans);
+      font-size: 15px;
+      font-weight: 700;
+      color: rgba(0,0,0,0.92);
+      margin: 24px 0 8px;
+      padding-bottom: 6px;
+      border-bottom: 1px dashed var(--rule);
+    }
+
+    ul{ padding-left: 1.2em; margin: 0 0 1.05em; }
+    li{ margin-bottom: .6em; }
+
+    .eq{
+      text-align: center;
+      margin: 14px auto;
+      padding: 10px 16px;
+      font-family: var(--serif);
+      background: #fcfcfc;
+      border: 1px solid var(--rule);
+      border-radius: 8px;
+      max-width: 640px;
+    }
+
+    .theorem{
+      border-left: 4px solid var(--accent);
+      background: #fff;
+      padding: 14px 16px;
+      margin: 16px 0;
+      border-radius: 8px;
+    }
+    .theorem .label{
+      font-family: var(--sans);
+      font-size: 12px;
+      font-weight:700;
+      color: var(--accent);
+      display:inline-block;
+      margin-bottom:6px;
+    }
+
+    .note{
+      font-family: var(--sans);
+      font-size: 14px;
+      color: var(--sub);
+      padding-left:10px;
+      margin: 8px 0 0;
+    }
+
+    .pull{
+      font-family: var(--serif);
+      font-size: 16px;
+      line-height:1.9;
+      color:#333;
+      background: linear-gradient(90deg, rgba(107,46,46,0.03), rgba(0,0,0,0.01));
+      padding:12px 14px;
+      margin: 14px 0;
+      border-radius: 8px;
+      border: 1px solid rgba(0,0,0,0.03);
+    }
+
+    .footer-note{
+      font-family: var(--sans);
+      font-size: 13px;
+      color: var(--sub);
+      margin-top: 22px;
+      padding-top: 12px;
+      border-top: 1px dashed var(--rule);
+    }
+
+    .back-nav{
+      display:flex;
+      justify-content:flex-start;
+      margin-bottom:16px;
+    }
+
+    .back-link{
+      display:inline-flex;
+      align-items:center;
+      gap:6px;
+      font-family: var(--sans);
+      font-size:13px;
+      font-weight:600;
+      color: var(--accent);
+      text-decoration:none;
+      padding:6px 14px;
+      border-radius:999px;
+      border:1px solid rgba(107,46,46,0.28);
+      background: rgba(107,46,46,0.06);
+      transition: background 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .back-link:hover{
+      background: rgba(107,46,46,0.12);
+      transform: translateY(-1px);
+      box-shadow:0 8px 18px rgba(107,46,46,0.18);
+    }
+
+    @media (max-width:520px){
+      h1{ font-size: 22px; }
+      .masthead{ padding:10px; }
+      main{ padding: 16px; }
+      article{ padding: 16px; }
+      .lead::first-letter{ font-size: 30px; }
+    }
+
+    @media print{
+      header{ display:none; }
+      body{ background: #fff; color: #000; }
+      article{ box-shadow:none; border-radius:0; padding:0; border:none; }
+    }
+  </style>
+
+  <script>
+    window.MathJax = {
+      tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']],
+        displayMath: [['$$','$$'], ['\\[','\\]']],
+        tags: 'none'
+      },
+      svg: {fontCache: 'global'}
+    };
+  </script>
+  <script defer src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+</head>
+<body>
+  <header>
+    <div class="masthead">
+      <div class="brand">雑記・確率</div>
+      <div class="section">コラム</div>
+    </div>
+  </header>
+
+  <main>
+    <nav class="back-nav">
+      <a class="back-link" href="../index.html">&larr; ホームに戻る</a>
+    </nav>
+    <h1>確率変数を「写像」として捉える理由</h1>
+    <div class="meta">
+      <div>寄稿：中島秀太</div>
+      <div>2025年10月10日</div>
+    </div>
+
+    <article>
+      <p class="lead">
+        大学３年生で初めて学んだ公理的確率論で、確率変数を「写像で定義する」と聞いたとき、正直に言えば少し奇妙に感じた。実際、入門的な本では分布 $P(X=a)$ を直接与える方式が多く、写像の話は曖昧に済まされがちだ。さらに、そもそも写像の概念は確率とは無関係である。ここでは、確率変数を写像として定義する妥当性を説明することにする。
+      </p>
+
+      <h2>観測としての「写像」</h2>
+      <p>日常語では「ランダムに数をとること」が確率変数だと教わる。サイコロを１回振るモデルなら、標本空間は $\Omega=\{1,\dots,6\}$ としてよく、各元が目の値に対応する。この段階では確かに写像を持ち出さなくても困らない。</p>
+      <p>しかし２回振るなら $\Omega=\{1,\dots,6\}^2$ とするのが自然だ。このとき「１回目の目」はどう表すのがよいか。元 $(a,b)$ が観測されたとき、欲しいのは「$a$ を返す操作」だ。つまり</p>
+      <div class="eq">$X_1(\omega_1,\omega_2)=\omega_1.$</div>
+      <p>ここで大切なのは、「確率的に選ぶ」部分（$\Omega$ 上の元を選ぶ）と、「観測値を取り出す」部分（$\Omega$ から実数への写像）を分けることだ。確率変数は後者そのものとして定義する。</p>
+
+      <h2>なぜ元ではなく写像なのか</h2>
+      <p>確率変数を写像として定義することには、いくつかの利点がある。</p>
+      <ul>
+        <li> $X,Y$ が写像なら、四則演算: $X+Y,\,X\cdot Y,\,g(X)$（$g$ は可測関数）も自然に定義できる。</li>
+        <li>$X:\Omega\to \mathbb{R}$ と確率測度 $P$ があれば、$X$ の分布は $\mu_X(A):=P(X\in A)$ と一行で定義できる。</li>
+        <li>さらに可測性を通じて、「その時点で見えている情報だけで定義された確率変数か」を形式的に判断できる。例えば、前回の情報列の例でいうと、$X(a,b)=1\{b=\text{表}\}$は$\mathcal{F}_1$可測でない (実際$X^{-1}(1)=\{(\text{表,表}),(\text{裏,表})\}\notin \mathcal{F}_1$) ので、時刻$1$で見えない情報を含んでいるとわかる。</li>
+      </ul>
+      <p>上記のような利点はあるものの、正直に言えば、私はいまでもコルモゴロフがなぜ確率変数を「写像」として定義したのかを完全に理解できているわけではない。自分では到底思いつかなかった発想だと思う。しかし使い続けていくうちに、その設計の深さと便利さを少しずつ実感するようになった。天才の仕事というのは、時を経てようやくその意図の一端に触れられるものなのだろうか。
+</p>
+
+<h2>おわりに</h2>
+<p>
+初学者には遠回りに見えるかもしれないが、複雑な確率過程や条件付き期待に踏み込むほど、この定義の美しさと力強さがはっきりと見えてくる。
+</p>
+
+      <p class="footer-note">参考：コルモゴロフ『確率論の基礎概念』(1933)</p>
+    </article>
+  </main>
+</body>
+</html>

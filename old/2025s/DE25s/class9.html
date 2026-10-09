@@ -1,0 +1,808 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>微分方程式講義ノート - Logisticモデルと分枝</title>
+  <script>
+    MathJax = {
+      tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']],
+        displayMath: [['$$', '$$'], ['\\[', '\\]']]
+      },
+      svg: { fontCache: 'global' }
+    };
+  </script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-svg.js" defer></script>
+  <style>
+    body {
+      font-family: 'Noto Sans JP', sans-serif;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: #333;
+      margin: 0;
+      padding: 0;
+      min-height: 100vh;
+    }
+    
+    .container {
+      max-width: 1000px;
+      margin: 0 auto;
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(10px);
+      border-radius: 20px;
+      box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+      margin-top: 20px;
+      margin-bottom: 20px;
+      overflow: hidden;
+    }
+    
+    .header {
+      background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+      color: white;
+      padding: 40px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .header::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="20" cy="20" r="2" fill="rgba(255,255,255,0.1)"/><circle cx="80" cy="40" r="1.5" fill="rgba(255,255,255,0.1)"/><circle cx="40" cy="70" r="1" fill="rgba(255,255,255,0.1)"/><circle cx="90" cy="80" r="2.5" fill="rgba(255,255,255,0.1)"/></svg>');
+      animation: float 20s ease-in-out infinite;
+    }
+    
+    @keyframes float {
+      0%, 100% { transform: translateY(0px); }
+      50% { transform: translateY(-20px); }
+    }
+    
+    .content {
+      padding: 40px;
+      line-height: 1.8;
+    }
+    
+    h1 {
+      font-size: 2.5em;
+      margin: 0;
+      text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+      position: relative;
+      z-index: 1;
+    }
+    
+    h2 {
+      color: #2c3e50;
+      border-left: 6px solid #3498db;
+      padding-left: 20px;
+      margin-top: 40px;
+      font-size: 1.8em;
+      position: relative;
+    }
+    
+    h2::after {
+      content: '';
+      position: absolute;
+      left: 0;
+      bottom: -5px;
+      width: 50px;
+      height: 3px;
+      background: linear-gradient(90deg, #3498db, #2ecc71);
+      border-radius: 2px;
+    }
+    
+    h3 {
+      color: #34495e;
+      font-size: 1.4em;
+      margin-top: 30px;
+    }
+    
+    .definition {
+      background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%);
+      border: 3px solid #2196f3;
+      border-radius: 15px;
+      padding: 25px;
+      margin: 25px 0;
+      position: relative;
+      box-shadow: 0 8px 25px rgba(33, 150, 243, 0.15);
+    }
+    
+    .definition::before {
+      content: '定義';
+      position: absolute;
+      top: -15px;
+      left: 20px;
+      background: #2196f3;
+      color: white;
+      padding: 5px 15px;
+      border-radius: 20px;
+      font-weight: bold;
+      font-size: 0.9em;
+    }
+    
+    .theorem {
+      background: linear-gradient(135deg, #fff3e0 0%, #ffe0b2 100%);
+      border: 3px solid #ff9800;
+      border-radius: 15px;
+      padding: 25px;
+      margin: 25px 0;
+      position: relative;
+      box-shadow: 0 8px 25px rgba(255, 152, 0, 0.15);
+    }
+    
+    .theorem::before {
+      content: '定理';
+      position: absolute;
+      top: -15px;
+      left: 20px;
+      background: #ff9800;
+      color: white;
+      padding: 5px 15px;
+      border-radius: 20px;
+      font-weight: bold;
+      font-size: 0.9em;
+    }
+    
+    .example {
+      background: linear-gradient(135deg, #f1f8e9 0%, #dcedc8 100%);
+      border: 3px solid #4caf50;
+      border-radius: 15px;
+      padding: 25px;
+      margin: 25px 0;
+      position: relative;
+      box-shadow: 0 8px 25px rgba(76, 175, 80, 0.15);
+    }
+    
+    .example::before {
+      content: '例';
+      position: absolute;
+      top: -15px;
+      left: 20px;
+      background: #4caf50;
+      color: white;
+      padding: 5px 15px;
+      border-radius: 20px;
+      font-weight: bold;
+      font-size: 0.9em;
+    }
+    
+    .note {
+      background: linear-gradient(135deg, #fce4ec 0%, #f8bbd9 100%);
+      border: 3px solid #e91e63;
+      border-radius: 15px;
+      padding: 25px;
+      margin: 25px 0;
+      position: relative;
+      box-shadow: 0 8px 25px rgba(233, 30, 99, 0.15);
+    }
+    
+    .note::before {
+      content: '注意';
+      position: absolute;
+      top: -15px;
+      left: 20px;
+      background: #e91e63;
+      color: white;
+      padding: 5px 15px;
+      border-radius: 20px;
+      font-weight: bold;
+      font-size: 0.9em;
+    }
+    
+    .formula-box {
+      background: linear-gradient(135deg, #f3e5f5 0%, #e1bee7 100%);
+      border: 2px solid #9c27b0;
+      border-radius: 15px;
+      padding: 20px;
+      margin: 20px 0;
+      text-align: center;
+      box-shadow: 0 8px 25px rgba(156, 39, 176, 0.15);
+    }
+    
+    .solution-steps {
+      background: linear-gradient(135deg, #e8f5e8 0%, #c8e6c9 100%);
+      border-radius: 15px;
+      padding: 20px;
+      margin: 20px 0;
+      border-left: 6px solid #4caf50;
+    }
+    
+    .solution-steps h4 {
+      color: #2e7d32;
+      margin-top: 0;
+    }
+    
+    .mathblock {
+      font-family: 'Times New Roman', serif;
+      text-align: center;
+      margin: 20px 0;
+      padding: 15px;
+      background: rgba(255, 255, 255, 0.8);
+      border-radius: 10px;
+    }
+    
+    .bifurcation-diagram {
+      background: white;
+      border-radius: 15px;
+      padding: 20px;
+      margin: 25px 0;
+      box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+      text-align: center;
+    }
+    
+    .phase-portrait {
+      display: flex;
+      justify-content: space-around;
+      flex-wrap: wrap;
+      margin: 30px 0;
+    }
+    
+    .phase-item {
+      background: white;
+      border-radius: 10px;
+      padding: 15px;
+      margin: 10px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+      flex: 1;
+      min-width: 250px;
+      text-align: center;
+    }
+    
+    .interactive-element {
+      background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%);
+      border-radius: 15px;
+      padding: 25px;
+      margin: 25px 0;
+      text-align: center;
+      box-shadow: 0 8px 25px rgba(33, 150, 243, 0.15);
+    }
+    
+    @media (max-width: 768px) {
+      .container {
+        margin: 10px;
+        border-radius: 15px;
+      }
+      
+      .header {
+        padding: 30px 20px;
+      }
+      
+      .content {
+        padding: 20px;
+      }
+      
+      h1 {
+        font-size: 2em;
+      }
+      
+      h2 {
+        font-size: 1.5em;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <h1>微分方程式講義ノート</h1>
+      <p>Logisticモデルと分枝理論</p>
+    </div>
+    
+    <div class="content">
+      <h2>第1節：Logisticモデル</h2>
+      
+      <div class="definition">
+        <h3>人口増加のモデル化</h3>
+        <p>人口 $P(t)$ の時間変化を考える。最も単純なモデルは指数増加モデル：</p>
+        <div class="mathblock">
+          $$\frac{dP}{dt} = rP$$
+        </div>
+        <p>ここで $r > 0$ は増加率（出生率 - 死亡率）である。</p>
+        <p>しかし、実際の人口増加では環境収容力による制限がある。</p>
+      </div>
+      
+      <div class="theorem">
+        <h3>Logistic方程式</h3>
+        <p>環境収容力を考慮した人口増加モデル：</p>
+        <div class="formula-box">
+          $$\frac{dP}{dt} = rP\left(1 - \frac{P}{K}\right)$$
+        </div>
+        <p>ここで：</p>
+        <ul>
+          <li>$r > 0$：内在的増加率</li>
+          <li>$K > 0$：環境収容力（carrying capacity）</li>
+          <li>$P(t)$：時刻 $t$ における人口</li>
+        </ul>
+      </div>
+      
+      <div class="solution-steps">
+        <h4>Logistic方程式の解法</h4>
+        <p><strong>Step 1:</strong> 変数分離法を適用</p>
+        <div class="mathblock">
+          $$\frac{dP}{P(1 - P/K)} = r \, dt$$
+        </div>
+        
+        <p><strong>Step 2:</strong> 部分分数分解</p>
+        <div class="mathblock">
+          $$\frac{1}{P(1 - P/K)} = \frac{1}{P} + \frac{1/K}{1 - P/K} = \frac{1}{P} + \frac{1}{K - P}$$
+        </div>
+        
+        <p><strong>Step 3:</strong> 積分</p>
+        <div class="mathblock">
+          $$\int \left(\frac{1}{P} + \frac{1}{K - P}\right) dP = \int r \, dt$$
+        </div>
+        <div class="mathblock">
+          $$\ln|P| - \ln|K - P| = rt + C$$
+        </div>
+        
+        <p><strong>Step 4:</strong> 整理</p>
+        <div class="mathblock">
+          $$\ln\left|\frac{P}{K - P}\right| = rt + C$$
+        </div>
+        <div class="mathblock">
+          $$\frac{P}{K - P} = Ae^{rt}$$
+        </div>
+      </div>
+      
+      <div class="theorem">
+        <h3>Logistic方程式の一般解</h3>
+        <div class="formula-box">
+          $$P(t) = \frac{KP_0 e^{rt}}{K + P_0(e^{rt} - 1)}$$
+        </div>
+        <p>または、より一般的な形で：</p>
+        <div class="formula-box">
+          $$P(t) = \frac{K}{1 + Ae^{-rt}}$$
+        </div>
+        <p>ここで $A = \frac{K - P_0}{P_0}$、$P_0 = P(0)$ は初期人口である。</p>
+      </div>
+      
+      <div class="example">
+        <h3>Logistic曲線の性質</h3>
+        <p><strong>1. 平衡点：</strong></p>
+        <ul>
+          <li>$P = 0$（不安定平衡点）</li>
+          <li>$P = K$（安定平衡点）</li>
+        </ul>
+        
+        <p><strong>2. 変曲点：</strong></p>
+        <p>$P = K/2$ で変曲点を持つ（増加率が最大）</p>
+        
+        <p><strong>3. 長期挙動：</strong></p>
+        <div class="mathblock">
+          $$\lim_{t \to \infty} P(t) = K$$
+        </div>
+      </div>
+      
+      <div class="interactive-element">
+        <h3>Logistic曲線の形状</h3>
+        <p>初期人口 $P_0$ に応じた解の挙動：</p>
+        <div class="phase-portrait">
+          <div class="phase-item">
+            <h4>$P_0 < K$</h4>
+            <p>S字曲線を描いて $K$ に収束</p>
+          </div>
+          <div class="phase-item">
+            <h4>$P_0 > K$</h4>
+            <p>単調減少して $K$ に収束</p>
+          </div>
+          <div class="phase-item">
+            <h4>$P_0 = K$</h4>
+            <p>恒等的に $K$</p>
+          </div>
+        </div>
+      </div>
+      
+      <h2>第2節：分枝（Bifurcation）</h2>
+      
+      <div class="definition">
+        <h3>分枝理論とは</h3>
+        <p>微分方程式においてパラメータが変化したとき、平衡点の数や安定性が質的に変化する現象を<strong>分枝（bifurcation）</strong>という。</p>
+        <p>パラメータの臨界値を<strong>分枝点（bifurcation point）</strong>と呼ぶ。</p>
+      </div>
+      
+      <div class="theorem">
+        <h3>サドルノード分枝</h3>
+        <p>1次元微分方程式：</p>
+        <div class="formula-box">
+          $$\frac{dx}{dt} = \mu + x^2$$
+        </div>
+        <p>パラメータ $\mu$ に対する分枝解析：</p>
+        <ul>
+          <li>$\mu > 0$：平衡点なし</li>
+          <li>$\mu = 0$：$x = 0$ で半安定平衡点</li>
+          <li>$\mu < 0$：2つの平衡点 $x = \pm\sqrt{-\mu}$</li>
+        </ul>
+      </div>
+      
+      <div class="bifurcation-diagram">
+        <h3>分枝図</h3>
+        <p>サドルノード分枝の分枝図：</p>
+        <div class="mathblock">
+          <svg width="400" height="300" style="border: 1px solid #ccc;">
+            <defs>
+              <marker id="arrowhead" markerWidth="10" markerHeight="7" 
+                      refX="9" refY="3.5" orient="auto">
+                <polygon points="0 0, 10 3.5, 0 7" fill="#333" />
+              </marker>
+            </defs>
+            
+            <!-- Axes -->
+            <line x1="50" y1="250" x2="350" y2="250" stroke="#333" stroke-width="2" marker-end="url(#arrowhead)"/>
+            <line x1="200" y1="280" x2="200" y2="30" stroke="#333" stroke-width="2" marker-end="url(#arrowhead)"/>
+            
+            <!-- Labels -->
+            <text x="360" y="255" font-family="serif" font-size="14">μ</text>
+            <text x="205" y="25" font-family="serif" font-size="14">x</text>
+            <text x="195" y="270" font-family="serif" font-size="12">0</text>
+            
+            <!-- Bifurcation curves -->
+            <path d="M 50 150 Q 150 180 200 250" stroke="#e74c3c" stroke-width="3" fill="none"/>
+            <path d="M 200 250 Q 250 220 350 190" stroke="#e74c3c" stroke-width="3" fill="none"/>
+            <path d="M 50 350 Q 150 320 200 250" stroke="#2ecc71" stroke-width="3" fill="none"/>
+            <path d="M 200 250 Q 250 280 350 310" stroke="#2ecc71" stroke-width="3" fill="none"/>
+            
+            <!-- Stability indicators -->
+            <text x="120" y="140" font-family="serif" font-size="12" fill="#e74c3c">不安定</text>
+            <text x="120" y="360" font-family="serif" font-size="12" fill="#2ecc71">安定</text>
+            
+            <!-- Critical point -->
+            <circle cx="200" cy="250" r="4" fill="#333"/>
+            <text x="210" y="245" font-family="serif" font-size="12">分枝点</text>
+          </svg>
+        </div>
+      </div>
+      
+      <div class="example">
+        <h3>トランスクリティカル分枝</h3>
+        <p>微分方程式：</p>
+        <div class="formula-box">
+          $$\frac{dx}{dt} = \mu x - x^2$$
+        </div>
+        
+        <div class="solution-steps">
+          <h4>分枝解析</h4>
+          <p><strong>平衡点：</strong> $x(\mu - x) = 0$ より $x = 0, \mu$</p>
+          
+          <p><strong>線形化：</strong></p>
+          <ul>
+            <li>$x = 0$ での固有値：$\mu$</li>
+            <li>$x = \mu$ での固有値：$-\mu$</li>
+          </ul>
+          
+          <p><strong>安定性：</strong></p>
+          <ul>
+            <li>$\mu < 0$：$x = 0$ 安定、$x = \mu$ 不安定</li>
+            <li>$\mu > 0$：$x = 0$ 不安定、$x = \mu$ 安定</li>
+          </ul>
+        </div>
+      </div>
+      
+      <div class="theorem">
+        <h3>ピッチフォーク分枝</h3>
+        <p><strong>超臨界ピッチフォーク分枝：</strong></p>
+        <div class="formula-box">
+          $$\frac{dx}{dt} = \mu x - x^3$$
+        </div>
+        
+        <p>分枝解析：</p>
+        <ul>
+          <li>$\mu < 0$：$x = 0$ のみ（安定）</li>
+          <li>$\mu = 0$：分枝点</li>
+          <li>$\mu > 0$：$x = 0$（不安定）、$x = \pm\sqrt{\mu}$（安定）</li>
+        </ul>
+        
+        <p><strong>亜臨界ピッチフォーク分枝：</strong></p>
+        <div class="formula-box">
+          $$\frac{dx}{dt} = \mu x + x^3$$
+        </div>
+      </div>
+      
+      <div class="note">
+        <h3>Logisticモデルでの分枝</h3>
+        <p>Logistic方程式を一般化した場合：</p>
+        <div class="formula-box">
+          $$\frac{dP}{dt} = rP - \frac{P^2}{K}$$
+        </div>
+        <p>パラメータ $r$ を変化させると：</p>
+        <ul>
+          <li>$r < 0$：$P = 0$ のみ（安定）</li>
+          <li>$r = 0$：トランスクリティカル分枝点</li>
+          <li>$r > 0$：$P = 0$（不安定）、$P = rK$（安定）</li>
+        </ul>
+      </div>
+      
+      <div class="interactive-element">
+        <h3>分枝の応用例</h3>
+        <div class="phase-portrait">
+          <div class="phase-item">
+            <h4>生態学</h4>
+            <p>個体数の臨界密度</p>
+            <p>環境変化による種の絶滅</p>
+          </div>
+          <div class="phase-item">
+            <h4>経済学</h4>
+            <p>市場の安定性</p>
+            <p>バブルの発生と崩壊</p>
+          </div>
+          <div class="phase-item">
+            <h4>工学</h4>
+            <p>構造物の座屈</p>
+            <p>制御系の安定性</p>
+          </div>
+        </div>
+      </div>
+      
+      <h2>第3節：相図（Phase Portrait）</h2>
+      
+      <div class="definition">
+        <h3>相図とは</h3>
+        <p><strong>相図（phase portrait）</strong>は、微分方程式の解の軌道を相空間で可視化したものである。1次元の場合、相直線上での解の流れを表現する。</p>
+        <p>相図により、微分方程式の全体的な挙動を直感的に理解できる。</p>
+      </div>
+      
+      <div class="example">
+        <h3>1次元自律微分方程式の相図</h3>
+        <p>一般形：</p>
+        <div class="formula-box">
+          $\frac{dx}{dt} = f(x)$
+        </div>
+        
+        <p><strong>相図の描き方：</strong></p>
+        <div class="solution-steps">
+          <h4>Step 1: 平衡点を求める</h4>
+          <p>$f(x) = 0$ の解 $x = x_*$ を求める</p>
+          
+          <h4>Step 2: 符号を調べる</h4>
+          <p>各区間で $f(x)$ の符号を調べる：</p>
+          <ul>
+            <li>$f(x) > 0$ なら右向きの矢印 (→)</li>
+            <li>$f(x) < 0$ なら左向きの矢印 (←)</li>
+          </ul>
+          
+          <h4>Step 3: 安定性を判定</h4>
+          <p>$f'(x_*)$ の符号で判定：</p>
+          <ul>
+            <li>$f'(x_*) < 0$ なら安定（sink）</li>
+            <li>$f'(x_*) > 0$ なら不安定（source）</li>
+          </ul>
+        </div>
+      </div>
+      
+      <div class="theorem">
+        <h3>Logistic方程式の相図</h3>
+        <p>Logistic方程式：</p>
+        <div class="formula-box">
+          $\frac{dP}{dt} = rP\left(1 - \frac{P}{K}\right)$
+        </div>
+        
+        <div class="bifurcation-diagram">
+          <h4>相図の構造</h4>
+          <svg width="500" height="150" style="border: 1px solid #ccc;">
+            <defs>
+              <marker id="arrowhead2" markerWidth="8" markerHeight="6" 
+                      refX="7" refY="3" orient="auto">
+                <polygon points="0 0, 8 3, 0 6" fill="#333" />
+              </marker>
+            </defs>
+            
+            <!-- Main axis -->
+            <line x1="50" y1="75" x2="450" y2="75" stroke="#333" stroke-width="2" marker-end="url(#arrowhead2)"/>
+            
+            <!-- Equilibrium points -->
+            <circle cx="100" cy="75" r="6" fill="#e74c3c"/>
+            <circle cx="350" cy="75" r="6" fill="#2ecc71"/>
+            
+            <!-- Labels -->
+            <text x="95" y="95" font-family="serif" font-size="14">0</text>
+            <text x="345" y="95" font-family="serif" font-size="14">K</text>
+            <text x="460" y="80" font-family="serif" font-size="14">P</text>
+            
+            <!-- Flow arrows -->
+            <g stroke="#333" stroke-width="2" marker-end="url(#arrowhead2)">
+              <line x1="130" y1="75" x2="160" y2="75"/>
+              <line x1="180" y1="75" x2="210" y2="75"/>
+              <line x1="230" y1="75" x2="260" y2="75"/>
+              <line x1="280" y1="75" x2="310" y2="75"/>
+            </g>
+            
+            <!-- Stability labels -->
+            <text x="85" y="50" font-family="serif" font-size="12" fill="#e74c3c">不安定</text>
+            <text x="340" y="50" font-family="serif" font-size="12" fill="#2ecc71">安定</text>
+            
+            <!-- Flow direction label -->
+            <text x="200" y="50" font-family="serif" font-size="12" fill="#333">→ 増加</text>
+          </svg>
+        </div>
+        
+        <p><strong>解釈：</strong></p>
+        <ul>
+          <li>$P = 0$：不安定平衡点（source）</li>
+          <li>$P = K$：安定平衡点（sink）</li>
+          <li>$0 < P < K$：$P$ は増加して $K$ に収束</li>
+          <li>$P > K$：$P$ は減少して $K$ に収束</li>
+        </ul>
+      </div>
+      
+      <div class="example">
+        <h3>分枝における相図の変化</h3>
+        <p>サドルノード分枝の例：$\frac{dx}{dt} = \mu + x^2$</p>
+        
+        <div class="phase-portrait">
+          <div class="phase-item">
+            <h4>$\mu < 0$ の場合</h4>
+            <svg width="200" height="100">
+              <line x1="20" y1="50" x2="180" y2="50" stroke="#333" stroke-width="2"/>
+              <circle cx="60" cy="50" r="4" fill="#2ecc71"/>
+              <circle cx="140" cy="50" r="4" fill="#e74c3c"/>
+              <text x="55" y="70" font-size="10">-√(-μ)</text>
+              <text x="135" y="70" font-size="10">√(-μ)</text>
+              <g stroke="#333" stroke-width="2">
+                <polygon points="80,50 85,47 85,53" fill="#333"/>
+                <polygon points="120,50 115,47 115,53" fill="#333"/>
+                <polygon points="40,50 35,47 35,53" fill="#333"/>
+                <polygon points="160,50 165,47 165,53" fill="#333"/>
+              </g>
+            </svg>
+            <p>2つの平衡点が存在</p>
+          </div>
+          
+          <div class="phase-item">
+            <h4>$\mu = 0$ の場合</h4>
+            <svg width="200" height="100">
+              <line x1="20" y1="50" x2="180" y2="50" stroke="#333" stroke-width="2"/>
+              <circle cx="100" cy="50" r="4" fill="#ff9800"/>
+              <text x="95" y="70" font-size="10">0</text>
+              <g stroke="#333" stroke-width="2">
+                <polygon points="60,50 65,47 65,53" fill="#333"/>
+                <polygon points="140,50 145,47 145,53" fill="#333"/>
+              </g>
+            </svg>
+            <p>半安定平衡点</p>
+          </div>
+          
+          <div class="phase-item">
+            <h4>$\mu > 0$ の場合</h4>
+            <svg width="200" height="100">
+              <line x1="20" y1="50" x2="180" y2="50" stroke="#333" stroke-width="2"/>
+              <text x="95" y="70" font-size="10">平衡点なし</text>
+              <g stroke="#333" stroke-width="2">
+                <polygon points="60,50 65,47 65,53" fill="#333"/>
+                <polygon points="120,50 125,47 125,53" fill="#333"/>
+                <polygon points="140,50 145,47 145,53" fill="#333"/>
+              </g>
+            </svg>
+            <p>すべての解が発散</p>
+          </div>
+        </div>
+      </div>
+      
+      <div class="theorem">
+        <h3>2次元相図の基礎</h3>
+        <p>2次元自律系：</p>
+        <div class="formula-box">
+          $\begin{cases}
+          \frac{dx}{dt} = f(x,y) \\
+          \frac{dy}{dt} = g(x,y)
+          \end{cases}$
+        </div>
+        
+        <p><strong>平衡点の分類：</strong></p>
+        <div class="solution-steps">
+          <h4>線形化による分析</h4>
+          <p>平衡点 $(x_*, y_*)$ 近傍でのヤコビ行列：</p>
+          <div class="mathblock">
+            $J = \begin{pmatrix}
+            \frac{\partial f}{\partial x} & \frac{\partial f}{\partial y} \\
+            \frac{\partial g}{\partial x} & \frac{\partial g}{\partial y}
+            \end{pmatrix}_{(x_*,y_*)}$
+          </div>
+          
+          <p>固有値 $\lambda_1, \lambda_2$ による分類：</p>
+          <ul>
+            <li><strong>ノード：</strong> $\lambda_1, \lambda_2$ が同符号の実数</li>
+            <li><strong>サドル：</strong> $\lambda_1, \lambda_2$ が異符号の実数</li>
+            <li><strong>フォーカス：</strong> $\lambda_1, \lambda_2$ が複素数（実部同符号）</li>
+            <li><strong>センター：</strong> $\lambda_1, \lambda_2$ が純虚数</li>
+          </ul>
+        </div>
+      </div>
+      
+      <div class="interactive-element">
+        <h3>捕食者-被食者モデルの相図</h3>
+        <p>Lotka-Volterra方程式：</p>
+        <div class="formula-box">
+          $\begin{cases}
+          \frac{dx}{dt} = ax - bxy \\
+          \frac{dy}{dt} = -cy + dxy
+          \end{cases}$
+        </div>
+        
+        <div class="bifurcation-diagram">
+          <h4>相図の概形</h4>
+          <svg width="400" height="400" style="border: 1px solid #ccc;">
+            <!-- Axes -->
+            <line x1="200" y1="20" x2="200" y2="380" stroke="#333" stroke-width="2"/>
+            <line x1="20" y1="200" x2="380" y2="200" stroke="#333" stroke-width="2"/>
+            
+            <!-- Labels -->
+            <text x="385" y="205" font-family="serif" font-size="14">x</text>
+            <text x="205" y="15" font-family="serif" font-size="14">y</text>
+            
+            <!-- Equilibrium points -->
+            <circle cx="200" cy="200" r="4" fill="#333"/>
+            <text x="210" y="195" font-family="serif" font-size="12">(c/d, a/b)</text>
+            
+            <!-- Closed orbits (elliptical paths) -->
+            <ellipse cx="200" cy="200" rx="50" ry="30" stroke="#2ecc71" stroke-width="2" fill="none"/>
+            <ellipse cx="200" cy="200" rx="80" ry="50" stroke="#2ecc71" stroke-width="2" fill="none"/>
+            <ellipse cx="200" cy="200" rx="120" ry="80" stroke="#2ecc71" stroke-width="2" fill="none"/>
+            
+            <!-- Direction arrows -->
+            <g stroke="#e74c3c" stroke-width="2" marker-end="url(#arrowhead2)">
+              <line x1="250" y1="170" x2="255" y2="175"/>
+              <line x1="230" y1="150" x2="225" y2="155"/>
+              <line x1="170" y1="180" x2="165" y2="175"/>
+              <line x1="150" y1="230" x2="155" y2="225"/>
+              <line x1="180" y1="250" x2="185" y2="245"/>
+              <line x1="230" y1="250" x2="235" y2="245"/>
+              <line x1="270" y1="230" x2="275" y2="225"/>
+              <line x1="280" y1="180" x2="275" y2="185"/>
+            </g>
+            
+            <text x="50" y="350" font-family="serif" font-size="12">閉軌道（周期解）</text>
+          </svg>
+        </div>
+        
+        <p><strong>特徴：</strong></p>
+        <ul>
+          <li>平衡点はセンター型</li>
+          <li>すべての軌道は閉軌道（周期解）</li>
+          <li>保存量：$H(x,y) = d \ln x - dx + a \ln y - ay$</li>
+        </ul>
+      </div>
+      
+      <div class="note">
+        <h3>相図解析の重要性</h3>
+        <p>相図は以下の情報を提供する：</p>
+        <ul>
+          <li><strong>定性的挙動：</strong> 解の長期的傾向</li>
+          <li><strong>安定性：</strong> 平衡点の安定性</li>
+          <li><strong>分枝現象：</strong> パラメータ変化による構造変化</li>
+          <li><strong>周期解：</strong> 振動現象の存在</li>
+          <li><strong>カオス：</strong> 複雑な動力学の可能性</li>
+        </ul>
+        
+        <p>これにより、解析的に解くことが困難な非線形微分方程式でも、その挙動を理解することができる。</p>
+      </div>
+      
+      <div class="theorem">
+        <h3>まとめ</h3>
+        <p><strong>Logisticモデル：</strong></p>
+        <ul>
+          <li>実際的な人口増加モデル</li>
+          <li>S字曲線の解</li>
+          <li>環境収容力への収束</li>
+        </ul>
+        
+        <p><strong>分枝理論：</strong></p>
+        <ul>
+          <li>パラメータ変化による質的変化</li>
+          <li>サドルノード、トランスクリティカル、ピッチフォーク分枝</li>
+          <li>様々な分野への応用</li>
+        </ul>
+        
+        <p><strong>相図：</strong></p>
+        <ul>
+          <li>微分方程式の全体的挙動の可視化</li>
+          <li>平衡点の安定性分析</li>
+          <li>1次元・2次元系での軌道構造</li>
+          <li>非線形動力学の理解</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

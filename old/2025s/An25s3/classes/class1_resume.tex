@@ -1,0 +1,123 @@
+\documentclass[a4paper,11pt]{jsarticle}
+\usepackage[margin=22mm]{geometry}
+\usepackage{amsmath,amssymb}
+\usepackage{enumitem}
+
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{0.3em}
+\setlist[itemize]{itemsep=0.2em, topsep=0.3em}
+
+\begin{document}
+
+\begin{center}
+{\LARGE 微分積分学I 第1回まとめ}\\[0.4em]
+工学部 電気電子工学4組\\
+テーマ: 偏微分
+\end{center}
+
+\section*{授業のねらい}
+
+この回では，一変数の微分を多変数関数へ拡張するために，偏微分の基本的な考え方を学ぶ。特に，
+\begin{itemize}[leftmargin=2em]
+\item 一変数関数に対する演算と導関数を復習すること，
+\item 二変数関数 $f:\mathbb{R}^2 \to \mathbb{R}$ の見方に慣れること，
+\item 偏微分係数の定義と意味を理解すること
+\end{itemize}
+を目標とする。
+
+\section*{1. 関数の基本演算}
+
+一変数関数 $f,g:\mathbb{R}\to\mathbb{R}$ に対して，次の演算を考える。
+\[
+(f+g)(x)=f(x)+g(x), \qquad (fg)(x)=f(x)g(x), \qquad (f\circ g)(x)=f(g(x)).
+\]
+
+このように，関数どうしについても和，積，合成を作ることができる。多変数関数でも同様の考え方が重要になる。
+
+\section*{2. 一変数関数の導関数}
+
+関数 $f:\mathbb{R}\to\mathbb{R}$ の点 $a$ における導関数は
+\[
+f'(a)=\lim_{h\to 0}\frac{f(a+h)-f(a)}{h}
+\]
+で定義される。ただし，この極限が存在する場合に限る。
+
+よく使う例として，次がある。
+\[
+\frac{d}{dx}x^n = nx^{n-1}, \qquad
+\frac{d}{dx}\sin x = \cos x, \qquad
+\frac{d}{dx}e^x = e^x, \qquad
+\frac{d}{dx}\log x = \frac{1}{x} \quad (x>0).
+\]
+
+また，導関数には次の基本法則がある。
+\begin{itemize}[leftmargin=2em]
+\item 和の法則: $(f+g)' = f' + g'$
+\item 積の法則: $(fg)' = f'g + fg'$
+\item 連鎖律: $(f\circ g)'(x) = f'(g(x))g'(x)$
+\end{itemize}
+
+\section*{3. 二変数関数}
+
+二変数関数 $f:\mathbb{R}^2\to\mathbb{R}$ は，平面上の点 $(x,y)$ に対して実数 $f(x,y)$ を対応させる関数である。グラフは三次元空間内の曲面として表される。
+
+典型的な例として，
+\[
+f(x,y)=x^2+y^2, \qquad
+f(x,y)=\sin(xy)+y, \qquad
+f(x,y)=e^{-(x^2+y^2)}
+\]
+などがある。
+
+\section*{4. 偏微分}
+
+関数 $f:\mathbb{R}^2\to\mathbb{R}$ の偏微分は，一方の変数を固定して他方の変数だけを動かして定義する。
+
+\[
+\frac{\partial f}{\partial x}(x,y)
+= \lim_{h\to 0}\frac{f(x+h,y)-f(x,y)}{h},
+\qquad
+\frac{\partial f}{\partial y}(x,y)
+= \lim_{h\to 0}\frac{f(x,y+h)-f(x,y)}{h}.
+\]
+
+これらはそれぞれ $f_x(x,y)$，$f_y(x,y)$ と書かれることもある。
+
+幾何学的には，
+\begin{itemize}[leftmargin=2em]
+\item $\dfrac{\partial f}{\partial x}(x,y)$ は $x$ 方向に見たときの曲面の傾き，
+\item $\dfrac{\partial f}{\partial y}(x,y)$ は $y$ 方向に見たときの曲面の傾き
+\end{itemize}
+を表す。
+
+\section*{5. 計算例}
+
+\[
+f(x,y)=x^2y+3xy^2-2y^3
+\]
+とする。
+
+$x$ に関する偏微分では $y$ を定数として扱うので，
+\[
+\frac{\partial f}{\partial x}(x,y)
+= \frac{\partial}{\partial x}(x^2y+3xy^2-2y^3)
+= 2xy+3y^2.
+\]
+
+$y$ に関する偏微分では $x$ を定数として扱うので，
+\[
+\frac{\partial f}{\partial y}(x,y)
+= \frac{\partial}{\partial y}(x^2y+3xy^2-2y^3)
+= x^2+6xy-6y^2.
+\]
+
+\section*{まとめ}
+
+この回の要点は次のとおりである。
+\begin{itemize}[leftmargin=2em]
+\item 偏微分は，一変数微分を多変数関数へ拡張したものである。
+\item 偏微分では，他の変数を固定して微分する。
+\item 偏微分は，多変数関数の変化を各方向ごとに調べるための基本的な道具である。
+\end{itemize}
+
+\end{document}

@@ -1,0 +1,818 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>確率論における極値問題</title>
+  <style>
+    /* Base styles */
+    :root {
+      --primary-color: #3498db;
+      --secondary-color: #2c3e50;
+      --accent-color: #e74c3c;
+      --text-color: #333;
+      --bg-color: #f8f9fa;
+      --slide-bg: #fff;
+      --code-bg: #f1f1f1;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Meiryo', 'Hiragino Kaku Gothic ProN', 'MS PGothic', sans-serif;
+      line-height: 1.7; /* 日本語用に少し行間を広げる */
+      color: var(--text-color);
+      background-color: var(--bg-color);
+      overflow: hidden; /* Prevent body scroll */
+    }
+
+    /* MathJax styling */
+    mjx-container[jax="CHTML"] {
+        display: inline-block;
+        margin: 0 0.2em;
+        line-height: 0; /* Prevent extra spacing */
+        text-align: left; /* Ensure formulas align left */
+    }
+    .MJXc-display, /* MathJax v2 */
+    mjx-display {    /* MathJax v3 */
+        display: block;
+        margin: 1em 0;
+        text-align: center;
+    }
+
+
+    /* Slide container */
+    .slide-container {
+      position: relative;
+      width: 100vw;
+      height: 100vh;
+      overflow: hidden;
+      background-color: var(--bg-color);
+    }
+
+    /* Individual slides */
+    .slide {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      padding: 2rem 4rem;
+      background-color: var(--slide-bg);
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+      opacity: 0;
+      transition: opacity 0.5s ease;
+      overflow-y: auto; /* Allow content scroll within slide */
+      display: flex;
+      flex-direction: column;
+      visibility: hidden; /* Hide inactive slides completely */
+    }
+
+    .slide.active {
+      opacity: 1;
+      z-index: 10;
+      visibility: visible; /* Show active slide */
+    }
+
+    /* Title slide special styling */
+    .title-slide {
+      text-align: center;
+      justify-content: center;
+      background: linear-gradient(135deg, #3498db, #8e44ad);
+      color: white;
+    }
+
+    .title-slide h1 {
+      font-size: 3.2rem; /* 日本語に合わせて少し調整 */
+      margin-bottom: 1rem;
+      animation: fadeInDown 1s ease-in-out;
+      color: white; /* Override default h1 color */
+    }
+
+    .title-slide p {
+      font-size: 1.6rem; /* 日本語に合わせて少し調整 */
+      margin-bottom: 2rem;
+      font-weight: 300;
+      animation: fadeInUp 1s ease-in-out 0.5s forwards;
+      opacity: 0;
+    }
+
+    @keyframes fadeInDown {
+      from {
+        opacity: 0;
+        transform: translateY(-30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    /* Headings */
+    h1, h2, h3 {
+      color: var(--secondary-color);
+      margin-bottom: 1rem;
+      line-height: 1.4; /* 日本語見出しの行間調整 */
+    }
+
+    h1 {
+      font-size: 2.6rem; /* 日本語に合わせて少し調整 */
+    }
+
+    h2 {
+      font-size: 2.0rem; /* 日本語に合わせて少し調整 */
+      padding-bottom: 0.5rem;
+      border-bottom: 2px solid var(--primary-color);
+      margin-bottom: 1.5rem;
+    }
+
+    h3 {
+      font-size: 1.6rem; /* 日本語に合わせて少し調整 */
+      color: var(--primary-color);
+      margin-top: 1rem;
+    }
+
+    /* Content styling */
+    p {
+      margin-bottom: 1rem;
+      font-size: 1.1rem; /* 日本語の基本フォントサイズ */
+    }
+
+    strong {
+      color: var(--accent-color);
+      font-weight: 600;
+    }
+
+    ul, ol {
+      margin-left: 2rem;
+      margin-bottom: 1.5rem;
+    }
+
+    li {
+      margin-bottom: 0.5rem;
+      font-size: 1.05rem; /* 日本語リスト項目のフォントサイズ */
+    }
+
+    li li {
+      font-size: 1rem;
+    }
+
+    /* Code blocks */
+    code {
+      font-family: 'Courier New', Courier, monospace;
+      background-color: var(--code-bg);
+      padding: 0.2em 0.4em;
+      border-radius: 3px;
+      font-size: 0.9em;
+    }
+    pre code {
+        display: block;
+        padding: 1em;
+        overflow-x: auto;
+    }
+
+    /* Navigation controls */
+    .controls {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      z-index: 100;
+      display: flex;
+      gap: 10px;
+    }
+
+    .controls button {
+      padding: 10px 20px;
+      background-color: var(--primary-color);
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background-color 0.3s ease, opacity 0.3s ease;
+      font-weight: 500;
+      font-size: 0.9rem; /* ボタンの文字サイズ調整 */
+    }
+
+    .controls button:hover:not(:disabled) {
+      background-color: #2980b9;
+    }
+
+    .controls button:focus {
+      outline: none;
+      box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.5);
+    }
+
+    .controls button:disabled {
+      background-color: #bdc3c7;
+      cursor: not-allowed;
+      opacity: 0.7;
+    }
+
+    /* Slide number */
+    .slide-number {
+      position: absolute;
+      bottom: 20px;
+      left: 20px;
+      font-size: 0.9rem;
+      color: #777;
+      z-index: 20; /* Ensure it's above slide content */
+    }
+
+    /* Progress bar */
+    .progress-bar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      height: 5px;
+      background-color: var(--primary-color);
+      z-index: 1000;
+      transition: width 0.3s ease;
+    }
+
+    /* Responsive adjustments */
+    @media (max-width: 1024px) {
+      .slide {
+        padding: 1.5rem 2.5rem;
+      }
+      h1 { font-size: 2.2rem; }
+      h2 { font-size: 1.7rem; }
+      h3 { font-size: 1.3rem; }
+      .title-slide h1 { font-size: 2.8rem; }
+      .title-slide p { font-size: 1.4rem; }
+    }
+
+    @media (max-width: 768px) {
+      .slide {
+        padding: 1rem 1.5rem;
+        padding-bottom: 4rem; /* Space for controls/number */
+      }
+      .title-slide h1 { font-size: 2.3rem; }
+      .title-slide p { font-size: 1.2rem; }
+      h1 { font-size: 1.8rem; }
+      h2 { font-size: 1.4rem; }
+      h3 { font-size: 1.1rem; }
+      p, li { font-size: 0.95rem; }
+      .controls {
+          bottom: 10px;
+          right: 10px;
+      }
+      .slide-number {
+          bottom: 10px;
+          left: 10px;
+      }
+    }
+  </style>
+  <!-- MathJax Configuration -->
+  <script>
+    MathJax = {
+      tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']],
+        displayMath: [['$$', '$$'], ['\\[', '\\]']],
+        processEscapes: true,
+        processEnvironments: true
+      },
+      options: {
+        skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre']
+      }
+    };
+  </script>
+  <!-- MathJax library -->
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js" id="MathJax-script" async></script>
+</head>
+<body>
+  <div class="progress-bar" id="progress-bar"></div>
+  <div class="slide-container">
+    <!-- Slides reordered and refined for logical flow -->
+
+    <!-- Slide 1: Title -->
+    <div class="slide title-slide active" id="slide-1">
+      <h1>確率論における極値問題</h1>
+      <p>分布の裾の理解</p>
+      <div class="slide-number">1/<span class="total-slides"></span></div>
+    </div>
+
+    <!-- Slide 2: Introduction -->
+    <div class="slide" id="slide-2">
+      <h2>導入：極端な事象とは？</h2>
+      <p>確率論における極値問題は、確率変数の集まりや確率過程における<strong>極値（極端な値）</strong>の挙動を扱います。</p>
+      <p>例としては以下のようなものがあります：</p>
+      <ul>
+          <li>$n$個の確率変数の最大値： $M_n = \max\{X_1, \ldots, X_n\}$</li>
+          <li>最小値： $m_n = \min\{X_1, \ldots, X_n\}$</li>
+          <li>時間に関する確率過程の上限： $\sup_{t \in T} X_t$</li>
+      </ul>
+      <p>この講演では主に、独立同分布 (i.i.d.) の確率変数 $X_i$ の最大値 $M_n$ に焦点を当てます。</p>
+      <div class="slide-number">2/<span class="total-slides"></span></div>
+    </div>
+
+    <!-- Slide 3: Motivation -->
+    <div class="slide" id="slide-3">
+       <h2>動機：なぜ最大値を研究するのか？</h2>
+      <p>最大値（または最小値）の挙動を理解することは、多くの分野で不可欠です：</p>
+      <ul>
+        <li><strong>リスク管理（金融・保険）：</strong> 極端な市場暴落、最大保険請求額、または最悪ケースのポートフォリオ損失の確率評価。</li>
+        <li><strong>工学（土木・機械）：</strong> 最大想定荷重（風速、地震強度、河川洪水レベル）に耐える構造物の設計。</li>
+        <li><strong>環境科学：</strong> 最高気温、最大降雨量、または最大汚染物質濃度の分析。</li>
+        <li><strong>電気通信・計算機科学：</strong> ピーク時のネットワークトラフィックや最大サーバー負荷の理解。</li>
+        <li><strong>物理学：</strong> 最大エネルギー状態や粒子変位の分析。</li>
+      </ul>
+       <div class="slide-number">3/<span class="total-slides"></span></div>
+    </div>
+
+    <!-- Slide 4: Application Example: Financial Portfolio -->
+    <div class="slide" id="slide-4">
+      <h2>応用例：金融リスク</h2>
+      <p>金融ポートフォリオの日次リターンを考えます。平均リターンは小さく正かもしれませんが、リスクはしばしば稀に発生する大きな負のリターン（極端な損失）によって支配されます。</p>
+      <p>例えば、S&P 500の年平均リターンが約7-10%であっても、-10%を超える日次損失や-30%を超える年次損失を伴う時折の暴落（1987年、2008年など）は、以下に深刻な影響を与えます：</p>
+      <ul>
+          <li>投資戦略（分散投資、ヘッジ）。</li>
+          <li>金融機関に対する規制上の自己資本要件。</li>
+          <li>バリュー・アット・リスク (VaR) や期待ショートフォール (ES) のようなリスクモデル。</li>
+      </ul>
+      <p>極値理論は、そのような事象の確率と規模をモデル化するのに役立ち、しばしば正規分布が示唆するよりも裾が重い（ヘビーテイルな）現象を示唆します。</p>
+       <div class="slide-number">4/<span class="total-slides"></span></div>
+    </div>
+
+    <!-- Slide 5: Basic Probability Theory Recap -->
+    <div class="slide" id="slide-5">
+      <h2>復習：確率論の基本概念</h2>
+      <h3>今日用いる主要な定義</h3>
+      <ul>
+        <li>
+          <strong>独立同分布 (i.i.d.) 確率変数：</strong>
+          各 $X_i$ が同じ確率分布（累積分布関数 CDF）$F$ を持ち、かつ各 $X_i$ の値が他の変数から独立であるような確率変数列 $X_1, X_2, \dots$。これは入門的な極値理論 (EVT) における一般的な仮定です。
+        </li>
+        <li>
+          <strong>ユニオンバウンド (ブールの不等式)：</strong>
+          任意の可算個の事象 $A_1, A_2, \dots,$ について、それらの和事象の確率は以下を満たします：
+          $$ \mathbb{P}\Bigl(\bigcup_{i} A_i\Bigr) \le \sum_{i} \mathbb{P}(A_i) $$
+          稀な事象が発生する確率の上界を評価するのに役立ちます。
+        </li>
+        <li>
+          <strong>一般的な分布（例）：</strong>
+          <ul>
+            <li><strong>正規分布 $\mathcal{N}(\mu, \sigma^2)$:</strong> 密度関数 $\frac{1}{\sqrt{2\pi\sigma^2}} \exp\bigl(-\frac{(x-\mu)^2}{2\sigma^2}\bigr)$。裾が軽い (ライトテイル)。</li>
+            <li><strong>指数分布 $\mathrm{Exp}(\lambda)$:</strong> 確率密度関数 (PDF) $f(x) = \lambda e^{-\lambda x}$ ($x \ge 0$)。裾が軽い (ライトテイル)。累積分布関数 (CDF) $F(x) = 1 - e^{-\lambda x}$。</li>
+          </ul>
+        </li>
+      </ul>
+       <div class="slide-number">5/<span class="total-slides"></span></div>
+    </div>
+
+    <!-- Slide 6: Deterministic Maxima Introduction -->
+    <div class="slide" id="slide-6">
+      <h2>簡単なケースから：決定的な集合の最大値</h2>
+      <p>確率変数の前に、決定的な数列 $\{a_1, a_2, \dots, a_n\}$ の最大値を考えてみましょう。</p>
+      <p>最大値は単純に $M_n = \max\{a_1, a_2, \dots, a_n\}$ です。</p>
+      <p>重要な問いは、$n \to \infty$ としたときの $M_n$ の<strong>増加率</strong>を理解することです。これは確率的なケースに対する直感を与えます。</p>
+       <div class="slide-number">6/<span class="total-slides"></span></div>
+    </div>
+
+    <!-- Slide 7: Deterministic Maxima Examples -->
+    <div class="slide" id="slide-7">
+      <h3>決定的な最大値の例</h3>
+      <p>$M_n = \max\{a_1, \dots, a_n\}$ はどのように振る舞うでしょうか？</p>
+      <ul>
+        <li>もし $a_n = c$ (定数) ならば、$M_n = c$。</li>
+        <li>もし $a_n = \log n$ ならば、$M_n = \log n$。</li>
+        <li>もし $a_n = n$ ならば、$M_n = n$。</li>
+        <li>もし $a_n$ がフィボナッチ数 $F_n$ ($1, 1, 2, 3, 5, \dots$) で、$F_{n+2} = F_{n+1} + F_n$ の場合。
+            $F_n$ は指数的に増加する ($F_n \sim \phi^n / \sqrt{5}$, ここで $\phi = (1+\sqrt{5})/2 \approx 1.618$) ので、最大値は単純に最後の項になります：
+            $$ M_n = F_n \approx \frac{\phi^n}{\sqrt{5}} $$
+        </li>
+      </ul>
+      <p>しばしば焦点となるのは、$M_n$ の<strong>漸近挙動</strong>やスケーリングです。</p>
+       <div class="slide-number">7/<span class="total-slides"></span></div>
+    </div>
+
+    <!-- Slide 8: Maxima of i.i.d. RVs - The Core Problem -->
+    <div class="slide" id="slide-8">
+      <h2>独立同分布 (i.i.d.) 確率変数の最大値</h2>
+      <p>さて、$X_1, X_2, \dots, X_n$ を共通の累積分布関数 (CDF) $F(x) = \mathbb{P}(X_i \le x)$ を持つ i.i.d. 確率変数とします。</p>
+      <p>私たちが興味を持つのは、最大値の分布と漸近挙動です：
+        $$ M_n = \max\{X_1, X_2, \dots, X_n\} $$
+      </p>
+      <p>$M_n$ の厳密な分布は、（原理的には）簡単に見つけることができます：
+        $$ \mathbb{P}(M_n \le x) = \mathbb{P}(X_1 \le x, \dots, X_n \le x) $$
+        独立性と同一分布性により：
+        $$ \mathbb{P}(M_n \le x) = [\mathbb{P}(X_1 \le x)]^n = [F(x)]^n $$
+      </p>
+      <p>しかし、$n \to \infty$ とすると、$F(x) < 1$ である任意の $x$ に対して $F(x)^n \to 0$ となります。これは $M_n$ が確率的に $x_F = \sup\{x : F(x) < 1\}$ （分布のサポートの右側終端）に収束することを意味します。この極限は、終端周りの*変動*についてはあまり情報を提供しません。</p>
+      <div class="slide-number">8/<span class="total-slides"></span></div>
+    </div>
+
+    <!-- Slide 9: Fisher–Tippett–Gnedenko Theorem -->
+    <div class="slide" id="slide-9">
+      <h2>最大値の中心極限定理：Fisher–Tippett–Gnedenko の定理</h2>
+      <p>問題：正規化された最大値が非退化な分布に収束するように、正規化定数列 $a_n > 0$ と $b_n \in \mathbb{R}$ を見つけることができるでしょうか？</p>
+      $$ \mathbb{P}\left( \frac{M_n - b_n}{a_n} \le z \right) \xrightarrow[n\to\infty]{} G(z) $$
+      ここで、$G(z)$ は非退化な累積分布関数（すなわち、一点に集中していない分布）です。
+
+      <p><strong>定理 (Fisher–Tippett–Gnedenko):</strong> もしそのような列 $a_n, b_n$ が存在するならば、極限分布 $G(z)$ は（位置とスケールの変更を除いて）以下の3つの可能なタイプのいずれかに属さなければなりません：</p>
+      <ul>
+           <li><strong>タイプ I: Gumbel (ガンベル) 分布</strong></li>
+           <li><strong>タイプ II: Fréchet (フレシェ) 分布</strong></li>
+           <li><strong>タイプ III: Weibull (ワイブル) 分布</strong></li>
+      </ul>
+      <p>これらは極値分布 (EVDs) として知られています。</p>
+      <div class="slide-number">9/<span class="total-slides"></span></div>
+    </div>
+
+    <!-- Slide 10: Type II: Fréchet Distribution -->
+    <div class="slide" id="slide-10">
+      <h2>極値分布：タイプ II - Fréchet (フレシェ) 分布</h2>
+      <p><strong>Fréchet 分布 ($\alpha > 0$)</strong></p>
+      <p>累積分布関数 (CDF): $ \Phi_\alpha(z) = \begin{cases} \exp(-z^{-\alpha}) & z > 0 \\ 0 & z \le 0 \end{cases} $</p>
+      <p>これは、基礎となる分布 $F(x)$ が「裾が重い（ヘビーテイル）」、具体的にはべき乗則の裾を持つ場合に生じます：</p>
+      $$ 1 - F(x) = \mathbb{P}(X > x) \sim c x^{-\alpha} \quad (x \to \infty) $$
+      ここで、$c>0$ は定数、$\alpha > 0$ は裾指数 (tail index) です。
+      <p>例：Pareto (パレート) 分布、Cauchy (コーシー) 分布、指数 $\alpha < 2$ の安定分布。</p>
+      <p>どんな指数関数よりも遅く減衰する裾によって特徴付けられます。モーメント $\mathbb{E}[X^k]$ は $k \ge \alpha$ に対して無限大になります。</p>
+      <div class="slide-number">10/<span class="total-slides"></span></div>
+    </div>
+
+    <!-- Slide 11: Type I: Gumbel Distribution -->
+    <div class="slide" id="slide-11">
+       <h2>極値分布：タイプ I - Gumbel (ガンベル) 分布</h2>
+      <p><strong>Gumbel 分布</strong></p>
+      <p>累積分布関数 (CDF): $ \Lambda(z) = \exp(-e^{-z}), \quad z \in \mathbb{R} $</p>
+      <p>これは、分布 $F(x)$ が「裾が軽い（ライトテイル）」、典型的には指数関数的かそれよりも速く減衰し、かつ右側終端が無限大である場合に生じます。</p>
+       <p>例：正規分布、指数分布、ガンマ分布、ロジスティック分布。</p>
+       <p>これは、裾が極端に重くない多くの自然現象で遭遇する、おそらく最も一般的なタイプです。</p>
+      <div class="slide-number">11/<span class="total-slides"></span></div>
+    </div>
+
+    <!-- Slide 12: Type III: Weibull Distribution -->
+    <div class="slide" id="slide-12">
+      <h2>極値分布：タイプ III - Weibull (ワイブル) 分布</h2>
+      <p><strong>Weibull 分布 ($\alpha > 0$)</strong></p>
+       <p>累積分布関数 (CDF): $ \Psi_\alpha(z) = \begin{cases} \exp(-(-z)^{\alpha}) & z < 0 \\ 1 & z \ge 0 \end{cases} $</p>
+       <p>(注意：これは最大値に対する標準形であり、逆Weibull分布と呼ばれることもあります。信頼性工学で使われる標準的なWeibull分布は最小値に対するものです)。</p>
+      <p>これは、基礎となる分布 $F(x)$ が<strong>有限な右側終端</strong> $x_F = \sup\{x : F(x) < 1\} < \infty$ を持つ場合に生じます。</p>
+       <p>終端近くの裾はべき乗則のように振る舞います：$1 - F(x_F - \epsilon) \sim c \epsilon^{\alpha}$ ($\epsilon \to 0^+$)、ここで $c>0, \alpha>0$。</p>
+       <p>例：一様分布 $U(0, 1)$ (終端 $x_F=1, \alpha=1$)、ベータ分布。</p>
+       <div class="slide-number">12/<span class="total-slides"></span></div>
+    </div>
+
+    <!-- Slide 13: Heavy-Tailed Distributions Definition -->
+    <div class="slide" id="slide-13">
+      <h2>裾の挙動に注目：ヘビーテイル vs ライトテイル</h2>
+      <p>極値分布 (EVD) のタイプ（Fréchet, Gumbel, Weibull）は、基礎となる分布 $F(x)$ の裾の挙動に決定的に依存します。</p>
+      <p>分布が<strong>ヘビーテイル（裾が重い）</strong>であるとは、その裾確率 $\bar{F}(x) = 1-F(x) = \mathbb{P}(X > x)$ が任意の指数関数 $e^{-cx}$ ($c > 0$) よりもゆっくり減衰することを意味します。</p>
+      <p>形式的には、しばしばモーメント母関数 $\mathbb{E}[e^{tX}]$ がある $t > 0$ に対して存在しないことによって定義されます。</p>
+      <p>
+        $$ \lim_{x \to \infty} e^{tx} \mathbb{P}(X > x) = \infty \quad (\text{すべての } t > 0 \text{ に対して}) $$
+      </p>
+      <p>ヘビーテイル（特にべき乗則の減衰 $\sim x^{-\alpha}$）は、最大値に対して<strong>Fréchet</strong>分布を導きます。</p>
+      <p>ライトテイル（例：指数分布、正規分布）は、典型的には（終端が無限大の場合）<strong>Gumbel</strong>分布を導きます。</p>
+      <p>有限な終端を持つ分布は、<strong>Weibull</strong>分布を導きます。</p>
+      <div class="slide-number">13/<span class="total-slides"></span></div>
+    </div>
+
+    <!-- Slide 14: Pareto Example -->
+    <div class="slide" id="slide-14">
+      <h2>例：Pareto (パレート) 分布 (ヘビーテイル)</h2>
+      <p>パレート分布はヘビーテイル分布の古典的な例であり、富、所得、都市の規模などをモデル化するためによく使用されます。</p>
+      <p>裾確率：
+      $$ \mathbb{P}(X > x) = \left(\frac{x_m}{x}\right)^\alpha \quad (x \ge x_m, \; \alpha > 0) $$
+      </p>
+      <p>ここで、$x_m$ は最小可能な値、$\alpha$ は裾指数です。</p>
+      <ul>
+          <li>$\alpha$ が小さいほど、裾は重くなります（減衰が遅く、より極端な事象が発生しやすい）。</li>
+          <li>$X_i$ が i.i.d. Pareto($x_m, \alpha$) に従う場合、正規化された最大値は形状パラメータ $\alpha$ を持つ Fréchet 分布に収束します。</li>
+          <li>正規化定数として $b_n=0$ と $a_n = x_m n^{1/\alpha}$ を選ぶことができます。具体的には：
+            $$ \mathbb{P}\left( \frac{M_n}{x_m n^{1/\alpha}} \le z \right) \xrightarrow[n\to\infty]{} \exp(-z^{-\alpha}) = \Phi_\alpha(z) $$
+          </li>
+      </ul>
+      <div class="slide-number">14/<span class="total-slides"></span></div>
+    </div>
+
+    <!-- Slide 15: Max of Normals Introduction -->
+    <div class="slide" id="slide-15">
+      <h2>ケーススタディ：i.i.d. 正規確率変数の最大値</h2>
+      <p>具体的で重要なケース、すなわち $N$ 個の i.i.d. 標準正規確率変数 $X_i \sim \mathcal{N}(0, 1)$ の最大値を分析しましょう。</p>
+      <p>$M_N = \max\{X_1, X_2, \dots, X_N\}$ と定義します。</p>
+      <p>正規分布は無限大の右側終端 $x_F = \infty$ を持ちます。その裾はどんなべき乗則よりも速く減衰しますが、指数内の $x^2$ 項のため、純粋な指数関数よりは遅く減衰します。</p>
+      <p>分布の吸引領域の基準に基づくと、正規化された最大値の極限として<strong>Gumbel</strong>分布が現れることが期待されます。</p>
+      <div class="slide-number">15/<span class="total-slides"></span></div>
+    </div>
+
+    <!-- Slide 16: Normal Tail Behavior -->
+    <div class="slide" id="slide-16">
+      <h3>正規分布の裾の挙動</h3>
+      <p>$\Phi(x)$ を標準正規変数の CDF、$\phi(x)$ を PDF とします。</p>
+      <p>裾確率 $\mathbb{P}(X > x) = 1 - \Phi(x)$ は、よく知られた漸近挙動（しばしば部分積分や比に対するロピタルの定理を用いて導出され、Mill (ミル) の比として知られる）を持ちます：</p>
+      $$ \mathbb{P}(X > x) = \int_x^\infty \frac{1}{\sqrt{2\pi}} e^{-t^2/2} dt \sim \frac{\phi(x)}{x} = \frac{1}{x\sqrt{2\pi}} e^{-x^2/2} \quad (x \to \infty) $$
+      <p>この裾の減衰は、どんなべき乗則 ($x^{-\alpha}$) よりも速いですが、純粋な指数関数 ($e^{-\lambda x}$) よりは遅いです。これは Gumbel 分布の吸引領域に属します。</p>
+      <div class="slide-number">16/<span class="total-slides"></span></div>
+    </div>
+
+    <!-- Slide 17: Limit Theorem for Normals -->
+    <div class="slide" id="slide-17">
+       <h3>正規分布の最大値に関する極限定理</h3>
+      <p>$X_i \sim \mathcal{N}(0,1)$ である $M_N = \max\{X_1, \dots, X_N\}$ に対して、中心化 ($b_N$) およびスケール化 ($a_N$) の数列が存在し、次が成り立ちます：</p>
+      $$ \frac{M_N - b_N}{a_N} \xrightarrow{d} Y $$
+      ここで $Y$ は標準 Gumbel 分布 $\Lambda(y) = \exp(-e^{-y})$ に従います。
+
+      <p>正規化定数の標準的な選択は以下の通りです：</p>
+      $$ a_N = \frac{1}{\sqrt{2\log N}} $$
+      $$ b_N = \sqrt{2\log N} - \frac{\log(4\pi) + \log(\log N)}{2\sqrt{2\log N}} $$
+      <p>しばしば直感のために、以下の近似が用いられます：</p>
+      $$ a_N \approx \frac{1}{\sqrt{2\log N}}, \quad b_N \approx \sqrt{2\log N} $$
+      <p>解釈：最大値 $M_N$ は典型的には $\sqrt{2\log N}$ のように増加し、この値の周りの変動は $1/\sqrt{2\log N}$ のオーダーです。収束を保証するためには、位置 $b_N$ を慎重に選ぶ必要があります。</p>
+       <div class="slide-number">17/<span class="total-slides"></span></div>
+    </div>
+
+    <!-- Slide 18: Sketch of Proof for Normals -->
+    <div class="slide" id="slide-18">
+      <h3>証明のスケッチ（正規分布の場合）</h3>
+      <ol>
+        <li>
+          最大値の厳密な CDF から始めます：
+          $ \mathbb{P}(M_N \le x) = [\Phi(x)]^N = \left[1 - (1 - \Phi(x))\right]^N $。
+        </li>
+        <li>
+          小さい $z = 1 - \Phi(x)$ に対して、近似 $(1 - z)^N \approx e^{-Nz}$ を用います。これは $N \to \infty$ のとき $N z \to \tau$ となる場合に成り立ちます。$\tau = e^{-y}$ を目指します。したがって、$\mathbb{P}(M_N \le x) \approx e^{-N(1 - \Phi(x))}$。
+        </li>
+        <li>
+          正規化を代入します： $x = b_N + y a_N$。$\mathbb{P}(M_N \le b_N + y a_N) \to \exp(-e^{-y})$ を示すことが目標です。
+          これには、$N \to \infty$ のとき $N(1 - \Phi(b_N + y a_N)) \to e^{-y}$ を示す必要があります。
+        </li>
+        <li>
+          裾の近似 $1 - \Phi(x) \sim \frac{1}{x\sqrt{2\pi}} e^{-x^2/2}$ を用います。特定の $a_N = 1/\sqrt{2\log N}$ と $b_N = \sqrt{2\log N} - \frac{\log(4\pi \log N)}{2\sqrt{2\log N}}$ を用いて $x = b_N + y a_N$ を代入します。これには、指数 $-x^2/2$ と係数 $1/(x\sqrt{2\pi})$ の注意深い漸近展開が必要です。
+          $$ -\frac{x^2}{2} = -\frac{1}{2} \left( b_N^2 + 2y a_N b_N + y^2 a_N^2 \right) $$
+          $a_N, b_N$ を代入し、$\log N$ 項を用いて整理した後、式 $N(1 - \Phi(x))$ は注意深く $e^{-y}$ に収束します。
+        </li>
+      </ol>
+      <p>（詳細な計算は自明ではなく、漸近項の注意深い取り扱いが必要です）。</p>
+       <div class="slide-number">18/<span class="total-slides"></span></div>
+    </div>
+    <!-- Slide 19: Comparison with Exponentials -->
+    <div class="slide" id="slide-19">
+      <h3>比較：指数分布 vs 正規分布の最大値</h3>
+      <p>$Y_i \sim \mathrm{Exp}(1)$ （標準指数分布）とします。このとき $\mathbb{P}(Y > y) = e^{-y}$ ($y \ge 0$)。CDF は $F_Y(y) = 1 - e^{-y}$ です。</p>
+      <p>$M'_N = \max\{Y_1, \dots, Y_N\}$ とします。</p>
+      <p>厳密な CDF は $\mathbb{P}(M'_N \le y) = (1 - e^{-y})^N$ です。$y = \log N + z$ と置くと、
+       $$ (1 - e^{-(\log N + z)})^N = \left(1 - \frac{e^{-z}}{N}\right)^N \xrightarrow[N\to\infty]{} \exp(-e^{-z}) $$
+       となります。</p>
+       <p>したがって、適切な正規化は $b_N = \log N$ と $a_N = 1$ であり、Gumbel 極限に至ります：
+      $$ M'_N - \log N \xrightarrow{d} Z \quad (Z \text{ は標準 Gumbel 分布}) $$
+
+      <p><strong>成長と変動の主な違い：</strong></p>
+      <ul>
+        <li>指数分布の最大値 ($M'_N$): $M'_N \approx \log N$。対数的に増加し、変動は $O(1)$。</li>
+        <li>正規分布の最大値 ($M_N$): $M_N \approx \sqrt{2\log N}$。より遅く増加 ($\sqrt{\log N}$ vs $\log N$) し、変動は減衰 ($O(1/\sqrt{\log N})$)。</li>
+      </ul>
+      <p>正規分布の裾と比較して指数分布の裾が速く減衰するため、指数分布の最大値は $\mathbb{P}(X>x) \approx 1/N$ となる領域に到達するためにより速く ($\log N$) 増加します。</p>
+      <div class="slide-number">19/<span class="total-slides"></span></div>
+    </div>
+
+    <!-- Slide 20: Order Statistics for Normals -->
+    <div class="slide" id="slide-20">
+      <h3>最大値を超えて：順序統計量</h3>
+      <p>$X_{(1)} \le X_{(2)} \le \dots \le X_{(n)}$ を順序付けられた標本とします。
+      私たちは $M_n = X_{(n)}$ を研究しました。固定された $k$ に対して、$k$ 番目に大きい値 $X_{(n-k+1)}$ も研究できます。これらの上位順序統計量を $M_n^k = X_{(n-k+1)}$ と表します。したがって $M_n^1 = M_n$ です。
+      </p>
+      <p>i.i.d. 標準正規分布の場合、上位 $k$ 個の順序統計量の挙動は、点過程の極限を通じて関連付けられます。</p>
+      <p><strong>結果（非形式的）：</strong> 高い閾値 $u_N$ （例えば $b_N$）を超える点 $(X_i)$ は、$b_N$ を基準として見たとき、実数直線上の強度測度 $\mu( (x, \infty) ) = e^{-x}$ を持つ Poisson 過程からの点のように近似的に振る舞います。すなわち、点過程 $\sum_{i=1}^N \delta_{a_N^{-1}(X_i - b_N)}$ を考えます。これは弱収束の意味で、$\mathbb{R}$ 上の強度 $e^{-y} dy$ を持つ Poisson 過程に収束します。</p>
+      <p><strong>結果（形式的）：</strong> 固定された $k$ に対して、正規化された上位 $k$ 個の順序統計量のベクトルは収束します：
+      $$ \left( \frac{M_n^1 - b_n}{a_n}, \dots, \frac{M_n^k - b_n}{a_n} \right) \xrightarrow{d} (Y_1, \dots, Y_k) $$
+      ここで $(Y_1, \dots, Y_k)$ は強度 $e^{-y}dy$ を持つ Poisson 過程の $k$ 個の最大の点です。
+      同時分布は次のように表すことができます（$y_1 \ge \dots \ge y_k$ の場合）：
+      $$ \mathbb{P}(Y_1 \le y_1, \dots, Y_k \le y_k) = \Lambda(y_k) \sum_{j=0}^{k-1} \frac{1}{j!} \left( \sum_{i=1}^k (e^{-y_i} - e^{-y_k}) \right)^j $$
+      重要なことに、ギャップ $Y_j - Y_{j+1}$ ($j=1, \dots, k-1$) は漸近的に独立な指数確率変数になります。</p>
+      <div class="slide-number">20/<span class="total-slides"></span></div>
+    </div>
+
+    <!-- Slide 21: Connection to Stochastic Processes -->
+    <div class="slide" id="slide-21">
+      <h2>確率過程との関連</h2>
+      <p>$\max(X_1, \dots, X_n)$ の研究は、確率過程の上限を研究する離散時間バージョンです。</p>
+      <p>連続時間過程 $(X_t)_{t \ge 0}$ に対して、興味があるかもしれません：</p>
+      $$ M(T) = \sup_{0 \le t \le T} X_t \quad \text{または} \quad M(\infty) = \sup_{t \ge 0} X_t $$
+      <p>類似の極値理論が適用されますが、過程の<strong>依存構造</strong>のため、分析はしばしばより複雑になります。</p>
+      <ul>
+          <li>Brownian 運動 $(B_t)$ のような過程では、最大値 $\sup_{0 \le t \le T} B_t$ は $|B_T|$ と同じ分布を持ちます（反射原理）。その漸近挙動は i.i.d. のケースとは異なります。</li>
+          <li>定常ガウス過程では、相関関数に関する特定の条件下で、正規化された最大値 $\sup_{0 \le t \le T} X_t$ はしばしば Gumbel 分布に収束します。これは i.i.d. 正規分布の場合に似ていますが、正規化定数 $a_T, b_T$ は相関構造に依存します（例：Pickands-Berman の定理）。</li>
+      </ul>
+       <div class="slide-number">21/<span class="total-slides"></span></div>
+    </div>
+
+    <!-- Slide 22: Application: Wealth Distribution -->
+    <div class="slide" id="slide-22">
+      <h2>応用：富と所得の分布</h2>
+      <p>実証研究は一貫して、富と所得の分布の上側裾がヘビーテイル分布、しばしばパレート分布によってよく記述されることを見出しています。</p>
+      $$ \mathbb{P}(\text{富} > x) \sim c x^{-\alpha} $$
+      <p>この「べき乗則」の裾は、ヘビーテイル現象の特徴です。</p>
+      <p>これはしばしばパレートの法則（または「80/20ルール」）に関連付けられ、人口のごく一部が総富の大部分を保有していることを示唆しています。</p>
+      <p>極値理論（具体的には Fréchet のケース、タイプ II）は、集団で観測される最大富をモデル化し、富の集中ダイナミクスを理解するための枠組みを提供します。</p>
+      <div class="slide-number">22/<span class="total-slides"></span></div>
+    </div>
+
+    <!-- Slide 23: Empirical Observations on Wealth -->
+    <div class="slide" id="slide-23">
+      <h2>実証的観察：富の裾</h2>
+      <p>富のデータ（例：Forbes リスト、税務記録）を分析する研究は、しばしばパレートの裾指数 $\alpha$ を推定します。</p>
+      <p>一般的な発見：</p>
+      <ul>
+          <li>先進国の広範な所得/富に対して、$\alpha$ は通常 1.5 から 3 の間にあります。</li>
+          <li>最も裕福な層（上位 0.1% や 0.01%）では、$\alpha$ はより小さくなることがあり、しばしば 1.5 に近いか、それ以下です。</li>
+          <li>$\alpha \le 1$ は無限の平均富を意味します（通常、総富については経験的に観測されませんが、理論モデルや特定の資産クラスでは現れる可能性があります）。</li>
+          <li>$\alpha \le 2$ は無限の分散を意味し、極端な不平等と外れ値への感度を示します（平均は存在しますが、極値によって支配されます）。</li>
+      </ul>
+      <p>より小さい $\alpha$ は、トップにおけるより大きな富の集中と、より重い裾を意味します。これは、極端な富がライトテイルモデル（対数正規分布など）によって予測されるよりも相対的に確率が高いことを意味します。</p>
+       <div class="slide-number">23/<span class="total-slides"></span></div>
+    </div>
+
+    <!-- Slide 24: Application: Queueing Theory -->
+    <div class="slide" id="slide-24">
+      <h2>応用：待ち行列理論</h2>
+      <p>待ち行列システム（例：コールセンターの顧客、プロセッサのジョブ）における待ち時間を考えます。</p>
+      <p>M/M/1 待ち行列（ポアソン到着 $\lambda$、指数サービス $\mu$、1 サーバー、トラフィック強度 $\rho = \lambda/\mu < 1$）のような単純なモデルでは、定常状態の待ち時間 $W$ は指数分布に従います（$t > 0$ に対して $\mathbb{P}(W > t) = \rho e^{-(\mu-\lambda)t$、および $t=0$ に確率質量を持つ）。</p>
+      <p>$n$ 回の独立な繁忙期または $n$ 人の到着顧客にわたる最大待ち時間 $W_{\max}^{(n)} = \max\{W_1, \dots, W_n\}$ （適切な仮定の下で）を考えると、その挙動は指数分布の最大値に関連します：</p>
+      $$ \frac{W_{\max}^{(n)} - c_n}{d_n} \xrightarrow{d} \text{Gumbel} $$
+      ここで $c_n \approx \frac{\log(n\rho)}{\mu-\lambda}$ および $d_n = \frac{1}{\mu-\lambda}$ です。
+
+      <p>しかし、サービス時間が<strong>ヘビーテイル</strong>（例：Webサーバーにおけるパレート分布に従うファイルサイズ）の場合、待ち時間もヘビーテイルになる可能性があります。その場合、最大待ち時間ははるかに大きくなり、潜在的に<strong>Fréchet</strong>分布に従う可能性があり、システムのパフォーマンス保証に大きな影響を与え、異なる容量計画アプローチが必要になります。</p>
+      <div class="slide-number">24/<span class="total-slides"></span></div>
+    </div>
+
+    <!-- Slide 25: Application: Random Matrix Theory -->
+    <div class="slide" id="slide-25">
+      <h2>応用：ランダム行列理論 (RMT)</h2>
+      <p>RMT は、要素が確率変数である行列を研究します。核物理学、量子カオス、多変量統計（主成分分析 PCA）、無線通信、数論などに応用があります。</p>
+      <p>要素が i.i.d. である（例：標準ガウス分布に従う非対角要素、スケールされたガウス分布に従う対角要素 - ガウス直交アンサンブル GOE）大きな $N \times N$ 対称行列 $H$ を考えます。固有値 $\{\lambda_i\}$ はランダムで相関しています。</p>
+      <p>基本的な結果は、最大固有値 $\lambda_{\max}$ に関するものです。GOE に対して、適切に正規化すると：</p>
+      $$ \frac{\lambda_{\max} - 2\sqrt{N}}{ N^{-1/6} } \xrightarrow[N\to\infty]{d} \mathrm{TW}_1 $$
+      ここで $\mathrm{TW}_1$ はタイプ 1 の Tracy–Widom (トレーシー・ウィドム) 分布です。
+      （注意：定数 $2\sqrt{N}$ と $N^{-1/6}$ は行列要素の特定の正規化に依存します。例えば、分散 $1/N$ は $\pm 2$ 付近の極限につながります）。
+
+      <p>Tracy-Widom 分布は、古典的な Gumbel/Fréchet/Weibull タイプの一つでは<strong>ありません</strong>。これは、スペクトルの端近くの固有値間の強い依存性（反発）のために生じます。これは、強く相関したシステムの極値が、i.i.d. フレームワークを超える異なる普遍的な挙動を示す可能性があることを強調しています。</p>
+      <div class="slide-number">25/<span class="total-slides"></span></div>
+    </div>
+
+     <!-- Slide 26: Summary: Key Insights -->
+    <div class="slide" id="slide-26">
+      <h2>まとめ：主要な洞察</h2>
+      <ul>
+        <li><strong>i.i.d.</strong> 確率変数の最大値の漸近挙動は、基礎となる分布 $F(x)$ の裾の挙動のみによって決定される3つの分布族（Gumbel, Fréchet, Weibull）のいずれかによって普遍的に記述されます。</li>
+        <li><strong>ヘビーテイル</strong>（べき乗則減衰、Fréchet につながる）は、潜在的に無制限の極端な事象を持つ現象をモデル化するために不可欠であり、金融、経済学、ネットワーク科学、一部の物理システムで一般的です。</li>
+        <li><strong>ライトテイル</strong>（例：指数分布、正規分布。Gumbel につながる）または<strong>有限サポート</strong>（Weibull につながる）は、極値がより制約されている文脈で現れます。</li>
+        <li>正規化定数（$a_n, b_n$）は、最大値の特徴的な成長率と変動のスケールを明らかにします。</li>
+        <li>変数間の<strong>依存性</strong>（時系列、空間データ、RMT など）は、極値の挙動を大幅に変更し、異なる極限分布（例：Tracy-Widom）につながるか、より複雑な分析が必要になる可能性があります。</li>
+      </ul>
+      <div class="slide-number">26/<span class="total-slides"></span></div>
+    </div>
+
+    <!-- Slide 27: Further Directions & Open Questions -->
+    <div class="slide" id="slide-27">
+      <h2>今後の方向性と未解決問題</h2>
+       <ul>
+        <li><strong>依存構造：</strong> 様々な依存タイプ（長距離依存性、ネットワーク構造、動的システム、空間的極値）に対する包括的な EVT の開発。極値のクラスタリングは結果にどう影響するか？</li>
+        <li><strong>多変量極値：</strong> 複数の次元における極値の同時挙動（例：気温と湿度の同時ピーク）の特性評価。コピュラ理論と Max-stable (最大安定) 過程が重要なツールです。</li>
+        <li><strong>統計的推論：</strong> 有限で、場合によっては依存性のあるデータから、裾指数 ($\alpha$)、極値分位数（VaR, ES）、適切な閾値 ($u$) を推定する方法の改善。頑健性と不確実性の定量化が重要です。</li>
+        <li><strong>非定常極値：</strong> 基礎となる分布や依存構造が時間とともに変化する場合（例：気候変動、進化する金融市場による）、極値はどのように振る舞うか？</li>
+        <li><strong>メカニズムの理解：</strong> 様々なシステムで観測されるヘビーテイルや特定の依存構造を生成する根本的な物理的、経済的、または社会的メカニズムは何か？ミクロなモデルとマクロな極値挙動を結びつけること。</li>
+      </ul>
+       <div class="slide-number">27/<span class="total-slides"></span></div>
+    </div>
+
+    <!-- Slide 28, 29: Placeholders -->
+    <div class="slide" id="slide-28">
+      <h2>プレースホルダースライド 1</h2>
+      <p>このスライドは、追加の例、応用（例：環境科学 - 洪水レベル、最高気温）への深掘り、またはより高度な理論的概念（例：閾値超過 (POT) 法、Max-Stable 過程）に使用できます。</p>
+      <div class="slide-number">28/<span class="total-slides"></span></div>
+    </div>
+    <div class="slide" id="slide-29">
+      <h2>プレースホルダースライド 2</h2>
+      <p>このスライドは、さらなる例、極値分布 (EVD) の視覚化、EVT 用ソフトウェアパッケージの議論、または以前省略された特定の数学的詳細に使用できます。</p>
+       <div class="slide-number">29/<span class="total-slides"></span></div>
+    </div>
+
+
+    <!-- Slide 30: Final Slide / Navigation -->
+    <div class="slide" id="slide-30">
+      <h2>結論</h2>
+      <p>極値理論は、ランダムなシステムにおける最大（または最小）の結果の確率的挙動を理解するための強力でエレガントな数学的枠組みを提供します。</p>
+      <p>i.i.d. 変数に対する極限定理の基本的な分類（Fisher-Tippett-Gnedenko）から、依存性や非定常性によって提起される課題まで、極値の研究は科学、工学、金融などの分野にわたって重要な洞察と実用的なツールを提供します。</p>
+      <p>リスクとレジリエンスに対処する際には、平均を理解することよりも裾を理解することの方がしばしば重要です。</p>
+      <p><strong>ご清聴ありがとうございました！</strong> <strong>「前へ」</strong> および <strong>「次へ」</strong> ボタン（または左右矢印キー）を使用してナビゲートしてください。</p>
+      <div class="slide-number">30/<span class="total-slides"></span></div>
+    </div>
+
+    <!-- Navigation Controls -->
+    <div class="controls">
+      <button id="prev" aria-label="前のスライド">前へ</button>
+      <button id="next" aria-label="次のスライド">次へ</button>
+    </div>
+  </div>
+
+  <script>
+    // JavaScript for slide navigation, progress bar, and slide numbers
+    const slides = document.querySelectorAll('.slide');
+    const prevButton = document.getElementById('prev');
+    const nextButton = document.getElementById('next');
+    const progressBar = document.getElementById('progress-bar');
+    const totalSlidesSpans = document.querySelectorAll('.total-slides'); // Should be inside slide numbers
+
+    let currentSlide = 0;
+    const totalSlides = slides.length;
+
+    function updateSlideNumbers() {
+        // Update the total count in all slide number divs
+        document.querySelectorAll('.slide-number').forEach((span, index) => {
+            const currentNum = index + 1;
+            span.innerHTML = `${currentNum}/<span class="total-slides">${totalSlides}</span>`;
+        });
+    }
+
+    function showSlide(index) {
+        // Ensure index is within bounds
+        if (index < 0) index = 0;
+        if (index >= totalSlides) index = totalSlides - 1;
+
+        // Update active slide
+        slides.forEach((slide, i) => {
+            if (i === index) {
+                slide.classList.add('active');
+                 // Scroll slide content to top when shown
+                slide.scrollTop = 0;
+            } else {
+                slide.classList.remove('active');
+            }
+        });
+
+        currentSlide = index;
+
+        // Update progress bar
+        const progress = ((currentSlide + 1) / totalSlides) * 100;
+        progressBar.style.width = `${progress}%`;
+
+        // Update button states
+        prevButton.disabled = currentSlide === 0;
+        nextButton.disabled = currentSlide === totalSlides - 1;
+
+        // Optional: Re-render MathJax if needed for dynamically loaded content,
+        // but typically not necessary for just showing/hiding slides.
+        // if (typeof MathJax !== 'undefined' && MathJax.typesetPromise) {
+        //    MathJax.typesetPromise([slides[currentSlide]]);
+        // }
+    }
+
+    // Event listeners for buttons
+    prevButton.addEventListener('click', () => {
+        showSlide(currentSlide - 1);
+    });
+
+    nextButton.addEventListener('click', () => {
+        showSlide(currentSlide + 1);
+    });
+
+    // Event listener for keyboard navigation
+    document.addEventListener('keydown', (event) => {
+        // Ignore keydown events if they originate from input elements
+        if (event.target.tagName === 'INPUT' || event.target.tagName === 'TEXTAREA') {
+            return;
+        }
+
+        if (event.key === 'ArrowRight' || event.key === 'PageDown' || event.key === ' ') { // Next slide
+            // Prevent space bar from scrolling the page if scrolling is possible
+            if (event.key === ' ' && nextButton.disabled === false) event.preventDefault();
+            if (!nextButton.disabled) { // Check if button is enabled
+                 showSlide(currentSlide + 1);
+            }
+        } else if (event.key === 'ArrowLeft' || event.key === 'PageUp') { // Previous slide
+            if (!prevButton.disabled) { // Check if button is enabled
+                showSlide(currentSlide - 1);
+            }
+        } else if (event.key === 'Home') { // Go to first slide
+            event.preventDefault();
+            showSlide(0);
+        } else if (event.key === 'End') { // Go to last slide
+            event.preventDefault();
+            showSlide(totalSlides - 1);
+        }
+    });
+
+    // Initial setup
+    updateSlideNumbers(); // Set up the slide numbers correctly first
+    showSlide(0); // Show the first slide
+
+  </script>
+</body>
+</html>

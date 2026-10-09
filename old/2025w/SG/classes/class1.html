@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lecture 1: Background, Motivation, and REM</title>
+    <style>
+        :root {
+            --primary-color: #2c3e50;
+            --secondary-color: #3498db;
+            --accent-color: #e74c3c;
+            --background-color: #f9f9f9;
+            --text-color: #333;
+            --container-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+            --text-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+        }
+
+        body {
+            font-family: 'Georgia', serif;
+            line-height: 1.7;
+            margin: 0;
+            padding: 0;
+            background-color: var(--background-color);
+            color: var(--text-color);
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 20px auto;
+            padding: 30px;
+            background-color: white;
+            box-shadow: var(--container-shadow);
+            border-radius: 15px;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 40px;
+            border-bottom: 2px solid var(--secondary-color);
+            padding-bottom: 20px;
+        }
+
+        h1, h2, h3 {
+            color: var(--primary-color);
+        }
+
+        .section-title {
+            color: var(--primary-color);
+            font-size: 1.8rem;
+            margin-top: 30px;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #eee;
+            text-shadow: var(--text-shadow);
+        }
+
+        .lecture-title {
+            color: var(--secondary-color);
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+            font-weight: normal;
+        }
+
+        .author-info {
+            font-style: italic;
+            color: #777;
+        }
+
+        .math {
+            font-style: italic;
+            padding: 0 3px;
+        }
+
+        .figure {
+            text-align: center;
+            margin: 30px 0;
+            padding: 20px;
+            background-color: #f8f9fa;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+        }
+
+        .figure img {
+            max-width: 100%;
+            border-radius: 5px;
+        }
+
+        .figure-caption {
+            font-style: italic;
+            color: #777;
+            margin-top: 15px;
+        }
+
+        .navigation {
+            margin-top: 40px;
+            text-align: center;
+            display: flex;
+            justify-content: space-between;
+            padding: 15px 0;
+            border-top: 1px solid #eee;
+        }
+
+        .navigation a {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: var(--primary-color);
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .navigation a:hover {
+            background-color: var(--secondary-color);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+        }
+
+        .topic-highlight {
+            display: inline-block;
+            background-color: rgba(52, 152, 219, 0.1);
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-weight: 500;
+            color: var(--primary-color);
+        }
+
+        .formula {
+            margin: 25px 0;
+            padding: 15px;
+            background-color: #f8f9fa;
+            border-left: 4px solid var(--secondary-color);
+            border-radius: 5px;
+            overflow-x: auto;
+            font-size: 1.1em;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+        }
+
+        p {
+            margin-bottom: 20px;
+            line-height: 1.8;
+        }
+
+        .content-section {
+            padding-bottom: 30px;
+        }
+        
+        .definition-box {
+            background-color: #f0f7ff;
+            border-left: 4px solid #3498db;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+        }
+        
+        .property-box {
+            background-color: #eefaf8;
+            border-left: 4px solid #2ecc71;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+        }
+        
+        ol.styled-list, ul.styled-list {
+            padding-left: 20px;
+        }
+        
+        ol.styled-list li, ul.styled-list li {
+            margin-bottom: 12px;
+            line-height: 1.7;
+        }
+        
+        .section-highlight {
+            background-color: #f8f9fa;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 25px 0;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+        }
+        
+        .reference {
+            font-size: 0.9em;
+            background-color: #f5f5f5;
+            padding: 15px;
+            margin: 20px 0;
+            border-left: 3px solid #ddd;
+            border-radius: 5px;
+        }
+        
+        .reference a {
+            color: var(--secondary-color);
+            text-decoration: none;
+        }
+        
+        .reference a:hover {
+            text-decoration: underline;
+        }
+        
+        .timeline {
+            position: relative;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .timeline::after {
+            content: '';
+            position: absolute;
+            width: 4px;
+            background-color: var(--secondary-color);
+            top: 0;
+            bottom: 0;
+            left: 50%;
+            margin-left: -2px;
+        }
+        
+        .timeline-item {
+            padding: 10px 40px;
+            position: relative;
+            width: 50%;
+            box-sizing: border-box;
+        }
+        
+        .timeline-item::after {
+            content: '';
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            right: -10px;
+            background-color: white;
+            border: 4px solid var(--secondary-color);
+            top: 15px;
+            border-radius: 50%;
+            z-index: 1;
+        }
+        
+        .timeline-left {
+            left: 0;
+        }
+        
+        .timeline-right {
+            left: 50%;
+        }
+        
+        .timeline-left::after {
+            right: -10px;
+        }
+        
+        .timeline-right::after {
+            left: -10px;
+        }
+        
+        .timeline-content {
+            padding: 15px;
+            background-color: white;
+            position: relative;
+            border-radius: 6px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+        
+        .timeline-year {
+            font-weight: bold;
+            color: var(--primary-color);
+            margin-bottom: 5px;
+        }
+    </style>
+    <!-- MathJax configuration -->
+    <script>
+      window.MathJax = {
+        tex: {
+          inlineMath: [['$', '$']],
+          displayMath: [['$$', '$$']]
+        },
+        svg: {
+          fontCache: 'global'
+        }
+      };
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js" async></script>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Lecture 1: Background, Motivation, and REM</h1>
+            <div class="lecture-title">Background and Motivation of Spin Glass Theory</div>
+            <div class="author-info">Lecture Notes</div>
+        </header>
+
+        <section id="class1" class="content-section">
+            <h2>Lecture 1: Background and Motivation of Spin Glass Theory</h2>
+
+            <div class="overview">
+                <p><strong>Overview:</strong> In this opening lecture, we introduce the concept of spin glasses, discuss why they are important in various fields, and present a fundamental model: the Random Energy Model (REM). This model illustrates key phenomena like <em>quenched vs. annealed disorder</em> and phase transitions in disordered systems, setting the stage for more complex models.</p>
+            </div>
+
+            <h4>What is a Spin Glass?</h4>
+            <p>A <strong>spin glass</strong> is a disordered magnet where the interactions between spins (magnetic moments) are random in sign and magnitude. Unlike an ordinary ferromagnet (where spins tend to align) or an antiferromagnet (where neighboring spins anti-align), a spin glass has <em>competing interactions</em> (some favor alignment, others favor anti-alignment). This competition leads to <strong>frustration</strong>, meaning not all interaction preferences can be satisfied simultaneously. Physically, spin glasses (such as certain metal alloys) exhibit slow dynamics and many metastable states at low temperatures. Mathematically, they are paradigmatic examples of complex energy landscapes with a vast number of local minima.</p>
+
+            <p><strong>Why study spin glasses?</strong> Beyond condensed matter physics, spin glass models have influenced:</p>
+            <ul>
+                <li><strong>Probability theory:</strong> providing challenging random structures to develop concentration inequalities and limit theorems.</li>
+                <li><strong>Information theory:</strong> inspiring error-correcting codes and inference algorithms by analogy to minimizing a spin glass's energy (free energy).</li>
+                <li><strong>Computer science:</strong> offering insight into the complexity of random optimization problems (e.g. random satisfiability instances) through the lens of energy landscapes and phase transitions.</li>
+            </ul>
+            <p>Spin glass theory has become an interdisciplinary field, connecting statistical physics with combinatorics, machine learning, and more. In this series, we focus on theoretical developments and rigorous results, while highlighting heuristic methods that have been influential in algorithms.</p>
+
+            <h4>The Random Energy Model (REM)</h4>
+            <p>The <strong>Random Energy Model</strong> (REM), introduced by Derrida, is the simplest spin glass model. It assumes an extreme limit of disorder: all possible spin configurations have independent, random energies. Despite its simplicity, REM captures the essence of a spin glass phase transition and provides a testing ground for analytical methods like the second moment method and the replica trick.</p>
+            <ul>
+                <li><strong>Setup:</strong> Consider $N$ spins with $2^N$ possible configurations (each $\sigma = (\sigma_1,\ldots,\sigma_N)$ with $\sigma_i=\pm1$). Assign each configuration an energy $E(\sigma)$ drawn independently from some distribution. For example, one can take $E(\sigma)$ to be Gaussian with mean $0$ and variance $N$ (so that energies scale extensively with $N$). The system has no structure in its interactions—each state's energy is random—so all complexity comes from the disorder.</li>
+                <li><strong>Partition function:</strong> At inverse temperature $\beta = 1/T$, the partition function is
+                    <div class="math display">$$Z_N(\beta) \;=\; \sum_{\sigma \in \{\pm1\}^N} e^{-\beta E(\sigma)}.$$</div>
+                    This random sum encapsulates the competition between entropy (the $2^N$ states) and energy (the Boltzmann weight $e^{-\beta E}$). The <em>quenched free energy</em> (disorder-averaged free energy) per spin is
+                    <div class="mathdisplay">$$f_N(\beta) \;=\; -\frac{1}{\beta N}\, \mathbb{E}[\ln Z_N(\beta)],$$</div>
+                    where $\mathbb{E}[\cdot]$ denotes expectation over the random energies (quenched disorder). Under mild conditions, $f_N(\beta)$ converges to a nonrandom limit $f(\beta)$ as $N\to\infty$ (this can be shown via subadditivity arguments, as we discuss later).</li>
+            </ul>
+
+            <h5>Second Moment Method in the REM</h5>
+            <p>To understand the behavior of $Z_N$, especially the transition from high to low temperature, we apply a <strong>second moment method</strong>. We compare the first and second moments of $Z_N$:</p>
+            <ul>
+                <li><strong>First moment (annealed approximation):</strong> $\mathbb{E}[Z_N] = \sum_{\sigma} \mathbb{E}[e^{-\beta E(\sigma)}]$. If $E(\sigma)$ has moment-generating function $M_E(t)=\mathbb{E}[e^{tE}]$, then by independence $\mathbb{E}[Z_N] = 2^N M_E(-\beta)$. For example, if $E(\sigma)\sim \mathcal{N}(0,N)$ (normal with mean $0$, variance $N$), then $M_E(-\beta) = \exp(\frac{\beta^2 N}{2})$. In that case,
+                    <div class="mathdisplay">$$\mathbb{E}[Z_N] = 2^N \exp\!\Big(\frac{\beta^2 N}{2}\Big) = \exp\!\Big(N [\ln 2 + \frac{\beta^2}{2}]\Big).$$</div>
+                    The <em>annealed free energy</em> (treating the disorder as if it were averaged out) per spin would be
+                    <div class="mathdisplay">$$f_{\text{ann}}(\beta) = -\frac{1}{\beta N} \ln \mathbb{E}[Z_N] = -\frac{1}{\beta}(\ln 2 + \frac{\beta^2}{2}).$$</div>
+                    More generally, for small $\beta$ the dominant contribution to $\mathbb{E}[Z_N]$ is $2^N$ (all configurations contribute), reflecting high entropy.</li>
+                <li><strong>Second moment:</strong> $\mathbb{E}[Z_N^2] = \mathbb{E}\big[(\sum_{\sigma} e^{-\beta E(\sigma)})^2\big] = \sum_{\sigma,\tau} \mathbb{E}[e^{-\beta E(\sigma)} e^{-\beta E(\tau)}]$. By independence, $\mathbb{E}[e^{-\beta E(\sigma)} e^{-\beta E(\tau)}] = \mathbb{E}[e^{-2\beta E}]$ if $\sigma=\tau$, and $[\mathbb{E}(e^{-\beta E})]^2$ if $\sigma\neq\tau$. Thus,
+                    <div class="mathdisplay">$$\mathbb{E}[Z_N^2] = 2^N \mathbb{E}[e^{-2\beta E}] + 2^N(2^N-1)\,[\mathbb{E}(e^{-\beta E})]^2.$$</div>
+                    For the Gaussian example: $\mathbb{E}[e^{-2\beta E}] = \exp(2\beta^2 N/2) = \exp(\beta^2 N)$ and $\mathbb{E}[e^{-\beta E}] = \exp(\beta^2 N/2)$. Then
+                    <div class="mathdisplay">$$\mathbb{E}[Z_N^2] \approx 2^N e^{\beta^2 N} + 2^{2N} e^{\beta^2 N} = 2^{2N} e^{\beta^2 N} (2^{-N} + 1).$$</div>
+                    Meanwhile $(\mathbb{E}[Z_N])^2 = 2^{2N} e^{\beta^2 N}$. So
+                    <div class="mathdisplay">$$\frac{\mathbb{E}[Z_N^2]}{(\mathbb{E}[Z_N])^2} \approx 1 + 2^{-N}.$$</div>
+                    In this case the ratio tends to 1 for large $N$, indicating that $Z_N$ is sharply concentrated around its mean. In contrast, if for some $\beta$ the second moment grows much larger than the square of the first, it signals that $Z_N$ is dominated by rare low-energy configurations and has large fluctuations.</li>
+                <li><strong>Implications:</strong> When $\mathbb{E}[Z_N^2] / (\mathbb{E}[Z_N])^2 \to 1$ as $N\to\infty$, the <em>annealed approximation</em> is essentially accurate (self-averaging regime). This tends to be true at sufficiently high temperatures. On the other hand, if the ratio grows exponentially with $N$, the partition function is dominated by a few lowest-energy terms and annealing fails. In that case, the quenched free energy differs significantly from the annealed free energy, indicating a <em>glassy phase</em>.</li>
+            </ul>
+
+            <h5>Phase Transition in the REM</h5>
+            <p>In the REM, as $\beta$ increases (temperature decreases), there is a critical $\beta_c$ at which the behavior changes from annealed-like to glassy. Qualitatively:</p>
+            <ul>
+                <li>For $\beta < \beta_c$ (high $T$): Many configurations contribute comparably to $Z_N$. The free energy is dominated by entropy: $f(\beta) \approx -\frac{1}{\beta}\ln 2$ (plus small energy corrections). Disorder is weak in effect, and $\mathbb{E}[\ln Z_N] \approx \ln \mathbb{E}[Z_N]$ for large $N$.</li>
+                <li>For $\beta > \beta_c$ (low $T$): A tiny fraction of the lowest-energy states dominate $Z_N$. The free energy approaches the ground state energy per spin (up to thermal fluctuations). The system is in a spin glass phase: thermal weight concentrates on rare states, and sample-to-sample fluctuations of $\ln Z_N$ are large.</li>
+            </ul>
+            <p><strong>Critical point:</strong> $\beta_c$ is found by equating the entropy lost by focusing on rare states with the energy gained. In our Gaussian example, one finds $\beta_c = \sqrt{2 \ln 2}$ (if variance is $N$, this corresponds to $\beta_c= \sqrt{2 \ln 2 / \sigma^2}$ if $\sigma^2=1$). In Derrida's original REM (with a specific exponential-tail energy distribution), $\beta_c = \sqrt{2\ln 2}$. For $\beta > \beta_c$, the annealed calculation $f_{\text{ann}}(\beta)$ overestimates the true free energy; the correct $f(\beta)$ is lower (more negative free energy, meaning a lower energy state is realized).</p>
+            <p>The REM thus has a <strong>one-step replica symmetry breaking</strong> (1RSB) character: above $\beta_c$, the system is in one "ergodic" state (disordered), while below $\beta_c$ it freezes into one of an exponential number of possible ground states. However, since these states are completely uncorrelated in REM, the model is in a sense <em>trivial</em> beyond the transition (there is no hierarchy or overlap structure between states, just one picked at random to dominate).</p>
+
+            <p><strong>Key takeaways:</strong> The REM illustrates how quenched disorder can lead to a fundamental difference between averaging inside the log (quenched) and outside (annealed). At high $T$, disorder averages out (annealed ≈ quenched), whereas at low $T$ the system exhibits a glassy phase where rare events dominate. In most non-trivial spin glasses, indeed <em>the annealed free energy does not equal the quenched free energy except in a trivial high-temperature regime</em>. The REM provides a baseline for understanding more complex spin glasses like the one we discuss next.</p>
+
+            <p><strong>Summary (Lecture 1):</strong> We introduced spin glasses as systems with competing random interactions, motivating their study across disciplines. We examined the Random Energy Model, which showed a sharp transition from a paramagnetic (entropy-dominated) phase to a frozen (energy-dominated) phase. This simple model highlights the necessity of quenched analysis (as opposed to annealed) in disordered systems. In the next lecture, we turn to the more structured Sherrington–Kirkpatrick model, which requires deeper ideas to solve.</p>
+        </section>
+
+        <div class="navigation">
+            <a href="../index.html">← Home</a>
+            <a href="class2.html">Next: Related Phenomena →</a>
+        </div>
+    </div>
+</body>
+</html>

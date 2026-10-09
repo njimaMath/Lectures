@@ -1,0 +1,365 @@
+
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>第5回 補講メモ</title>
+
+  <!-- Softer tone / relaxed magazine style -->
+  <style>
+    :root{
+      --ink:#1a1a1a;
+      --sub:#6b6b6b;
+      --accent:#6b2e2e;
+      --rule:#e8e7e5;
+      --bg:#fffaf6;
+      --card-bg:#ffffff;
+      --serif: "Noto Serif JP","Yu Mincho","Hiragino Mincho ProN","Source Han Serif","MS PMincho",serif;
+      --sans: "Noto Sans JP","Yu Gothic","Hiragino Kaku Gothic ProN","Meiryo",sans-serif;
+      --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+      --max: 820px;
+      --radius: 12px;
+      --gap: 16px;
+    }
+
+    html,body{
+      background: var(--bg);
+      color: var(--ink);
+      margin:0;
+      padding:0;
+      -webkit-font-smoothing:antialiased;
+      -moz-osx-font-smoothing:grayscale;
+      font-family: var(--serif);
+    }
+
+    header{
+      background: linear-gradient(180deg, rgba(255,255,255,0.9), rgba(255,255,255,0.85));
+      box-shadow: 0 1px 0 rgba(19,19,19,0.03);
+      position: sticky;
+      top:0;
+      z-index: 10;
+      backdrop-filter: blur(3px);
+    }
+    .masthead{
+      max-width: var(--max);
+      margin: 0 auto;
+      padding: 12px var(--gap);
+      display:flex;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+      font-family: var(--sans);
+    }
+    .brand{
+      font-size: 16px;
+      color: var(--accent);
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      background: linear-gradient(90deg, rgba(107,46,46,0.06), transparent);
+      padding: 6px 10px;
+      border-radius: 8px;
+    }
+    .section{
+      font-size: 13px;
+      color: var(--sub);
+      padding: 6px 8px;
+      border-radius: 8px;
+      background: rgba(0,0,0,0.02);
+      margin-left: auto;
+    }
+
+    main{
+      max-width: var(--max);
+      margin: 22px auto;
+      padding: 20px var(--gap) 72px;
+    }
+
+    h1{
+      font-family: var(--serif);
+      font-size: 30px;
+      line-height: 1.28;
+      font-weight:700;
+      margin: 6px 0 6px;
+      color: var(--ink);
+    }
+    .dek{
+      font-family: var(--sans);
+      font-size: 15px;
+      color: var(--sub);
+      margin: 8px 0 14px;
+    }
+    .meta{
+      font-family: var(--sans);
+      font-size: 13px;
+      color: var(--sub);
+      display:flex;
+      gap:12px;
+      flex-wrap:wrap;
+      margin-bottom: 18px;
+    }
+    .meta div{ padding:6px 10px; background: rgba(0,0,0,0.02); border-radius:8px; }
+
+    article{
+      font-family: var(--serif);
+      font-size: 17px;
+      line-height: 1.9;
+      color: var(--ink);
+      background: linear-gradient(180deg, rgba(255,255,255,0.95), rgba(255,255,255,0.98));
+      padding: 20px;
+      border-radius: var(--radius);
+      box-shadow: 0 8px 20px rgba(16,16,16,0.03);
+      border: 1px solid var(--rule);
+    }
+
+    p{ margin: 0 0 1.05em; }
+
+    .lead{
+      position: relative;
+      padding-top: 4px;
+    }
+    .lead::first-letter{
+      float:left;
+      font-size: 36px;
+      line-height: 1;
+      padding-right: 8px;
+      padding-top: 2px;
+      font-family: var(--serif);
+      font-weight: 700;
+      color: var(--accent);
+      background: rgba(107,46,46,0.04);
+      border-radius: 6px;
+      padding-left: 6px;
+      padding-right: 6px;
+      margin-right: 8px;
+    }
+
+    h2{
+      font-family: var(--sans);
+      font-size: 15px;
+      font-weight: 700;
+      color: rgba(0,0,0,0.92);
+      margin: 24px 0 8px;
+      padding-bottom: 6px;
+      border-bottom: 1px dashed var(--rule);
+    }
+
+    .eq{
+      text-align: center;
+      margin: 14px auto;
+      padding: 10px 16px;
+      font-family: var(--serif);
+      background: #fcfcfc;
+      border: 1px solid var(--rule);
+      border-radius: 8px;
+      max-width: 640px;
+    }
+
+    .theorem{
+      border-left: 4px solid var(--accent);
+      background: #fff;
+      padding: 14px 16px;
+      margin: 16px 0;
+      border-radius: 8px;
+    }
+    .theorem .label{
+      font-family: var(--sans);
+      font-size: 12px;
+      font-weight:700;
+      color: var(--accent);
+      display:inline-block;
+      margin-bottom:6px;
+    }
+
+    .note{
+      font-family: var(--sans);
+      font-size: 14px;
+      color: var(--sub);
+      padding-left:10px;
+      margin: 8px 0 0;
+    }
+
+    .pull{
+      font-family: var(--serif);
+      font-size: 16px;
+      line-height:1.9;
+      color:#333;
+      background: linear-gradient(90deg, rgba(107,46,46,0.03), rgba(0,0,0,0.01));
+      padding:12px 14px;
+      margin: 14px 0;
+      border-radius: 8px;
+      border: 1px solid rgba(0,0,0,0.03);
+    }
+
+    code, kbd, samp{
+      font-family: var(--mono);
+      font-size: .95em;
+      background:#f6f6f6;
+      padding:.12em .34em;
+      border-radius:6px;
+    }
+
+    .footer-note{
+      font-family: var(--sans);
+      font-size: 13px;
+      color: var(--sub);
+      margin-top: 22px;
+      padding-top: 12px;
+      border-top: 1px dashed var(--rule);
+    }
+
+    .back-nav{
+      display:flex;
+      justify-content:flex-start;
+      margin-bottom:16px;
+    }
+
+    .back-link{
+      display:inline-flex;
+      align-items:center;
+      gap:6px;
+      font-family: var(--sans);
+      font-size:13px;
+      font-weight:600;
+      color: var(--accent);
+      text-decoration:none;
+      padding:6px 14px;
+      border-radius:999px;
+      border:1px solid rgba(107,46,46,0.28);
+      background: rgba(107,46,46,0.06);
+      transition: background 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .back-link:hover{
+      background: rgba(107,46,46,0.12);
+      transform: translateY(-1px);
+      box-shadow:0 8px 18px rgba(107,46,46,0.18);
+    }
+
+    @media (max-width:520px){
+      h1{ font-size: 22px; }
+      .masthead{ padding:10px; }
+      main{ padding: 16px; }
+      article{ padding: 16px; }
+      .lead::first-letter{ font-size: 30px; }
+    }
+
+    @media print{
+      header{ display:none; }
+      body{ background: #fff; color: #000; }
+      article{ box-shadow:none; border-radius:0; padding:0; border:none; }
+    }
+  </style>
+
+  <!-- MathJax (use $...$ for inline, $$...$$ for display) -->
+  <script>
+    window.MathJax = {
+      tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']],
+        displayMath: [['$$','$$'], ['\\[','\\]']],
+        tags: 'none'
+      },
+      svg: {fontCache: 'global'}
+    };
+  </script>
+  <script defer src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+</head>
+<body>
+  <header>
+    <div class="masthead">
+      <div class="brand">雑記・確率</div>
+      <div class="section">補講</div>
+    </div>
+  </header>
+
+  <main>
+    <nav class="back-nav">
+      <a class="back-link" href="../index.html">&larr; ホームに戻る</a>
+    </nav>
+    <h1>第5回 補講メモ</h1>
+    <div class="meta">
+      <div>寄稿：中島秀太</div>
+      <div>更新日：2025年11月1日</div>
+    </div>
+
+    <article>
+      <p class="lead">
+        一年間の地震回数がポアソン分布に従う理由を、離散時間と連続時間の二つの視点で整理する。前半は講義で触れた「二項分布の少数の法則」を確認し、後半は微小時間の仮定からポアソン過程を導く。
+      </p>
+
+      
+    
+
+      <h2>1. 二項分布の少数の法則（復習）</h2>
+      <p>
+        1 年間を等間隔に <span class="math">$n$</span> 個の区間に分け、各区間で「少なくとも 1 回地震が起きる」を成功とみなす。成功確率を <span class="math">$p_n$</span>、区間間の独立を仮定すると、年間回数 <span class="math">$X_n$</span> は二項分布に従う。
+      </p>
+      <div class="eq">
+        $$X_n \sim \mathrm{Bin}(n,p_n)$$
+      </div>
+      <div class="theorem">
+        <div class="label">定理（少数の法則）</div>
+        平均回数が <span class="math">$\lambda$</span> に収束するよう <span class="math">$n p_n \to \lambda$</span> とおくと、二項分布の極限としてポアソン分布が得られる。
+        <div class="eq">
+          $$P(X_n=k)=\binom{n}{k}p_n^k(1-p_n)^{\,n-k}\xrightarrow[n\to\infty]{}e^{-\lambda}\frac{\lambda^k}{k!}.$$
+        </div>
+      </div>
+      <p>
+        すなわち「試行回数 <span class="math">$\uparrow$</span>・成功確率 <span class="math">$\downarrow$</span>・平均一定」の極限操作がポアソン分布を生む。
+      </p>
+
+      <h2>2. 微小時間の仮定からの導出（連続時間）</h2>
+      <p>
+        時刻 <span class="math">$t$</span> までの地震回数を <span class="math">$N(t)$</span> とし、以下を置く。
+      </p>
+      <ol>
+        <li><strong>定常性</strong>：任意の <span class="math">$s,t\ge 0$</span> で <span class="math">$N(t+s)-N(s)\stackrel{d}{=}N(t)$</span>。</li>
+        <li><strong>独立増分</strong>：重ならない時間区間の増分は独立。つまり\(t_0 < t_1 < t_2 < t_3\)に対して、$N(t_1)-N(t_0)$と$N(t_3)-N(t_2)$は独立</li>
+        <li><strong>微小時間の振る舞い</strong>：<span class="math">$h\downarrow 0$</span> のとき
+          <span class="math">$P(N(h)=1)=\lambda h+o(h)$</span>、<span class="math">$P(N(h)\ge 2)=o(h)$</span>。
+        </li>
+      </ol>
+      <p>
+        <span class="math">$p_k(t):=P(N(t)=k)$</span> とおく。十分小さな <span class="math">$h>0$</span> に対して独立増分の性質を用いると
+      </p>
+      <div class="eq">
+        $$p_k(t+h)=p_k(t)P(N(h)=0)+p_{k-1}(t)P(N(h)=1)+o(h).$$
+      </div>
+      <p>
+        微小時間の近似 <span class="math">$P(N(h)=0)=1-\lambda h+o(h)$</span>、<span class="math">$P(N(h)=1)=\lambda h+o(h)$</span> を代入すると
+      </p>
+      <div class="eq">
+        $$P(N(h)=0)=1-\lambda h+o(h),\qquad P(N(h)=1)=\lambda h+o(h).$$
+      </div>
+      <p>
+        両辺から <span class="math">$p_k(t)$</span> を引き、<span class="math">$h$</span> で割って <span class="math">$h\downarrow 0$</span> をとると
+        <span class="math">$p_0'(t)=-\lambda p_0(t)$</span>、<span class="math">$k\ge 1$</span> で
+        <span class="math">$p_k'(t)=-\lambda p_k(t)+\lambda p_{k-1}(t)$</span> を得る。初期条件 <span class="math">$p_k(0)=\mathbf{1}_{\{k=0\}}$</span> から順に解けば
+      </p>
+      <div class="eq">
+        $$p_k(t)=e^{-\lambda t}\frac{(\lambda t)^k}{k!}\quad(k=0,1,2,\dots)$$
+      </div>
+      <p>
+        よって <span class="math">$N(t)\sim \mathrm{Poi}(\lambda t)$</span>、特に 1 年間では <span class="math">$N(1)\sim \mathrm{Poi}(\lambda)$</span> となる。
+      </p>
+
+      <h2>3. <span class="math">$P(N(h)\ge 2)=o(h)$</span> とおく直観</h2>
+      <p>
+        区間 <span class="math">$[0,h]$</span> を <span class="math">$m$</span> 等分し、各サブ区間の発生確率を <span class="math">$p\approx \lambda h/m$</span> とみなすと、二回以上起こる確率は
+      </p>
+      <div class="eq">
+        $$\binom{m}{2}p^2+O(p^3)\approx \frac{m^2}{2}\left(\frac{\lambda h}{m}\right)^2=O(h^2).$$
+      </div>
+      <p>
+        一年を <span class="math">$h^{-1}$</span> 個に分けた総和でも <span class="math">$h^{-1}O(h^2)=O(h)$</span> にとどまり、<span class="math">$h\to 0$</span> で無視できる。
+      </p>
+      <section>
+        <h2>まとめ</h2>
+        <p>上の議論は、十分に短い時間幅 $\Delta t$ では発生回数が高々 $1$ 回にとどまり、かつ区間ごとの発生回数が互いに独立である、という仮定のもとで一般化できる。この条件下では、地震に限らず交通事故の件数などでもポアソン分布が現れるのは自然である。ただし、この独立性が現実に成り立つかの検証は容易ではない。むしろ、観測データがポアソン分布と異なる場合には、区間間の依存が存在する兆候と解釈する、といった使い方のほうが実務的かもしれない。</p>
+        </p>
+      </section>
+
+    </article>
+  </main>
+</body>
+</html>

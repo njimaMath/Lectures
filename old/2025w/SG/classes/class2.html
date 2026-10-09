@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lecture 2: The Sherrington-Kirkpatrick (SK) Model Introduction</title>
+    <style>
+        :root {
+            --primary-color: #2c3e50;
+            --secondary-color: #3498db;
+            --accent-color: #e74c3c;
+            --background-color: #f9f9f9;
+            --text-color: #333;
+            --container-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+            --text-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+        }
+
+        body {
+            font-family: 'Georgia', serif;
+            line-height: 1.7;
+            margin: 0;
+            padding: 0;
+            background-color: var(--background-color);
+            color: var(--text-color);
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 20px auto;
+            padding: 30px;
+            background-color: white;
+            box-shadow: var(--container-shadow);
+            border-radius: 15px;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 40px;
+            border-bottom: 2px solid var(--secondary-color);
+            padding-bottom: 20px;
+        }
+
+        h1, h2, h3 {
+            color: var(--primary-color);
+        }
+
+        .section-title {
+            color: var(--primary-color);
+            font-size: 1.8rem;
+            margin-top: 30px;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #eee;
+            text-shadow: var(--text-shadow);
+        }
+
+        .lecture-title {
+            color: var(--secondary-color);
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+            font-weight: normal;
+        }
+
+        .author-info {
+            font-style: italic;
+            color: #777;
+        }
+
+        .math {
+            font-style: italic;
+            padding: 0 3px;
+        }
+
+        .figure {
+            text-align: center;
+            margin: 30px 0;
+            padding: 20px;
+            background-color: #f8f9fa;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+        }
+
+        .figure img {
+            max-width: 100%;
+            border-radius: 5px;
+        }
+
+        .figure-caption {
+            font-style: italic;
+            color: #777;
+            margin-top: 15px;
+        }
+
+        .navigation {
+            margin-top: 40px;
+            text-align: center;
+            display: flex;
+            justify-content: space-between;
+            padding: 15px 0;
+            border-top: 1px solid #eee;
+        }
+
+        .navigation a {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: var(--primary-color);
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .navigation a:hover {
+            background-color: var(--secondary-color);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+        }
+
+        .topic-highlight {
+            display: inline-block;
+            background-color: rgba(52, 152, 219, 0.1);
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-weight: 500;
+            color: var(--primary-color);
+        }
+
+        .formula {
+            margin: 25px 0;
+            padding: 15px;
+            background-color: #f8f9fa;
+            border-left: 4px solid var(--secondary-color);
+            border-radius: 5px;
+            overflow-x: auto;
+            font-size: 1.1em;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+        }
+
+        .example-title {
+            font-weight: bold;
+            font-size: 1.2em;
+            color: var(--secondary-color);
+            margin-top: 30px;
+            margin-bottom: 15px;
+            padding-bottom: 5px;
+            border-bottom: 1px dashed #ccc;
+            display: inline-block;
+        }
+
+        p {
+            margin-bottom: 20px;
+            line-height: 1.8;
+        }
+
+        .content-section {
+            padding-bottom: 30px;
+        }
+        
+        .definition-box {
+            background-color: #f0f7ff;
+            border-left: 4px solid #3498db;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+        }
+        
+        .property-box {
+            background-color: #eefaf8;
+            border-left: 4px solid #2ecc71;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+        }
+        
+        ol.styled-list, ul.styled-list {
+            padding-left: 20px;
+        }
+        
+        ol.styled-list li, ul.styled-list li {
+            margin-bottom: 12px;
+            line-height: 1.7;
+        }
+        
+        .section-highlight {
+            background-color: #f8f9fa;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 25px 0;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+        }
+        
+        .animation-link {
+            display: inline-block;
+            margin-left: 10px;
+            color: var(--accent-color);
+            text-decoration: none;
+            font-weight: bold;
+            transition: all 0.2s ease;
+        }
+        
+        .animation-link:hover {
+            color: #c0392b;
+            transform: translateY(-2px);
+        }
+        
+        .table-container {
+            overflow-x: auto;
+            margin: 25px 0;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+        }
+        
+        th, td {
+            padding: 12px 15px;
+            border: 1px solid #ddd;
+            text-align: left;
+        }
+        
+        th {
+            background-color: var(--primary-color);
+            color: white;
+        }
+        
+        tr:nth-child(even) {
+            background-color: #f8f9fa;
+        }
+        
+        tr:hover {
+            background-color: #f1f1f1;
+        }
+    </style>
+    <!-- MathJax configuration -->
+    <script>
+      window.MathJax = {
+        tex: {
+          inlineMath: [['$', '$']],
+          displayMath: [['$$', '$$']]
+        },
+        svg: {
+          fontCache: 'global'
+        }
+      };
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js" async></script>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Lecture 2: The Sherrington-Kirkpatrick (SK) Model Introduction</h1>
+            <div class="lecture-title">Background and Motivation of the SK Model</div>
+            <div class="author-info">Lecture Notes</div>
+        </header>
+
+        <div class="overview">
+        <p><strong>Overview:</strong> In this lecture, we introduce the Sherrington–Kirkpatrick (SK) model, the paradigm of a mean-field spin glass with pairwise interactions. We discuss its thermodynamics, the difficulties that arise at low temperature, and set the stage for solution methods (which will follow in subsequent lectures). The audience is assumed to have a basic background in probability theory, Gaussian processes, entropy, and measure concentration.</p>
+        </div>
+
+        <h4>Definition and Mean-Field Nature of the SK Model</h4>
+        <p>The SK model consists of $N$ Ising spins with all-to-all random couplings:</p>
+        <ul>
+            <li><strong>Hamiltonian:</strong>
+              <div class="mathdisplay">$$H_N(\sigma) \;=\; -\frac{1}{\sqrt{N}}\sum_{1\le i<j\le N} J_{ij}\,\sigma_i \sigma_j,$$</div>
+            where $\sigma_i = \pm 1$ and $J_{ij}$ are i.i.d. random couplings (usually $J_{ij}\sim \mathcal{N}(0,1)$). The $1/\sqrt{N}$ scaling is chosen so that the extensive free energy is $O(N)$ as $N\to\infty$. Notice every spin interacts with every other; this infinite-range model is a <strong>mean-field</strong> spin glass.</li>
+            <li><strong>Disorder:</strong> $\{J_{ij}\}$ is quenched disorder. On average $J_{ij}=0$, so there is no bias toward any particular spin orientation pattern. The randomness is symmetric under $\sigma \to -\sigma$ (global spin flip), since the energy depends on products $\sigma_i\sigma_j$. We consider the case of zero external magnetic field.</li>
+            <li><strong>Overlap order parameter:</strong> As in any spin glass, the appropriate order parameter is not the magnetization (which is zero on average here), but the distribution of overlaps between two equilibrium configurations. For configurations $\sigma$ and $\tau$, the overlap is
+              <div class="mathdisplay">$$q(\sigma,\tau) \;=\; \frac{1}{N}\sum_{i=1}^N \sigma_i \tau_i.$$</div>
+            For two independent random configurations (each drawn uniformly), $q\approx 0$. If $\tau=\sigma$, $q=1$. Overlap measures similarity between states and plays the role of an order parameter in spin glasses (replacing magnetization used in ferromagnets).</li>
+            <li><strong>Thermodynamics:</strong> The partition function is $Z_N = \sum_{\sigma} e^{-\beta H_N(\sigma)}$. We are interested in the quenched free energy $f_N(\beta) = -\frac{1}{\beta N}\mathbb{E}[\ln Z_N]$ and its $N\to\infty$ limit $f(\beta)$. Because of the mean-field nature, each spin feels a cumulative random field from all other spins. At high temperatures, one expects spins to essentially randomize (paramagnetic behavior, with zero average magnetization and low overlap between independent samples). At low temperatures, the system may enter a spin glass phase with many possible frozen patterns of spins (metastable states) and nonzero typical overlap between identical copies of the system (replicas).</li>
+        </ul>
+
+        <h4>High-Temperature Phase (Replica Symmetric Phase)</h4>
+        <p>At very high temperatures (small $\beta$), the SK model behaves like a paramagnet with a slight perturbation from random bonds. All spins are essentially disorderly, and the effect of the random $J_{ij}$ is averaged out by thermal fluctuations. In this regime:</p>
+        <ul>
+            <li>The <em>annealed</em> and <em>quenched</em> free energies coincide to leading order. For example, expanding $\ln Z_N$ in powers of $\beta$, one finds $\mathbb{E}[\ln Z_N] = N \ln 2 + \frac{\beta^2 N}{4} + O(\beta^4)$, which matches $\ln \mathbb{E}[Z_N]$ at small $\beta$. In general, for $\beta$ below a certain threshold, fluctuations of $\ln Z_N$ around its mean are negligible (concentration of measure holds).</li>
+            <li>The only solution to the mean-field equations is the trivial one: all spin magnetizations $\langle \sigma_i\rangle = 0$. In other words, the <strong>replica symmetric (RS) solution</strong> (assuming the system is in essentially one state with symmetry intact) is valid. There is no spontaneous magnetization or symmetry breaking. Correlations between two independent samples (replicas) are small: $\mathbb{E}[q(\sigma,\tau)] \approx 0$ for $\sigma,\tau$ from independent thermal runs.</li>
+        </ul>
+        <p>More formally, one can show that for high $T$ the Gibbs measure is <em>unique</em> and resembles a product measure with small correlations. The spin glass susceptibility (which measures response to a symmetry-breaking field) is finite.</p>
+
+        <p><strong>The critical temperature:</strong> As $\beta$ increases, this paramagnetic solution eventually becomes unstable. The point of instability can be identified by analyzing when a small perturbation (like a small field or a small assumed overlap) can sustain itself. For the SK model, this happens at $\beta_c = 1$ (in suitable units for the Gaussian SK model). At $\beta_c$, the spin glass susceptibility diverges, indicating the onset of a collective freezing of spins into random aligned patterns.</p>
+        <p>Above $T_c = 1/\beta_c$, the system is in the <strong>replica symmetric</strong> regime (no symmetry breaking). Below $T_c$, the system enters a spin glass phase where replica symmetry is broken (as we will see, one must go beyond the RS ansatz to describe the state).</p>
+
+        <h4>The Dilemma of the Low-Temperature Phase</h4>
+        <p>Sherrington and Kirkpatrick attempted to solve the model by assuming a single "effective state" even at low $T$ (the <strong>replica symmetric</strong> ansatz, which we will discuss next). They found an analytic expression for the free energy in that assumption. Strikingly, their solution showed unphysical behavior at very low temperatures (negative entropy, which is impossible). This indicated that the replica symmetric assumption was incomplete — the symmetry between different replicas (independent samples of the system) must be broken in the true solution.</p>
+        <p>It was Giorgio Parisi in 1979 who proposed a groundbreaking <em>replica symmetry breaking (RSB)</em> scheme to fix this. Parisi's ansatz introduced an infinite hierarchy of states and order parameters, ultimately yielding a consistent solution with positive entropy and novel properties (like a continuous distribution of overlaps between pure states). Parisi's solution was later shown to be correct, but its derivation was non-rigorous at the time.</p>
+        <p>For now, the SK model stands as a central object in spin glass theory: it exhibits a complex low-temperature phase that cannot be described by any single order parameter like magnetization. Instead, an <strong>order parameter distribution</strong> (the overlap distribution $P(q)$) is needed. This model has driven the development of sophisticated analytical methods (replicas, cavity, TAP equations) and inspired rigorous mathematical breakthroughs to understand its free energy landscape.</p>
+
+        <p><strong>Summary (Lecture 2):</strong> We introduced the SK model, a mean-field spin glass with infinitely many random couplings. At high temperature, the model is paramagnetic and replica symmetric (no complicated state structure). At low temperature, the naive approach (replica symmetric solution) leads to paradoxes (like negative entropy), hinting at a much richer structure. This sets the stage for the next lectures: we will explore analytical methods to solve the SK model, including the replica method with Parisi's RSB ansatz (Lectures 3–4), rigorous comparison and interpolation techniques (Lecture 5), and the cavity/TAP approaches (Lectures 6–7).</p>
+        
+        <div class="navigation">
+            <a href="class1.html">← Previous</a>
+            <a href="class3.html">Next →</a>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>独立性</title>
+    <style>
+        body {
+            font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+            line-height: 1.7;
+            color: #212121;
+            margin: 0;
+            background: #fafafa;
+        }
+        .container {
+            max-width: 960px;
+            margin: 0 auto;
+            padding: 2rem 1rem 4rem;
+            background: #fff;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+            border-radius: 12px;
+        }
+        h1, h2, h3, h4 {
+            color: #1a237e;
+            margin-top: 1.2em;
+            margin-bottom: .6em;
+        }
+        h1 {
+            font-size: 1.9rem;
+            text-align: center;
+        }
+        h2 {
+            font-size: 1.5rem;
+            border-left: 6px solid #1a237e;
+            padding-left: .55rem;
+        }
+        h3 { font-size: 1.25rem; }
+        h4 { font-size: 1.1rem; color: #3949ab; margin-top: 1.2em; }
+        .section-lead {
+            font-size: 1.05rem;
+            color: #424242;
+            margin-top: -0.3rem;
+        }
+        .formula {
+            background: #f3f4ff;
+            border-left: 4px solid #5c6bc0;
+            padding: .8rem 1.2rem;
+            margin: 1.2rem 0;
+            border-radius: 8px;
+            overflow-x: auto;
+            text-align: center;
+        }
+        details { margin-bottom: 1rem; }
+        details summary { cursor: pointer; font-weight: 600; }
+        .proof {
+            background: #e8f5e9;
+            border-left: 4px solid #43a047;
+            padding: .8rem 1.2rem;
+            margin: 1.2rem 0;
+            border-radius: 8px;
+            overflow-x: auto;
+        }
+        .example, .note {
+            border-radius: 8px;
+            padding: .75rem 1rem;
+            margin: 1rem 0;
+        }
+        .example {
+            background: #fff8e1;
+            border-left: 4px solid #fb8c00;
+        }
+        .note {
+            background: #e3f2fd;
+            border-left: 4px solid #1e88e5;
+        }
+        .toc {
+            background: #fafafa;
+            border: 1px solid #eee;
+            border-radius: 10px;
+            padding: 12px 14px;
+            margin: 1rem 0 1.2rem;
+        }
+        .toc a { color: #1a237e; text-decoration: none; }
+        .toc a:hover { text-decoration: underline; }
+        ul { margin: 0 0 1rem 1.2rem; }
+        .navigation {
+            display: flex;
+            justify-content: center;
+            gap: .8rem;
+            margin: 2.2rem 0;
+            border-top: 1px solid #e0e0e0;
+            padding-top: 1.5rem;
+            flex-wrap: wrap;
+        }
+        .navigation a {
+            padding: .65rem 1.5rem;
+            background: #1a237e;
+            color: #fff;
+            text-decoration: none;
+            border-radius: 6px;
+            transition: opacity .2s;
+        }
+        .navigation a:hover { opacity: .85; }
+        footer {
+            margin-top: 3rem;
+            color: #777;
+            text-align: center;
+            font-size: .9rem;
+        }
+    </style>
+    <script>
+        MathJax = {
+          tex: {
+            inlineMath: [['$', '$'], ['\\(', '\\)']],
+            displayMath: [['$$','$$'], ['\\[','\\]']]
+          }
+        };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>独立性</h1>
+            <p class="section-lead">
+                独立性の定義、基本的な性質、分散・共分散との関係、そして
+                ペア独立と同時独立の違いを整理する。
+            </p>
+        </header>
+
+        <div class="toc">
+            <strong>目次</strong>
+            <ul>
+                <li><a href="#independence">1. 独立性</a></li>
+                <li><a href="#properties">2. 基本性質</a></li>
+                <li><a href="#var-cov">3. 分散と共分散</a></li>
+                <li><a href="#mutual-pairwise">4. 同時独立とペア独立</a></li>
+                <li><a href="#report">5. レポート問題</a></li>
+            </ul>
+        </div>
+
+        <!-- ============================================================= -->
+        <section id="independence">
+            <h2>1. 独立性</h2>
+
+            <h4>定義</h4>
+            <p>
+                確率空間 $(\Omega, \mathcal F, \mathbb P)$ 上の確率変数 $X,Y$ をとる。
+                $X$ と $Y$ が独立であるとは、任意のボレル集合 $A,B\in \mathcal{F}$ に対して
+            </p>
+            <div class="formula">
+                $$
+                \mathbb P(X\in A,\ Y\in B)
+                = \mathbb P(X\in A)\,\mathbb P(Y\in B).
+                $$
+            </div>
+
+            <h4>独立性の意味</h4>
+            <p>
+                独立性は「$Y$ に関する情報を得ても $X$ の分布は変わらない」という直感に対応する。
+                例えば $A,B$ をボレル集合で $\mathbb P(Y\in B)>0$ とすると，
+            </p>
+            <div class="formula">
+                $$
+                \mathbb P(X\in A\mid Y\in B)
+                = \frac{\mathbb P(X\in A,\ Y\in B)}{\mathbb P(Y\in B)}
+                = \mathbb P(X\in A).
+                $$
+            </div>
+            <p class="note">
+                補足：教科書などで $\mathbb P(X\in A\mid Y=y)$ と書かれることがあるが，
+                厳密には $Y=y$ が確率 $0$ になる場合が多いので，上のように
+                $Y\in B$ の形で書くのが安全。
+            </p>
+        </section>
+
+        <hr>
+
+        <!-- ============================================================= -->
+        <section id="properties">
+            <h2>2. 基本性質</h2>
+
+            <h4>定理（可測写像は独立性を保つ）</h4>
+            <p>
+                $X$ と $Y$ が独立なら、任意の可測関数 $f$ と $g$ に対して $f(X)$ と $g(Y)$ も独立である。
+            </p>
+            <p>
+                特に $f(X)$ と $g(Y)$ が可積分なら
+            </p>
+            <div class="formula">
+                $$
+                \mathbb E[f(X)g(Y)]
+                = \mathbb E[f(X)]\,\mathbb E[g(Y)].
+                $$
+            </div>
+
+            <details>
+                <summary>証明（アイデア）</summary>
+                <div class="proof">
+                    <p>
+                        まず $f$ と $g$ が単関数の場合を示す。例えば
+                    </p>
+                    <div class="formula">
+                        $$
+                        f(x)=\sum_{n=1}^{N}\alpha_n\,\mathbf 1_{A_n}(x),
+                        \qquad
+                        g(y)=\sum_{m=1}^{M}\beta_m\,\mathbf 1_{B_m}(y),
+                        $$
+                    </div>
+                    <p>
+                        と書ける。ここで $(A_n)$ と $(B_m)$ は互いに素な可測集合で、
+                        $\alpha_n,\beta_m\in\mathbb R$ である。
+                        $X$ と $Y$ の独立性より，
+                    </p>
+                    <div class="formula">
+                        $$
+                        \begin{aligned}
+                        \mathbb E[f(X)g(Y)]
+                        &= \sum_{n,m}\alpha_n\beta_m\,
+                        \mathbb P(X\in A_n,\ Y\in B_m)\\
+                        &= \sum_{n,m}\alpha_n\beta_m\,
+                        \mathbb P(X\in A_n)\mathbb P(Y\in B_m)
+                        = \mathbb E[f(X)]\,\mathbb E[g(Y)].
+                        \end{aligned}
+                        $$
+                    </div>
+                    <p>
+                        一般の可測関数については、単関数で近似して極限をとればよい
+                        （一般の可測関数に対する期待値の定義を参照）。
+                    </p>
+                </div>
+            </details>
+        </section>
+
+        <hr>
+
+        <!-- ============================================================= -->
+        <section id="var-cov">
+            <h2>3. 分散と共分散</h2>
+
+            <h4>定義</h4>
+            <p>
+                確率変数 $X$ の分散と $(X,Y)$ の共分散を次で定義する。
+            </p>
+            <div class="formula">
+                $$
+                \mathrm{Var}(X) := \mathbb E[(X-\mathbb E[X])^2],
+                \qquad
+                \mathrm{Cov}(X,Y) := \mathbb E[(X-\mathbb E[X])(Y-\mathbb E[Y])].
+                $$
+            </div>
+
+            <h4>定理</h4>
+            <p>
+                $X$ と $Y$ が独立で二次モーメントが有限（例：$\mathbb E[X^2],\mathbb E[Y^2]<\infty$）なら
+                $\mathrm{Cov}(X,Y)=0$ であり，さらに
+            </p>
+            <div class="formula">
+                $$
+                \mathrm{Var}(X+Y)=\mathrm{Var}(X)+\mathrm{Var}(Y).
+                $$
+            </div>
+
+            <details>
+                <summary>証明</summary>
+                <div class="proof">
+                    <p>
+                        独立性より $(X-\mathbb E[X])$ と $(Y-\mathbb E[Y])$ も独立である。したがって
+                    </p>
+                    <div class="formula">
+                        $$
+                        \mathrm{Cov}(X,Y)
+                        = \mathbb E[(X-\mathbb E[X])(Y-\mathbb E[Y])]
+                        = \mathbb E[X-\mathbb E[X]]\,\mathbb E[Y-\mathbb E[Y]]
+                        = 0.
+                        $$
+                    </div>
+                    <p>また</p>
+                    <div class="formula">
+                        $$
+                        \begin{aligned}
+                        \mathrm{Var}(X+Y)
+                        &= \mathbb E\!\left[\bigl((X-\mathbb E[X])+(Y-\mathbb E[Y])\bigr)^2\right]\\
+                        &= \mathbb E[(X-\mathbb E[X])^2] + \mathbb E[(Y-\mathbb E[Y])^2]
+                        + 2\,\mathbb E[(X-\mathbb E[X])(Y-\mathbb E[Y])]\\
+                        &= \mathrm{Var}(X)+\mathrm{Var}(Y)+2\,\mathrm{Cov}(X,Y)
+                        = \mathrm{Var}(X)+\mathrm{Var}(Y).
+                        \end{aligned}
+                        $$
+                    </div>
+                </div>
+            </details>
+        </section>
+
+        <hr>
+
+        <!-- ============================================================= -->
+        <section id="mutual-pairwise">
+            <h2>4. 同時独立とペア独立</h2>
+
+            <h4>定義</h4>
+            <p>
+                確率変数族 $\{X_i\}_{i\in I}$ が <strong>同時独立</strong>であるとは，
+                任意の有限部分集合 $\{i_1,\dots,i_n\}\subset I$ と任意のボレル集合 $A_1,\dots,A_n\subset\mathbb R$ に対して
+            </p>
+            <div class="formula">
+                $$
+                \mathbb P(X_{i_1}\in A_1,\dots,X_{i_n}\in A_n)
+                = \prod_{k=1}^{n}\mathbb P(X_{i_k}\in A_k).
+                $$
+            </div>
+            <p>
+                また <strong>ペア独立</strong>とは，上式が任意の 2 つの指標の組（つまり $n=2$）について成り立つことをいう。
+                同時独立 $\Rightarrow$ ペア独立 だが，逆は一般に成り立たない。
+            </p>
+
+            <h4>例：ペア独立だが同時独立でない</h4>
+            <p>
+                $\{0,1\}$ に値をとり、それぞれ確率 $1/2$ で起こる独立な確率変数 $X,Y$ をとり，
+                次で $Z$ を定める：
+            </p>
+            <div class="formula">
+                $$
+                Z := (X+Y)\bmod 2 \quad (\text{同値に } Z = X\oplus Y).
+                $$
+            </div>
+            <p>
+                このとき $(X,Y)$, $(X,Z)$, $(Y,Z)$ はそれぞれ独立な組になるが，$(X,Y,Z)$ は同時独立ではない。
+                実際，取り得る三つ組は次の 4 通りだけである。
+            </p>
+            <div class="example">
+                <ul>
+                    <li>$(0,0,0)$, $(0,1,1)$, $(1,0,1)$, $(1,1,0)$（それぞれ確率 $1/4$）。</li>
+                </ul>
+            </div>
+            <p>例えば</p>
+            <div class="formula">
+                $$
+                \mathbb P(X=0,Y=0,Z=0)=\tfrac14 \neq \tfrac18
+                =\mathbb P(X=0)\mathbb P(Y=0)\mathbb P(Z=0).
+                $$
+            </div>
+        </section>
+
+        <hr>
+
+        <!-- ============================================================= -->
+        <section id="report">
+            <h2>5. レポート問題</h2>
+            <ol>
+                <li>
+                    $X$ と $Y$ を独立な確率変数とする。$X+Y$ の積率母関数
+                    $f(t)=\mathbb E[e^{t(X+Y)}]$ を $X$ の積率母関数と $Y$ の積率母関数で表せ。
+                    また $f$ の定義域についても考察せよ（$X$ と $Y$ の積率母関数の定義域との関係を述べよ）。
+                </li>
+                <li>
+                    $X\sim\mathrm{Poisson}(\lambda)$, $Y\sim\mathrm{Poisson}(\mu)$ を独立とする。
+                    このとき $X+Y\sim\mathrm{Poisson}(\lambda+\mu)$ を特性関数を用いて証明せよ。
+                </li>
+            </ol>
+        </section>
+
+        <nav class="navigation">
+            <a href="../class9/class9.html">← 前のクラス</a>
+            <a href="../index.html">ホーム</a>
+            <a href="../class11/class11.html">次のクラス →</a>
+        </nav>
+
+        <footer>
+            © 2025 確率論講義 ― すべての権利を留保します
+        </footer>
+    </div>
+</body>
+</html>

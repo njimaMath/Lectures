@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>第9回 補講メモ</title>
+
+  <!-- Softer tone / relaxed magazine style -->
+  <style>
+    :root{
+      --ink:#1a1a1a;
+      --sub:#6b6b6b;
+      --accent:#6b2e2e;
+      --rule:#e8e7e5;
+      --bg:#fffaf6;
+      --card-bg:#ffffff;
+      --serif: "Noto Serif JP","Yu Mincho","Hiragino Mincho ProN","Source Han Serif","MS PMincho",serif;
+      --sans: "Noto Sans JP","Yu Gothic","Hiragino Kaku Gothic ProN","Meiryo",sans-serif;
+      --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+      --max: 820px;
+      --radius: 12px;
+      --gap: 16px;
+    }
+
+    html,body{
+      background: var(--bg);
+      color: var(--ink);
+      margin:0;
+      padding:0;
+      -webkit-font-smoothing:antialiased;
+      -moz-osx-font-smoothing:grayscale;
+      font-family: var(--serif);
+    }
+
+    header{
+      background: linear-gradient(180deg, rgba(255,255,255,0.9), rgba(255,255,255,0.85));
+      box-shadow: 0 1px 0 rgba(19,19,19,0.03);
+      position: sticky;
+      top:0;
+      z-index: 10;
+      backdrop-filter: blur(3px);
+    }
+    .masthead{
+      max-width: var(--max);
+      margin: 0 auto;
+      padding: 12px var(--gap);
+      display:flex;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+      font-family: var(--sans);
+    }
+    .brand{
+      font-size: 16px;
+      color: var(--accent);
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      background: linear-gradient(90deg, rgba(107,46,46,0.06), transparent);
+      padding: 6px 10px;
+      border-radius: 8px;
+    }
+    .section{
+      font-size: 13px;
+      color: var(--sub);
+      padding: 6px 8px;
+      border-radius: 8px;
+      background: rgba(0,0,0,0.02);
+      margin-left: auto;
+    }
+
+    main{
+      max-width: var(--max);
+      margin: 22px auto;
+      padding: 20px var(--gap) 72px;
+    }
+
+    h1{
+      font-family: var(--serif);
+      font-size: 30px;
+      line-height: 1.28;
+      font-weight:700;
+      margin: 6px 0 6px;
+      color: var(--ink);
+    }
+    .dek{
+      font-family: var(--sans);
+      font-size: 15px;
+      color: var(--sub);
+      margin: 8px 0 14px;
+    }
+    .meta{
+      font-family: var(--sans);
+      font-size: 13px;
+      color: var(--sub);
+      display:flex;
+      gap:12px;
+      flex-wrap:wrap;
+      margin-bottom: 18px;
+    }
+    .meta div{ padding:6px 10px; background: rgba(0,0,0,0.02); border-radius:8px; }
+
+    article{
+      font-family: var(--serif);
+      font-size: 17px;
+      line-height: 1.9;
+      color: var(--ink);
+      background: linear-gradient(180deg, rgba(255,255,255,0.95), rgba(255,255,255,0.98));
+      padding: 20px;
+      border-radius: var(--radius);
+      box-shadow: 0 8px 20px rgba(16,16,16,0.03);
+      border: 1px solid var(--rule);
+    }
+
+    p{ margin: 0 0 1.05em; }
+
+    .lead{
+      position: relative;
+      padding-top: 4px;
+    }
+    .lead::first-letter{
+      float:left;
+      font-size: 36px;
+      line-height: 1;
+      padding-right: 8px;
+      padding-top: 2px;
+      font-family: var(--serif);
+      font-weight: 700;
+      color: var(--accent);
+      background: rgba(107,46,46,0.04);
+      border-radius: 6px;
+      padding-left: 6px;
+      padding-right: 6px;
+      margin-right: 8px;
+    }
+
+    h2{
+      font-family: var(--sans);
+      font-size: 15px;
+      font-weight: 700;
+      color: rgba(0,0,0,0.92);
+      margin: 24px 0 8px;
+      padding-bottom: 6px;
+      border-bottom: 1px dashed var(--rule);
+    }
+
+    .eq{
+      text-align: center;
+      margin: 14px auto;
+      padding: 10px 16px;
+      font-family: var(--serif);
+      background: #fcfcfc;
+      border: 1px solid var(--rule);
+      border-radius: 8px;
+      max-width: 640px;
+    }
+
+    .theorem{
+      border-left: 4px solid var(--accent);
+      background: #fff;
+      padding: 14px 16px;
+      margin: 16px 0;
+      border-radius: 8px;
+    }
+    .theorem .label{
+      font-family: var(--sans);
+      font-size: 12px;
+      font-weight:700;
+      color: var(--accent);
+      display:inline-block;
+      margin-bottom:6px;
+    }
+
+    .note{
+      font-family: var(--sans);
+      font-size: 14px;
+      color: var(--sub);
+      padding-left:10px;
+      margin: 8px 0 0;
+    }
+
+    .pull{
+      font-family: var(--serif);
+      font-size: 16px;
+      line-height:1.9;
+      color:#333;
+      background: linear-gradient(90deg, rgba(107,46,46,0.03), rgba(0,0,0,0.01));
+      padding:12px 14px;
+      margin: 14px 0;
+      border-radius: 8px;
+      border: 1px solid rgba(0,0,0,0.03);
+    }
+
+    code, kbd, samp{
+      font-family: var(--mono);
+      font-size: .95em;
+      background:#f6f6f6;
+      padding:.12em .34em;
+      border-radius:6px;
+    }
+
+    .footer-note{
+      font-family: var(--sans);
+      font-size: 13px;
+      color: var(--sub);
+      margin-top: 22px;
+      padding-top: 12px;
+      border-top: 1px dashed var(--rule);
+    }
+
+    .back-nav{
+      display:flex;
+      justify-content:flex-start;
+      margin-bottom:16px;
+    }
+
+    .back-link{
+      display:inline-flex;
+      align-items:center;
+      gap:6px;
+      font-family: var(--sans);
+      font-size:13px;
+      font-weight:600;
+      color: var(--accent);
+      text-decoration:none;
+      padding:6px 14px;
+      border-radius:999px;
+      border:1px solid rgba(107,46,46,0.28);
+      background: rgba(107,46,46,0.06);
+      transition: background 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .back-link:hover{
+      background: rgba(107,46,46,0.12);
+      transform: translateY(-1px);
+      box-shadow:0 8px 18px rgba(107,46,46,0.18);
+    }
+
+    @media (max-width:520px){
+      h1{ font-size: 22px; }
+      .masthead{ padding:10px; }
+      main{ padding: 16px; }
+      article{ padding: 16px; }
+      .lead::first-letter{ font-size: 30px; }
+    }
+
+    @media print{
+      header{ display:none; }
+      body{ background: #fff; color: #000; }
+      article{ box-shadow:none; border-radius:0; padding:0; border:none; }
+    }
+  </style>
+
+  <!-- MathJax (use $...$ for inline, $$...$$ for display) -->
+  <script>
+    window.MathJax = {
+      tex: {
+        inlineMath: [['$', '$'], ['\(', '\)']],
+        displayMath: [['$$','$$'], ['\[','\]']],
+        tags: 'none'
+      },
+      svg: {fontCache: 'global'}
+    };
+  </script>
+  <script defer src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+</head>
+<body>
+  <header>
+    <div class="masthead">
+      <div class="brand">雑記・確率</div>
+      <div class="section">補講</div>
+    </div>
+  </header>
+
+  <main>
+    <nav class="back-nav">
+      <a class="back-link" href="../index.html">&larr; ホームに戻る</a>
+    </nav>
+    <h1>第9回 補講メモ</h1>
+    <div class="meta">
+      <div>寄稿：中島秀太</div>
+      <div>更新日：2025年11月1日</div>
+    </div>
+
+    <article>
+      <p class="lead">第9回では、フーリエ解析と確率論をつなぐ要石「ボフナーの定理」を扱いました。特性関数の背後にある「正定値性」が、どのように分布の存在と対応づけられるかを整理します。</p>
+
+      <h2>イントロダクション</h2>
+      <p>波（フーリエ変換）と確率（特性関数）は見かけが似ています。実際、確率分布の特性関数は分布に対するフーリエ変換です。では「どんな関数が分布の特性関数になれるのか？」——それを完全に特徴づけるのがボフナーの定理です。</p>
+
+      <div class="theorem">
+        <div class="label">定理（ボフナーの定理：実数版の要旨）</div>
+        <p>連続関数 $\varphi:\mathbb{R}\to\mathbb{C}$ が</p>
+        <div class="eq">$$
+          \varphi(0)=1,\quad \text{かつ}\quad
+          \sum_{i,j=1}^n c_i\,\overline{c_j}\,\varphi(t_i-t_j)\ \ge 0\ \ (\forall\ n,\ t_i\in\mathbb{R},\ c_i\in\mathbb{C})
+        $$</div>
+        <p>（正定値）を満たすとき、ある確率分布 $\mu$ が存在して</p>
+        <div class="eq">$$
+          \varphi(t)=\int_{\mathbb{R}} e^{itx}\,\mu(dx) \qquad (t\in\mathbb{R})
+        $$</div>
+        <p>が成り立つ。逆に、右式の形をもつ関数は連続な正定値関数である。</p>
+      </div>
+
+      <h2>正定値性とは</h2>
+      <p>任意の $t_1,\dots,t_n\in\mathbb{R}$ に対して、行列 $[\varphi(t_i-t_j)]_{i,j}$ が半正定値であることを指します。直観的には、フーリエ解析における「エネルギーが負にならない」性質の抽象化です。</p>
+
+      <h2>特性関数との関係</h2>
+      <p>確率変数 $X$ の特性関数</p>
+      <div class="eq">$$
+        \varphi_X(t)=\mathbb{E}[e^{itX}]
+      $$</div>
+      <p>は常に連続で正定値、かつ $\varphi_X(0)=1$ を満たします。よって「任意の特性関数は正定値」。ボフナーの定理は逆向きも保証し、「正定値で $\varphi(0)=1$ かつ連続」なら、それは必ず何らかの確率変数の特性関数です。</p>
+
+      <h2>応用メモ</h2>
+      <ul>
+        <li>分布の存在判定：候補 $\varphi$ が特性関数になり得るか、正定値性と連続性で判定。</li>
+        <li>機械学習（カーネル）：正定値関数＝カーネル。ガウスカーネル等の正当性はボフナーの定理と同系統の議論に支えられる。</li>
+        <li>確率過程・信号処理：自己相関関数の正定値性とスペクトル表現（ボーコナー–ヒンチン型の表現）。</li>
+      </ul>
+
+      <h2>補足とバリエーション</h2>
+      <ul>
+        <li>$\varphi(0)=1$ を外すと有限正の測度のフーリエ変換（正規化前）に対応。</li>
+        <li>多次元版 $\mathbb{R}^d$ でも同様（差 $t_i-t_j$ をベクトル差に置換）。</li>
+        <li>レヴィの連続性定理と併せて、分布収束の判定に強力。</li>
+      </ul>
+
+      <h2>まとめ</h2>
+      <ul>
+        <li>特性関数は正定値かつ $\varphi(0)=1$ の連続関数。</li>
+        <li>逆に、連続・正定値・$\varphi(0)=1$ なら特性関数として一意の分布が存在。</li>
+        <li>フーリエ解析と確率論をつなぐ基本原理として覚えておくと有用。</li>
+      </ul>
+
+      <p class="footer-note">誤植や補足の希望があればお知らせください。式は MathJax で整形表示されます。</p>
+    </article>
+  </main>
+</body>
+</html>

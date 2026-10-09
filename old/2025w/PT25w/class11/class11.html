@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>独立確率変数列に対する大数の法則と中心極限定理</title>
+    <style>
+        body {
+            font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+            line-height: 1.7;
+            color: #212121;
+            margin: 0;
+            background: #fafafa;
+        }
+        .container {
+            max-width: 960px;
+            margin: 0 auto;
+            padding: 2rem 1rem 4rem;
+            background: #fff;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+            border-radius: 12px;
+        }
+        h1, h2, h3, h4 {
+            color: #1a237e;
+            margin-top: 1.2em;
+            margin-bottom: 0.6em;
+        }
+        h1 {
+            font-size: 1.9rem;
+            text-align: center;
+        }
+        h2 {
+            font-size: 1.5rem;
+            border-left: 6px solid #1a237e;
+            padding-left: 0.55rem;
+        }
+        h3 { font-size: 1.25rem; }
+        h4 { font-size: 1.1rem; color: #3949ab; margin-top: 1.2em; }
+        .section-lead {
+            font-size: 1.05rem;
+            color: #424242;
+            margin-top: -0.3rem;
+        }
+        .formula {
+            background: #f3f4ff;
+            border-left: 4px solid #5c6bc0;
+            padding: 0.8rem 1.2rem;
+            margin: 1.2rem 0;
+            border-radius: 8px;
+            overflow-x: auto;
+            text-align: center;
+        }
+        details { margin-bottom: 1rem; }
+        details summary { cursor: pointer; font-weight: 600; }
+        .proof {
+            background: #e8f5e9;
+            border-left: 4px solid #43a047;
+            padding: 0.8rem 1.2rem;
+            margin: 1.2rem 0;
+            border-radius: 8px;
+            overflow-x: auto;
+        }
+        .example, .note {
+            border-radius: 8px;
+            padding: 0.75rem 1rem;
+            margin: 1rem 0;
+        }
+        .example {
+            background: #fff8e1;
+            border-left: 4px solid #fb8c00;
+        }
+        .note {
+            background: #e3f2fd;
+            border-left: 4px solid #1e88e5;
+        }
+        .toc {
+            background: #fafafa;
+            border: 1px solid #eee;
+            border-radius: 10px;
+            padding: 12px 14px;
+            margin: 1rem 0 1.2rem;
+        }
+        .toc a { color: #1a237e; text-decoration: none; }
+        .toc a:hover { text-decoration: underline; }
+        ul { margin: 0 0 1rem 1.2rem; }
+        .navigation {
+            display: flex;
+            justify-content: center;
+            gap: 0.8rem;
+            margin: 2.2rem 0;
+            border-top: 1px solid #e0e0e0;
+            padding-top: 1.5rem;
+            flex-wrap: wrap;
+        }
+        .navigation a {
+            padding: 0.65rem 1.5rem;
+            background: #1a237e;
+            color: #fff;
+            text-decoration: none;
+            border-radius: 6px;
+            transition: opacity 0.2s;
+        }
+        .navigation a:hover { opacity: 0.85; }
+        footer {
+            margin-top: 3rem;
+            color: #777;
+            text-align: center;
+            font-size: 0.9rem;
+        }
+    </style>
+    <script>
+        MathJax = {
+          tex: {
+            inlineMath: [['$', '$'], ['\\(', '\\)']],
+            displayMath: [['$$','$$'], ['\\[','\\]']]
+          }
+        };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>独立確率変数列に対する大数の法則と中心極限定理</h1>
+            <p class="section-lead">
+                マルコフとチェビシェフの不等式、弱・強大数の法則、特性関数による中心極限定理。
+            </p>
+        </header>
+
+        <div class="toc">
+            <strong>目次</strong>
+            <ul>
+                <li><a href="#markov">1. マルコフの不等式</a></li>
+                <li><a href="#chebyshev">2. チェビシェフの不等式</a></li>
+                <li><a href="#lln">3. 大数の法則</a></li>
+                <li><a href="#clt">4. 中心極限定理</a></li>
+            </ul>
+        </div>
+
+        <section id="markov">
+            <h2>1. マルコフの不等式</h2>
+            <p>
+                確率変数 $X$ が $\mathbb P(X\ge 0)=1$ を満たすとする。このとき
+            </p>
+            <div class="formula">
+                $$
+                \mathbb P(X\ge 1) \le \mathbb E[X].
+                $$
+            </div>
+            <details>
+                <summary>証明</summary>
+                <div class="proof">
+                    <p>
+                        $\mathbf 1_{\{X\ge 1\}} \le X\mathbf 1_{\{X\ge 1\}} \le X$ であるから
+                    </p>
+                    <div class="formula">
+                        $$
+                        \mathbb P(X\ge 1)
+                        = \mathbb E[\mathbf 1_{\{X\ge 1\}}]
+                        \le \mathbb E[X].
+                        $$
+                    </div>
+                </div>
+            </details>
+        </section>
+
+        <hr>
+
+        <section id="chebyshev">
+            <h2>2. チェビシェフの不等式</h2>
+            <p>任意の $t&gt;0$ に対して</p>
+            <div class="formula">
+                $$
+                \mathbb P(|X-\mathbb E[X]|\ge t) \le \frac{\mathrm{Var}(X)}{t^2}.
+                $$
+            </div>
+            <details>
+                <summary>証明</summary>
+                <div class="proof">
+                    <div class="formula">
+                        $$
+                        \mathbb P(|X-\mathbb E[X]|\ge t)
+                        = \mathbb P\left(\frac{|X-\mathbb E[X]|^2}{t^2}\ge 1\right)
+                        \le \frac{\mathbb E[(X-\mathbb E[X])^2]}{t^2}
+                        = \frac{\mathrm{Var}(X)}{t^2}.
+                        $$
+                    </div>
+                    <p>これは $(X-\mathbb E[X])^2$ にマルコフの不等式を適用したものである。</p>
+                </div>
+            </details>
+        </section>
+
+        <hr>
+
+        <section id="lln">
+            <h2>3. 大数の法則</h2>
+            <p>次で定義する。</p>
+            <div class="formula">
+                $$
+                \bar{X}_n = \frac{1}{n}\sum_{i=1}^n X_i.
+                $$
+            </div>
+
+            <h3>弱法則</h3>
+            <p>
+                $X_1,\dots,X_n$ を独立同分布とし、$\mathbb E[(X_1)^2]&lt;\infty$ かつ
+                $\mathrm{Var}(X_1)&lt;\infty$ とする。このとき $\bar{X}_n \to \mathbb E[X_1]$
+                が確率収束する。
+            </p>
+            <details>
+                <summary>証明</summary>
+                <div class="proof">
+                    <p>$\varepsilon&gt;0$ に対して</p>
+                    <div class="formula">
+                        $$
+                        \mathbb P(|\bar{X}_n-\mathbb E[X_1]|&gt;\varepsilon)
+                        = \mathbb P(|\bar{X}_n-\mathbb E[\bar{X}_n]|&gt;\varepsilon)
+                        \le \frac{\mathrm{Var}(\bar{X}_n)}{\varepsilon^2}.
+                        $$
+                    </div>
+                    <p>
+                        $\mathrm{Var}(\bar{X}_n)=\frac{1}{n^2}\sum_{i=1}^n \mathrm{Var}(X_i)
+                        = \frac{\mathrm{Var}(X_1)}{n}$ なので、右辺は $0$ に収束する。
+                    </p>
+                </div>
+            </details>
+
+            <h3>強法則</h3>
+            <p>
+                $X_1,\dots,X_n$ を独立同分布とし $\mathbb E[X_1^4] < \infty$ とする。このとき
+                $\bar{X}_n \to \mathbb E[X_1]$ がほとんど確実に成り立つ。
+            </p>
+            <details>
+                <summary>証明</summary>
+                <div class="proof">
+                    <p>$C&gt;0$ が存在して</p>
+                    <div class="formula">
+                        $$
+                        \mathbb E[(\bar{X}_n-\mathbb E[\bar{X}_n])^4] \le C n^{-2}.
+                        $$
+                    </div>
+                    <p>したがって</p>
+                    <div class="formula">
+                        $$
+                        \sum_{n=1}^{\infty}\mathbb E[(\bar{X}_n-\mathbb E[\bar{X}_n])^4] &lt; \infty.
+                        $$
+                    </div>
+                    <p>ゆえに</p>
+                    <div class="formula">
+                        $$
+                        \sum_{n=1}^{\infty}(\bar{X}_n-\mathbb E[\bar{X}_n])^4 &lt; \infty
+                        \quad \text{a.s.}
+                        $$
+                    </div>
+                    <p>
+                        $\sum |a_n|&lt;\infty$ ならば $a_n\to 0$ であるから、
+                        $\bar{X}_n-\mathbb E[\bar{X}_n] \to 0$ がほとんど確実に成り立つ。
+                    </p>
+                </div>
+            </details>
+        </section>
+
+        <hr>
+
+        <section id="clt">
+            <h2>4. 中心極限定理</h2>
+            <p>
+                $X_1,\dots,X_n$ を独立同分布とし、$m=\mathbb E[X_1]$ と
+                $v=\mathrm{Var}(X_1)&lt;\infty$ とする。このとき
+            </p>
+            <div class="formula">
+                $$
+                Y_n := \sqrt{n}(\bar{X}_n - m) \Rightarrow N(0,v).
+                $$
+            </div>
+
+            <h3>補題（レポート）</h3>
+            <div class="formula">
+                $$
+                a_n \to a \in \mathbb R
+                \quad \Longrightarrow \quad
+                \left(1-\frac{a_n}{n}\right)^n \to e^{-a}.
+                $$
+            </div>
+
+            <details>
+                <summary>特性関数による証明略</summary>
+                <div class="proof">
+                    <p>
+                        $Y_n \Rightarrow N(0,v)$ は $\phi_{Y_n}(\xi)\to e^{-v\xi^2/2}$ と同値であることを思い出す。
+                        さらに、
+                    </p>
+                    <div class="formula">
+                        $$
+                        \phi_{Y_n}(\xi)=\mathbb E\left[\exp\left(\frac{i\xi}{\sqrt{n}}
+                        \sum_{k=1}^n (X_k-m)\right)\right]
+                        = \left(\mathbb E\left[e^{\frac{i\xi}{\sqrt{n}}(X_1-m)}\right]\right)^n.
+                        $$
+                    </div>
+                    <p>次の展開式</p>
+                    <div class="formula">
+                        $$
+                        e^x = 1 + x
+                        + \int_0^1 x^2 (1-t) e^{tx}\,dt,
+                        $$
+                    </div>
+                    <p>および $\mathbb E[X_1-m]=0$ を用いると</p>
+                    <div class="formula">
+                        $$
+                        \mathbb E\left[e^{\frac{i\xi}{\sqrt{n}}(X_1-m)}\right]
+                        = 1 - \frac{\xi^2}{n}\int_0^1　 (1-t)
+                        \mathbb E\left[(X_1-m)^2 e^{\frac{i\xi t}{\sqrt{n}}(X_1-m)}\right]dt.
+                        $$
+                    </div>
+                    <p>
+                        優収束定理により積分は
+                        $\mathbb E[(X_1-m)^2]=v$ に収束するので
+                    </p>
+                    <div class="formula">
+                        $$
+                        \mathbb E\left[e^{\frac{i\xi}{\sqrt{n}}(X_1-m)}\right]
+                        = 1-\frac{v\xi^2}{2n}+o\!\left(\frac{1}{n}\right).
+                        $$
+                    </div>
+                    <p>補題を適用すると $\phi_{Y_n}(\xi)\to e^{-v\xi^2/2}$ を得る。</p>
+                </div>
+            </details>
+        </section>
+
+        <hr>
+
+        <section id="report">
+            <h2>レポート（2問）</h2>
+            <ol>
+                <li>
+                    <p>強法則の証明の条件のもとで次を示せ。ある$C&gt;0$ が存在して</p>
+                    <div class="formula">
+                        $$
+                        \mathbb E[(\bar{X}_n-\mathbb E[\bar{X}_n])^4] \le C n^{-2}.
+                        $$
+                    </div>
+                    </li>
+                <li>
+                    <p>次の補題を証明せよ（本文中のレポート）。</p>
+                    <div class="formula">
+                        $$
+                        a_n \to a \in \mathbb R
+                        \quad \Longrightarrow \quad
+                        \left(1-\frac{a_n}{n}\right)^n \to e^{-a}.
+                        $$
+                    </div>
+                </li>
+            </ol>
+        </section>
+
+        <nav class="navigation">
+            <a href="../class10/class10.html">← 前のクラス</a>
+            <a href="../index.html">ホーム</a>
+        </nav>
+
+        <footer>
+            © 2025 確率論講義 - すべての権利を留保します
+        </footer>
+    </div>
+</body>
+</html>

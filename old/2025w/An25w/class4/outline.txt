@@ -1,0 +1,21 @@
+1.　復習一変数関数fに対しS_N(f) = ¥Delta ¥sum_{i=1}^N f(x_i) ¥to ¥int_a^b f dx
+K=[a,b]¥times [c,d]とする。
+S_{N,M} = ¥Delta_x ¥Delta_y ¥sum_{i=1}^N¥sum_{j=1}^M f(x_i,y_j)ここでx_i = a + i¥Delta_x , y_j = c + j¥Delta_y, ¥Delta_x=(b-a)/N, ¥Delta_y=(d-c)/M
+
+¥iint_K f dxdy = ¥lim S_{N,M}として重積分を定義
+2. 長方形上の逐次積分
+yを固定すると、f(x,y)はxに関する関数と思える。したがって、¥int_a^b f(x,y) dxが考えられる。
+定理¥iint_K f dxdy = ¥int_c^d (¥int_a^b f dx) dy
+同様に¥iint_K f dxdy = ¥int_a^b (¥int_c^d f dy) dx
+例 1 ¥iint_{[0,1]¥times [0,1]} xy dx dy
+例 2 ¥iint_{[-1,1]¥times [0,2]} (2x+1) y dx dyを２つで計算してみる
+
+証明: jを止めると, ¥Delta_x  ¥sum_{i=1}^N  f(x_i,y_j)  = S_N(f_j)¥to ¥int_a^b f(x,y_j) dx as N¥to ¥infty.
+したがって, S_{N,M} ¥to  ¥Delta_y ¥sum_{j=1}^M ¥int_a^b f(x,y_j) dx =  ¥Delta_y ¥sum_{j=1}^M g(y_j) = S_M(g) ¥to ¥int_c^d g dy= ¥int_c^d (¥int_a^b f dx) dy
+2.一般の逐次積分
+D = ¥{(x,y): a¥leq x¥leq b, ¥phi(x) ¥leqy¥leq psi(x)¥}の領域を考える。このとき、
+iint_D f dxdy= ¥int_a^b (¥int_¥phi(x)^¥psi(x) f dy) dx
+証明: D¥subset [a,b]¥times [c,d]をとる. ¥tilde{f}=f 1_Dとする。先程の定理より, iint_D f dxdy = iint_K ¥tilde{f} dxdy ¥int_a^b (¥int_c^d ¥tilde{f}  dy) dx =¥int_a^b (¥int_¥phi(x)^¥psi(x) f dy) dx.
+例
+
+一般の集合Dについては、分割して上の定理を適用して計算し、最後に足し合わせる。

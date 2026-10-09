@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>微分方程式と物理現象</title>
+  <script>
+    MathJax = {
+      tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']],
+        displayMath: [['$$', '$$'], ['\\[', '\\]']]
+      },
+      options: { enableMenu: false }
+    };
+  </script>
+  
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js" async></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+  <style>
+    :root {
+      --primary-color: #1a365d;
+      --secondary-color: #2b6cb0;
+      --accent-color: #4299e1;
+      --text-color: #2d3748;
+      --background-color: #f8fafc;
+      --section-bg: #ffffff;
+      --border-radius: 8px;
+      --box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+      --section-border-left: 5px solid var(--accent-color);
+      --section-padding: 2rem;
+      --heading-font: 'Palatino', 'Times New Roman', serif;
+      --body-font: 'Segoe UI', 'Helvetica Neue', sans-serif;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: var(--body-font);
+      line-height: 1.8;
+      background: var(--background-color);
+      color: var(--text-color);
+      max-width: 1000px;
+      margin: 0 auto;
+      padding: 2rem;
+      counter-reset: section;
+    }
+
+    .header {
+      text-align: center;
+      margin-bottom: 3rem;
+      padding-bottom: 2rem;
+      border-bottom: 1px solid #e2e8f0;
+    }
+
+    h1 {
+      color: var(--primary-color);
+      font-family: var(--heading-font);
+      font-size: 2.5rem;
+      margin-bottom: 1rem;
+      text-align: center;
+      font-weight: 700;
+    }
+
+    h2 {
+      color: var(--secondary-color);
+      font-family: var(--heading-font);
+      margin-top: 1rem;
+      margin-bottom: 1rem;
+      font-size: 1.5rem;
+      position: relative;
+    }
+
+    h2::before {
+      content: counter(section) ". ";
+      counter-increment: section;
+    }
+
+    p {
+      margin-bottom: 1.2rem;
+      text-align: justify;
+    }
+
+    code {
+      background: #edf2f7;
+      padding: 2px 4px;
+      border-radius: 4px;
+      font-family: Consolas, monospace;
+    }
+
+    .section {
+      background: var(--section-bg);
+      border-left: var(--section-border-left);
+      padding: var(--section-padding);
+      margin-bottom: 2.5rem;
+      box-shadow: var(--box-shadow);
+      border-radius: var(--border-radius);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .section:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 6px 16px rgba(0, 0, 0, 0.12);
+    }
+
+    .section-title {
+      display: flex;
+      align-items: center;
+      margin-bottom: 1.5rem;
+    }
+
+    .section-title i {
+      margin-right: 10px;
+      color: var(--accent-color);
+    }
+
+    .math-display {
+      overflow-x: auto;
+      padding: 1rem 0;
+    }
+
+    ul, ol {
+      margin-left: 2rem;
+      margin-bottom: 1.5rem;
+    }
+
+    li {
+      margin-bottom: 0.5rem;
+    }
+
+    .conclusion {
+      background: linear-gradient(to right, #f0f9ff, #e6f7ff);
+      border-left: 5px solid #3182ce;
+      font-style: italic;
+    }
+
+    .footer {
+      text-align: center;
+      margin-top: 4rem;
+      padding-top: 2rem;
+      border-top: 1px solid #e2e8f0;
+      color: #718096;
+      font-size: 0.9rem;
+    }
+
+    @media (max-width: 768px) {
+      body {
+        padding: 1rem;
+      }
+      
+      .section {
+        padding: 1.5rem 1rem;
+      }
+      
+      h1 {
+        font-size: 2rem;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<div class="header">
+  <h1>微分方程式と物理現象</h1>
+  <p>今日のテーマ：微分方程式と物理現象</p>
+</div>
+
+<div class="section">
+  <div class="section-title">
+    <i class="fas fa-square-root-alt"></i>
+    <h2>積分の復習</h2>
+  </div>
+  <p>基本的な積分計算の復習から始めます。積分の基本定理と重要な性質を確認しましょう。</p>
+  
+  <div class="math-display">
+    $$F(x) = \int f(x) \, dx \Rightarrow F'(x) = f(x)$$
+  </div>
+  
+  <p>例えば以下のような計算があります：</p>
+  
+  <div class="math-display">
+    $$\int x \, dx = \frac{x^2}{2}$$
+    
+    $$F(x) = \int f(x) \, dx \text{の時}$$
+    
+    $$\int_a^b f(x) \, dx = F(b) - F(a)$$
+  </div>
+  
+  <p>また、重要な例として以下の計算があります：</p>
+  
+  <div class="math-display">
+    $$\int_{-1}^1 x \, dx = \left[ \frac{x^2}{2} \right]_{-1}^1 = \frac{1}{2} - \frac{1}{2} = 0$$
+  </div>
+</div>
+
+<div class="section">
+  <div class="section-title">
+    <i class="fas fa-calculator"></i>
+    <h2>一般的な微分方程式</h2>
+  </div>
+  
+  <p>微分方程式とは、未知関数とその導関数の間の関係を表す方程式です。</p>
+  
+  <div class="math-display">
+    $$y = f(x) \text{のとき} \quad y' \text{は} f'(x), \, y'' \text{は} f''(x), \, \ldots$$
+    
+    $$f'(x) = f(x) \text{の解は} y = Ce^x$$
+  </div>
+  
+  <p>例えば：</p>
+  
+  <div class="math-display">
+    $$y' = y \text{のとき}\quad y = Ce^x \text{（Cは定数）}$$
+    
+    $$y' = y, \, y(0) = 1 \text{のとき} \quad y = e^x$$
+  </div>
+  
+  <p>別の例として：</p>
+  
+  <div class="math-display">
+    $$y'' = -y, \, y(0) = 0, \, y'(0) = 1 \text{のとき} \quad y = \sin(x)$$
+  </div>
+</div>
+
+<div class="section">
+  <div class="section-title">
+    <i class="fas fa-rocket"></i>
+    <h2>ニュートン力学</h2>
+  </div>
+  
+  <p>ニュートン力学における運動方程式を考えます：</p>
+  
+  <p>「モノ」の運動を表す（1次元）：</p>
+  <ul>
+    <li>$x(t)$ を時刻 $t$ での位置　$(x(t) \in \mathbb{R})$</li>
+    <li>$m$ を質量　（質量）</li>
+    <li>$F$ を「モノ」に働く力</li>
+  </ul>
+  
+  <div class="math-display">
+    <p>ニュートンの運動方程式：</p>
+    $$m \cdot \frac{d^2x(t)}{dt^2} = F$$
+    
+    $$(\text{質量}) \times (\text{加速度}) = (\text{力})$$
+  </div>
+</div>
+
+<div class="section">
+  <div class="section-title">
+    <i class="fas fa-draw-polygon"></i>
+    <h2>具体例</h2>
+  </div>
+  
+  <p>力 $F$ が $x(t)$ と $\frac{dx(t)}{dt}$ によって決まる場合を考えます。</p>
+  
+  <div class="math-display">
+    <p>例：</p>
+    $$F = -k \cdot x(t) \quad \text{（バネ定数）}$$
+    
+    $$F = -\rho \cdot \frac{dx(t)}{dt} \quad \text{（抵抗力定数）}$$
+  </div>
+  
+  <div class="math-display">
+    <p>注意1</p>
+    $$F \text{は} x(t) \text{と} \frac{dx(t)}{dt} \text{によって決まる動力}$$
+  </div>
+  
+  <div class="math-display">
+    <p>注意2</p>
+    $$m \cdot \frac{d^2x(t)}{dt^2} = F = -\rho \cdot \frac{dx(t)}{dt}$$
+    
+    $$m \cdot x''(t) = -\rho \cdot x'(t), \, y(0) = 0, \, y'(0) = 1 \text{の解は}$$
+    
+    $$x(t) = \frac{m}{\rho}(1 - e^{-\frac{\rho}{m}t})$$
+  </div>
+</div>
+
+<div class="section">
+  <div class="section-title">
+    <i class="fas fa-infinity"></i>
+    <h2>バネの振動</h2>
+  </div>
+  
+  <p>バネの振動を表す微分方程式とその解を考えます。</p>
+  
+  <div class="math-display">
+    $$m \cdot x''(t) = -k \cdot x(t) \quad (k > 0)$$
+    
+    $$x''(t) = -\frac{k}{m} \cdot x(t) = -\omega^2 \cdot x(t) \quad \omega = \sqrt{\frac{k}{m}} > 0$$
+  </div>
+  
+  <p>この微分方程式の一般解は以下のようになります：</p>
+  
+  <div class="math-display">
+    $$x(t) = A\cos(\omega t) + B\sin(\omega t) \quad (A, B \in \mathbb{R})$$
+  </div>
+  
+  <p>例題として：</p>
+  
+  <div class="math-display">
+    $$x''(t) = -4x(t), \, x(0) = \frac{1}{2}, \, x'(0) = 1 \text{のとき}$$
+  </div>
+</div>
+
+<div class="section">
+  <div class="section-title">
+    <i class="fas fa-tint"></i>
+    <h2>減衰振動</h2>
+  </div>
+  
+  <p>抵抗力を考慮した減衰振動を表す微分方程式について考察する。</p>
+  
+  <div class="math-display">
+    $$m \cdot x''(t) = -\rho x'(t) - k \cdot x(t) \quad (\rho > 0)$$
+  </div>
+  
+  <p>この方程式を以下の手順で解く。まず、特性方程式を立てる：</p>
+  
+  <div class="math-display">
+    $$m\lambda^2 + \rho\lambda + k = 0$$
+  </div>
+
+  <p>この2次方程式の解は次のようになる：</p>
+
+  <div class="math-display">
+    $$\lambda = \frac{-\rho \pm \sqrt{\rho^2 - 4mk}}{2m}$$
+  </div>
+
+  <p>ここで、以下の3つの場合に分けて考察する：</p>
+  <ul>
+    <li>過減衰（$\rho^2 > 4mk$）: 2つの実根を持つ</li>
+    <li>臨界減衰（$\rho^2 = 4mk$）: 重根を持つ</li>
+    <li>不足減衰（$\rho^2 < 4mk$）: 複素共役な根を持つ</li>
+  </ul>
+
+  <p>不足減衰の場合、解は次の形で表される：</p>
+
+  <div class="math-display">
+    $$x(t) = e^{-\frac{\rho}{2m}t}(A\cos(\omega t) + B\sin(\omega t))$$
+    $$\text{ただし、} \omega = \sqrt{\frac{k}{m} - \frac{\rho^2}{4m^2}}$$
+  </div>
+
+  <p>これは振動の振幅が時間とともに指数関数的に減衰することを示している。減衰の度合いは$\rho$の大きさによって決定される。</p>
+</div>
+
+<div class="footer">
+  <p>© 2025 微分方程式講義ノート</p>
+</div>
+
+</body>
+</html>

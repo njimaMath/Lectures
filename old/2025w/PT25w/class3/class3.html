@@ -1,0 +1,540 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>期待値と極限定理</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Cabin:wght@500&family=Noto+Sans+JP:wght@400;500;700&display=swap');
+
+        :root {
+            --background: radial-gradient(120% 120% at 20% 20%, #1e3a8a 0%, #0f172a 55%, #020617 100%);
+            --card-bg: rgba(255, 255, 255, 0.88);
+            --card-border: rgba(255, 255, 255, 0.25);
+            --accent: #4c6ef5;
+            --accent-soft: rgba(76, 110, 245, 0.14);
+            --accent-strong: #2c3791;
+            --text-primary: #0f172a;
+            --text-secondary: #475569;
+            --highlight: #facc15;
+            --shadow: 0 18px 45px -25px rgba(15, 23, 42, 0.75);
+        }
+
+        *, *::before, *::after {
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Noto Sans JP', 'Hiragino Sans', 'Meiryo', sans-serif;
+            line-height: 1.7;
+            margin: 0;
+            min-height: 100vh;
+            padding: 60px 24px;
+            color: var(--text-primary);
+            background: var(--background);
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+        }
+
+        body::before {
+            content: "";
+            position: fixed;
+            inset: 0;
+            background: repeating-linear-gradient(135deg, rgba(255, 255, 255, 0.04) 0, rgba(255, 255, 255, 0.04) 12px, transparent 12px, transparent 24px);
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        main {
+            width: min(960px, 100%);
+            background: var(--card-bg);
+            backdrop-filter: blur(18px);
+            border: 1px solid var(--card-border);
+            border-radius: 28px;
+            padding: 56px 64px;
+            position: relative;
+            z-index: 1;
+            box-shadow: var(--shadow);
+        }
+
+        header.hero {
+            text-align: center;
+            margin-bottom: 52px;
+            display: grid;
+            gap: 18px;
+        }
+
+        .hero-label {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 6px 16px;
+            border-radius: 999px;
+            font-size: 14px;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            color: var(--accent-strong);
+            background: var(--accent-soft);
+            font-family: 'Cabin', sans-serif;
+        }
+
+        h1 {
+            font-size: clamp(32px, 4vw, 44px);
+            margin: 0;
+            color: var(--accent-strong);
+            letter-spacing: 0.05em;
+        }
+
+        .hero p {
+            margin: 0 auto;
+            max-width: 640px;
+            color: var(--text-secondary);
+            font-size: 17px;
+        }
+
+        section.outline-section {
+            background: rgba(255, 255, 255, 0.78);
+            border: 1px solid rgba(148, 163, 184, 0.25);
+            padding: 32px 36px;
+            border-radius: 22px;
+            margin-bottom: 32px;
+            box-shadow: 0 24px 40px -32px rgba(15, 23, 42, 0.35);
+        }
+
+        section.outline-section:last-of-type {
+            margin-bottom: 0;
+        }
+
+        section.outline-section h2 {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            font-size: 24px;
+            margin: 0 0 24px;
+            color: var(--accent-strong);
+        }
+
+        section.outline-section h2::before {
+            content: "";
+            width: 42px;
+            height: 4px;
+            border-radius: 999px;
+            background: linear-gradient(90deg, var(--accent) 0%, rgba(76, 110, 245, 0.2) 100%);
+        }
+
+        section.outline-section h3 {
+            margin: 28px 0 14px;
+            font-size: 19px;
+            color: var(--accent-strong);
+        }
+
+        section.outline-section p {
+            margin: 0 0 16px;
+            color: var(--text-secondary);
+        }
+
+        .timeline {
+            display: grid;
+            gap: 26px;
+            margin-top: 22px;
+        }
+
+        .milestone {
+            position: relative;
+            padding: 24px 24px 24px 88px;
+            border-radius: 20px;
+            background: rgba(248, 250, 252, 0.92);
+            border: 1px solid rgba(148, 163, 184, 0.25);
+            box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.55);
+        }
+
+        .milestone::before {
+            content: "";
+            position: absolute;
+            left: 40px;
+            top: 28px;
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: var(--accent);
+            box-shadow: 0 0 0 8px rgba(76, 110, 245, 0.12);
+        }
+
+        .milestone-era {
+            position: absolute;
+            left: 0;
+            top: 24px;
+            width: 64px;
+            padding: 6px 0;
+            border-radius: 999px;
+            text-align: center;
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--accent-strong);
+            background: rgba(76, 110, 245, 0.16);
+            font-family: 'Cabin', sans-serif;
+        }
+
+        .milestone h3 {
+            margin: 0 0 10px;
+        }
+
+        .insight {
+            margin-top: 12px;
+            padding: 14px 18px;
+            border-radius: 16px;
+            background: rgba(76, 110, 245, 0.08);
+            border: 1px solid rgba(76, 110, 245, 0.14);
+            font-size: 15px;
+            color: var(--accent-strong);
+        }
+
+        .key-figures {
+            list-style: none;
+            margin: 28px 0 0;
+            padding: 0;
+            display: grid;
+            gap: 14px;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+        }
+
+        .key-figures li {
+            padding: 18px 20px;
+            border-radius: 18px;
+            background: rgba(255, 255, 255, 0.85);
+            border: 1px solid rgba(148, 163, 184, 0.22);
+            box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.5);
+            color: var(--text-secondary);
+        }
+
+        .key-figures strong {
+            display: block;
+            margin-bottom: 6px;
+            color: var(--accent-strong);
+        }
+
+        .figure {
+            margin: 34px auto;
+            text-align: center;
+            padding: 22px;
+            border-radius: 20px;
+            background: rgba(15, 23, 42, 0.04);
+            border: 1px solid rgba(148, 163, 184, 0.18);
+        }
+
+        .figure svg {
+            width: 100%;
+            height: auto;
+        }
+
+        .figure-caption {
+            margin-top: 14px;
+            font-size: 15px;
+            color: var(--text-secondary);
+            font-style: italic;
+        }
+
+        .pill-list {
+            counter-reset: item;
+            list-style: none;
+            margin: 18px 0 0;
+            padding: 0;
+            display: grid;
+            gap: 12px;
+        }
+
+        .pill-list li {
+            position: relative;
+            margin: 0;
+            padding: 18px 24px 18px 60px;
+            border-radius: 18px;
+            background: rgba(248, 250, 252, 0.86);
+            border: 1px solid rgba(148, 163, 184, 0.25);
+            color: var(--text-secondary);
+            font-size: 16px;
+            box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.55);
+        }
+
+        .pill-list li::before {
+            content: counter(item);
+            counter-increment: item;
+            position: absolute;
+            left: 20px;
+            top: 18px;
+            display: inline-flex;
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            align-items: center;
+            justify-content: center;
+            font-size: 13px;
+            color: var(--accent-strong);
+            background: rgba(76, 110, 245, 0.18);
+            font-family: 'Cabin', sans-serif;
+            font-weight: 600;
+        }
+
+        .focus-card {
+            background: rgba(76, 110, 245, 0.08);
+            border: 1px solid rgba(76, 110, 245, 0.22);
+            box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.4), 0 20px 32px -28px rgba(76, 110, 245, 0.55);
+        }
+
+        .example {
+            background: rgba(76, 110, 245, 0.12);
+            border: 1px solid rgba(76, 110, 245, 0.22);
+            border-radius: 18px;
+            padding: 22px 26px;
+            margin: 22px 0;
+            box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.45);
+        }
+
+        .example h3 {
+            margin-top: 0;
+            color: var(--accent-strong);
+        }
+
+        .example h4 {
+            margin: 0 0 12px;
+            color: var(--accent-strong);
+            font-size: 17px;
+        }
+
+        .definition {
+            background: rgba(250, 204, 21, 0.16);
+            border: 1px solid rgba(250, 204, 21, 0.32);
+            border-radius: 18px;
+            padding: 22px 26px;
+            margin: 22px 0;
+            box-shadow: inset 0 1px 0 rgba(255, 240, 200, 0.4);
+        }
+
+        .definition h3 {
+            margin-top: 0;
+        }
+
+        .theorem {
+            background: rgba(76, 110, 245, 0.1);
+            border: 1px solid rgba(76, 110, 245, 0.28);
+            border-radius: 18px;
+            padding: 22px 26px;
+            margin: 22px 0;
+            box-shadow: inset 0 1px 0 rgba(209, 227, 255, 0.45);
+        }
+
+        .theorem h3 {
+            margin-top: 0;
+            color: var(--accent-strong);
+        }
+
+        .proof {
+            margin-top: 18px;
+            padding-left: 18px;
+            border-left: 3px solid rgba(76, 110, 245, 0.3);
+            color: var(--text-secondary);
+        }
+
+        .coin-toss {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 26px;
+            margin: 18px 0 24px;
+            flex-wrap: wrap;
+        }
+
+        .coin {
+            width: 96px;
+            height: 96px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-weight: 700;
+            color: var(--text-primary);
+            background: radial-gradient(circle at 30% 30%, #fff7bf, #facc15, #d97706);
+            box-shadow: 0 14px 24px -12px rgba(217, 119, 6, 0.55);
+        }
+
+        ol, ul {
+            color: var(--text-secondary);
+        }
+
+        .example ul, .definition ol {
+            margin: 0;
+            padding-left: 20px;
+        }
+
+        .navigation {
+            margin-top: 36px;
+            padding-top: 24px;
+            border-top: 1px solid rgba(148, 163, 184, 0.35);
+            display: flex;
+            justify-content: space-between;
+            gap: 16px;
+        }
+
+        .navigation a {
+            flex: 1;
+            display: inline-flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+            padding: 12px 24px;
+            border-radius: 14px;
+            background: var(--accent-strong);
+            color: #fff;
+            text-decoration: none;
+            font-weight: 600;
+            transition: background 0.2s ease;
+        }
+
+        .navigation a:hover {
+            background: var(--accent);
+        }
+
+        footer {
+            margin-top: 40px;
+            text-align: center;
+            color: var(--text-secondary);
+            font-size: 14px;
+        }
+
+        @media (max-width: 768px) {
+            body {
+                padding: 32px 16px;
+            }
+
+            main {
+                padding: 36px 24px;
+            }
+
+            section.outline-section {
+                padding: 24px;
+            }
+
+            .milestone {
+                padding: 22px 22px 22px 68px;
+            }
+
+            .milestone-era {
+                left: 8px;
+            }
+
+            .navigation {
+                flex-direction: column;
+            }
+        }
+    </style>
+    <script>
+        window.MathJax = {
+            tex: { inlineMath: [['$', '$'], ['\\(', '\\)']], displayMath: [['$$', '$$'], ['\\[', '\\]']] },
+            svg: { fontCache: 'global' }
+        };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+</head>
+<body>
+    <main>
+        <header class="hero">
+            <span class="hero-label">Lecture 03</span>
+            <h1>期待値と極限定理</h1>
+            <p>有限確率から一般の期待値の定義，分布による表現と基本性質を確認する。</p>
+        </header>
+
+        <section class="outline-section">
+            <h2>1 有限確率空間の期待値</h2>
+            <div class="definition">
+                <h3>定義（有限確率空間と確率変数）</h3>
+                <p>$\Omega$ を有限集合，$p_\omega\ge0$（$\sum_{\omega\in\Omega} p_\omega=1$）を各点の確率とする。任意の写像 $X\colon \Omega\to\mathbb{R}$ を確率変数と呼ぶ。</p>
+            </div>
+            <div class="definition">
+                <h3>定義（期待値）</h3>
+                <div class="formula">$$\mathbb{E}[X]=\sum_{\omega\in\Omega} X(\omega)\,p_\omega.$$</div>
+            </div>
+            <div class="theorem">
+                <h3>基本性質</h3>
+                <ul class="pill-list">
+                    <li><strong>線形性</strong>：$\mathbb{E}[X+Y]=\mathbb{E}[X]+\mathbb{E}[Y]$，$\;\mathbb{E}[\alpha X]=\alpha\,\mathbb{E}[X]$。</li>
+                    <li><strong>値域による表現</strong>：$I_X:=\{x\in\mathbb{R}\mid P(X=x)>0\}$ とすると $\displaystyle \mathbb{E}[X]=\sum_{x\in I_X} x\,P(X=x)$。</li>
+                </ul>
+            </div>
+        </section>
+
+        <section class="outline-section">
+            <h2>2 一般の確率変数の期待値</h2>
+            <div class="definition">
+                <h3>定義（単関数とその期待値）</h3>
+                <p>$(\Omega,\mathcal F,P)$ 上の可測集合 $A_i\in\mathcal F$ と $\alpha_i\ge0$ に対し，$X=\sum_i \alpha_i\,\mathbf 1_{A_i}$ と表せるとき $X$ を<strong>単関数</strong>という。その期待値は</p>
+                <div class="formula">$$\mathbb{E}[X]=\sum_i \alpha_i\,P(A_i).$$</div>
+            </div>
+            <div class="definition">
+                <h3>定義（非負可測関数の期待値）</h3>
+                <p>$X\ge0$ 可測に対し，区間分割で作る増加列</p>
+                <div class="formula">$$X_n:=\sum_{i=1}^{\infty} \frac{i-1}{2^n}\,\mathbf 1_{\{\frac{i-1}{2^n}\le X<\frac{i}{2^n}\}}\;\uparrow\; X$$</div>
+                <p>を用いて</p>
+                <div class="formula">$$\mathbb{E}[X]:=\lim_{n\to\infty}\mathbb{E}[X_n].$$</div>
+            </div>
+            <div class="theorem">
+                <h3>特徴付け</h3>
+                <p>$X\ge0$ なら $$\mathbb{E}[X]=\sup\{\mathbb{E}[Y]\mid 0\le Y\le X,\;Y\text{ は単関数}\}.$$</p>
+            </div>
+            <div class="definition">
+                <h3>定義（一般の期待値）</h3>
+                <p>$X=X^+-X^-$（$X^+=X\,\mathbf 1_{\{X\ge0\}}$, $X^-=(-X)\,\mathbf 1_{\{X<0\}}$）と分解し，$\mathbb{E}[X^+],\mathbb{E}[X^-]<\infty$ なら $X$ を<strong>可積分</strong>といい</p>
+                <div class="formula">$$\mathbb{E}[X]=\mathbb{E}[X^+]-\mathbb{E}[X^-].$$</div>
+            </div>
+        </section>
+
+        <section class="outline-section">
+            <h2>3 基本性質</h2>
+            <div class="focus-card">
+                <h3>性質</h3>
+                <ul class="pill-list">
+                    <li><strong>線形性</strong>：可積分 $X, Y$ と $\alpha, \beta \in \mathbb{R}$ に対し $\mathbb{E}[\alpha X + \beta Y] = \alpha \mathbb{E}[X] + \beta \mathbb{E}[Y]$。</li>
+                    <li><strong>単調性</strong>：$X \le Y$ が確実に成り立つとき $\mathbb{E}[X] \le \mathbb{E}[Y]$。</li>
+                    <li><strong>単調収束定理</strong>（Beppo–Levi）：$0 \le X_n \uparrow X$ なら $\mathbb{E}[X_n] \uparrow \mathbb{E}[X]$。</li>
+                    <li><strong>優収束定理</strong>（DCT）：$X_n \to X$ がほぼ確実, $|X_n| \le Y$ かつ $\mathbb{E}[|Y|] < \infty$ なら $\mathbb{E}[X_n] \to \mathbb{E}[X]$。</li>
+                </ul>
+            </div>
+        </section>
+
+        <section class="outline-section">
+            <h2>4 分布を使った表現</h2>
+            <div class="theorem">
+                <h3>定理（LOTUS／法則による計算）</h3>
+                <p>$g \colon \mathbb{R} \to \mathbb{R}$ 可測で $g(X)$ が可積分なら</p>
+                <p>$$\mathbb{E}[g(X)] = \int_{\mathbb{R}} g(x)\,\mu_X(dx).$$</p>
+                <p>ここで $\mu_X (A)= P (X\in A)$ は $X$ の分布（法則）であり，期待値は $\mu_X$ に関する Lebesgue 積分として書ける。</p>
+            </div>
+        </section>
+
+        <section class="outline-section">
+            <h2>5 注意とよくある落とし穴</h2>
+            <div class="focus-card">
+                <h3>注意</h3>
+                <ul class="pill-list">
+                    <li>$\mathbb{E}[X]$ の存在には $\mathbb{E}[|X|] < \infty$ が必要。</li>
+                    <li>期待値の存在は分散の存在を保証しない。</li>
+                </ul>
+            </div>
+        </section>
+
+        <section class="outline-section">
+            <h2>6 レポート課題</h2>
+            <p>次を確かめよ</p>
+            <ol>
+                <li> サイコロを３回ふる。すべての目を足し合わせた確率変数の期待値を求めよ   </li>
+                <li>有限確率空間での期待値の定義と一般の期待値の定義が一致することを確かめよ。このとき、$\mathcal F=2^\Omega$ととることに注意</li>
+                <li>$X$を単関数とし, (可測)写像 $g\colon \mathbb{R}\to[0,\infty)$が$\mathbb{E}[g(X)]<\infty$を満たすとする。これに対し
+                    $\displaystyle \mathbb{E}[g(X)]=\int_{\mathbb{R}} g(x)\,d\mu_X$ を確かめよ。
+                </li>
+            </ol>
+        </section>
+        <footer>© 2025 確率論講義ノート</footer>
+    </main>
+</body>
+</html>

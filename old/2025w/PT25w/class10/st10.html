@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>第10回 補講メモ</title>
+
+  <!-- Softer tone / relaxed magazine style -->
+  <style>
+    :root{
+      --ink:#1a1a1a;
+      --sub:#6b6b6b;
+      --accent:#6b2e2e;
+      --rule:#e8e7e5;
+      --bg:#fffaf6;
+      --card-bg:#ffffff;
+      --serif: "Noto Serif JP","Yu Mincho","Hiragino Mincho ProN","Source Han Serif","MS PMincho",serif;
+      --sans: "Noto Sans JP","Yu Gothic","Hiragino Kaku Gothic ProN","Meiryo",sans-serif;
+      --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+      --max: 820px;
+      --radius: 12px;
+      --gap: 16px;
+    }
+
+    html,body{
+      background: var(--bg);
+      color: var(--ink);
+      margin:0;
+      padding:0;
+      -webkit-font-smoothing:antialiased;
+      -moz-osx-font-smoothing:grayscale;
+      font-family: var(--serif);
+    }
+
+    header{
+      background: linear-gradient(180deg, rgba(255,255,255,0.9), rgba(255,255,255,0.85));
+      box-shadow: 0 1px 0 rgba(19,19,19,0.03);
+      position: sticky;
+      top:0;
+      z-index: 10;
+      backdrop-filter: blur(3px);
+    }
+    .masthead{
+      max-width: var(--max);
+      margin: 0 auto;
+      padding: 12px var(--gap);
+      display:flex;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+      font-family: var(--sans);
+    }
+    .brand{
+      font-size: 16px;
+      color: var(--accent);
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      background: linear-gradient(90deg, rgba(107,46,46,0.06), transparent);
+      padding: 6px 10px;
+      border-radius: 8px;
+    }
+    .section{
+      font-size: 13px;
+      color: var(--sub);
+      padding: 6px 8px;
+      border-radius: 8px;
+      background: rgba(0,0,0,0.02);
+      margin-left: auto;
+    }
+
+    main{
+      max-width: var(--max);
+      margin: 22px auto;
+      padding: 20px var(--gap) 72px;
+    }
+
+    h1{
+      font-family: var(--serif);
+      font-size: 30px;
+      line-height: 1.28;
+      font-weight:700;
+      margin: 6px 0 6px;
+      color: var(--ink);
+    }
+    .dek{
+      font-family: var(--sans);
+      font-size: 15px;
+      color: var(--sub);
+      margin: 8px 0 14px;
+    }
+    .meta{
+      font-family: var(--sans);
+      font-size: 13px;
+      color: var(--sub);
+      display:flex;
+      gap:12px;
+      flex-wrap:wrap;
+      margin-bottom: 18px;
+    }
+    .meta div{ padding:6px 10px; background: rgba(0,0,0,0.02); border-radius:8px; }
+
+    article{
+      font-family: var(--serif);
+      font-size: 17px;
+      line-height: 1.9;
+      color: var(--ink);
+      background: linear-gradient(180deg, rgba(255,255,255,0.95), rgba(255,255,255,0.98));
+      padding: 20px;
+      border-radius: var(--radius);
+      box-shadow: 0 8px 20px rgba(16,16,16,0.03);
+      border: 1px solid var(--rule);
+    }
+
+    p{ margin: 0 0 1.05em; }
+
+    .lead{
+      position: relative;
+      padding-top: 4px;
+    }
+    .lead::first-letter{
+      float:left;
+      font-size: 36px;
+      line-height: 1;
+      padding-right: 8px;
+      padding-top: 2px;
+      font-family: var(--serif);
+      font-weight: 700;
+      color: var(--accent);
+      background: rgba(107,46,46,0.04);
+      border-radius: 6px;
+      padding-left: 6px;
+      padding-right: 6px;
+      margin-right: 8px;
+    }
+
+    h2{
+      font-family: var(--sans);
+      font-size: 15px;
+      font-weight: 700;
+      color: rgba(0,0,0,0.92);
+      margin: 24px 0 8px;
+      padding-bottom: 6px;
+      border-bottom: 1px dashed var(--rule);
+    }
+
+    .eq{
+      text-align: center;
+      margin: 14px auto;
+      padding: 10px 16px;
+      font-family: var(--serif);
+      background: #fcfcfc;
+      border: 1px solid var(--rule);
+      border-radius: 8px;
+      max-width: 640px;
+    }
+
+    .theorem{
+      border-left: 4px solid var(--accent);
+      background: #fff;
+      padding: 14px 16px;
+      margin: 16px 0;
+      border-radius: 8px;
+    }
+    .theorem .label{
+      font-family: var(--sans);
+      font-size: 12px;
+      font-weight:700;
+      color: var(--accent);
+      display:inline-block;
+      margin-bottom:6px;
+    }
+
+    .note{
+      font-family: var(--sans);
+      font-size: 14px;
+      color: var(--sub);
+      padding-left:10px;
+      margin: 8px 0 0;
+    }
+
+    .pull{
+      font-family: var(--serif);
+      font-size: 16px;
+      line-height:1.9;
+      color:#333;
+      background: linear-gradient(90deg, rgba(107,46,46,0.03), rgba(0,0,0,0.01));
+      padding:12px 14px;
+      margin: 14px 0;
+      border-radius: 8px;
+      border: 1px solid rgba(0,0,0,0.03);
+    }
+
+    code, kbd, samp{
+      font-family: var(--mono);
+      font-size: .95em;
+      background:#f6f6f6;
+      padding:.12em .34em;
+      border-radius:6px;
+    }
+
+    .footer-note{
+      font-family: var(--sans);
+      font-size: 13px;
+      color: var(--sub);
+      margin-top: 22px;
+      padding-top: 12px;
+      border-top: 1px dashed var(--rule);
+    }
+
+    .back-nav{
+      display:flex;
+      justify-content:flex-start;
+      margin-bottom:16px;
+    }
+
+    .back-link{
+      display:inline-flex;
+      align-items:center;
+      gap:6px;
+      font-family: var(--sans);
+      font-size:13px;
+      font-weight:600;
+      color: var(--accent);
+      text-decoration:none;
+      padding:6px 14px;
+      border-radius:999px;
+      border:1px solid rgba(107,46,46,0.28);
+      background: rgba(107,46,46,0.06);
+      transition: background 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .back-link:hover{
+      background: rgba(107,46,46,0.12);
+      transform: translateY(-1px);
+      box-shadow:0 8px 18px rgba(107,46,46,0.18);
+    }
+
+    @media (max-width:520px){
+      h1{ font-size: 22px; }
+      .masthead{ padding:10px; }
+      main{ padding: 16px; }
+      article{ padding: 16px; }
+      .lead::first-letter{ font-size: 30px; }
+    }
+
+    @media print{
+      header{ display:none; }
+      body{ background: #fff; color: #000; }
+      article{ box-shadow:none; border-radius:0; padding:0; border:none; }
+    }
+  </style>
+
+  <!-- MathJax (use $...$ for inline, $$...$$ for display) -->
+  <script>
+    window.MathJax = {
+      tex: {
+        inlineMath: [['$', '$'], ['\(', '\)']],
+        displayMath: [['$$','$$'], ['\[','\]']],
+        tags: 'none'
+      },
+      svg: {fontCache: 'global'}
+    };
+  </script>
+  <script defer src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+</head>
+<body>
+  <header>
+    <div class="masthead">
+      <div class="brand">雑記・確率</div>
+      <div class="section">補講</div>
+    </div>
+  </header>
+
+  <main>
+    <nav class="back-nav">
+      <a class="back-link" href="../index.html">&larr; ホームに戻る</a>
+    </nav>
+    <h1>第10回 補講メモ</h1>
+    <div class="meta">
+      <div>寄稿：中島秀太</div>
+      <div>更新日：2025年11月1日</div>
+    </div>
+
+    <article>
+
+# ペア独立と同時独立はどう違うか？
+ 
+## 1. 定義（事象／確率変数）
+ 
+**事象の場合** 事象列 $A_1,\dots,A_n$ について
+ 
+ 
+- **pairwise 独立**：任意の $i\neq j$ で $P(A_i\cap A_j)=P(A_i)P(A_j)$。
+ 
+- **mutual（同時）独立**：任意の空でない部分集合 $I\subset{1,\dots,n}$ で $$ P\Bigl(\bigcap_{i\in I}A_i\Bigr)=\prod_{i\in I}P(A_i). $$
+ 
+
+ 
+**確率変数の場合** $X_1,\dots,X_n$ について
+ 
+ 
+- **pairwise 独立**：すべての $i\neq j$ とボレル集合 $B_i,B_j$ に対し $P(X_i\in B_i,\ X_j\in B_j)=P(X_i\in B_i),P(X_j\in B_j)$。
+ 
+- **mutual 独立**：任意の $I$ とボレル集合族 $(B_i)*{i\in I}$ に対し $P(\forall i\in I,\ X_i\in B_i)=\prod*{i\in I}P(X_i\in B_i)$。
+ 
+
+ 
+明らかに mutual 独立 ⇒ pairwise 独立。逆は一般には成り立ちません。
+ 
+## 2. なぜ混同が起きるのか（ゼロ相関は弱すぎる）
+ 
+2変数で相関が 0 だと独立と誤解されがちですが、相関 0 は「線形の関係がない」だけで、非線形な依存を除外しません。3変数以上になると、**各ペアが独立でも全体では依存しうる**のが落とし穴です。
+ 
+## 3. 典型例：各ペアは独立だが三つ組は独立でない
+ 
+### 3.1 XOR（偶奇）例（${0,1}$ 版）
+ 
+独立なコイン投げ $X,Y\sim \mathrm{Bern}(1/2)$ を用意し、$Z=X\oplus Y$（排他的論理和、和を 2 で割った余り）とする。 各ペア $(X,Y),(X,Z),(Y,Z)$ は独立。しかし
+ ` X\oplus Y\oplus Z=0 \quad\text{a.s.} ` ` P(X=0,Y=0,Z=0)=\tfrac14 \neq \tfrac18=P(X=0)P(Y=0)P(Z=0). ` 
+### 3.2 Rademacher（${\pm1}$）版（計算が楽）
+ 
+$X,Y$ を独立に $P(X=\pm1)=P(Y=\pm1)=1/2$、$Z=XY$ とする。 各ペアは独立だが
+ ` XYZ=1 \quad\text{a.s.} ` ` P(X=1,Y=1,Z=1)=\tfrac14 \neq \tfrac18. ` 
+この構成は **「任意の $n-1$ 個は独立、$n$ 個全体では独立でない」** 例に拡張できます。独立な Rademacher $X_1,\dots,X_{n-1}$ に対し
+ ` X_n=\prod_{i=1}^{n-1}X_i ` 
+## 4. 機能的特徴づけ
+ 
+確率変数 $X_1,\dots,X_n$ が mutual 独立であることは、任意の有界可測関数 $f_i$ について
+ ` E\!\left[\prod_{i=1}^n f_i(X_i)\right]=\prod_{i=1}^n E[f_i(X_i)] ` 
+**積の期待値が分解するかどうか**が、実質的な見分けポイントになります。
+ 
+## 5. いつ pairwise 独立 ⇒ mutual 独立 になるか？
+ 
+一般にはなりませんが、構造が強いクラスでは一致します。
+ 
+ 
+- **多変量正規（ガウス）**：ベクトル $(X_1,\dots,X_n)$ が**同時にガウス**なら、相関 0（＝共分散行列が対角）と mutual 独立が同値。したがって pairwise 独立なら mutual 独立です。
+ 
+- **確率母関数が完全に特定できるクラス**：無限可分族の一部やポアソン過程の独立増分など、生成構造が独立を強制する設定では、ペアの条件から全体が固定されることがあります（ただし一般論としては各モデルごとの検証が必要）。
+ 
+
+ 
+要するに、「分布族そのものが ‘独立＝相関なし’ を保証する」場合に限って、ペア独立で十分になります。一般の離散分布や非ガウスでは期待できません。
+ 
+## 6. 実務・研究での見分け方
+ 
+ 
+- **分布の仮定を点検**：ガウス性・指数族の特別な形など、独立性を推論できる強い仮定があるか？ なければ「ペアは独立」から先に進まない。
+ 
+- **高次のテストを使う**：二変量の検定（相関、$\chi^2$）だけでなく、三変量以上の依存を拾う手法（距離相関の多変量版、HSIC の $V$ 統計、相互情報量の多変量拡張）を使う。
+ 
+- **生成関係の探索**：$Z=f(X,Y)$ のような関係が潜んでいないか、特徴量間でパリティや積などの**非線形拘束**を探索する。
+ 
+- **モデリング文脈**：ベイジアンネットの $d$-分離や因果構造を確認。グラフ的に「ペアで切れている」からといって「全体で切れている」とは限らない。
+ 
+
+ 
+## 7. ひとことでまとめ
+ 
+ 
+- mutual 独立は「**すべての部分集合で分解**」し、pairwise 独立は「**ペアだけ分解**」。
+ 
+- mutual ⇒ pairwise は常に真、逆は偽（反例：XOR／積の例）。
+ 
+- ただし **共同ガウス** などの特別なクラスでは pairwise で十分。
+ 
+- 実務では、二変量の無相関や独立だけで安心せず、**非線形・高次の依存**を必ず点検する。
+ 
+
+  
+### 付録：XOR 例の確率表（${0,1}$）
+ 
+$P(X=0)=P(X=1)=P(Y=0)=P(Y=1)=\tfrac12$、$Z=X\oplus Y$。非零確率は
+ ` (0,0,0),\ (0,1,1),\ (1,0,1),\ (1,1,0)\ \text{が各 } \tfrac14.    </article>
+  </main>
+</body>
+</html>

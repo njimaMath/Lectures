@@ -1,0 +1,20 @@
+1. Markov inequality
+Let X be a random variable such that P(X\geq 0)=1. Then,P(X\geq 1)\leq E[X].
+Proof. 1_{X\geq 1}\leq X 1_{X\geq 1} \leq X. Hence,P(X\geq 1) = E[1_{X\geq 1}]\leq E[X].
+
+Tchebyshev's inequality
+For any t>0,P(|X-E[X]|\geq t)\leq t^{-2} Var(X).
+P(|X-E[X]|\geq t) = P(\frac{|X-EX|^2}{t^2}\geq 1)\leq t^{-2} Var(X).
+2. Law of large numbers
+Let \bar{X}_n = n^{-1}\sum^n X_i. 
+Thm (weak): Let X_1,...,X_n be iid random variables such that E[|X_i|]<\infty, var(X_i)<\infty. Then, \bar{X}_n \to E[X] in prob.
+Proof. Let eps>0. Then, P(|\bar{X}_n-E[X_1]|>\eps)=P(|\bar{X}_n-E[\bar{X}_n]|>\eps) \leq \eps^{-2} var(\bar{X}_n)
+var(X)_n = n^{-2} \sum_i var(X_i) = var(X_1)/n.
+thm (strong): Let X_1,...,X_n be iid random variables such that E[X_i^4]<\infty. Then, \bar{X}_n \to E[X] a.s.
+Proof: E[(\bar{X}_n - E[\bar{X}_n])^4] < C n^{-2}.  (report)
+Hence, E[\sum_n  (\bar{X}_n - E[\bar{X}_n])^4]=\sum_n E[(\bar{X}_n - E[\bar{X}_n])^4] < C\sum n^{-2}<\infty. Hence, \sum_n  (\bar{X}_n - E[\bar{X}_n])^4<\infty a.s. Using \sum |a_n|<\infty => a_n\to 0, we have \bar{X}_n - E[\bar{X}_n] \to 0 a.s.
+3. CLTThm: Let X_i be iid with E[|X_i|]<\infty and v:= var(X_i)<\infty. Then, Y_n \sqrt{n}(\bar{X}_n-m) \to N(0,v) in distr.
+Lemma (report): Assume a_n \to a\in \R. Then, (1-\frac{a_n}{n})^{n} \to e^{-a}.Proof:Recall thatY_n to N(0,v) iff phi_{Y_n}(\xi)\to e^{-v \xi^2/2}.
+phi_{Y_n}(\xi) = E[e^{\sum \frac{I \xi}{\sqrt{n}}(X_i-m)}]=(E[e^{\frac{I \xi}{\sqrt{n}}(X_1-m)}])^n
+Use e^{x}=1+x+x^2/2+\frac{1}{2} \int^1_0 x^3 (1-t)^2 e^{t x} dt to get E[e^{\frac{i \xi}{\sqrt{n}}(X_1-m)}] = 1+ i\xi E (X_i-m)  + \frac{i^2 \xi^2}{2n^{1}} \int^1_0 E[(X_1-m)^2e^{\frac{i \xi t}{\sqrt{n}}(X_1-m)}dt ] =  1- n^{-1} \frac{\xi^2}{2} \int^1_0 E[(X_1-m)^2e^{\frac{i \xi t}{\sqrt{n}}(X_1-m)}dt ] \to 1-(v/2n). 
+Hence, but lemma, (E[e^{\frac{I \xi}{\sqrt{n}}(X_1-m)}])^n\to e^{-v\xi^2/2}.

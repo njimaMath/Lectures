@@ -1,0 +1,2766 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>パーセプトロンの話</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html {
+      -webkit-text-size-adjust: 100%;
+      text-size-adjust: 100%;
+    }
+
+    body {
+      font-family: "Helvetica Neue", "Hiragino Sans", sans-serif;
+      background: #fafafa;
+      color: #222;
+      min-height: 100vh;
+    }
+
+    .slide {
+      --w: min(100vw, 177.78vh);
+      width: var(--w);
+      aspect-ratio: 16 / 13;
+      height: auto;
+      max-height: 100svh;
+
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+      padding: clamp(24px, 6vmin, 64px) clamp(24px, 8vmin, 96px);
+      position: relative;
+      background: #fff;
+    }
+
+    @supports not (aspect-ratio: 16 / 9) {
+      .slide { height: calc(var(--w) * 9 / 16); }
+    }
+
+    h1 {
+      font-size: clamp(24px, calc(var(--w) * 0.035), 56px);
+      font-weight: 300;
+      letter-spacing: 0.1em;
+      margin-bottom: clamp(14px, calc(var(--w) * 0.04), 48px);
+      color: #333;
+    }
+
+    h1 span {
+      font-weight: 600;
+    }
+
+        /* Slide 1 */
+        .timeline {
+            display: flex;
+            flex-direction: column;
+            gap: 2.5vh;
+        }
+
+        .timeline-item {
+            display: flex;
+            align-items: baseline;
+            gap: 4vw;
+        }
+
+        .year {
+            font-size: 1.8vw;
+            color: #e74c3c;
+            font-weight: 500;
+            min-width: 12%;
+        }
+
+        .content {
+            font-size: 2vw;
+            color: #444;
+            line-height: 1.5;
+        }
+
+        .content small {
+            display: block;
+            font-size: 1.4vw;
+            color: #888;
+            margin-top: 0.3vh;
+        }
+
+        .current {
+            color: #e74c3c;
+            font-weight: 500;
+        }
+
+        /* Slide 2 */
+        .profile {
+            display: flex;
+            flex-direction: column;
+            gap: 5vh;
+        }
+
+        .profile-section h2 {
+            font-size: 1.5vw;
+            text-transform: uppercase;
+            letter-spacing: 0.2em;
+            color: #e74c3c;
+            margin-bottom: 1.5vh;
+            font-weight: 500;
+        }
+
+        .profile-section p {
+            font-size: 2.2vw;
+            color: #444;
+            line-height: 1.8;
+        }
+
+        .profile-section p span {
+            color: #222;
+            font-weight: 500;
+        }
+
+        /* Page number */
+        .page-num {
+            position: absolute;
+            bottom: calc(16px + env(safe-area-inset-bottom)); /* 4vh -> 固定 + safe-area */
+            right:  calc(16px + env(safe-area-inset-right));
+            font-size: 1vw;
+            color: #bbb;
+            letter-spacing: 0.1em;
+        }
+        
+        /* Section label */
+        .section-label {
+            position: absolute;
+            top:  calc(16px + env(safe-area-inset-top));      /* 4vh -> 固定 + safe-area */
+            left: calc(16px + env(safe-area-inset-left));
+            font-size: 0.9vw;
+            color: #bbb;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+        }
+        
+        /* General h2 style */
+        h2 {
+            font-size: 1.5vw;
+            text-transform: uppercase;
+            letter-spacing: 0.2em;
+            color: #e74c3c;
+            margin-bottom: 2vh;
+            font-weight: 500;
+        }
+        
+        p {
+            font-size: 2vw;
+            color: #444;
+            line-height: 1.8;
+        }
+        
+        /* Slide 3-4 styles */
+        .purpose {
+            display: flex;
+            flex-direction: column;
+            gap: 5vh;
+        }
+
+        .purpose-text {
+            font-size: 2.6vw;
+            color: #444;
+            line-height: 1.8;
+        }
+
+        .purpose-text span {
+            color: #e74c3c;
+            font-weight: 500;
+        }
+
+        .nn-image {
+            width: 80%;
+            max-width: 800px;
+            margin-top: 2vh;
+            align-self: center;
+        }
+
+        .nn-image img {
+            width: 100%;
+            height: auto;
+            border-radius: 8px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+        }
+
+        .contents {
+            display: flex;
+            flex-direction: column;
+            gap: 3vh;
+        }
+
+        .content-item {
+            display: flex;
+            align-items: baseline;
+            gap: 3vw;
+        }
+
+        .content-num {
+            font-size: 2.4vw;
+            color: #e74c3c;
+            font-weight: 600;
+            min-width: 5%;
+        }
+
+        .content-text {
+            font-size: 2.2vw;
+            color: #444;
+            line-height: 1.6;
+        }
+
+        .content-text small {
+            display: block;
+            font-size: 1.5vw;
+            color: #888;
+            margin-top: 0.5vh;
+        }
+        
+        /* Section 3 styles */
+        .rule-box {
+            background: #f8f9fa;
+            border-left: 4px solid #e74c3c;
+            padding: 2vh 2vw;
+            margin: 2vh 0;
+            font-size: 1.9vw;
+            font-family: 'Courier New', monospace;
+        }
+
+        .examples {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5vh;
+            margin: 3vh 0;
+        }
+
+        .example {
+            display: flex;
+            align-items: center;
+            gap: 2vw;
+            font-size: 1.9vw;
+        }
+
+        .example .word {
+            font-weight: 600;
+            color: #333;
+            min-width: 8vw;
+            font-family: 'Courier New', monospace;
+        }
+
+        .example .arrow {
+            color: #e74c3c;
+        }
+
+        .example .vector {
+            color: #3498db;
+            font-family: 'Courier New', monospace;
+        }
+
+        .question {
+            background: #fff3cd;
+            border: 1px solid #ffc107;
+            padding: 1.5vh 2vw;
+            border-radius: 8px;
+            font-size: 1.8vw;
+            margin-top: 3vh;
+        }
+
+        .binary-table {
+            display: flex;
+            flex-direction: column;
+            gap: 1.2vh;
+            margin: 2vh 0;
+        }
+
+        .binary-row {
+            display: flex;
+            align-items: center;
+            gap: 2vw;
+            font-family: 'Courier New', monospace;
+            font-size: 1.8vw;
+        }
+
+        .binary-row .num {
+            min-width: 6vw;
+            color: #333;
+        }
+
+        .binary-row .eq {
+            color: #888;
+            min-width: 12vw;
+        }
+
+        .binary-row .bin {
+            color: #e74c3c;
+            font-weight: 600;
+        }
+
+        .diagram {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 1vw;
+            margin: 3vh 0;
+            font-size: 1.7vw;
+        }
+
+        .diagram-box {
+            background: #f0f0f0;
+            padding: 1.5vh 2vw;
+            border-radius: 8px;
+            text-align: center;
+        }
+
+        .diagram-arrow {
+            font-size: 2vw;
+            color: #e74c3c;
+        }
+
+        .labeled-arrow {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0;
+        }
+
+        .arrow-label {
+            font-size: 1.5vw;
+            font-weight: bold;
+            color: #2c3e50;
+            margin-bottom: -0.5vh;
+        }
+
+        .bin-table {
+            border-collapse: collapse;
+            font-size: 1.4vw;
+        }
+
+        .bin-table th, .bin-table td {
+            border: 1px solid #ddd;
+            padding: 0.4vh 0.8vw;
+            text-align: center;
+        }
+
+        .bin-table th {
+            background: #3498db;
+            color: white;
+            font-weight: bold;
+        }
+
+        .bin-table tr:nth-child(even) {
+            background: #f9f9f9;
+        }
+
+        .bin-table td:first-child {
+            font-weight: bold;
+            color: #2c3e50;
+        }
+
+        .bin-table td:last-child {
+            font-family: 'Courier New', monospace;
+            color: #e74c3c;
+        }
+
+        .name-examples {
+            display: flex;
+            flex-direction: column;
+            gap: 2vh;
+            margin: 2vh 0;
+        }
+
+        .name-row {
+            display: flex;
+            align-items: center;
+            gap: 2vw;
+            font-size: 1.7vw;
+        }
+
+        .name-row .name {
+            font-family: 'Courier New', monospace;
+            min-width: 20%;
+            color: #333;
+        }
+
+        .name-row .gender {
+            padding: 0.5vh 1.5vw;
+            border-radius: 20px;
+            font-weight: 500;
+        }
+
+        .name-row .male {
+            background: #3498db;
+            color: #fff;
+        }
+
+        .name-row .female {
+            background: #e74c3c;
+            color: #fff;
+        }
+
+        small {
+            font-size: 1.4vw;
+            color: #888;
+        }
+
+        .highlight {
+            color: #e74c3c;
+            font-weight: 500;
+        }
+
+        .highlight-blue {
+            color: #3498db;
+            font-weight: 500;
+        }
+
+        .highlight-green {
+            color: #27ae60;
+            font-weight: 500;
+        }
+
+        .highlight-red {
+            color: #e74c3c;
+            font-weight: 500;
+        }
+
+        .two-col {
+            display: flex;
+            gap: 4vw;
+        }
+
+        .two-col > div {
+            flex: 1;
+        }
+        
+        /* Section 4 styles */
+        .formula-box {
+            background: #f8f9fa;
+            border-left: 4px solid #3498db;
+            padding: 2.5vh 2vw;
+            margin: 2vh 0;
+            font-size: 1.8vw;
+            font-family: 'Times New Roman', serif;
+            line-height: 2;
+        }
+
+        .formula-box.conclusion {
+            background: linear-gradient(135deg, #d5f5e3 0%, #e8f8f5 100%);
+            border-left-color: #27ae60;
+        }
+
+        .definition-box {
+            background: linear-gradient(135deg, #f8f9fa 0%, #e8f4f8 100%);
+            border: 2px solid #3498db;
+            border-radius: 10px;
+            padding: 2.5vh 2vw;
+            margin: 2vh 0;
+        }
+
+        .definition-box h3 {
+            font-size: 1.6vw;
+            color: #3498db;
+            margin-bottom: 1.5vh;
+            font-weight: 600;
+        }
+
+        .definition-box p {
+            font-size: 1.6vw;
+        }
+
+        .steps {
+            display: flex;
+            flex-direction: column;
+            gap: 2vh;
+            margin: 3vh 0;
+        }
+
+        .step {
+            display: flex;
+            align-items: flex-start;
+            gap: 1.5vw;
+            font-size: 1.8vw;
+        }
+
+        .step-num {
+            background: #e74c3c;
+            color: #fff;
+            width: 2.5vw;
+            height: 2.5vw;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            flex-shrink: 0;
+        }
+
+        .step-content {
+            color: #444;
+            line-height: 1.6;
+        }
+
+        .perceptron-diagram {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 2vw;
+            margin: 4vh 0;
+        }
+
+        .input-layer {
+            display: flex;
+            flex-direction: column;
+            gap: 1vh;
+        }
+
+        .input-node {
+            width: 3vw;
+            height: 3vw;
+            background: #3498db;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            font-size: 1vw;
+            font-weight: 600;
+        }
+
+        .weights-line {
+            width: 6vw;
+            height: 2px;
+            background: linear-gradient(90deg, #3498db, #e74c3c);
+            position: relative;
+        }
+
+        .weights-line::after {
+            content: 'w';
+            position: absolute;
+            top: -1.5vh;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 0.9vw;
+            color: #666;
+        }
+
+        .sum-node {
+            width: 5vw;
+            height: 5vw;
+            background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            font-size: 1.5vw;
+            font-weight: 600;
+            box-shadow: 0 4px 15px rgba(231, 76, 60, 0.3);
+        }
+
+        .output-arrow {
+            font-size: 2vw;
+            color: #e74c3c;
+        }
+
+        .output-box {
+            background: #2ecc71;
+            color: #fff;
+            padding: 1.5vh 2vw;
+            border-radius: 8px;
+            font-size: 1.6vw;
+            font-weight: 500;
+        }
+
+        .flow-diagram {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 1vw;
+            margin: 3vh 0;
+            flex-wrap: wrap;
+        }
+
+        .flow-box {
+            background: #f0f0f0;
+            padding: 1.5vh 2vw;
+            border-radius: 8px;
+            text-align: center;
+            font-size: 1.6vw;
+        }
+
+        .flow-box.input {
+            background: #e8f4f8;
+            border: 2px solid #3498db;
+        }
+
+        .flow-box.process {
+            background: #fff3cd;
+            border: 2px solid #f39c12;
+        }
+
+        .flow-box.output {
+            background: #d5f5e3;
+            border: 2px solid #2ecc71;
+        }
+
+        .flow-arrow {
+            font-size: 1.8vw;
+            color: #888;
+        }
+
+        .impl-cards {
+            display: flex;
+            gap: 3vw;
+            margin: 3vh 0;
+        }
+
+        .impl-card {
+            flex: 1;
+            background: #fff;
+            border-radius: 12px;
+            padding: 3vh 3vw;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+            border-top: 4px solid;
+            min-width: 35vw;
+        }
+
+        .impl-card.data {
+            border-top-color: #3498db;
+        }
+
+        .impl-card.model {
+            border-top-color: #e74c3c;
+        }
+
+        .impl-card h3 {
+            font-size: 1.8vw;
+            margin-bottom: 2vh;
+            color: #333;
+        }
+
+        .impl-card p {
+            font-size: 1.5vw;
+            color: #666;
+            line-height: 1.6;
+        }
+
+        .impl-card .icon {
+            font-size: 2.5vw;
+            margin-bottom: 1vh;
+        }
+
+        .note {
+            background: #fff3cd;
+            border: 1px solid #ffc107;
+            padding: 1.5vh 2vw;
+            border-radius: 8px;
+            font-size: 1.5vw;
+            margin-top: 2vh;
+        }
+
+        .algorithm-box {
+            background: #2c3e50;
+            color: #ecf0f1;
+            padding: 2.5vh 2vw;
+            border-radius: 8px;
+            font-family: 'Courier New', monospace;
+            font-size: 1.5vw;
+            line-height: 1.8;
+        }
+
+        .algorithm-box .keyword {
+            color: #e74c3c;
+        }
+
+        .algorithm-box .comment {
+            color: #7f8c8d;
+        }
+        
+        /* Section 5 styles */
+        .perceptron-simple {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 2vw;
+            margin: 3vh 0;
+        }
+
+        .input-vector {
+            background: #3498db;
+            color: #fff;
+            padding: 2vh 2vw;
+            border-radius: 10px;
+            font-size: 1.8vw;
+            text-align: center;
+        }
+
+        .weight-vector {
+            background: #9b59b6;
+            color: #fff;
+            padding: 2vh 2vw;
+            border-radius: 10px;
+            font-size: 1.8vw;
+            text-align: center;
+        }
+
+        .output-single {
+            background: #27ae60;
+            color: #fff;
+            padding: 2vh 2vw;
+            border-radius: 10px;
+            font-size: 1.8vw;
+            text-align: center;
+        }
+
+        .arrow {
+            font-size: 2vw;
+            color: #888;
+        }
+
+        .nn-svg {
+            width: 100%;
+            max-width: 50vw;
+            margin: 0 auto;
+            display: block;
+        }
+
+        .example-table {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5vh;
+            margin: 2vh 0;
+        }
+
+        .example-row {
+            display: flex;
+            align-items: center;
+            gap: 2vw;
+            font-size: 1.7vw;
+            padding: 1vh 1.5vw;
+            background: #f8f9fa;
+            border-radius: 8px;
+        }
+
+        .example-row .name {
+            font-family: 'Courier New', monospace;
+            min-width: 22%;
+            color: #333;
+            font-weight: 500;
+        }
+
+        .example-row .attributes {
+            display: flex;
+            gap: 1vw;
+        }
+
+        .attr-tag {
+            padding: 0.3vh 1vw;
+            border-radius: 15px;
+            font-size: 1.3vw;
+            font-weight: 500;
+        }
+
+        .attr-tag.male { background: #3498db; color: #fff; }
+        .attr-tag.female { background: #e74c3c; color: #fff; }
+        .attr-tag.kanto { background: #2ecc71; color: #fff; }
+        .attr-tag.kansai { background: #f39c12; color: #fff; }
+        .attr-tag.young { background: #9b59b6; color: #fff; }
+        .attr-tag.old { background: #34495e; color: #fff; }
+        .attr-tag.unknown { background: #bdc3c7; color: #333; }
+
+        .example-row .vector {
+            font-family: 'Courier New', monospace;
+            color: #9b59b6;
+            font-weight: 600;
+        }
+
+        .matrix-display {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 2vw;
+            margin: 3vh 0;
+        }
+
+        .matrix {
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            padding: 1vh 2vw;
+        }
+
+        .matrix::before,
+        .matrix::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            width: 0.4vw;
+            border: 3px solid #9b59b6;
+            background: transparent;
+        }
+
+        .matrix::before { 
+            left: 0; 
+            border-right: none;
+            border-radius: 1vw 0 0 1vw;
+        }
+        .matrix::after { 
+            right: 0; 
+            border-left: none;
+            border-radius: 0 1vw 1vw 0;
+        }
+
+        .matrix-row {
+            display: flex;
+            gap: 1.5vw;
+            font-family: 'Courier New', monospace;
+            font-size: 1.5vw;
+            padding: 0.3vh 0;
+        }
+
+        .phase-diagram {
+            display: flex;
+            align-items: stretch;
+            justify-content: center;
+            gap: 0;
+            margin: 3vh 0;
+            height: 15vh;
+        }
+
+        .phase {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 2vh 3vw;
+            font-size: 1.5vw;
+            position: relative;
+        }
+
+        .phase.sat {
+            background: linear-gradient(135deg, #d5f5e3 0%, #a9dfbf 100%);
+            border-radius: 10px 0 0 10px;
+            flex: 1;
+        }
+
+        .phase.unsat {
+            background: linear-gradient(135deg, #fadbd8 0%, #f5b7b1 100%);
+            border-radius: 0 10px 10px 0;
+            flex: 1;
+        }
+
+        .phase.critical {
+            background: #f39c12;
+            color: #fff;
+            width: 0.5vw;
+            font-size: 1.4vw;
+            font-weight: 600;
+        }
+
+        .phase-label {
+            font-weight: 600;
+            margin-bottom: 1vh;
+        }
+
+        .phase-prob {
+            font-size: 1.3vw;
+            color: #666;
+        }
+
+        .phase.sat .phase-prob { color: #27ae60; }
+        .phase.unsat .phase-prob { color: #e74c3c; }
+
+        .axis-label {
+            text-align: center;
+            margin-top: 1vh;
+            font-size: 1.4vw;
+            color: #666;
+        }
+        
+        /* Section 6 styles */
+        .theorem-box {
+            background: linear-gradient(135deg, #fef9e7 0%, #fdebd0 100%);
+            border: 2px solid #e67e22;
+            border-radius: 12px;
+            padding: 3vh 2.5vw;
+            margin: 3vh 0;
+        }
+
+        .theorem-box h3 {
+            font-size: 1.8vw;
+            color: #e67e22;
+            margin-bottom: 2vh;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 1vw;
+        }
+
+        .theorem-box h3::before {
+            content: '📜';
+            font-size: 2.2vw;
+        }
+
+        .theorem-box .authors {
+            font-size: 1.4vw;
+            color: #888;
+            margin-bottom: 1.5vh;
+            font-style: italic;
+        }
+
+        .theorem-box .statement {
+            font-size: 1.8vw;
+            font-family: 'Times New Roman', serif;
+            line-height: 2;
+            color: #333;
+        }
+
+        .conjecture-box {
+            background: linear-gradient(135deg, #e8f8f5 0%, #d5f5e3 100%);
+            border: 2px solid #27ae60;
+            border-radius: 12px;
+            padding: 3vh 2.5vw;
+            margin: 3vh 0;
+        }
+
+        .conjecture-box h3 {
+            font-size: 1.8vw;
+            color: #27ae60;
+            margin-bottom: 2vh;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 1vw;
+        }
+
+        .conjecture-box h3::before {
+            content: '🔮';
+            font-size: 2.2vw;
+        }
+
+        .conjecture-box .statement {
+            font-size: 1.6vw;
+            font-family: 'Times New Roman', serif;
+            line-height: 2;
+            color: #333;
+        }
+
+        .roadmap {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 2vw;
+            margin: 4vh 0;
+        }
+
+        .roadmap-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+        }
+
+        .roadmap-circle {
+            width: 5vw;
+            height: 5vw;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2vw;
+            margin-bottom: 1vh;
+        }
+
+        .roadmap-circle.done {
+            background: linear-gradient(135deg, #27ae60 0%, #2ecc71 100%);
+            color: #fff;
+            box-shadow: 0 4px 15px rgba(39, 174, 96, 0.3);
+        }
+
+        .roadmap-circle.current {
+            background: linear-gradient(135deg, #e67e22 0%, #f39c12 100%);
+            color: #fff;
+            box-shadow: 0 4px 15px rgba(230, 126, 34, 0.3);
+        }
+
+        .roadmap-circle.future {
+            background: linear-gradient(135deg, #3498db 0%, #5dade2 100%);
+            color: #fff;
+            box-shadow: 0 4px 15px rgba(52, 152, 219, 0.3);
+        }
+
+        .roadmap-label {
+            font-size: 1.3vw;
+            color: #666;
+            max-width: 8vw;
+        }
+
+        .roadmap-arrow {
+            font-size: 2vw;
+            color: #bbb;
+        }
+
+        .future-list {
+            display: flex;
+            flex-direction: column;
+            gap: 2.5vh;
+            margin: 3vh 0;
+        }
+
+        .future-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 1.5vw;
+            padding: 2vh 2vw;
+            background: #f8f9fa;
+            border-radius: 10px;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .future-item:hover {
+            transform: translateX(1vw);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+
+        .future-icon {
+            font-size: 2vw;
+            flex-shrink: 0;
+        }
+
+        .future-content h4 {
+            font-size: 1.8vw;
+            color: #333;
+            margin-bottom: 0.5vh;
+        }
+
+        .future-content p {
+            font-size: 1.4vw;
+            color: #666;
+        }
+
+        .deep-nn-svg {
+            width: 100%;
+            max-width: 65vw;
+            margin: 2vh auto;
+            display: block;
+        }
+
+        .questions-box {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 15px;
+            padding: 5vh 4vw;
+            text-align: center;
+            color: #fff;
+            margin: 3vh 0;
+        }
+
+        .questions-box h2 {
+            color: #fff;
+            font-size: 3vw;
+            margin-bottom: 2vh;
+            text-transform: none;
+            letter-spacing: 0.05em;
+        }
+
+        .questions-box p {
+            color: rgba(255,255,255,0.9);
+            font-size: 1.8vw;
+        }
+
+        .questions-box .emoji {
+            font-size: 4vw;
+            margin-bottom: 2vh;
+        }
+
+        /* Title slide */
+        .title-slide {
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+        }
+
+        .title-slide::after {
+            background: linear-gradient(90deg, #e74c3c, #f39c12, #3498db);
+            height: 4px;
+        }
+
+        .title-slide .main-title {
+            font-size: 4vw;
+            font-weight: 600;
+            color: #fff;
+            letter-spacing: 0.05em;
+            margin-bottom: 2vh;
+            line-height: 1.4;
+        }
+
+        .title-slide .subtitle {
+            font-size: 2.2vw;
+            font-weight: 300;
+            color: rgba(255,255,255,0.85);
+            letter-spacing: 0.1em;
+            margin-bottom: 8vh;
+        }
+
+        .title-slide .author {
+            font-size: 1.8vw;
+            color: #fff;
+            font-weight: 400;
+            margin-bottom: 1vh;
+        }
+
+        .title-slide .affiliation {
+            font-size: 1.3vw;
+            color: rgba(255,255,255,0.7);
+            font-weight: 300;
+            letter-spacing: 0.1em;
+        }
+
+        .title-slide .date {
+            position: absolute;
+            bottom: 5vh;
+            font-size: 1.1vw;
+            color: rgba(255,255,255,0.5);
+            letter-spacing: 0.1em;
+        }
+
+        .title-slide .qr-card {
+            position: absolute;
+            top: clamp(18px, 6vmin, 56px);
+            right: clamp(18px, 6vmin, 56px);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 14px;
+            background: rgba(255,255,255,0.08);
+            border: 1px solid rgba(255,255,255,0.2);
+            border-radius: 12px;
+            box-shadow: 0 10px 28px rgba(0,0,0,0.35);
+            backdrop-filter: blur(8px);
+        }
+
+        .title-slide .qr-card img {
+            width: clamp(90px, 16vw, 150px);
+            height: auto;
+            display: block;
+            border-radius: 10px;
+            background: #fff;
+            padding: 6px;
+        }
+
+        .title-slide .qr-card .qr-text {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            color: #f4f8ff;
+            text-align: left;
+            max-width: 200px;
+        }
+
+        .title-slide .qr-card .qr-text small {
+            font-size: 0.95vw;
+            color: rgba(255,255,255,0.8);
+            letter-spacing: 0.08em;
+        }
+
+        .title-slide .qr-card .qr-link {
+            font-size: 0.95vw;
+            color: #e6f2ff;
+            line-height: 1.4;
+            word-break: break-all;
+        }
+
+        /* Slide navigation */
+        .slide {
+            display: none;
+        }
+
+        .slide.is-active {
+            display: flex;
+        }
+
+        .nav-bar {
+            position: fixed;
+            bottom: calc(12px + env(safe-area-inset-bottom));
+            right: calc(12px + env(safe-area-inset-right));
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 16px;
+            background: rgba(20, 20, 20, 0.75);
+            color: #fff;
+            border-radius: 999px;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.2);
+            backdrop-filter: blur(8px);
+            z-index: 1000;
+        }
+
+        .jump-panel {
+            position: fixed;
+            bottom: calc(76px + env(safe-area-inset-bottom));
+            right: calc(12px + env(safe-area-inset-right));
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(46px, 1fr));
+            gap: 6px;
+            padding: 10px;
+            max-width: 340px;
+            background: rgba(20, 20, 20, 0.7);
+            color: #fff;
+            border-radius: 14px;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.2);
+            backdrop-filter: blur(6px);
+            z-index: 1000;
+        }
+
+        .jump-button {
+            border: 1px solid rgba(255,255,255,0.18);
+            background: linear-gradient(135deg, #5dade2, #2c82c9);
+            color: #fff;
+            font-size: 0.9rem;
+            font-weight: 600;
+            padding: 6px 0;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: transform 0.12s, box-shadow 0.12s, opacity 0.12s;
+            min-width: 44px;
+        }
+
+        .jump-button:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 6px 14px rgba(0,0,0,0.18);
+        }
+
+        .jump-button.is-active {
+            background: linear-gradient(135deg, #27ae60, #1e8449);
+            box-shadow: 0 6px 14px rgba(0,0,0,0.25);
+        }
+
+        .nav-button {
+            border: none;
+            background: linear-gradient(135deg, #3498db, #2980b9);
+            color: #fff;
+            font-size: 1rem;
+            font-weight: 600;
+            padding: 10px 14px;
+            border-radius: 999px;
+            cursor: pointer;
+            transition: transform 0.15s, box-shadow 0.15s, opacity 0.15s;
+            min-width: 90px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            touch-action: manipulation;
+        }
+
+        .nav-button:hover:not(:disabled) {
+            transform: translateY(-1px);
+            box-shadow: 0 6px 16px rgba(0,0,0,0.2);
+        }
+
+        .nav-button:disabled {
+            opacity: 0.45;
+            cursor: not-allowed;
+            box-shadow: none;
+            background: #7f8c8d;
+        }
+
+        .nav-status {
+            font-size: 0.95rem;
+            letter-spacing: 0.05em;
+            color: #e6e6e6;
+            min-width: 110px;
+            text-align: center;
+        }
+
+        .visually-hidden {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            white-space: nowrap;
+            border: 0;
+        }
+    </style>
+    <script>
+        window.MathJax = {
+            tex: {
+                inlineMath: [['\\(', '\\)'], ['$', '$']],
+                displayMath: [['\\[', '\\]']]
+            },
+            svg: { fontCache: 'global' }
+        };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+</head>
+<body>
+    <div class="nav-bar" role="group" aria-label="スライド操作">
+        <button class="nav-button" id="prev-slide" type="button">Prev</button>
+        <div class="nav-status"><span id="slide-counter">1 / 28</span></div>
+        <button class="nav-button" id="next-slide" type="button">Next</button>
+    </div>
+    <div class="jump-panel" id="jump-panel" aria-label="ページジャンプボタン群"></div>
+    <div id="nav-live" class="visually-hidden" aria-live="polite"></div>
+    <!-- Title Slide -->
+    <div class="slide title-slide is-active">
+        <div class="main-title">パーセプトロン</div>
+        <div class="subtitle">ニューラルネットの基礎と確率の話</div>
+        <div class="author">中島 秀太</div>
+        <div class="affiliation">慶應義塾大学 理学学部 数理科学科</div>
+        <div class="date">2025年</div>
+     </div>
+
+
+
+    <!-- Slide 3 -->
+    <div class="slide">
+        <span class="section-label">Section 2</span>
+        <h1><span>講演の目的</span></h1>
+        <div class="purpose">
+            <p class="purpose-text">
+                <span>ニューラルネット</span>を<br>
+                身近な数学を通じて理解すること
+            </p>
+            <div class="nn-image">
+                <img src="nnimage.png" alt="ニューラルネットワークの図">
+            </div>
+        </div>
+        <span class="page-num">03 / 23</span>
+    </div>
+
+    <!-- Slide 4 -->
+    <div class="slide">
+        <span class="section-label">Section 2</span>
+        <h1><span>今日の内容</span></h1>
+        <div class="contents">
+            <div class="content-item">
+                <span class="content-num">1.</span>
+                <div class="content-text">文章のベクトル化</div>
+            </div>
+            <div class="content-item">
+                <span class="content-num">2.</span>
+                <div class="content-text">
+                    パーセプトロンのモデルと構築
+                    <small>名前から男/女を判定するモデル</small>
+                </div>
+            </div>
+            <div class="content-item">
+                <span class="content-num">3.</span>
+                <div class="content-text">ニューラルネットの数学的モデル</div>
+            </div>
+            <div class="content-item">
+                <span class="content-num">4.</span>
+                <div class="content-text">研究の内容と今後の展開</div>
+            </div>
+        </div>
+        <span class="page-num">04 / 23</span>
+    </div>
+
+    <!-- Slide 5: アルファベットの数字化 -->
+    <div class="slide">
+        <span class="section-label">Section 3</span>
+        <h1><span>アルファベットの数字化</span></h1>
+        
+        <h2>ルール</h2>
+        <div class="rule-box">
+            A → 1,　B → 2,　C → 3,　...　Z → 26
+        </div>
+        
+        <h2>例</h2>
+        <div class="examples">
+            <div class="example">
+                <span class="word">CAT</span>
+                <span class="arrow">→</span>
+                <span class="vector">(3, 1, 20)</span>
+            </div>
+            <div class="example">
+                <span class="word">DOG</span>
+                <span class="arrow">→</span>
+                <span class="vector">(4, 15, 7)</span>
+            </div>
+            <div class="example">
+                <span class="word">HELLO</span>
+                <span class="arrow">→</span>
+                <span class="vector">( ?, ?, ?, ?, ? )</span>
+            </div>
+        </div>
+        
+        <div class="question">
+            📝 自分の下の名前をベクトルで表せ
+        </div>
+        
+        <span class="page-num">05 / 23</span>
+    </div>
+
+    <!-- Slide 5.5: アルファベットと数字の対応表 -->
+    <div class="slide">
+        <span class="section-label">Section 3</span>
+        <h1><span>アルファベット → 数字 対応表</span></h1>
+        
+        <div style="display: grid; grid-template-columns: repeat(13, 1fr); gap: 0.5vh 0.3vw; max-width: 90%; margin: 3vh auto; font-size: 1.3vw;">
+            <div style="background: linear-gradient(135deg, #3498db, #2980b9); color: white; padding: 1vh 0.5vw; border-radius: 8px; text-align: center; font-weight: bold;">A<br><span style="font-size: 1.5vw;">1</span></div>
+            <div style="background: linear-gradient(135deg, #3498db, #2980b9); color: white; padding: 1vh 0.5vw; border-radius: 8px; text-align: center; font-weight: bold;">B<br><span style="font-size: 1.5vw;">2</span></div>
+            <div style="background: linear-gradient(135deg, #3498db, #2980b9); color: white; padding: 1vh 0.5vw; border-radius: 8px; text-align: center; font-weight: bold;">C<br><span style="font-size: 1.5vw;">3</span></div>
+            <div style="background: linear-gradient(135deg, #3498db, #2980b9); color: white; padding: 1vh 0.5vw; border-radius: 8px; text-align: center; font-weight: bold;">D<br><span style="font-size: 1.5vw;">4</span></div>
+            <div style="background: linear-gradient(135deg, #3498db, #2980b9); color: white; padding: 1vh 0.5vw; border-radius: 8px; text-align: center; font-weight: bold;">E<br><span style="font-size: 1.5vw;">5</span></div>
+            <div style="background: linear-gradient(135deg, #3498db, #2980b9); color: white; padding: 1vh 0.5vw; border-radius: 8px; text-align: center; font-weight: bold;">F<br><span style="font-size: 1.5vw;">6</span></div>
+            <div style="background: linear-gradient(135deg, #3498db, #2980b9); color: white; padding: 1vh 0.5vw; border-radius: 8px; text-align: center; font-weight: bold;">G<br><span style="font-size: 1.5vw;">7</span></div>
+            <div style="background: linear-gradient(135deg, #3498db, #2980b9); color: white; padding: 1vh 0.5vw; border-radius: 8px; text-align: center; font-weight: bold;">H<br><span style="font-size: 1.5vw;">8</span></div>
+            <div style="background: linear-gradient(135deg, #3498db, #2980b9); color: white; padding: 1vh 0.5vw; border-radius: 8px; text-align: center; font-weight: bold;">I<br><span style="font-size: 1.5vw;">9</span></div>
+            <div style="background: linear-gradient(135deg, #3498db, #2980b9); color: white; padding: 1vh 0.5vw; border-radius: 8px; text-align: center; font-weight: bold;">J<br><span style="font-size: 1.5vw;">10</span></div>
+            <div style="background: linear-gradient(135deg, #3498db, #2980b9); color: white; padding: 1vh 0.5vw; border-radius: 8px; text-align: center; font-weight: bold;">K<br><span style="font-size: 1.5vw;">11</span></div>
+            <div style="background: linear-gradient(135deg, #3498db, #2980b9); color: white; padding: 1vh 0.5vw; border-radius: 8px; text-align: center; font-weight: bold;">L<br><span style="font-size: 1.5vw;">12</span></div>
+            <div style="background: linear-gradient(135deg, #3498db, #2980b9); color: white; padding: 1vh 0.5vw; border-radius: 8px; text-align: center; font-weight: bold;">M<br><span style="font-size: 1.5vw;">13</span></div>
+            <div style="background: linear-gradient(135deg, #e74c3c, #c0392b); color: white; padding: 1vh 0.5vw; border-radius: 8px; text-align: center; font-weight: bold;">N<br><span style="font-size: 1.5vw;">14</span></div>
+            <div style="background: linear-gradient(135deg, #e74c3c, #c0392b); color: white; padding: 1vh 0.5vw; border-radius: 8px; text-align: center; font-weight: bold;">O<br><span style="font-size: 1.5vw;">15</span></div>
+            <div style="background: linear-gradient(135deg, #e74c3c, #c0392b); color: white; padding: 1vh 0.5vw; border-radius: 8px; text-align: center; font-weight: bold;">P<br><span style="font-size: 1.5vw;">16</span></div>
+            <div style="background: linear-gradient(135deg, #e74c3c, #c0392b); color: white; padding: 1vh 0.5vw; border-radius: 8px; text-align: center; font-weight: bold;">Q<br><span style="font-size: 1.5vw;">17</span></div>
+            <div style="background: linear-gradient(135deg, #e74c3c, #c0392b); color: white; padding: 1vh 0.5vw; border-radius: 8px; text-align: center; font-weight: bold;">R<br><span style="font-size: 1.5vw;">18</span></div>
+            <div style="background: linear-gradient(135deg, #e74c3c, #c0392b); color: white; padding: 1vh 0.5vw; border-radius: 8px; text-align: center; font-weight: bold;">S<br><span style="font-size: 1.5vw;">19</span></div>
+            <div style="background: linear-gradient(135deg, #e74c3c, #c0392b); color: white; padding: 1vh 0.5vw; border-radius: 8px; text-align: center; font-weight: bold;">T<br><span style="font-size: 1.5vw;">20</span></div>
+            <div style="background: linear-gradient(135deg, #e74c3c, #c0392b); color: white; padding: 1vh 0.5vw; border-radius: 8px; text-align: center; font-weight: bold;">U<br><span style="font-size: 1.5vw;">21</span></div>
+            <div style="background: linear-gradient(135deg, #e74c3c, #c0392b); color: white; padding: 1vh 0.5vw; border-radius: 8px; text-align: center; font-weight: bold;">V<br><span style="font-size: 1.5vw;">22</span></div>
+            <div style="background: linear-gradient(135deg, #e74c3c, #c0392b); color: white; padding: 1vh 0.5vw; border-radius: 8px; text-align: center; font-weight: bold;">W<br><span style="font-size: 1.5vw;">23</span></div>
+            <div style="background: linear-gradient(135deg, #e74c3c, #c0392b); color: white; padding: 1vh 0.5vw; border-radius: 8px; text-align: center; font-weight: bold;">X<br><span style="font-size: 1.5vw;">24</span></div>
+            <div style="background: linear-gradient(135deg, #e74c3c, #c0392b); color: white; padding: 1vh 0.5vw; border-radius: 8px; text-align: center; font-weight: bold;">Y<br><span style="font-size: 1.5vw;">25</span></div>
+            <div style="background: linear-gradient(135deg, #e74c3c, #c0392b); color: white; padding: 1vh 0.5vw; border-radius: 8px; text-align: center; font-weight: bold;">Z<br><span style="font-size: 1.5vw;">26</span></div>
+        </div>
+        
+        <div class="examples" style="margin-top: 3vh;">
+            <div class="example">
+                <span class="word">CAT</span>
+                <span class="arrow">→</span>
+                <span class="vector">(3, 1, 20)</span>
+            </div>
+            <div class="example">
+                <span class="word">HARUTO</span>
+                <span class="arrow">→</span>
+                <span class="vector">(8, 1, 18, 21, 20, 15)</span>
+            </div>
+        </div>
+        
+        <span class="page-num">05.5 / 23</span>
+    </div>
+
+    <!-- Slide 6: 文章のベクトル化 -->
+    <div class="slide">
+        <span class="section-label">Section 3</span>
+        <h1><span>文章のベクトル化</span></h1>
+        
+        <p>文章にでてくるそれぞれの単語をベクトル化し、<br><span class="highlight">0をはさんで結合</span>して新しいベクトルを作る。</p>
+        
+        <h2 style="margin-top: 4vh;">例</h2>
+        <div class="examples">
+            <div class="example">
+                <span class="word">I AM CAT</span>
+                <span class="arrow">→</span>
+                <span class="vector">\( (9) + (1, 13) + (3, 1, 20) \)</span>
+                <span class="arrow">=</span>
+                <span class="vector">\( (9, 0, 1, 13, 0, 3, 1, 20) \)</span>
+            </div>
+            <div class="example">
+                <span class="word">YOU ARE DOG</span>
+                <span class="arrow">→</span>
+                <span class="vector">( ?, ?, ... )</span>
+            </div>
+        </div>
+        
+        <div class="diagram">
+            <div class="diagram-box">文章の集合</div>
+            <div class="labeled-arrow">
+                <span class="arrow-label">Vect</span>
+                <span class="diagram-arrow">→</span>
+            </div>
+            <div class="diagram-box">ベクトルの集合</div>
+        </div>
+        
+        <span class="page-num">06 / 23</span>
+    </div>
+
+    <!-- Slide 7: 二進数化 -->
+    <div class="slide">
+        <span class="section-label">Section 3</span>
+        <h1><span>二進数化</span></h1>
+        
+        <p>コンピュータでは <span class="highlight">0と1</span> の方が扱いやすい。<br>
+        <small>（変換された時のビット数は5で統一する）</small></p>
+        
+        <h2 style="margin-top: 4vh;">変換例</h2>
+        <div class="binary-table">
+            <div class="binary-row">
+                <span class="num">26</span>
+                <span class="eq">\(= 2^4 + 2^3 + 2^1\)</span>
+                <span class="arrow">→</span>
+                <span class="bin">11010</span>
+            </div>
+            <div class="binary-row">
+                <span class="num">10</span>
+                <span class="eq">\(= 2^3 + 2^1\)</span>
+                <span class="arrow">→</span>
+                <span class="bin">01010</span>
+            </div>
+            <div class="binary-row">
+                <span class="num">3</span>
+                <span class="eq">\(= 2^1 + 2^0\)</span>
+                <span class="arrow">→</span>
+                <span class="bin">00011</span>
+            </div>
+            <div class="binary-row">
+                <span class="num">1</span>
+                <span class="eq">\(= 2^0\)</span>
+                <span class="arrow">→</span>
+                <span class="bin">00001</span>
+            </div>
+        </div>
+        
+        <div class="diagram" style="margin-top: 4vh;">
+            <div class="diagram-box">数の集合</div>
+            <div class="labeled-arrow">
+                <span class="arrow-label">Bin</span>
+                <span class="diagram-arrow">→</span>
+            </div>
+            <div class="diagram-box">\( \{0, 1\}^5 \)</div>
+        </div>
+        
+        <span class="page-num">07 / 23</span>
+    </div>
+
+    <!-- Slide 7.5: 数字→二進数変換表 -->
+    <div class="slide">
+        <span class="section-label">Section 3</span>
+        <h1><span>数字→二進数</span></h1>
+        
+        <p style="margin-bottom: 2vh;">各数字を <span class="highlight">5ビット</span> の二進数に変換</p>
+        
+        <div style="display: flex; justify-content: center; gap: 3vw;">
+            <table class="bin-table">
+                <tr><th>数値</th><th>二進数</th></tr>
+                <tr><td>1</td><td>00001</td></tr>
+                <tr><td>2</td><td>00010</td></tr>
+                <tr><td>3</td><td>00011</td></tr>
+                <tr><td>4</td><td>00100</td></tr>
+                <tr><td>5</td><td>00101</td></tr>
+                <tr><td>6</td><td>00110</td></tr>
+                <tr><td>7</td><td>00111</td></tr>
+                <tr><td>8</td><td>01000</td></tr>
+                <tr><td>9</td><td>01001</td></tr>
+            </table>
+            <table class="bin-table">
+                <tr><th>数値</th><th>二進数</th></tr>
+                <tr><td>10</td><td>01010</td></tr>
+                <tr><td>11</td><td>01011</td></tr>
+                <tr><td>12</td><td>01100</td></tr>
+                <tr><td>13</td><td>01101</td></tr>
+                <tr><td>14</td><td>01110</td></tr>
+                <tr><td>15</td><td>01111</td></tr>
+                <tr><td>16</td><td>10000</td></tr>
+                <tr><td>17</td><td>10001</td></tr>
+                <tr><td>18</td><td>10010</td></tr>
+            </table>
+            <table class="bin-table">
+                <tr><th>数値</th><th>二進数</th></tr>
+                <tr><td>19</td><td>10011</td></tr>
+                <tr><td>20</td><td>10100</td></tr>
+                <tr><td>21</td><td>10101</td></tr>
+                <tr><td>22</td><td>10110</td></tr>
+                <tr><td>23</td><td>10111</td></tr>
+                <tr><td>24</td><td>11000</td></tr>
+                <tr><td>25</td><td>11001</td></tr>
+                <tr><td>26</td><td>11010</td></tr>
+                <tr><td>0</td><td>00000</td></tr>
+            </table>
+        </div>
+        
+        <div class="diagram" style="margin-top: 3vh;">
+            <div class="diagram-box">A〜Z, 空白</div>
+            <div class="labeled-arrow">
+                <span class="arrow-label">Bin</span>
+                <span class="diagram-arrow">→</span>
+            </div>
+            <div class="diagram-box">\( \{0, 1\}^5 \)</div>
+        </div>
+        
+        <span class="page-num">08 / 23</span>
+    </div>
+
+    <!-- Slide 8: 文章の二進数化 -->
+    <div class="slide">
+        <span class="section-label">Section 3</span>
+        <h1><span>文章の二進数化</span></h1>
+        
+        <div class="diagram" style="margin-bottom: 3vh;">
+            <div class="diagram-box">N文字の文章</div>
+            <span class="diagram-arrow">→</span>
+            <div class="diagram-box" style="background: #fff3cd;">\( BV = \mathrm{Bin} \circ \mathrm{Vect} \)</div>
+            <span class="diagram-arrow">→</span>
+            <div class="diagram-box">\( \{0, 1\}^{5N} \)</div>
+        </div>
+        
+        <p style="margin-bottom: 2vh;"><small>※ 空白（スペース）は <span class="highlight">00000</span> に変換する</small></p>
+        
+        <h2>例</h2>
+        <div class="examples">
+            <div class="example" style="flex-direction: column; align-items: flex-start; gap: 0.5vh;">
+                <div>
+                    <span class="word">I AM CAT</span>
+                    <span class="arrow">→</span>
+                    <span class="vector">\( (9, 0, 1, 13, 0, 3, 1, 20) \)</span>
+                </div>
+                <div>
+                    <span class="arrow">→</span>
+                    <span class="bin" style="color: #e74c3c;">\( (0,1,0,0,1, \underbrace{0,0,0,0,0}_{\text{空白}}, 0,0,0,0,1, 0,1,1,0,1, \underbrace{0,0,0,0,0}_{\text{空白}}, 0,0,0,1,1, 0,0,0,0,1, 1,0,1,0,0) \)</span>
+                </div>
+            </div>
+        </div>
+        
+        
+        <span class="page-num">09 / 23</span>
+    </div>
+<!-- Slide 9: 名前の二進数化（50ビット固定） -->
+<div class="slide">
+    <span class="section-label">Section 3</span>
+    <h1><span>名前の二進数化</span></h1>
+
+    <p style="margin-bottom: 2vh; font-size: 1.6vw;">
+        名前を <span class="highlight">5ビット × 10文字 = 50ビット</span> のベクトルに変換する
+    </p>
+
+    <p style="margin-bottom: 3vh; font-size: 1.5vw; color: #c0392b;">
+        ★ 名前が10文字未満のときは，<br>
+        <span class="highlight">最初に 00000 を必要な個数だけ加えて</span> 50ビットにそろえる
+    </p>
+
+    <div class="diagram" style="margin-bottom: 3vh;">
+        <div class="diagram-box">名前</div>
+        <span class="diagram-arrow">→</span>
+        <div class="diagram-box" style="background:#fff3cd;">Binary</div>
+        <span class="diagram-arrow">→</span>
+        <div class="diagram-box">\( \{0,1\}^{50} \)</div>
+    </div>
+
+    <h2>例</h2>
+    <div style="font-family:'Courier New', monospace; font-size:1.6vw;">
+        SHUTA（5文字）<br>
+        ↓<br>
+        <span style="color:#e74c3c;">
+        \( \underbrace{00000\cdots00000}_{\text{最初に5文字分}}
+        \;10011\,01000\,10101\,10100\,00001 \)
+        </span>
+    </div>
+
+    <div class="question" style="margin-top: 3vh;">
+        📝 自分の名前を 50ビットにせよ
+    </div>
+
+    <span class="page-num">10 / 23</span>
+</div>
+
+    <!-- Slide 9: 名前から男/女判定 -->
+    <div class="slide">
+        <span class="section-label">Section 3</span>
+        <h1><span>名前から男/女判定</span></h1>
+        
+        <p>10文字の下の名前が200個与えられているとする。<br>
+        それぞれの名前には<span class="highlight">男/女</span>が分かっている。</p>
+        
+        <h2 style="margin-top: 3vh;">例</h2>
+        <div class="name-examples">
+            <div class="name-row">
+                <span class="name">SHUTA</span>
+                <span class="arrow">→</span>
+                <span class="gender male">男 = 1</span>
+            </div>
+            <div class="name-row">
+                <span class="name">TAKASHI</span>
+                <span class="arrow">→</span>
+                <span class="gender male">男 = 1</span>
+            </div>
+            <div class="name-row">
+                <span class="name">REIKA</span>
+                <span class="arrow">→</span>
+                <span class="gender female">女 = 0</span>
+            </div>
+        </div>
+        
+        <div style="margin-top: 3vh; font-size: 1.4vw; color: #444;">
+            <p>名前をBinaryで表すと...</p>
+            <div style="font-family: 'Courier New', monospace; margin-top: 1vh; font-size: 1.8vw;">
+                \( \mathbf{x} \in \Sigma \mapsto y_{\mathbf{x}} \in \{0, 1\} \)
+            </div>
+        </div>
+        
+        <span class="page-num">10 / 23</span>
+    </div>
+
+    <!-- Slide 10: パーセプトロンのモデル -->
+    <div class="slide">
+        <span class="section-label">Section 4</span>
+        <h1><span>パーセプトロンのモデル</span></h1>
+        
+        <div class="definition-box">
+            <h3>📐 設定</h3>
+            <p>
+                \( \Sigma = \{\mathbf{x}_1, \ldots, \mathbf{x}_M\} \) : M個の名前（二進数化されたもの）の集合<br>
+                \( \mathbf{x}_i \in \{0, 1\}^{50} \) : 10文字の名前の二進数化<br>
+                \( \mathbf{1} = (1, 1, \ldots, 1) \) : 50次元のベクトル<br>
+                \( 2\mathbf{x} - \mathbf{1} = (2x_1 - 1, \ldots, 2x_{50} - 1) \in \{-1, 1\}^{50} \)
+            </p>
+        </div>
+        
+        <div class="perceptron-diagram">
+            <div class="input-layer">
+                <div class="input-node">x₁</div>
+                <div class="input-node">x₂</div>
+                <div class="input-node" style="background: #95a5a6;">...</div>
+                <div class="input-node">x₇₅</div>
+            </div>
+            <div style="display: flex; flex-direction: column; gap: 2vh;">
+                <div class="weights-line"></div>
+                <div class="weights-line"></div>
+                <div class="weights-line"></div>
+                <div class="weights-line"></div>
+            </div>
+            <div class="sum-node">Σ</div>
+            <div class="output-arrow">→</div>
+            <div class="output-box">0 or 1</div>
+        </div>
+        
+        <div class="formula-box">
+            <strong>目標: 次を満たす</strong> \( \mathbf{w} = (w_1, \ldots, w_{50}) \in \{-1, 1\}^{50} \) を見つける<br>
+            <span class="highlight">\( \mathbf{1}\{ \mathbf{w} \cdot (2\mathbf{x} - \mathbf{1}) \ge 0 \} = y_{\mathbf{x}} \)</span>　　∀ \( \mathbf{x} \in \Sigma \)
+        </div>
+        
+        <span class="page-num">11 / 23</span>
+    </div>
+
+    <!-- Slide 10.5: 判定の仕組み -->
+    <div class="slide">
+        <span class="section-label">Section 4</span>
+        <h1><span>判定の仕組み</span></h1>
+        
+        <p>\( \mathbf{w} \) として <span class="highlight">\( \mathbf{1}\{ \mathbf{w} \cdot (2\mathbf{x} - \mathbf{1}) \ge 0 \} = y_{\mathbf{x}} \)</span>　∀ \( \mathbf{x} \in \Sigma \)を満たすものが取れたとする。</p>
+        
+        <p style="margin-top: 2vh;">データにない<span class="highlight">新しい名前 x'</span> が来た時の判定方法:</p>
+        
+        <div class="flow-diagram" style="margin: 4vh 0;">
+            <div class="flow-box input">
+                新しい名前<br><small>YUKI</small>
+            </div>
+            <div class="flow-arrow">→</div>
+            <div class="flow-box process">
+                二進数化<br>\( \mathbf{x}' \)
+            </div>
+            <div class="flow-arrow">→</div>
+            <div class="flow-box process">
+                内積計算<br>\( \mathbf{w} \cdot (2\mathbf{x}' - \mathbf{1}) \)
+            </div>
+            <div class="flow-arrow">→</div>
+            <div class="flow-box output">
+                判定結果
+            </div>
+        </div>
+        
+        <div class="steps">
+            <div class="step">
+                <div class="step-num">1</div>
+                <div class="step-content">
+                    \( \mathbf{w} \cdot (2\mathbf{x}' - \mathbf{1}) \) を計算する
+                </div>
+            </div>
+            <div class="step">
+                <div class="step-num">2</div>
+                <div class="step-content">
+                    結果が <span class="highlight-blue">\( \ge 0 \)</span> なら <span class="highlight">1（男）</span>
+                </div>
+            </div>
+            <div class="step">
+                <div class="step-num">3</div>
+                <div class="step-content">
+                    結果が <span class="highlight-blue">\( < 0 \)</span> なら <span class="highlight">0（女）</span>
+                </div>
+            </div>
+        </div>
+        
+        <div class="note">
+            💡 学習で見つけた <strong>w</strong> を使って、未知のデータを分類できる！
+        </div>
+        
+        <span class="page-num">11.5 / 23</span>
+    </div>
+
+    <!-- Slide 11: 実装 -->
+    <div class="slide">
+        <span class="section-label">Section 4</span>
+        <h1><span>実装</span></h1>
+        
+        <div class="impl-cards">
+            <div class="impl-card data">
+                <div class="icon">📊</div>
+                <h3>データ</h3>
+                <p style="font-size: 1.1vw; text-align: left; margin-bottom: 1vh;">
+                    JSON形式で1000件以上収集
+                </p>
+                <pre style="background: #1a1a2e; color: #a0e7e5; padding: 1.2vh 1vw; border-radius: 8px; font-size: 1vw; text-align: left; margin: 1vh 0; overflow: hidden; line-height: 1.6;">
+[
+  {"name": "HARUTO", "sex": 1},
+  {"name": "SAKURA", "sex": 0},
+  {"name": "YUKI", "sex": 1},
+  {"name": "HINATA", "sex": 0},
+  ...
+]</pre>
+                <small style="color: #888; font-size: 0.9vw;">sex: 1=男, 0=女</small>
+            </div>
+            <div class="impl-card model">
+                <div class="icon">🤖</div>
+                <h3>モデル</h3>
+                <p>
+                    パーセプトロンを実装<br>
+                    <strong>w</strong> は<span class="highlight">モンテカルロ</span>で探索<br><br>
+                    <small style="color: #888;">精度：約87%</small>
+                </p>
+            </div>
+        </div>
+        
+        <div class="algorithm-box">
+            <span class="comment"># モンテカルロの概要</span><br>
+            <span class="keyword">for</span> t = 1, 2, ..., T:<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;w' ← wの1成分をランダムに反転<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">if</span> E(w') ≤ E(w):　<span class="comment"># 誤分類が減ったら採用</span><br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;w ← w'<br>
+            <span class="comment"># E(w) = 誤分類の数（モデルが間違えた予測の個数）</span>
+        </div>
+        
+        <span class="page-num">12 / 23</span>
+    </div>
+
+    <!-- Slide 11.5: デモ -->
+    <div class="slide">
+        <span class="section-label">Section 4</span>
+        <h1><span>デモ：名前から性別を予測 🔮</span></h1>
+        
+        <p>日本人の名前をローマ字で入力してください（例：HARUTO、SAKURA）<br>
+        ニューラルネットワークで学習したモデルが性別を予測します（精度：約87%）</p>
+        
+        <div class="demo-container" style="background: white; padding: 3vh 3vw; border-radius: 12px; box-shadow: 0 4px 20px rgba(0,0,0,0.1); max-width: 500px; margin: 3vh auto;">
+            <form id="demo-predict-form" style="margin-bottom: 2vh;">
+                <input type="text" id="demo-name-input" placeholder="例：HARUTO" required
+                    style="padding: 1vh 1vw; width: 100%; font-size: 1.5vw; border: 2px solid #3498db; border-radius: 8px; box-sizing: border-box;">
+                <button type="submit" style="margin-top: 1.5vh; padding: 1vh 2vw; font-size: 1.3vw; background: linear-gradient(135deg, #3498db, #2980b9); color: white; border: none; border-radius: 8px; cursor: pointer; width: 100%; transition: transform 0.2s;">
+                    予測する
+                </button>
+            </form>
+            <div id="demo-result" style="font-weight: bold; font-size: 2vw; text-align: center; min-height: 3vh;"></div>
+        </div>
+        
+        <div class="formula-box" style="margin-top: 2vh; font-size: 0.9vw; max-width: 700px; margin-left: auto; margin-right: auto;">
+            <strong>学習された重みベクトル \( \mathbf{w} \in \mathbb{R}^{50} \)：</strong><br>
+            <div style="font-family: monospace; font-size: 0.7vw; max-height: 8vh; overflow-y: auto; background: #f8f9fa; padding: 1vh; border-radius: 4px; margin-top: 1vh; word-break: break-all;">
+                w = [-5.07, -5.07, -5.07, -5.07, -5.07, 76.05, 116.22, 138.04, -180.43, 59.57, -5.07, -5.07, -5.07, -5.07, -5.07, 38.61, 24.25, -4.79, -41.25, -1.37, -5.07, -5.07, -5.07, -5.07, -5.07, 8.61, 1.66, 2.64, -16.63, 0.55, -5.07, -5.07, -5.07, -5.07, -5.07, 16.94, -10.08, 5.41, 17.13, -7.50, -5.07, -5.07, -5.07, -5.07, -5.07, 11.30, -2.92, 8.30, 11.18, 11.10, -5.07, -5.07, -5.07, -5.07, -5.07, 16.82, -11.84, 5.16, 23.58, -35.49, -5.07, -5.07, -5.07, -5.07, -5.07, -10.82, -40.59, -27.64, -31.87, -6.35, -5.07, -5.07, -5.07, -5.07, -5.07, -29.47, -2.93, 30.79, -35.59, 59.11]
+            </div>
+            <small style="color: #666;">※ 10文字 × 5bit = 50次元。</small>
+        </div>
+        
+        <div class="note" style="margin-top: 2vh;">
+            💡 試してみよう：YUKI、HARUKA、TSUBASA など中性的な名前はどう判定される？
+        </div>
+        
+        <span class="page-num">12.5 / 23</span>
+    </div>
+
+    <!-- Slide 12: 一般のパーセプトロンのモデル -->
+    <div class="slide">
+        <span class="section-label">Section 5</span>
+        <h1><span>一般のパーセプトロンのモデル</span></h1>
+        
+        <div class="definition-box">
+            <h3>📐 設定</h3>
+            <p>
+                \( N, M \) を固定する<br>
+                \( \Sigma = (\mathbf{x}^1, \mathbf{x}^2, \ldots, \mathbf{x}^M) \subset \{-1, 1\}^N \) : 入力データ<br>
+                各 \( \mathbf{x} \in \Sigma \) に対し、\( y_{\mathbf{x}} \in \{-1, 1\} \) : ラベル
+            </p>
+        </div>
+        
+        <div class="perceptron-simple">
+            <div class="input-vector">
+                \( \mathbf{x} \in \{-1, 1\}^N \)<br>
+                <small>入力</small>
+            </div>
+            <div class="arrow">×</div>
+            <div class="weight-vector">
+                \( \mathbf{w} \in \{-1, 1\}^N \)<br>
+                <small>重み</small>
+            </div>
+            <div class="arrow">→</div>
+            <div class="output-single">
+                \( y \in \{-1, 1\} \)<br>
+                <small>出力</small>
+            </div>
+        </div>
+        
+        <div class="formula-box conclusion">
+            <strong>解の存在:</strong> 次を満たす \( \mathbf{w} = (w_1, \ldots, w_N) \in \{-1, 1\}^N \) が存在するとき<br>
+            <span class="highlight">\( \mathbf{1}\{ \mathbf{w} \cdot \mathbf{x} \ge 0 \} = y_{\mathbf{x}} \)</span>　　∀ \( \mathbf{x} \in \Sigma \)<br>
+            モデルは<span class="highlight-blue">「解をもつ」</span>という<br>
+            <small style="color: #e74c3c;">※ \( \mathbf{w} \) を見つける問題は<strong>NP困難</strong></small>
+        </div>
+        
+        <span class="page-num">13 / 23</span>
+    </div>
+
+    <!-- Slide 13: ニューラルネットの数学的モデル -->
+    <div class="slide">
+        <span class="section-label">Section 5</span>
+        <h1><span>ニューラルネットの確率モデル</span></h1>
+        
+        <p>ニューラルネットは、<span class="highlight">出力が複数個</span>あるようなパーセプトロン</p>
+        
+        <!-- SVGでニューラルネット図を描画 -->
+        <svg class="nn-svg" viewBox="0 0 400 200">
+            <!-- 入力層 -->
+            <circle cx="50" cy="40" r="15" fill="#3498db"/>
+            <circle cx="50" cy="80" r="15" fill="#3498db"/>
+            <circle cx="50" cy="120" r="15" fill="#95a5a6"/>
+            <circle cx="50" cy="160" r="15" fill="#3498db"/>
+            <text x="50" y="44" text-anchor="middle" fill="white" font-size="10">x₁</text>
+            <text x="50" y="84" text-anchor="middle" fill="white" font-size="10">x₂</text>
+            <text x="50" y="124" text-anchor="middle" fill="white" font-size="8">...</text>
+            <text x="50" y="164" text-anchor="middle" fill="white" font-size="10">xₙ</text>
+            <text x="50" y="190" text-anchor="middle" fill="#888" font-size="10">入力</text>
+            
+            <!-- 出力層 -->
+            <circle cx="350" cy="60" r="15" fill="#27ae60"/>
+            <circle cx="350" cy="100" r="15" fill="#27ae60"/>
+            <circle cx="350" cy="140" r="15" fill="#27ae60"/>
+            <text x="350" y="64" text-anchor="middle" fill="white" font-size="10">y₁</text>
+            <text x="350" y="104" text-anchor="middle" fill="white" font-size="10">y₂</text>
+            <text x="350" y="144" text-anchor="middle" fill="white" font-size="10">y₃</text>
+            <text x="350" y="190" text-anchor="middle" fill="#888" font-size="10">出力</text>
+            
+            <!-- 接続線 -->
+            <line x1="65" y1="40" x2="335" y2="60" stroke="#9b59b6" stroke-width="1" opacity="0.3"/>
+            <line x1="65" y1="40" x2="335" y2="100" stroke="#9b59b6" stroke-width="1" opacity="0.3"/>
+            <line x1="65" y1="40" x2="335" y2="140" stroke="#9b59b6" stroke-width="1" opacity="0.3"/>
+            <line x1="65" y1="80" x2="335" y2="60" stroke="#9b59b6" stroke-width="1" opacity="0.3"/>
+            <line x1="65" y1="80" x2="335" y2="100" stroke="#9b59b6" stroke-width="1" opacity="0.3"/>
+            <line x1="65" y1="80" x2="335" y2="140" stroke="#9b59b6" stroke-width="1" opacity="0.3"/>
+            <line x1="65" y1="160" x2="335" y2="60" stroke="#9b59b6" stroke-width="1" opacity="0.3"/>
+            <line x1="65" y1="160" x2="335" y2="100" stroke="#9b59b6" stroke-width="1" opacity="0.3"/>
+            <line x1="65" y1="160" x2="335" y2="140" stroke="#9b59b6" stroke-width="1" opacity="0.3"/>
+            
+            <!-- 重み行列 -->
+            <text x="200" y="100" text-anchor="middle" fill="#9b59b6" font-size="14" font-weight="bold">W</text>
+            <text x="200" y="115" text-anchor="middle" fill="#888" font-size="9">N × K 行列</text>
+        </svg>
+        
+        <h2 style="margin-top: 2vh;">例：名前から複数属性を判定</h2>
+        <div class="example-table">
+            <div class="example-row">
+                <span class="name">SHUTA</span>
+                <span class="arrow">→</span>
+                <div class="attributes">
+                    <span class="attr-tag male">男</span>
+                    <span class="attr-tag kanto">関東</span>
+                    <span class="attr-tag young">50代以下</span>
+                </div>
+                <span class="arrow">→</span>
+                <span class="vector">\( (1, 1, 0) \)</span>
+            </div>
+            <div class="example-row">
+                <span class="name">TAKASHI</span>
+                <span class="arrow">→</span>
+                <div class="attributes">
+                    <span class="attr-tag male">男</span>
+                    <span class="attr-tag kansai">関西</span>
+                    <span class="attr-tag old">50代以上</span>
+                </div>
+                <span class="arrow">→</span>
+                <span class="vector">\( (1, 0, 1) \)</span>
+            </div>
+            <div class="example-row">
+                <span class="name">REIKA</span>
+                <span class="arrow">→</span>
+                <div class="attributes">
+                    <span class="attr-tag female">女</span>
+                    <span class="attr-tag kanto">関東</span>
+                    <span class="attr-tag unknown">??</span>
+                </div>
+                <span class="arrow">→</span>
+                <span class="vector">\( (0, 1, \, ??) \)</span>
+            </div>
+        </div>
+        
+        <span class="page-num">14 / 23</span>
+    </div>
+
+    <!-- Slide 14: ニューラルネットの確率モデル -->
+    <div class="slide">
+        <span class="section-label">Section 5</span>
+        <h1><span>ニューラルネットの確率モデル</span></h1>
+        
+        <p>確率論では入力と出力が<span class="highlight">独立な確率変数</span>で与えられる場合を考える</p>
+        
+        <div class="definition-box">
+            <h3>📐 設定</h3>
+            <p>
+                \( (\mathbf{x}^1, \mathbf{y}^1), (\mathbf{x}^2, \mathbf{y}^2), \ldots, (\mathbf{x}^M, \mathbf{y}^M) \in \{-1, 1\}^N \times \{-1, 1\}^K \)<br>
+                <small>\( \mathbf{x}^i \in \{-1,1\}^N \)、\( \mathbf{y}^i \in \{0,1\}^K \) を<span class="highlight">一様・独立</span>に選ぶ</small>
+            </p>
+        </div>
+        
+        <div class="matrix-display">
+            <div style="text-align: center;">
+                <div style="font-size: 1.0vw; margin-bottom: 1vh;">重み行列</div>
+                <div style="font-size: 1.5vw;">
+                \[ \mathbf{W} = \begin{pmatrix} w_{11} & w_{12} & \cdots & w_{1K} \\ w_{21} & w_{22} & \cdots & w_{2K} \\ \vdots & \vdots & \ddots & \vdots \\ w_{N1} & w_{N2} & \cdots & w_{NK} \end{pmatrix}  \in \{-1, 1\}^{N \times K} \]
+                </div>
+            </div>
+        </div>
+        
+        <div class="formula-box conclusion">
+            <strong>解の存在:</strong> 次を満たす行列 \( \mathbf{W} \) が存在するとき<br>
+            <span class="highlight">\( \mathbf{1}\{ \mathbf{W}\mathbf{x}^i \ge 0 \} = \mathbf{y}^i \)</span>　　∀ \( i = 1, \ldots, M \)<br>
+            ニューラルネットは<span class="highlight-blue">「解をもつ」</span>という
+        </div>
+        
+        <span class="page-num">15 / 23</span>
+    </div>
+
+    <!-- Slide 15: 解の個数の定義 -->
+    <div class="slide">
+        <span class="section-label">Section 5</span>
+        <h1><span>解の個数の定義</span></h1>
+        
+        <div class="definition-box">
+            <h3>📐 パラメータ設定</h3>
+            <p>
+                \( \alpha, \beta > 0 \) を固定する<br>
+                \( M = \alpha N \)（データ数）、\( K = \beta N \)（出力次元）<br>
+                \( \mathbf{x}^i \in \{-1,1\}^N \)、\( \mathbf{y}^i \in \{0,1\}^K \) を <span class="highlight">一様・独立</span> に選ぶ
+            </p>
+        </div>
+        
+        <div class="formula-box" style="margin: 3vh 0; text-align: center;">
+            <strong>解の個数:</strong><br>
+            <span style="font-size: 1.8vw;">\[ Z_{N,M,K} = \#\left\{ \mathbf{W} \in \{-1, 1\}^{N \times K} : \mathbf{1}\{ \mathbf{W}\mathbf{x}^i \ge 0 \} = \mathbf{y}^i, \; \forall i \right\} \]</span>
+        </div>
+        
+        <div class="phase-diagram">
+            <div class="phase sat">
+                <div class="phase-label">\( \alpha < \alpha_c \)</div>
+                <div class="phase-prob">\( Z_{N,M,K} > 0 \) w.h.p.</div>
+                <div style="font-size: 2vw; margin-top: 1vh;">✓</div>
+            </div>
+            <div class="phase critical" style="width: 2vw; padding: 0;">
+                \( \alpha_c \)
+            </div>
+            <div class="phase unsat">
+                <div class="phase-label">\( \alpha > \alpha_c \)</div>
+                <div class="phase-prob">\( Z_{N,M,K} = 0 \) w.h.p.</div>
+                <div style="font-size: 2vw; margin-top: 1vh;">✗</div>
+            </div>
+        </div>
+        <div class="axis-label">\( \alpha \)（データ数 / 次元）→</div>
+        
+        <div class="note">
+            💡 データが多すぎると（\( \alpha > \alpha_c \)）、すべてを正しく分類する重み \( \mathbf{W} \) は存在しなくなる！
+        </div>
+        
+        <span class="page-num">16 / 23</span>
+    </div>
+
+    <!-- Slide 16: 歴史 -->
+    <div class="slide">
+        <span class="section-label">Section 6</span>
+        <h1><span>研究の歴史</span></h1>
+        
+        <div class="future-list">
+            <div class="future-item">
+                <div class="future-icon">🔬</div>
+                <div class="future-content">
+                    <h4>モデルの起源（20世紀中盤）</h4>
+                    <p>McCulloch–Pitts '43, Rosenblatt '58, Gardner '85 など<br>
+                    パーセプトロンは<span class="highlight">単層ニューラルネット</span>として知られる</p>
+                </div>
+            </div>
+            
+            <div class="future-item">
+                <div class="future-icon">🎲</div>
+                <div class="future-content">
+                    <h4>Gardner (1985)</h4>
+                    <p><span class="highlight">レプリカトリック</span>を用いて \( \displaystyle\lim_{N\to \infty} \frac{\log{Z_{N,\alpha N}}}{N} \) を計算：
+                    \[ \mathbb{E}[\log{Z}]=\lim_{n\to 0} n^{-1} (\mathbb{E}[Z^n]-1) \]
+                    これが「<span class="highlight-blue">Gardner 公式</span>」の由来</p>
+                </div>
+            </div>
+            
+            <div class="future-item">
+                <div class="future-icon">📜</div>
+                <div class="future-content">
+                    <h4>Talagrand (1998)</h4>
+                    <p>\( \alpha \ll 1 \) の場合に Gardner 公式を<span class="highlight">数学的に証明</span></p>
+                </div>
+            </div>
+            
+            <div class="future-item">
+                <div class="future-icon">❓</div>
+                <div class="future-content">
+                    <h4>未解決問題</h4>
+                    <p>\( \alpha \) が小さくない場合の問題は<span class="highlight-red">未解決</span></p>
+                </div>
+            </div>
+        </div>
+        
+        <span class="page-num">17 / 23</span>
+    </div>
+
+    <!-- Slide 17: 予想（RS公式） -->
+    <div class="slide">
+        <span class="section-label">Section 6</span>
+        <h1><span>RS公式</span></h1>
+        
+        <div class="definition-box">
+            <h3>📐 RS公式（Ising Perceptron）</h3>
+            <p style="font-size: 1.2vw;">
+                \[
+                    f_{\mathrm{RS}}(\alpha)
+                    = \inf_{q \in [0,1]} \sup_{r \ge 0}
+                    \Big\{
+                        -\frac{r}{2}\log(1-q)
+                        + \alpha \, \mathbb{E}\Big[\log \mathbb{P}\Big(Z_2\geq \sqrt{\tfrac{q}{1-q}}\,Z_1\Big|~Z_1\Big)\Big]
+                        + \mathbb{E}\big[\log 2\cosh(\sqrt{r}\,Z_1)\big]
+                    \Big\}
+                \]
+            </p>
+            <p style="font-size: 1.0vw; color: #555; text-align: center; margin-top: 1vh;">
+                ここで \(Z_1, Z_2\) は独立な標準正規分布に従う確率変数
+            </p>
+        </div>
+        
+        <div class="formula-box" style="margin: 2vh 0; text-align: center; background: linear-gradient(135deg, #e8f4f8 0%, #f0f8ff 100%);">
+            <strong>臨界値の定義:</strong><br>
+            <span style="font-size: 1.6vw;">\[ \alpha_c^* = \sup\{\alpha > 0 : f_{\mathrm{RS}}(\alpha) > 0\} \]</span>
+        </div>
+        
+        <div class="note" style="margin-top: 2vh;">
+            💡 RS = Replica Symmetric（レプリカ対称性）<br>
+            統計物理のレプリカ法から導かれる公式
+        </div>
+        
+        <span class="page-num">18 / 23</span>
+    </div>
+
+    <!-- Slide 18: 予想（解の数の漸近挙動） -->
+    <div class="slide">
+        <span class="section-label">Section 6</span>
+        <h1><span>予想：解の数の漸近挙動</span></h1>
+        
+        <div class="conjecture-box" style="background: linear-gradient(135deg, #fdf2e9 0%, #fef9e7 100%); border-left: 4px solid #e74c3c; padding: 2vh 3vw; border-radius: 8px;">
+            <h3 style="color: #2c3e50; font-size: 1.4vw; margin-bottom: 1vh;"> 予想：解の数の漸近挙動</h3>
+            <p style="font-size: 1.6vw; color: #333; text-align: center; padding: 1vh 0;">
+                \(\alpha < \alpha_c^*\) のとき：
+                \[ \lim_{N \to \infty} (KN)^{-1} \log Z_{N, \alpha N,K} = f_{\mathrm{RS}}(\alpha) \]
+            </p>
+            <p style="font-size: 1.6vw; color: #333; text-align: center; padding: 1vh 0;">
+                \(\alpha > \alpha_c^*\) のとき：
+                \[ \mathbb{P}(Z_{N, \alpha N} = 0) \to 1 \]
+            </p>
+            <p style="font-size: 1.1vw; color: #666;">解の数の対数が RS 公式で正確に計算できる（と予想される）</p>
+        </div>
+        
+        <div class="note" style="margin-top: 3vh;">
+            💡 この予想が正しければ、臨界値 \(\alpha_c^*\) で<span class="highlight">シャープな相転移</span>が起こる
+        </div>
+        
+        <span class="page-num">19 / 23</span>
+    </div>
+
+    <!-- Slide 19: Talagrandの定理 -->
+    <div class="slide">
+        <span class="section-label">Section 6</span>
+        <h1><span>Talagrandの定理</span></h1>
+        
+        <div class="theorem-box">
+            <h3>定理 (Talagrand 1998)</h3>
+            <div class="authors">M. Talagrand (1998)</div>
+            <div class="statement">
+                <span class="highlight">\( \alpha \ll 1 \)</span>（十分小さい \( \alpha \)）に対して、
+                <div class="formula-box" style="margin: 2vh 0; border-left-color: #27ae60; text-align: center;">
+                    \[ \lim_{N \to \infty} N^{-2} \log Z_{N, \alpha N,\beta N} = \beta f_{\mathrm{RS}}(\alpha) \]
+                </div>
+                が成り立つ。
+            </div>
+        </div>
+        
+        <div class="note" style="margin-top: 3vh;">
+            💡 これは RS 公式が<span class="highlight">数学的に正しい</span>ことを示した初めての結果！<br>
+            しかし、\( \alpha \) が小さい場合に限られる。
+        </div>
+        
+        <div class="phase-diagram" style="margin-top: 3vh;">
+            <div class="phase sat" style="flex: 0.3;">
+                <div class="phase-label" style="font-size: 1vw;">\( \alpha \ll 1 \)</div>
+                <div class="phase-prob" style="font-size: 0.9vw;">Talagrand ✓</div>
+            </div>
+            <div class="phase unsat" style="flex: 0.7; background: linear-gradient(135deg, #f5eef8 0%, #ebdef0 100%);">
+                <div class="phase-label" style="color: #9b59b6;">未解決領域</div>
+                <div class="phase-prob" style="color: #8e44ad; font-size: 0.9vw;">Open Problem</div>
+            </div>
+        </div>
+        
+        <span class="page-num">20 / 23</span>
+    </div>
+<!-- Slide: alpha_{N,K}の定義（解の個数 版） -->
+<div class="slide" style="font-size:1.5em;">
+    <span class="section-label" style="color:#2980b9;font-weight:bold;">Section 6</span>
+    <h1 style="margin-bottom:1vh;font-size:2em;"><span>\(\alpha_{N,K}\) の定義</span></h1>
+
+    <div class="definition-box" style="background:#f8fbff;border-left:5px solid #2980b9;padding:2vh 2vw;margin-bottom:2vh;font-size:1.15em;">
+        <h3 style="color:#2980b9;font-size:1.2em;">定義</h3>
+        <div class="statement" style="font-size:1em;">
+            入力：<span style="color:#2c3e50;">\(\mathbb{R}^N\)</span>　
+            出力：<span style="color:#2c3e50;">\(K\)</span> クラス（\(\{1,\dots,K\}\)）<br>
+            <span style="color:#34495e;">\(Z_{N,M,K}\)</span>：\(M\) 個のデータをすべて同時に満たす「解の個数」。<br>臨界点を次で定義する。
+            <div class="formula-box" style="margin:2vh 0;border-left:5px solid #2980b9;background:#eaf6fb;padding:1vh 0;text-align:center;font-size:1.1em;">
+                \[
+                \alpha_{N,K} := \max\left\{ \frac{M}{N} \;\middle|\; Z_{N,M,K} \ge 1 \right\}
+                \]
+            </div>
+        </div>
+    </div>
+
+    <div class="note" style="margin-top:3vh;font-size:1.15em;">
+        💡 <span class="highlight" style="color:#e67e22;">意味：</span>
+        データ密度 \(\alpha = M/N\) を増やしていき、<b>まだ解が少なくとも1つ存在する最大の値</b>。<br>
+    </div>
+
+    <span class="page-num" style="color:#2980b9;font-size:1em;">21 / 23</span>
+</div>
+
+    <!-- Slide 19: Nakajima-Sunの定理 -->
+    <div class="slide">
+        <span class="section-label">Section 6</span>
+        <h1><span>臨界点集中定理</span></h1>
+        
+        <div class="theorem-box">
+            <h3>定理 (Nakajima-Sun 2024)</h3>
+            <div class="authors">S. Nakajima & N. Sun (2024)</div>
+            <div class="statement">
+                ある数列 <span class="highlight">\( (\alpha_c^*(N))_{N\in \mathbb{N}} \)</span> が存在して、
+                任意の \( \delta > 0 \) に対して、
+                <div class="formula-box" style="margin: 2vh 0; border-left-color: #27ae60; text-align: center;">
+                    \[ \mathbb{P}\left( \left| \alpha_{N,\beta N} - \alpha_c^*(N) \right| > \delta \right) \to 0, \quad N\to \infty\]
+                </div>
+            </div>
+        </div>
+        
+        <div class="roadmap">
+            <div class="roadmap-item">
+                <div class="roadmap-circle done">✓</div>
+                <div class="roadmap-label">臨界値の存在</div>
+            </div>
+            <div class="roadmap-arrow">→</div>
+            <div class="roadmap-item">
+                <div class="roadmap-circle current">?</div>
+                <div class="roadmap-label">極限の計算<br><small>\( \alpha_c^*(N) \to \alpha_c^* \)</small></div>
+            </div>
+            <div class="roadmap-arrow">→</div>
+            <div class="roadmap-item">
+                <div class="roadmap-circle future">...</div>
+                <div class="roadmap-label">深層学習への拡張</div>
+            </div>
+        </div>
+        
+        <div class="note">
+            💡 臨界値 \( \alpha_c^*(N) \) が存在することは証明された。次のステップは \( N \to \infty \) での極限！<br>
+            <small>※ \( K = 1 \) の場合は Xu (2021) が同じ定理を証明</small>
+        </div>
+        
+        <span class="page-num">22 / 23</span>
+    </div>
+
+    <!-- Slide 20: さらなる展開 -->
+    <div class="slide">
+        <span class="section-label">Section 6</span>
+        <h1><span>さらなる展開</span></h1>
+        
+        <div class="future-list">
+            <div class="future-item">
+                <div class="future-icon">🧠</div>
+                <div class="future-content">
+                    <h4>深層学習への拡張</h4>
+                    <p>複数の隠れ層を持つネットワークの場合はどうなるか？</p>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 深層学習の図 -->
+        <svg class="deep-nn-svg" viewBox="0 0 500 150">
+            <!-- 入力層 -->
+            <circle cx="50" cy="30" r="12" fill="#3498db"/>
+            <circle cx="50" cy="60" r="12" fill="#3498db"/>
+            <circle cx="50" cy="90" r="12" fill="#95a5a6"/>
+            <circle cx="50" cy="120" r="12" fill="#3498db"/>
+            <text x="50" y="145" text-anchor="middle" fill="#888" font-size="10">入力</text>
+            
+            <!-- 隠れ層1 -->
+            <circle cx="150" cy="45" r="12" fill="#9b59b6"/>
+            <circle cx="150" cy="75" r="12" fill="#9b59b6"/>
+            <circle cx="150" cy="105" r="12" fill="#9b59b6"/>
+            <text x="150" y="145" text-anchor="middle" fill="#888" font-size="10">隠れ層1</text>
+            
+            <!-- 隠れ層2 -->
+            <circle cx="250" cy="45" r="12" fill="#9b59b6"/>
+            <circle cx="250" cy="75" r="12" fill="#9b59b6"/>
+            <circle cx="250" cy="105" r="12" fill="#9b59b6"/>
+            <text x="250" y="145" text-anchor="middle" fill="#888" font-size="10">隠れ層2</text>
+            
+            <!-- 隠れ層3 -->
+            <circle cx="350" cy="45" r="12" fill="#9b59b6"/>
+            <circle cx="350" cy="75" r="12" fill="#9b59b6"/>
+            <circle cx="350" cy="105" r="12" fill="#9b59b6"/>
+            <text x="350" y="145" text-anchor="middle" fill="#888" font-size="10">隠れ層3</text>
+            
+            <!-- 出力層 -->
+            <circle cx="450" cy="60" r="12" fill="#27ae60"/>
+            <circle cx="450" cy="90" r="12" fill="#27ae60"/>
+            <text x="450" y="145" text-anchor="middle" fill="#888" font-size="10">出力</text>
+            
+            <!-- 接続線（入力→隠れ1） -->
+            <g stroke="#ccc" stroke-width="1" opacity="0.5">
+                <line x1="62" y1="30" x2="138" y2="45"/>
+                <line x1="62" y1="30" x2="138" y2="75"/>
+                <line x1="62" y1="60" x2="138" y2="45"/>
+                <line x1="62" y1="60" x2="138" y2="75"/>
+                <line x1="62" y1="120" x2="138" y2="75"/>
+                <line x1="62" y1="120" x2="138" y2="105"/>
+            </g>
+            
+            <!-- 接続線（隠れ1→隠れ2） -->
+            <g stroke="#ccc" stroke-width="1" opacity="0.5">
+                <line x1="162" y1="45" x2="238" y2="45"/>
+                <line x1="162" y1="45" x2="238" y2="75"/>
+                <line x1="162" y1="75" x2="238" y2="45"/>
+                <line x1="162" y1="75" x2="238" y2="75"/>
+                <line x1="162" y1="75" x2="238" y2="105"/>
+                <line x1="162" y1="105" x2="238" y2="75"/>
+                <line x1="162" y1="105" x2="238" y2="105"/>
+            </g>
+            
+            <!-- 接続線（隠れ2→隠れ3） -->
+            <g stroke="#ccc" stroke-width="1" opacity="0.5">
+                <line x1="262" y1="45" x2="338" y2="45"/>
+                <line x1="262" y1="45" x2="338" y2="75"/>
+                <line x1="262" y1="75" x2="338" y2="45"/>
+                <line x1="262" y1="75" x2="338" y2="75"/>
+                <line x1="262" y1="75" x2="338" y2="105"/>
+                <line x1="262" y1="105" x2="338" y2="75"/>
+                <line x1="262" y1="105" x2="338" y2="105"/>
+            </g>
+            
+            <!-- 接続線（隠れ3→出力） -->
+            <g stroke="#ccc" stroke-width="1" opacity="0.5">
+                <line x1="362" y1="45" x2="438" y2="60"/>
+                <line x1="362" y1="75" x2="438" y2="60"/>
+                <line x1="362" y1="75" x2="438" y2="90"/>
+                <line x1="362" y1="105" x2="438" y2="90"/>
+            </g>
+            
+            <!-- ?マーク -->
+            <text x="250" y="20" text-anchor="middle" fill="#e67e22" font-size="20" font-weight="bold">?</text>
+        </svg>
+        
+        <span class="page-num">20 / 23</span>
+    </div>
+<!-- Slide A1: MLPとは -->
+<div class="slide">
+  <span class="section-label">Section 7</span>
+  <h1><span>多層パーセプトロン</span>（MLP）</h1>
+
+  <p style="margin-bottom: 2vh;">
+    パーセプトロンを <span class="highlight">層として積み重ねた</span>もの。$\ell$層の長さを$N_\ell\in \mathbb N$と置く。
+  </p>
+
+  <svg class="deep-nn-svg" viewBox="0 0 520 170" style="max-width: 70vw;">
+    <!-- input -->
+    <circle cx="60" cy="40" r="12" fill="#3498db"></circle>
+    <circle cx="60" cy="80" r="12" fill="#3498db"></circle>
+    <circle cx="60" cy="120" r="12" fill="#95a5a6"></circle>
+    <text x="60" y="155" text-anchor="middle" fill="#888" font-size="11">入力 \( g \)</text>
+
+    <!-- hidden1 -->
+    <circle cx="180" cy="55" r="12" fill="#9b59b6"></circle>
+    <circle cx="180" cy="95" r="12" fill="#9b59b6"></circle>
+    <circle cx="180" cy="135" r="12" fill="#9b59b6"></circle>
+    <text x="180" y="155" text-anchor="middle" fill="#888" font-size="11">層 1</text>
+
+    <!-- hidden2 -->
+    <circle cx="300" cy="55" r="12" fill="#9b59b6"></circle>
+    <circle cx="300" cy="95" r="12" fill="#9b59b6"></circle>
+    <circle cx="300" cy="135" r="12" fill="#9b59b6"></circle>
+    <text x="300" y="155" text-anchor="middle" fill="#888" font-size="11">層 2</text>
+
+    <!-- output -->
+    <circle cx="440" cy="75" r="12" fill="#27ae60"></circle>
+    <circle cx="440" cy="115" r="12" fill="#27ae60"></circle>
+    <text x="440" y="155" text-anchor="middle" fill="#888" font-size="11">出力 \( \hat y \)</text>
+
+    <!-- connections -->
+    <g stroke="#ccc" stroke-width="1" opacity="0.5">
+      <line x1="72" y1="40" x2="168" y2="55"></line>
+      <line x1="72" y1="40" x2="168" y2="95"></line>
+      <line x1="72" y1="80" x2="168" y2="55"></line>
+      <line x1="72" y1="80" x2="168" y2="95"></line>
+      <line x1="72" y1="120" x2="168" y2="95"></line>
+      <line x1="72" y1="120" x2="168" y2="135"></line>
+
+      <line x1="192" y1="55" x2="288" y2="55"></line>
+      <line x1="192" y1="55" x2="288" y2="95"></line>
+      <line x1="192" y1="95" x2="288" y2="55"></line>
+      <line x1="192" y1="95" x2="288" y2="95"></line>
+      <line x1="192" y1="95" x2="288" y2="135"></line>
+      <line x1="192" y1="135" x2="288" y2="95"></line>
+      <line x1="192" y1="135" x2="288" y2="135"></line>
+
+      <line x1="312" y1="55" x2="428" y2="75"></line>
+      <line x1="312" y1="95" x2="428" y2="75"></line>
+      <line x1="312" y1="95" x2="428" y2="115"></line>
+      <line x1="312" y1="135" x2="428" y2="115"></line>
+    </g>
+
+    <text x="240" y="22" text-anchor="middle" fill="#9b59b6" font-size="13">重み \( W^{(1)}, W^{(2)}, \dots \)</text>
+  </svg>
+
+  <div class="definition-box" style="margin-top: 2vh;">
+    <h3>定義</h3>
+    <p style="font-size: 1.6vw;">
+      入力 \(h^{(0)}=g \in \{-1,1\}^N\)と重み$W_\ell\in \{-1,1\}^{N_\ell \times N_{\ell-1}}$に対し，
+      \[h^{(\ell)}={\rm sgn}\!\left(W^{(\ell)} h^{(\ell-1)}\right),\quad \ell=1,\dots,L,\]
+      \[\hat y={\rm sgn}\!\left(W^{(L+1)} h^{(L)}\right).\]
+    </p>
+  </div>
+
+  <span class="page-num">A1 / A4</span>
+</div>
+
+<!-- Slide A2: ランダムデータでの学習問題 -->
+<div class="slide">
+  <span class="section-label">Section 7</span>
+  <h1><span>多層パーセプトロン</span>の学習問題</h1>
+
+  <div class="two-col" style="margin-top: 1vh;">
+    <div>
+      <h2>データ</h2>
+      <p style="font-size: 1.8vw;">
+        \(N=\sum_{\ell=1}^{L} N_{\ell}N_{\ell+1}\)とおく。<br>
+        \( M \) 個の入力とラベル<br>
+        \[(g^i, y^i),\ i=1,\dots,M.\]
+        典型的に \( M=\alpha N \)（データ数は次元に比例）。
+      </p>
+
+      <div class="note" style="margin-top: 2vh;">
+        💡 このスライド以降では<br>
+        <span class="highlight">入力 \( g^i \) とラベル \( y^i \) は独立に\( \{-1,1\}^{N_1\times N_{L+1}} \)上の一様測度から選ぶ。</span>
+      </div>
+    </div>
+
+    <div>
+      <h2>予測</h2>
+      <div class="flow-diagram" style="margin: 2vh 0;">
+        <div class="flow-box input">
+          入力<br><small>\( g^i \)</small>
+        </div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-box process">
+          MLP<br><small>\( W^{(1)},\dots,W^{(L+1)} \)</small>
+        </div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-box output">
+          出力<br><small>\( \hat y^i \)</small>
+        </div>
+      </div>
+
+      <div class="formula-box">
+        目標：全ての \( i \) で
+        <span class="highlight">\( \hat y^i = y^i \)</span>
+        を満たす重みを見つける。
+      </div>
+    </div>
+  </div>
+
+  <span class="page-num">A2 / A4</span>
+</div>
+
+<!-- Slide A3: 解の個数と相転移 -->
+<div class="slide">
+  <span class="section-label">Section 7</span>
+  <h1><span>解の個数</span>と相転移</h1>
+
+  <div class="definition-box">
+    <h3>解の個数（深さ \( L \)）</h3>
+    <p style="font-size: 1.55vw;">
+      重みを \( \{-1,1\} \) に制限して（離散化して）数える：
+      \[Z_{N,M}^{(L)}=\#\Bigl\{(W^{(1)},\dots,W^{(L+1)}) : \hat y^i=y^i,\ \forall i\Bigr\}.\]
+      深さや中間層幅の取り方で \( Z_{N,M}^{(L)} \) の典型挙動が変わる。
+    </p>
+  </div>
+
+  <div class="phase-diagram" style="margin-top: 4vh;">
+    <div class="phase sat">
+      <div class="phase-label">$\alpha < \alpha_c^{(L)}$</div>
+      <div class="phase-prob">$Z_{N,\alpha N}^{(L)} > 0$ が起こりやすい</div>
+      <div style="font-size: 2vw; margin-top: 1vh;">✓</div>
+    </div>
+    <div class="phase critical" style="width: 2vw; padding: 0;">
+      $\alpha_c^{(L)}$
+    </div>
+    <div class="phase unsat">
+      <div class="phase-label">$\alpha > \alpha_c^{(L)}$</div>
+      <div class="phase-prob">$Z_{N,\alpha N}^{(L)} = 0$ が起こりやすい</div>
+      <div style="font-size: 2vw; margin-top: 1vh;">✗</div>
+    </div>
+  </div>
+
+  <div class="axis-label">$\alpha = M/N$（データ密度）→</div>
+
+  <span class="page-num">A3 / A4</span>
+</div>
+
+<!-- Slide A4: 予想（gとyは一様±1） -->
+<div class="slide">
+  <span class="section-label">Section 7</span>
+  <h1><span>最終的な予想</span>（ランダムMLP）</h1>
+
+  <div class="conjecture-box">
+    <h3>予想：自由エネルギーの極限と臨界点</h3>
+    <div class="statement" style="font-size: 1.5vw;">
+      深さ $L$ を固定し，$M=\alpha N$ とする。<br><br>
+      データ $(g^i,y^i)_{i=1}^{M}$ は
+      <span class="highlight">独立に \( \{-1,1\}^{N_1\times N_{L+1}} \)の一様測度から選ぶ。</span><br><br>
+
+      このとき，ある定数関数 \( f^{(L)}(\alpha) \) が存在して
+      \[\frac{1}{N}\log Z_{N,\alpha N}^{(L)} \ \to\ f^{(L)}(\alpha)\quad \text{in probability},\]
+      さらに
+      \[\alpha_c^{(L)}=\sup\{\alpha>0:\ f^{(L)}(\alpha)>0\}\]
+      でシャープな相転移が起こる。
+    </div>
+  </div>
+
+  <div class="note" style="margin-top: 3vh;">
+    💡 ポイント：ここでは <span class="highlight">\( g \) と \( y \) を一様 \( \{-1,1\} \)</span> に取るモデル。
+    深さ \( L \) や活性化 \( \varphi \) の違いが \( \alpha_c^{(L)} \) をどう動かすかが中心問題。
+  </div>
+
+  <span class="page-num">A4 / A4</span>
+</div>
+
+    <!-- ボーナス: ご清聴ありがとうございました -->
+    <div class="slide">
+        <span class="section-label">Section 6</span>
+        
+        <div class="questions-box">
+            <div class="emoji">🙏</div>
+            <h2>ご清聴ありがとうございました</h2>
+        </div>
+        
+        <div style="text-align: center; margin-top: 4vh;">
+            <p style="font-size: 1.3vw; color: #666;">
+                中島 秀太 / Shuta Nakajima<br>
+                <small>慶應義塾大学</small>
+            </p>
+        </div>
+        
+        <span class="page-num">Thank you!</span>
+    </div>
+
+    <script>
+    (() => {
+        document.addEventListener('DOMContentLoaded', () => {
+            const slides = Array.from(document.querySelectorAll('.slide'));
+            const total = slides.length;
+            if (!total) {
+                return;
+            }
+
+            const prevBtn = document.getElementById('prev-slide');
+            const nextBtn = document.getElementById('next-slide');
+            const counter = document.getElementById('slide-counter');
+            const liveRegion = document.getElementById('nav-live');
+            const jumpPanel = document.getElementById('jump-panel');
+            let jumpButtons = [];
+
+            let current = slides.findIndex((slide) => slide.classList.contains('is-active'));
+            if (current < 0) {
+                current = 0;
+            }
+
+            const buildJumpButtons = () => {
+                if (!jumpPanel) return;
+                const frag = document.createDocumentFragment();
+                slides.forEach((_, idx) => {
+                    const btn = document.createElement('button');
+                    btn.type = 'button';
+                    btn.className = 'jump-button';
+                    btn.textContent = String(idx + 1);
+                    btn.setAttribute('aria-label', `スライド ${idx + 1} に移動`);
+                    btn.addEventListener('click', () => update(idx));
+                    frag.appendChild(btn);
+                });
+                jumpPanel.appendChild(frag);
+                jumpButtons = Array.from(jumpPanel.querySelectorAll('.jump-button'));
+            };
+
+            const update = (index) => {
+                const clamped = Math.min(Math.max(index, 0), total - 1);
+                current = clamped;
+
+                slides.forEach((slide, idx) => {
+                    const active = idx === current;
+                    slide.classList.toggle('is-active', active);
+                    slide.setAttribute('aria-hidden', active ? 'false' : 'true');
+                });
+
+                if (jumpButtons.length) {
+                    jumpButtons.forEach((btn, idx) => {
+                        btn.classList.toggle('is-active', idx === current);
+                    });
+                }
+
+                const label = (current + 1) + ' / ' + total;
+                if (counter) counter.textContent = label;
+                if (prevBtn) prevBtn.disabled = current === 0;
+                if (nextBtn) nextBtn.disabled = current === total - 1;
+                if (liveRegion) liveRegion.textContent = 'スライド ' + label;
+
+                window.scrollTo({ top: 0 });
+            };
+
+            buildJumpButtons();
+
+            const goNext = () => {
+                if (current < total - 1) update(current + 1);
+            };
+
+            const goPrev = () => {
+                if (current > 0) update(current - 1);
+            };
+
+            prevBtn?.addEventListener('click', goPrev);
+            nextBtn?.addEventListener('click', goNext);
+
+            document.addEventListener('keydown', (event) => {
+                const activeTag = document.activeElement && document.activeElement.tagName;
+                const isFormFocus = activeTag && ['INPUT', 'TEXTAREA', 'BUTTON', 'SELECT'].includes(activeTag);
+                if (isFormFocus) return;
+
+                if (event.key === 'ArrowRight' || event.key === 'PageDown') {
+                    event.preventDefault();
+                    goNext();
+                } else if (event.key === 'ArrowLeft' || event.key === 'PageUp') {
+                    event.preventDefault();
+                    goPrev();
+                } else if (event.key === 'Home') {
+                    event.preventDefault();
+                    update(0);
+                } else if (event.key === 'End') {
+                    event.preventDefault();
+                    update(total - 1);
+                }
+            });
+
+            update(current);
+        });
+    })();
+    </script>
+
+    <!-- デモ用JavaScript -->
+    <script>
+    (() => {
+        // Constants matching train_model.py
+        const NAME_LENGTH = 8;
+        const BITS_PER_CHAR = 10;
+        const TOTAL_BITS = NAME_LENGTH * BITS_PER_CHAR;
+
+        // Embedded model weights (87% accuracy)
+        let weights = [-5.06831, -5.06831, -5.06831, -5.06831, -5.06831, 76.050134, 116.216974, 138.038458, -180.428494, 59.574598, -5.06831, -5.06831, -5.06831, -5.06831, -5.06831, 38.60611, 24.245642, -4.79399, -41.248402, -1.37437, -5.06831, -5.06831, -5.06831, -5.06831, -5.06831, 8.613918, 1.661382, 2.64451, -16.628294, 0.55379, -5.06831, -5.06831, -5.06831, -5.06831, -5.06831, 16.93877, -10.07817, 5.407174, 17.130326, -7.502466, -5.06831, -5.06831, -5.06831, -5.06831, -5.06831, 11.301514, -2.919082, 8.297446, 11.180902, 11.101282, -5.06831, -5.06831, -5.06831, -5.06831, -5.06831, 16.822554, -11.838978, 5.159886, 23.577998, -35.490386, -5.06831, -5.06831, -5.06831, -5.06831, -5.06831, -10.82379, -40.591962, -27.638782, -31.869194, -6.350622, -5.06831, -5.06831, -5.06831, -5.06831, -5.06831, -29.466162, -2.934962, 30.790582, -35.59117, 59.111858];
+
+        function letterToBits(letter) {
+            if (!letter || letter.length !== 1) {
+                return new Array(BITS_PER_CHAR).fill(0);
+            }
+            const ch = letter.toUpperCase();
+            if (ch >= 'A' && ch <= 'Z') {
+                const value = ch.charCodeAt(0) - 'A'.charCodeAt(0) + 1;
+                const bits = value.toString(2).padStart(BITS_PER_CHAR, '0');
+                return bits.split('').map((c) => parseInt(c, 10));
+            }
+            return new Array(BITS_PER_CHAR).fill(0);
+        }
+
+        function encodeName(name) {
+            if (!name) {
+                return new Array(TOTAL_BITS).fill(0);
+            }
+            const normalized = name.trim().replace(/[^a-zA-Z]/g, '').toUpperCase();
+            if (normalized.length === 0) {
+                return new Array(TOTAL_BITS).fill(0);
+            }
+            const trimmed = normalized.slice(-NAME_LENGTH);
+            const codes = [];
+            for (let i = 0; i < trimmed.length; i++) {
+                codes.push(letterToBits(trimmed[i]));
+            }
+            const padLen = NAME_LENGTH - codes.length;
+            const padding = Array.from({ length: padLen }, () => new Array(BITS_PER_CHAR).fill(0));
+            const full = padding.concat(codes);
+            return full.flat();
+        }
+
+        function predict(name) {
+            const v = encodeName(name);
+            const v2 = v.map((bit) => bit * 2 - 1);
+            let dot = 0;
+            for (let i = 0; i < v2.length && i < weights.length; i++) {
+                dot += weights[i] * v2[i];
+            }
+            return dot >= 0 ? 'male' : 'female';
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            console.log('Model loaded: ' + weights.length + ' weights (embedded)');
+            const form = document.getElementById('demo-predict-form');
+            const input = document.getElementById('demo-name-input');
+            const resultDiv = document.getElementById('demo-result');
+            
+            if (form) {
+                form.addEventListener('submit', (event) => {
+                    event.preventDefault();
+                    const name = input.value.trim();
+                    if (!name) {
+                        resultDiv.textContent = '名前を入力してください';
+                        resultDiv.style.color = '#e74c3c';
+                        return;
+                    }
+                    try {
+                        const prediction = predict(name);
+                        const emoji = prediction === 'male' ? '👨' : '👩';
+                        const label = prediction === 'male' ? '男性' : '女性';
+                        resultDiv.textContent = '予測結果: ' + label + ' ' + emoji;
+                        resultDiv.style.color = prediction === 'male' ? '#3498db' : '#e91e63';
+                    } catch (err) {
+                        console.error(err);
+                        resultDiv.textContent = '予測中にエラーが発生しました';
+                        resultDiv.style.color = '#e74c3c';
+                    }
+                });
+            }
+        });
+    })();
+    </script>
+</body>
+</html>

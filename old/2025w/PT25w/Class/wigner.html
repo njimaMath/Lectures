@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Wigner Semicircle Law Simulation</title>
+  <!-- numeric.js for eigen‑decomposition -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/numeric/1.2.6/numeric.min.js"></script>
+  <!-- Plotly for plotting -->
+  <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 20px; }
+    label, input, select { font-size: 14px; margin-right: 10px; }
+    #plot { width: 100%; max-width: 900px; height: 600px; }
+  </style>
+</head>
+<body>
+  <h2>Wigner Semicircle Law Simulation</h2>
+  <label for="size">Matrix size n:</label>
+  <input id="size" type="number" value="200" min="10" max="1000">
+  <label for="dist">Distribution:</label>
+  <select id="dist">
+    <option value="gauss">Gaussian N(0,1)</option>
+    <option value="bernoulli">Bernoulli ±1</option>
+  </select>
+  <button id="run">Run Simulation</button>
+  <div id="status"></div>
+  <div id="plot"></div>
+
+  <script>
+    // Box‑Muller transform for standard Gaussian
+    function randomGaussian() {
+      let u1 = 0, u2 = 0;
+      while (u1 === 0) u1 = Math.random();
+      while (u2 === 0) u2 = Math.random();
+      return Math.sqrt(-2.0 * Math.log(u1)) * Math.cos(2.0 * Math.PI * u2);
+    }
+
+    function randomBernoulli() {
+      return Math.random() < 0.5 ? -1 : 1;
+    }
+
+    // Build a symmetric n×n matrix with entries scaled by 1/√n
+    function generateMatrix(n, dist) {
+      const A = Array.from({ length: n }, () => Array(n).fill(0));
+      for (let i = 0; i < n; i++) {
+        for (let j = i; j < n; j++) {
+          const r = dist === 'gauss' ? randomGaussian() : randomBernoulli();
+          const val = r / Math.sqrt(n);
+          A[i][j] = val;
+          A[j][i] = val; // symmetry
+        }
+      }
+      return A;
+    }
+
+    // Semicircle density f(x) = (1/2π) √(4 − x²) on [−2,2]
+    function semicircleDensity(x) {
+      const inside = 4 - x * x;
+      return inside > 0 ? (1 / (2 * Math.PI)) * Math.sqrt(inside) : 0;
+    }
+
+    function runSimulation() {
+      const n = parseInt(document.getElementById('size').value, 10);
+      const dist = document.getElementById('dist').value;
+
+      if (n > 600) {
+        if (!confirm('n > 600 may be slow in the browser. Continue?')) return;
+      }
+
+      document.getElementById('status').textContent = 'Generating matrix and computing eigenvalues …';
+
+      // Non‑blocking so the status message appears
+      setTimeout(() => {
+        const M = generateMatrix(n, dist);
+        const eig = numeric.eig(M);
+        const eigvals = eig.lambda.x; // real parts (matrix is symmetric)
+
+        // Histogram of eigenvalues
+        const traceHist = {
+          x: eigvals,
+          type: 'histogram',
+          histnorm: 'probability density',
+          nbinsx: 60,
+          name: 'Empirical density'
+        };
+
+        // Theoretical semicircle curve
+        const xs = [];
+        const ys = [];
+        for (let x = -2; x <= 2; x += 0.02) {
+          xs.push(x);
+          ys.push(semicircleDensity(x));
+        }
+        const traceSemi = {
+          x: xs,
+          y: ys,
+          mode: 'lines',
+          name: 'Semicircle density'
+        };
+
+        const layout = {
+          title: `Eigenvalue distribution (n = ${n}, ${dist})`,
+          xaxis: { title: 'λ' },
+          yaxis: { title: 'Density' },
+          bargap: 0.01
+        };
+
+        Plotly.newPlot('plot', [traceHist, traceSemi], layout);
+        document.getElementById('status').textContent = '';
+      }, 100);
+    }
+
+    document.getElementById('run').onclick = runSimulation;
+  </script>
+</body>
+</html>

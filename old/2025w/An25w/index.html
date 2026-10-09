@@ -1,0 +1,480 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>数学1B 講義ノート</title>
+    <style>
+        :root {
+            --primary-color: #1f2937;
+            --secondary-color: #2563eb;
+            --accent-color: #f59e0b;
+            --background-color: #f4f6fb;
+            --text-color: #1f2937;
+            --container-shadow: 0 12px 40px -18px rgba(30, 64, 175, 0.45);
+        }
+
+        body {
+            font-family: 'Georgia', serif;
+            line-height: 1.7;
+            margin: 0;
+            padding: 0;
+            background-color: var(--background-color);
+            color: var(--text-color);
+        }
+
+        .container {
+            max-width: 960px;
+            margin: 32px auto 80px auto;
+            padding: 40px 48px 56px 48px;
+            background-color: #fff;
+            box-shadow: var(--container-shadow);
+            border-radius: 14px;
+            position: relative;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 40px;
+            border-bottom: 2px solid rgba(37, 99, 235, 0.25);
+            padding-bottom: 24px;
+        }
+
+        h1 {
+            color: var(--primary-color);
+            margin: 0 0 12px;
+            font-size: clamp(32px, 5vw, 44px);
+            letter-spacing: 0.04em;
+        }
+
+        .lecture-title {
+            color: var(--secondary-color);
+            font-size: 1.45rem;
+            margin-bottom: 14px;
+            font-weight: normal;
+        }
+
+        .author-info {
+            font-style: italic;
+            color: #6b7280;
+        }
+
+        .navigation {
+            position: sticky;
+            top: 16px;
+            z-index: 50;
+            margin-bottom: 36px;
+        }
+
+        .nav-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            justify-content: center;
+            background: linear-gradient(120deg, rgba(37, 99, 235, 0.92), rgba(14, 116, 144, 0.9));
+            border-radius: 999px;
+            padding: 12px 18px;
+            box-shadow: 0 12px 20px -18px rgba(13, 42, 148, 0.7);
+        }
+
+        .nav-button {
+            padding: 10px 16px;
+            background-color: transparent;
+            color: #fff;
+            border: 1px solid rgba(255, 255, 255, 0.35);
+            border-radius: 999px;
+            cursor: pointer;
+            font-size: 15px;
+            text-decoration: none;
+            transition: transform 0.25s ease, background-color 0.25s ease;
+        }
+
+        .nav-button:hover,
+        .nav-button.active {
+            background-color: rgba(255, 255, 255, 0.16);
+            transform: translateY(-2px);
+        }
+
+        .mobile-nav-select {
+            display: none;
+            width: 100%;
+            margin: 0 auto 24px;
+            padding: 12px;
+            font-family: inherit;
+            border-radius: 12px;
+            border: 1px solid rgba(37, 99, 235, 0.35);
+        }
+
+        section {
+            margin-bottom: 48px;
+        }
+
+        .section-title {
+            color: var(--primary-color);
+            font-size: 1.9rem;
+            margin-bottom: 18px;
+            position: relative;
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .section-title::before {
+            content: "";
+            display: inline-block;
+            width: 42px;
+            height: 4px;
+            border-radius: 999px;
+            background: linear-gradient(90deg, rgba(37, 99, 235, 0.65), rgba(245, 158, 11, 0.7));
+        }
+
+        .home {
+            text-align: center;
+        }
+
+        .home .course-summary {
+            max-width: 720px;
+            margin: 0 auto 36px auto;
+            color: #4b5563;
+            font-size: 1.05rem;
+        }
+
+        .summary-list {
+            list-style: none;
+            padding: 0;
+            margin: 24px 0 0 0;
+            display: grid;
+            gap: 16px;
+        }
+
+        .summary-list-item {
+            display: flex;
+            gap: 18px;
+            align-items: center;
+            padding: 18px 22px;
+            border-radius: 14px;
+            background: rgba(37, 99, 235, 0.06);
+            border: 1px solid rgba(37, 99, 235, 0.12);
+        }
+
+        .class-number {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            width: 54px;
+            height: 54px;
+            border-radius: 16px;
+            background: rgba(37, 99, 235, 0.12);
+            color: var(--secondary-color);
+            font-weight: bold;
+        }
+
+        .class-number .number {
+            font-size: 1.2rem;
+        }
+
+        .class-number .label {
+            font-size: 0.8rem;
+            letter-spacing: 0.1em;
+        }
+
+        .topic-highlight {
+            color: var(--secondary-color);
+            font-weight: 600;
+        }
+
+        .lecture-links {
+            border-radius: 18px;
+            background: rgba(15, 118, 110, 0.06);
+            border: 1px solid rgba(15, 118, 110, 0.18);
+            padding: 26px 28px;
+        }
+
+        .lecture-links ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            display: grid;
+            gap: 18px;
+        }
+
+        .lecture-links li {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-bottom: 8px;
+            border-bottom: 1px dashed rgba(15, 118, 110, 0.2);
+        }
+
+        .lecture-links li:last-child {
+            border-bottom: none;
+            padding-bottom: 0;
+        }
+
+        .lecture-links a {
+            color: var(--secondary-color);
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .lecture-links a:hover {
+            text-decoration: underline;
+        }
+
+        .updates {
+            background: rgba(245, 158, 11, 0.06);
+            border: 1px solid rgba(245, 158, 11, 0.22);
+            border-radius: 18px;
+            padding: 24px 28px;
+        }
+
+        .updates ul {
+            margin: 0;
+            padding-left: 18px;
+            color: #6b7280;
+        }
+
+        .resources {
+            background: rgba(15, 23, 42, 0.06);
+            border: 1px solid rgba(15, 23, 42, 0.14);
+            border-radius: 18px;
+            padding: 26px 28px;
+        }
+
+        .resource-list {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            display: grid;
+            gap: 14px;
+        }
+
+        .resource-list a {
+            color: var(--primary-color);
+            font-weight: 600;
+            text-decoration: none;
+        }
+
+        .resource-list a:hover {
+            color: var(--secondary-color);
+        }
+
+        .theme-toggle {
+            position: fixed;
+            bottom: 24px;
+            right: 24px;
+            background: #fff;
+            border: 1px solid rgba(15, 23, 42, 0.12);
+            border-radius: 999px;
+            padding: 12px 18px;
+            cursor: pointer;
+            font-size: 1rem;
+            box-shadow: 0 14px 28px -20px rgba(15, 23, 42, 0.55);
+        }
+
+        body.dark-theme {
+            --background-color: #0f172a;
+            --text-color: #e2e8f0;
+            background-color: var(--background-color);
+        }
+
+        body.dark-theme .container {
+            background-color: rgba(15, 23, 42, 0.92);
+            box-shadow: 0 20px 50px -28px rgba(14, 165, 233, 0.35);
+        }
+
+        body.dark-theme header,
+        body.dark-theme .lecture-links,
+        body.dark-theme .resources,
+        body.dark-theme .updates,
+        body.dark-theme .summary-list-item {
+            border-color: rgba(255, 255, 255, 0.14);
+        }
+
+        body.dark-theme .lecture-links li {
+            border-bottom: 1px dashed rgba(255, 255, 255, 0.16);
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                margin: 16px;
+                padding: 28px 24px;
+            }
+
+            .navigation {
+                position: static;
+            }
+
+            .nav-container {
+                display: none;
+            }
+
+            .mobile-nav-select {
+                display: block;
+            }
+
+            .summary-list-item {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .class-number {
+                width: 48px;
+                height: 48px;
+                margin-bottom: 8px;
+            }
+
+            .lecture-links li {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 4px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>数学1B</h1>
+            <div class="lecture-title">重積分の基礎と応用</div>
+            <div class="author-info">担当: 中島 秀太 / 2025年度 秋学期</div>
+        </header>
+
+        <nav class="navigation" id="navigation">
+            <div class="nav-container">
+                <a class="nav-button active" href="#home">ホーム</a>
+                <a class="nav-button" href="#syllabus">シラバス</a>
+                <a class="nav-button" href="#schedule">授業計画</a>
+                <a class="nav-button" href="#materials">講義資料</a>
+                <a class="nav-button" href="#evaluation">成績評価</a>
+                <a class="nav-button" href="#updates">更新情報</a>
+                <a class="nav-button" href="#resources">参考リンク</a>
+            </div>
+            <select class="mobile-nav-select" id="mobileNav">
+                <option value="#home">ホーム</option>
+                <option value="#syllabus">シラバス</option>
+                <option value="#schedule">授業計画</option>
+                <option value="#materials">講義資料</option>
+                <option value="#evaluation">成績評価</option>
+                <option value="#updates">更新情報</option>
+                <option value="#resources">参考リンク</option>
+            </select>
+        </nav>
+
+        <section id="home" class="content-section home">
+            <div class="section-title">コースについて</div>
+            <p class="course-summary">
+                本サイトは「数学1B（学門ABDE／旧学門1345）」の講義ノートおよび補助教材をまとめたものです。月曜1限（日吉キャンパス 13番教室）で行う授業内容を週ごとに整理し、重積分とその応用に関する理解を支援します。
+            </p>
+        </section>
+
+        <section id="syllabus" class="content-section">
+            <div class="section-title">シラバス</div>
+            <div class="updates" style="margin-bottom: 24px;">
+                <ul>
+                    <li>科目名: 数学1B（学門ABDE／旧学門1345）</li>
+                    <li>副題: 重積分の基礎と応用</li>
+                    <li>担当: 中島 秀太 / 単位: 2 / 実施形態: 対面（主として対面）</li>
+                    <li>曜日・時限: 月曜 1時限 / キャンパス: 日吉 / 教室: 13</li>
+                    <li>対象: 理工学部 1年（クラス指定あり）</li>
+                </ul>
+            </div>
+            <p>
+                授業では 1 変数・多変数関数の積分に関する基礎概念を体系的に学びながら、解析学における計算力と応用力を高めます。特に重積分の定義と計算方法、変数変換、ヤコビアンを活用した応用に重点を置きます。
+            </p>
+            <div class="resources" style="margin-top: 24px;">
+                <ul class="resource-list">
+                    <li>主教材: 「数学 1A・1B」（慶應義塾大学理工学部数理科学科 編、購買可）</li>
+                    <li>備考: 授業は原則対面（初回も対面）。オンライン実施の有無は担当者より連絡します。</li>
+                </ul>
+            </div>
+        </section>
+
+                <section id="schedule" class="content-section">
+            <div class="section-title">授業計画 &amp; 講義資料</div>
+            <div class="summary-list" style="margin-top: 18px;">
+                                <div class="summary-list-item"><div class="class-number"><div class="number">1</div><div class="label">回</div></div><div style="flex:1;"><div>逆三角関数</div><a href="class1/class1.html" target="_blank">ノートを開く →</a></div></div>
+                <div class="summary-list-item"><div class="class-number"><div class="number">2</div><div class="label">回</div></div><div style="flex:1;"><div>1変数関数の（不）定積分</div><a href="class2/class2.html" target="_blank">ノートを開く →</a></div></div>
+                <div class="summary-list-item"><div class="class-number"><div class="number">3</div><div class="label">回</div></div><div style="flex:1;"><div>重積分の定義</div><a href="class3/class3.html" target="_blank">ノートを開く →</a></div></div>
+                <div class="summary-list-item"><div class="class-number"><div class="number">4</div><div class="label">回</div></div><div style="flex:1;"><div>重積分の計算、累次積分</div><a href="class4/class4.html" target="_blank">ノートを開く →</a></div></div>
+                <div class="summary-list-item"><div class="class-number"><div class="number">5</div><div class="label">回</div></div><div style="flex:1;"><div>広義積分</div><a href="class5/class5.html" target="_blank">ノートを開く →</a></div></div>
+                <div class="summary-list-item"><div class="class-number"><div class="number">6</div><div class="label">回</div></div><div style="flex:1;"><div>重積分の変数変換（ヤコビアン）</div><a href="class6/class6.html" target="_blank">ノートを開く →</a></div></div>
+                   <div class="summary-list-item"><div class="class-number"><div class="number">7</div><div class="label">回</div></div><div style="flex:1;"><div>重積分の応用</div><a href="class7/class7.html" target="_blank">ノートを開く →</a></div></div>
+                              <div class="summary-list-item"><div class="class-number"><div class="number">8</div><div class="label">回</div></div><div style="flex:1;"><div>中間試験およびまとめ</div><a href="class8/class8.html" target="_blank">ノートを開く →</a></div></div>
+               <div class="summary-list-item"><div class="class-number"><div class="number">9</div><div class="label">回</div></div><div style="flex:1;"><div>空間内の曲面、曲面積</div><a href="class9/class9.html" target="_blank">ノートを開く →</a></div></div>
+                <div class="summary-list-item"><div class="class-number"><div class="number">10</div><div class="label">回</div></div><div style="flex:1;"><div>スカラー場とベクトル場</div><a href="class10/class10.html" target="_blank">ノートを開く →</a></div></div>
+                <div class="summary-list-item"><div class="class-number"><div class="number">11</div><div class="label">回</div></div><div style="flex:1;"><div>線積分</div><a href="class11/class11.html" target="_blank">ノートを開く →</a></div></div>
+                <div class="summary-list-item"><div class="class-number"><div class="number">12</div><div class="label">回</div></div><div style="flex:1;"><div>面積分</div><a href="class12/class12.html" target="_blank">ノートを開く →</a></div></div>
+                <div class="summary-list-item"><div class="class-number"><div class="number">13</div><div class="label">回</div></div><div style="flex:1;"><div>グリーンの定理</div><a href="class13/class13.html" target="_blank">ノートを開く →</a></div></div>
+                <div class="summary-list-item"><div class="class-number"><div class="number">14</div><div class="label">回</div></div><div style="flex:1;"><div>まとめ</div><a href="class14/class14.html" target="_blank">ノートを開く →</a></div></div>
+            </div>
+        </section>
+
+        <section id="evaluation" class="content-section">
+            <div class="section-title">成績評価</div>
+            <div class="updates">
+                <h3>1) 成績</h3>
+<p>次のうちの大きな方</p>                <ul>
+                    <li>小テスト＋課題 10%</li>
+                    <li>中間テスト 30%</li>
+                    <li>期末テスト 60%</li>
+                   </ul>
+または
+  <ul>
+                    <li>小テスト＋課題 20%</li>
+                    <li>期末テスト 80%</li>
+                </ul>
+  <li>→ 60%以上合格</li>
+
+                <h3>2) 小テスト 毎回</h3>
+                <p>レポート 2回提出</p>
+            </div>
+        </section>
+
+        <section id="updates" class="content-section">
+            <div class="section-title">更新情報</div>
+            <div class="updates">
+                <ul>
+                    <li>2025-01-05: サイト公開。第1回ノート（逆三角関数）を追加しました。</li>
+                    <li>2025-01-08: コースページにシラバス情報と授業計画を反映しました。</li>
+                </ul>
+            </div>
+        </section>
+
+        <section id="resources" class="content-section">
+            <div class="section-title">参考リンク</div>
+            <div class="resources">
+                <ul class="resource-list">
+                    <li><a href="https://www.wolframalpha.com/" target="_blank" rel="noopener">WolframAlpha</a> — グラフの確認や計算検証に便利です。</li>
+                    <li><a href="https://www.desmos.com/calculator" target="_blank" rel="noopener">Desmos Graphing Calculator</a> — 逆三角関数のグラフを対話的に確認できます。</li>
+                </ul>
+            </div>
+        </section>
+    </div>
+
+    <button class="theme-toggle" id="themeToggle">☀️</button>
+
+    <script>
+        const themeToggle = document.getElementById('themeToggle');
+        themeToggle.addEventListener('click', () => {
+            document.body.classList.toggle('dark-theme');
+            themeToggle.textContent = document.body.classList.contains('dark-theme') ? '🌙' : '☀️';
+        });
+
+        const navButtons = document.querySelectorAll('.nav-button');
+        const mobileNav = document.getElementById('mobileNav');
+
+        navButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                navButtons.forEach(btn => btn.classList.remove('active'));
+                button.classList.add('active');
+            });
+        });
+
+        mobileNav.addEventListener('change', (event) => {
+            window.location.hash = event.target.value;
+        });
+    </script>
+</body>
+</html>

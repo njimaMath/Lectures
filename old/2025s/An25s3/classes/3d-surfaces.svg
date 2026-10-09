@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg viewBox="0 0 800 500" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <!-- Gradients for each surface -->
+    <linearGradient id="paraboloidGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#4a90e2;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#63c5da;stop-opacity:0.8" />
+    </linearGradient>
+    
+    <linearGradient id="coneGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#e2574a;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#e27a4a;stop-opacity:0.8" />
+    </linearGradient>
+    
+    <linearGradient id="saddleGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#7a4ae2;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#9d4ae2;stop-opacity:0.8" />
+    </linearGradient>
+  </defs>
+
+  <!-- Background and border -->
+  <rect x="0" y="0" width="800" height="500" fill="#f9f9f9" />
+  
+  <!-- Paraboloid -->
+  <g transform="translate(150, 250)">
+    <!-- Axes -->
+    <line x1="-70" y1="0" x2="70" y2="0" stroke="#666" stroke-width="1" />
+    <line x1="0" y1="-120" x2="0" y2="70" stroke="#666" stroke-width="1" />
+    <line x1="0" y1="0" x2="-50" y2="50" stroke="#666" stroke-width="1" />
+    
+    <!-- Paraboloid wireframe -->
+    <path d="M -60,36 Q -30,-80 0,-100 Q 30,-80 60,36" fill="none" stroke="#4a90e2" stroke-width="1.5" />
+    <path d="M -36,60 Q -10,-40 0,-50 Q 10,-40 36,60" fill="none" stroke="#4a90e2" stroke-width="1.5" />
+    <ellipse cx="0" cy="0" rx="60" ry="36" fill="none" stroke="#4a90e2" stroke-width="1.5" />
+    <ellipse cx="0" cy="-30" rx="45" ry="27" fill="none" stroke="#4a90e2" stroke-width="1.5" />
+    <ellipse cx="0" cy="-60" rx="30" ry="18" fill="none" stroke="#4a90e2" stroke-width="1.5" />
+    <ellipse cx="0" cy="-90" rx="15" ry="9" fill="none" stroke="#4a90e2" stroke-width="1.5" />
+    
+    <!-- Paraboloid surface with gradient -->
+    <ellipse cx="0" cy="0" rx="60" ry="36" fill="url(#paraboloidGradient)" fill-opacity="0.4" />
+    
+    <!-- Label -->
+    <text x="0" y="100" font-family="Arial, sans-serif" font-size="16" text-anchor="middle">放物面</text>
+  </g>
+  
+  <!-- Cone -->
+  <g transform="translate(400, 250)">
+    <!-- Axes -->
+    <line x1="-70" y1="0" x2="70" y2="0" stroke="#666" stroke-width="1" />
+    <line x1="0" y1="-120" x2="0" y2="70" stroke="#666" stroke-width="1" />
+    <line x1="0" y1="0" x2="-50" y2="50" stroke="#666" stroke-width="1" />
+    
+    <!-- Cone wireframe -->
+    <line x1="-60" y1="36" x2="0" y2="-100" stroke="#e2574a" stroke-width="1.5" />
+    <line x1="60" y1="36" x2="0" y2="-100" stroke="#e2574a" stroke-width="1.5" />
+    <line x1="0" y1="36" x2="0" y2="-100" stroke="#e2574a" stroke-width="1.5" />
+    <line x1="-36" y1="60" x2="0" y2="-100" stroke="#e2574a" stroke-width="1.5" />
+    <line x1="36" y1="60" x2="0" y2="-100" stroke="#e2574a" stroke-width="1.5" />
+    
+    <ellipse cx="0" cy="0" rx="60" ry="36" fill="none" stroke="#e2574a" stroke-width="1.5" />
+    <ellipse cx="0" cy="-30" rx="45" ry="27" fill="none" stroke="#e2574a" stroke-width="1.5" />
+    <ellipse cx="0" cy="-60" rx="30" ry="18" fill="none" stroke="#e2574a" stroke-width="1.5" />
+    <ellipse cx="0" cy="-90" rx="15" ry="9" fill="none" stroke="#e2574a" stroke-width="1.5" />
+    
+    <!-- Cone surface with gradient -->
+    <ellipse cx="0" cy="0" rx="60" ry="36" fill="url(#coneGradient)" fill-opacity="0.4" />
+    
+    <!-- Label -->
+    <text x="0" y="100" font-family="Arial, sans-serif" font-size="16" text-anchor="middle">円錐</text>
+  </g>
+  
+  <!-- Saddle -->
+  <g transform="translate(650, 250)">
+    <!-- Axes -->
+    <line x1="-70" y1="0" x2="70" y2="0" stroke="#666" stroke-width="1" />
+    <line x1="0" y1="-120" x2="0" y2="70" stroke="#666" stroke-width="1" />
+    <line x1="0" y1="0" x2="-50" y2="50" stroke="#666" stroke-width="1" />
+    
+    <!-- Saddle wireframe -->
+    <path d="M -60,-36 C -30,-10 30,10 60,36" fill="none" stroke="#7a4ae2" stroke-width="1.5" />
+    <path d="M -60,36 C -30,10 30,-10 60,-36" fill="none" stroke="#7a4ae2" stroke-width="1.5" />
+    
+    <path d="M -50,0 C -30,-50 -10,-20 0,0 C 10,20 30,50 50,0" fill="none" stroke="#7a4ae2" stroke-width="1.5" />
+    <path d="M 0,-50 C -20,-30 -50,-10 0,0 C 50,10 20,30 0,50" fill="none" stroke="#7a4ae2" stroke-width="1.5" />
+    
+    <path d="M -50,-50 C -30,-30 30,30 50,50" fill="none" stroke="#7a4ae2" stroke-width="1.5" />
+    <path d="M -50,50 C -30,30 30,-30 50,-50" fill="none" stroke="#7a4ae2" stroke-width="1.5" />
+    
+    <!-- Saddle surface with gradient -->
+    <ellipse cx="0" cy="0" rx="60" ry="36" fill="url(#saddleGradient)" fill-opacity="0.3" />
+    
+    <!-- Label -->
+    <text x="0" y="100" font-family="Arial, sans-serif" font-size="16" text-anchor="middle">鞍点面</text>
+  </g>
+  
+  <!-- Title -->
+  <text x="400" y="40" font-family="Arial, sans-serif" font-size="24" font-weight="bold" text-anchor="middle">3次元空間における一般的な曲面</text>
+  
+  <!-- Caption -->
+  <text x="400" y="460" font-family="Arial, sans-serif" font-size="16" text-anchor="middle">図2.1: 3次元空間における一般的な曲面の例：放物面、円錐、鞍点面。</text>
+</svg>

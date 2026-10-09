@@ -1,0 +1,651 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kolmogorovの拡張定理</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Cabin:wght@500&family=Noto+Sans+JP:wght@400;500;700&display=swap');
+
+        :root {
+            --background: radial-gradient(120% 120% at 20% 20%, #1e3a8a 0%, #0f172a 55%, #020617 100%);
+            --card-bg: rgba(255, 255, 255, 0.88);
+            --card-border: rgba(255, 255, 255, 0.25);
+            --accent: #4c6ef5;
+            --accent-soft: rgba(76, 110, 245, 0.14);
+            --accent-strong: #2c3791;
+            --text-primary: #0f172a;
+            --text-secondary: #475569;
+            --highlight: #facc15;
+            --shadow: 0 18px 45px -25px rgba(15, 23, 42, 0.75);
+        }
+
+        *, *::before, *::after {
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Noto Sans JP', 'Hiragino Sans', 'Meiryo', sans-serif;
+            line-height: 1.7;
+            margin: 0;
+            min-height: 100vh;
+            padding: 60px 24px;
+            color: var(--text-primary);
+            background: var(--background);
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+        }
+
+        body::before {
+            content: "";
+            position: fixed;
+            inset: 0;
+            background: repeating-linear-gradient(135deg, rgba(255, 255, 255, 0.04) 0, rgba(255, 255, 255, 0.04) 12px, transparent 12px, transparent 24px);
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        main {
+            width: min(960px, 100%);
+            background: var(--card-bg);
+            backdrop-filter: blur(18px);
+            border: 1px solid var(--card-border);
+            border-radius: 28px;
+            padding: 56px 64px;
+            position: relative;
+            z-index: 1;
+            box-shadow: var(--shadow);
+        }
+
+        header.hero {
+            text-align: center;
+            margin-bottom: 52px;
+            display: grid;
+            gap: 18px;
+        }
+
+        .hero-label {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 6px 16px;
+            border-radius: 999px;
+            font-size: 14px;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            color: var(--accent-strong);
+            background: var(--accent-soft);
+            font-family: 'Cabin', sans-serif;
+        }
+
+        h1 {
+            font-size: clamp(32px, 4vw, 44px);
+            margin: 0;
+            color: var(--accent-strong);
+            letter-spacing: 0.05em;
+        }
+
+        .hero p {
+            margin: 0 auto;
+            max-width: 640px;
+            color: var(--text-secondary);
+            font-size: 17px;
+        }
+
+        section.outline-section {
+            background: rgba(255, 255, 255, 0.78);
+            border: 1px solid rgba(148, 163, 184, 0.25);
+            padding: 32px 36px;
+            border-radius: 22px;
+            margin-bottom: 32px;
+            box-shadow: 0 24px 40px -32px rgba(15, 23, 42, 0.35);
+        }
+
+        section.outline-section:last-of-type {
+            margin-bottom: 0;
+        }
+
+        section.outline-section h2 {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            font-size: 24px;
+            margin: 0 0 24px;
+            color: var(--accent-strong);
+        }
+
+        section.outline-section h2::before {
+            content: "";
+            width: 42px;
+            height: 4px;
+            border-radius: 999px;
+            background: linear-gradient(90deg, var(--accent) 0%, rgba(76, 110, 245, 0.2) 100%);
+        }
+
+        section.outline-section h3 {
+            margin: 28px 0 14px;
+            font-size: 19px;
+            color: var(--accent-strong);
+        }
+
+        section.outline-section p {
+            margin: 0 0 16px;
+            color: var(--text-secondary);
+        }
+
+        .focus-card {
+            background: rgba(76, 110, 245, 0.08);
+            border: 1px solid rgba(76, 110, 245, 0.22);
+            box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.4), 0 20px 32px -28px rgba(76, 110, 245, 0.55);
+            border-radius: 18px;
+            padding: 22px 26px;
+            margin: 22px 0;
+        }
+
+        .definition {
+            background: rgba(250, 204, 21, 0.16);
+            border: 1px solid rgba(250, 204, 21, 0.32);
+            border-radius: 18px;
+            padding: 22px 26px;
+            margin: 22px 0;
+            box-shadow: inset 0 1px 0 rgba(255, 240, 200, 0.4);
+        }
+
+        .definition h3 {
+            margin-top: 0;
+        }
+
+        .definition.projection-setup {
+            background: rgba(148, 163, 184, 0.15);
+            border: 1px solid rgba(148, 163, 184, 0.35);
+            box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.45);
+        }
+
+        .definition.projection-setup .inline-note {
+            margin-top: 18px;
+            padding: 14px 18px;
+            border-radius: 14px;
+            background: rgba(76, 110, 245, 0.08);
+            border: 1px dashed rgba(76, 110, 245, 0.28);
+        }
+
+        .theorem {
+            background: rgba(76, 110, 245, 0.1);
+            border: 1px solid rgba(76, 110, 245, 0.28);
+            border-radius: 18px;
+            padding: 22px 26px;
+            margin: 22px 0;
+            box-shadow: inset 0 1px 0 rgba(209, 227, 255, 0.45);
+        }
+
+        .theorem h3 {
+            margin-top: 0;
+            color: var(--accent-strong);
+        }
+
+        .proof {
+            margin-top: 18px;
+            padding-left: 18px;
+            border-left: 3px solid rgba(76, 110, 245, 0.3);
+            color: var(--text-secondary);
+        }
+
+        .example {
+            background: rgba(76, 110, 245, 0.12);
+            border: 1px solid rgba(76, 110, 245, 0.22);
+            border-radius: 18px;
+            padding: 22px 26px;
+            margin: 22px 0;
+            box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.45);
+        }
+
+        .example h3 {
+            margin-top: 0;
+            color: var(--accent-strong);
+        }
+
+        .pill-list {
+            counter-reset: item;
+            list-style: none;
+            margin: 18px 0 0;
+            padding: 0;
+            display: grid;
+            gap: 12px;
+        }
+
+        .pill-list li {
+            position: relative;
+            margin: 0;
+            padding: 18px 24px 18px 60px;
+            border-radius: 18px;
+            background: rgba(248, 250, 252, 0.86);
+            border: 1px solid rgba(148, 163, 184, 0.25);
+            color: var(--text-secondary);
+            font-size: 16px;
+            box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.55);
+        }
+
+        .pill-list li::before {
+            content: counter(item);
+            counter-increment: item;
+            position: absolute;
+            left: 20px;
+            top: 18px;
+            display: inline-flex;
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            align-items: center;
+            justify-content: center;
+            font-size: 13px;
+            color: var(--accent-strong);
+            background: rgba(76, 110, 245, 0.18);
+            font-family: 'Cabin', sans-serif;
+            font-weight: 600;
+        }
+
+        .step-list {
+            counter-reset: step;
+            list-style: none;
+            padding: 0;
+            margin: 22px 0 0;
+            display: grid;
+            gap: 18px;
+        }
+
+        .step-list li {
+            position: relative;
+            padding: 18px 22px 18px 68px;
+            border-radius: 18px;
+            background: rgba(248, 250, 252, 0.88);
+            border: 1px solid rgba(148, 163, 184, 0.28);
+            color: var(--text-secondary);
+        }
+
+        .step-list li::before {
+            content: "Step " counter(step);
+            counter-increment: step;
+            position: absolute;
+            left: 20px;
+            top: 18px;
+            width: 34px;
+            height: 34px;
+            border-radius: 50%;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 11px;
+            font-weight: 700;
+            color: #fff;
+            background: var(--accent-strong);
+            font-family: 'Cabin', sans-serif;
+            letter-spacing: 0.04em;
+        }
+
+        .step-list li strong {
+            color: var(--accent-strong);
+        }
+
+        .step-list li ol {
+            margin-top: 12px;
+            padding-left: 20px;
+        }
+
+        blockquote {
+            margin: 18px 0;
+            padding: 18px 24px;
+            border-left: 4px solid var(--accent);
+            background: rgba(76, 110, 245, 0.08);
+            border-radius: 16px;
+            color: var(--text-secondary);
+        }
+
+        .inline-note {
+            display: block;
+            margin-top: 16px;
+            font-size: 15px;
+            color: var(--text-secondary);
+        }
+
+        ol, ul {
+            color: var(--text-secondary);
+        }
+
+        .navigation {
+            margin-top: 36px;
+            padding-top: 24px;
+            border-top: 1px solid rgba(148, 163, 184, 0.35);
+            display: flex;
+            justify-content: space-between;
+            gap: 16px;
+        }
+
+        .navigation a {
+            flex: 1;
+            display: inline-flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+            padding: 12px 24px;
+            border-radius: 14px;
+            text-decoration: none;
+            font-weight: 600;
+            color: var(--accent-strong);
+            background: rgba(76, 110, 245, 0.12);
+            border: 1px solid rgba(76, 110, 245, 0.24);
+            transition: all 0.3s ease;
+        }
+
+        .navigation a:hover {
+            background: var(--accent);
+            color: #fff;
+        }
+
+        footer {
+            margin-top: 40px;
+            text-align: center;
+            color: var(--text-secondary);
+            font-size: 14px;
+        }
+
+        @media (max-width: 768px) {
+            body {
+                padding: 32px 16px;
+            }
+
+            main {
+                padding: 36px 24px;
+            }
+
+            section.outline-section {
+                padding: 24px;
+            }
+
+            .navigation {
+                flex-direction: column;
+            }
+        }
+    </style>
+    <script>
+        window.MathJax = {
+            tex: { inlineMath: [['$', '$'], ['\\(', '\\)']], displayMath: [['$$', '$$'], ['\\[', '\\]']] },
+            svg: { fontCache: 'global' }
+        };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+</head>
+<body>
+    <main>
+        <header class="hero">
+            <span class="hero-label">Lecture 04</span>
+            <h1>Kolmogorovの拡張定理</h1>
+        </header>
+
+        <section class="outline-section">
+            <h2> 可積分性と収束の準備</h2>
+            <div class="definition">
+                <h3>定義（可積分性）</h3>
+                <p>確率変数 \(X\) に対し，正部 \(X_+=\max\{X,0\}\)，負部 \(X_-=\max\{-X,0\}\) とおく。このとき
+                    \(\mathbb{E}[X_+]<\infty\) かつ \(\mathbb{E}[X_-]<\infty\) であれば \(X\) を<strong>可積分</strong>という。</p>
+            </div>
+            <div class="theorem">
+                <h3>命題（単調収束）</h3>
+                <p>確率変数列 \(X_n:\Omega\to\mathbb{R}\) 
+について、                    \((X_0)_-\) が可積分で \(X_n\uparrow X\) が成立するならば
+                    \(\mathbb{E}[\lim_{n\to\infty} X_n]=\lim_{n\to\infty}\mathbb{E}[X_n]\) が成り立つ。</p>
+                <div class="proof">
+                    <p>ルベーグ測度論の単調収束定理（Beppo–Levi）の特別な場合である。</p>
+                </div>
+            </div>
+            <div class="focus-card">
+                <h3>優収束定理の補足</h3>
+                <p>確率変数列\(X_n,X\)について \(X_n\to X\quad a.s.\) かつ \(|X_n|\le Y\) を満たす可積分な確率変数 \(Y\) が存在するなら
+                    \(\mathbb{E}[\lim X_n]=\mathbb{E}[X]\) が従う。</p>
+            </div>
+        </section>
+        <section class="outline-section">
+            <h2>有限回コイントスの復習</h2>
+            <div class="definition">
+                <h3>定義（有限試行の確率空間）</h3>
+                <p>公平なコインを \(n\) 回投げるとき
+                    \(\Omega=\{+1,-1\}^n\)，\(\mathcal{F}=2^\Omega\)，\(p_\omega=2^{-n}\) と定める。測度は
+                    \(P(A)=\sum_{\omega\in A}p_\omega=|A|/2^n\)。</p>
+            </div>
+            <div class="example">
+                <h3>例（表の個数）</h3>
+                <p>第 \(i\) 回目の結果を
+                    \(X_i(\omega)=\mathbf{1}_{\{\omega_i=+1\}}\) とおく。表の総数は \(S_n=\sum_{i=1}^n X_i\) であり，
+                    \(\mathbb{E}[S_n]=n/2\)，\(\mathrm{Var}(S_n)=n/4\)。</p>
+            </div>
+            <div class="focus-card">
+                <h3>有限モデルの役割</h3>
+                <p>Kolmogorov の拡張定理では，これら有限次元の確率構造を無限次数に拡張する。</p>
+            </div>
+        </section>
+
+        <section class="outline-section">
+            <h2>無限試行とKolmogorovの枠組み</h2>
+            <div class="focus-card">
+                <h3>無限回コイントスの課題</h3>
+                <p>無限回コインを投げたいが，単純に試行回数 \(n\) を \(n \to \infty\) とするだけでは各事象の確率
+                    \(p_\omega \to 0\) となり，測度が崩壊する。そこで無限列そのものを初めから空間として扱う必要がある。</p>
+            </div>
+            <div class="definition projection-setup">
+                <h3>射影系の準備</h3>
+                <p>\(\Omega = \{+1,-1\}^{\mathbb{N}}\) を無限列の空間とし，有限次元の射影 \(\pi_n(\omega) = (\omega_1,\ldots,\omega_n)\)
+                    を考える。有限次元分布 \((P_n)\) が整合的であるとき，次のように円筒集合族を構成する。</p>
+                <ol class="pill-list">
+                    <li>\(\Omega_n = \{+1,-1\}^n\) として \(\pi_n : \Omega \to \Omega_n\) を定める。</li>
+                    <li>\(\mathcal{F}_n = \{\pi_n^{-1}(A) \mid A \subseteq \Omega_n\}\) を円筒集合族とする。</li>
+                    <li>\(\mu(\pi_n^{-1}(A)) = P_n(A)\) とおけば，\(\mathcal{F}_n\) 上で整合する前測度 \(\mu\) が得られる。</li>
+                    <li>\(\mathcal{S} = \bigcup_{n \ge 1} \mathcal{F}_n\) とし，\(\mathcal{F} = \sigma(\mathcal{S})\) を生成する。</li>
+                </ol>
+                <p class="inline-note">\(\mathcal{S}\) 上の前測度 \(\mu\) を Carathéodory の方法で拡張して全体の確率測度 \(P\) を構成する。</p>
+            </div>
+            <div class="focus-card">
+                <h3>外測度の定義</h3>
+                <p>— 外測度の定義：</p>
+                <p>\(P(A)= \inf_{(B_k)\subset\mathcal{S},\, A\subset \bigcup_k B_k}\ \sum_k \mu(B_k)\)。</p>
+                            <div class="theorem">   
+                                <p>\(P\) は \((\Omega,\mathcal{F})\) 上の確率測度である。</p>
+</div>
+            </div>
+            
+        <section class="outline-section">
+                <h2>定理の証明</h2>
+                <div class="proof">
+                    <p>証明は，前測度の性質と，Carathéodory の拡張定理に分かれる。</p>
+                    <div class="focus-card">
+                        <h3>前測度の性質</h3>
+                        <div class="definition">
+                            <h4>補題 1</h4>
+                            <p>\((E_n)\) が \(\mathcal{S}\) 上の互いに素な有限列ならば，\(\mu\!\left(\bigcup_n E_n\right)=\sum_n \mu(E_n)\) が成り立つ。さらに，\(\mu(A^c)=1-\mu(A)\)，\(\mu(\Omega)=1\) が成り立つ。このとき，\(\mu\) を有限加法測度と呼ぶ。</p>
+                            <div class="proof">
+                                <p>（証明）ある \(M\) が存在して各 \(E_n\) は \(\mathcal{F}_M\) に属する。\(E_n=\pi_M^{-1}(A_n)\)。互いに素より \(A_n\) も互いに素。
+                                \(\mu\left(\bigcup_{n=1}^N E_n\right)=P_M\left(\bigcup_{n=1}^N A_n\right)=\sum_{n=1}^N P_M(A_n)=\sum_{n=1}^N \mu(E_n)\)。
+                                また \(\mu(\Omega)=P_M(\Omega_M)=1\)。\(E=\pi_M^{-1}(A)\) に対し \(\mu(E^c)=P_M(A^c)=1-P_M(A)=1-\mu(E)\)。</p>
+                            </div>
+                        </div>
+                        <div class="definition">
+                            <h4>補題 2</h4>
+                            <p>任意の \(E\in \mathcal{S}\) について \(P(E)=\mu(E)\)。</p>
+                            <div class="proof">
+                                <p>（証明）\(S_n\in\mathcal{S}\) で \(E\subset \bigcup_{n} S_n\)。\(E_n:=E\setminus \bigcup_{k=1}^n S_k\) とおくと単調減少。\(E_n\neq\varnothing\) が無限回起こるとコンパクト性の議論より矛盾。したがってある \(N\) が存在して \(E\subset \bigcup_{k=1}^N S_k\)。よって \(\sum_{k=1}^N \mu(S_k)\ge \mu(E)\)。下限をとって \(P(E)=\mu(E)\)。</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="definition">
+                        <h3>Carathéodoryの拡張定理</h3>
+                        <p>[定義（Carathéodory 可測集合）] 任意の \(A\subset\Omega\) について \(\mu^{\ast}(A)=\mu^{\ast}(A\cap E)+\mu^{\ast}(A\cap E^c)\) を満たす \(E\) を可測とする。可測全体を \(\mathcal{F}_{\mu^{\ast}}\) とする。</p>
+                        <p>[定理（Carathéodory の外測度定理）] \(\mu\) が有限加法測度で，任意の \(E\in \mathcal{S}\) について \(P(E)=\mu(E)\) が成り立つとき，\(\mathcal{F}_{\mu^{\ast}}\) は \(\sigma\)-加法族で，\(\mathcal{S}\subset \mathcal{F}_{\mu^{\ast}}\) かつ \(P:=\mu^{\ast}\big|_{\mathcal{F}_{\mu^{\ast}}}\) は測度。特に，\(P\) は \(\mathcal{F}=\sigma(\mathcal{S})\subset \mathcal{F}_{\mu^{\ast}}\) 上の測度である。</p>
+                    </div>
+                    <p>上記の補題をカラテオドリの定理に適用することで，\(P\) が確率測度であることがわかる。</p>
+                </div>
+            <blockquote>
+                <p>結果として，有限次元分布が整合的であれば無限列全体の確率測度 \(P\) が一意に存在し，
+                    無限コイントスや確率過程の厳密なモデル化が可能になる。</p>
+            </blockquote>
+        <section>
+
+        <section class="outline-section"> 
+            <h2>別証明</h2>
+
+            <div class="definition projection-setup">
+                <h3>設定（円筒集合と射影）</h3>
+                <p>\(\Omega_n = \{0,1\}^n\) とし，\(\Omega = \{0,-1\}^{\mathbb{N}}\) とおく。各 \(n\in\mathbb{N}\) に対し射影
+                    \[\pi_n: \Omega \to \Omega_n,\qquad \pi_n(\omega) = (\omega_1,\dots,\omega_n).\]
+                    さらに
+                    \[\mathcal{F}_n = \bigl\{\pi_n^{-1}(A): A\subseteq \Omega_n\bigr\}\quad (n\in\mathbb{N}),\qquad \mathcal{S} = \bigcup_{n\in\mathbb{N}} \mathcal{F}_n.\]
+                </p>
+                <div class="inline-note">以後，\(\triangle\) は対称差を表す。</div>
+            </div>
+
+            <div class="definition">
+                <h3>補題（\(\mathcal{S}\) は有限加法族）</h3>
+                <p>\(\mathcal{S}\) は次をみたす： (1) \(\Omega\in\mathcal{S}\)，(2) \(E\in\mathcal{S}\Rightarrow E^c\in\mathcal{S}\)，(3) \(E_1,E_2\in\mathcal{S}\Rightarrow E_1\cup E_2\in\mathcal{S}\)。</p>
+                <div class="proof">
+                    <p>\(E_i=\pi_{n_i}^{-1}(A_i)\in\mathcal{S}\ (i=1,2)\) とし，\(m=\max\{n_1,n_2\}\) とする。すると各 \(E_i\) は
+                        \(A_i' := A_i\times \Omega_{m-n_i}\subseteq \Omega_m\) を用いて \(E_i = \pi_m^{-1}(A_i')\) と書ける。ゆえに
+                        \(E_1\cup E_2 = \pi_m^{-1}(A_1'\cup A_2')\) も \(m\) 次の円筒集合である。従って \(\mathcal{S}\) は有限加法族である。</p>
+                </div>
+            </div>
+
+            <div class="definition">
+                <h3>円筒族上の前測度と外測度</h3>
+                <p>円筒族 \(\mathcal{S}\) 上で
+                    \[\mu\bigl(\pi_n^{-1}(A)\bigr) = P_n(A)\qquad (A\subseteq \Omega_n)\]
+                    と定める。\(\mathcal{F} = \sigma(\mathcal{S})\) を \(\mathcal{S}\) の生成する \(\sigma\)-加法族とし，任意の部分集合 \(A\subseteq\Omega\) に対し
+                    \[P(A) = \inf\Bigl\{\,\sum_{k=1}^{\infty} \mu(B_k):\ A\subseteq \bigcup_{k=1}^{\infty} B_k,\ B_k\in\mathcal{S}\Bigr\}\]
+                    とおく。</p>
+            </div>
+
+            <div class="theorem">
+                <h3>定理</h3>
+                <p>\(P\) は \((\Omega,\mathcal{F})\) 上の確率測度である。</p>
+            </div>
+
+            <div class="definition">
+                <h3>補題（有限加法性）</h3>
+                <p>\(E,(E_n)_{n=1}^N\) を \(\mathcal{S}\) に属する互いに素な有限族とする。このとき
+                    \[\mu(\Omega)=1,\qquad \mu(E^c)=1-\mu(E),\qquad \mu\!\Bigl(\bigcup_{n=1}^N E_n\Bigr)=\sum_{n=1}^N \mu(E_n).\]
+                    すなわち \(\mu\) は \(\mathcal{S}\) 上の有限加法測度である。</p>
+                <div class="proof">
+                    <p>ある \(M\in\mathbb{N}\) が存在して各 \(E_n\in\mathcal{F}_M\)。よって \(A_n\subseteq\Omega_M\) があって
+                        \(E_n=\pi_M^{-1}(A_n)\ (1\le n\le N)\)。互いに素性から \(A_n\) も互いに素。
+                        したがって
+                        \[\mu\!\Bigl(\bigcup_{n=1}^N E_n\Bigr)=P_M\!\Bigl(\bigcup_{n=1}^N A_n\Bigr)=\sum_{n=1}^N P_M(A_n)=\sum_{n=1}^N \mu(E_n).\]
+                        また \(\mu(\Omega)=P_M(\Omega_M)=1\)。さらに \(E=\pi_M^{-1}(A)\) に対し \(\mu(E^c)=P_M(A^c)=1-P_M(A)=1-\mu(E)\)。</p>
+                </div>
+            </div>
+
+            <div class="definition">
+                <h3>補題（円筒上での一致）</h3>
+                <p>任意の \(E\in\mathcal{S}\) に対し \(P(E)=\mu(E)\)。</p>
+                <div class="proof">
+                    <p>\(S_n\in\mathcal{S}\) を \(E\subset \bigcup_n S_n\) をみたす被覆とする。\(E_n:=E\setminus \bigcup_{k=1}^n S_k\) とおくと \((E_n)\) は単調減少。
+                        \(E_n\neq\varnothing\) が無限回起こるなら，円筒集合が生成する位相でのコンパクト性より \(\bigcap_{n=1}^{\infty}E_n\neq\emptyset\) となり矛盾。
+                        よってある \(N\) があって \(E\subset \bigcup_{k=1}^N S_k\)。したがって \(\sum_{k=1}^N\mu(S_k)\ge \mu(E)\)。下限をとって \(P(E)\ge \mu(E)\)。逆向きは \(S_1=E, S_{k\ge2}=\emptyset\) をとれば従う。</p>
+                </div>
+            </div>
+
+            <p>Carathéodory の拡張定理の条件は既に確認済みだが，ここでは完全に自己完結的な証明を与える。</p>
+
+            <div class="definition">
+                <h3>補題（劣加法性と有用な系）</h3>
+                <p>任意の集合列 \(A_1,A_2,\dots\subseteq\Omega\) に対して
+                    \[P\Bigl(\bigcup_{n=1}^{\infty} A_n\Bigr)\le \sum_{n=1}^{\infty} P(A_n).\]</p>
+                <div class="proof">
+                    <p>\(\varepsilon&gt;0\) を任意にとる。各 \(n\) について \(A_n\) の \(\mathcal{S}\) による被覆 \(\{B_{n,k}\}_{k\ge1}\subset\mathcal{S}\) で
+                        \(\sum_{k=1}^{\infty}\mu(B_{n,k})\le P(A_n)+\varepsilon/2^n\) をみたすものを選ぶ。すると
+                        \(\bigcup_n A_n\subseteq \bigcup_{n,k} B_{n,k}\) より定義から
+                        \[P\Bigl(\bigcup_{n=1}^{\infty} A_n\Bigr)\le \sum_{n=1}^{\infty}\sum_{k=1}^{\infty}\mu(B_{n,k})\le \sum_{n=1}^{\infty}\Bigl(P(A_n)+\tfrac{\varepsilon}{2^n}\Bigr)=\sum_{n=1}^{\infty}P(A_n)+\varepsilon.\]
+                        \(\varepsilon\downarrow0\) として主張を得る。</p>
+                </div>
+            </div>
+
+            <div class="definition">
+                <h3>補題（近似可能性による \(\sigma\)-加法族 \(\mathcal{F}'\)）</h3>
+                <p>次で定める集合族
+                    \[\mathcal{F}'=\Bigl\{A\subseteq\Omega:\ \forall\varepsilon&gt;0\ \exists\ B,C\in\mathcal{S}\ \text{s.t.}\ P(A\triangle B)&lt;\varepsilon,\ \ P(A^c\triangle C)&lt;\varepsilon\Bigr\}\]
+                    は \(\mathcal{S}\subseteq\mathcal{F}'\) を満たし，さらに \(\mathcal{F}'\) は \(\sigma\)-加法族である。</p>
+                <div class="proof">
+                    <p>まず \(\Omega\in\mathcal{F}'\)。また \(A\in\mathcal{F}'\Rightarrow A^c\in\mathcal{F}'\) は定義から明らか。\(\{A_n\}\subset\mathcal{F}'\) とし
+                        \(A=\bigcup_n A_n\)。\(\varepsilon&gt;0\) に対し，各 \(n\) で \(B_n,C_n\in\mathcal{S}\) を選び
+                        \(P(A_n\triangle B_n)&lt;\varepsilon/2^{n+1},\ P(A_n^c\triangle C_n)&lt;\varepsilon/2^{n+1}\) を満たすとする。
+                        \(\tilde B_n:=B_n\setminus \cup_{j=1}^{n-1}B_j\)，\(\tilde C_n:= (\cap_{j=1}^{n-1}C_j)\setminus C_n\) とおけば，いずれも互いに素。部分和の単調性より \(\sum_n \mu(\tilde B_n)\le1\)，\(\sum_n \mu(\tilde C_n)\le1\)。ゆえにある \(N\) が存在して
+                        \(\sum_{n&gt;N}\mu(\tilde B_n)+\sum_{n&gt;N}\mu(\tilde C_n)&lt;\varepsilon\)。
+                        包含関係
+                        \[\Bigl(\bigcup_{n\ge1}A_n\Bigr)\triangle \Bigl(\bigcup_{n=1}^N B_n\Bigr)\ \subseteq\ \bigcup_{n\ge1}(A_n\triangle B_n)\ \cup\ \Bigl(\bigcup_{n&gt;N}\tilde B_n\Bigr)\]
+                        と劣加法性から
+                        \[P\Bigl(A\triangle \bigcup_{n=1}^N B_n\Bigr)\le \sum_{n\ge1}P(A_n\triangle B_n)+\sum_{n&gt;N}P(\tilde B_n)&lt;\varepsilon.\]
+                        同様に \(A^c=\cap_n A_n^c\) として
+                        \[\Bigl(\bigcap_{n\ge1}A_n^c\Bigr)\triangle \Bigl(\bigcap_{n=1}^N C_n\Bigr)\ \subseteq\ \Bigl(\bigcup_{n\ge1}(A_n^c\triangle C_n)\Bigr)\cup\Bigl(\bigcup_{n&gt;N}\tilde C_n\Bigr)\]
+                        から
+                        \[P\Bigl(A^c\triangle \bigcap_{n=1}^N C_n\Bigr)\le \sum_{n\ge1}P(A_n^c\triangle C_n)+\sum_{n&gt;N}P(\tilde C_n)&lt;\varepsilon.\]
+                        ゆえに \(A\in\mathcal{F}'\)。したがって \(\mathcal{F}'\) は \(\Omega\) を含み，補集合および可算和で閉じているから \(\sigma\)-加法族である。最後に，\(A\in\mathcal{S}\) なら \(B_1=A, C_1=A^c\) と取れば誤差は 0 なので \(\mathcal{S}\subseteq\mathcal{F}'\)。よって \(\mathcal{F}=\sigma(\mathcal{S})\subseteq\mathcal{F}'\)。</p>
+                </div>
+            </div>
+
+            <div class="definition">
+                <h3>補題（\(\Omega\) の値）</h3>
+                <p>\(P(\Omega)=1\)。従って任意の \(A\subseteq\Omega\) について \(0\le P(A)\le 1\)。</p>
+                <div class="proof">
+                    <p>各 \(n\) に対し \(\Omega=\pi_n^{-1}(\Omega_n)\in\mathcal{S}\) であり，\(\mu(\Omega)=P_n(\Omega_n)=1\)。補題「円筒上の一致」から
+                        \(P(\Omega)=\mu(\Omega)=1\)。単調性より \(0\le P(A)\le P(\Omega)=1\)。</p>
+                </div>
+            </div>
+
+            <div class="definition">
+                <h3>補題（\(\mathcal{F}\) 上の可算加法性）</h3>
+                <p>\(\{A_n\}_{n\ge1}\subset\mathcal{F}\) が互いに素なら
+                    \[P\Bigl(\bigcup_{n=1}^{\infty} A_n\Bigr)=\sum_{n=1}^{\infty} P(A_n).\]</p>
+                <div class="proof">
+                    <p>劣加法性より常に「\(\le\)」は成り立つ。よって \(\mathcal{F}\) の互いに素な族に対して「\(\ge\)」を示せばよい。\(N\in\mathbb{N}\)，\(\varepsilon&gt;0\)。補題より \(\mathcal{F}\subseteq\mathcal{F}'\) だから，各 \(1\le n\le N\) について
+                        \(P(A_n\triangle B_n)&lt;\varepsilon/(2N^2)\) を満たす \(B_n\in\mathcal{S}\) をとる。包含
+                        \[\bigcup_{n=1}^N B_n\setminus \bigcup_{n=1}^N A_n\ \subseteq\ \bigcup_{n=1}^N (B_n\triangle A_n)\]
+                        と劣加法性から
+                        \[P\Bigl(\bigcup_{n=1}^N B_n\setminus \bigcup_{n=1}^N A_n\Bigr)\le \sum_{n=1}^N P(B_n\triangle A_n)\le \varepsilon/2.\]
+                        よって \(P(A)\ge P(B)-P(B\setminus A)\)（\(A=\cup_{n=1}^N A_n\), \(B=\cup_{n=1}^N B_n\)）から
+                        \[P\Bigl(\bigcup_{n=1}^N A_n\Bigr)\ge P\Bigl(\bigcup_{n=1}^N B_n\Bigr)-\varepsilon/2.\tag{*}\]
+                        次に互いに素な集合 \(D_1=B_1\), \(D_n=B_n\setminus \cup_{j=1}^{n-1}B_j\ (2\le n\le N)\) を定めると，\(\cup_{n=1}^N B_n=\bigsqcup_{n=1}^N D_n\) なので
+                        \(P(\cup_{n=1}^N B_n)=\sum_{n=1}^N P(D_n)\)。さらに各 \(n\) について
+                        \[A_n\ \subset\ D_n\ \cup\ \bigcup_{j=1}^{n}(A_j\triangle B_j)\]
+                        が成り立つ（もし \(x\in A_n\cap B_n\) で \(x\notin D_n\) なら，ある \(j&lt;n\) で \(x\in B_j\)。互いに素性より \(x\notin A_j\)，よって \(x\in B_j\setminus A_j\subset A_j\triangle B_j\)）。
+                        劣加法性から
+                        \[P(A_n)\le P(D_n)+\sum_{j=1}^{n}P(A_j\triangle B_j).\]
+                        これを整理して \(n=1,\dots,N\) で総和し，さらに \(N\sum_{j=1}^N P(A_j\triangle B_j)\le N^2\cdot \varepsilon/(2N^2)=\varepsilon/2\) を用いると
+                        \[P\Bigl(\bigcup_{n=1}^N B_n\Bigr)=\sum_{n=1}^N P(D_n)\ge \sum_{n=1}^N P(A_n)-\varepsilon/2.\]
+                        これを (*) と併せて
+                        \[P\Bigl(\bigcup_{n=1}^{\infty} A_n\Bigr)\ge P\Bigl(\bigcup_{n=1}^{N} A_n\Bigr)\ge \sum_{n=1}^{N} P(A_n)-\varepsilon.\]
+                        \(N\) と \(\varepsilon\) の任意性から主張が従う。</p>
+                </div>
+            </div>
+
+            <p><strong>定理の結論.</strong> 補題より \(P(\Omega)=1\) かつ \(0\le P\le 1\)。また互いに素な列に対する可算加法性が \(\mathcal{F}\) 上で成り立つから，\(P\) は \((\Omega,\mathcal{F})\) 上の確率測度である。</p>
+        </section>
+
+        <section class="outline-section">
+
+            <div class="theorem">
+                <h3>レポート課題</h3>
+                <ol>
+                    <li>\(\mu\) が well-defined であることを確かめよ。具体的には \(\pi_n^{-1}(A_n)=\pi_m^{-1}(A_m)\) となる \(A_n,A_m\in \mathcal{S}\) について，\(P_n(A_n)=P_m(A_m)\) が成り立つことを示せ。</li>
+    <li> 授業の証明では\(\Omega_1 =  \{-1,1\}\)における一様確率測度の無限直積を扱った。全く同じ証明は$[0,1]$上の一様測度の無限測度の構成では成り立たない？なぜか述べよ。（拡張するためには、より複雑な議論が必要になる）          </li>
+                
+                </ol>
+            </div>
+        </section>
+
+        <div class="navigation">
+            <a href="../class3/class3.html">← Lecture 03</a>
+            <a href="../index.html">ホームへ</a>
+            <a href="../class5/class5.html">Lecture 05 →</a>
+        </div>
+
+        <footer>© 2025 確率論講義ノート</footer>
+    </main>
+</body>
+</html>

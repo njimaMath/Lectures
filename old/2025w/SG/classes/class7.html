@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lecture 7: TAP Equations and the SK Model</title>
+    <style>
+        :root {
+            --primary-color: #2c3e50;
+            --secondary-color: #3498db;
+            --accent-color: #e74c3c;
+            --background-color: #f9f9f9;
+            --text-color: #333;
+            --container-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+            --text-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+        }
+
+        body {
+            font-family: 'Georgia', serif;
+            line-height: 1.7;
+            margin: 0;
+            padding: 0;
+            background-color: var(--background-color);
+            color: var(--text-color);
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 20px auto;
+            padding: 30px;
+            background-color: white;
+            box-shadow: var(--container-shadow);
+            border-radius: 15px;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 40px;
+            border-bottom: 2px solid var(--secondary-color);
+            padding-bottom: 20px;
+        }
+
+        h1, h2, h3 {
+            color: var(--primary-color);
+        }
+
+        .section-title {
+            color: var(--primary-color);
+            font-size: 1.8rem;
+            margin-top: 30px;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #eee;
+            text-shadow: var(--text-shadow);
+        }
+
+        .lecture-title {
+            color: var(--secondary-color);
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+            font-weight: normal;
+        }
+
+        .author-info {
+            font-style: italic;
+            color: #777;
+        }
+
+        .math {
+            font-style: italic;
+            padding: 0 3px;
+        }
+        
+        .formula {
+            margin: 25px 0;
+            padding: 15px;
+            background-color: #f8f9fa;
+            border-left: 4px solid var(--secondary-color);
+            border-radius: 5px;
+            overflow-x: auto;
+            font-size: 1.1em;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+            text-align: center;
+        }
+
+        .figure {
+            text-align: center;
+            margin: 30px 0;
+            padding: 20px;
+            background-color: #f8f9fa;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+        }
+
+        .figure img {
+            max-width: 100%;
+            border-radius: 5px;
+        }
+
+        .figure-caption {
+            font-style: italic;
+            color: #777;
+            margin-top: 15px;
+        }
+        
+        .example-title {
+            font-weight: bold;
+            font-size: 1.2em;
+            color: var(--secondary-color);
+            margin-top: 30px;
+            margin-bottom: 15px;
+            padding-bottom: 5px;
+            border-bottom: 1px dashed #ccc;
+            display: inline-block;
+        }
+
+        .navigation {
+            margin-top: 40px;
+            text-align: center;
+            display: flex;
+            justify-content: space-between;
+            padding: 15px 0;
+            border-top: 1px solid #eee;
+        }
+
+        .navigation a {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: var(--primary-color);
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .navigation a:hover {
+            background-color: var(--secondary-color);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+        }
+
+        .topic-highlight {
+            display: inline-block;
+            background-color: rgba(52, 152, 219, 0.1);
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-weight: 500;
+            color: var(--primary-color);
+        }
+
+        p {
+            margin-bottom: 20px;
+            line-height: 1.8;
+        }
+
+        .content-section {
+            padding-bottom: 30px;
+        }
+        
+        .footnote {
+            font-size: 0.9em;
+            color: #777;
+            margin-top: 5px;
+            border-top: 1px solid #eee;
+            padding-top: 10px;
+        }
+        
+        ul {
+            margin-bottom: 20px;
+        }
+        
+        .key-insights {
+            background-color: #eefaf8;
+            border-left: 4px solid #2ecc71;
+            text-align: left;
+            padding: 15px 20px;
+            margin: 25px 0;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+        }
+        
+        .key-insights h3 {
+            margin-top: 0;
+            color: #2ecc71;
+        }
+        
+        .key-insights ul {
+            padding-left: 20px;
+        }
+        
+        .solution {
+            margin-left: 20px;
+            padding: 15px;
+            background-color: #f0f7ff;
+            border-left: 4px solid var(--secondary-color);
+            border-radius: 5px;
+        }
+    </style>
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js" async></script>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Lecture 7: TAP Equations and the SK Model</h1>
+            <div class="lecture-title">The Cavity Method Applied to SK Model</div>
+            <div class="author-info">Lecture Notes</div>
+        </header>
+
+        <div class="overview">
+        <p><strong>Overview:</strong> We now apply the cavity method to the SK model, deriving the Thouless-Anderson-Palmer (TAP) equations. These self-consistency equations for local magnetizations include the crucial Onsager reaction term, absent in naive mean-field theory. We discuss their derivation, physical meaning, and connection to both replica and dynamics approaches.</p>
+        </div>
+
+        <h4>Cavity Method for SK Model</h4>
+        <p>Recall the SK Hamiltonian:</p>
+        <div class="mathdisplay">$$ H_N(\sigma) = -\frac{1}{\sqrt{N}}\sum_{i<j} J_{ij}\sigma_i\sigma_j $$</div>
+        <p>Fix spin $i$ and remove it (make a cavity). The effective field on $i$ from the remaining spins is:</p>
+        <div class="mathdisplay">$$ h_i = \frac{1}{\sqrt{N}}\sum_{j(\neq i)} J_{ij}\langle \sigma_j \rangle_{(i)} $$</div>
+        <p>where $\langle \cdot \rangle_{(i)}$ denotes thermal average in the cavity system (without spin $i$).</p>
+
+        <h4>The Onsager Reaction Term</h4>
+        <p>A crucial insight: When we put spin $i$ back, it affects the other spins, which then react back on $i$. This leads to:</p>
+        <ul>
+            <li>Direct term: $h_i = \frac{1}{\sqrt{N}}\sum_{j(\neq i)} J_{ij}m_j$</li>
+            <li>Reaction (Onsager) term: $-\beta(1-q)m_i$ where $q = \frac{1}{N}\sum_j m_j^2$</li>
+        </ul>
+        <p>The full TAP equations are:</p>
+        <div class="mathdisplay">$$ m_i = \tanh\Big(\beta\big[\frac{1}{\sqrt{N}}\sum_{j(\neq i)} J_{ij}m_j - \beta(1-q)m_i\big]\Big) $$</div>
+        <p>for each spin $i$, where $m_i = \langle \sigma_i \rangle$ is the local magnetization.</p>
+
+        <h4>Derivation of the Onsager Term</h4>
+        <p>The reaction term comes from a careful cavity calculation:</p>
+        <ol>
+            <li>When spin $i$ is present with magnetization $m_i$, it creates a field $J_{ij}m_i/\sqrt{N}$ on spin $j$</li>
+            <li>This changes $m_j$ by $\beta J_{ij}m_i/\sqrt{N}$ (linear response)</li>
+            <li>The modified $m_j$ values create a reaction field on $i$</li>
+            <li>Summing over paths $i\to j\to i$ gives the $\beta(1-q)m_i$ term</li>
+        </ol>
+
+        <h4>Properties of TAP Equations</h4>
+        <ul>
+            <li><strong>High temperature:</strong> Only solution is $m_i=0$ for all $i$ (paramagnetic)</li>
+            <li><strong>Below $T_c=1$:</strong> Many solutions appear, corresponding to different pure states</li>
+            <li><strong>Free energy:</strong> Each solution is a stationary point of the TAP free energy functional:</li>
+        </ul>
+        <div class="mathdisplay">$$ F_{TAP}(\{m_i\}) = -\frac{1}{\sqrt{N}}\sum_{i<j} J_{ij}m_im_j - \frac{1}{\beta}\sum_i S(m_i) + \frac{\beta}{4}(1-q)^2 $$</div>
+        <p>where $S(m) = -\frac{1+m}{2}\ln\frac{1+m}{2} - \frac{1-m}{2}\ln\frac{1-m}{2}$ is the single-spin entropy.</p>
+
+        <h4>Connection to Replica Results</h4>
+        <p>The TAP approach gives complementary insight to replica theory:</p>
+        <ul>
+            <li>RS solution: corresponds to finding a single TAP solution</li>
+            <li>RSB: reflects existence of many TAP solutions with complex structure</li>
+            <li>Both approaches predict same thermodynamics when properly interpreted</li>
+        </ul>
+
+        <h4>Numerical Solution and Dynamics</h4>
+        <p>The TAP equations can be solved iteratively:</p>
+        <ol>
+            <li>Start with random initial $\{m_i\}$</li>
+            <li>Update each $m_i$ using the equation until convergence</li>
+            <li>Different initial conditions find different solutions</li>
+        </ol>
+        <p>This suggests a connection to dynamics:</p>
+        <ul>
+            <li>Each TAP solution is a possible equilibrium state</li>
+            <li>Real dynamics gets trapped near one solution</li>
+            <li>Aging phenomena reflect slow evolution between solutions</li>
+        </ul>
+
+        <h4>Beyond SK: Message Passing</h4>
+        <p>TAP equations have inspired powerful algorithms:</p>
+        <ul>
+            <li><strong>Belief Propagation:</strong> Generalizes cavity method to arbitrary graphs</li>
+            <li><strong>Survey Propagation:</strong> Handles multiple pure states (RSB)</li>
+            <li><strong>Applications:</strong> Error correction, satisfiability, compressed sensing</li>
+        </ul>
+        <p>Key ideas that transfer:</p>
+        <ul>
+            <li>Local fields/messages capture essential physics</li>
+            <li>Must include reaction effects (like Onsager term)</li>
+            <li>Multiple solutions indicate complex energy landscape</li>
+        </ul>
+
+        <h4>TAP Equations and Complexity</h4>
+        <p>The number of TAP solutions $\mathcal{N}(f)$ at free energy density $f$ defines a complexity $\Sigma(f)$:</p>
+        <div class="mathdisplay">$$ \Sigma(f) = \lim_{N\to\infty} \frac{1}{N}\ln \mathcal{N}(f) $$</div>
+        <p>Properties:</p>
+        <ul>
+            <li>$\Sigma(f)$ is non-negative only in a range $[f_{\min}, f_{\max}]$</li>
+            <li>Physical states concentrate near $f_{\min}$ (dominated by complexity)</li>
+            <li>This picture matches Parisi's RSB solution</li>
+        </ul>
+
+        <p><strong>Summary (Lecture 7):</strong> The TAP equations provide a physical picture of the SK model's behavior through local magnetizations and reaction fields. They reveal the emergence of many solutions below $T_c$, connecting to replica theory's prediction of many pure states. The cavity/TAP perspective has inspired practical algorithms and remains a key tool in spin glass theory.</p>
+
+        <div class="navigation">
+            <a href="class6.html">← Previous</a>
+            <a href="class8.html">Next →</a>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>様々な分布</title>
+  <!-- Base Styles (unchanged) -->
+  <style>
+    :root {
+      --primary: #1a237e;
+      --surface: rgba(255, 255, 255, 0.92);
+      --surface-strong: rgba(247, 248, 255, 0.94);
+      --border: rgba(26, 35, 126, 0.12);
+      --shadow: 0 22px 48px -32px rgba(26, 35, 126, 0.35);
+    }
+    html {
+      box-sizing: border-box;
+    }
+    *, *::before, *::after {
+      box-sizing: inherit;
+    }
+    body {
+      margin: 0;
+      font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+      line-height: 1.8;
+      color: #1f2230;
+      background:
+        radial-gradient(circle at 20% 20%, rgba(63, 81, 181, 0.16), transparent 55%),
+        radial-gradient(circle at 80% 0%, rgba(26, 35, 126, 0.12), transparent 55%),
+        linear-gradient(180deg, #f6f7ff 0%, #fafafa 60%, #f1f3ff 100%);
+    }
+    .container {
+      max-width: 960px;
+      margin: 0 auto;
+      padding: 2.5rem 1.2rem 4rem;
+      background: var(--surface);
+      border-radius: 20px;
+      box-shadow: 0 22px 60px -35px rgba(33, 33, 33, 0.45);
+      backdrop-filter: blur(6px);
+    }
+    header h1 {
+      margin: 0 0 1.6rem;
+      font-size: clamp(1.9rem, 2.6vw, 2.3rem);
+      text-align: center;
+      color: var(--primary);
+      letter-spacing: 0.05em;
+    }
+    main {
+      display: grid;
+      gap: 2.6rem;
+      padding: 0.5rem 0 0;
+    }
+    h2 {
+      font-size: 1.55rem;
+      color: var(--primary);
+      letter-spacing: 0.02em;
+    }
+    h3 {
+      font-size: 1.2rem;
+      margin: 0;
+      color: var(--primary);
+    }
+    .topic {
+      background: linear-gradient(135deg, rgba(26, 35, 126, 0.1) 0%, rgba(26, 35, 126, 0) 65%);
+      border-radius: 22px;
+      border: 1px solid var(--border);
+      box-shadow: var(--shadow);
+      overflow: hidden;
+      position: relative;
+    }
+    .topic > h2 {
+      margin: 0;
+      padding: 1.15rem 1.6rem;
+      background: rgba(255, 255, 255, 0.88);
+      border-bottom: 1px solid rgba(26, 35, 126, 0.14);
+    }
+    .section-body {
+      padding: 1.9rem 1.7rem 2.1rem;
+      display: grid;
+      gap: 1.5rem;
+      background: var(--surface-strong);
+    }
+    .section-body article {
+      background: rgba(255, 255, 255, 0.9);
+      border: 1px solid rgba(63, 81, 181, 0.14);
+      border-radius: 16px;
+      padding: 1.25rem 1.4rem;
+      display: grid;
+      gap: 0.95rem;
+      box-shadow: 0 16px 30px -28px rgba(63, 81, 181, 0.6);
+    }
+    .section-body article.theorem {
+      border-left: 6px solid #3949ab;
+      background: linear-gradient(135deg, rgba(63, 81, 181, 0.22) 0%, rgba(255, 255, 255, 0.9) 55%);
+      box-shadow: 0 18px 34px -30px rgba(39, 67, 170, 0.75);
+    }
+    .section-body article.theorem h3 {
+      font-size: 1.2rem;
+      margin-bottom: 0.2rem;
+    }
+    .section-body article.theorem .proof {
+      border-top: 1px solid rgba(63, 81, 181, 0.2);
+      padding-top: 0.9rem;
+      display: grid;
+      gap: 0.75rem;
+    }
+    .section-body p {
+      margin: 0;
+    }
+    .section-body p + p {
+      margin-top: 0.9rem;
+    }
+    .formula {
+      background: rgba(63, 81, 181, 0.08);
+      border-left: 4px solid #5c6bc0;
+      padding: 0.85rem 1.2rem;
+      border-radius: 10px;
+      overflow-x: auto;
+      font-size: 1.03rem;
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.7);
+    }
+    ul, ol {
+      margin: 0;
+      padding-left: 1.4rem;
+      display: grid;
+      gap: 0.6rem;
+    }
+    nav.navigation {
+      display: flex;
+      justify-content: center;
+      gap: 0.9rem;
+      margin: 2.8rem 0;
+      padding-top: 1.8rem;
+      border-top: 1px solid rgba(26, 35, 126, 0.15);
+      flex-wrap: wrap;
+    }
+    nav.navigation a {
+      padding: 0.7rem 1.6rem;
+      background: var(--primary);
+      color: #fff;
+      text-decoration: none;
+      border-radius: 999px;
+      box-shadow: 0 14px 28px -18px rgba(26, 35, 126, 0.58);
+      transition: transform 0.2s, box-shadow 0.2s, opacity 0.2s;
+    }
+    nav.navigation a:hover {
+      opacity: 0.9;
+      transform: translateY(-2px);
+      box-shadow: 0 18px 32px -22px rgba(26, 35, 126, 0.62);
+    }
+    footer {
+      margin-top: 3rem;
+      font-size: 0.9rem;
+      color: #646b8a;
+      text-align: center;
+    }
+    code {
+      background: #eceff1;
+      padding: 2px 4px;
+      border-radius: 4px;
+    }
+    @media (max-width: 720px) {
+      .container {
+        padding: 1.8rem 1rem 3rem;
+        border-radius: 16px;
+      }
+      .topic > h2 {
+        padding: 1rem 1.2rem;
+      }
+      .section-body {
+        padding: 1.4rem 1.2rem 1.6rem;
+      }
+      nav.navigation {
+        gap: 0.6rem;
+      }
+      nav.navigation a {
+        padding: 0.6rem 1.3rem;
+      }
+    }
+  </style>
+  <!-- MathJax -->
+  <script>
+    MathJax = {
+      tex: {
+        inlineMath: [['$', '$']],
+        displayMath: [['$$', '$$']]
+      },
+      chtml: { matchFontHeight: false }
+    };
+  </script>
+  <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1 id="top">様々な分布</h1>
+    </header>
+
+    <main role="main">
+      <section id="measure">
+        <h2>分布測度</h2>
+        <article>
+          <p>
+            $(\Omega,\mathcal{F},\mathbb{P})$ を確率空間、$X:\Omega\to\mathbb{R}$ を確率変数とする。$B\in\mathcal{B}(\mathbb{R})$ に対し $X$ の分布測度を次で定める。
+          </p>
+          <div class="formula">$\,\mu_X(B)=\mathbb{P}(X\in B)\,$</div>
+          <p>
+            <strong>定理.</strong> もし確率変数 $X,Y$ の分布測度が一致し $\mu_X=\mu_Y$ が成り立つならば、任意の可積分な可測関数 $g:\mathbb{R}\to\mathbb{R}$ について
+          </p>
+          <div class="formula">$$\mathbb{E}[g(X)]=\mathbb{E}[g(Y)]$$</div>
+          <p>が成立する。</p>
+          <p>
+            <strong>証明.</strong> まず単純関数 $g=\sum_{i=1}^{\infty} \alpha_i 1_{A_i}$ を考える。このとき
+          </p>
+          <div class="formula">$\,\mathbb{E}[g(X)]=\sum_{i=1}^{\infty} \alpha_i\,\mathbb{P}(X\in A_i)=\sum_{i=1}^{\infty} \alpha_i\,\mu_X(A_i)\,$</div>
+          <p>
+            が成り立つ。$\mu_X=\mu_Y$ より各 $A_i$ について $\mu_X(A_i)=\mu_Y(A_i)$ であるから同じ計算が $Y$ でも成り立ち、単純関数に対して主張が従う。
+          </p>
+          <p>
+            次に非負可測関数 $g$ を単純関数の単調増加列 $(g_n)$ で近似し、単調収束定理を用いると $\mathbb{E}[g(X)]=\mathbb{E}[g(Y)]$ が得られる。一般の可積分関数は $g=g_+-g_-$ と正負部分に分解でき、両者は非負可測かつ可積分であるから前段の議論を各々に適用すれば主張が示される。$\square$
+          </p>
+          <p>分布関数は次で与えられる。</p>
+          <div class="formula">$\,F_X(x)=\mu_X((-\infty,x])=\mathbb{P}(X\le x)\,$</div>
+          <p>F が連続関数であるとき、$\mu_X(\{x\})=0$ が任意の $x\in\mathbb{R}$ で成り立つ。この時、$X$は連続分布をもつと呼ぶ。
+          </p>
+          <h3>分類（用語の整理）</h3>
+          <p>さらに、ある非負可測関数 $f_X$ が存在して全ての $A\in\mathcal{B}(\mathbb{R})$ について</p>
+          <div class="formula">$\,\mu_X(A)=\displaystyle\int_A f_X(x)\,dx\,$</div>
+          <p>
+            が成り立つ場合であり、このとき $f_X$ を確率密度関数という。可積分な $g$ に対しては
+          </p>
+          <div class="formula">$\,\mathbb{E}[g(X)]=\displaystyle\int_{\mathbb{R}} g(x)\,f_X(x)\,dx\,$</div>
+          <p>
+            と書ける（一般には $\,\mathbb{E}[g(X)]=\int g\,d\mu_X\,$）。
+          </p>
+        </article>
+      </section>
+
+      <!-- ********** 二項分布 ********** -->
+      <section id="binomial">
+        <h2>二項分布</h2>
+
+        <article>
+          <h3>偏りのあるコイン投げ</h3>
+          <p>
+            1 回の試行で表が出る確率を $p\in(0,1)$ とする。独立に $n$ 回投げたとき、$S_n$ を表の総数とすると
+          </p>
+          <div class="formula">$\,\mathbb{P}(S_n=k)=\binom{n}{k}p^k(1-p)^{n-k}\quad(k=0,1,\dots,n)\,$</div>
+          <p>である。</p>
+        </article>
+
+        <article>
+          <h3>二項分布 $\mathrm{Bin}(n,p)$</h3>
+          <p>確率変数 $X$ が次を満たすとき $X\sim\mathrm{Bin}(n,p)$ という。</p>
+          <div class="formula">$\,\mathbb{P}(X=k)=\binom{n}{k}p^k(1-p)^{n-k}\quad(k=0,1,\dots,n)\,$</div>
+          <div class="formula">$\,\mathbb{E}[X]=np,\qquad \mathrm{Var}(X)=np(1-p)\,$</div>
+        </article>
+      </section>
+
+      <!-- ********** ポアソン分布 ********** -->
+      <section id="poisson">
+        <h2>ポアソン分布</h2>
+        <p>$\lambda>0$ に対し、$X$ が次を満たすとき $X\sim\mathrm{Poi}(\lambda)$ と書く。</p>
+        <div class="formula">$\,\mathbb{P}(X=k)=e^{-\lambda}\dfrac{\lambda^k}{k!}\quad(k=0,1,2,\dots)\,$</div>
+        <div class="formula">$\,\mathbb{E}[X]=\lambda,\qquad \mathrm{Var}(X)=\lambda\,$</div>
+
+        <h3>ポアソン近似</h3>
+        <p>$n\to\infty$ で $p=\lambda/n$ とすると</p>
+        <div class="formula">$\,\displaystyle\lim_{n\to\infty}\mathbb{P}\bigl(\mathrm{Bin}(n,\tfrac{\lambda}{n})=k\bigr)=e^{-\lambda}\dfrac{\lambda^k}{k!}\,$</div>
+        <p>が成り立つ。</p>
+
+        <h3>身近な例</h3>
+        <ul>
+          <li>一定時間内の電話着信件数</li>
+          <li>道路上の事故発生件数</li>
+          <li>一定期間内の地震発生回数</li>
+        </ul>
+      </section>
+
+      <!-- ********** 一様分布 ********** -->
+      <section id="uniform">
+        <h2>一様分布</h2>
+        <p>
+          $\Omega=[0,1]$、可測集合 $A\subset[0,1]$ に対し $\,\mathbb{P}(A)=\int_A 1\,d\omega\,$ とする。$X(\omega)=\omega$ とおくと、$0\le s\le t\le1$ で
+        </p>
+        <div class="formula">$\,\mathbb{P}(s\le X\le t)=t-s\,$</div>
+        <p>期待値と分散は</p>
+        <div class="formula">$\,\mathbb{E}[X]=\dfrac{1}{2},\qquad \mathrm{Var}(X)=\dfrac{1}{12}\,$</div>
+
+        <h3>区間 $[a,b]$ 上の一様分布</h3>
+        <p>$b>a$ に対し、$X\sim \mathrm{U}(a,b)$ は密度</p>
+        <div class="formula">$\,f_X(x)=\dfrac{1}{b-a}\,(a\le x\le b),\quad\text{他では }0\,$</div>
+        <div class="formula">$\,\mathbb{E}[X]=\dfrac{a+b}{2},\qquad \mathrm{Var}(X)=\dfrac{(b-a)^2}{12}\,$</div>
+      </section>
+
+      <!-- ********** 指数分布 ********** -->
+      <section id="exponential">
+        <h2>指数分布</h2>
+        <p>$\lambda>0$ に対し、$X\sim\mathrm{Exp}(\lambda)$ は密度</p>
+        <div class="formula">$\,f_X(x)=\lambda e^{-\lambda x}\quad(x\ge0),\quad\text{他では }0\,$</div>
+        <div class="formula">$\,\mathbb{E}[X]=\dfrac{1}{\lambda},\qquad \mathrm{Var}(X)=\dfrac{1}{\lambda^2}\,$</div>
+        <p>
+          記憶なし性質：$\,\mathbb{P}(X>t+s\mid X>t)=\mathbb{P}(X>s)\,$。ポアソン過程の待ち時間として現れる。
+        </p>
+      </section>
+
+
+      <!-- ********** 幾何分布 ********** -->
+      <section id="geometric">
+        <h2>幾何分布</h2>
+        <article>
+          <p>
+            各試行が成功確率 $p\in(0,1)$ の独立反復試行で、最初の成功が現れるまでの試行回数を $X$ とする。すると
+          </p>
+          <div class="formula">$\,\mathbb{P}(X=k)=(1-p)^{k-1}p\quad(k=1,2,\dots)\,$</div>
+          <p>であり、$X\sim\mathrm{Geo}(p)$ という。</p>
+          <div class="formula">$\,\mathbb{E}[X]=\dfrac{1}{p},\qquad \mathrm{Var}(X)=\dfrac{1-p}{p^2}\,$</div>
+          <p>
+            記憶なし性質：<span class="formula">$\,\mathbb{P}(X>m+n\mid X>m)=\mathbb{P}(X>n)\,$</span> が成り立つ。
+          </p>
+        </article>
+      </section>
+
+      <!-- ********** ガンマ分布 ********** -->
+      <section id="gamma">
+        <h2>ガンマ分布</h2>
+        <article>
+          <p>
+            形状母数 $\alpha>0$、率（レート）母数 $\beta>0$ に対し、$X\sim\mathrm{Gamma}(\alpha,\beta)$ は密度
+          </p>
+          <div class="formula">$\,f_X(x)=\dfrac{\beta^\alpha}{\Gamma(\alpha)}x^{\alpha-1}e^{-\beta x}\quad(x\ge0)\,$</div>
+          <p>（尺度 $\theta=1/\beta$ の表示もよく用いられる）。</p>
+          <div class="formula">$\,\mathbb{E}[X]=\dfrac{\alpha}{\beta},\qquad \mathrm{Var}(X)=\dfrac{\alpha}{\beta^2}\,$</div>
+            指数分布は $\alpha=1$ の特別な場合であり、独立な指数分布の和はガンマ分布に従う。
+          </p>
+        </article>
+      </section>
+
+      <!-- ********** レポート ********** -->
+      <section id="report">
+        <h2>レポート</h2>
+        <ol>
+          <li>
+            <strong>ポアソン分布に関する問題</strong>
+            <p>
+              $X\sim\mathrm{Poi}(\lambda)$ の期待値と分散を求めよ。また、$X_1\sim\mathrm{Poi}(\lambda_1)$、$X_2\sim\mathrm{Poi}(\lambda_2)$ が独立であるとき、$X_1+X_2$ の分布を求めよ。
+            </p>
+          <li>
+            <strong>幾何分布に関する問題</strong>
+            </strong>
+            <p>
+              $X\sim\mathrm{Geo}(p)$ (つまり$\mathbb P(X=k)=(1-p)^{k-1}p$) の期待値と分散を求めよ。さらに、記憶なし性質
+            </p>
+            <div class="formula">$\,\mathbb{P}(X>m+n\mid X>m)=\mathbb{P}(X>n)\,$</div>
+            <p>が成り立つことを示せ。</p>
+          </li>
+            <li>ガンマ分布がどのような応用を持つか調べて記述せよ</li>
+          </li>
+        </ol>
+      </section>
+    </main>
+
+    <!-- Navigation -->
+    <nav class="navigation" aria-label="ページナビゲーション">
+      <a href="class4.html" rel="prev">← 前のクラス</a>
+      <a href="../index.html">ホーム</a>
+      <a href="class6.html" rel="next">次のクラス →</a>
+    </nav>
+
+    <footer>
+      <p>© 2025 確率論講義 — All rights reserved.</p>
+    </footer>
+  </div>
+
+  <noscript>
+    <p style="text-align:center">数式の表示には JavaScript が必要です（MathJax を読み込んでください）。</p>
+  </noscript>
+</body>
+</html>

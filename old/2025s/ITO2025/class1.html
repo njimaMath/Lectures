@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>独立性と正規分布、単純対称ランダムウォークとブラウン運動</title>
+    <style>
+        :root {
+            --primary-color: #3a5a7d;
+            --secondary-color: #e8f0f7;
+            --accent-color: #607d9c;
+            --text-color: #333;
+            --light-gray: #f5f7fa;
+        }
+        
+        body {
+            font-family: 'Noto Sans JP', 'Helvetica Neue', Arial, sans-serif;
+            font-size: 16px;
+            line-height: 1.6;
+            color: var(--text-color);
+            background-color: #fff;
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        
+        h1 {
+            font-size: 2rem;
+            color: var(--primary-color);
+            border-bottom: 3px solid var(--accent-color);
+            padding-bottom: 0.5rem;
+            margin-top: 2rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        h2 {
+            font-size: 1.5rem;
+            color: var(--primary-color);
+            border-bottom: 1px solid var(--accent-color);
+            padding-bottom: 0.3rem;
+            margin-top: 2rem;
+            margin-bottom: 1rem;
+        }
+        
+        h3 {
+            font-size: 1.25rem;
+            color: var(--primary-color);
+            margin-top: 1.5rem;
+            margin-bottom: 0.75rem;
+        }
+        
+        p {
+            margin-bottom: 1rem;
+            text-align: justify;
+        }
+        
+        ul, ol {
+            margin-left: 1rem;
+            padding-left: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        li {
+            margin-bottom: 0.5rem;
+        }
+        
+        .theorem, .definition, .property, .lemma, .proof {
+            margin: 1.5rem 0;
+            padding: 1.25rem;
+            border-radius: 6px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        }
+        
+        .theorem {
+            background-color: #f0f7ff;
+            border-left: 5px solid #4a86e8;
+        }
+        
+        .definition {
+            background-color: #f2f9f2;
+            border-left: 5px solid #57bb8a;
+        }
+        
+        .property {
+            background-color: #fff8e6;
+            border-left: 5px solid #f7cf69;
+        }
+        
+        .lemma {
+            background-color: #f5f0fa;
+            border-left: 5px solid #9c6ad9;
+        }
+        
+        .proof {
+            background-color: #f9f9f9;
+            border-left: 5px solid #aaa;
+            font-style: italic;
+        }
+        
+        .textbf {
+            font-weight: bold;
+            color: var(--primary-color);
+        }
+        
+        .textit {
+            font-style: italic;
+        }
+        
+        /* Header and navigation */
+        .header {
+            text-align: center;
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .main-title {
+            font-size: 2.25rem;
+            color: var(--primary-color);
+            margin-bottom: 0.5rem;
+        }
+        
+        /* Section stylings */
+        .section {
+            margin-bottom: 2.5rem;
+        }
+        
+        /* For mathematical formulas */
+        .math-block {
+            overflow-x: auto;
+            margin: 1rem 0;
+        }
+        
+        /* For better mobile experience */
+        @media (max-width: 768px) {
+            body {
+                padding: 1rem;
+                font-size: 15px;
+            }
+            
+            h1 {
+                font-size: 1.75rem;
+            }
+            
+            h2 {
+                font-size: 1.35rem;
+            }
+            
+            .theorem, .definition, .property, .lemma, .proof {
+                padding: 1rem;
+            }
+        }
+    </style>
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>
+        window.MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\\[', '\\]']],
+                tags: 'ams'
+            },
+            svg: {
+                fontCache: 'global'
+            }
+        };
+    </script>
+</head>
+<body>
+    <div class="header">
+        <h1 class="main-title">独立性と正規分布、単純対称ランダムウォークとブラウン運動</h1>
+    </div>
+
+    <div class="section">
+        <h1>独立性と正規分布</h1>
+
+        <h2>独立性</h2>
+        <p>確率空間 $(\Omega, \mathcal{F}, \mathbb{P})$ 上の確率変数 $X, Y$ が<span class="textbf">独立</span>であるとは、$\mathbb{R}$ 上の任意のボレル可測集合 $A, B$ に対して、事象 $\{X \in A\}$ と $\{Y \in B\}$ が独立であること、すなわち
+        $$ \mathbb{P}(X \in A, Y \in B) = \mathbb{P}(X \in A)\mathbb{P}(Y \in B) $$
+        が成り立つことをいう。この時、次が成り立つ:
+        $$\mathbb E[f(X) g(Y)] =\mathbb E[f(X)] \mathbb{E}[ g(Y)] .$$</p>
+
+        <h2>正規分布 (ガウス分布)</h2>
+        <p>確率変数 $X$ が平均 $\mu$、分散 $\sigma^2 > 0$ の<span class="textbf">正規分布</span>に従うといい、$X \sim \mathcal{N}(\mu, \sigma^2)$ と記す。これは、$X$ が以下の確率密度関数を持つことを意味する。
+        $$ f_X(x) = \frac{1}{\sqrt{2\pi\sigma^2}} \exp\left( -\frac{(x - \mu)^2}{2\sigma^2} \right), \quad x \in \mathbb{R} $$
+        特に $\mu = 0$, $\sigma^2 = 1$ のとき、$\mathcal{N}(0, 1)$ を<span class="textbf">標準正規分布</span>という。</p>
+        
+        <p>正規分布の重要な性質として、<span class="textbf">再生性</span>がある。$X \sim \mathcal{N}(\mu_1, \sigma_1^2)$ と $Y \sim \mathcal{N}(\mu_2, \sigma_2^2)$ が独立ならば、その和は $X+Y \sim \mathcal{N}(\mu_1+\mu_2, \sigma_1^2+\sigma_2^2)$ となる。</p>
+
+        <h2>積率母関数 (モーメント母関数)</h2>
+        <p>確率変数 $X$ の<span class="textbf">積率母関数 (モーメント母関数)</span> $M_X(t)$ は、
+        $$ M_X(t) = \mathbb{E}[e^{tX}] $$
+        で定義される（ただし、この期待値が存在する $t$ の範囲）。積率母関数が存在すれば、その $k$ 階微分 $M_X^{(k)}(t)$ を用いて、$t=0$ における $k$ 次モーメント $\mathbb{E}[X^k]$ が $M_X^{(k)}(0) = \mathbb{E}[X^k]$ と計算できる。</p>
+
+        <div class="math-block">
+            <p>標準正規分布 $Z \sim \mathcal{N}(0, 1)$ の積率母関数は、
+            $$
+            \begin{align*}
+            M_Z(t) &= \mathbb{E}[e^{tZ}] = \int_{-\infty}^{\infty} e^{tz} \frac{1}{\sqrt{2\pi}} e^{-z^2/2} dz \\
+            &= \frac{1}{\sqrt{2\pi}} \int_{-\infty}^{\infty} \exp\left( -\frac{z^2 - 2tz}{2} \right) dz \\
+            &= \frac{1}{\sqrt{2\pi}} \int_{-\infty}^{\infty} \exp\left( -\frac{(z-t)^2 - t^2}{2} \right) dz \\
+            &= e^{t^2/2} \int_{-\infty}^{\infty} \frac{1}{\sqrt{2\pi}} \exp\left( -\frac{(z-t)^2}{2} \right) dz \\
+            &= e^{t^2/2}
+            \end{align*}
+            $$
+            となる（積分の中身は $\mathcal{N}(t, 1)$ の密度関数であるため、全積分は 1）。</p>
+        </div>
+        
+        <p>一般の正規分布 $X \sim \mathcal{N}(\mu, \sigma^2)$ については、$X = \mu + \sigma Z$ と書けるので、$M_X(t) = \mathbb{E}[e^{t(\mu+\sigma Z)}] = e^{\mu t} \mathbb{E}[e^{(\sigma t)Z}] = e^{\mu t} M_Z(\sigma t) = e^{\mu t + \sigma^2 t^2 / 2}$ となる。</p>
+
+        <div class="theorem">
+            <span class="textbf">定理</span> [レヴィの連続性定理（積率母関数版）]<br>
+            確率変数列 $X_n$ と確率変数 $X$ の積率母関数をそれぞれ $M_{X_n}(t), M_X(t)$ とする。もし、ある $\delta > 0$ が存在して、区間 $(-\delta, \delta)$ 上で $M_{X_n}(t)$ が存在し、かつ $n \to \infty$ のとき $M_{X_n}(t) \to M_X(t)$ が成り立つならば、$X_n$ は $X$ に分布収束（弱収束）する。すなわち、任意の有界連続関数 $g$ に対して $\mathbb{E}[g(X_n)] \to \mathbb{E}[g(X)]$ が成り立ち、特に $X$ の分布関数の全ての連続点 $x$ で $\mathbb{P}(X_n \leq x) \to \mathbb{P}(X \leq x)$ が成り立つ。
+        </div>
+
+        <h2>中心極限定理 (Central Limit Theorem, CLT)</h2>
+        <div class="theorem">
+            <span class="textbf">定理</span> [古典的CLT]<br>
+            $X_1, X_2, \dots$ を、平均 $\mathbb{E}[X_i] = \mu$、分散 $\mathrm{Var}(X_i) = \sigma^2 \in (0, \infty)$ を持つ独立同分布 (i.i.d.) な確率変数列とする。このとき、部分和 $S_n = \sum_{i=1}^n X_i$ を標準化した確率変数
+            $$ Z_n = \frac{S_n - n\mu}{\sqrt{n\sigma^2}} = \frac{\frac{1}{n}S_n - \mu}{\sigma/\sqrt{n}} $$
+            は、$n \to \infty$ のとき、標準正規分布 $\mathcal{N}(0,1)$ に分布収束する。
+            $$ Z_n \Rightarrow \mathcal{N}(0,1) \quad (n \to \infty) $$
+            すなわち、任意の実数 $a$ に対して、
+            $$ \lim_{n\to\infty} \mathbb{P}(Z_n \leq a) = \int_{-\infty}^a \frac{1}{\sqrt{2\pi}} e^{-x^2/2} dx = \Phi(a) $$
+            が成り立つ。
+        </div>
+
+        <div class="proof">
+            <span class="textbf">証明</span> [積率母関数を用いた証明（の概略）]<br>
+            簡単のため、各 $X_i$ は平均 0, 分散 1 であると仮定する ($\mu=0, \sigma^2=1$)。もし $X_i$ の積率母関数 $M_X(t) = \mathbb{E}[e^{tX}]$ が $t=0$ の近傍で存在すると仮定する。<br>
+            標準化された和は $Z_n = S_n / \sqrt{n} = (X_1 + \dots + X_n) / \sqrt{n}$ となる。<br>
+            $Z_n$ の積率母関数 $M_{Z_n}(t)$ を計算する。独立性より、
+            $$ M_{Z_n}(t) = \mathbb{E}[e^{t Z_n}] = \mathbb{E}\left[e^{t(X_1 + \dots + X_n)/\sqrt{n}}\right] = \mathbb{E}\left[\prod_{i=1}^n e^{t X_i / \sqrt{n}}\right] = \prod_{i=1}^n \mathbb{E}[e^{t X_i / \sqrt{n}}] $$
+            $X_i$ は同分布なので、$\mathbb{E}[e^{t X_i / \sqrt{n}}] = M_X(t/\sqrt{n})$。したがって、
+            $$ M_{Z_n}(t) = \left( M_X(t/\sqrt{n}) \right)^n $$
+            $M_X(t)$ は $t=0$ の周りでテイラー展開可能であり、$M_X(0) = \mathbb{E}[e^0] = 1$, $M_X'(0) = \mathbb{E}[X] = 0$, $M_X''(0) = \mathbb{E}[X^2] = \mathrm{Var}(X) + (\mathbb{E}[X])^2 = 1 + 0^2 = 1$ であるから、
+            $$ M_X(u) = M_X(0) + M_X'(0) u + \frac{M_X''(0)}{2!} u^2 + o(u^2) = 1 + 0 \cdot u + \frac{1}{2} u^2 + o(u^2) \quad (u \to 0) $$
+            ここで $u = t/\sqrt{n}$ とおくと、$n \to \infty$ のとき $u \to 0$ なので、
+            $$ M_X(t/\sqrt{n}) = 1 + \frac{1}{2} \left(\frac{t}{\sqrt{n}}\right)^2 + o\left(\frac{t^2}{n}\right) = 1 + \frac{t^2}{2n} + o\left(\frac{1}{n}\right) $$
+            よって、
+            $$ M_{Z_n}(t) = \left( 1 + \frac{t^2}{2n} + o\left(\frac{1}{n}\right) \right)^n $$
+            ここで、実数 $x$ に対する極限の公式 $\lim_{n\to\infty} (1 + x/n)^n = e^x$ を用いると（より正確には、$o(1/n)$ 項を含む場合の評価が必要だが結果は同じ）、
+            $$ \lim_{n\to\infty} M_{Z_n}(t) = e^{t^2/2} $$
+            これは標準正規分布 $\mathcal{N}(0,1)$ の積率母関数である。レヴィの連続性定理により、$Z_n$ は $\mathcal{N}(0,1)$ に分布収束する。<br>
+            （一般の $\mu, \sigma^2$ の場合は、$Y_i = (X_i - \mu)/\sigma$ を考えれば同様に示せる。）
+        </div>
+    </div>
+
+    <div class="section">
+        <h1>単純対称ランダムウォーク (SRW) とその歴史</h1>
+
+        <h2>定義</h2>
+        <p>一次元格子 $\mathbb{Z}$ 上の<span class="textbf">単純対称ランダムウォーク (Simple Symmetric Random Walk, SRW)</span> とは、$X_1, X_2, \dots$ を独立同分布な確率変数列とし、各 $X_i$ が
+        $$ \mathbb{P}(X_i = 1) = \mathbb{P}(X_i = -1) = \frac{1}{2} $$
+        を満たすとする。このとき、$S_0 = 0$ とし、$n \geq 1$ に対して $S_n = \sum_{i=1}^n X_i$ で定義される確率過程 $(S_n)_{n \geq 0}$ をいう。$S_n$ は時刻 $n$ におけるウォーカーの位置を表す。</p>
+
+        <h2>特徴</h2>
+        <ul>
+            <li><span class="textbf">時間・空間離散性:</span> 時間ステップ $n=0, 1, 2, \dots$ と空間位置 $S_n \in \mathbb{Z}$ が共に離散的。</li>
+            <li><span class="textbf">対称性:</span> 左右の移動確率が等しい。これは $\mathbb{E}[X_i] = 0$ を意味する。</li>
+            <li><span class="textbf">有限分散:</span> 各ステップの分散は $\mathrm{Var}(X_i) = 1$ と有限。</li>
+        </ul>
+
+        <h2>性質</h2>
+        <div class="property">
+            <span class="textbf">性質 1.</span> 時刻 $n$ における位置 $S_n$ の分布について：
+            <ul>
+                <li>期待値: $\mathbb{E}[S_n] = 0$</li>
+                <li>分散: $\mathrm{Var}(S_n) = n$</li>
+                <li>確率: $\mathbb{P}(S_n = k) = \begin{cases}
+                    \binom{n}{\frac{n+k}{2}} 2^{-n} & \text{if } n+k \text{ is even and } |k| \leq n \\
+                    0 & \text{otherwise}
+                    \end{cases}$</li>
+            </ul>
+        </div>
+
+        <div class="property">
+            <span class="textbf">性質 2.</span> [Donsker の不変原理への準備]<br>
+            $n \to \infty$ のとき、スケール変換された確率過程
+            $$ W_n(t) = \frac{S_{\lfloor nt \rfloor}}{\sqrt{n}}, \quad t \in [0,1] $$
+            は、ブラウン運動に分布収束する（より正確には、この過程を区分線形補間などで連続時間過程にしたものが収束する。詳細はDonskerの定理を参照）。
+        </div>
+    </div>
+
+    <div class="section">
+        <h1>ブラウン運動 (Brownian motion)</h1> 
+        
+        <h2>歴史</h2>
+        <p>1827年、植物学者のロバート・ブラウン (Robert Brown) は、水に浮かぶ花粉の微粒子が不規則に運動する現象を観察した。この現象は後にブラウン運動と呼ばれるようになった。1905年、アインシュタイン (Einstein) はこの現象を理論的に説明し、原子の存在を支持する証拠として用いた。1923年にウィーナー (Wiener) が数学的に厳密な構成を与え、確率論における重要な研究対象となった。</p>
+
+        <h2>定義と性質</h2>
+        <div class="definition">
+            <span class="textbf">定義</span> [標準ブラウン運動]<br>
+            確率過程 $(B_t)_{t \geq 0}$ が<span class="textbf">標準ブラウン運動</span>であるとは、以下の性質を満たすことをいう：
+            <ol>
+                <li>$B_0 = 0$ (確率1で)</li>
+                <li>任意の $0 \leq s < t$ に対して、増分 $B_t - B_s$ は $\mathcal{N}(0, t-s)$ に従う</li>
+                <li>任意の $0 \leq t_1 < t_2 < \dots < t_n$ に対して、増分 $B_{t_2}-B_{t_1}, B_{t_3}-B_{t_2}, \dots, B_{t_n}-B_{t_{n-1}}$ は互いに独立</li>
+                <li>$t \mapsto B_t$ の標本路は（確率1で）連続</li>
+            </ol>
+        </div>
+
+        <div class="property">
+            <span class="textbf">性質</span><br>
+            標準ブラウン運動 $(B_t)_{t \geq 0}$ について：
+            <ul>
+                <li>$\mathbb{E}[B_t] = 0$ for all $t \geq 0$</li>
+                <li>$\mathrm{Var}(B_t) = t$ for all $t \geq 0$</li>
+                <li>共分散: $\mathrm{Cov}(B_s, B_t) = \mathbb{E}[B_s B_t] = \min\{s,t\}$ for all $s,t \geq 0$</li>
+                <li>正規性: 任意の $t_1, \dots, t_n$ に対し、$(B_{t_1}, \dots, B_{t_n})$ は多次元正規分布に従う</li>
+                <li>スケール不変性: 任意の $c > 0$ に対して、$(c^{-1/2}B_{ct})_{t \geq 0}$ も標準ブラウン運動</li>
+                <li>時間反転: $(tB_{1/t})_{t > 0}$ (ただし $B_0=0$ と定義) も標準ブラウン運動</li>
+                <li>標本路の性質: 標本路は（確率1で）いたるところ微分不可能</li>
+            </ul>
+        </div>
+
+        <h2>SRWからブラウン運動へ：Donskerの不変原理</h2>
+        <div class="theorem">
+            <span class="textbf">定理</span> [Donskerの不変原理 (関数中心極限定理)]<br>
+            $(S_n)_{n \geq 0}$ を単純対称ランダムウォークとし、$X_i = S_i - S_{i-1}$ とする。各 $n \geq 1$ に対して、区間 $[0,1]$ 上の連続時間確率過程 $(W_n(t))_{t \in [0,1]}$ を
+            $$ W_n(t) = \frac{S_{\lfloor nt \rfloor}}{\sqrt{n}} + \frac{nt - \lfloor nt \rfloor}{\sqrt{n}} X_{\lfloor nt \rfloor + 1}, \quad t \in [0,1] $$
+            と線形補間して定義する。このとき、$n \to \infty$ で $C[0,1]$ 上の確率測度の意味で $(W_n(t))_{t \in [0,1]}$ は標準ブラウン運動 $(B_t)_{t \in [0,1]}$ に分布収束（弱収束）する。
+        </div>
+
+        <div class="proof">
+            <span class="textbf">証明の概略</span><br>
+            1. 有限次元分布の収束: 任意の $0 \leq t_1 < \dots < t_k \leq 1$ に対して、ベクトル $(W_n(t_1), \dots, W_n(t_k))$ の分布が、対応するブラウン運動のベクトル $(B_{t_1}, \dots, B_{t_k})$ の分布（多次元正規分布）に収束することを示す。これは、中心極限定理と増分の独立性を利用して示される。<br><br>
+            
+            2. 確率過程族 $(W_n)_{n \geq 1}$ の緊密性 (tightness) または相対コンパクト性 (relative compactness) を示す。これは、$C[0,1]$ 上の確率測度列が弱収束するための十分条件である。タイト性を示すためには、例えば Billingsley の基準（モーメント条件と増分の条件）などが用いられる。これにより、任意の部分列がさらに弱収束する部分列を持つことが保証される。<br><br>
+            
+            3. ステップ 1 と 2 より、$(W_n)$ は弱収束し、その極限過程はステップ 1 で示された有限次元分布を持つことがわかる。ブラウン運動はその有限次元分布によって一意に特徴づけられるため、極限過程はブラウン運動でなければならない。
+        </div>
+    </div>
+
+    <footer style="margin-top: 3rem; padding-top: 1rem; border-top: 1px solid #eee; text-align: center; color: #777; font-size: 0.9rem;">
+        確率論講義資料 © 2025
+    </footer>
+</body>
+</html>

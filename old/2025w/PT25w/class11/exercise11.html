@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+        <html lang="ja">
+        <head>
+            <meta charset="UTF-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <title>第11回 演習: 様々な分布と連続確率空間</title>
+            <style>
+
+body {
+    font-family: "Noto Sans JP", "Hiragino Sans", "Meiryo", sans-serif;
+    background: #f5f7fb;
+    margin: 0;
+    padding: 32px 12px;
+    color: #1f2933;
+}
+main {
+    max-width: 920px;
+    margin: 0 auto;
+    background: #ffffff;
+    border-radius: 20px;
+    box-shadow: 0 18px 45px -28px rgba(31, 41, 51, 0.35);
+    padding: 48px 56px;
+}
+header h1 {
+    margin: 0 0 6px;
+    font-size: 28px;
+    color: #23408f;
+    letter-spacing: 0.04em;
+}
+header p {
+    margin: 0 0 24px;
+    color: #516176;
+}
+section.problem {
+    margin: 28px 0;
+    padding: 22px 26px;
+    border-radius: 16px;
+    background: #f1f5ff;
+    border: 1px solid rgba(35, 64, 143, 0.15);
+}
+section.problem h2 {
+    margin: 0 0 12px;
+    font-size: 20px;
+    color: #1e3a8a;
+}
+section.problem ul {
+    padding-left: 20px;
+    margin: 12px 0 0;
+    color: #374151;
+}
+.note {
+    margin-top: 12px;
+    font-size: 14px;
+    color: #64748b;
+}
+.navigation {
+    margin-top: 36px;
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+}
+.navigation a {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px 18px;
+    border-radius: 999px;
+    background: #1e3a8a;
+    color: #ffffff;
+    text-decoration: none;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+    transition: background 0.2s ease;
+}
+.navigation a:hover {
+    background: #3454c3;
+}
+
+            </style>
+        </head>
+        <body>
+            <main>
+                <header>
+                    <h1>第11回 演習: 様々な分布と連続確率空間</h1>
+                    <p>class11.html を踏まえ、代表的な連続分布の性質と変換を扱います。</p>
+                </header>
+
+<section class="problem">
+    <h2>問題1: 正規分布とガンマ分布</h2>
+    <ul>
+<li>正規分布とガンマ分布それぞれのモーメントを 2 次まで計算し、形状の違いをまとめよ。</li>
+    </ul>
+</section>
+
+<section class="problem">
+    <h2>問題2: 逆関数法による乱数生成</h2>
+    <ul>
+<li>一様乱数からベータ分布 \(\mathrm{Beta}(lpha, eta)\) の乱数を生成する手順を記述し、</li>
+<li>具体的に \(lpha = 2, eta = 3\) の場合を計算せよ。</li>
+    </ul>
+</section>
+
+<section class="problem">
+    <h2>問題3: 変換による新しい分布</h2>
+    <ul>
+<li>連続分布 \(X\) に滑らかな単調変換 \(g\) を施したときの密度の変化を式で書け。</li>
+<li>例として \(X \sim \mathrm{Exp}(1)\), \(Y = \sqrt{X}\) の密度を求めよ。</li>
+    </ul>
+</section>
+
+                <div class="navigation">
+            <a href="../class10/exercise10.html">前の演習</a>
+            <a href="../index.html">ホームに戻る</a>
+            <a href="class11.html">講義ノートへ</a>
+            <a href="../class12/exercise12.html">次の演習</a>
+                </div>
+            </main>
+        </body>
+        </html>

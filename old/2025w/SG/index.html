@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Spin Glass Theory</title>
+    <style>
+        :root {
+            --primary-color: #2c3e50;
+            --secondary-color: #3498db;
+            --accent-color: #e74c3c;
+            --background-color: #f9f9f9;
+            --text-color: #333;
+            --container-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+        }
+
+        body {
+            font-family: 'Georgia', serif;
+            line-height: 1.7;
+            margin: 0;
+            padding: 0;
+            background-color: var(--background-color);
+            color: var(--text-color);
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 20px auto;
+            padding: 30px;
+            background-color: white;
+            box-shadow: var(--container-shadow);
+            border-radius: 15px;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 40px;
+            border-bottom: 2px solid var(--secondary-color);
+            padding-bottom: 20px;
+        }
+
+        h1 {
+            color: var(--primary-color);
+        }
+
+        .course-description {
+            margin: 20px 0;
+            padding: 20px;
+            background-color: #f8f9fa;
+            border-radius: 10px;
+        }
+
+        .lectures-list {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        .lecture-item {
+            margin: 15px 0;
+            padding: 15px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .lecture-item:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+        }
+
+        .lecture-item a {
+            color: var(--secondary-color);
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .lecture-item a:hover {
+            color: var(--accent-color);
+        }
+
+        .lecture-description {
+            margin-top: 8px;
+            color: #666;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Spin Glass Theory</h1>
+            <p>An Introduction to Statistical Physics of Disordered Systems</p>
+        </header>
+
+        <div class="course-description">
+            <p>This course introduces the theory of spin glasses, a fascinating field at the intersection of statistical physics, mathematics, and computer science. From physical systems with random interactions to modern applications in machine learning and optimization, spin glass theory provides essential tools and insights for understanding complex systems.</p>
+        </div>
+
+        <ul class="lectures-list">
+            <li class="lecture-item">
+                <a href="classes/class1.html">Lecture 1: Background, Motivation, and REM</a>
+                <div class="lecture-description">Introduction to spin glasses, physical motivation, and the Random Energy Model as a simple example.</div>
+            </li>
+            <li class="lecture-item">
+                <a href="classes/class2.html">Lecture 2: The Sherrington-Kirkpatrick Model</a>
+                <div class="lecture-description">Introduction to the SK model, mean-field theory, and the emergence of replica symmetry breaking.</div>
+            </li>
+            <li class="lecture-item">
+                <a href="classes/class3.html">Lecture 3: The Replica Method – Basics and REM</a>
+                <div class="lecture-description">Introduction to the replica trick and its application to the Random Energy Model.</div>
+            </li>
+            <li class="lecture-item">
+                <a href="classes/class4.html">Lecture 4: Replica Method for the SK Model</a>
+                <div class="lecture-description">Application of replica method to SK model, replica symmetry breaking, and Parisi's solution.</div>
+            </li>
+            <li class="lecture-item">
+                <a href="classes/class5.html">Lecture 5: Rigorous Methods</a>
+                <div class="lecture-description">Gaussian comparison inequalities, Guerra's interpolation method, and rigorous results.</div>
+            </li>
+            <li class="lecture-item">
+                <a href="classes/class6.html">Lecture 6: The Cavity Method</a>
+                <div class="lecture-description">Introduction to cavity method and its application to simple models.</div>
+            </li>
+            <li class="lecture-item">
+                <a href="classes/class7.html">Lecture 7: TAP Equations</a>
+                <div class="lecture-description">Thouless-Anderson-Palmer equations and their physical interpretation.</div>
+            </li>
+            <li class="lecture-item">
+                <a href="classes/class8.html">Lecture 8: Applications and AMP</a>
+                <div class="lecture-description">Modern applications including compressed sensing and approximate message passing.</div>
+            </li>
+            <li class="lecture-item">
+                <a href="classes/class9.html">Supplementary Material</a>
+                <div class="lecture-description">Additional topics, open problems, and current research directions.</div>
+            </li>
+        </ul>
+
+        <footer style="margin-top: 40px; text-align: center; color: #666;">
+            <p>© 2025 All rights reserved</p>
+        </footer>
+    </div>
+</body>
+</html>

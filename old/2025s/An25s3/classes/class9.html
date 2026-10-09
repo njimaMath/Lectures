@@ -1,0 +1,583 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>第9回：面積変化</title>
+    <style>
+        :root {
+            --primary-color: #2c3e50;
+            --secondary-color: #3498db;
+            --accent-color: #e74c3c;
+            --background-color: #f9f9f9;
+            --text-color: #333;
+            --container-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+            --text-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+        }
+
+        body {
+            font-family: 'Georgia', serif;
+            line-height: 1.7;
+            margin: 0;
+            padding: 0;
+            background-color: var(--background-color);
+            color: var(--text-color);
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 20px auto;
+            padding: 30px;
+            background-color: white;
+            box-shadow: var(--container-shadow);
+            border-radius: 15px;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 40px;
+            border-bottom: 2px solid var(--secondary-color);
+            padding-bottom: 20px;
+        }
+
+        h1, h2, h3 {
+            color: var(--primary-color);
+        }
+
+        .section-title {
+            color: var(--primary-color);
+            font-size: 1.8rem;
+            margin-top: 30px;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #eee;
+            text-shadow: var(--text-shadow);
+        }
+
+        .lecture-title {
+            color: var(--secondary-color);
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+            font-weight: normal;
+        }
+
+        .author-info {
+            font-style: italic;
+            color: #777;
+        }
+
+        .math {
+            font-style: italic;
+            padding: 0 3px;
+        }
+
+        .figure {
+            text-align: center;
+            margin: 30px 0;
+            padding: 20px;
+            background-color: #f8f9fa;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+        }
+
+        .figure svg {
+            max-width: 100%;
+            height: auto;
+            border-radius: 5px;
+        }
+
+        .figure-caption {
+            font-style: italic;
+            color: #777;
+            margin-top: 15px;
+            font-size: 0.9em;
+        }
+
+        .navigation {
+            margin-top: 40px;
+            text-align: center;
+            display: flex;
+            justify-content: space-between;
+            padding: 15px 0;
+            border-top: 1px solid #eee;
+        }
+
+        .navigation a {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: var(--primary-color);
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .navigation a:hover {
+            background-color: var(--secondary-color);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+        }
+
+        .topic-highlight {
+            display: inline-block;
+            background-color: rgba(52, 152, 219, 0.1);
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-weight: 500;
+            color: var(--primary-color);
+        }
+
+        .formula {
+            margin: 25px 0;
+            padding: 15px;
+            background-color: #f8f9fa;
+            border-left: 4px solid var(--secondary-color);
+            border-radius: 5px;
+            overflow-x: auto;
+            font-size: 1.1em;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+        }
+
+        .example-title {
+            font-weight: bold;
+            font-size: 1.2em;
+            color: var(--secondary-color);
+            margin-top: 30px;
+            margin-bottom: 15px;
+            padding-bottom: 5px;
+            border-bottom: 1px dashed #ccc;
+            display: inline-block;
+        }
+
+        p {
+            margin-bottom: 20px;
+            line-height: 1.8;
+        }
+
+        .content-section {
+            padding-bottom: 30px;
+        }
+        
+        .footnote {
+            font-size: 0.9em;
+            color: #777;
+            margin-top: 5px;
+            border-top: 1px solid #eee;
+            padding-top: 10px;
+        }
+
+        .subsection-title {
+            color: var(--secondary-color);
+            font-size: 1.4rem;
+            margin-top: 25px;
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+
+        .proof-section {
+            background-color: #f8f9fa;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 20px 0;
+            border-left: 4px solid var(--accent-color);
+        }
+
+        .proof-end {
+            text-align: right;
+            font-style: italic;
+            color: #666;
+            margin-top: 10px;
+        }
+    </style>
+    <!-- MathJax configuration -->
+    <script>
+      window.MathJax = {
+        tex: {
+          inlineMath: [['$', '$']],
+          displayMath: [['$$', '$$']]
+        },
+        svg: {
+          fontCache: 'global'
+        }
+      };
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js" async></script>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>微分積分学I</h1>
+            <div class="lecture-title">工学部：電気・電子工学グループ4</div>
+            <div class="author-info">講義ノート</div>
+        </header>
+        
+        <section id="class9" class="content-section">
+            <div class="section-title">第9回：面積変化</div>
+            
+            <div class="subsection-title">空間上の平行四辺形の面積</div>
+            
+            <p>$(0,0),(a,c),(b,d),(a+b,c+d)$で囲まれる平行四辺形の面積は</p>
+            
+            <div class="formula">
+                $$\left|\det \begin{pmatrix} a & b \\ c& d \end{pmatrix} \right|=\bigl|ad - bc\bigr|$$
+            </div>
+
+            <div class="figure">
+                <svg width="400" height="300" viewBox="0 0 400 300">
+                    <!-- Grid lines -->
+                    <defs>
+                        <pattern id="grid" width="20" height="20" patternUnits="userSpaceOnUse">
+                            <path d="M 20 0 L 0 0 0 20" fill="none" stroke="#e0e0e0" stroke-width="1"/>
+                        </pattern>
+                    </defs>
+                    <rect width="400" height="300" fill="url(#grid)" />
+                    
+                    <!-- Coordinate axes -->
+                    <line x1="50" y1="250" x2="350" y2="250" stroke="#333" stroke-width="2"/>
+                    <line x1="50" y1="250" x2="50" y2="50" stroke="#333" stroke-width="2"/>
+                    
+                    <!-- Axis labels -->
+                    <text x="360" y="255" font-family="Arial" font-size="14" fill="#333">x</text>
+                    <text x="45" y="40" font-family="Arial" font-size="14" fill="#333">y</text>
+                    <text x="40" y="265" font-family="Arial" font-size="14" fill="#333">O</text>
+                    
+                    <!-- Parallelogram vertices -->
+                    <!-- (0,0) at (50,250) -->
+                    <!-- (a,c) at (50+60,250-40) = (110,210) -->
+                    <!-- (b,d) at (50+100,250-20) = (150,230) -->
+                    <!-- (a+b,c+d) at (50+160,250-60) = (210,190) -->
+                    
+                    <!-- Parallelogram -->
+                    <polygon points="50,250 110,210 210,190 150,230" 
+                             fill="rgba(52,152,219,0.3)" 
+                             stroke="#3498db" 
+                             stroke-width="2"/>
+                    
+                    <!-- Rectangle for proof -->
+                    <rect x="50" y="190" width="160" height="60" 
+                          fill="none" 
+                          stroke="#e74c3c" 
+                          stroke-width="1" 
+                          stroke-dasharray="5,5"/>
+                    
+                    <!-- Vertices -->
+                    <circle cx="50" cy="250" r="3" fill="#e74c3c"/>
+                    <circle cx="110" cy="210" r="3" fill="#e74c3c"/>
+                    <circle cx="150" cy="230" r="3" fill="#e74c3c"/>
+                    <circle cx="210" cy="190" r="3" fill="#e74c3c"/>
+                    
+                    <!-- Labels -->
+                    <text x="40" y="265" font-family="Arial" font-size="12" fill="#333">(0,0)</text>
+                    <text x="115" y="205" font-family="Arial" font-size="12" fill="#333">(a,c)</text>
+                    <text x="155" y="245" font-family="Arial" font-size="12" fill="#333">(b,d)</text>
+                    <text x="215" y="185" font-family="Arial" font-size="12" fill="#333">(a+b,c+d)</text>
+                </svg>
+                <div class="figure-caption">平行四辺形の面積計算</div>
+            </div>
+
+            <div class="proof-section">
+                <strong>証明:</strong> $(0,0)\to(a+b,0)\to(a+b,c+d)\to(0,c+d)$で囲まれる長方形の面積は
+                
+                    $$(a+b)(c+d)$$
+                
+                $(0,0)\to(a+b,0)\to(a,c)$で囲まれる三角形，$(a+b,c+d)\to(0,c+d)\to(b,d)$で囲まれる三角形はそれぞれ
+                
+                    $$\frac{(a+b)\,c}{2}$$
+                
+                $(a+b,0)\to(a+b,c+d)\to(a,c)$で囲まれる三角形，$(0,0)\to(0,c+d)\to(b,d)$で囲まれる三角形はそれぞれ
+                
+                    $$\frac{b\,(c+d)}{2}$$
+                
+                したがって，平行四辺形の面積は
+
+                    $$(a+b)(c+d) - 2\cdot\frac{(a+b)\,c}{2} - 2\cdot\frac{b\,(c+d)}{2} = ad - bc$$
+                </div>
+                
+                実際には、全てに絶対値をつける.
+                
+                <div class="proof-end">証明終</div>
+            </div>
+
+            <div class="example-title">計算問題 2問</div>
+            
+            <div style="background-color: #fff3cd; padding: 20px; border-radius: 8px; margin: 20px 0; border-left: 4px solid #ffc107;">
+                <p><strong>問題1:</strong> 頂点が $(0,0)$, $(3,1)$, $(2,4)$, $(5,5)$ の平行四辺形の面積を求めよ。</p>
+                
+                <p><strong>問題2:</strong> 頂点が $(0,0)$, $(2,3)$, $(-1,2)$, $(1,5)$ の平行四辺形の面積を求めよ。</p>
+            </div>
+
+            <div class="subsection-title">一次変換の面積変化</div>
+            
+            <div class="formula">
+                $$g(u,v)=(x_0,y_0)+(au+bv,\;cu+dv)$$
+            </div>
+            
+            とおく．
+            
+            <div class="formula">
+                $$g\bigl([u_0,u_1]\times[v_0,v_1]\bigr)$$
+            </div>
+            
+            の面積は
+            
+            <div class="formula">
+                $$(ad - bc)\,(u_1 - u_0)(v_1-v_0)$$
+            </div>
+
+            <div class="figure">
+                <svg width="500" height="250" viewBox="0 0 500 250">
+                    <!-- Left side: original square -->
+                    <g transform="translate(50, 50)">
+                        <text x="50" y="20" font-family="Arial" font-size="14" fill="#333" text-anchor="middle">変換前</text>
+                        
+                        <!-- Grid -->
+                        <defs>
+                            <pattern id="grid2" width="15" height="15" patternUnits="userSpaceOnUse">
+                                <path d="M 15 0 L 0 0 0 15" fill="none" stroke="#e0e0e0" stroke-width="0.5"/>
+                            </pattern>
+                        </defs>
+                        <rect width="120" height="120" fill="url(#grid2)" />
+                        
+                        <!-- Axes -->
+                        <line x1="0" y1="120" x2="120" y2="120" stroke="#333" stroke-width="1"/>
+                        <line x1="0" y1="120" x2="0" y2="0" stroke="#333" stroke-width="1"/>
+                        
+                        <!-- Square -->
+                        <rect x="20" y="80" width="40" height="40" 
+                              fill="rgba(52,152,219,0.3)" 
+                              stroke="#3498db" 
+                              stroke-width="2"/>
+                        
+                        <!-- Labels -->
+                        <text x="125" y="125" font-family="Arial" font-size="12" fill="#333">u</text>
+                        <text x="-5" y="10" font-family="Arial" font-size="12" fill="#333">v</text>
+                        <text x="15" y="135" font-family="Arial" font-size="10" fill="#333">u₀</text>
+                        <text x="55" y="135" font-family="Arial" font-size="10" fill="#333">u₁</text>
+                        <text x="-15" y="85" font-family="Arial" font-size="10" fill="#333">v₁</text>
+                        <text x="-15" y="125" font-family="Arial" font-size="10" fill="#333">v₀</text>
+                    </g>
+                    
+                    <!-- Arrow -->
+                    <g transform="translate(200, 125)">
+                        <path d="M 0 0 L 40 0" stroke="#333" stroke-width="2" marker-end="url(#arrowhead)"/>
+                        <text x="20" y="-10" font-family="Arial" font-size="12" fill="#333" text-anchor="middle">g</text>
+                        <defs>
+                            <marker id="arrowhead" markerWidth="10" markerHeight="7" 
+                                    refX="9" refY="3.5" orient="auto">
+                                <polygon points="0 0, 10 3.5, 0 7" fill="#333"/>
+                            </marker>
+                        </defs>
+                    </g>
+                    
+                    <!-- Right side: transformed parallelogram -->
+                    <g transform="translate(270, 50)">
+                        <text x="75" y="20" font-family="Arial" font-size="14" fill="#333" text-anchor="middle">変換後</text>
+                        
+                        <!-- Grid -->
+                        <rect width="150" height="120" fill="url(#grid2)" />
+                        
+                        <!-- Axes -->
+                        <line x1="0" y1="120" x2="150" y2="120" stroke="#333" stroke-width="1"/>
+                        <line x1="0" y1="120" x2="0" y2="0" stroke="#333" stroke-width="1"/>
+                        
+                        <!-- Transformed parallelogram -->
+                        <polygon points="30,100 80,85 110,60 60,75" 
+                                 fill="rgba(52,152,219,0.3)" 
+                                 stroke="#3498db" 
+                                 stroke-width="2"/>
+                        
+                        <!-- Labels -->
+                        <text x="155" y="125" font-family="Arial" font-size="12" fill="#333">x</text>
+                        <text x="-5" y="10" font-family="Arial" font-size="12" fill="#333">y</text>
+                    </g>
+                </svg>
+       <div class="example-title">計算問題 2問</div>
+            
+            <div style="background-color: #fff3cd; padding: 20px; border-radius: 8px; margin: 20px 0; border-left: 4px solid #ffc107;">
+                <p><strong>問題3:</strong> 一次変換 $g(u,v) = (2u + 3v, u - v)$ により、正方形 $[0,1] \times [0,1]$ がどのような図形に変換されるか。また、その面積を求めよ。</p>
+                
+                <p><strong>問題4:</strong> 一次変換 $g(u,v) = (u + 2v, 3u + v)$ により、長方形 $[0,2] \times [0,3]$ の面積がどのように変化するか求めよ。</p>
+            </div>
+        
+            <div class="figure-caption">一次変換による面積変化</div>
+            </div>
+<div class="proof-section">
+  <strong>証明:</strong>
+  一次変換
+  <div class="formula">
+    $$g(u,v)=(x_0,y_0)+(au+bv,\;cu+dv)$$
+  </div>
+  は平行移動 $(x_0,y_0)$ と線形変換 $(u,v) \mapsto (au + bv,\; cu + dv)$ の合成なので，面積の変化は線形変換部分だけで考えてよい．<br><br>
+
+  長方形 $[u_0, u_1] \times [v_0, v_1]$ の４頂点
+  <ul>
+    <li>$(u_0, v_0)$</li>
+    <li>$(u_1, v_0)$</li>
+    <li>$(u_1, v_1)$</li>
+    <li>$(u_0, v_1)$</li>
+  </ul>
+  の像はそれぞれ
+  <ul>
+    <li>$g(u_0,v_0)=(x_0+au_0+bv_0,\; y_0+cu_0+dv_0)$</li>
+    <li>$g(u_1,v_0)=(x_0+au_1+bv_0,\; y_0+cu_1+dv_0)$</li>
+    <li>$g(u_1,v_1)=(x_0+au_1+bv_1,\; y_0+cu_1+dv_1)$</li>
+    <li>$g(u_0,v_1)=(x_0+au_0+bv_1,\; y_0+cu_0+dv_1)$</li>
+  </ul>
+
+  ２辺のベクトルは
+  <ul>
+    <li>$\vec{AB} = g(u_1,v_0) - g(u_0,v_0) = (a(u_1 - u_0),\; c(u_1 - u_0))$</li>
+    <li>$\vec{AD} = g(u_0,v_1) - g(u_0,v_0) = (b(v_1 - v_0),\; d(v_1 - v_0))$</li>
+  </ul>
+
+  よって，面積は２つのベクトルの行列式の絶対値で与えられ，
+  <div class="formula">
+    $$\left|\det \begin{pmatrix} a(u_1 - u_0) & b(v_1 - v_0) \\ c(u_1 - u_0) & d(v_1 - v_0) \end{pmatrix} \right| = |ad - bc| \cdot (u_1 - u_0)(v_1 - v_0)$$
+  </div>
+  したがって面積は
+  <div class="formula">
+    $$(ad - bc)(u_1 - u_0)(v_1 - v_0)$$
+  </div>
+  となる．
+  <div class="proof-end">証明終</div>
+</div>
+            <div class="subsection-title">一般の座標変換での面積変化</div>
+            
+            <p><strong>定理:</strong> $X(u,v),Y(u,v)$を二変数関数，$\phi(u,v):=(X(u,v),Y(u,v))$とする．<br>
+            $R:=[u_0,u_1]\times[v_0,v_1]$とする．</p>
+
+            <div class="figure">
+                <svg width="500" height="300" viewBox="0 0 500 300">
+                    <!-- Left side: rectangular region in uv-plane -->
+                    <g transform="translate(50, 50)">
+                        <text x="75" y="20" font-family="Arial" font-size="14" fill="#333" text-anchor="middle">uv平面</text>
+                        
+                        <!-- Grid -->
+                        <rect width="150" height="150" fill="url(#grid2)" />
+                        
+                        <!-- Axes -->
+                        <line x1="0" y1="150" x2="150" y2="150" stroke="#333" stroke-width="1"/>
+                        <line x1="0" y1="150" x2="0" y2="0" stroke="#333" stroke-width="1"/>
+                        
+                        <!-- Rectangle R -->
+                        <rect x="40" y="80" width="60" height="40" 
+                              fill="rgba(231,76,60,0.3)" 
+                              stroke="#e74c3c" 
+                              stroke-width="2"/>
+                        
+                        <!-- Labels -->
+                        <text x="155" y="155" font-family="Arial" font-size="12" fill="#333">u</text>
+                        <text x="-5" y="10" font-family="Arial" font-size="12" fill="#333">v</text>
+                        <text x="35" y="165" font-family="Arial" font-size="10" fill="#333">u₀</text>
+                        <text x="95" y="165" font-family="Arial" font-size="10" fill="#333">u₁</text>
+                        <text x="-15" y="85" font-family="Arial" font-size="10" fill="#333">v₁</text>
+                        <text x="-15" y="125" font-family="Arial" font-size="10" fill="#333">v₀</text>
+                        <text x="70" y="105" font-family="Arial" font-size="12" fill="#e74c3c" font-weight="bold">R</text>
+                    </g>
+                    
+                    <!-- Arrow with phi -->
+                    <g transform="translate(220, 150)">
+                        <path d="M 0 0 L 50 0" stroke="#333" stroke-width="2" marker-end="url(#arrowhead2)"/>
+                        <text x="25" y="-10" font-family="Arial" font-size="12" fill="#333" text-anchor="middle">φ</text>
+                        <defs>
+                            <marker id="arrowhead2" markerWidth="10" markerHeight="7" 
+                                    refX="9" refY="3.5" orient="auto">
+                                <polygon points="0 0, 10 3.5, 0 7" fill="#333"/>
+                            </marker>
+                        </defs>
+                    </g>
+                    
+                    <!-- Right side: curved region in xy-plane -->
+                    <g transform="translate(290, 50)">
+                        <text x="75" y="20" font-family="Arial" font-size="14" fill="#333" text-anchor="middle">xy平面</text>
+                        
+                        <!-- Grid -->
+                        <rect width="150" height="150" fill="url(#grid2)" />
+                        
+                        <!-- Axes -->
+                        <line x1="0" y1="150" x2="150" y2="150" stroke="#333" stroke-width="1"/>
+                        <line x1="0" y1="150" x2="0" y2="0" stroke="#333" stroke-width="1"/>
+                        
+                        <!-- Curved region φ(R) -->
+                        <path d="M 30 110 Q 70 95 110 100 Q 120 85 130 70 Q 90 60 50 75 Q 40 95 30 110 Z" 
+                              fill="rgba(231,76,60,0.3)" 
+                              stroke="#e74c3c" 
+                              stroke-width="2"/>
+                        
+                        <!-- Labels -->
+                        <text x="155" y="155" font-family="Arial" font-size="12" fill="#333">x</text>
+                        <text x="-5" y="10" font-family="Arial" font-size="12" fill="#333">y</text>
+                        <text x="80" y="85" font-family="Arial" font-size="12" fill="#e74c3c" font-weight="bold">φ(R)</text>
+                    </g>
+                </svg>
+                <div class="figure-caption">一般的な座標変換による面積変化</div>
+            </div>
+
+            <p>$\phi(R)$の面積 $S$ は近似的に</p>
+            
+            <div class="formula">
+                $$\bigl(\, \partial_u  X  \partial_v  Y - \partial_v X\partial_u Y + o(1)\bigr)\,(u - u_0)(v - v_0)$$
+            </div>
+            
+            となる．
+
+            <p><strong>定義:</strong> 面積の変化を表す</p>
+            
+            <div class="formula">
+                $$\left|\det \begin{pmatrix} \partial_u X & \partial_v X \\ \partial_u Y & \partial_v Y \end{pmatrix} \right| =\partial_u X  \partial_v  Y -  \partial_v  X \partial_u Y$$
+            </div>
+            
+           <p> をヤコビアンと呼ぶ．</p>
+
+            <div class="example-title">計算問題 3問</div>
+            
+            <div style="background-color: #fff3cd; padding: 20px; border-radius: 8px; margin: 20px 0; border-left: 4px solid #ffc107;">
+                <p><strong>問題5:</strong> 座標変換 $x = u + v$, $y = u - v$ のヤコビアンを求めよ。</p>
+                
+                <p><strong>問題6:</strong> 極座標変換 $x = r\cos\theta$, $y = r\sin\theta$ のヤコビアンを求めよ。</p>
+                
+                <p><strong>問題7:</strong> 座標変換 $x = u^2 - v^2$, $y = 2uv$ のヤコビアンを求め、点 $(u,v) = (1,1)$ でのヤコビアンの値を計算せよ。</p>
+            </div>
+
+            <div class="proof-section">
+                <strong>証明の概略:</strong><br>
+                $\Delta u:=u-u_0,\;\Delta v:=v-v_0$とおく．<br>
+               テイラーの一次近似より，
+                
+                <div class="formula">
+                    $$\phi(u,v) = \phi(u_0,v_0) + \begin{pmatrix} X_u & X_v\\ Y_u & Y_v \end{pmatrix}_{(u_0,v_0)} \begin{pmatrix}\Delta u\\\Delta v\end{pmatrix} + o\bigl(\sqrt{\Delta u^2+\Delta v^2}\bigr)$$
+                </div>
+                
+                したがって，$\phi$は微小領域では線形写像
+                
+                <div class="formula">
+                    $$g( u, v) = (x_0,y_0)+(a\,\Delta u + b\,\Delta v,\;c\,\Delta u + d\,\Delta v)$$
+                </div>
+                
+                とみなせる．ここで
+                
+                <div class="formula">
+                    $$\begin{aligned}
+                    x_0 &= X(u_0,v_0), \quad y_0 = Y(u_0,v_0)\\
+                    a &= \partial_u X(u_0,v_0), \quad b = \partial_v X(u_0,v_0)\\
+                    c &= \partial_u Y(u_0,v_0), \quad d =\partial_v Y(u_0,v_0)
+                    \end{aligned}$$
+                </div>
+                
+                したがって，
+                
+                <div class="formula">
+                    $$\phi(R)\approx g\bigl([u_0,u_1]\times [v_0,v_1]\bigr) = (ad - bc)\,(u_1 - u_0)(v_1 - v_0)$$
+                </div>
+            </div>
+        </section>
+
+        <div class="navigation">
+            <a href="class8.html">← 前回：第8回</a>
+            <a href="../index.html">ホーム</a>
+            <a href="class10.html">次回：第10回 →</a>
+        </div>
+    </div>
+</body>
+</html>

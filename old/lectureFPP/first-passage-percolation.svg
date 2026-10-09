@@ -1,0 +1,266 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600">
+  <!-- Background -->
+  <rect width="800" height="600" fill="#f8f9fa" />
+  
+  <!-- Title -->
+  <text x="400" y="50" font-family="Arial" font-size="24" text-anchor="middle" fill="#333333">
+    First Passage Percolation (FPP)
+  </text>
+  
+  <!-- Grid for lattice -->
+  <g id="lattice">
+    <!-- Horizontal grid lines -->
+    <g stroke="#cccccc" stroke-width="1">
+      <line x1="150" y1="150" x2="650" y2="150" />
+      <line x1="150" y1="200" x2="650" y2="200" />
+      <line x1="150" y1="250" x2="650" y2="250" />
+      <line x1="150" y1="300" x2="650" y2="300" />
+      <line x1="150" y1="350" x2="650" y2="350" />
+      <line x1="150" y1="400" x2="650" y2="400" />
+      <line x1="150" y1="450" x2="650" y2="450" />
+    </g>
+    
+    <!-- Vertical grid lines -->
+    <g stroke="#cccccc" stroke-width="1">
+      <line x1="150" y1="150" x2="150" y2="450" />
+      <line x1="200" y1="150" x2="200" y2="450" />
+      <line x1="250" y1="150" x2="250" y2="450" />
+      <line x1="300" y1="150" x2="300" y2="450" />
+      <line x1="350" y1="150" x2="350" y2="450" />
+      <line x1="400" y1="150" x2="400" y2="450" />
+      <line x1="450" y1="150" x2="450" y2="450" />
+      <line x1="500" y1="150" x2="500" y2="450" />
+      <line x1="550" y1="150" x2="550" y2="450" />
+      <line x1="600" y1="150" x2="600" y2="450" />
+      <line x1="650" y1="150" x2="650" y2="450" />
+    </g>
+  </g>
+  
+  <!-- Edges with random weights (represented by thickness) -->
+  <!-- Horizontal edges -->
+  <g stroke="#555555">
+    <line x1="150" y1="150" x2="200" y2="150" stroke-width="2" />
+    <line x1="200" y1="150" x2="250" y2="150" stroke-width="5" />
+    <line x1="250" y1="150" x2="300" y2="150" stroke-width="1" />
+    <line x1="300" y1="150" x2="350" y2="150" stroke-width="3" />
+    <line x1="350" y1="150" x2="400" y2="150" stroke-width="4" />
+    <line x1="400" y1="150" x2="450" y2="150" stroke-width="1" />
+    <line x1="450" y1="150" x2="500" y2="150" stroke-width="3" />
+    <line x1="500" y1="150" x2="550" y2="150" stroke-width="2" />
+    <line x1="550" y1="150" x2="600" y2="150" stroke-width="5" />
+    <line x1="600" y1="150" x2="650" y2="150" stroke-width="1" />
+    
+    <line x1="150" y1="200" x2="200" y2="200" stroke-width="3" />
+    <line x1="200" y1="200" x2="250" y2="200" stroke-width="1" />
+    <line x1="250" y1="200" x2="300" y2="200" stroke-width="4" />
+    <line x1="300" y1="200" x2="350" y2="200" stroke-width="2" />
+    <line x1="350" y1="200" x2="400" y2="200" stroke-width="1" />
+    <line x1="400" y1="200" x2="450" y2="200" stroke-width="5" />
+    <line x1="450" y1="200" x2="500" y2="200" stroke-width="2" />
+    <line x1="500" y1="200" x2="550" y2="200" stroke-width="1" />
+    <line x1="550" y1="200" x2="600" y2="200" stroke-width="3" />
+    <line x1="600" y1="200" x2="650" y2="200" stroke-width="2" />
+    
+    <!-- Continuing with more horizontal edges -->
+    <line x1="150" y1="250" x2="200" y2="250" stroke-width="1" />
+    <line x1="200" y1="250" x2="250" y2="250" stroke-width="4" />
+    <line x1="250" y1="250" x2="300" y2="250" stroke-width="2" />
+    <line x1="300" y1="250" x2="350" y2="250" stroke-width="5" />
+    <line x1="350" y1="250" x2="400" y2="250" stroke-width="1" />
+    <line x1="400" y1="250" x2="450" y2="250" stroke-width="2" />
+    <line x1="450" y1="250" x2="500" y2="250" stroke-width="3" />
+    <line x1="500" y1="250" x2="550" y2="250" stroke-width="1" />
+    <line x1="550" y1="250" x2="600" y2="250" stroke-width="4" />
+    <line x1="600" y1="250" x2="650" y2="250" stroke-width="2" />
+    
+    <line x1="150" y1="300" x2="200" y2="300" stroke-width="2" />
+    <line x1="200" y1="300" x2="250" y2="300" stroke-width="3" />
+    <line x1="250" y1="300" x2="300" y2="300" stroke-width="1" />
+    <line x1="300" y1="300" x2="350" y2="300" stroke-width="4" />
+    <line x1="350" y1="300" x2="400" y2="300" stroke-width="2" />
+    <line x1="400" y1="300" x2="450" y2="300" stroke-width="3" />
+    <line x1="450" y1="300" x2="500" y2="300" stroke-width="1" />
+    <line x1="500" y1="300" x2="550" y2="300" stroke-width="5" />
+    <line x1="550" y1="300" x2="600" y2="300" stroke-width="2" />
+    <line x1="600" y1="300" x2="650" y2="300" stroke-width="1" />
+    
+    <line x1="150" y1="350" x2="200" y2="350" stroke-width="1" />
+    <line x1="200" y1="350" x2="250" y2="350" stroke-width="2" />
+    <line x1="250" y1="350" x2="300" y2="350" stroke-width="3" />
+    <line x1="300" y1="350" x2="350" y2="350" stroke-width="1" />
+    <line x1="350" y1="350" x2="400" y2="350" stroke-width="5" />
+    <line x1="400" y1="350" x2="450" y2="350" stroke-width="2" />
+    <line x1="450" y1="350" x2="500" y2="350" stroke-width="1" />
+    <line x1="500" y1="350" x2="550" y2="350" stroke-width="4" />
+    <line x1="550" y1="350" x2="600" y2="350" stroke-width="2" />
+    <line x1="600" y1="350" x2="650" y2="350" stroke-width="3" />
+    
+    <line x1="150" y1="400" x2="200" y2="400" stroke-width="5" />
+    <line x1="200" y1="400" x2="250" y2="400" stroke-width="1" />
+    <line x1="250" y1="400" x2="300" y2="400" stroke-width="2" />
+    <line x1="300" y1="400" x2="350" y2="400" stroke-width="4" />
+    <line x1="350" y1="400" x2="400" y2="400" stroke-width="1" />
+    <line x1="400" y1="400" x2="450" y2="400" stroke-width="3" />
+    <line x1="450" y1="400" x2="500" y2="400" stroke-width="2" />
+    <line x1="500" y1="400" x2="550" y2="400" stroke-width="4" />
+    <line x1="550" y1="400" x2="600" y2="400" stroke-width="1" />
+    <line x1="600" y1="400" x2="650" y2="400" stroke-width="2" />
+    
+    <line x1="150" y1="450" x2="200" y2="450" stroke-width="3" />
+    <line x1="200" y1="450" x2="250" y2="450" stroke-width="2" />
+    <line x1="250" y1="450" x2="300" y2="450" stroke-width="1" />
+    <line x1="300" y1="450" x2="350" y2="450" stroke-width="5" />
+    <line x1="350" y1="450" x2="400" y2="450" stroke-width="2" />
+    <line x1="400" y1="450" x2="450" y2="450" stroke-width="1" />
+    <line x1="450" y1="450" x2="500" y2="450" stroke-width="3" />
+    <line x1="500" y1="450" x2="550" y2="450" stroke-width="4" />
+    <line x1="550" y1="450" x2="600" y2="450" stroke-width="1" />
+    <line x1="600" y1="450" x2="650" y2="450" stroke-width="2" />
+  </g>
+  
+  <!-- Vertical edges -->
+  <g stroke="#555555">
+    <line x1="150" y1="150" x2="150" y2="200" stroke-width="1" />
+    <line x1="150" y1="200" x2="150" y2="250" stroke-width="4" />
+    <line x1="150" y1="250" x2="150" y2="300" stroke-width="2" />
+    <line x1="150" y1="300" x2="150" y2="350" stroke-width="3" />
+    <line x1="150" y1="350" x2="150" y2="400" stroke-width="1" />
+    <line x1="150" y1="400" x2="150" y2="450" stroke-width="2" />
+    
+    <line x1="200" y1="150" x2="200" y2="200" stroke-width="3" />
+    <line x1="200" y1="200" x2="200" y2="250" stroke-width="1" />
+    <line x1="200" y1="250" x2="200" y2="300" stroke-width="5" />
+    <line x1="200" y1="300" x2="200" y2="350" stroke-width="2" />
+    <line x1="200" y1="350" x2="200" y2="400" stroke-width="1" />
+    <line x1="200" y1="400" x2="200" y2="450" stroke-width="3" />
+    
+    <!-- Continuing with more vertical edges -->
+    <line x1="250" y1="150" x2="250" y2="200" stroke-width="2" />
+    <line x1="250" y1="200" x2="250" y2="250" stroke-width="3" />
+    <line x1="250" y1="250" x2="250" y2="300" stroke-width="1" />
+    <line x1="250" y1="300" x2="250" y2="350" stroke-width="4" />
+    <line x1="250" y1="350" x2="250" y2="400" stroke-width="2" />
+    <line x1="250" y1="400" x2="250" y2="450" stroke-width="1" />
+    
+    <line x1="300" y1="150" x2="300" y2="200" stroke-width="1" />
+    <line x1="300" y1="200" x2="300" y2="250" stroke-width="2" />
+    <line x1="300" y1="250" x2="300" y2="300" stroke-width="4" />
+    <line x1="300" y1="300" x2="300" y2="350" stroke-width="1" />
+    <line x1="300" y1="350" x2="300" y2="400" stroke-width="3" />
+    <line x1="300" y1="400" x2="300" y2="450" stroke-width="2" />
+    
+    <line x1="350" y1="150" x2="350" y2="200" stroke-width="5" />
+    <line x1="350" y1="200" x2="350" y2="250" stroke-width="1" />
+    <line x1="350" y1="250" x2="350" y2="300" stroke-width="2" />
+    <line x1="350" y1="300" x2="350" y2="350" stroke-width="3" />
+    <line x1="350" y1="350" x2="350" y2="400" stroke-width="1" />
+    <line x1="350" y1="400" x2="350" y2="450" stroke-width="4" />
+    
+    <line x1="400" y1="150" x2="400" y2="200" stroke-width="2" />
+    <line x1="400" y1="200" x2="400" y2="250" stroke-width="3" />
+    <line x1="400" y1="250" x2="400" y2="300" stroke-width="1" />
+    <line x1="400" y1="300" x2="400" y2="350" stroke-width="5" />
+    <line x1="400" y1="350" x2="400" y2="400" stroke-width="2" />
+    <line x1="400" y1="400" x2="400" y2="450" stroke-width="1" />
+    
+    <line x1="450" y1="150" x2="450" y2="200" stroke-width="1" />
+    <line x1="450" y1="200" x2="450" y2="250" stroke-width="4" />
+    <line x1="450" y1="250" x2="450" y2="300" stroke-width="2" />
+    <line x1="450" y1="300" x2="450" y2="350" stroke-width="1" />
+    <line x1="450" y1="350" x2="450" y2="400" stroke-width="3" />
+    <line x1="450" y1="400" x2="450" y2="450" stroke-width="2" />
+    
+    <line x1="500" y1="150" x2="500" y2="200" stroke-width="3" />
+    <line x1="500" y1="200" x2="500" y2="250" stroke-width="1" />
+    <line x1="500" y1="250" x2="500" y2="300" stroke-width="5" />
+    <line x1="500" y1="300" x2="500" y2="350" stroke-width="2" />
+    <line x1="500" y1="350" x2="500" y2="400" stroke-width="1" />
+    <line x1="500" y1="400" x2="500" y2="450" stroke-width="3" />
+    
+    <line x1="550" y1="150" x2="550" y2="200" stroke-width="2" />
+    <line x1="550" y1="200" x2="550" y2="250" stroke-width="1" />
+    <line x1="550" y1="250" x2="550" y2="300" stroke-width="3" />
+    <line x1="550" y1="300" x2="550" y2="350" stroke-width="2" />
+    <line x1="550" y1="350" x2="550" y2="400" stroke-width="4" />
+    <line x1="550" y1="400" x2="550" y2="450" stroke-width="1" />
+    
+    <line x1="600" y1="150" x2="600" y2="200" stroke-width="1" />
+    <line x1="600" y1="200" x2="600" y2="250" stroke-width="5" />
+    <line x1="600" y1="250" x2="600" y2="300" stroke-width="2" />
+    <line x1="600" y1="300" x2="600" y2="350" stroke-width="1" />
+    <line x1="600" y1="350" x2="600" y2="400" stroke-width="3" />
+    <line x1="600" y1="400" x2="600" y2="450" stroke-width="2" />
+    
+    <line x1="650" y1="150" x2="650" y2="200" stroke-width="4" />
+    <line x1="650" y1="200" x2="650" y2="250" stroke-width="1" />
+    <line x1="650" y1="250" x2="650" y2="300" stroke-width="2" />
+    <line x1="650" y1="300" x2="650" y2="350" stroke-width="3" />
+    <line x1="650" y1="350" x2="650" y2="400" stroke-width="1" />
+    <line x1="650" y1="400" x2="650" y2="450" stroke-width="5" />
+  </g>
+  
+  <!-- Optimal path (highlighted) -->
+  <g stroke="#e74c3c" stroke-width="5" stroke-linecap="round">
+    <line x1="150" y1="150" x2="200" y2="150" />
+    <line x1="200" y1="150" x2="200" y2="200" />
+    <line x1="200" y1="200" x2="250" y2="200" />
+    <line x1="250" y1="200" x2="250" y2="250" />
+    <line x1="250" y1="250" x2="300" y2="250" />
+    <line x1="300" y1="250" x2="350" y2="250" />
+    <line x1="350" y1="250" x2="400" y2="250" />
+    <line x1="400" y1="250" x2="400" y2="300" />
+    <line x1="400" y1="300" x2="450" y2="300" />
+    <line x1="450" y1="300" x2="450" y2="350" />
+    <line x1="450" y1="350" x2="500" y2="350" />
+    <line x1="500" y1="350" x2="500" y2="400" />
+    <line x1="500" y1="400" x2="550" y2="400" />
+    <line x1="550" y1="400" x2="600" y2="400" />
+    <line x1="600" y1="400" x2="650" y2="400" />
+    <line x1="650" y1="400" x2="650" y2="450" />
+  </g>
+  
+  <!-- Percolation cluster (filled nodes) -->
+  <g fill="#3498db">
+    <circle cx="150" cy="150" r="6" />
+    <circle cx="200" cy="150" r="6" />
+    <circle cx="200" cy="200" r="6" />
+    <circle cx="250" cy="200" r="6" />
+    <circle cx="250" cy="250" r="6" />
+    <circle cx="300" cy="250" r="6" />
+    <circle cx="350" cy="250" r="6" />
+    <circle cx="400" cy="250" r="6" />
+    <circle cx="400" cy="300" r="6" />
+    <circle cx="450" cy="300" r="6" />
+    <circle cx="450" cy="350" r="6" />
+    <circle cx="500" cy="350" r="6" />
+    <circle cx="500" cy="400" r="6" />
+    <circle cx="550" cy="400" r="6" />
+    <circle cx="600" cy="400" r="6" />
+    <circle cx="650" cy="400" r="6" />
+    <circle cx="650" cy="450" r="6" />
+  </g>
+  
+  <!-- Start and end points -->
+  <circle cx="150" cy="150" r="10" fill="#27ae60" />
+  <text x="130" y="135" font-family="Arial" font-size="14" fill="#333333">Start</text>
+  
+  <circle cx="650" cy="450" r="10" fill="#8e44ad" />
+  <text x="670" y="465" font-family="Arial" font-size="14" fill="#333333">End</text>
+  
+  <!-- Legend -->
+  <g transform="translate(350, 520)">
+    <text x="0" y="0" font-family="Arial" font-size="16" fill="#333333">Legend:</text>
+    
+    <line x1="-80" y1="20" x2="-40" y2="20" stroke="#555555" stroke-width="1" />
+    <text x="-35" y="25" font-family="Arial" font-size="14" fill="#333333">Low weight (fast passage)</text>
+    
+    <line x1="-80" y1="45" x2="-40" y2="45" stroke="#555555" stroke-width="5" />
+    <text x="-35" y="50" font-family="Arial" font-size="14" fill="#333333">High weight (slow passage)</text>
+    
+    <line x1="180" y1="20" x2="220" y2="20" stroke="#e74c3c" stroke-width="5" stroke-linecap="round" />
+    <text x="225" y="25" font-family="Arial" font-size="14" fill="#333333">Optimal path</text>
+    
+    <circle cx="200" cy="45" r="6" fill="#3498db" />
+    <text x="225" y="50" font-family="Arial" font-size="14" fill="#333333">Percolation cluster</text>
+  </g>
+</svg>

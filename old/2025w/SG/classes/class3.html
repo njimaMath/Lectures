@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lecture 3: The Replica Method – Basics and REM</title>
+    <style>
+        :root {
+            --primary-color: #2c3e50;
+            --secondary-color: #3498db;
+            --accent-color: #e74c3c;
+            --background-color: #f9f9f9;
+            --text-color: #333;
+            --container-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+            --text-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+        }
+
+        body {
+            font-family: 'Georgia', serif;
+            line-height: 1.7;
+            margin: 0;
+            padding: 0;
+            background-color: var(--background-color);
+            color: var(--text-color);
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 20px auto;
+            padding: 30px;
+            background-color: white;
+            box-shadow: var(--container-shadow);
+            border-radius: 15px;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 40px;
+            border-bottom: 2px solid var(--secondary-color);
+            padding-bottom: 20px;
+        }
+
+        h1, h2, h3 {
+            color: var(--primary-color);
+        }
+
+        .section-title {
+            color: var(--primary-color);
+            font-size: 1.8rem;
+            margin-top: 30px;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #eee;
+            text-shadow: var(--text-shadow);
+        }
+
+        .lecture-title {
+            color: var(--secondary-color);
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+            font-weight: normal;
+        }
+
+        .author-info {
+            font-style: italic;
+            color: #777;
+        }
+
+        .math {
+            font-style: italic;
+            padding: 0 3px;
+        }
+
+        .figure {
+            text-align: center;
+            margin: 30px 0;
+            padding: 20px;
+            background-color: #f8f9fa;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+        }
+
+        .figure img {
+            max-width: 100%;
+            border-radius: 5px;
+        }
+
+        .figure-caption {
+            font-style: italic;
+            color: #777;
+            margin-top: 15px;
+        }
+
+        .navigation {
+            margin-top: 40px;
+            text-align: center;
+            display: flex;
+            justify-content: space-between;
+            padding: 15px 0;
+            border-top: 1px solid #eee;
+        }
+
+        .navigation a {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: var(--primary-color);
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .navigation a:hover {
+            background-color: var(--secondary-color);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+        }
+
+        .topic-highlight {
+            display: inline-block;
+            background-color: rgba(52, 152, 219, 0.1);
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-weight: 500;
+            color: var(--primary-color);
+        }
+
+        .formula {
+            margin: 25px 0;
+            padding: 15px;
+            background-color: #f8f9fa;
+            border-left: 4px solid var(--secondary-color);
+            border-radius: 5px;
+            overflow-x: auto;
+            font-size: 1.1em;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+        }
+
+        .example-title {
+            font-weight: bold;
+            font-size: 1.2em;
+            color: var(--secondary-color);
+            margin-top: 30px;
+            margin-bottom: 15px;
+            padding-bottom: 5px;
+            border-bottom: 1px dashed #ccc;
+            display: inline-block;
+        }
+
+        p {
+            margin-bottom: 20px;
+            line-height: 1.8;
+        }
+
+        .content-section {
+            padding-bottom: 30px;
+        }
+        
+        .definition-box {
+            background-color: #f0f7ff;
+            border-left: 4px solid #3498db;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+        }
+        
+        .theorem-box {
+            background-color: #fff4e6;
+            border-left: 4px solid #e67e22;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+        }
+        
+        .proof-box {
+            background-color: #f5f5f5;
+            border-left: 4px solid #7f8c8d;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+        }
+        
+        .example-box {
+            background-color: #f0f9ff;
+            border: 1px solid #d1e6fa;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+        }
+        
+        .section-highlight {
+            background-color: #f8f9fa;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 25px 0;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+        }
+        
+        .graph-container {
+            background-color: #f5f5f5;
+            border-radius: 10px;
+            padding: 15px;
+            margin: 25px 0;
+            text-align: center;
+        }
+        
+        .graph-container h3 {
+            margin-top: 0;
+            margin-bottom: 15px;
+            color: var(--primary-color);
+        }
+        
+        .caption {
+            font-style: italic;
+            color: #777;
+            margin-top: 15px;
+            text-align: center;
+            padding: 0 15px;
+        }
+        
+        .property-box {
+            background-color: #eefaf8;
+            border-left: 4px solid #2ecc71;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+        }
+        
+        .conjecture-box {
+            background-color: #f9f0ff;
+            border-left: 4px solid #9b59b6;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+        }
+    </style>
+    <!-- MathJax configuration -->
+    <script>
+      window.MathJax = {
+        tex: {
+          inlineMath: [['$', '$']],
+          displayMath: [['$$', '$$']]
+        },
+        svg: {
+          fontCache: 'global'
+        }
+      };
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js" async></script>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Lecture 3: The Replica Method – Basics and REM</h1>
+            <div class="lecture-title">The Replica Trick and Its Application to REM</div>
+            <div class="author-info">Lecture Notes</div>
+        </header>
+
+        <div class="overview">
+        <p><strong>Overview:</strong> The replica method is a formal technique to handle disorder averages of logarithms, widely used in spin glass theory. In this lecture, we introduce the replica trick and demonstrate it on a simple model (the Random Energy Model). We derive how the replica method reproduces the REM results (including the phase transition) from Lecture 1. This will set the stage to tackle the more complex Sherrington–Kirkpatrick (SK) model in the next lecture.</p>
+        </div>
+
+        <h4>The Replica Trick</h4>
+        <p>In disordered systems, one often needs to calculate an average of a logarithm (e.g. $\mathbb{E}[\ln Z]$ for the free energy). The replica trick introduces the relation:</p>
+        <div class="mathdisplay">$$ \mathbb{E}[\ln Z] = \lim_{n\to 0} \frac{\mathbb{E}[Z^n] - 1}{n}\,. $$</div>
+        <p>Here $n$ is an auxiliary variable, initially an integer so that $\mathbb{E}[Z^n]$ is a usual moment. After deriving a formula for $\mathbb{E}[Z^n]$ for $n \in \mathbb{N}$, one analytically continues to real $n$ and takes $n\to 0$. While treating $n$ as a real variable is not rigorously justified, this technique has led to correct predictions in many problems.</p>
+        <p>To use the replica method:</p>
+        <ol>
+            <li><strong>Compute $\mathbb{E}[Z^n]$ for integer $n$:</strong> This typically involves writing
+              <div class="mathdisplay">$$Z^n = Z(\beta; J_1) Z(\beta; J_2)\cdots Z(\beta; J_n),$$</div>
+            i.e. $n$ copies (replicas) of the partition function with the <em>same</em> disorder realization $J$. Then $\mathbb{E}[Z^n] = \mathbb{E}_{J}[Z(J)^n]$. Expanding $Z^n$ as a sum over configurations of each replica leads to expressions involving products of disorder terms, which can be averaged using independence or known cumulants.</li>
+            <li><strong>Assume symmetry (or symmetry breaking) among replicas:</strong> All replicas are statistically identical, so one often assumes they behave similarly. For example, one might assume all pairwise overlaps between replicas are equal (replica symmetry) unless there is reason to break that assumption.</li>
+            <li><strong>Evaluate or extremize the resulting expression:</strong> After averaging over disorder, $\mathbb{E}[Z^n]$ may become an integral (or sum) that can be tackled by saddle-point (steepest descent) methods for large $N$. One identifies the dominant contribution (extremum of an exponent).</li>
+            <li><strong>Take $n\to 0$:</strong> Expand the result for small $n$ and extract the coefficient of $n$ (since $\frac{1}{n}(\mathbb{E}[Z^n]-1)$ will yield that coefficient as $n\to 0$). This gives $\mathbb{E}[\ln Z]$.</li>
+        </ol>
+        <p>The tricky step is often step 2: choosing the correct ansatz for symmetry (or symmetry breaking) among replicas. If the wrong ansatz is chosen, one might get an unphysical result (like negative entropy), signaling the need for a more complex symmetry-breaking ansatz.</p>
+
+        <h4>Replica Analysis of the REM</h4>
+        <p>We illustrate the replica method on the <strong>Random Energy Model</strong> (REM). Recall: $Z_N(\beta) = \sum_{i=1}^{2^N} e^{-\beta E_i}$ with i.i.d. energies $E_i$. We want $\mathbb{E}[\ln Z_N]$.</p>
+        <p>Using the replica trick:</p>
+        <div class="mathdisplay">$$ \mathbb{E}[Z_N^n] = \mathbb{E}\Big[\Big(\sum_{i=1}^{2^N} e^{-\beta E_i}\Big)^n\Big] = \sum_{i_1,\dots,i_n} \mathbb{E}[e^{-\beta (E_{i_1}+\cdots+E_{i_n})}]\,. $$</div>
+        <p>The average factorizes: if all $i_a$ are distinct, $\mathbb{E}[e^{-\beta\sum_a E_{i_a}}] = [\mathbb{E}(e^{-\beta E})]^n$; if some indices coincide, the expectation involves higher moments.</p>
+        <p>We can categorize terms by how many replicas share the same configuration:</p>
+        <ul>
+            <li><strong>All replicas in distinct states:</strong> There are $2^N (2^N-1)\cdots(2^N-n+1) \approx (2^N)^n$ terms. Each contributes $[\mathbb{E}(e^{-\beta E})]^n$. So $\ln \mathbb{E}[Z^n] \approx n\ln(2^N \mathbb{E}(e^{-\beta E})) = n (N\ln 2 + \ln M_E(-\beta))$. For the Gaussian example (variance $N$, $\sigma^2=1$), this gives $\approx nN(\ln 2 + \beta^2/2)$.</li>
+            <li><strong>All replicas in the same state:</strong> There are $2^N$ choices for the state. The contribution is $\mathbb{E}[e^{-n\beta E}] = M_E(-n\beta)$. Taking $\ln$ gives $\ln(2^N) + \ln M_E(-n\beta) = N \ln 2 + \ln M_E(-n\beta)$. For small $n$, expand $\ln M_E(-n\beta) \approx \frac{(n\beta)^2 N}{2}$ (for mean 0, variance $N$ energies).</li>
+        </ul>
+        <p>For large $N$, the dominant contribution to $\mathbb{E}[Z^n]$ comes from the term with the largest exponent. Compare exponents per spin $\frac{1}{N}\ln(\cdot)$:</p>
+        <ul>
+            <li>Distinct states: exponent $\approx n [\ln 2 + \frac{\beta^2}{2}]$.</li>
+            <li>Same state: exponent $\approx \ln 2 + \frac{(n\beta)^2}{2}$.</li>
+        </ul>
+        <p>For small $n \to 0$, we need $\lim_{n\to0} \frac{1}{nN}\ln \mathbb{E}[Z_N^n]$. The term linear in $n$ dominates.</p>
+        <ul>
+             <li>If $\beta < \beta_c = \sqrt{2\ln 2}$ (using $\sigma^2=1$), the distinct states term gives the dominant linear coefficient $\ln 2 + \beta^2/2$. So, the quenched free energy per spin is $f(\beta) = -\frac{1}{\beta} \lim_{n\to 0} \frac{\ln \mathbb{E}[Z_N^n]}{nN} = -\frac{1}{\beta}(\ln 2 + \beta^2/2)$, which matches the annealed result.</li>
+             <li>If $\beta > \beta_c$, the annealed calculation leads to issues (like positive free energy if naively continued). The correct physics is that the lowest energy states dominate. In the replica calculation, this corresponds to the "same state" contribution becoming relevant, or more accurately, the replica symmetry breaking. A careful analysis (often involving finding the point where the annealed entropy vanishes) shows that for $\beta > \beta_c$, the free energy freezes at its value at $\beta_c$, related to the minimum energy density. $f(\beta) = -\frac{1}{\beta_c}(\ln 2 + \beta_c^2/2) = - \sqrt{2 \ln 2}$ (for $\sigma^2=1$).</li>
+        </ul>
+
+        <p>This matches the known REM solution: high-temperature (replica symmetric) free energy and a frozen low-temperature free energy. Notably, our replica calculation implicitly involved replica symmetry breaking for $\beta > \beta_c$ when we recognized the failure of the symmetric (annealed-like) solution.</p>
+
+        <p><strong>Summary (Lecture 3):</strong> We introduced the replica trick and applied it to the REM, finding results consistent with earlier methods. We saw how the method requires breaking symmetry between replicas when a phase transition occurs (distinct vs. collapsed replica contributions). In the next lecture, we will apply these ideas to the SK model. We will see the replica symmetric solution for SK and why it fails at low temperatures, leading to Parisi's replica symmetry breaking scheme. We'll also consider an application of the replica method to a neural network model (the perceptron) to show its broad reach.</p>
+
+        <div class="navigation">
+            <a href="class2.html">← Previous</a>
+            <a href="class4.html">Next →</a>
+        </div>
+    </div>
+</body>
+</html>

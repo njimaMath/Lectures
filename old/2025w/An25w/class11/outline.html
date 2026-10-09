@@ -1,0 +1,51 @@
+1. 3次元上の曲線
+
+3次元空間内の曲線は、パラメータ \( t \) を用いて次のように表される:
+\[
+\mathbf{r}(t) = (x(t), y(t), z(t)) 
+\]
+ここで、\( x(t) \)、\( y(t) \)、および \( z(t) \) はそれぞれ \( t \) の関数であり、曲線上の点の座標を与える。   
+
+2. 曲線の速度ベクトル
+曲線の速度ベクトルは、位置ベクトルの時間微分として定義される:
+\[  
+\mathbf{v}(t) = \frac{d\mathbf{r}}{dt} = \left( \frac{dx}{dt}, \frac{dy}{dt}, \frac{dz}{dt} \right)
+\]
+速度ベクトルは、曲線上の点における接線の方向と大きさを示す。
+
+3. 線積分
+
+線積分は、ベクトル場 \( \mathbf{F}(\mathbf{r}) \) に沿った曲線 \( C \) 上での積分を表す。曲線 \( C \) はパラメータ \( t \) によって表され、\( t \) が区間 \([a, b]\) を動くとき、線積分は次のように定義される:
+\[
+\int_C \mathbf{F} \cdot d\mathbf{r} = \int_a^b \mathbf{F}(\mathbf{r}(t)) \cdot \mathbf{v}(t) \, dt
+\]
+ここで、\( d\mathbf{r} = \mathbf{v}(t) dt \) であり、ドット積 \( \mathbf{F} \cdot d\mathbf{r} \) はベクトル場と微小変位ベクトルの内積を表す。   
+
+例題:
+1. 
+
+もしベクトル場Fがあるfを用いてF=nabla fで与えられるならば、線積分はfの始点と終点の差に等しい。すなわち、
+\[
+\int_C \mathbf{F} \cdot d\mathbf{r} = f(\mathbf{r}(b)) - f(\mathbf{r}(a))
+\]
+証明
+: ベクトル場 \( \mathbf{F} = \nabla f \) とすると、線積分は次のようになる:
+\[ 
+\int_C \mathbf{F} \cdot d\mathbf{r} = \int_a^b \nabla f(\mathbf{r}(t)) \cdot \mathbf{v}(t) \, dt
+\]
+ここで、チェーンルールを用いると、次のように書ける:
+\[
+\frac{d}{dt} f(\mathbf{r}(t)) = \nabla f(\mathbf{r}(t)) \cdot \mathbf{v}(t)
+\]  
+したがって、線積分は次のように変形される:
+\[      
+\int_a^b \nabla f(\mathbf{r}(t)) \cdot \mathbf{v}(t) \, dt = \int_a^b \frac{d}{dt} f(\mathbf{r}(t)) \, dt
+\]
+この積分を評価すると、次のようになる:
+\[  
+= f(\mathbf{r}(b)) - f(\mathbf{r}(a))
+\]
+これにより、線積分が始点と終点におけるスカラー関数 \( f \) の値の差に等しいことが示された。
+
+注意: 実は逆も等しい: つまり、もし線積分が始点と終点の差に等しいならば、f(r)=\int_C F.drと定義でき、F=nabla fが成り立つ。
+(証明略)

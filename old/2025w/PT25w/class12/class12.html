@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>第12回 条件付き期待値</title>
+  <style>
+        body{font-family:"Helvetica Neue",Helvetica,Arial,sans-serif;line-height:1.7;color:#212121;margin:0;background:#fafafa;}
+        .container{max-width:960px;margin:0 auto;padding:2rem 1rem 4rem;background:#fff;box-shadow:0 4px 12px rgba(0,0,0,.05);border-radius:12px;}
+        h1,h2,h3,h4{color:#1a237e;margin-top:1.2em;margin-bottom:.6em;}
+        h1{font-size:1.9rem;text-align:center;}
+        h2{font-size:1.5rem;border-left:6px solid #1a237e;padding-left:.55rem;}
+        h3{font-size:1.25rem;}
+        h4{font-size:1.1rem;color:#3949ab;margin-top:1.2em;}
+        .formula{background:#f3f4ff;border-left:4px solid #5c6bc0;padding:.8rem 1.2rem;margin:1.2rem 0;border-radius:8px;overflow-x:auto;text-align:center;}
+        details{margin-bottom:1rem;}
+        details summary{cursor:pointer;font-weight:600;}
+        .proof{background:#e8f5e9;border-left:4px solid #43a047;padding:.8rem 1.2rem;margin:1.2rem 0;border-radius:8px;overflow-x:auto;}
+        ul{margin:0 0 1rem 1.2rem;}
+        nav.navigation{display:flex;justify-content:center;gap:.9rem;margin:2.8rem 0;padding-top:1.8rem;border-top:1px solid rgba(26,35,126,.15);flex-wrap:wrap;}
+        nav.navigation a{padding:.7rem 1.6rem;background:#1a237e;color:#fff;text-decoration:none;border-radius:999px;box-shadow:0 14px 28px -18px rgba(26,35,126,.58);transition:transform .2s,box-shadow .2s,opacity .2s;}
+        nav.navigation a:hover{opacity:.9;transform:translateY(-2px);box-shadow:0 18px 32px -22px rgba(26,35,126,.62);}
+        footer{margin-top:3rem;color:#777;text-align:center;font-size:.9rem;}   
+    </style>
+  <script>
+    MathJax = {
+      tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']],
+        displayMath: [['$$', '$$'], ['\\[', '\\]']]
+      },
+      options: {
+        skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre']
+      }
+    };
+  </script>
+  <script
+    id="MathJax-script"
+    async
+    src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"
+  ></script>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>条件付き期待値</h1>
+      <p>有限確率空間の定義から一般の $\sigma$-代数まで、条件付き期待値の考え方を整理する。</p>
+    </header>
+
+    <section class="block">
+      <h2>0. 基本設定</h2>
+      <p>$(\Omega, \mathcal{F}, P)$ を確率空間とし、$X : \Omega \to \mathbb{R}$ を確率変数とする。$X$ の値の集合を $I_X$ で表す。</p>
+      <div class="formula">
+        \[
+          I_X = \{ X(\omega) : \omega \in \Omega \}
+        \]
+      </div>
+    </section>
+
+    <section class="block">
+      <h2>1. 有限確率空間の条件付き確率</h2>
+
+      <article class="card definition">
+        <h3>定義: 条件付き確率分布</h3>
+        <p>$X, Y_1, \ldots, Y_n$ を $\Omega$ 上の確率変数とし、$y_i \in I_{Y_i}$ とする。$P(Y_1=y_1, \ldots, Y_n=y_n) &gt; 0$ のとき、</p>
+        <div class="formula">
+          \[
+            P(X=x \mid Y_1=y_1,\ldots,Y_n=y_n)
+            = \frac{P(X=x, Y_1=y_1,\ldots,Y_n=y_n)}{P(Y_1=y_1,\ldots,Y_n=y_n)}  
+          \]
+        </div>
+        <p>として条件付き確率分布を定義する。</p>
+        <div class="formula">
+          \[
+            E[X \mid Y_1=y_1,\ldots,Y_n=y_n]
+            = \sum_{x \in I_X} x\,P(X=x \mid Y_1=y_1,\ldots,Y_n=y_n)
+          \]
+        </div>
+      </article>
+
+      <article class="card definition">
+        <h3>定義: 条件付き期待値（関数形）</h3>
+        <p>$P(Y_1=y_1,\ldots,Y_n=y_n)&gt;0$ のとき $f_X(y_1,\ldots,y_n)=E[X \mid Y_1=y_1,\ldots,Y_n=y_n]$ とし、0 のときは $f_X(y_1,\ldots,y_n)=0$ とおく。</p>
+        <div class="formula">
+          \[
+            f_X(y_1,\ldots,y_n)=
+            \begin{cases}
+              E[X \mid Y_1=y_1,\ldots,Y_n=y_n], & P(Y_1=y_1,\ldots,Y_n=y_n) &gt; 0 \\
+              0, & P(Y_1=y_1,\ldots,Y_n=y_n)=0
+            \end{cases}
+          \]
+        </div>
+        <p>このとき $f_X : \mathbb{R}^n \to \mathbb{R}$ とみなせる。さらに</p>
+        <div class="formula">
+          \[
+            E[X \mid Y_1,\ldots,Y_n](\omega) = f_X\bigl(Y_1(\omega),\ldots,Y_n(\omega)\bigr)
+          \]
+        </div>
+        <p class="note">$f_X$ が $\mathbb{R}^n$ 上の関数であり $Y_i$ が確率変数なので、$E[X \mid Y_1,\ldots,Y_n]$ は確率変数になる。</p>
+      </article>
+
+      <article class="card example">
+        <h3>例: コインを2回投げる</h3>
+        <p>$\Omega=\{HH, HT, TH, TT\}$、$P(\omega)=1/4$ とする。確率変数 $X, Y$ を次で定める:</p>
+        <div class="formula">
+          \[
+            X(HH)=1,\; X(HT)=1,\; X(TH)=0,\; X(TT)=0 \\
+            Y(HH)=2,\; Y(HT)=1,\; Y(TH)=1,\; Y(TT)=0
+          \]
+        </div>
+        <p>すると条件付き期待値は次の通り。</p>
+        <div class="formula">
+          \[
+            E[X \mid Y](HH)=E[X \mid Y=2]=1 \\
+            E[X \mid Y](HT)=E[X \mid Y=1]=\tfrac{1}{2} \\
+            E[X \mid Y](TH)=E[X \mid Y=1]=\tfrac{1}{2} \\
+            E[X \mid Y](TT)=E[X \mid Y=0]=0
+          \]
+        </div>
+      </article>
+
+      <article class="card property">
+        <h3>性質（有限確率空間）</h3>
+        <p>$\mathcal{F}_Y = \sigma(Y_1,\ldots,Y_n)$ とする。このとき $E[X \mid Y_1,\ldots,Y_n]$ は $E[X \mid \mathcal{F}_Y]$ とも書く。</p>
+        <ol>
+          <li>$E[X \mid Y_1,\ldots,Y_n]$ は $\mathcal{F}_Y$-可測。</li>
+          <li>任意の $A \in \mathcal{F}_Y$ に対し、$E[X 1_A] = E[E[X \mid Y_1,\ldots,Y_n] 1_A]$。</li>
+        </ol>
+        <details>
+          <summary>証明の流れ（概略）</summary>
+          <p>$A$ は互いに素な集合の和として書けるため、定義に基づいて各項を計算し直すと等式が成り立つ。</p>
+        </details>
+      </article>
+    </section>
+
+    <section class="block">
+      <h2>2. 一般の場合（$\sigma$-代数 $G$ での条件付き期待値）</h2>
+
+      <article class="card definition">
+        <h3>定義</h3>
+        <p>$(\Omega, \mathcal{F}, P)$ で $G \subset \mathcal{F}$ を $\sigma$-代数とし、$E[|X|]&lt;\infty$ を満たす確率変数 $X$ を考える。$G$-可測な確率変数 $E[X \mid G]$ が</p>
+        <div class="formula">
+          \[
+            E[X 1_A] = E[E[X \mid G] 1_A] \quad (\forall A \in G)
+          \]
+        </div>
+        <p>を満たすとき、$E[X \mid G]$ を $X$ の $G$ に関する条件付き期待値と呼ぶ。</p>
+      </article>
+
+      <article class="card proof">
+        <h3>存在と一意性（Radon-Nikodym 定理）</h3>
+        <ol>
+          <li>$\mu(A)=E[X 1_A]$ ($A \in G$) を定義。</li>
+          <li>$\mu$ は $G$ 上の有限符号付き測度で、$P|_G$ に絶対連続。</li>
+          <li>Radon-Nikodym 定理より $G$-可測な $g$ が存在し、$\mu(A)=E[g 1_A]$。この $g$ を $E[X \mid G]$ と置く。</li>
+        </ol>
+        <p class="note">一意性は a.s.（確率1）で保証される。</p>
+      </article>
+
+      <article class="card property">
+        <h3>性質（一般）</h3>
+        <ol>
+          <li>同条件を満たす $Z_1, Z_2$ があれば $P(E[X \mid G]=Z_1)=P(E[X \mid G]=Z_2)=1$。</li>
+          <li>線形性: $E[a_1 X_1 + a_2 X_2 \mid G] = a_1 E[X_1 \mid G] + a_2 E[X_2 \mid G]$。</li>
+          <li>$X$ が $G$-可測なら $E[X \mid G] = X$（a.s.）。</li>
+          <li>塔の性質: $E[E[X \mid G]] = E[X]$。</li>
+        </ol>
+      </article>
+
+      <article class="card usecase">
+        <h3>使いどころ</h3>
+        <p>株価などの確率過程 $(X_t)$ を考え、$G = \sigma(X_s : s&lt;t)$ と置くと、$E[X_t \mid G]$ は「過去の情報に基づく最良推定値」とみなせる。</p>
+      </article>
+    </section>
+
+    <section class="block assignment">
+      <h2>レポート</h2>
+      <ul>
+        <li><strong>レポート1</strong>: 公平なサイコロ2つを同時に投げ、出目を $X, Y$ とする。$S=X+Y$ とおく。$E[X \mid S]$ の分布を求めよ。</li>
+        <li><strong>レポート2</strong>: $E[E[X \mid G]] = E[X]$ の証明せよ。</li>
+      </ul>
+    </section>
+
+    <nav class="navigation" aria-label="ページナビゲーション">
+      <a href="../class11/class11.html" rel="prev">← 前のクラス</a>
+      <a href="../index.html">ホーム</a>
+    </nav>
+
+    <footer>PT25w / Class 12</footer>
+  </div>
+</body>
+</html>

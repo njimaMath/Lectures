@@ -1,0 +1,516 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Class 6: Differentiation in Polar Coordinates</title>
+    <style>
+        :root {
+            --primary-color: #2c3e50;
+            --secondary-color: #3498db;
+            --accent-color: #e74c3c;
+            --background-color: #f9f9f9;
+            --text-color: #333;
+            --container-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+            --text-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+        }
+
+        body {
+            font-family: 'Georgia', serif;
+            line-height: 1.7;
+            margin: 0;
+            padding: 0;
+            background-color: var(--background-color);
+            color: var(--text-color);
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 20px auto;
+            padding: 30px;
+            background-color: white;
+            box-shadow: var(--container-shadow);
+            border-radius: 15px;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 40px;
+            border-bottom: 2px solid var(--secondary-color);
+            padding-bottom: 20px;
+        }
+
+        h1, h2, h3 {
+            color: var(--primary-color);
+        }
+
+        .section-title {
+            color: var(--primary-color);
+            font-size: 1.8rem;
+            margin-top: 30px;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #eee;
+            text-shadow: var(--text-shadow);
+        }
+
+        .lecture-title {
+            color: var(--secondary-color);
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+            font-weight: normal;
+        }
+
+        .author-info {
+            font-style: italic;
+            color: #777;
+        }
+
+        .math {
+            font-style: italic;
+            padding: 0 3px;
+        }
+
+        .figure {
+            text-align: center;
+            margin: 30px 0;
+            padding: 20px;
+            background-color: #f8f9fa;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+        }
+
+        .figure img {
+            max-width: 100%;
+            border-radius: 5px;
+        }
+
+        .figure-caption {
+            font-style: italic;
+            color: #777;
+            margin-top: 15px;
+        }
+
+        .navigation {
+            margin-top: 40px;
+            text-align: center;
+            display: flex;
+            justify-content: space-between;
+            padding: 15px 0;
+            border-top: 1px solid #eee;
+        }
+
+        .navigation a {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: var(--primary-color);
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .navigation a:hover {
+            background-color: var(--secondary-color);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+        }
+
+        .topic-highlight {
+            display: inline-block;
+            background-color: rgba(52, 152, 219, 0.1);
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-weight: 500;
+            color: var(--primary-color);
+        }
+
+        .formula {
+            margin: 25px 0;
+            padding: 15px;
+            background-color: #f8f9fa;
+            border-left: 4px solid var(--secondary-color);
+            border-radius: 5px;
+            overflow-x: auto;
+            font-size: 1.1em;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+        }
+
+        .example-title {
+            font-weight: bold;
+            font-size: 1.2em;
+            color: var(--secondary-color);
+            margin-top: 30px;
+            margin-bottom: 15px;
+            padding-bottom: 5px;
+            border-bottom: 1px dashed #ccc;
+            display: inline-block;
+        }
+
+        p {
+            margin-bottom: 20px;
+            line-height: 1.8;
+        }
+
+        .content-section {
+            padding-bottom: 30px;
+        }
+        
+        .definition-box {
+            background-color: #f0f7ff;
+            border-left: 4px solid #3498db;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+        }
+        
+        .property-box {
+            background-color: #eefaf8;
+            border-left: 4px solid #2ecc71;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+        }
+        
+        .example-box {
+            background-color: #f0f9ff;
+            border: 1px solid #d1e6fa;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+        }
+        
+        .section-highlight {
+            background-color: #f8f9fa;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 25px 0;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+        }
+        
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 25px 0;
+            font-size: 0.9em;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+            border-radius: 5px;
+            overflow: hidden;
+        }
+        
+        .comparison-table thead tr {
+            background-color: var(--secondary-color);
+            color: white;
+            text-align: left;
+        }
+        
+        .comparison-table th,
+        .comparison-table td {
+            padding: 12px 15px;
+        }
+        
+        .comparison-table tbody tr {
+            border-bottom: 1px solid #dddddd;
+        }
+        
+        .comparison-table tbody tr:nth-of-type(even) {
+            background-color: #f3f3f3;
+        }
+        
+        .comparison-table tbody tr:last-of-type {
+            border-bottom: 2px solid var(--secondary-color);
+        }
+        
+        .visual-box {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: #f5f5f5;
+            border-radius: 8px;
+            padding: 15px;
+            margin: 25px 0;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+        }
+
+        .applications-list {
+            list-style-type: none;
+            padding-left: 0;
+        }
+        
+        .applications-list li {
+            background-color: #f8f9fa;
+            margin-bottom: 10px;
+            padding: 12px 15px;
+            border-radius: 5px;
+            box-shadow: 0 2px 3px rgba(0, 0, 0, 0.05);
+            border-left: 3px solid var(--secondary-color);
+        }
+    </style>
+    <!-- MathJax configuration -->
+    <script>
+      window.MathJax = {
+        tex: {
+          inlineMath: [['$', '$']],
+          displayMath: [['$$', '$$']]
+        },
+        svg: {
+          fontCache: 'global'
+        }
+      };
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js" async></script>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Differential and Integral Calculus I</h1>
+            <div class="lecture-title">Engineering: Electrical & Electronic Group 4</div>
+            <div class="author-info">Lecture Notes</div>
+        </header>
+        
+        <section id="class6" class="content-section">
+            <div class="section-title">Class 6: Differentiation in Polar Coordinates</div>
+            
+            <p>In this class, we explore how to perform differentiation in <span class="topic-highlight">polar coordinates</span>, applying the chain rule to relate derivatives in polar coordinates to those in Cartesian coordinates. This is especially useful for radially symmetric functions and problems with circular symmetry.</p>
+
+            <div class="section-highlight">
+                <h3>Introduction to Polar Coordinates</h3>
+                
+                <div class="definition-box">
+                    <h3 style="margin-top: 0;">Polar Coordinate System</h3>
+                    <p>Polar coordinates $(r, \theta)$ relate to Cartesian coordinates $(x, y)$ via the transformation:</p>
+                    <div class="formula" style="background: none; border-left: none; box-shadow: none;">
+                        \begin{align*}
+                        x &= r\cos\theta\\
+                        y &= r\sin\theta
+                        \end{align*}
+                    </div>
+                    <p>Conversely, we can express polar coordinates in terms of Cartesian coordinates:</p>
+                    <div class="formula" style="background: none; border-left: none; box-shadow: none;">
+                        \begin{align*}
+                        r &= \sqrt{x^2 + y^2}\\
+                        \theta &= \arctan\left(\frac{y}{x}\right)
+                        \end{align*}
+                    </div>
+                </div>
+                
+                <div class="visual-box">
+                    <svg width="300" height="300" viewBox="0 0 300 300">
+                        <!-- Coordinate grid -->
+                        <line x1="0" y1="150" x2="300" y2="150" stroke="#ccc" stroke-width="1" />
+                        <line x1="150" y1="0" x2="150" y2="300" stroke="#ccc" stroke-width="1" />
+                        
+                        <!-- Cartesian coordinate system -->
+                        <line x1="30" y1="150" x2="270" y2="150" stroke="#333" stroke-width="2" />
+                        <line x1="150" y1="30" x2="150" y2="270" stroke="#333" stroke-width="2" />
+                        
+                        <!-- x-axis arrowhead -->
+                        <polygon points="270,150 260,145 260,155" fill="#333" />
+                        
+                        <!-- y-axis arrowhead -->
+                        <polygon points="150,30 145,40 155,40" fill="#333" />
+                        
+                        <!-- Labels -->
+                        <text x="275" y="145" font-family="Arial" font-size="16">x</text>
+                        <text x="155" y="35" font-family="Arial" font-size="16">y</text>
+                        
+                        <!-- Sample point -->
+                        <circle cx="220" cy="100" r="5" fill="#3498db" />
+                        
+                        <!-- Radius line -->
+                        <line x1="150" y1="150" x2="220" y2="100" stroke="#e74c3c" stroke-width="2" />
+                        
+                        <!-- Angle arc -->
+                        <path d="M 170 150 A 20 20 0 0 0 164 134" fill="none" stroke="#2ecc71" stroke-width="2" />
+                        
+                        <!-- Polar coordinate labels -->
+                        <text x="175" y="115" font-family="Arial" font-size="14" fill="#e74c3c">r</text>
+                        <text x="168" y="140" font-family="Arial" font-size="14" fill="#2ecc71">θ</text>
+                        
+                        <!-- Point coordinates -->
+                        <text x="225" y="95" font-family="Arial" font-size="12">(r,θ) or (x,y)</text>
+                        
+                        <!-- Concentric circles -->
+                        <circle cx="150" cy="150" r="50" fill="none" stroke="#ccc" stroke-width="1" stroke-dasharray="3,3" />
+                        <circle cx="150" cy="150" r="100" fill="none" stroke="#ccc" stroke-width="1" stroke-dasharray="3,3" />
+                    </svg>
+                </div>
+                
+                <p>When working with functions in polar coordinates, we often encounter expressions of the form $f(r, \theta)$ where $r$ represents the distance from the origin and $\theta$ represents the angle from the positive $x$-axis.</p>
+            </div>
+
+            <div class="section-highlight">
+                <h3>Chain Rule for Polar Coordinates</h3>
+                
+                <p>To differentiate a function expressed in polar coordinates, we apply the chain rule from Class 5. If $z = f(r, \theta)$ and we want to find the partial derivatives with respect to $x$ and $y$, we use:</p>
+                
+                <div class="formula">
+                    $$\frac{\partial z}{\partial x} = \frac{\partial z}{\partial r} \cdot \frac{\partial r}{\partial x} + \frac{\partial z}{\partial \theta} \cdot \frac{\partial \theta}{\partial x}$$
+                </div>
+                
+                <div class="formula">
+                    $$\frac{\partial z}{\partial y} = \frac{\partial z}{\partial r} \cdot \frac{\partial r}{\partial y} + \frac{\partial z}{\partial \theta} \cdot \frac{\partial \theta}{\partial y}$$
+                </div>
+                
+                <p>We need to compute the derivatives of $r$ and $\theta$ with respect to $x$ and $y$:</p>
+                
+                <div class="property-box">
+                    <h3 style="margin-top: 0;">Derivatives of Polar-to-Cartesian Conversion</h3>
+                    <p>From $r = \sqrt{x^2 + y^2}$, we get:</p>
+                    <div class="formula" style="background: none; border-left: none; box-shadow: none;">
+                        \begin{align*}
+                        \frac{\partial r}{\partial x} &= \frac{x}{\sqrt{x^2 + y^2}} = \frac{x}{r} = \cos\theta\\
+                        \frac{\partial r}{\partial y} &= \frac{y}{\sqrt{x^2 + y^2}} = \frac{y}{r} = \sin\theta
+                        \end{align*}
+                    </div>
+                    
+                    <p>From $\theta = \arctan\left(\frac{y}{x}\right)$, we get:</p>
+                    <div class="formula" style="background: none; border-left: none; box-shadow: none;">
+                        \begin{align*}
+                        \frac{\partial \theta}{\partial x} &= \frac{-y}{x^2 + y^2} = -\frac{y}{r^2} = -\frac{\sin\theta}{r}\\
+                        \frac{\partial \theta}{\partial y} &= \frac{x}{x^2 + y^2} = \frac{x}{r^2} = \frac{\cos\theta}{r}
+                        \end{align*}
+                    </div>
+                </div>
+                
+                <p>Substituting these results into our chain rule formulas, we get:</p>
+                
+                <div class="formula">
+                    $$\frac{\partial z}{\partial x} = \frac{\partial z}{\partial r} \cdot \cos\theta - \frac{\partial z}{\partial \theta} \cdot \frac{\sin\theta}{r}$$
+                </div>
+                
+                <div class="formula">
+                    $$\frac{\partial z}{\partial y} = \frac{\partial z}{\partial r} \cdot \sin\theta + \frac{\partial z}{\partial \theta} \cdot \frac{\cos\theta}{r}$$
+                </div>
+            </div>
+
+            <div class="example-box">
+                <div class="example-title">Example 6.1</div>
+                <p>Consider the function $f(x,y) = x^2 + y^2$. Express this function in polar coordinates and find $\frac{\partial f}{\partial x}$ and $\frac{\partial f}{\partial y}$ using both direct Cartesian differentiation and the chain rule with polar coordinates.</p>
+                
+                <p><strong>Solution:</strong></p>
+                <p>In polar coordinates, $f(r,\theta) = r^2$, since $x^2 + y^2 = r^2$.</p>
+                
+                <p>Using direct Cartesian differentiation:</p>
+                <div class="formula" style="background: none; border-left: none; box-shadow: none;">
+                    \begin{align*}
+                    \frac{\partial f}{\partial x} &= \frac{\partial}{\partial x}(x^2 + y^2) = 2x\\
+                    \frac{\partial f}{\partial y} &= \frac{\partial}{\partial y}(x^2 + y^2) = 2y
+                    \end{align*}
+                </div>
+                
+                <p>Using the chain rule with polar coordinates:</p>
+                <div class="formula" style="background: none; border-left: none; box-shadow: none;">
+                    \begin{align*}
+                    \frac{\partial f}{\partial r} &= \frac{\partial}{\partial r}(r^2) = 2r\\
+                    \frac{\partial f}{\partial \theta} &= \frac{\partial}{\partial \theta}(r^2) = 0
+                    \end{align*}
+                </div>
+                
+                <p>Now applying our formulas:</p>
+                <div class="formula" style="background: none; border-left: none; box-shadow: none;">
+                    \begin{align*}
+                    \frac{\partial f}{\partial x} &= \frac{\partial f}{\partial r} \cdot \cos\theta - \frac{\partial f}{\partial \theta} \cdot \frac{\sin\theta}{r}\\
+                    &= 2r \cdot \cos\theta - 0 \cdot \frac{\sin\theta}{r}\\
+                    &= 2r\cos\theta
+                    \end{align*}
+                </div>
+                
+                <p>Since $r\cos\theta = x$, we have:</p>
+                <div class="formula" style="background: none; border-left: none; box-shadow: none;">
+                    \begin{align*}
+                    \frac{\partial f}{\partial x} = 2r\cos\theta = 2x
+                    \end{align*}
+                </div>
+                
+                <p>Similarly:</p>
+                <div class="formula" style="background: none; border-left: none; box-shadow: none;">
+                    \begin{align*}
+                    \frac{\partial f}{\partial y} &= \frac{\partial f}{\partial r} \cdot \sin\theta + \frac{\partial f}{\partial \theta} \cdot \frac{\cos\theta}{r}\\
+                    &= 2r \cdot \sin\theta + 0 \cdot \frac{\cos\theta}{r}\\
+                    &= 2r\sin\theta = 2y
+                    \end{align*}
+                </div>
+                
+                <p>This confirms that both methods yield the same result.</p>
+            </div>
+
+            <div class="example-box">
+                <div class="example-title">Example 6.2</div>
+                <p>Find the partial derivatives of $f(r,\theta) = r^2\sin(2\theta)$ with respect to $x$ and $y$.</p>
+                
+                <p><strong>Solution:</strong></p>
+                <p>First, we compute the partial derivatives with respect to $r$ and $\theta$:</p>
+                <div class="formula" style="background: none; border-left: none; box-shadow: none;">
+                    \begin{align*}
+                    \frac{\partial f}{\partial r} &= \frac{\partial}{\partial r}(r^2\sin(2\theta)) = 2r\sin(2\theta)\\
+                    \frac{\partial f}{\partial \theta} &= \frac{\partial}{\partial \theta}(r^2\sin(2\theta)) = r^2 \cdot 2\cos(2\theta) = 2r^2\cos(2\theta)
+                    \end{align*}
+                </div>
+                
+                <p>Using the chain rule:</p>
+                <div class="formula" style="background: none; border-left: none; box-shadow: none;">
+                    \begin{align*}
+                    \frac{\partial f}{\partial x} &= \frac{\partial f}{\partial r} \cdot \frac{\partial r}{\partial x} + \frac{\partial f}{\partial \theta} \cdot \frac{\partial \theta}{\partial x}\\
+                    &= 2r\sin(2\theta) \cdot \cos\theta - 2r^2\cos(2\theta) \cdot \frac{\sin\theta}{r}\\
+                    &= 2r\sin(2\theta)\cos\theta - 2r\cos(2\theta)\sin\theta
+                    \end{align*}
+                </div>
+                
+                <p>Using the double-angle formula $\sin(2\theta) = 2\sin\theta\cos\theta$:</p>
+                <div class="formula" style="background: none; border-left: none; box-shadow: none;">
+                    \begin{align*}
+                    \frac{\partial f}{\partial x} &= 2r \cdot 2\sin\theta\cos\theta \cdot \cos\theta - 2r\cos(2\theta)\sin\theta\\
+                    &= 4r\sin\theta\cos^2\theta - 2r\cos(2\theta)\sin\theta
+                    \end{align*}
+                </div>
+                
+                <p>Similarly for $\frac{\partial f}{\partial y}$:</p>
+                <div class="formula" style="background: none; border-left: none; box-shadow: none;">
+                    \begin{align*}
+                    \frac{\partial f}{\partial y} &= \frac{\partial f}{\partial r} \cdot \frac{\partial r}{\partial y} + \frac{\partial f}{\partial \theta} \cdot \frac{\partial \theta}{\partial y}\\
+                    &= 2r\sin(2\theta) \cdot \sin\theta + 2r^2\cos(2\theta) \cdot \frac{\cos\theta}{r}\\
+                    &= 2r\sin(2\theta)\sin\theta + 2r\cos(2\theta)\cos\theta
+                    \end{align*}
+                </div>
+                
+                <p>These expressions can be further simplified using trigonometric identities, but this demonstrates the process of differentiation in polar coordinates.</p>
+            </div>
+
+            <div class="section-highlight">
+                <h3>Applications of Polar Coordinates</h3>
+                
+                <p>Polar coordinates are particularly useful in problems involving:</p>
+                
+                <ul class="applications-list">
+                    <li><strong>Circular Symmetry</strong> - Problems where properties depend only on the distance from the origin (e.g., wave propagation from a point source)</li>
+                    <li><strong>Radial Fields</strong> - Gravitational, electric, or magnetic fields that vary with the distance from a central point</li>
+                    <li><strong>Rotation-Invariant Systems</strong> - Systems that behave the same regardless of orientation around the origin</li>
+                    <li><strong>Geometric Problems</strong> - Situations where radius and angle are more natural variables than Cartesian coordinates</li>
+                </ul>
+                
+                <div class="figure" style="background-color: #eefaf8; border-left: 4px solid #2ecc71; text-align: left;">
+                    <h3 style="margin-top: 0;">Key Insights about Polar Coordinates</h3>
+                    <ul style="padding-left: 20px;">
+                        <li>Polar coordinates often simplify problems with circular or radial symmetry that would be more complex in Cartesian coordinates.</li>
+                        <li>The chain rule is essential for converting derivatives between coordinate systems.</li>
+                        <li>Functions that have a simple form in one coordinate system may have a more complex representation in another.</li>
+                        <li>When differentiating functions in polar form, remember that both $r$ and $\theta$ depend on $x$ and $y$.</li>
+                        <li>Engineers commonly use polar coordinates for problems involving circular motion, wave propagation, and field analysis.</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <div class="navigation">
+            <a href="class5.html">← Previous: Class 5</a>
+            <a href="../index.html">Home</a>
+            <a href="class7.html">Next: Class 7 →</a>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,776 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>第6回 補講メモ</title>
+  <!-- Softer tone / relaxed magazine style -->
+  <style>
+    :root{
+      --ink:#1a1a1a;
+      --sub:#6b6b6b;
+      --accent:#6b2e2e;
+      --rule:#e8e7e5;
+      --bg:#fffaf6;
+      --card-bg:#ffffff;
+      --serif: "Noto Serif JP","Yu Mincho","Hiragino Mincho ProN","Source Han Serif","MS PMincho",serif;
+      --sans: "Noto Sans JP","Yu Gothic","Hiragino Kaku Gothic ProN","Meiryo",sans-serif;
+      --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+      --max: 820px;
+      --radius: 12px;
+      --gap: 16px;
+    }
+    html,body{
+      background: var(--bg);
+      color: var(--ink);
+      margin:0;
+      padding:0;
+      -webkit-font-smoothing:antialiased;
+      -moz-osx-font-smoothing:grayscale;
+      font-family: var(--serif);
+    }
+    header{
+      background: linear-gradient(180deg, rgba(255,255,255,0.9), rgba(255,255,255,0.85));
+      box-shadow: 0 1px 0 rgba(19,19,19,0.03);
+      position: sticky;
+      top:0;
+      z-index: 10;
+      backdrop-filter: blur(3px);
+    }
+    .masthead{
+      max-width: var(--max);
+      margin: 0 auto;
+      padding: 12px var(--gap);
+      display:flex;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+      font-family: var(--sans);
+    }
+    .brand{
+      font-size: 16px;
+      color: var(--accent);
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      background: linear-gradient(90deg, rgba(107,46,46,0.06), transparent);
+      padding: 6px 10px;
+      border-radius: 8px;
+    }
+    .section{
+      font-size: 13px;
+      color: var(--sub);
+      padding: 6px 8px;
+      border-radius: 8px;
+      background: rgba(0,0,0,0.02);
+      margin-left: auto;
+    }
+    main{
+      max-width: var(--max);
+      margin: 22px auto;
+      padding: 20px var(--gap) 72px;
+    }
+    h1{
+      font-family: var(--serif);
+      font-size: 30px;
+      line-height: 1.28;
+      font-weight:700;
+      margin: 6px 0 6px;
+      color: var(--ink);
+    }
+    .dek{
+      font-family: var(--sans);
+      font-size: 15px;
+      color: var(--sub);
+      margin: 8px 0 14px;
+    }
+    .meta{
+      font-family: var(--sans);
+      font-size: 13px;
+      color: var(--sub);
+      display:flex;
+      gap:12px;
+      flex-wrap:wrap;
+      margin-bottom: 18px;
+    }
+    .meta div{ padding:6px 10px; background: rgba(0,0,0,0.02); border-radius:8px; }
+    article{
+      font-family: var(--serif);
+      font-size: 17px;
+      line-height: 1.9;
+      color: var(--ink);
+      background: linear-gradient(180deg, rgba(255,255,255,0.95), rgba(255,255,255,0.98));
+      padding: 20px;
+      border-radius: var(--radius);
+      box-shadow: 0 8px 20px rgba(16,16,16,0.03);
+      border: 1px solid var(--rule);
+    }
+    p{ margin: 0 0 1.05em; }
+    .lead{
+      position: relative;
+      padding-top: 4px;
+    }
+    .lead::first-letter{
+      float:left;
+      font-size: 36px;
+      line-height: 1;
+      padding-right: 8px;
+      padding-top: 2px;
+      font-family: var(--serif);
+      font-weight: 700;
+      color: var(--accent);
+      background: rgba(107,46,46,0.04);
+      border-radius: 6px;
+      padding-left: 6px;
+      padding-right: 6px;
+      margin-right: 8px;
+    }
+    h2{
+      font-family: var(--sans);
+      font-size: 15px;
+      font-weight: 700;
+      color: rgba(0,0,0,0.92);
+      margin: 24px 0 8px;
+      padding-bottom: 6px;
+      border-bottom: 1px dashed var(--rule);
+    }
+    .eq{
+      text-align: center;
+      margin: 14px auto;
+      padding: 10px 16px;
+      font-family: var(--serif);
+      background: #fcfcfc;
+      border: 1px solid var(--rule);
+      border-radius: 8px;
+      max-width: 640px;
+    }
+    /* left-aligned variant for lists like axioms */
+    .eq.axioms{ text-align: left; }
+    /* specifically left-align the BM axioms block */
+    #bm + p + .eq{ text-align: left; }
+    .theorem{
+      border-left: 4px solid var(--accent);
+      background: #fff;
+      padding: 14px 16px;
+      margin: 16px 0;
+      border-radius: 8px;
+    }
+    .theorem .label{
+      font-family: var(--sans);
+      font-size: 12px;
+      font-weight:700;
+      color: var(--accent);
+      display:inline-block;
+      margin-bottom:6px;
+    }
+    .note{
+      font-family: var(--sans);
+      font-size: 14px;
+      color: var(--sub);
+      padding-left:10px;
+      margin: 8px 0 0;
+    }
+    .pull{
+      font-family: var(--serif);
+      font-size: 16px;
+      line-height:1.9;
+      color:#333;
+      background: linear-gradient(90deg, rgba(107,46,46,0.03), rgba(0,0,0,0.01));
+      padding:12px 14px;
+      margin: 14px 0;
+      border-radius: 8px;
+      border: 1px solid rgba(0,0,0,0.03);
+    }
+    code, kbd, samp{
+      font-family: var(--mono);
+      font-size: .95em;
+      background:#f6f6f6;
+      padding:.12em .34em;
+      border-radius:6px;
+    }
+    .footer-note{
+      font-family: var(--sans);
+      font-size: 13px;
+      color: var(--sub);
+      margin-top: 22px;
+      padding-top: 12px;
+      border-top: 1px dashed var(--rule);
+    }
+    .back-nav{
+      display:flex;
+      justify-content:flex-start;
+      margin-bottom:16px;
+    }
+    .back-link{
+      display:inline-flex;
+      align-items:center;
+      gap:6px;
+      font-family: var(--sans);
+      font-size:13px;
+      font-weight:600;
+      color: var(--accent);
+      text-decoration:none;
+      padding:6px 14px;
+      border-radius:999px;
+      border:1px solid rgba(107,46,46,0.28);
+      background: rgba(107,46,46,0.06);
+      transition: background 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+    }
+    .back-link:hover{
+      background: rgba(107,46,46,0.12);
+      transform: translateY(-1px);
+      box-shadow:0 8px 18px rgba(107,46,46,0.18);
+    }
+
+    /* --- extras for simulations --- */
+    .sim-card{
+      background: #fff;
+      border: 1px solid var(--rule);
+      border-radius: 10px;
+      padding: 12px;
+      margin: 14px 0 6px;
+      box-shadow: 0 3px 12px rgba(0,0,0,0.03);
+    }
+    .sim-title{
+      font-family: var(--sans);
+      font-size: 13px;
+      color:#333;
+      margin-bottom: 8px;
+      display:flex;
+      align-items:center;
+      gap:8px;
+      flex-wrap: wrap;
+    }
+    .badge{
+      display:inline-block;
+      font-family: var(--sans);
+      font-size: 11px;
+      color: var(--accent);
+      border:1px solid rgba(107,46,46,0.28);
+      background: rgba(107,46,46,0.06);
+      padding: 2px 8px;
+      border-radius: 999px;
+    }
+    .controls{
+      display:grid;
+      grid-template-columns: 1fr;
+      gap:8px;
+      margin-bottom:10px;
+      font-family: var(--sans);
+      font-size: 13px;
+      color:#333;
+    }
+    .controls .row{
+      display:grid;
+      grid-template-columns: 120px 1fr 80px;
+      gap:8px;
+      align-items:center;
+    }
+    .controls input[type="range"]{ width:100%; }
+    .controls input[type="number"],
+    .controls input[type="text"]{
+      width:100%;
+      box-sizing: border-box;
+      padding:6px 8px;
+      border-radius:8px;
+      border:1px solid var(--rule);
+      background:#fafafa;
+      font-family: var(--mono);
+      font-size: 12px;
+    }
+    .btn{
+      display:inline-flex;
+      align-items:center;
+      gap:6px;
+      font-family: var(--sans);
+      font-size:13px;
+      font-weight:600;
+      color:#fff;
+      text-decoration:none;
+      padding:8px 12px;
+      border-radius:8px;
+      border:1px solid rgba(107,46,46,0.28);
+      background: var(--accent);
+      cursor:pointer;
+      user-select:none;
+    }
+    .stats{
+      font-family: var(--mono);
+      font-size: 12px;
+      color:#444;
+      display:flex;
+      flex-wrap:wrap;
+      gap:10px;
+      margin-top:6px;
+    }
+    canvas.chart{
+      width: 100%;
+      height: 220px;
+      display:block;
+      border-radius:8px;
+      background:#fff;
+      border:1px solid var(--rule);
+    }
+    .ref-list{
+      margin: 8px 0 0 1.1em;
+      padding: 0;
+    }
+    .ref-list li{
+      margin: .25em 0;
+    }
+
+    @media (max-width:520px){
+      h1{ font-size: 22px; }
+      .masthead{ padding:10px; }
+      main{ padding: 16px; }
+      article{ padding: 16px; }
+      .lead::first-letter{ font-size: 30px; }
+      .controls .row{
+        grid-template-columns: 1fr;
+      }
+    }
+    @media print{
+      header{ display:none; }
+      body{ background: #fff; color: #000; }
+      article{ box-shadow:none; border-radius:0; padding:0; border:none; }
+      .sim-card, .controls, canvas.chart, .btn{ display:none; }
+    }
+  </style>
+  <!-- MathJax (use $...$ for inline, $$...$$ for display) -->
+  <script>
+    window.MathJax = {
+      tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']],
+        displayMath: [['$$','$$'], ['\\[','\\]']],
+        tags: 'none'
+      },
+      svg: {fontCache: 'global'}
+    };
+  </script>
+  <script defer src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+</head>
+<body>
+  <header>
+    <div class="masthead">
+      <div class="brand">雑記・確率</div>
+      <div class="section">補講</div>
+    </div>
+  </header>
+  <main>
+    <nav class="back-nav">
+      <a class="back-link" href="../index.html">&larr; ホームに戻る</a>
+    </nav>
+    <h1>第6回 コラム</h1>
+    <div class="meta">
+      <div>寄稿：中島秀太</div>
+      <div>更新日：2025年11月1日</div>
+    </div>
+
+    <article>
+      <p class="lead">
+        第6回では二項分布の計算を入り口に中心極限定理（CLT）の形と使い方を確認し、その応用例として単純ランダムウォーク（SRW）からブラウン運動（BM）を導く道筋を概観した。以下では、定義と最小限の性質、簡単なシミュレーション、そして極限定理の見取り図をまとめる。
+      </p>
+
+      <!-- 1. SRW -->
+      <h2 id="srw">1. 単純ランダムウォーク（SRW）</h2>
+      <p>
+        $\{X_i\}_{i\ge1}$ を独立同分布な $\{0,1\}$ 値確率変数（$X_i\sim \mathrm{CF}(p)$）とし、$Y_i=2X_i-1$ とおく。和 $S_n=\sum_{i=1}^n Y_i$ によりランダムウォーク $(S_n)_{n\ge0}$ を定める（$S_0=0$）。とくに $p=\tfrac12$ のときを対称 SRW と呼ぶ。
+      </p>
+      <div class="eq axioms">
+        $\mathbb E[X_1]=p,\quad \mathrm{Var}(X_1)=p(1-p),\quad \mathbb E[Y_1]=2p-1$
+        <br>
+        $\mathrm{Var}(Y_1)=4p(1-p),\\[2pt]
+        \mathbb E[S_n]=n(2p-1),\quad \mathrm{Var}(S_n)=4np(1-p).$
+      </div>
+      <p>
+        分布は二項分布を通じて次で与えられる（$k\equiv n\pmod2$ のときのみ正の確率）:
+      </p>
+      <div class="eq">
+        $\mathbb P(S_n=k)=\binom{n}{(n+k)/2}p^{(n+k)/2}(1-p)^{(n-k)/2}.$
+      </div>
+
+      <div class="sim-card" id="srw-sim">
+        <div class="sim-title">
+          <span class="badge">SRW シミュレーション</span>
+          <span class="note">ステップ数と $p$ を動かして軌跡を描画</span>
+        </div>
+        <div class="controls">
+          <div class="row">
+            <label for="srw-n">ステップ数 $n$</label>
+            <input id="srw-n" type="range" min="100" max="5000" step="100" value="1000" />
+            <output id="srw-n-val">1000</output>
+          </div>
+          <div class="row">
+            <label for="srw-p">成功確率 $p$</label>
+            <input id="srw-p" type="range" min="0" max="1" step="0.01" value="0.50" />
+            <output id="srw-p-val">0.50</output>
+          </div>
+          <div class="row">
+            <label for="srw-seed">シード</label>
+            <input id="srw-seed" type="text" value="srw-42" />
+            <button id="srw-run" class="btn" aria-label="SRWを再描画">描画</button>
+          </div>
+        </div>
+        <canvas class="chart" id="srw-canvas" aria-label="SRW 軌跡"></canvas>
+        <div class="stats" id="srw-stats"></div>
+      </div>
+
+      <!-- 2. BM -->
+      <h2 id="bm">2. ブラウン運動（BM）</h2>
+      <p>
+        定義（3公理）：ブラウン運動 $(B_t)_{t\ge0}$ とは、次の性質を満たす実確率過程である。
+      </p>
+      <div class="eq">
+        1) $B(0)=0$.<br/>
+        2) 任意の $0\le s&lt;t$ について、$B(t)-B(s)\overset{d}{\sim}\mathcal N(0,\,t-s)$.<br/>
+        3) 任意の分割 $0=t_0&lt;t_1&lt;\cdots&lt;t_n$ に対し、増分 $$B(t_k)-B(t_{k-1})\quad（k=1,\dots,n）$$ は互いに独立。
+      </div>
+      <p class="note">
+        備考：2) から増分は定常（分布が長さ $t-s$ のみに依存）。通常は連続な修正版を取り、連続軌跡をもつ過程（Wiener 過程）として扱う。
+      </p>
+      <p>
+        歴史（概略）：現象の観察は Brown (1827)。確率論以前に Bachelier (1900) が価格モデルで先駆。物理的説明は Einstein (1905) と Smoluchowski (1906)。厳密な数学的構成は Wiener (1923)。
+      </p>
+      <div class="sim-card" id="bm-sim">
+        <div class="sim-title">
+          <span class="badge">BM シミュレーション</span>
+          <span class="note">$B_t$ の離散近似（正規増分の累積）</span>
+        </div>
+        <div class="controls">
+          <div class="row">
+            <label for="bm-T">時間長 $T$</label>
+            <input id="bm-T" type="range" min="0.5" max="3" step="0.1" value="1.0" />
+            <output id="bm-T-val">1.0</output>
+          </div>
+          <div class="row">
+            <label for="bm-N">分割数 $N$</label>
+            <input id="bm-N" type="range" min="200" max="6000" step="200" value="1000" />
+            <output id="bm-N-val">1000</output>
+          </div>
+          <div class="row">
+            <label for="bm-seed">シード</label>
+            <input id="bm-seed" type="text" value="bm-23" />
+            <button id="bm-run" class="btn" aria-label="BMを再描画">描画</button>
+          </div>
+        </div>
+        <canvas class="chart" id="bm-canvas" aria-label="BM 軌跡"></canvas>
+        <div class="stats" id="bm-stats"></div>
+      </div>
+
+      <!-- 3. SRW -> BM -->
+      <h2 id="invariance">3. SRW から BM へ（導出の概略）</h2>
+      <div class="theorem">
+        <div class="label">機能的中心極限定理（Donsker の不変原理）</div>
+        <p>
+          $\{X_i\}$ を平均 $\mu$, 分散 $\sigma^2\in(0,\infty)$ の独立同分布列とし、$Y_i=(X_i-\mu)/\sigma$、
+          $W^{(n)}_t=\frac1{\sqrt{n}}\sum_{i=1}^{\lfloor nt\rfloor} Y_i$（$t\in[0,1]$）とおく。
+          すると 適当な意味(Skorokhod 位相) で
+          $$W^{(n)} \Rightarrow B,$$
+          (すなわち $W^{(n)}$ は標準ブラウン運動)に弱収束する。
+        </p>
+      </div>
+      <div class="pull">
+        証明のアイデア：SRWが近似的にブラウン運動の公理３つを満たすことを確かめる。分布が正規分布に従うことは通常の中心極限定理でわかる。独立増分などの条件は自動的に満たされる。
+      </div>
+      <p class="note">
+        対称 SRW（$p=\tfrac12$）では $\mu=0,\ \sigma^2=1$、よって $\tfrac1{\sqrt n}S_{\lfloor nt\rfloor}\Rightarrow B_t$。
+      </p>
+
+    </article>
+  </main>
+
+  <!-- --- scripts (SRW / BM / scaling) --- -->
+  <script>
+    // ---------- utilities: seeded RNG ----------
+    function xmur3(str){
+      let h = 1779033703 ^ str.length;
+      for (let i = 0; i < str.length; i++) {
+        h = Math.imul(h ^ str.charCodeAt(i), 3432918353);
+        h = (h << 13) | (h >>> 19);
+      }
+      return function(){ 
+        h = Math.imul(h ^ (h >>> 16), 2246822507);
+        h = Math.imul(h ^ (h >>> 13), 3266489909);
+        return (h ^= h >>> 16) >>> 0;
+      };
+    }
+    function mulberry32(a){
+      return function(){
+        let t = a += 0x6D2B79F5;
+        t = Math.imul(t ^ (t >>> 15), t | 1);
+        t ^= t + Math.imul(t ^ (t >>> 7), t | 61);
+        return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+      };
+    }
+    function makeRNG(seed){
+      const h = xmur3(String(seed));
+      return mulberry32(h());
+    }
+    // Box–Muller（Ziggurat等より簡素だが十分）
+    function makeRandn(rng){
+      let spare = null;
+      return function(){
+        if (spare !== null){ const z = spare; spare = null; return z; }
+        let u = 0, v = 0, s = 0;
+        do {
+          u = rng()*2 - 1;
+          v = rng()*2 - 1;
+          s = u*u + v*v;
+        } while (s === 0 || s >= 1);
+        const m = Math.sqrt(-2 * Math.log(s) / s);
+        spare = v * m;
+        return u * m;
+      };
+    }
+
+    // ---------- math helpers ----------
+    function srwPath(n, p, rng){
+      const path = new Float64Array(n+1);
+      path[0] = 0;
+      for (let i=1;i<=n;i++){
+        const step = (rng() < p) ? 1 : -1;
+        path[i] = path[i-1] + step;
+      }
+      return path;
+    }
+    function bmPath(N, T, rng){
+      const path = new Float64Array(N+1);
+      const randn = makeRandn(rng);
+      const dt = T / N;
+      const sdt = Math.sqrt(dt);
+      path[0] = 0;
+      for (let i=1;i<=N;i++){
+        path[i] = path[i-1] + sdt * randn();
+      }
+      return path;
+    }
+
+    // ---------- drawing ----------
+    function fitCanvas(canvas){
+      const dpr = window.devicePixelRatio || 1;
+      const rect = canvas.getBoundingClientRect();
+      canvas.width = Math.max(1, Math.floor(rect.width * dpr));
+      canvas.height = Math.max(1, Math.floor(rect.height * dpr));
+      const ctx = canvas.getContext('2d');
+      ctx.setTransform(dpr,0,0,dpr,0,0);
+      return ctx;
+    }
+    function drawAxes(ctx, w, h, margin, yZeroPos){
+      ctx.save();
+      ctx.strokeStyle = 'rgba(0,0,0,0.05)';
+      ctx.lineWidth = 1;
+
+      // vertical grid
+      const gridX = 6;
+      for (let i=0;i<=gridX;i++){
+        const x = margin + (w - 2*margin) * (i/gridX);
+        ctx.beginPath();
+        ctx.moveTo(x, margin);
+        ctx.lineTo(x, h - margin);
+        ctx.stroke();
+      }
+      // horizontal grid
+      const gridY = 6;
+      for (let j=0;j<=gridY;j++){
+        const y = margin + (h - 2*margin) * (j/gridY);
+        ctx.beginPath();
+        ctx.moveTo(margin, y);
+        ctx.lineTo(w - margin, y);
+        ctx.stroke();
+      }
+      // horizontal axis at 0
+      if (yZeroPos >= margin && yZeroPos <= h - margin){
+        ctx.strokeStyle = 'rgba(0,0,0,0.25)';
+        ctx.beginPath();
+        ctx.moveTo(margin, yZeroPos);
+        ctx.lineTo(w - margin, yZeroPos);
+        ctx.stroke();
+      }
+      ctx.restore();
+    }
+    function drawSeries(ctx, values, options){
+      const {w, h, margin, strokeStyle, lineWidth} = options;
+      const n = values.length - 1;
+      let vmin = Infinity, vmax = -Infinity;
+      for (let i=0;i<values.length;i++){
+        const v = values[i];
+        if (v < vmin) vmin = v;
+        if (v > vmax) vmax = v;
+      }
+      if (vmin === vmax){ vmin -= 1; vmax += 1; }
+      const plotW = w - 2*margin;
+      const plotH = h - 2*margin;
+      const xAt = (i)=> margin + plotW * (i/n);
+      const yAt = (v)=> margin + plotH * (1 - (v - vmin) / (vmax - vmin));
+      const yZero = yAt(0);
+
+      drawAxes(ctx, w, h, margin, yZero);
+
+      ctx.save();
+      ctx.strokeStyle = strokeStyle || 'rgba(107,46,46,0.85)';
+      ctx.lineWidth = lineWidth || 1.6;
+      ctx.beginPath();
+      ctx.moveTo(xAt(0), yAt(values[0]));
+      for (let i=1;i<=n;i++){
+        ctx.lineTo(xAt(i), yAt(values[i]));
+      }
+      ctx.stroke();
+      ctx.restore();
+
+      return {vmin, vmax};
+    }
+    function overlaySeries(ctx, values, options){
+      const {w, h, margin, strokeStyle, lineWidth, vmin, vmax} = options;
+      const n = values.length - 1;
+      const plotW = w - 2*margin;
+      const plotH = h - 2*margin;
+      const xAt = (i)=> margin + plotW * (i/n);
+      const yAt = (v)=> margin + plotH * (1 - (v - vmin) / (vmax - vmin));
+      ctx.save();
+      ctx.strokeStyle = strokeStyle || 'rgba(0,0,0,0.55)';
+      ctx.lineWidth = lineWidth || 1.2;
+      ctx.setLineDash([4,3]);
+      ctx.beginPath();
+      ctx.moveTo(xAt(0), yAt(values[0]));
+      for (let i=1;i<=n;i++){
+        ctx.lineTo(xAt(i), yAt(values[i]));
+      }
+      ctx.stroke();
+      ctx.restore();
+    }
+
+    // ---------- SRW card ----------
+    const srwN = document.getElementById('srw-n');
+    const srwNVal = document.getElementById('srw-n-val');
+    const srwP = document.getElementById('srw-p');
+    const srwPVal = document.getElementById('srw-p-val');
+    const srwSeed = document.getElementById('srw-seed');
+    const srwBtn = document.getElementById('srw-run');
+    const srwCanvas = document.getElementById('srw-canvas');
+    const srwStats = document.getElementById('srw-stats');
+
+    function updateSRWLabels(){
+      srwNVal.textContent = srwN.value;
+      srwPVal.textContent = Number(srwP.value).toFixed(2);
+    }
+    srwN.addEventListener('input', updateSRWLabels);
+    srwP.addEventListener('input', updateSRWLabels);
+
+    function drawSRW(){
+      const n = Number(srwN.value);
+      const p = Number(srwP.value);
+      const rng = makeRNG(srwSeed.value || 'srw');
+      const path = srwPath(n, p, rng);
+
+      const ctx = fitCanvas(srwCanvas);
+      const rect = srwCanvas.getBoundingClientRect();
+      const w = rect.width, h = rect.height, margin = 18;
+
+      const {vmin, vmax} = drawSeries(ctx, path, {w,h,margin, strokeStyle:'rgba(107,46,46,0.9)', lineWidth:1.6});
+      const mean = n*(2*p-1);
+      const variance = 4*n*p*(1-p);
+      const final = path[path.length-1];
+
+      srwStats.innerHTML = [
+        `E[S<sub>${n}</sub>]=${mean.toFixed(2)}`,
+        `Var[S<sub>${n}</sub>]=${variance.toFixed(2)}`,
+        `S<sub>${n}</sub>=${final}`,
+        `レンジ=[${vmin.toFixed(1)}, ${vmax.toFixed(1)}]`
+      ].map(s=>`<span>${s}</span>`).join('');
+    }
+
+    // ---------- BM card ----------
+    const bmT = document.getElementById('bm-T');
+    const bmTVal = document.getElementById('bm-T-val');
+    const bmN = document.getElementById('bm-N');
+    const bmNVal = document.getElementById('bm-N-val');
+    const bmSeed = document.getElementById('bm-seed');
+    const bmBtn = document.getElementById('bm-run');
+    const bmCanvas = document.getElementById('bm-canvas');
+    const bmStats = document.getElementById('bm-stats');
+
+    function updateBMLabels(){
+      bmTVal.textContent = Number(bmT.value).toFixed(1);
+      bmNVal.textContent = bmN.value;
+    }
+    bmT.addEventListener('input', updateBMLabels);
+    bmN.addEventListener('input', updateBMLabels);
+
+    function drawBM(){
+      const T = Number(bmT.value);
+      const N = Number(bmN.value);
+      const rng = makeRNG(bmSeed.value || 'bm');
+      const path = bmPath(N, T, rng);
+
+      const ctx = fitCanvas(bmCanvas);
+      const rect = bmCanvas.getBoundingClientRect();
+      const w = rect.width, h = rect.height, margin = 18;
+
+      const {vmin, vmax} = drawSeries(ctx, path, {w,h,margin, strokeStyle:'rgba(0,0,0,0.75)', lineWidth:1.6});
+      const final = path[path.length-1];
+
+      bmStats.innerHTML = [
+        `E[B<sub>${T}</sub>]=0`,
+        `Var[B<sub>${T}</sub>]=${T.toFixed(2)}`,
+        `B<sub>${T}</sub>=${final.toFixed(3)}`,
+        `レンジ=[${vmin.toFixed(2)}, ${vmax.toFixed(2)}]`
+      ].map(s=>`<span>${s}</span>`).join('');
+    }
+
+    // ---------- Scaling card ----------
+    const scaleN = document.getElementById('scale-n');
+    const scaleNVal = document.getElementById('scale-n-val');
+    const scaleSeed = document.getElementById('scale-seed');
+    const scaleBtn = document.getElementById('scale-run');
+    const scaleCanvas = document.getElementById('scale-canvas');
+    const scaleStats = document.getElementById('scale-stats');
+
+    scaleN.addEventListener('input', ()=>{ scaleNVal.textContent = scaleN.value; });
+
+    function drawScaling(){
+      const n = Number(scaleN.value);
+      // 同一シードから2系統のRNGを作り、SRWとBMを独立に生成
+      const base = String(scaleSeed.value || 'limit');
+      const rngSRW = makeRNG(base + '-srw');
+      const rngBM  = makeRNG(base + '-bm');
+
+      const srw = srwPath(n, 0.5, rngSRW); // 対称
+      // スケーリング W^{(n)}_t = S_{⌊nt⌋} / √n （tは i/n）
+      const scaled = new Float64Array(n+1);
+      for (let i=0;i<=n;i++){ scaled[i] = srw[i]/Math.sqrt(n); }
+
+      const bm = bmPath(n, 1.0, rngBM);
+
+      const ctx = fitCanvas(scaleCanvas);
+      const rect = scaleCanvas.getBoundingClientRect();
+      const w = rect.width, h = rect.height, margin = 18;
+
+      // まず SRW（実線）を描く
+      const baseStats = drawSeries(ctx, scaled, {w,h,margin, strokeStyle:'rgba(107,46,46,0.9)', lineWidth:1.6});
+      // BM（点線）を重ねる
+      overlaySeries(ctx, bm, {w,h,margin, strokeStyle:'rgba(0,0,0,0.6)', lineWidth:1.4, vmin:baseStats.vmin, vmax:baseStats.vmax});
+
+      scaleStats.innerHTML = [
+        `n=${n}`,
+        `W<sup>(n)</sup><sub>1</sub>=${scaled[scaled.length-1].toFixed(3)}`,
+        `B<sub>1</sub>=${bm[bm.length-1].toFixed(3)}`
+      ].map(s=>`<span>${s}</span>`).join('');
+    }
+
+    // ---------- event bindings & initial draw ----------
+    srwBtn.addEventListener('click', drawSRW);
+    bmBtn.addEventListener('click', drawBM);
+    scaleBtn.addEventListener('click', drawScaling);
+
+    window.addEventListener('resize', ()=>{
+      drawSRW(); drawBM(); drawScaling();
+    });
+
+    // first paint
+    updateSRWLabels();
+    updateBMLabels();
+    drawSRW();
+    drawBM();
+    drawScaling();
+  </script>
+</body>
+</html>

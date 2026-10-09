@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Class 5: Geodesics in First Passage Percolation</title>
+    <style>
+        :root {
+            --primary-color: #2c3e50;
+            --secondary-color: #3498db;
+            --accent-color: #e74c3c;
+            --background-color: #f9f9f9;
+            --text-color: #333;
+            --container-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+            --text-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+        }
+
+        body {
+            font-family: 'Georgia', serif;
+            line-height: 1.7;
+            margin: 0;
+            padding: 0;
+            background-color: var(--background-color);
+            color: var(--text-color);
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 20px auto;
+            padding: 30px;
+            background-color: white;
+            box-shadow: var(--container-shadow);
+            border-radius: 15px;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 40px;
+            border-bottom: 2px solid var(--secondary-color);
+            padding-bottom: 20px;
+        }
+
+        h1, h2, h3 {
+            color: var(--primary-color);
+        }
+
+        .section-title {
+            color: var(--primary-color);
+            font-size: 1.8rem;
+            margin-top: 30px;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #eee;
+            text-shadow: var(--text-shadow);
+        }
+
+        .lecture-title {
+            color: var(--secondary-color);
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+            font-weight: normal;
+        }
+
+        .author-info {
+            font-style: italic;
+            color: #777;
+        }
+
+        .math {
+            font-style: italic;
+            padding: 0 3px;
+        }
+
+        .figure {
+            text-align: center;
+            margin: 30px 0;
+            padding: 20px;
+            background-color: #f8f9fa;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+        }
+
+        .figure img {
+            max-width: 100%;
+            border-radius: 5px;
+        }
+
+        .figure-caption {
+            font-style: italic;
+            color: #777;
+            margin-top: 15px;
+        }
+
+        .navigation {
+            margin-top: 40px;
+            text-align: center;
+            display: flex;
+            justify-content: space-between;
+            padding: 15px 0;
+            border-top: 1px solid #eee;
+        }
+
+        .navigation a {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: var(--primary-color);
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .navigation a:hover {
+            background-color: var(--secondary-color);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+        }
+
+        .topic-highlight {
+            display: inline-block;
+            background-color: rgba(52, 152, 219, 0.1);
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-weight: 500;
+            color: var(--primary-color);
+        }
+
+        .formula {
+            margin: 25px 0;
+            padding: 15px;
+            background-color: #f8f9fa;
+            border-left: 4px solid var(--secondary-color);
+            border-radius: 5px;
+            overflow-x: auto;
+            font-size: 1.1em;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+        }
+
+        .example-title {
+            font-weight: bold;
+            font-size: 1.2em;
+            color: var(--secondary-color);
+            margin-top: 30px;
+            margin-bottom: 15px;
+            padding-bottom: 5px;
+            border-bottom: 1px dashed #ccc;
+            display: inline-block;
+        }
+
+        p {
+            margin-bottom: 20px;
+            line-height: 1.8;
+        }
+
+        .content-section {
+            padding-bottom: 30px;
+        }
+        
+        .footnote {
+            font-size: 0.9em;
+            color: #777;
+            margin-top: 5px;
+            border-top: 1px solid #eee;
+            padding-top: 10px;
+        }
+
+        .reference {
+            font-size: 0.9em;
+            padding-left: 20px;
+            text-indent: -20px;
+            margin-bottom: 10px;
+            color: #555;
+        }
+
+        .table-container {
+            margin: 30px 0;
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+
+        th, td {
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        th {
+            background-color: var(--primary-color);
+            color: white;
+            font-weight: bold;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f8f9fa;
+        }
+
+        tr:hover {
+            background-color: #eef7ff;
+        }
+    </style>
+    <!-- MathJax configuration -->
+    <script>
+      window.MathJax = {
+        tex: {
+          inlineMath: [['$', '$']],
+          displayMath: [['$$', '$$']]
+        },
+        svg: {
+          fontCache: 'global'
+        }
+      };
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js" async></script>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>First Passage Percolation</h1>
+            <div class="lecture-title">A Comprehensive Study</div>
+            <div class="author-info">Lecture Notes</div>
+        </header>
+        
+        <section id="class5" class="content-section">
+            <div class="section-title">Class 5: Geodesics in First Passage Percolation</div>
+
+            <p>In the study of First Passage Percolation (FPP), <span class="topic-highlight">geodesics</span> play a central role in understanding the geometry of the random metric space. These are the paths that achieve the minimum passage time between points, analogous to shortest paths in a weighted graph.</p>
+
+            <h3>5.1 Existence of Geodesics</h3>
+            
+            <p>A geodesic between two vertices x and y in the context of FPP is defined as a path that connects these two points and whose total passage time is exactly equal to the first passage time <span class="math">$T(x, y)$</span>. In simpler terms, it represents a path of shortest time between the two points.</p>
+
+            <p>A fundamental question in the study of FPP is whether such geodesics actually exist. That is, whether the infimum in the definition of <span class="math">$T(x, y)$</span> is attained by a path consisting of a finite number of edges.</p>
+            
+            <div class="formula">
+                $$T(x, y) = \inf\{\text{passage time of } \gamma : \gamma \text{ is a path from } x \text{ to } y\}$$
+            </div>
+            
+            <p>Under fairly general conditions on the probability distribution of the edge weights, such as the weights being non-negative and the probability of an edge having a weight of exactly zero being sufficiently small, it has been rigorously proven that geodesics between any two points in the lattice <span class="math">$\mathbb{Z}^d$</span> exist with a probability of one.</p>
+
+            <p>The existence of geodesics ensures that the concept of a "shortest time path" is well-defined within the framework of FPP. This allows for the meaningful study of the properties and characteristics of these optimal paths within the random metric space.</p>
+
+            <div class="figure">
+                <img src="https://via.placeholder.com/500x300" alt="Geodesic in FPP">
+                <div class="figure-caption">Figure 5.1: Illustration of a geodesic (highlighted in red) between two points in a First Passage Percolation model on a lattice.</div>
+            </div>
+
+            <h3>5.2 Uniqueness of Geodesics</h3>
+            
+            <p>Once we establish the existence of geodesics, a natural follow-up question concerns their uniqueness. Given two points in the lattice, is there only one path that achieves the minimum passage time, or could there be multiple geodesics?</p>
+
+            <p>For continuous edge weight distributions (where the probability of any specific value is zero), it has been shown that with probability one, the geodesic between any two points is unique. This result stems from the fact that for any two distinct paths between the same endpoints, the probability that they have exactly the same passage time is zero when the edge weights are drawn from a continuous distribution.</p>
+
+            <p>However, for discrete distributions (such as when edge weights can only take a finite set of values), uniqueness is not guaranteed. In such cases, multiple geodesics between the same pair of points may exist with positive probability.</p>
+
+            <p>The uniqueness property has important implications for the geometric structure of the FPP model, as it ensures that there is a well-defined "optimal route" between any two locations in the random medium.</p>
+
+            <h3>5.3 Transversal Fluctuations of Geodesics</h3>
+            
+            <p>A key aspect of geodesic behavior in FPP is how much these optimal paths deviate from straight lines. The <span class="topic-highlight">transversal fluctuation</span> of a geodesic refers to the maximum distance that the geodesic strays from the straight line connecting its endpoints.</p>
+
+            <p>More formally, for points <span class="math">$0$</span> and <span class="math">$nv$</span> (where <span class="math">$v$</span> is a unit vector and <span class="math">$n$</span> is a large integer), we consider the geodesic <span class="math">$\gamma_n$</span> between them. The transversal fluctuation <span class="math">$\Delta_n$</span> is defined as:</p>
+            
+            <div class="formula">
+                $$\Delta_n = \max_{x \in \gamma_n} \text{dist}(x, \text{line}(0, nv))$$
+            </div>
+            
+            <p>Where <span class="math">$\text{dist}(x, \text{line}(0, nv))$</span> represents the Euclidean distance from the point <span class="math">$x$</span> to the straight line connecting <span class="math">$0$</span> and <span class="math">$nv$</span>.</p>
+
+            <p>Charles Newman and Cristian Licea have made significant contributions to the understanding of these transversal fluctuations. Their work provides probabilistic bounds on the magnitude of these deviations. Typically, these bounds demonstrate that the transversal fluctuations grow sublinearly with the distance between the endpoints of the geodesic.</p>
+
+            <div class="formula">
+                $$P(\Delta_n > n^{\alpha}) \to 0 \text{ as } n \to \infty \text{ for any } \alpha > \xi$$
+            </div>
+
+            <p>For instance, in the two-dimensional case of FPP, it is widely conjectured that the transversal fluctuations should scale as <span class="math">$n^{\xi}$</span>, where the exponent <span class="math">$\xi$</span> is equal to 2/3. However, proving this specific scaling rigorously remains a major open problem in the field.</p>
+
+            <div class="example-title">Example 5.1: Transversal Fluctuations in 2D Lattice</div>
+            <div class="formula" style="background-color: #f0f7ff; border-left-color: #3498db;">
+                <p>Consider a first passage percolation model on the two-dimensional lattice <span class="math">$\mathbb{Z}^2$</span> where the edge weights are independent and identically distributed according to an exponential distribution with parameter 1.</p>
+                
+                <p>Computer simulations suggest that for large values of <span class="math">$n$</span>, the geodesic from the origin <span class="math">$(0,0)$</span> to the point <span class="math">$(n,0)$</span> has transversal fluctuations on the order of <span class="math">$n^{2/3}$</span>.</p>
+                
+                <p>This means that the maximum vertical deviation of the geodesic from the horizontal line joining <span class="math">$(0,0)$</span> and <span class="math">$(n,0)$</span> grows approximately as <span class="math">$n^{2/3}$</span>.</p>
+                
+                <p>For example, with <span class="math">$n = 1000$</span>, we might expect the geodesic to deviate by approximately <span class="math">$1000^{2/3} \approx 100$</span> units from the straight line at some point along its path.</p>
+                
+                <p>This scaling exponent of 2/3 is believed to be universal for a wide class of edge weight distributions in two dimensions, suggesting a connection to the Kardar-Parisi-Zhang (KPZ) universality class in statistical physics.</p>
+            </div>
+
+            <h3>5.4 Infinite Geodesics</h3>
+            
+            <p>An extension of the concept of geodesics to infinite paths leads to the study of <span class="topic-highlight">infinite geodesics</span> in FPP. An infinite geodesic is a semi-infinite path starting from a given point such that every finite segment of this path is a geodesic between its endpoints.</p>
+
+            <p>The existence and properties of such infinite geodesics reveal fundamental aspects of the large-scale structure of the random metric space defined by FPP. Christopher Hoffman's work has contributed to the understanding of the conditions under which such infinite geodesics can arise.</p>
+
+            <p>Michael Damron and Jack Hanson have shown that in two-dimensional FPP where the edge weights are independent and identically distributed and have a finite first moment (meaning their average value is finite), there exist at least four one-sided infinite geodesics almost surely.</p>
+
+            <p>A one-sided infinite geodesic starts at a particular point and extends infinitely in one direction. The directions of these infinite geodesics are related to the asymptotic shape of the FPP growth model, specifically to the points of non-differentiability (corners) of the limit shape.</p>
+
+            <p>The question of the uniqueness of infinite geodesics in a given direction is another related open problem in FPP. This question has been found to have connections to the uniqueness of ground states in disordered magnetic systems, such as spin glasses.</p>
+
+            <div class="figure" style="background-color: #eefaf8; border-left: 4px solid #2ecc71; text-align: left;">
+                <h3 style="margin-top: 0;">Key Properties of Geodesics in FPP</h3>
+                <ul style="padding-left: 20px;">
+                    <li>Geodesics exist between any two points (under mild conditions)</li>
+                    <li>For continuous edge weight distributions, geodesics are almost surely unique</li>
+                    <li>Transversal fluctuations grow sublinearly with distance (conjectured as <span class="math">$n^{2/3}$</span> in 2D)</li>
+                    <li>At least four one-sided infinite geodesics exist in 2D FPP</li>
+                    <li>The directions of infinite geodesics are related to the non-differentiability points of the limit shape</li>
+                    <li>The structure of infinite geodesics has connections to ground states in spin glasses</li>
+                </ul>
+            </div>
+
+            <h3>5.5 Coalescence of Geodesics</h3>
+            
+            <p>Another fascinating phenomenon in FPP is the <span class="topic-highlight">coalescence of geodesics</span>. This refers to the property that geodesics starting from different points but heading in roughly the same direction tend to merge or "coalesce" after traveling a sufficient distance.</p>
+
+            <p>Formally, we consider geodesics <span class="math">$\gamma_1$</span> and <span class="math">$\gamma_2$</span> starting from points <span class="math">$x_1$</span> and <span class="math">$x_2$</span> respectively, and both ending at a far-away point <span class="math">$y$</span>. The coalescence property states that with high probability, these geodesics will merge at some point before reaching <span class="math">$y$</span>, provided that <span class="math">$y$</span> is sufficiently far from both <span class="math">$x_1$</span> and <span class="math">$x_2$</span>.</p>
+
+            <p>This coalescence behavior has implications for the global structure of optimal paths in the random environment described by FPP. It suggests that despite the inherent randomness at the local level, there emerge preferred "highways" or "corridors" along which optimal travel occurs at the macroscopic scale.</p>
+
+            <p>The study of geodesic coalescence provides insights into the large-scale organization of the FPP model and connects to broader questions about the geometry of random metric spaces.</p>
+
+            <div class="figure">
+                <img src="https://via.placeholder.com/500x300" alt="Geodesic Coalescence">
+                <div class="figure-caption">Figure 5.2: Illustration of geodesic coalescence in FPP. Multiple geodesics starting from different points tend to merge as they progress towards a common distant destination.</div>
+            </div>
+
+            <p>The phenomenon of geodesic coalescence in FPP bears similarities to the behavior observed in other physical systems, such as the merging of river networks or the formation of transportation patterns in urban development. This highlights the potential of FPP as a mathematical model for studying complex systems where optimality principles govern the formation of structures.</p>
+        </section>
+
+        <div class="navigation">
+            <a href="class4.html">← Previous: Class 4</a>
+            <a href="../index.html">Home</a>
+            <a href="class6.html">Next: Class 6 →</a>
+        </div>
+    </div>
+</body>
+</html>

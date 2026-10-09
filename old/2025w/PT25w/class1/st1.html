@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>確率はなぜ「面積」から始まり、「$\sigma$-加法族」へ至るのか</title>
+
+  <!-- Softer tone / relaxed magazine style -->
+  <style>
+    :root{
+      --ink:#1a1a1a;
+      --sub:#6b6b6b;
+      --accent:#6b2e2e;
+      --rule:#e8e7e5;
+      --bg:#fffaf6;
+      --card-bg:#ffffff;
+      --serif: "Noto Serif JP","Yu Mincho","Hiragino Mincho ProN","Source Han Serif","MS PMincho",serif;
+      --sans: "Noto Sans JP","Yu Gothic","Hiragino Kaku Gothic ProN","Meiryo",sans-serif;
+      --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+      --max: 820px;
+      --radius: 12px;
+      --gap: 16px;
+    }
+
+    html,body{
+      background: var(--bg);
+      color: var(--ink);
+      margin:0;
+      padding:0;
+      -webkit-font-smoothing:antialiased;
+      -moz-osx-font-smoothing:grayscale;
+      font-family: var(--serif);
+    }
+
+    header{
+      background: linear-gradient(180deg, rgba(255,255,255,0.9), rgba(255,255,255,0.85));
+      box-shadow: 0 1px 0 rgba(19,19,19,0.03);
+      position: sticky;
+      top:0;
+      z-index: 10;
+      backdrop-filter: blur(3px);
+    }
+    .masthead{
+      max-width: var(--max);
+      margin: 0 auto;
+      padding: 12px var(--gap);
+      display:flex;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+      font-family: var(--sans);
+    }
+    .brand{
+      font-size: 16px;
+      color: var(--accent);
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      background: linear-gradient(90deg, rgba(107,46,46,0.06), transparent);
+      padding: 6px 10px;
+      border-radius: 8px;
+    }
+    .section{
+      font-size: 13px;
+      color: var(--sub);
+      padding: 6px 8px;
+      border-radius: 8px;
+      background: rgba(0,0,0,0.02);
+      margin-left: auto;
+    }
+
+    main{
+      max-width: var(--max);
+      margin: 22px auto;
+      padding: 20px var(--gap) 72px;
+    }
+
+    h1{
+      font-family: var(--serif);
+      font-size: 30px;
+      line-height: 1.28;
+      font-weight:700;
+      margin: 6px 0 6px;
+      color: var(--ink);
+    }
+    .dek{
+      font-family: var(--sans);
+      font-size: 15px;
+      color: var(--sub);
+      margin: 8px 0 14px;
+    }
+    .meta{
+      font-family: var(--sans);
+      font-size: 13px;
+      color: var(--sub);
+      display:flex;
+      gap:12px;
+      flex-wrap:wrap;
+      margin-bottom: 18px;
+    }
+    .meta div{ padding:6px 10px; background: rgba(0,0,0,0.02); border-radius:8px; }
+
+    article{
+      font-family: var(--serif);
+      font-size: 17px;
+      line-height: 1.9;
+      color: var(--ink);
+      background: linear-gradient(180deg, rgba(255,255,255,0.95), rgba(255,255,255,0.98));
+      padding: 20px;
+      border-radius: var(--radius);
+      box-shadow: 0 8px 20px rgba(16,16,16,0.03);
+      border: 1px solid var(--rule);
+    }
+
+    p{ margin: 0 0 1.05em; }
+
+    .lead{
+      position: relative;
+      padding-top: 4px;
+    }
+    .lead::first-letter{
+      float:left;
+      font-size: 36px;
+      line-height: 1;
+      padding-right: 8px;
+      padding-top: 2px;
+      font-family: var(--serif);
+      font-weight: 700;
+      color: var(--accent);
+      background: rgba(107,46,46,0.04);
+      border-radius: 6px;
+      padding-left: 6px;
+      padding-right: 6px;
+      margin-right: 8px;
+    }
+
+    h2{
+      font-family: var(--sans);
+      font-size: 15px;
+      font-weight: 700;
+      color: rgba(0,0,0,0.92);
+      margin: 24px 0 8px;
+      padding-bottom: 6px;
+      border-bottom: 1px dashed var(--rule);
+    }
+
+    .eq{
+      text-align: center;
+      margin: 14px auto;
+      padding: 10px 16px;
+      font-family: var(--serif);
+      background: #fcfcfc;
+      border: 1px solid var(--rule);
+      border-radius: 8px;
+      max-width: 640px;
+    }
+
+    .theorem{
+      border-left: 4px solid var(--accent);
+      background: #fff;
+      padding: 14px 16px;
+      margin: 16px 0;
+      border-radius: 8px;
+    }
+    .theorem .label{
+      font-family: var(--sans);
+      font-size: 12px;
+      font-weight:700;
+      color: var(--accent);
+      display:inline-block;
+      margin-bottom:6px;
+    }
+
+    .note{
+      font-family: var(--sans);
+      font-size: 14px;
+      color: var(--sub);
+      padding-left:10px;
+      margin: 8px 0 0;
+    }
+
+    .pull{
+      font-family: var(--serif);
+      font-size: 16px;
+      line-height:1.9;
+      color:#333;
+      background: linear-gradient(90deg, rgba(107,46,46,0.03), rgba(0,0,0,0.01));
+      padding:12px 14px;
+      margin: 14px 0;
+      border-radius: 8px;
+      border: 1px solid rgba(0,0,0,0.03);
+    }
+
+    code, kbd, samp{
+      font-family: var(--mono);
+      font-size: .95em;
+      background:#f6f6f6;
+      padding:.12em .34em;
+      border-radius:6px;
+    }
+
+    .footer-note{
+      font-family: var(--sans);
+      font-size: 13px;
+      color: var(--sub);
+      margin-top: 22px;
+      padding-top: 12px;
+      border-top: 1px dashed var(--rule);
+    }
+
+    .back-nav{
+      display:flex;
+      justify-content:flex-start;
+      margin-bottom:16px;
+    }
+
+    .back-link{
+      display:inline-flex;
+      align-items:center;
+      gap:6px;
+      font-family: var(--sans);
+      font-size:13px;
+      font-weight:600;
+      color: var(--accent);
+      text-decoration:none;
+      padding:6px 14px;
+      border-radius:999px;
+      border:1px solid rgba(107,46,46,0.28);
+      background: rgba(107,46,46,0.06);
+      transition: background 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .back-link:hover{
+      background: rgba(107,46,46,0.12);
+      transform: translateY(-1px);
+      box-shadow:0 8px 18px rgba(107,46,46,0.18);
+    }
+
+    @media (max-width:520px){
+      h1{ font-size: 22px; }
+      .masthead{ padding:10px; }
+      main{ padding: 16px; }
+      article{ padding: 16px; }
+      .lead::first-letter{ font-size: 30px; }
+    }
+
+    @media print{
+      header{ display:none; }
+      body{ background: #fff; color: #000; }
+      article{ box-shadow:none; border-radius:0; padding:0; border:none; }
+    }
+  </style>
+
+  <!-- MathJax (use $...$ for inline, $$...$$ for display) -->
+  <script>
+    window.MathJax = {
+      tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']],
+        displayMath: [['$$','$$'], ['\\[','\\]']],
+        tags: 'none'
+      },
+      svg: {fontCache: 'global'}
+    };
+  </script>
+  <script defer src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+</head>
+<body>
+  <header>
+    <div class="masthead">
+      <div class="brand">雑記・確率</div>
+      <div class="section">コラム</div>
+    </div>
+  </header>
+
+  <main>
+    <nav class="back-nav">
+      <a class="back-link" href="../index.html">&larr; ホームに戻る</a>
+    </nav>
+    <h1>確率は「数え上げ」から、「$\sigma$-加法族」へ</h1>
+    <div class="meta">
+      <div>寄稿：中島秀太</div>
+      <div>2025年10月3日</div>
+    </div>
+
+    <article>
+      <p class="lead">
+        大学の確率論で最初に触れるのは、面積（あるいは長さ・体積）で確率をとらえる考え方だ。事象を集合として描けば、面積が大きいほど「起こりやすい」と感じられる。学びを進めると、次に立ちはだかる壁は、なぜ確率空間に $\sigma$ 加法族が現れるのかという点。ここでは、その道筋をやわらかく整理しておきたい。
+      </p>
+
+      <h2>等確率の原理：数え上げから始まる</h2>
+      <p>
+        中学で扱う確率は数え上げから始まる。より正確には、事象 $A$ の確率は
+      </p>
+      <div class="eq">$$
+        \mathbb P(A)=\frac{\text{Aの数}}{\text{全体の数}}\tag{★}
+      $$</div>
+      <p>
+        で与えられる。結局のところ、全体の数と $A$ の数を数える作業に帰着する。例えば、表と裏が同確率 $1/2$ のコインを2回投げ、表の数がちょうど1回になる確率では、全体 $4$ 通り、該当が $2$ 通りとなり、確率は $2/4=1/2$ になる。
+      </p>
+      <p class="note">
+        公式（★）は、各「単事象」が同じ確率で現れるという等確率の原理を前提にしている点を押さえておきたい。
+      </p>
+
+      <h2>非等確率への拡張：足し合わせに移る</h2>
+      <p>
+        単事象の起こりやすさが異なる場合、確率は構成する単事象の確率を足し合わせて求めることになる。例えば、表の確率が $1/4$、裏が $3/4$ のコインを2回投げ、表がちょうど1回となる確率は次のように求める:
+      </p>
+      <div class="eq">$$
+        \mathbb P(\text{表裏})=\tfrac{1}{4}\cdot\tfrac{3}{4}=\tfrac{3}{16},\quad
+        \mathbb P(\text{裏表})=\tfrac{3}{4}\cdot\tfrac{1}{4}=\tfrac{3}{16},
+      $$
+$$\Rightarrow\ \mathbb P(\text{表がちょうど1回})=\tfrac{3}{16}+\tfrac{3}{16}=\tfrac{3}{8}. $$</div>
+      <p>
+        先の公式（★）は、単事象がすべて $1/(\text{全体の数})$ の確率で現れるという仮定のもとでの特別な姿にすぎない。非等確率では「数え上げ」から「足し合わせ」へ視点が移る。
+      </p>
+
+      <h2>無限集合の壁：「数え上げ」をそのままには使えない</h2>
+      <p>
+        無限集合の世界へ、概念を広げたくなるのは自然である。たとえば $[0,1]$ から一様に点を選ぶ操作を、数学的にきちんと表したくなる。しかし全体が非可算になると、素朴な足し算は行き詰まる。実際次のような定理が成り立つ:
+      </p>
+
+      <div class="theorem">
+        <div class="label">定理</div>
+        <p>
+          正値列 $(a_i)_{i\in I}$ が
+          $$
+          \sup_{F\subset I\ \text{有限}}\sum_{i\in F} a_i < \infty
+          $$
+          を満たすなら、$I$ は可算である。
+        </p>
+        <p class="note">
+          したがって $\sum_{i\in \Omega} p_i = 1$ を仮定した瞬間に、$\{i:\,p_i>0\}$ は可算になり、非可算な「全体」を単純な重み付きの和で考えることは不可能となる。
+        </p>
+      </div>
+
+      <h2>コルモゴロフの視点：和から積分へ</h2>
+      <p>
+非可算な全体の上で確率を考えるときに重要になるのは、和 $\sum$ を積分 $\int$ に置き換えるという考え方である。たとえば $[0,1]$ 上で一様に点をとるモデルを考えると、区間 $[a,b]$ にその点が含まれる確率は長さ $|b-a|$ と定めるのが自然である。このとき
+\[
+|b-a| = \int_{0}^{1} \mathbf{1}\{x \in [a,b]\}\, dx
+\]
+のように、確率が指示関数の積分として表現される。ここで $\mathbf{1}\{A\}$ は事象 $A$ が起これば $1$、そうでなければ $0$ を返す関数である。この発想を一般化し、確率論に統一的な枠組みを与えたのがコルモゴロフである。コルモゴロフは、さらに可算と非可算を同時に扱うため、ルベーグ測度論を採用するに至った。たとえば
+      </p>
+      <div class="eq">$$
+        P(A)=\tfrac{1}{2}\,\mathbf{1}_{\{0\in A\}}+\tfrac{1}{2}\,\lambda(A\cap[0,1])
+      $$</div>
+      <p>
+        のように、点 $0$ の原子と $[0,1]$ 上の一様分布（ルベーグ測度 $\lambda$）を組み合わせた確率を素直に定義できる。鍵は、面積をあらゆる集合で測ろうとせず、性質の良い集合族――ボレル可測集合――に対象を絞ることである。
+      </p>
+
+      <h2>なぜ一般の $\sigma$ 加法族か：情報という見方</h2>
+      <p>
+確率論では「情報」という視点が重要になる。たとえば毎日の天気を考えると、今日までの天気は知っているが、明日以降はまだ知らないと捉えるのが自然だ。このとき、今日までの天気で条件づけたときの、明日の天気が晴れである確率を計算するといった問題が考えられる。つまり、今日までに得た''情報"をどのような数学的対象として記述するかが課題になる。  </p>
+    
+
+
+
+  <p>コルモゴロフの革新的なアイデアは、情報を $\sigma$ 加法族で表すという発想にある。より具体的には、ある時刻$t$で知ることのできる事象の集まりを、その時刻の $\sigma$ 加法族 $\mathcal F_t$ に対応させる。</p>
+
+  <p>例としてコイン投げを二回行うモデル（時刻 $1$ に一回目、時刻 $2$ に二回目）を考える。標本空間は</p>
+  <div class="eq">$$
+  \Omega=\{(H,H),(H,T),(T,H),(T,T)\}
+  $$</div>
+
+  <p>とおく。時刻 $0$ では何も観測していないので、情報は自明な</p>
+  <div class="eq">$$
+  \mathcal F_0=\{\emptyset,\Omega\}
+  $$</div>
+
+  <p>になる。時刻 $1$ では一回目の結果だけが分かる。$A_H=\{(H,H),(H,T)\}$（一回目が表）、$A_T=\{(T,H),(T,T)\}$（一回目が裏）として、</p>
+  <div class="eq">$$
+  \mathcal F_1=\{\emptyset,\Omega,A_H,A_T\}
+  $$</div>
+
+  <p>となる。これは「一回目の結果で区別できる事象の全体」を表す。時刻 $2$ になると二回分の結果がそろうため、情報は</p>
+  <div class="eq">$$
+  \mathcal F_2=2^{\Omega}=\{A: A\subset \Omega\}
+  $$</div>
+
+  <p>に一致する。このようにして $ \mathcal F_0\subset \mathcal F_1\subset \mathcal F_2 $ という$\sigma$加法族の列が得られ、時間とともに情報が増えていくという直観に沿っている。理解には少し時間を要するが、条件付き確率の議論の中で改めて掘り下げる予定である。</p>
+     
+      <h2>まとめ</h2>
+      <p>
+        短い説明で測度論の必要性を納得するのは難しいと思う。それでも、そこには明確な理由があり、現代の確率を形づくるうえで欠かせないことは覚えておいてほしい。より詳しい説明は条件付き確率の際にすることにする。
+      </p>
+
+      <p class="footer-note">
+        注）本文中の $\lambda$ はルベーグ測度。定義域はボレル可測集合族。
+      </p>
+    </article>
+  </main>
+</body>
+</html>

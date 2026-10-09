@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <title>ソロー・スワン経済成長モデル</title>
+  <script>
+    MathJax = {
+      tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']],
+        displayMath: [['$$', '$$'], ['\\[', '\\]']]
+      }
+    };
+  </script>
+  <script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+  <style>
+    body {
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      line-height: 1.6;
+      margin: 0;
+      padding: 1rem;
+      background: #fafafa;
+      color: #222;
+    }
+    .model {
+      max-width: 920px;
+      margin: auto;
+      padding: 2rem 2rem 4rem;
+      background: #fff;
+      border-radius: 12px;
+      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.06);
+    }
+    h2 {
+      margin-top: 0;
+      color: #0d47a1;
+      text-align: center;
+    }
+    h3 {
+      color: #1565c0;
+      margin-top: 2rem;
+      border-left: 4px solid #64b5f6;
+      padding-left: 0.5rem;
+    }
+    dl {
+      margin: 0;
+    }
+    dt {
+      font-weight: 600;
+    }
+    dd {
+      margin: 0 0 0.5rem 1.5rem;
+    }
+    .equation {
+      text-align: center;
+      margin: 0.75rem 0 1.25rem;
+    }
+    .key-features {
+      list-style: square;
+    }
+    figure {
+      margin: 1rem auto;
+      text-align: center;
+    }
+    figcaption {
+      font-size: 0.9rem;
+      color: #555;
+      margin-top: 0.3rem;
+    }
+    /* comparative‑statics table */
+    table.comparative {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 1rem 0;
+      font-size: 0.95rem;
+    }
+    table.comparative th,
+    table.comparative td {
+      border: 1px solid #ccc;
+      padding: 0.5rem 0.6rem;
+      text-align: left;
+    }
+    table.comparative th {
+      background: #e3f2fd;
+      font-weight: 600;
+    }
+    .phase-diagram {
+      width: 100%;
+      max-width: 600px;
+      height: auto;
+      margin: 2rem auto;
+      display: block;
+    }
+    .model-diagram {
+      width: 100%;
+      max-width: 500px;
+      height: auto;
+      margin: 1rem auto;
+      display: block;
+    }
+  </style>
+</head>
+<body>
+  <section class="model" id="solow-swan">
+    <h2>ソロー・スワン経済成長モデル</h2>
+    <p><strong>概要：</strong>物的資本蓄積、労働増大的技術進歩、人口成長を通じた長期的成長を説明するマクロ経済学の基礎となるモデル。</p>
+
+    <!-- 1. モデルの設定 -->
+    <article class="model-section" id="setup">
+      <h3>1. モデルの設定</h3>
+      <p>規模に関して収穫一定の集計的生産関数：</p>
+      <p class="equation">$$Y(t)=F\bigl(K(t),A(t)L(t)\bigr)$$</p>
+      <p>コブ・ダグラス型の場合：</p>
+      <p class="equation">$$Y=K^{\alpha}(A L)^{1-\alpha},\qquad 0<\alpha<1$$</p>
+      <dl>
+        <dt>$Y$</dt><dd>総産出</dd>
+        <dt>$K$</dt><dd>物的資本ストック</dd>
+        <dt>$L$</dt><dd>労働（人口）</dd>
+        <dt>$A$</dt><dd>労働増大的技術</dd>
+      </dl>
+    </article>
+
+    <!-- 2. 資本蓄積 -->
+    <article class="model-section" id="capital">
+      <h3>2. 資本蓄積</h3>
+      <p class="equation">$$\frac{dK}{dt}=sY-\delta K$$</p>
+      <p>労働と技術は外生的に成長：</p>
+      <p class="equation">$$L(t)=L_0 e^{nt},\qquad A(t)=A_0 e^{gt}$$</p>
+      <dl>
+        <dt>$s$</dt><dd>貯蓄率</dd>
+        <dt>$\delta$</dt><dd>資本減耗率</dd>
+        <dt>$n$</dt><dd>人口成長率</dd>
+        <dt>$g$</dt><dd>技術進歩率</dd>
+      </dl>
+    </article>
+
+    <!-- 3. 効率労働単位当たりの形式 -->
+    <article class="model-section" id="per-effective-worker">
+      <h3>3. 効率労働単位当たりの形式</h3>
+      <p class="equation">$$k=\frac{K}{A L},\qquad y=\frac{Y}{A L}=f(k)=k^{\alpha}$$</p>
+      <p class="equation">$$\frac{dk}{dt}=s f(k)-(n+g+\delta)k$$</p>
+
+      <figure>
+        <svg class="phase-diagram" viewBox="0 0 400 300">
+          <!-- 座標軸 -->
+          <line x1="50" y1="250" x2="350" y2="250" stroke="black" stroke-width="2"/>
+          <line x1="50" y1="250" x2="50" y2="50" stroke="black" stroke-width="2"/>
+          
+          <!-- 軸ラベル -->
+          <text x="360" y="260">k</text>
+          <text x="30" y="40">y</text>
+          
+          <!-- 生産関数曲線 -->
+          <path d="M 50 250 Q 200 100 350 70" fill="none" stroke="blue" stroke-width="2"/>
+          
+          <!-- 必要投資線 -->
+          <line x1="50" y1="220" x2="350" y2="100" stroke="red" stroke-width="2"/>
+          
+          <!-- 定常状態の表示 -->
+          <circle cx="200" cy="160" r="4" fill="black"/>
+          <text x="210" y="155">k*</text>
+        </svg>
+        <figcaption>図1: 効率労働単位当たりの生産関数と必要投資線</figcaption>
+      </figure>
+    </article>
+
+    <!-- 4. 定常状態と収束 -->
+    <article class="model-section" id="steady-state">
+      <h3>4. 定常状態と収束</h3>
+      <p class="equation">$$s\,f(k^{*})=(n+g+\delta)k^{*}$$</p>
+      <p>収束速度：</p>
+      <p class="equation">$$\beta=(1-\alpha)(n+g+\delta)$$</p>
+      <ul class="key-features">
+        <li><strong>条件付き収束：</strong>より低い$k$からスタートする経済は、ファンダメンタルズが一定の場合、$k^{*}$に向かってより速く成長する。</li>
+        <li><strong>成長の源泉：</strong>長期的な一人当たり成長率（$g_{y}$）は技術進歩率$g$に等しい。</li>
+        <li><strong>実証的証拠：</strong>年率2～3%程度の実証的収束速度は$\beta$と整合的。</li>
+      </ul>
+    </article>
+
+    <!-- 5. 黄金律と厚生 -->
+    <article class="model-section" id="golden-rule">
+      <h3>5. 黄金律資本と厚生</h3>
+      <p class="equation">$$c^{*}=f(k^{*})-(n+\delta)k^{*}$$</p>
+      <p>黄金律水準は効率労働単位当たりの定常状態消費を最大化：</p>
+      <p class="equation">$$f'(k_{\text{gr}})=n+\delta$$</p>
+    </article>
+
+    <!-- 6. 移行動学 -->
+    <article class="model-section" id="dynamics">
+      <h3>6. 移行動学と位相図</h3>
+      <p>投資曲線$s f(k)$と必要投資線$(n+g+\delta)k$の交点が$k^{*}$を決定します。$k^{*}$より下では、投資が必要投資を上回り$k$は上昇し、上では下落します。$k^{*}$の安定性により、ソローモデルは$(k,\dot{k})$位相平面において鞍点経路となります。</p>
+      
+      <figure>
+        <svg class="phase-diagram" viewBox="0 0 400 300">
+          <!-- 座標軸 -->
+          <line x1="50" y1="250" x2="350" y2="250" stroke="black" stroke-width="2"/>
+          <line x1="50" y1="250" x2="50" y2="50" stroke="black" stroke-width="2"/>
+          
+          <!-- 軸ラベル -->
+          <text x="360" y="260">k</text>
+          <text x="30" y="40">sf(k), (n+g+δ)k</text>
+          
+          <!-- 投資曲線 -->
+          <path d="M 50 250 Q 200 100 350 70" fill="none" stroke="blue" stroke-width="2"/>
+          
+          <!-- 必要投資線 -->
+          <line x1="50" y1="220" x2="350" y2="100" stroke="red" stroke-width="2"/>
+          
+          <!-- 定常状態の表示 -->
+          <circle cx="200" cy="160" r="4" fill="black"/>
+          <text x="210" y="155">k*</text>
+          
+          <!-- 矢印 -->
+          <path d="M 100 180 L 120 180" stroke="black" stroke-width="1" marker-end="url(#arrowhead)"/>
+          <path d="M 280 140 L 260 140" stroke="black" stroke-width="1" marker-end="url(#arrowhead)"/>
+        </svg>
+        <figcaption>図2: 位相図：投資曲線（凹）と必要投資線（直線）が$k^{*}$で交差</figcaption>
+      </figure>
+    </article>
+
+    <!-- 7. 比較静学 -->
+    <article class="model-section" id="comparative-statics">
+      <h3>7. 比較静学</h3>
+      <table class="comparative">
+        <thead>
+          <tr><th>パラメータの変化</th><th>$k^{*}$への影響</th><th>$y^{*}$への影響</th><th>直観的説明</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>↑ 貯蓄率 $s$</td><td>↑</td><td>↑</td><td>より高い投資が定常状態の資本を引き上げる</td></tr>
+          <tr><td>↑ 人口成長率 $n$</td><td>↓</td><td>↓</td><td>より多くの労働者が資本ストックを希薄化</td></tr>
+          <tr><td>↑ 減耗率 $\delta$</td><td>↓</td><td>↓</td><td>資本がより速く摩耗</td></tr>
+          <tr><td>↑ 技術成長率 $g$</td><td>↓（効率単位で）</td><td>$y^{*}$への影響は不明確</td><td>より高い$g$は必要投資を引き上げ；一人当たり産出は依然として$g$で成長</td></tr>
+        </tbody>
+      </table>
+    </article>
+
+    <!-- 8. 拡張 -->
+    <article class="model-section" id="extensions">
+      <h3>8. 拡張とモデルの精緻化</h3>
+      <ul class="key-features">
+        <li><strong>人的資本拡張ソローモデル：</strong>第二の蓄積要素$H$（技能）を追加 — 国家間の所得格差をより良く説明（Mankiw-Romer-Weil, 1992）</li>
+        <li><strong>開放経済ソローモデル：</strong>資本の流出入を許容；世界利子率が$k$を決定（小国開放経済の仮定）</li>
+        <li><strong>内生的成長（Romer, 1990）：</strong>$g$を意図的なR&D投資の関数とし、集計レベルでの収穫逓減を排除</li>
+        <li><strong>環境ソローモデル：</strong>天然資源の枯渇と環境汚染対策支出を組み込む</li>
+      </ul>
+    </article>
+
+    <!-- 参考文献 -->
+    <article class="model-section" id="references">
+      <h3>主要参考文献</h3>
+      <ul>
+        <li>Solow, R.&nbsp;M. (1956). "経済成長の理論への貢献" <em>Quarterly Journal of Economics</em></li>
+        <li>Swan, T.&nbsp;W. (1956). "経済成長と資本蓄積" <em>Economic Record</em></li>
+        <li>Mankiw, N.&nbsp;G., Romer, D., &amp; Weil, D.&nbsp;N. (1992). "経済成長の実証研究への貢献" <em>Quarterly Journal of Economics</em></li>
+        <li>Barro, R.&nbsp;J., &amp; Sala-i-Martin, X. (2004). <em>経済成長論</em> 第2版. MIT Press</li>
+        <li>Romer, P.&nbsp;M. (1990). "内生的技術変化" <em>Journal of Political Economy</em></li>
+      </ul>
+    </article>
+  </section>
+
+  <!-- SVGの矢印定義 -->
+  <svg height="0" width="0">
+    <defs>
+      <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+        <polygon points="0 0, 10 3.5, 0 7" fill="black"/>
+      </marker>
+    </defs>
+  </svg>
+</body>
+</html>

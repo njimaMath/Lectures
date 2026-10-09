@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Stochastic Calculus for Beginners</title>
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,600;1,400&family=Open+Sans:wght@400;600&display=swap');
+
+        :root {
+            --primary-color: #2c3e50;
+            --secondary-color: #34495e;
+            --accent-color: #3498db;
+            --bg-color: #f8f9fa;
+            --section-bg: #ffffff;
+            --text-color: #2c3e50;
+        }
+
+        body {
+            font-family: 'Open Sans', sans-serif;
+            background-color: var(--bg-color);
+            margin: 0;
+            padding: 0;
+            line-height: 1.8;
+            color: var(--text-color);
+        }
+
+        header {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            text-align: center;
+            padding: 4rem 2rem;
+            margin-bottom: 2rem;
+        }
+
+        header h1 {
+            font-family: 'Lora', serif;
+            font-size: 3em;
+            margin: 0;
+            letter-spacing: -0.5px;
+        }
+
+        header h2 {
+            font-size: 1.5em;
+            font-weight: 400;
+            margin-top: 1rem;
+            opacity: 0.9;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        section {
+            background-color: var(--section-bg);
+            padding: 2.5rem;
+            margin-bottom: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.06);
+            transition: transform 0.2s ease;
+        }
+
+        section:hover {
+            transform: translateY(-2px);
+        }
+
+        h3 {
+            font-family: 'Lora', serif;
+            color: var(--primary-color);
+            font-size: 1.75rem;
+            margin-top: 0;
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid #eee;
+        }
+
+        p {
+            margin-bottom: 1.5rem;
+            font-size: 1.1rem;
+        }
+
+        ul, ol {
+            padding-left: 1.5rem;
+        }
+
+        li {
+            margin-bottom: 1rem;
+            line-height: 1.6;
+        }
+
+        a {
+            color: var(--accent-color);
+            text-decoration: none;
+            border-bottom: 1px solid transparent;
+            transition: border-color 0.2s ease;
+        }
+
+        a:hover {
+            border-bottom-color: var(--accent-color);
+        }
+
+        blockquote {
+            background-color: #f8f9fa;
+            border-left: 4px solid var(--accent-color);
+            padding: 1.5rem;
+            margin: 2rem 0;
+            border-radius: 0 8px 8px 0;
+        }
+
+        code {
+            background-color: #f1f4f9;
+            color: #e17055;
+            padding: 0.2em 0.4em;
+            border-radius: 4px;
+            font-family: 'Monaco', 'Consolas', monospace;
+            font-size: 0.9em;
+        }
+
+        strong {
+            color: var(--primary-color);
+            font-weight: 600;
+        }
+
+        em {
+            color: #2d3436;
+            font-style: italic;
+        }
+
+        footer {
+            text-align: center;
+            padding: 2rem;
+            background-color: var(--primary-color);
+            color: white;
+            margin-top: 4rem;
+        }
+
+        footer p {
+            margin: 0;
+            opacity: 0.8;
+        }
+
+        @media (max-width: 768px) {
+            header {
+                padding: 3rem 1rem;
+            }
+
+            header h1 {
+                font-size: 2.5em;
+            }
+
+            section {
+                padding: 1.5rem;
+            }
+
+            .container {
+                padding: 0 1rem;
+            }
+        }
+
+        /* Print styles */
+        @media print {
+            body {
+                background: white;
+                color: black;
+            }
+
+            section {
+                box-shadow: none;
+                page-break-inside: avoid;
+            }
+
+            a {
+                color: black;
+                text-decoration: underline;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Stochastic Calculus for Beginners</h1>
+        <h2>Engaging Core Topics in Stochastic Calculus</h2>
+    </header>
+
+    <div class="container">
+        <section>
+            <h3>Discrete Random Walks and the Path to Brownian Motion</h3>
+            <p>Start with simple random walks (e.g. a “drunkard’s walk” of coin-flip steps) and show how they converge (in a distributional sense) to continuous Brownian motion as the step size and time interval shrink. This connection builds intuition that Brownian motion is essentially the limit of increasingly fine random jumps. Students enjoy seeing how an erratic but piecewise constant path “smooths out” into a continuous <strong>Wiener process</strong> (the mathematical model of Brownian motion).</p>
+        </section>
+
+        <section>
+            <h3>Brownian Motion (Wiener Process) – Definition and Properties</h3>
+            <p>Introduce standard Brownian motion <em>W(t)</em> as the centerpiece of stochastic calculus. Emphasize its defining properties: (1) <em>W(0)=0</em>, (2) continuous sample paths, (3) independent increments, and (4) Gaussian increments with mean 0 and variance equal to the time gap (<a href="https://www.probabilitycourse.com/chapter11/11_4_2_definition_and_some_properties.php#:~:text=1,t%29%20has%20continuous%20sample%20paths" target="_blank">Definition and Some Properties</a>). Despite being continuous, Brownian motion is extremely irregular – with probability 1 it has <em>nowhere-differentiable</em> paths (intuitively, it wiggles so violently that no tangent can be defined). This randomness makes Brownian motion fascinating to students, as it defies our usual intuition from deterministic calculus.</p>
+        </section>
+
+        <section>
+            <h3>Markov Processes and the Memoryless Property</h3>
+            <p>Discuss the Markov property using Brownian motion as a prime example. A stochastic process is <strong>Markov</strong> if the future evolution depends only on the present state, not on the path taken to get there. Brownian motion has this memoryless property: given the current position, its next steps are independent of the past (<a href="https://www.probabilitycourse.com/chapter11/11_4_2_definition_and_some_properties.php#:~:text=%26%3Ds%2B%5Ctextrm%7BCov%7D%5Cbig%28W%28s%29%2C%20W%28t%29,align" target="_blank">Definition and Some Properties</a>). This can be illustrated by analogy – e.g. a particle undergoing Brownian motion “forgets” where it was before. Students find it engaging that such a complex random path still has a simple conditional structure (the past is irrelevant once you know the present).</p>
+        </section>
+
+        <section>
+            <h3>Martingales and “Fair Game” Processes</h3>
+            <p>Explain the concept of a martingale as a model of a “fair game.” A process <em>M(t)</em> is a <strong>martingale</strong> if its expected future value (given all current information) equals its present value – no systematic gains or losses. Brownian motion (with zero drift) is a martingale: <em>E[W(t+s) - W(t) | ℱ<sub>t</sub>] = 0</em>, meaning on average it neither rises nor falls over any future interval. This idea is intuitively enjoyable – it formalizes the notion of a game with no house edge. Simple gambling examples (like symmetric random walks) can illustrate how martingales capture the “no free lunch” principle in an amusing way.</p>
+        </section>
+
+        <section>
+            <h3>Quadratic Variation and Path Roughness</h3>
+            <p>Highlight the unusual calculus of Brownian paths by discussing <strong>quadratic variation</strong>. If we partition <em>[0,T]</em> and sum the squared increments <code>∑ [W(t<sub>i+1</sub>) - W(t<sub>i</sub>)]<sup>2</sup></code>, it converges to <em>T</em> as the partition gets finer. In contrast, the sum of absolute increments diverges, reflecting Brownian motion’s <em>unbounded total variation</em> on any interval. Students find it intriguing that for Brownian motion, “distance traveled” is infinite over any time interval, yet the accumulated <strong>squared</strong> displacement is finite. Students find it intriguing that “distance traveled” is infinite over any time interval, yet the accumulated squared displacement is finite. This property underpins why ordinary integration fails – but suggests that a new kind of integral (sensitive to squared magnitudes) can work.</p>
+        </section>
+
+        <section>
+            <h3>Itô Stochastic Integral (Integration w.r.t. Noise)</h3>
+            <p>Introduce the construction of the Itô integral as a natural next step after understanding Brownian motion’s roughness. The Itô integral <code>∫<sub>0</sub><sup>T</sup> H(t) dW(t)</code> is defined first for simple “step-function” processes <em>H(t)</em> and then by an <em>L<sup>2</sup></em>-limit (mean-square limit) for general bounded, continuous integrands (<a href="https://math.nyu.edu/~goodman/teaching/StochCalc2018/notes/Lesson3.pdf#:~:text=length%20h,1" target="_blank">Construction notes</a>). Intuitively, we partition time, multiply each Brownian increment <code>ΔW</code> by a chosen integrand value <code>H</code> (which represents some “signal” or strategy that doesn’t anticipate future noise), and <strong>sum up</strong> these contributions. This yields a new random process (the integral) that accumulates the “noise-weighted” signal. Key ideas like the <strong>Itô isometry</strong> (which says <em>E[(∫<sub>0</sub><sup>T</sup> H dW)<sup>2</sup>] = E[∫<sub>0</sub><sup>T</sup> H<sup>2</sup> dt]</em>) can be mentioned to reassure students that this integral is well-defined and has properties analogous to orthogonality in vector spaces. The construction is enjoyable to explore since it turns chaos (multiplying by wild <code>dW</code> increments) into something mathematically tractable.</p>
+        </section>
+
+        <section>
+            <h3>Itô’s Formula – The Stochastic Chain Rule</h3>
+            <p>Present Itô’s formula as the crown jewel of basic stochastic calculus. Itô’s formula (often called <em>Itô’s lemma</em>) is a stochastic version of the chain rule for differentiating a function of a random process. If <em>X(t)</em> is an Itô process (e.g. a solution of an SDE) and <em>u(x,t)</em> is a nicely-behaved function, Itô’s formula states:</p>
+            <blockquote>
+                <em>du(X<sub>t</sub>, t) = ∂u/∂t (X<sub>t</sub>, t) dt + ∂u/∂x (X<sub>t</sub>, t) dX<sub>t</sub> + ½ ∂²u/∂x² (X<sub>t</sub>, t) (dX<sub>t</sub>)<sup>2</sup></em>
+            </blockquote>
+            <p>In particular, for <em>X<sub>t</sub> = W<sub>t</sub></em> (Brownian motion), <code>(dW<sub>t</sub>)<sup>2</sup> = dt</code> is the famous <strong>Itô correction</strong> term (<a href="https://oatml.cs.ox.ac.uk/blog/2022/03/22/ito-strat.html" target="_blank">more details</a>). This extra term reflects the high-frequency jiggling of Brownian paths. Students find it fun and surprising that <code>(dW)^2 ≠ 0</code> (unlike in ordinary calculus) – instead it <em>equals</em> <code>dt</code> in the limit sense. This leads to results like <em>d(W<sub>t</sub>)<sup>2</sup>) = 2W<sub>t</sub> dW<sub>t</sub> + dt</em>, which would astonish anyone expecting the usual <em>d(x<sup>2</sup>)=2x dx</em>. By working through simple cases, students build intuition for how stochastic calculus “bends” the rules of ordinary calculus. Itô’s formula is conceptually enjoyable because it unlocks a new way to compute with random processes (often stirring curiosity with its unexpected ½ term). It is also immensely useful – analogous to the fundamental theorem of calculus – enabling us to evaluate stochastic integrals and solve stochastic differential equations in a straightforward way.</p>
+        </section>
+
+        <section>
+            <h3>Accessible Texts and Resources for Further Study</h3>
+            <ul>
+                <li><strong>Steven Shreve’s <em>Stochastic Calculus for Finance</em> (Vol I & II):</strong> Although finance-oriented, Shreve’s volumes are widely admired for their clear development of Brownian motion and Itô calculus from the ground up. <em>Volume I</em> introduces discrete-time models (a friendly start with binomial random walks), and <em>Volume II</em> chapters 1–4 cover continuous-time Brownian motion and Itô integration in an accessible style (<a href="https://mathoverflow.net/questions/188311/teaching-stochastic-calculus-to-students-who-know-no-measure-theory-or-pde-or" target="_blank">Discussion link</a>). These books avoid excessive measure theory, focusing on intuition (though some technical proofs are sketched or deferred).</li>
+                <li><strong>Thomas Mikosch – <em>Elementary Stochastic Calculus, with Finance in View</em>:</strong> A light, <em>elementary</em> introduction that presumes only basic calculus and probability. Develops Brownian motion, stochastic integrals, and Itô’s lemma with an intuitive approach, often framing ideas in the context of simple financial problems (<a href="https://mathoverflow.net/questions/188311/teaching-stochastic-calculus-to-students-who-know-no-measure-theory-or-pde-or" target="_blank">Discussion link</a>). The focus is on clarity and manageable length.</li>
+                <li><strong>Bernt Øksendal – <em>Stochastic Differential Equations</em>:</strong> A classic introductory text balancing rigor and intuition. Provides a pedagogical treatment of Itô integrals, Itô’s formula, and basic SDEs with minimal prerequisites (<a href="https://oatml.cs.ox.ac.uk/blog/2022/03/22/ito-strat.html" target="_blank">More info</a>). Includes examples from physics and finance.</li>
+                <li><strong>J. Michael Steele – <em>Stochastic Calculus and Financial Applications</em>:</strong> An enjoyable, rigorous journey with a focus on intuition. Builds concepts from the ground up, with proofs and lively writing. Suitable for students interested in deeper understanding and research (<a href="https://mathoverflow.net/questions/188311/teaching-stochastic-calculus-to-students-who-know-no-measure-theory-or-pde-or" target="_blank">Discussion link</a>).</li>
+                <li>Lecture notes and online courses, such as <a href="https://math.nyu.edu/~goodman/teaching/StochCalc2018/notes/Lesson3.pdf" target="_blank">Goodman’s NYU notes</a> and MIT OCW’s <a href="https://ocw.mit.edu/courses/mathematics/18-s096-introduction-to-stochastic-processes-spring-2014/" target="_blank">OpenCourseWare</a>, provide step-by-step constructions and visualizations that reinforce intuition.</li>
+            </ul>
+        </section>
+
+        <section>
+            <h3>Constructing the Itô Integral – A Simplified Outline</h3>
+            <p>Even without heavy measure theory, one can construct the Itô integral in an understandable way:</p>
+            <ol>
+                <li><strong>Start with simple integrands:</strong> Define the integral for piecewise-constant processes <em>H(t)</em>. For a partition <em>0 = t<sub>0</sub> &lt; t<sub>1</sub> &lt; ... &lt; t<sub>n</sub> = T</sub>, set <em>H(t) = h<sub>i</sub></em> on <em>[t<sub>i-1</sub>, t<sub>i</sub>)</em>. Define the sum <code>I(H) = ∑ h<sub>i</sub> (W(t<sub>i</sub>) - W(t<sub>i-1</sub>))</code>. This is a finite sum of Gaussian increments, hence well-defined.</li>
+                <li><strong>Ensure adaptedness:</strong> The constants <em>h<sub>i</sub></em> depend only on information up to <em>t<sub>i-1</sub></em>. This models “no anticipation.”</li>
+                <li><strong>Linearity and Isometry:</strong> Show that <em>E[I(H)<sup>2</sup>]</em> equals the sum of <em>h<sub>i</sub></em><sup>2</sup> times the variance of each increment, leading to <em>E[I(H)<sup>2</sup>] = E[∫<sub>0</sub><sup>T</sup> H(t)<sup>2</sup> dt]</em>. This is the Itô isometry, ensuring the integral is well-behaved in <em>L<sup>2</sup></em>.</li>
+                <li><strong>Approximate general processes:</strong> Any square-integrable, adapted process can be approximated by simple processes. The integral is then defined as the limit in <em>mean-square</em> of the sums for these simple processes.</li>
+                <li><strong>Limit and extension:</strong> The limit exists and is unique, giving a well-defined stochastic integral for a broad class of processes.</li>
+            </ol>
+            <p>This approach emphasizes intuition: the integral is a limit of sums, just like Riemann sums, but with stochastic increments. The key is the quadratic variation of Brownian motion, which makes the second-order term survive and produce the correction in Itô’s formula.</p>
+        </section>
+
+        <section>
+            <h3>Itô’s Formula (Itô’s Lemma) – Simplified Proof Outline</h3>
+            <p>To understand Itô’s formula, think of applying a Taylor expansion to a smooth function \(u(x,t)\) along a small increment of a process \(X_t\). For small \(\Delta t\):</p>
+            <blockquote>
+                \[\Delta u \approx \frac{\partial u}{\partial x}(X_t, t) \Delta x + \frac{\partial u}{\partial t}(X_t, t) \Delta t + \frac{1}{2} \frac{\partial^2 u}{\partial x^2}(X_t, t) (\Delta x)^2\]
+            </blockquote>
+            <p>Assuming \(X_t\) is an Itô process with \(dX_t = a\,dt + b\,dW_t\), then \(\Delta x \approx a\,\Delta t + b\,\Delta W\). The key insight is that \((\Delta W)^2\) is on the order of \(\Delta t\) and, in the limit, \((dW)^2 = dt\). The other higher-order terms vanish as \(\Delta t \to 0\). This leads to the stochastic chain rule:</p>
+            <blockquote>
+                \[du = \frac{\partial u}{\partial t}\,dt + \frac{\partial u}{\partial x}\,dX_t + \frac{1}{2}\frac{\partial^2 u}{\partial x^2}b^2\,dt\]
+            </blockquote>
+            <p>which is the essence of Itô’s lemma. It captures how the quadratic variation of Brownian motion introduces an extra correction term, fundamentally different from ordinary calculus.</p>
+        </section>
+    </div>
+
+    <footer>
+        <p>© 2024 Stochastic Calculus for Beginners | Inspired by foundational texts and online resources.</p>
+    </footer>
+</body>
+</html>

@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>第3回：接平面</title>
+    <style>
+        :root {
+            --primary-color: #2c3e50;
+            --secondary-color: #3498db;
+            --accent-color: #e74c3c;
+            --background-color: #f9f9f9;
+            --text-color: #333;
+            --container-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+            --text-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+        }
+
+        body {
+            font-family: 'Georgia', serif;
+            line-height: 1.7;
+            margin: 0;
+            padding: 0;
+            background-color: var(--background-color);
+            color: var(--text-color);
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 20px auto;
+            padding: 30px;
+            background-color: white;
+            box-shadow: var(--container-shadow);
+            border-radius: 15px;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 40px;
+            border-bottom: 2px solid var(--secondary-color);
+            padding-bottom: 20px;
+        }
+
+        h1, h2, h3 {
+            color: var(--primary-color);
+        }
+
+        .section-title {
+            color: var(--primary-color);
+            font-size: 1.8rem;
+            margin-top: 30px;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #eee;
+            text-shadow: var(--text-shadow);
+        }
+
+        .lecture-title {
+            color: var(--secondary-color);
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+            font-weight: normal;
+        }
+
+        .author-info {
+            font-style: italic;
+            color: #777;
+        }
+
+        .math {
+            font-style: italic;
+            padding: 0 3px;
+        }
+
+        .figure {
+            text-align: center;
+            margin: 30px 0;
+            padding: 20px;
+            background-color: #f8f9fa;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+        }
+
+        .figure img {
+            max-width: 100%;
+            border-radius: 5px;
+        }
+
+        .figure-caption {
+            font-style: italic;
+            color: #777;
+            margin-top: 15px;
+        }
+
+        .navigation {
+            margin-top: 40px;
+            text-align: center;
+            display: flex;
+            justify-content: space-between;
+            padding: 15px 0;
+            border-top: 1px solid #eee;
+        }
+
+        .navigation a {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: var(--primary-color);
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .navigation a:hover {
+            background-color: var(--secondary-color);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+        }
+
+        .topic-highlight {
+            display: inline-block;
+            background-color: rgba(52, 152, 219, 0.1);
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-weight: 500;
+            color: var(--primary-color);
+        }
+
+        .formula {
+            margin: 25px 0;
+            padding: 15px;
+            background-color: #f8f9fa;
+            border-left: 4px solid var(--secondary-color);
+            border-radius: 5px;
+            overflow-x: auto;
+            font-size: 1.1em;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+        }
+
+        .example-title {
+            font-weight: bold;
+            font-size: 1.2em;
+            color: var(--secondary-color);
+            margin-top: 30px;
+            margin-bottom: 15px;
+            padding-bottom: 5px;
+            border-bottom: 1px dashed #ccc;
+            display: inline-block;
+        }
+
+        p {
+            margin-bottom: 20px;
+            line-height: 1.8;
+        }
+
+        .content-section {
+            padding-bottom: 30px;
+        }
+        
+        .definition-box {
+            background-color: #f0f7ff;
+            border-left: 4px solid #3498db;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+        }
+        
+        .theorem-box {
+            background-color: #fff4e6;
+            border-left: 4px solid #e67e22;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+        }
+        
+        .proof-box {
+            background-color: #f5f5f5;
+            border-left: 4px solid #7f8c8d;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+        }
+        
+        .example-box {
+            background-color: #f0f9ff;
+            border: 1px solid #d1e6fa;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+        }
+        
+        .section-highlight {
+            background-color: #f8f9fa;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 25px 0;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+        }
+        
+        .graph-container {
+            background-color: #f5f5f5;
+            border-radius: 10px;
+            padding: 15px;
+            margin: 25px 0;
+            text-align: center;
+        }
+        
+        .graph-container h3 {
+            margin-top: 0;
+            margin-bottom: 15px;
+            color: var(--primary-color);
+        }
+        
+        .caption {
+            font-style: italic;
+            color: #777;
+            margin-top: 15px;
+            text-align: center;
+            padding: 0 15px;
+        }
+    </style>
+    <!-- MathJax configuration -->
+    <script>
+      window.MathJax = {
+        tex: {
+          inlineMath: [['$', '$']],
+          displayMath: [['$$', '$$']]
+        },
+        svg: {
+          fontCache: 'global'
+        }
+      };
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js" async></script>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>微分積分学I</h1>
+            <div class="lecture-title">工学部：電気電子工学４組</div>
+            <div class="author-info">講義ノート</div>
+        </header>
+        
+        <section id="class3" class="content-section">
+            <div class="section-title">第3回：接平面</div>
+            
+            <p>この授業では、曲面 $z=f(x,y)$ への<span class="topic-highlight">接平面</span>を導入し、偏微分を用いてその方程式を導出する。接平面は、接線が曲線を近似するのと同様に、ある点での曲面に対する線形近似を与える。</p>
+
+            <p>2変数関数の幾何学的な性質を理解するには、グラフ（曲面）の性質を理解することが重要である。本講義では、特に曲面上の一点における接平面について考える。</p>
+
+            <div class="section-highlight">
+                <h3>接平面の考え方</h3>
+                
+                <p>曲面上の点における接平面とは、その点における曲面の最も良い線形近似である。これは１変数関数における接線の考え方の自然な拡張となる。</p>
+                
+                <p>関数 $z = f(x,y)$ のグラフを考える。点 $(a,b,f(a,b))$ における接平面は、以下の式で表される：</p>
+                
+                <div class="formula">
+                    $$z = f(a,b) + f_x(a,b)(x-a) + f_y(a,b)(y-b)$$
+                </div>
+                
+                <p>ここで、$f_x(a,b)$ と $f_y(a,b)$ は点 $(a,b)$ における偏導関数の値である。この式は、点 $(a,b)$ の近傍で関数を最もよく近似する平面を表す。</p>
+            </div>
+
+            <div class="example-box">
+                <div class="example-title">例 3.1</div>
+                <p>$f(x,y) = x^2 + y^2$ の点 $(1,1)$ における接平面を求めよ。</p>
+                
+                <p><strong>解答：</strong></p>
+                <p>まず、偏導関数を求める：</p>
+                <div class="formula">
+                    \begin{align*}
+                    f_x &= 2x\\
+                    f_y &= 2y
+                    \end{align*}
+                </div>
+                
+                <p>点 $(1,1)$ での値を計算する：</p>
+                <div class="formula">
+                    \begin{align*}
+                    f(1,1) &= 1^2 + 1^2 = 2\\
+                    f_x(1,1) &= 2(1) = 2\\
+                    f_y(1,1) &= 2(1) = 2
+                    \end{align*}
+                </div>
+                
+                <p>接平面の式に代入すると：</p>
+                <div class="formula">
+                    \begin{align*}
+                    z &= 2 + 2(x-1) + 2(y-1)\\
+                    &= 2 + 2x - 2 + 2y - 2\\
+                    &= 2x + 2y - 2
+                    \end{align*}
+                </div>
+            </div>
+
+            <div class="section-highlight">
+                <h3>接平面の意味</h3>
+                
+                <p>接平面は、曲面上の一点における局所的な線形近似を提供する。これにより、その点の近傍での関数の振る舞いを理解することができる。</p>
+                
+                <p>接平面の勾配は、その点における曲面の傾きを表す。具体的には：</p>
+                <ul>
+                    <li>$f_x(a,b)$ は $x$ 方向の傾き</li>
+                    <li>$f_y(a,b)$ は $y$ 方向の傾き</li>
+                </ul>
+                
+                <p>これらの値により、その点で曲面がどの方向にどれだけ傾いているかがわかる。</p>
+            </div>
+            
+            <div class="section-highlight">
+                <h3>微分可能性と接平面</h3>
+                
+                <p>関数が点 $(a,b)$ で微分可能である時、その点における接平面が存在する。これは偏導関数が存在し、連続である時に保証される。</p>
+                
+                <p>微分可能性は、関数が局所的に線形近似可能であることを意味する。つまり：</p>
+                
+                <div class="formula">
+                    $$f(x,y) = f(a,b) + f_x(a,b)(x-a) + f_y(a,b)(y-b)+ o(\sqrt{(x-a)^2 + (y-b)^2}).$$
+                </div>
+
+                <div class="definition-box">
+                    <h4>定義：o(x)（小さいオーダー）</h4>
+                    <p>関数 $g(x)$ が $x \to 0$ のとき $o(x)$ であるとは、</p>
+                    <div class="formula">
+                        $$\lim_{x \to 0} \frac{g(x)}{x} = 0$$
+                    </div>
+                    <p>を満たすことをいう。つまり、$g(x)$ は $x$ よりも速く 0 に近づく関数であることを表す。</p>
+                </div>
+                
+                <p>この近似の誤差は、点 $(a,b)$ に近づくにつれて相対的に小さくなる。</p>
+            </div>
+
+            <div class="property-box">
+                <h3>接平面の重要性</h3>
+                <ul>
+                    <li>局所的な線形近似を提供する</li>
+                    <li>関数の振る舞いを理解するための重要なツールとなる</li>
+                    <li>最適化問題や物理学の問題で頻繁に利用される</li>
+                </ul>
+            </div>
+        </section>
+
+        <div class="navigation">
+            <a href="class2.html">← 前へ：第2回</a>
+            <a href="../index.html">ホーム</a>
+            <a href="class4.html">次へ：第4回 →</a>
+        </div>
+    </div>
+</body>
+</html>

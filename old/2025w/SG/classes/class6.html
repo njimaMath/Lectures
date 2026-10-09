@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lecture 6: The Cavity Method - Overview and Simple Applications</title>
+    <style>
+        :root {
+            --primary-color: #2c3e50;
+            --secondary-color: #3498db;
+            --accent-color: #e74c3c;
+            --background-color: #f9f9f9;
+            --text-color: #333;
+            --container-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+            --text-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+        }
+
+        body {
+            font-family: 'Georgia', serif;
+            line-height: 1.7;
+            margin: 0;
+            padding: 0;
+            background-color: var(--background-color);
+            color: var(--text-color);
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 20px auto;
+            padding: 30px;
+            background-color: white;
+            box-shadow: var(--container-shadow);
+            border-radius: 15px;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 40px;
+            border-bottom: 2px solid var(--secondary-color);
+            padding-bottom: 20px;
+        }
+
+        h1, h2, h3 {
+            color: var(--primary-color);
+        }
+
+        .section-title {
+            color: var(--primary-color);
+            font-size: 1.8rem;
+            margin-top: 30px;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #eee;
+            text-shadow: var(--text-shadow);
+        }
+
+        .lecture-title {
+            color: var(--secondary-color);
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+            font-weight: normal;
+        }
+
+        .author-info {
+            font-style: italic;
+            color: #777;
+        }
+
+        .math {
+            font-style: italic;
+            padding: 0 3px;
+        }
+
+        .figure {
+            text-align: center;
+            margin: 30px 0;
+            padding: 20px;
+            background-color: #f8f9fa;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+        }
+
+        .figure img {
+            max-width: 100%;
+            border-radius: 5px;
+        }
+
+        .figure-caption {
+            font-style: italic;
+            color: #777;
+            margin-top: 15px;
+        }
+
+        .navigation {
+            margin-top: 40px;
+            text-align: center;
+            display: flex;
+            justify-content: space-between;
+            padding: 15px 0;
+            border-top: 1px solid #eee;
+        }
+
+        .navigation a {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: var(--primary-color);
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .navigation a:hover {
+            background-color: var(--secondary-color);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+        }
+
+        .topic-highlight {
+            display: inline-block;
+            background-color: rgba(52, 152, 219, 0.1);
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-weight: 500;
+            color: var(--primary-color);
+        }
+
+        .formula {
+            margin: 25px 0;
+            padding: 15px;
+            background-color: #f8f9fa;
+            border-left: 4px solid var(--secondary-color);
+            border-radius: 5px;
+            overflow-x: auto;
+            font-size: 1.1em;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+        }
+
+        .example-title {
+            font-weight: bold;
+            font-size: 1.2em;
+            color: var(--secondary-color);
+            margin-top: 30px;
+            margin-bottom: 15px;
+            padding-bottom: 5px;
+            border-bottom: 1px dashed #ccc;
+            display: inline-block;
+        }
+
+        p {
+            margin-bottom: 20px;
+            line-height: 1.8;
+        }
+
+        .content-section {
+            padding-bottom: 30px;
+        }
+        
+        .definition-box {
+            background-color: #f0f7ff;
+            border-left: 4px solid #3498db;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+        }
+        
+        .property-box {
+            background-color: #eefaf8;
+            border-left: 4px solid #2ecc71;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+        }
+        
+        .example-box {
+            background-color: #f0f9ff;
+            border: 1px solid #d1e6fa;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+        }
+        
+        .section-highlight {
+            background-color: #f8f9fa;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 25px 0;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+        }
+        
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 25px 0;
+            font-size: 0.9em;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+            border-radius: 5px;
+            overflow: hidden;
+        }
+        
+        .comparison-table thead tr {
+            background-color: var(--secondary-color);
+            color: white;
+            text-align: left;
+        }
+        
+        .comparison-table th,
+        .comparison-table td {
+            padding: 12px 15px;
+        }
+        
+        .comparison-table tbody tr {
+            border-bottom: 1px solid #dddddd;
+        }
+        
+        .comparison-table tbody tr:nth-of-type(even) {
+            background-color: #f3f3f3;
+        }
+        
+        .comparison-table tbody tr:last-of-type {
+            border-bottom: 2px solid var(--secondary-color);
+        }
+        
+        .visual-box {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: #f5f5f5;
+            border-radius: 8px;
+            padding: 15px;
+            margin: 25px 0;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+        }
+
+        .applications-list {
+            list-style-type: none;
+            padding-left: 0;
+        }
+        
+        .applications-list li {
+            background-color: #f8f9fa;
+            margin-bottom: 10px;
+            padding: 12px 15px;
+            border-radius: 5px;
+            box-shadow: 0 2px 3px rgba(0, 0, 0, 0.05);
+            border-left: 3px solid var(--secondary-color);
+        }
+    </style>
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js" async></script>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Lecture 6: The Cavity Method - Overview and Simple Applications</h1>
+            <div class="lecture-title">Understanding Mean-Field Models via Local Fields</div>
+            <div class="author-info">Lecture Notes</div>
+        </header>
+
+        <div class="overview">
+        <p><strong>Overview:</strong> The cavity method provides an alternative approach to analyzing mean-field spin glasses, focusing on the local field distribution seen by a single spin when that spin is removed ("making a cavity"). We introduce the method through simple examples before tackling the SK model in the next lecture. The cavity perspective helps understand both equilibrium properties and dynamics, and has inspired message-passing algorithms for optimization.</p>
+        </div>
+
+        <h4>The Cavity Method: Basic Ideas</h4>
+        <p>Consider a mean-field model where spin $\sigma_i$ interacts with many others. The cavity method:</p>
+        <ol>
+            <li>Removes spin $i$ (creates a "cavity")</li>
+            <li>Analyzes the effect of other spins on $i$ through an effective field</li>
+            <li>Self-consistently determines the distribution of these fields</li>
+        </ol>
+        <p>Key concepts:</p>
+        <ul>
+            <li><strong>Local field:</strong> The total field $h_i$ acting on spin $i$ from its neighbors</li>
+            <li><strong>Cavity field:</strong> The field $h_i^{(j)}$ acting on $i$ when spin $j$ is removed</li>
+            <li><strong>Self-consistency:</strong> The distribution of fields must be consistent with the assumption about their distribution</li>
+        </ul>
+
+        <h4>Simple Example: The Curie-Weiss Model</h4>
+        <p>Let's first apply the cavity method to the ferromagnetic Curie-Weiss model:</p>
+        <div class="mathdisplay">$$ H_N(\sigma) = -\frac{J}{N}\sum_{i<j} \sigma_i\sigma_j $$</div>
+        <p>Consider spin $\sigma_1$. Remove it and look at the field it experiences:</p>
+        <ul>
+            <li>The local field is $h_1 = \frac{J}{N}\sum_{j=2}^N \sigma_j = J m_{N-1}$ where $m_{N-1}$ is the magnetization of the remaining spins</li>
+            <li>In the thermodynamic limit, $m_{N-1} \approx m$, the system's magnetization</li>
+            <li>At temperature $T=1/\beta$, $\langle \sigma_1 \rangle = \tanh(\beta h_1) = \tanh(\beta J m)$</li>
+            <li>Self-consistency requires $m = \tanh(\beta J m)$ - the usual mean-field equation!</li>
+        </ul>
+        <p>This recovers the known phase transition at $T_c = J$.</p>
+
+        <h4>Spin Glass on a Random Regular Graph</h4>
+        <p>A more interesting application is to a spin glass on a random $k$-regular graph (each spin has exactly $k$ neighbors, connections random). The Hamiltonian is:</p>
+        <div class="mathdisplay">$$ H_N(\sigma) = -\sum_{(i,j)} J_{ij}\sigma_i\sigma_j $$</div>
+        <p>where $(i,j)$ runs over edges and $J_{ij} = \pm 1$ randomly.</p>
+        <p><strong>Cavity analysis:</strong></p>
+        <ul>
+            <li>Remove spin $i$. It has $k$ neighbors, each connected to $k-1$ other spins</li>
+            <li>Key assumption: In the cavity graph (with $i$ removed), the neighbors of $i$ are approximately independent</li>
+            <li>Each neighbor $j$ feels a cavity field $h_j^{(i)}$ from its other $k-1$ connections</li>
+            <li>The field on $i$ when restored is $h_i = \sum_{j \in \partial i} J_{ij}\tanh(\beta h_j^{(i)})$</li>
+        </ul>
+        <p>This leads to self-consistent equations for the distribution $P(h)$ of cavity fields:</p>
+        <div class="mathdisplay">$$ P(h) = \mathbb{E}_{J}\Big[\int \prod_{l=1}^{k-1} dh_l P(h_l)\,\delta\Big(h - \sum_{l=1}^{k-1} J_l \tanh(\beta h_l)\Big)\Big] $$</div>
+        <p>where $\mathbb{E}_J$ averages over the random couplings.</p>
+
+        <h4>Properties of the Solution</h4>
+        <p>For the random regular graph spin glass:</p>
+        <ul>
+            <li>At high $T$: Only solution is $P(h) = \delta(h)$ (paramagnetic phase)</li>
+            <li>Below $T_c(k)$: A non-trivial $P(h)$ appears (spin glass phase)</li>
+            <li>The critical temperature $T_c(k)$ increases with connectivity $k$</li>
+            <li>As $k\to\infty$ (with $J_{ij}/\sqrt{k}$ couplings), recovers SK model results</li>
+        </ul>
+
+        <h4>Connection to Belief Propagation</h4>
+        <p>The cavity equations have a natural algorithmic interpretation:</p>
+        <ul>
+            <li>Messages $h_i^{(j)}$ flow along edges</li>
+            <li>Each site updates its outgoing messages based on incoming ones</li>
+            <li>This is exactly belief propagation on the factor graph</li>
+        </ul>
+        <p>Applications include:</p>
+        <ul>
+            <li>Optimization problems (e.g., random K-SAT)</li>
+            <li>Error-correcting codes (LDPC codes)</li>
+            <li>Compressed sensing</li>
+        </ul>
+
+        <h4>Limitations and Extensions</h4>
+        <p>The basic cavity method assumes:</p>
+        <ul>
+            <li>Local tree-like structure (valid for random graphs)</li>
+            <li>A single pure state (replica symmetric assumption)</li>
+        </ul>
+        <p>Extensions exist for:</p>
+        <ul>
+            <li>Replica symmetry breaking (Survey Propagation)</li>
+            <li>Finite-dimensional systems (Loop corrections)</li>
+            <li>Dynamics (Dynamic cavity method)</li>
+        </ul>
+
+        <p><strong>Summary (Lecture 6):</strong> We introduced the cavity method through simple examples (Curie-Weiss, random regular graphs). The method provides physical insight through local fields and has inspired practical algorithms. Next lecture applies these ideas to the SK model, showing how cavity treatment relates to TAP equations and the Parisi solution.</p>
+
+        <div class="navigation">
+            <a href="class5.html">← Previous</a>
+            <a href="class7.html">Next →</a>
+        </div>
+    </div>
+</body>
+</html>
