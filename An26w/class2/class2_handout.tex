@@ -213,4 +213,75 @@ $$
 \problemspace
 \end{problems}
 \end{minipage}
+
+\newpage
+\handouttitle{第2回\quad 演習問題の解答}
+{\small 以下、$C$ は積分定数であり、分母の零点で区切られる区間ごとに異なってよい。}\par
+\begin{problems}
+\setlength{\itemsep}{7pt}
+\item $x<2$ または $x>2$ の各区間で
+$$
+ \int\frac{dx}{x-2}=\log|x-2|+C.
+$$
+$x<2$ では $\log|x-2|=\log(2-x)$ だから、微分すると
+$-1/(2-x)=1/(x-2)$ となり、この区間でも正しい。
+
+\item $x<-1$ または $x>-1$ の各区間で、$n=3$ の公式より
+$$
+ \int\frac{dx}{(x+1)^3}=-\frac1{2(x+1)^2}+C.
+$$
+べき乗の公式 $-1/\{(n-1)(x-\alpha)^{n-1}\}$ に $n=1$ を代入すると
+分母が0になる。$n=1$ の場合は別に計算し、$\log|x-\alpha|+C$ を用いる。
+
+\item どちらの分母もすべての実数 $x$ で正なので、区間は $\mathbb R$ でよい。
+\text{(a)} $x^2+2x+5=(x+1)^2+4$ より
+$$
+ \int\frac{dx}{x^2+2x+5}=\frac12\arctan\frac{x+1}{2}+C.
+$$
+\text{(b)} $q(x)=x^2+x+3=(x+\tfrac12)^2+\tfrac{11}{4}$ とおく。
+$x+2=\tfrac12q'(x)+\tfrac32$ と分けると
+$$
+ \int\frac{x+2}{x^2+x+3}\,dx
+ =\frac12\log(x^2+x+3)+\frac3{\sqrt{11}}\arctan\frac{2x+1}{\sqrt{11}}+C.
+$$
+
+\item \text{(a)} 分母を払った恒等式は
+$$
+ 1=A(x+1)^2+Bx(x+1)+Ex.
+$$
+$x=0,-1$ の代入と係数比較から $A=1$、$B=E=-1$ を得る。したがって
+$$
+ \frac1{x(x+1)^2}=\frac1x-\frac1{x+1}-\frac1{(x+1)^2},\qquad
+ \int\frac{dx}{x(x+1)^2}=\log|x|-\log|x+1|+\frac1{x+1}+C.
+$$
+区間は $(-\infty,-1)$、$(-1,0)$、$(0,\infty)$ のいずれかである。
+\text{(b)} 恒等式と係数は
+$$
+ x+1=A(x^2+1)+(Bx+E)x,\qquad A=1,\quad B=-1,\quad E=1.
+$$
+よって $x<0$ または $x>0$ の各区間で
+$$
+ \frac{x+1}{x(x^2+1)}=\frac1x+\frac{-x+1}{x^2+1},\qquad
+ \int\frac{x+1}{x(x^2+1)}\,dx
+ =\log|x|-\frac12\log(x^2+1)+\arctan x+C.
+$$
+
+\item 除法により $x^3=x(x^2+1)-x$ だから、$\mathbb R$ 上で
+$$
+ \int\frac{x^3}{x^2+1}\,dx
+ =\int\left(x-\frac{x}{x^2+1}\right)dx
+ =\frac{x^2}{2}-\frac12\log(x^2+1)+C.
+$$
+
+\item 帰納公式に $c=2$、$m=2$ を代入すると
+$$
+ I_2(t)=\frac{t}{8(t^2+4)}+\frac18 I_1(t)
+ =\frac{t}{8(t^2+4)}+\frac1{16}\arctan\frac t2.
+$$
+したがって、$I_2(0)=0$ と $\arctan1=\pi/4$ より
+$$
+ \int_0^2\frac{dx}{(x^2+4)^2}=I_2(2)=\frac1{32}+\frac\pi{64}
+ =\frac{2+\pi}{64}>0.
+$$
+\end{problems}
 \end{document}
