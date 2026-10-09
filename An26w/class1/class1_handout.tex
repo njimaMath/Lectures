@@ -10,6 +10,7 @@
 \usepackage{enumitem}
 \usepackage{array,booktabs,tabularx}
 \usepackage{fancyhdr}
+\usepackage{lastpage}
 
 \definecolor{ink}{HTML}{193A5C}
 \definecolor{accent}{HTML}{237D82}
@@ -21,7 +22,7 @@
 \fancyhf{}
 \fancyhead[L]{\small\color{ink}\coursename{}・授業要約と演習}
 \fancyhead[R]{\small\color{ink}第\handoutnumber 回}
-\fancyfoot[C]{\small\color{ink}\thepage/2}
+\fancyfoot[C]{\small\color{ink}\thepage/\pageref{LastPage}}
 \renewcommand{\headrulewidth}{0.3pt}
 \setlength{\parindent}{0pt}
 \setlength{\parskip}{2pt}
@@ -159,7 +160,84 @@ $$
 \item $f(x)=3x-5$ の逆関数 $g$ を求めよ.
 \item $f(x)=x^2+2x$、$x\ge-1$ の逆関数とその定義域を求めよ。
 \item $\arcsin(-\sqrt3/2)$、$\arccos(-1/2)$、$\arctan(1)$ を求めよ。
-\item $y=\arccos x$ の微分を導け。
+\item $y=\arcsin x$ と $y=\arccos x$ の微分をそれぞれ導け。
 \item $\displaystyle\int_0^{1/2}\frac{dx}{\sqrt{1-x^2}}$ を求めよ。
+\item $\displaystyle\int\frac{x^4}{1+x^2}\,dx$ を多項式除法を用いて求めよ。
+\end{problems}
+\newpage
+\begin{center}
+  {\Large\sffamily\color{ink}基礎演習の解答}\par
+  \smallskip{\small 逆関数の定義域と、逆三角関数の値域に注意しよう。}
+\end{center}
+\begin{problems}
+\setlength{\itemsep}{7pt}
+\item $y=3x-5$ を $x$ について解くと $x=(y+5)/3$ なので、
+逆関数は $g(y)=(y+5)/3$ である。定義域・値域はともに $\mathbb R$。
+実際、任意の $x,y\in\mathbb R$ に対して
+\begin{center}
+$\displaystyle
+ f(g(y))=3\frac{y+5}{3}-5=y,\qquad
+ g(f(x))=\frac{(3x-5)+5}{3}=x.
+$
+\end{center}
+
+\item $y=x^2+2x=(x+1)^2-1$ より $y+1=(x+1)^2$。
+$x\ge-1$ だから $x+1\ge0$ であり、$x+1=\sqrt{y+1}$ となる。したがって
+\begin{center}
+$\displaystyle
+ g(y)=-1+\sqrt{y+1}\qquad
+ \text{定義域：}[-1,\infty),\quad\text{値域：}[-1,\infty).
+$
+\end{center}
+逆関数の定義域は、元の関数 $f$ の値域である。
+
+\item それぞれの逆三角関数の値域に入る角を選ぶと、
+\begin{center}
+$\displaystyle
+ \arcsin\!\left(-\frac{\sqrt3}{2}\right)=-\frac{\pi}{3},\qquad
+ \arccos\!\left(-\frac12\right)=\frac{2\pi}{3},\qquad
+ \arctan(1)=\frac{\pi}{4}.
+$
+\end{center}
+これらは順に $[-\pi/2,\pi/2]$、$[0,\pi]$、$(-\pi/2,\pi/2)$ に属する。
+
+\item $y=\arcsin x$ ならば $\sin y=x$。$-1<x<1$ で両辺を $x$ で微分すると
+$\cos y\,dy/dx=1$ となる。ここで $-\pi/2<y<\pi/2$ より $\cos y>0$ なので、
+$\cos y=\sqrt{1-\sin^2y}=\sqrt{1-x^2}$。よって
+\begin{center}
+$\displaystyle
+ \frac{dy}{dx}=\frac1{\sqrt{1-x^2}}\qquad(-1<x<1).
+$
+\end{center}
+
+
+また、$y=\arccos x$ ならば $\cos y=x$。$-1<x<1$ で微分すると
+$-\sin y\,dy/dx=1$ となる。$0<y<\pi$ より $\sin y>0$ だから、
+$\sin y=\sqrt{1-\cos^2y}=\sqrt{1-x^2}$。したがって
+\begin{center}
+$\displaystyle
+ \frac{dy}{dx}=-\frac1{\sqrt{1-x^2}}\qquad(-1<x<1).
+$
+\end{center}
+
+\item $\arcsin x$ が被積分関数の原始関数なので、
+\begin{center}
+$\displaystyle
+ \int_0^{1/2}\frac{dx}{\sqrt{1-x^2}}
+ =\left[\arcsin x\right]_0^{1/2}
+ =\frac{\pi}{6}-0=\frac{\pi}{6}.
+$
+\end{center}
+
+\item 多項式除法により $x^4=(1+x^2)(x^2-1)+1$ だから、
+$\displaystyle\frac{x^4}{1+x^2}=x^2-1+\frac1{1+x^2}$。各項を積分して
+\begin{center}
+$\displaystyle
+ \int\frac{x^4}{1+x^2}\,dx
+ =\int\left(x^2-1+\frac1{1+x^2}\right)dx
+ =\frac{x^3}{3}-x+\arctan x+C.
+$
+\end{center}
+ここで $C$ は任意の実定数であり、この式はすべての $x\in\mathbb R$ で成り立つ。
 \end{problems}
 \end{document}

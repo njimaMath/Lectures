@@ -10,6 +10,7 @@
 \usepackage{enumitem}
 \usepackage{array,booktabs,tabularx}
 \usepackage{fancyhdr}
+\usepackage{lastpage}
 
 \definecolor{ink}{HTML}{193A5C}
 \definecolor{accent}{HTML}{237D82}
@@ -21,7 +22,7 @@
 \fancyhf{}
 \fancyhead[L]{\small\color{ink}\coursename{}・授業要約と演習}
 \fancyhead[R]{\small\color{ink}第\handoutnumber 回}
-\fancyfoot[C]{\small\color{ink}\thepage/2}
+\fancyfoot[C]{\small\color{ink}\thepage/\pageref{LastPage}}
 \renewcommand{\headrulewidth}{0.3pt}
 \setlength{\parindent}{0pt}
 \setlength{\parskip}{2pt}
@@ -52,58 +53,109 @@
 
 
 \newcommand{\examplelabel}[1]{{\sffamily\mdseries\color{ink}#1}}
-\newcommand{\answerroom}{\par\vspace{16mm}}
+\newcommand{\problemspace}{\par\vspace{5mm}}
+\newcommand{\exercises}{%
+  {\color{accent}\hrule height 0.7pt}\vspace{3pt}%
+  \topic{演習問題（6題）}%
+  {\small 計算過程を記し、代表点の選び方や積分領域も明示しよう。}\par}
 
 \begin{document}
 \fontsize{10pt}{13.5pt}\selectfont
 \setlength{\abovedisplayskip}{4pt}
 \setlength{\belowdisplayskip}{4pt}
 \handout{3}{重積分の定義}
+\keybox{到達目標：リーマン和と重積分の定義を説明し、上和・下和から可積分性を判断できる。
+領域上の積分を、長方形上の0延長の積分として理解する。}
+
 \topic{1変数のリーマン和から2変数へ}
-$K=[a,b]\times[c,d]$、$a<b$、$c<d$ を長方形とする。
-各辺を $N,M$ 等分し、$\Delta x=(b-a)/N$、$\Delta y=(d-c)/M$ とおく。
-小長方形 $Q_{ij}$ の代表点 $\xi_{ij}=(x_{ij}^*,y_{ij}^*)$ を選び
+$K=[a,b]\times[c,d]$（$a<b$、$c<d$）を長方形とし、
+$N,M$ を正の整数とする。各辺を $N,M$ 等分して
+$$
+ \Delta x=\frac{b-a}{N},\quad \Delta y=\frac{d-c}{M},\qquad
+ x_i=a+i\Delta x,\quad y_j=c+j\Delta y
+$$
+とおく。小長方形 $Q_{ij}=[x_{i-1},x_i]\times[y_{j-1},y_j]$ の
+代表点 $\xi_{ij}=(x_{ij}^*,y_{ij}^*)$ を選び、
 $$
  S_{N,M}(f)=\sum_{i=1}^N\sum_{j=1}^M
  f(\xi_{ij})\,\Delta x\,\Delta y
 $$
 をリーマン和という。高さ $f(\xi_{ij})$ に底面積 $\Delta x\Delta y$ を掛けて足す。
+$f\ge0$ なら柱の体積の和になり、負の値は符号を付けて加える。
+定数関数 $f\equiv h$ では、代表点によらず $S_{N,M}(f)=h(b-a)(d-c)$ となる。
 
 \topic{重積分と可積分性}
-$f:K\to\mathbb R$ を有界とする。一般の長方形分割 $\mathcal P$ に対しても、
-代表点を選んで $S_{\mathcal P}(f)=\sum_Q f(\xi_Q)\operatorname{Area}(Q)$ と定める。
-分割の最大直径 $|\mathcal P|$ を0に近づけたとき、分割・代表点によらず同じ有限値に収束するなら
+$f:K\to\mathbb R$ を有界とする。$K$ を内部が重ならない有限個の小長方形 $Q$ に分けたものを
+分割 $\mathcal P$ と呼び、各 $Q$ の代表点 $\xi_Q\in Q$ に対して
 $$
- \iint_K f(x,y)\,dx\,dy:=\lim_{|\mathcal P|\to0}S_{\mathcal P}(f)
+ S_{\mathcal P}(f)=\sum_{Q\in\mathcal P}f(\xi_Q)\operatorname{Area}(Q),\qquad
+ |\mathcal P|=\max_{Q\in\mathcal P}\operatorname{diam}(Q)
+$$
+と定める。ここで $\operatorname{Area}$ は面積、$\operatorname{diam}$ は直径を表す。
+$|\mathcal P|\to0$ のとき、分割・代表点によらず同じ有限値 $I$ に収束するなら
+$$
+ \iint_K f(x,y)\,dx\,dy=I:=\lim_{|\mathcal P|\to0}S_{\mathcal P}(f)
 $$
 と定義し、$f$ はリーマン可積分であるという。
+つまり、任意の $\varepsilon>0$ に対してある $\delta>0$ があり、
+$|\mathcal P|<\delta$ ならどの代表点でも $|S_{\mathcal P}(f)-I|<\varepsilon$ となる。
+一つの分割・代表点の選び方で極限が存在するだけでは十分ではない。
+
+\topic{上和・下和でリーマン和をはさむ}
+有界な $f$ に対し、$m_Q=\inf_{p\in Q}f(p)$、$M_Q=\sup_{p\in Q}f(p)$ とおくと
+$$
+ L(\mathcal P)=\sum_Qm_Q\operatorname{Area}(Q)
+ \le S_{\mathcal P}(f)\le
+ \sum_QM_Q\operatorname{Area}(Q)=U(\mathcal P).
+$$
+$L$ を下和、$U$ を上和という。分割を細かくすると下和は増え、上和は減る。
+任意の二つの分割は共通の細分をもつので、どの下和もどの上和以下となる。
+したがって、$U(\mathcal P)-L(\mathcal P)$ をいくらでも小さくできることが可積分性の判定条件である。
 
 \topic{連続関数の積分が存在する理由}
-$f$ が $K$ 上連続なら一様連続である。各 $Q\in\mathcal P$ 上の最小値・最大値を
-$m_Q,M_Q$ として、下和 $L$ と上和 $U$ を定めると
+$f$ が $K$ 上連続なら、閉じた有界な長方形上で一様連続である。
+各 $Q$ で最小値・最大値が存在し、振動の上限を
 $$
- L=\sum_Q m_Q\operatorname{Area}(Q)\le S_{\mathcal P}(f)
- \le\sum_Q M_Q\operatorname{Area}(Q)=U.
+ \omega_f(\delta)=\sup\{\,|f(p)-f(q)|:p,q\in K,\ |p-q|\le\delta\,\}
 $$
-振動の上限を $\omega_f(\delta)=\sup_{|p-q|\le\delta}|f(p)-f(q)|$ とおけば
+とおくと、$\omega_f(\delta)\to0$（$\delta\to0$）である。よって
 $$
- 0\le U-L\le\operatorname{Area}(K)\,\omega_f(|\mathcal P|)\longrightarrow0.
+ 0\le U(\mathcal P)-L(\mathcal P)
+ \le\operatorname{Area}(K)\,\omega_f(|\mathcal P|)\longrightarrow0.
 $$
-したがって上和・下和は同じ値に近づき、代表点の選び方によらず積分が存在する。
+上和と下和は同じ値に近づき、その間のリーマン和も代表点によらず同じ値に収束する。
 
-\topic{一般の領域と積分の意味}
-$D\subset K$ の外側で $f$ を0に延長した関数を $\widetilde f$ とする。
-この関数が $K$ 上可積分なら
+\examplelabel{例：$[0,1]^2$ 上の $f(x,y)=x+y$ の振動。}
+$n\times n$ 分割では、各小正方形で $M_Q-m_Q=2/n$、面積は $1/n^2$ だから
 $$
- \iint_D f\,dx\,dy:=\iint_K\widetilde f\,dx\,dy,\qquad
+ U(\mathcal P)-L(\mathcal P)=n^2\cdot\frac2n\cdot\frac1{n^2}=\frac2n\longrightarrow0.
+$$
+
+\newpage
+% Reserve the upper half of page 2 for the remaining summary.
+\noindent\begin{minipage}[b][\dimexpr0.5\textheight-\parskip\relax][t]{\linewidth}
+\topic{一般の領域：長方形上に0延長する}
+有界な領域 $D$ を含む長方形 $K$ を選び、$f:D\to\mathbb R$ を有界とする。
+$D$ の外側で $f$ を0に延長した関数 $\widetilde f$ が $K$ 上可積分なら
+$$
+ \iint_Df\,dx\,dy:=\iint_K\widetilde f\,dx\,dy,\qquad
  \widetilde f(p)=\begin{cases}f(p),&p\in D,\\0,&p\in K\setminus D.\end{cases}
 $$
 と定める。値は $D$ を含む長方形の選び方によらない。
-たとえば $D$ が有界で境界の面積が0、$f$ が $\overline D$ 上連続なら可積分である。
+$D$ の境界の面積が0で、$f$ が $\overline D$ 上連続なら、この積分は存在する。
+領域の指示関数を $\chi_D$（$D$ 上で1、それ以外で0）とすると
 $$
- \iint_D1\,dx\,dy=\operatorname{Area}(D),\qquad
- f\ge0\ \Longrightarrow\ \iint_Df=\text{グラフの下の体積}.
+ \iint_D1\,dx\,dy=\iint_K\chi_D\,dx\,dy=\operatorname{Area}(D).
 $$
+$f\ge0$ の積分はグラフの下の体積を表し、一般には正の部分と負の部分の体積の差になる。
+
+\topic{積分の基本性質}
+$f,g$ が $D$ 上可積分、$r,s\in\mathbb R$ なら、線形性と大小関係が成り立つ。
+$$
+ \iint_D(rf+sg)=r\iint_Df+s\iint_Dg,\qquad
+ f\le g\ \Longrightarrow\ \iint_Df\le\iint_Dg.
+$$
+各リーマン和でこれらの関係が成り立つので、極限でも保たれる。
 
 \examplelabel{例：単位正方形上の $f(x,y)=xy$。}
 $n\times n$ 分割の中点を選ぶと、すべての $n\ge1$ に対し
@@ -112,17 +164,96 @@ $$
  \left(\sum_{i=1}^n(i-\tfrac12)\right)^2
  =\frac1{n^4}\left(\frac{n^2}{2}\right)^2=\frac14.
 $$
-\keybox{連続性だけでなく領域の条件も確認する。重積分は「代表点によらないリーマン和の極限」である。}
+$f$ は連続で可積分だから、この極限が重積分の値である。
+\keybox{確認点：重積分は代表点によらないリーマン和の極限である。
+一般の領域では、関数の連続性だけでなく境界の条件も確認しよう。}
+\end{minipage}\par\nointerlineskip
+% The lower half of page 2 is reserved for exercises and writing space.
+\noindent\begin{minipage}[b][0.5\textheight][t]{\linewidth}
+\exercises
+\begin{problems}
+\item $K=[0,2]\times[0,3]$ を $N=2,M=3$ 等分する。
+小長方形の面積と、定数関数 $f\equiv4$ のリーマン和を求めよ。\problemspace
+
+\item $K=[0,1]^2$、$f(x,y)=x+y$ とする。
+$n\times n$ 分割で右上の頂点を代表点に取ったリーマン和を計算し、その極限を求めよ。\problemspace
+
+\item $K=[0,1]^2$、$f(x,y)=xy$ を $2\times2$ に分割したとき、
+上和・下和・中点のリーマン和を求めよ。\problemspace
+
+\item $D=\{(x,y):0\le x\le1,\ 0\le y\le x\}$ とする。
+$\iint_D1\,dx\,dy$ の値を図形の面積から求め、正方形 $[0,1]^2$ 上の0延長を書け。\problemspace
+
+\item 境界の面積が0の有界領域 $D$ 上で、可積分な $f$ が $m\le f\le M$ を満たすとする
+（$m,M\in\mathbb R$）。
+$m\operatorname{Area}(D)\le\iint_Df\le M\operatorname{Area}(D)$ を上和・下和から説明せよ。\problemspace
+
+\item $[0,1]^2$ 上で、$x,y$ がともに有理数なら $f(x,y)=1$、それ以外では0とする。
+代表点を2通りに選び、この関数がリーマン可積分でないことを示せ。\problemspace
+\end{problems}
+\end{minipage}
 
 \newpage
-\handouttitle{第3回\quad 演習問題}
-計算過程を記し、必要な条件・積分領域・向きを明示すること。
+\handouttitle{第3回\quad 演習問題の解答}
 \begin{problems}
-\item $K=[0,2]\times[0,3]$ を $N=2,M=3$ 等分する。小長方形の面積と、定数関数 $f\equiv4$ のリーマン和を求めよ。\answerroom
-\item $K=[0,1]^2$、$f(x,y)=x+y$ とする。$n\times n$ 分割で右上の頂点を代表点に取ったリーマン和を計算し、その極限を求めよ。\answerroom
-\item $K=[0,1]^2$、$f(x,y)=xy$ を $2\times2$ に分割したとき、上和・下和・中点のリーマン和を求めよ。\answerroom
-\item $D=\{(x,y):0\le x\le1,\ 0\le y\le x\}$ とする。$\iint_D1\,dx\,dy$ の値を図形の面積から求め、正方形 $[0,1]^2$ 上の0延長を書け。\answerroom
-\item 可積分な $f$ が $D$ 上で $m\le f\le M$ を満たすとき、$m\operatorname{Area}(D)\le\iint_Df\le M\operatorname{Area}(D)$ を上和・下和から説明せよ。\answerroom
-\item $[0,1]^2$ 上で、$x,y$ がともに有理数なら $f(x,y)=1$、それ以外では0とする。代表点を2通りに選び、この関数がリーマン可積分でないことを示せ。\answerroom
+\setlength{\itemsep}{10pt}
+\item $\Delta x=2/2=1$、$\Delta y=3/3=1$ なので、小長方形の面積は $1$ である。
+小長方形は $2\cdot3=6$ 個あり、どの代表点でも $f=4$ だから
+$$
+ S_{2,3}(f)=6\cdot4\cdot1=24.
+$$
+
+\item 代表点は $(i/n,j/n)$（$1\le i,j\le n$）、小正方形の面積は $1/n^2$ である。
+$\sum_{i=1}^ni=n(n+1)/2$ を用いると
+$$
+ S_{n,n}(f)=\frac1{n^3}\sum_{i=1}^n\sum_{j=1}^n(i+j)
+ =\frac{2n}{n^3}\cdot\frac{n(n+1)}2=1+\frac1n\longrightarrow1.
+$$
+$f$ は連続なので、$\iint_{[0,1]^2}(x+y)\,dx\,dy=1$ である。
+
+\item $xy$ は $x,y\ge0$ では各変数について単調に増える。
+各小正方形の左下の頂点で最小、右上の頂点で最大となり、面積は $1/4$ だから
+$$
+ L=\frac14\left(0+0+0+\frac14\right)=\frac1{16},\qquad
+ U=\frac14\left(\frac14+\frac12+\frac12+1\right)=\frac9{16}.
+$$
+中点の座標は各変数について $1/4$ または $3/4$ なので
+$$
+ S_{\mathrm{mid}}=\frac14\left(\frac1{16}+\frac3{16}+\frac3{16}+\frac9{16}\right)
+ =\frac14.
+$$
+確かに $L\le S_{\mathrm{mid}}\le U$ となる。
+
+\item $D$ は頂点 $(0,0),(1,0),(1,1)$ をもつ直角三角形であり、底辺・高さはともに $1$。
+したがって、$f\equiv1$ の0延長は
+$$
+ \iint_D1\,dx\,dy=\frac12,\qquad
+ \widetilde f(x,y)=
+ \begin{cases}
+  1,&0\le y\le x\le1,\\
+  0,&0\le x<y\le1
+ \end{cases}
+ \quad((x,y)\in[0,1]^2).
+$$
+対角線を含む境界の面積は0なので、0延長は可積分である。
+
+\item $D$ を含む長方形 $K$ で、$\chi_D$ を $D$ 上で1、それ以外で0の関数とする。
+$\widetilde f$ を $f$ の0延長とすると $m\chi_D\le\widetilde f\le M\chi_D$ が成り立つ。
+同じ分割の下和・上和もこの大小関係を保つ。
+境界の面積が0なので $\chi_D$ は可積分であり、分割を細かくして極限を取れば
+$$
+ m\operatorname{Area}(D)=\iint_Km\chi_D\,dx\,dy
+ \le\iint_K\widetilde f\,dx\,dy
+ =\iint_Df\,dx\,dy
+ \le\iint_KM\chi_D\,dx\,dy=M\operatorname{Area}(D).
+$$
+$m<0$ や $M<0$ でも、0延長に指示関数を使えば同じ議論が成り立つ。
+
+\item 有理数も無理数も実数の任意の開区間に存在する。
+各小長方形の内部で両座標が有理数の代表点を選ぶと、すべての値が1だから
+$S_{\mathcal P}(f)=\operatorname{Area}([0,1]^2)=1$ となる。
+一方、各代表点の $x$ 座標を無理数に選べば、すべての値が0だから $S_{\mathcal P}(f)=0$。
+どれほど分割を細かくしても二つの和は一致せず、代表点によらない極限は存在しない。
+したがって、この関数はリーマン可積分ではない。
 \end{problems}
 \end{document}

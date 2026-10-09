@@ -1,0 +1,76 @@
+\documentclass[a4paper,10pt,dvipdfmx]{jsarticle}
+\usepackage{../an26handout}
+
+\fancyhead[L]{\small\color{ink}解析学 II・小テスト}
+\fancyfoot[C]{\small\color{ink}\thepage}
+
+\begin{document}
+\handout{1}{小テスト：逆関数と逆三角関数}
+
+学籍番号：\underline{\hspace{40mm}}\hfill
+氏名：\underline{\hspace{40mm}}
+
+各問30点、合計90点。計算過程も記し、角度はラジアンで答えること。
+
+\topic{問題}
+\begin{enumerate}[label=\color{accent}\arabic*.,leftmargin=2.4em,itemsep=9pt]
+\item 関数 $f(x)=x^2-4x+5$（定義域 $x\leq 2$）の逆関数 $g$ を求め、
+その定義域と値域を示せ。
+\hfill（30点：式20点、定義域・値域各5点）
+
+\item $I,J$ を開区間とし、$f:I\to J$ を微分可能な一対一対応とする。
+逆関数 $g=f^{-1}:J\to I$ も微分可能で、$f'(x)\ne 0$（$x\in I$）と仮定する。
+逆関数の定義と合成関数の微分法を用いて、公式
+\begin{center}
+  $\displaystyle g'(y)=\frac{1}{f'(g(y))}\qquad(y\in J)$
+\end{center}
+を導出せよ。\hfill（30点）
+
+\item 次の逆三角関数の主値を求めよ。\hfill（各10点、計30点）
+\begin{center}
+  $\displaystyle
+    \text{(a) }\arcsin\!\left(-\frac{\sqrt{2}}{2}\right)
+    \qquad
+    \text{(b) }\arccos\!\left(-\frac{\sqrt{3}}{2}\right)
+    \qquad
+    \text{(c) }\arctan\sqrt{3}$
+\end{center}
+\end{enumerate}
+
+\pagebreak
+\vspace{4mm}
+{\color{accent}\rule{\linewidth}{0.6pt}}
+\topic{解答}
+\begin{enumerate}[label=\color{accent}\arabic*.,leftmargin=2.4em,itemsep=9pt]
+\item $y=f(x)=(x-2)^2+1$ とおく。$x\leq 2$ より $x-2\leq 0$ なので、
+\begin{center}
+  $\displaystyle x-2=-\sqrt{y-1},\qquad
+    \boxed{g(y)=2-\sqrt{y-1}}$。
+\end{center}
+$f$ は $(-\infty,2]$ 上で狭義単調減少で、値域は $[1,\infty)$ である。
+したがって $g$ の定義域は $\boxed{[1,\infty)}$、値域は
+$\boxed{(-\infty,2]}$ である。
+
+\item 逆関数の定義より、すべての $y\in J$ に対して $f(g(y))=y$ が成り立つ。
+両辺を $y$ で微分すると、合成関数の微分法により
+\begin{center}
+  $\displaystyle f'(g(y))\,g'(y)=1$
+\end{center}
+を得る。仮定 $f'(g(y))\ne 0$ により両辺を $f'(g(y))$ で割れば、
+\begin{center}
+  $\displaystyle\boxed{g'(y)=\frac{1}{f'(g(y))}}$
+\end{center}
+となる。
+
+\item それぞれの値域に入る角度を選ぶと、
+\begin{center}
+  $\displaystyle
+    \text{(a) }\boxed{-\frac{\pi}{4}}\qquad
+    \text{(b) }\boxed{\frac{5\pi}{6}}\qquad
+    \text{(c) }\boxed{\frac{\pi}{3}}$
+\end{center}
+である。実際、$\sin(-\pi/4)=-\sqrt{2}/2$、
+$\cos(5\pi/6)=-\sqrt{3}/2$、$\tan(\pi/3)=\sqrt{3}$ であり、
+各角度はそれぞれ $[-\pi/2,\pi/2]$、$[0,\pi]$、$(-\pi/2,\pi/2)$ に属する。
+\end{enumerate}
+\end{document}

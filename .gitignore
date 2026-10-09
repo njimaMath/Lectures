@@ -1,0 +1,36 @@
+# Archived lectures
+/old/
+
+# LaTeX intermediate files
+*.aux
+*.log
+*.fls
+*.fdb_latexmk
+*.synctex
+*.synctex.gz
+*.dvi
+*.xdv
+*.toc
+*.lof
+*.lot
+*.out
+*.bbl
+*.blg
+*.idx
+*.ind
+*.ilg
+*.nav
+*.snm
+*.vrb
+
+# Python bytecode
+__pycache__/
+*.py[cod]
+
+# Temporary files and directories
+tmp/
+temp/
+*.tmp
+*.swp
+*.swo
+*~

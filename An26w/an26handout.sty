@@ -1,0 +1,33 @@
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{an26handout}[2026/09/24 Analysis II class handouts]
+\RequirePackage[margin=17mm,headheight=14pt,footskip=8mm]{geometry}
+\RequirePackage{amsmath,amssymb,mathtools}
+\RequirePackage{xcolor}
+\RequirePackage{enumitem}
+\RequirePackage{fancyhdr}
+\definecolor{ink}{HTML}{17324D}
+\definecolor{accent}{HTML}{267A78}
+\definecolor{pale}{HTML}{EAF4F3}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{3pt}
+\setlength{\abovedisplayskip}{4pt}
+\setlength{\belowdisplayskip}{4pt}
+\setlist{nosep,leftmargin=2em}
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\small\color{ink}解析学 II・授業要約と演習}
+\fancyhead[R]{\small\color{ink}\handoutnumber}
+\fancyfoot[C]{\small\color{ink}\thepage/2}
+\renewcommand{\headrulewidth}{0.3pt}
+\renewcommand{\footrulewidth}{0pt}
+\newcommand{\handout}[2]{%
+  \def\handoutnumber{第#1回}%
+  \begin{center}
+    {\Large\sffamily\color{ink} 第#1回\quad #2}\par
+    \vspace{2pt}{\color{accent}\rule{0.88\linewidth}{1.2pt}}
+  \end{center}\vspace{2pt}}
+\newcommand{\topic}[1]{\par\vspace{5pt}{\large\sffamily\color{accent}#1}\par\vspace{1pt}}
+\newcommand{\keybox}[1]{\par\smallskip\colorbox{pale}{\parbox{0.96\linewidth}{#1}}\par\smallskip}
+\newcommand{\exercises}{\newpage\begin{center}{\Large\sffamily\color{ink}基礎演習 6題}\par\smallskip{\small 計算過程も記し、必要な定義域・積分領域・向きを明示すること。}\end{center}\vspace{2pt}}
+\newenvironment{problems}{\begin{enumerate}[label=\color{accent}\arabic*.,leftmargin=2.4em,itemsep=0pt]}{\end{enumerate}}
+\newcommand{\problemspace}{\par\vspace{12mm}}
