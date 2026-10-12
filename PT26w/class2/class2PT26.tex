@@ -133,6 +133,14 @@ $$
 $$
 と定義する。
 
+\examplelabel{例：第2回のコイン投げの期待値}
+公平なコインを独立に2回投げ、表の個数を $X$ とする（第2回の例）。
+$\Omega=\{H,T\}^2$ の各標本の確率は $1/4$ なので
+$$
+  \E[X]=\sum_{\omega\in\Omega}X(\omega)P(\{\omega\})
+  =\frac{2+1+1+0}{4}=1.
+$$
+
 \topic{可積分性と期待値の基本性質}
 $X^+:=\max\{X,0\}$、$X^-:=\max\{-X,0\}$ とおく。
 $$
@@ -156,7 +164,7 @@ $$
 $$
   0\le X_n\uparrow X\quad\text{a.s.}
   \quad\Longrightarrow\quad
-  \E[X_n]\uparrow\E[X].
+  \lim_{n\to \infty}\E[X_n] = \E[X].
 $$
 
 \examplelabel{優収束定理：}
@@ -171,11 +179,11 @@ $$
 
 \topic{演習問題}
 \begin{enumerate}[label=\arabic*.]
-  \item 重み付きサイコロ $P(\{k\})=k/21$（$k=1,\ldots,6$）で、出た目を $X$ とする。
-  $\E[X]$、$\E[X^2]$ を求め、$a\in\R$ に対して $\E[(X-a)^2]$ を最小にする
-  $a$ と、その最小値を求めよ。
-  \item $\Omega=[0,1]$、$\F=\mathcal B([0,1])$、$P=\lambda$（ルベーグ測度）とする。
-  $X(\omega)=\omega(1-\omega)$ の期待値 $\E[X]$ を求めよ。
+  \item 第2回の演習第1問の $X=U+V$、$Y=|U-V|$ に対し、
+  $\E[X]$、$\E[Y]$ を求めよ。36通りの標本はすべて等確率である。
+  \item 第2回の演習第2問の $X(\omega)=3\omega+1$、
+  $Y(\omega)=(X(\omega)-5/2)^2$ に対し、$\E[X]$、$\E[Y]$ を
+  $\Omega=[0,1]$ 上の積分により求めよ。
 \end{enumerate}
 
 \topic{レポート問題}
@@ -183,6 +191,6 @@ $$
 \begin{enumerate}[label=\arabic*.]
   \item $X(\omega)=\omega^2$ とする。$\E[X]$ を積分により求めよ。
   \item $X_n(\omega)=n\mathbf{1}_{(0,1/n)}(\omega)$ とする。
-  $X_n\to0$ と $\E[X_n]=1$ を示し、優収束定理を適用できない理由を述べよ。
+  $X_n\to0$ と $\E[X_n]=1$ を示し、優収束定理を適用できない理由を述べよ。 (理由の部分はAIを用いてよいが、自分の言葉で書くこと)
 \end{enumerate}
 \end{document}
