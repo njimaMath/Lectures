@@ -63,7 +63,6 @@ $$
   X^{-1}(B):=\{\omega\in\Omega:X(\omega)\in B\}\in\F
   \qquad\bigl(B\in\mathcal B(\R)\bigr).
 $$
-これは、観測値 $X$ に関する事象の確率を測れるという条件である。
 可測性は $\{X\le x\}\in\F$ がすべての $x\in\R$ について成り立つことと同値である。
 
 \topic{確率分布：観測値の空間上の確率測度}
@@ -76,11 +75,10 @@ $$
 $$
   P(X=x)=\sum_{\omega\in\Omega:\,X(\omega)=x}p_\omega.
 $$
-\keybox{確率変数 $X$ は写像、分布 $\mu_X$ は測度である。同じ分布をもつ確率変数でも、
-標本空間や他の確率変数との関係は異なり得る。}
+
 
 \topic{分布関数}
-$F_X(x):=P(X\le x)=\mu_X(({-\infty},x])$ と定める。次の性質をもつ。
+$F_X(x):=P(X\le x)$ と定める。次の性質をもつ。
 $$
   \begin{aligned}
     x\le y&\ \Longrightarrow\ F_X(x)\le F_X(y),
@@ -90,9 +88,8 @@ $$
   \end{aligned}
 $$
 特に $a<b$ に対して $P(a<X\le b)=F_X(b)-F_X(a)$ である。
-分布関数は分布 $\mu_X$ を一意に定める。
 
-\examplelabel{例：公平なコインを独立に2回投げ、表の個数を $X$ とする。}
+\examplelabel{例：公平なコインを独立に2回投げ、表の個数を表す確率変数は次で定義される:}
 $$
   X(H,H)=2,\quad X(H,T)=X(T,H)=1,\quad X(T,T)=0,
 $$
@@ -103,20 +100,19 @@ $$
 
 \topic{演習問題}
 \begin{enumerate}[label=\arabic*.]
-  \item 公平なサイコロを1回投げ、出た目を $X$ とする。
-  $X$ の分布と、すべての $x\in\R$ に対する分布関数 $F_X(x)$ を求めよ。
+  \item 公平なサイコロを独立に2回投げ、出た目を $U,V$ とする。
+  $X=U+V$、$Y=|U-V|$ の分布を求め、すべての $x\in\R$ に対する
+  分布関数 $F_X(x)$、$F_Y(x)$ を求めよ。
   \item $\Omega=[0,1]$、$\F=\mathcal B([0,1])$、$P=\lambda$（ルベーグ測度）とする。
-  $X(\omega)=\omega$、$Y(\omega)=\omega+1$ に対し、$S=X+Y$ の分布関数を求めよ。
+  $X(\omega)=3\omega+1$、$Y(\omega)=(X(\omega)-5/2)^2$ の分布関数を求めよ。
+  $Y$ の計算では、事象 $\{Y\le y\}$ を $\omega$ の区間として表せ。
 \end{enumerate}
 
 \topic{レポート問題}
 \begin{enumerate}[label=\arabic*.]
-  \item 演習第2問と同じ確率空間と $X,Y$ に対し、$T=XY$ の分布関数を求めよ。
-  $X,Y$ は同じ標本 $\omega$ の関数であることに注意せよ。
-  \item 集合 $\{X\le x+1/n\}$ の列を用いて、$F_X$ の右連続性を示せよ。
-  $A_n\downarrow A$ なら $P(A_n)\downarrow P(A)$ となる性質を用いてよい。
-  \item $F_X(x-):=\lim_{y\uparrow x}F_X(y)$ とおく。
-  $P(X=x)=F_X(x)-F_X(x-)$ を示し、分布関数の跳びの意味を説明せよ。
+  \item 公平なコインを３回投げる。裏の数を表す確率変数を定義したい。確率空間およびその確率変数の定義を述べよ.
+  \item 確率空間$(\Omega,\mathcal F,\mathbb P)$と写像 $X:\Omega\to \mathbb R$を考える. 次の集合族が$\sigma$加法族であることを示せ:
+$$\{B\subset \mathbb R:~X^{-1}(B) \in \mathcal F\}.$$
 \end{enumerate}
 
 \newpage
@@ -124,18 +120,18 @@ $$
 \handouttitle{第3回\quad 期待値とルベーグ積分}
 
 \topic{有限和から非負確率変数の積分へ}
-以下、$(\Omega,\F,P)$ を確率空間とする。$A\in\F$ の指示関数 $\chi_A$ は
-$A$ 上で1、それ以外で0をとる。非負単関数 $Z=\sum_{j=1}^m a_j\chi_{A_j}$
+以下、$(\Omega,\F,P)$ を確率空間とする。$A\in\F$ の指示関数 $\mathbf{1}_A$ は
+$A$ 上で1、それ以外で0をとる。非負単関数 $Z=\sum_{j=1}^m a_j\mathbf{1}_{A_j}$
 （$a_j\ge0$、$A_j\in\F$）について
 $$
   \E[Z]:=\sum_{j=1}^m a_jP(A_j)
 $$
-と定める。この値は単関数の表示によらない。非負確率変数 $X$ について
+と定める。非負確率変数 $X$、つまり$X:\Omega\to [0,\infty)$、について
 $$
   \E[X]:=\int_\Omega X\,dP
   =\sup\{\E[Z]:0\le Z\le X,\ Z\text{ は非負単関数}\}\in[0,\infty]
 $$
-と定義する。下からの単関数近似 $0\le Z_n\uparrow X$ により積分を構成する。
+と定義する。
 
 \topic{可積分性と期待値の基本性質}
 $X^+:=\max\{X,0\}$、$X^-:=\max\{-X,0\}$ とおく。
@@ -143,50 +139,50 @@ $$
   X=X^+-X^-,\qquad |X|=X^++X^-,\qquad
   \E[|X|]=\E[X^+]+\E[X^-].
 $$
-$\E[|X|]<\infty$ のとき $X$ は可積分であり、$\E[X]:=\E[X^+]-\E[X^-]$ と定める。
+$\E[|X|]<\infty$ のとき $X$ は可積分であるといい、$\E[X]:=\E[X^+]-\E[X^-]$ と定める。
 可積分な $X,Y$ と $a,b\in\R$ に対して
 $$
   \E[aX+bY]=a\E[X]+b\E[Y],\qquad
-  X\le Y\ \Longrightarrow\ \E[X]\le\E[Y],\qquad
-  |\E[X]|\le\E[|X|].
+  X\le Y\ \Longrightarrow\ \E[X]\le\E[Y].
 $$
-
-\topic{分布から期待値を計算する}
-$\mu_X$ を $X$ の分布とする。ボレル可測関数 $g:\R\to\R$ について、
-$g\ge0$ または $\E[|g(X)|]<\infty$ なら
-$$
-  \E[g(X)]=\int_\R g(x)\,\mu_X(dx).
-$$
-離散分布 $P(X=x_k)=q_k$ なら $\E[X]=\sum_k x_kq_k$。
-密度 $f$、すなわち $\mu_X(B)=\int_B f(x)\,dx$ をもつなら
-$\E[X]=\int_\R xf(x)\,dx$ である（いずれも非負または可積分の場合）。
-\keybox{期待値は実際に出る値とは限らない。表なら100円、裏なら0円を得る公平なゲームでは、
-期待値は50円だが、1回の結果は0円か100円である。}
 
 \topic{極限と期待値の交換}
+\begingroup
+\setlength{\abovedisplayskip}{3pt}
+\setlength{\belowdisplayskip}{3pt}
+\setlength{\abovedisplayshortskip}{3pt}
+\setlength{\belowdisplayshortskip}{3pt}
 \examplelabel{単調収束定理：}
-$0\le X_n\uparrow X$ がほとんど確実に成り立つなら $\E[X_n]\uparrow\E[X]$。
-値 $+\infty$ も許される。
+$$
+  0\le X_n\uparrow X\quad\text{a.s.}
+  \quad\Longrightarrow\quad
+  \E[X_n]\uparrow\E[X].
+$$
 
 \examplelabel{優収束定理：}
-$X_n\to X$ がほとんど確実に成り立ち、すべての $n$ について
-$|X_n|\le Y$ がほとんど確実に成り立つ可積分な $Y\ge0$ があれば、
-$X$ も可積分で $\E[X_n]\to\E[X]$。
-「ほとんど確実に」とは、確率1の事象上で成り立つことである。
+$$
+    X_n\to X,\quad |X_n|\le |Y|,\quad\E[|Y|]<\infty
+  \quad\Longrightarrow\quad
+  \begin{gathered}
+    \E[X_n]\to\E[X].
+  \end{gathered}
+$$
+\par\endgroup
 
 \topic{演習問題}
 \begin{enumerate}[label=\arabic*.]
-  \item 重み付きサイコロ $P(\{k\})=k/21$（$k=1,\ldots,6$）で、出た目 $X$ の期待値を求めよ。
-  \item $\{1,2,3,4\}$ の24個の置換を等確率で選ぶ。不動点数
-  $N(\sigma)=\#\{i:\sigma(i)=i\}$ を指示関数の和で表し、$\E[N]$ を求めよ。
+  \item 重み付きサイコロ $P(\{k\})=k/21$（$k=1,\ldots,6$）で、出た目を $X$ とする。
+  $\E[X]$、$\E[X^2]$ を求め、$a\in\R$ に対して $\E[(X-a)^2]$ を最小にする
+  $a$ と、その最小値を求めよ。
+  \item $\Omega=[0,1]$、$\F=\mathcal B([0,1])$、$P=\lambda$（ルベーグ測度）とする。
+  $X(\omega)=\omega(1-\omega)$ の期待値 $\E[X]$ を求めよ。
 \end{enumerate}
 
 \topic{レポート問題}
 以下、$\Omega=(0,1)$、$\F=\mathcal B((0,1))$、$P=\lambda$ とする。
 \begin{enumerate}[label=\arabic*.]
-  \item $X_n(\omega)=n\chi_{(0,1/n)}(\omega)$ とする。
+  \item $X(\omega)=\omega^2$ とする。$\E[X]$ を積分により求めよ。
+  \item $X_n(\omega)=n\mathbf{1}_{(0,1/n)}(\omega)$ とする。
   $X_n\to0$ と $\E[X_n]=1$ を示し、優収束定理を適用できない理由を述べよ。
-  \item $X(\omega)=\omega^{-1/2}$、$X_n=\min\{X,n\}$ とする。
-  $\E[X_n]$ を計算し、単調収束定理を用いて $\E[X]$ を求めよ。
 \end{enumerate}
 \end{document}
