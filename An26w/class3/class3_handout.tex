@@ -71,10 +71,10 @@ $N,M\to\infty$ の極限として重積分を理解する。一次元の区分�
 
 \topic{復習：一次元の区分求積法}
 連続関数 $g$ を区間 $[a,b]$（$a<b$）で考える。
-$n$ 等分した幅を $\delta=(b-a)/n$、右端を $t_i=a+i\delta$ とすると
+$n$ 等分した幅を $\Delta=(b-a)/n$ とすると、各小区間の右端は $a+i\Delta$ なので
 $$
  \int_a^b g(t)\,dt
- =\lim_{n\to\infty}\sum_{i=1}^n g(t_i)\,\delta.
+ =\lim_{n\to\infty}\sum_{i=1}^n g(a+i\Delta)\,\Delta.
 $$
 一次元では「高さ $\times$ 幅」の和で面積を求め、
 二次元では「高さ $\times$ 底面積」の和で体積を求める。負の部分は符号を付ける。
@@ -182,8 +182,7 @@ $$
  \sum_{i=1}^N\sum_{j=1}^M f(x_i,y_j)\,\Delta x\Delta y.
 $$
 }
-$N,M\to\infty$ は、$N$ と $M$ のどちらも大きくするという意味である。
-増やす速さが違っても同じ値に近づくことをいう。$K$ 上の連続関数では、この極限が存在する。
+$N,M\to\infty$ は、$N$ と $M$ のどちらも無限に飛ばすことを意味する。$K$ 上の連続関数では、この極限が存在する。
 
 \examplelabel{例：$K=[0,1]^2$、$f(x,y)=xy$。}
 $\Delta x=1/N$、$\Delta y=1/M$、$(x_i,y_j)=(i/N,j/M)$ より
@@ -237,8 +236,8 @@ $N\times M$ 分割のリーマン和を計算し、重積分の値を求めよ�
 \handouttitle{第3回\quad 演習問題の解答}
 \begin{problems}
 \setlength{\itemsep}{10pt}
-\item 各小区間の幅は $\delta=1/n$、右端は $t_i=i/n$ である。
-高さ $t_i^2$ に幅を掛けて足すと
+\item 各小区間の幅は $\Delta=1/n$、右端は $i/n$ である。
+高さ $(i/n)^2$ に幅を掛けて足すと
 $$
  \sum_{i=1}^n\left(\frac in\right)^2\frac1n
  =\frac1{n^3}\sum_{i=1}^n i^2
