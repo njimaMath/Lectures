@@ -11,6 +11,8 @@
 \usepackage{array,booktabs,tabularx}
 \usepackage{fancyhdr}
 \usepackage{lastpage}
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta,decorations.pathreplacing}
 
 \definecolor{ink}{HTML}{193A5C}
 \definecolor{accent}{HTML}{237D82}
@@ -53,114 +55,181 @@
 
 
 \newcommand{\examplelabel}[1]{{\sffamily\mdseries\color{ink}#1}}
-\newcommand{\problemspace}{\par\vspace{5mm}}
+\newcommand{\problemspace}{\par\vspace{9mm}}
 \newcommand{\exercises}{%
   {\color{accent}\hrule height 0.7pt}\vspace{3pt}%
   \topic{演習問題（6題）}%
-  {\small 計算過程を記し、代表点の選び方や積分領域も明示しよう。}\par}
+  {\small 区分求積法で計算しよう。断りのない限り、各区間の右端・各小長方形の右上を使う。}\par}
 
 \begin{document}
 \fontsize{10pt}{13.5pt}\selectfont
 \setlength{\abovedisplayskip}{4pt}
 \setlength{\belowdisplayskip}{4pt}
 \handout{3}{重積分の定義}
-\keybox{到達目標：リーマン和と重積分の定義を説明し、上和・下和から可積分性を判断できる。
-領域上の積分を、長方形上の0延長の積分として理解する。}
+\keybox{到達目標：長方形を $N\times M$ 個に分けて柱の体積を足し、
+$N,M\to\infty$ の極限として重積分を理解する。一次元の区分求積法と対応させよう。}
 
-\topic{1変数のリーマン和から2変数へ}
-$K=[a,b]\times[c,d]$（$a<b$、$c<d$）を長方形とし、
-$N,M$ を正の整数とする。各辺を $N,M$ 等分して
+\topic{復習：一次元の区分求積法}
+連続関数 $g$ を区間 $[a,b]$（$a<b$）で考える。
+$n$ 等分した幅を $\delta=(b-a)/n$、右端を $t_i=a+i\delta$ とすると
+$$
+ \int_a^b g(t)\,dt
+ =\lim_{n\to\infty}\sum_{i=1}^n g(t_i)\,\delta.
+$$
+一次元では「高さ $\times$ 幅」の和で面積を求め、
+二次元では「高さ $\times$ 底面積」の和で体積を求める。負の部分は符号を付ける。
+
+\examplelabel{例：$g(t)=t$、$[a,b]=[0,1]$。}
+$$
+ \sum_{i=1}^n\frac in\cdot\frac1n
+ =\frac1{n^2}\cdot\frac{n(n+1)}2
+ =\frac{n+1}{2n}\longrightarrow\frac12
+ =\int_0^1 t\,dt.
+$$
+\keybox{計算に使う公式（$n$ は正の整数）：
+$\displaystyle\sum_{i=1}^n i=\frac{n(n+1)}2$、\quad
+$\displaystyle\sum_{i=1}^n i^2=\frac{n(n+1)(2n+1)}6$。}
+
+\topic{長方形を $N\times M$ 個に分ける}
+$K=[a,b]\times[c,d]$（$a<b$、$c<d$）上の実数値関数 $f(x,y)$ を考える。
+$x$ 方向を $N$ 等分、$y$ 方向を $M$ 等分する（$N,M$ は正の整数）。
 $$
  \Delta x=\frac{b-a}{N},\quad \Delta y=\frac{d-c}{M},\qquad
- x_i=a+i\Delta x,\quad y_j=c+j\Delta y
+ x_i=a+i\Delta x,\quad y_j=c+j\Delta y.
 $$
-とおく。小長方形 $Q_{ij}=[x_{i-1},x_i]\times[y_{j-1},y_j]$ の
-代表点 $\xi_{ij}=(x_{ij}^*,y_{ij}^*)$ を選び、
-$$
- S_{N,M}(f)=\sum_{i=1}^N\sum_{j=1}^M
- f(\xi_{ij})\,\Delta x\,\Delta y
-$$
-をリーマン和という。高さ $f(\xi_{ij})$ に底面積 $\Delta x\Delta y$ を掛けて足す。
-$f\ge0$ なら柱の体積の和になり、負の値は符号を付けて加える。
-定数関数 $f\equiv h$ では、代表点によらず $S_{N,M}(f)=h(b-a)(d-c)$ となる。
+$i=1,\ldots,N$、$j=1,\ldots,M$ に対し、小長方形を
+$Q_{ij}=[x_{i-1},x_i]\times[y_{j-1},y_j]$ とする。
+面積は $\Delta x\Delta y$ であり、右上の点 $(x_i,y_j)$ で高さを決める。
 
+\begin{center}
+\begin{minipage}[b]{0.48\linewidth}
+\centering
+\begin{tikzpicture}[x=0.96cm,y=0.88cm,>=Stealth,
+  every node/.style={font=\scriptsize},line join=round]
+ \fill[soft] (0,0) rectangle (4,3);
+ \fill[accent!24] (1,1) rectangle (2,2);
+ \draw[accent!60,thin,step=1] (0,0) grid (4,3);
+ \draw[ink] (0,0) rectangle (4,3);
+ \draw[->,ink] (0,0) -- (4.75,0) node[right] {$x$};
+ \draw[->,ink] (0,0) -- (0,3.6) node[above] {$y$};
+ \node[below=3pt] at (0,0) {$a$};
+ \node[below=3pt] at (4,0) {$b$};
+ \node[left=3pt] at (0,0) {$c$};
+ \node[left=3pt] at (0,3) {$d$};
+ \node[below=3pt] at (1,0) {$x_{i-1}$};
+ \node[below=3pt] at (2,0) {$x_i$};
+ \node[left=3pt] at (0,1) {$y_{j-1}$};
+ \node[left=3pt] at (0,2) {$y_j$};
+ \node at (1.5,1.45) {$Q_{ij}$};
+ \fill[accent] (2,2) circle (1.7pt);
+ \node[above right=2pt,text=ink] at (2,2) {$(x_i,y_j)$};
+ \draw[decorate,decoration={brace,mirror,amplitude=3pt},accent]
+   (1,-0.63) -- (2,-0.63) node[midway,below=5pt] {$\Delta x$};
+ \draw[decorate,decoration={brace,mirror,amplitude=3pt},accent]
+   (4.25,1) -- (4.25,2) node[midway,right=5pt] {$\Delta y$};
+\end{tikzpicture}\par
+{\small (a) 平面の分割（図は $N=4$、$M=3$）}
+\end{minipage}\hfill
+\begin{minipage}[b]{0.49\linewidth}
+\centering
+\begin{tikzpicture}[x={(0.95cm,-0.16cm)},y={(0.40cm,0.35cm)},
+ z={(0cm,0.88cm)},>=Stealth,every node/.style={font=\scriptsize},
+ line join=round]
+ \draw[->,ink] (0,0,0) -- (4.8,0,0) node[right] {$x$};
+ \draw[->,ink] (0,0,0) -- (0,0,4.1) node[above] {$z$};
+ \foreach \j in {3,2,1}{
+  \foreach \i in {1,2,3,4}{
+   \pgfmathsetmacro{\h}{0.8+0.34*\i+0.23*\j}
+   \filldraw[fill=accent!24,draw=accent!80,thin]
+    (\i-1,\j-1,0) -- (\i,\j-1,0) -- (\i,\j-1,\h)
+     -- (\i-1,\j-1,\h) -- cycle;
+   \filldraw[fill=accent!43,draw=accent!80,thin]
+    (\i,\j-1,0) -- (\i,\j,0) -- (\i,\j,\h)
+     -- (\i,\j-1,\h) -- cycle;
+   \filldraw[fill=soft,draw=accent!80,thin]
+    (\i-1,\j-1,\h) -- (\i,\j-1,\h) -- (\i,\j,\h)
+     -- (\i-1,\j,\h) -- cycle;
+  }
+ }
+ % Indicate the y direction at the exposed edge of the base.
+ \draw[->,ink] (4,3,0) -- (4,4.2,0) node[above right] {$y$};
+ \draw[ink,thin] (3.5,0.5,2.39) -- (4.8,0.4,4.3)
+   node[above left] {高さ $f(x_i,y_j)$};
+ \node[below=6pt,text=ink] at (2,0,0) {底面積 $\Delta x\Delta y$};
+\end{tikzpicture}\par
+{\small (b) 小長方形の上に柱を立てる（$f\ge0$）}
+\end{minipage}
+\end{center}
+\vspace{-2mm}
 
-\topic{連続関数の積分が存在する理由}
-$f$ が $K$ 上連続なら、閉じた有界な長方形上で一様連続である。
-各 $Q$ で最小値・最大値が存在し、振動の上限を
+\topic{小さな柱の体積を足す}
+柱1本の体積は「高さ $\times$ 底面積」なので、その和（リーマン和）は
 $$
- \omega_f(\delta)=\sup\{\,|f(p)-f(q)|:p,q\in K,\ |p-q|\le\delta\,\}
+ S_{N,M}(f)=\sum_{i=1}^N\sum_{j=1}^M f(x_i,y_j)\,\Delta x\Delta y.
 $$
-とおくと、$\omega_f(\delta)\to0$（$\delta\to0$）である。よって
-$$
- 0\le U(\mathcal P)-L(\mathcal P)
- \le\operatorname{Area}(K)\,\omega_f(|\mathcal P|)\longrightarrow0.
-$$
-上和と下和は同じ値に近づき、その間のリーマン和も代表点によらず同じ値に収束する。
-
-\examplelabel{例：$[0,1]^2$ 上の $f(x,y)=x+y$ の振動。}
-$n\times n$ 分割では、各小正方形で $M_Q-m_Q=2/n$、面積は $1/n^2$ だから
-$$
- U(\mathcal P)-L(\mathcal P)=n^2\cdot\frac2n\cdot\frac1{n^2}=\frac2n\longrightarrow0.
-$$
+$f\ge0$ ならグラフ $z=f(x,y)$ の下の体積を近似する。
+$f<0$ の部分は負の符号を付けて足す。
 
 \newpage
 % Reserve the upper half of page 2 for the remaining summary.
 \noindent\begin{minipage}[b][\dimexpr0.5\textheight-\parskip\relax][t]{\linewidth}
-\topic{一般の領域：長方形上に0延長する}
-有界な領域 $D$ を含む長方形 $K$ を選び、$f:D\to\mathbb R$ を有界とする。
-$D$ の外側で $f$ を0に延長した関数 $\widetilde f$ が $K$ 上可積分なら
+\topic{極限が存在すれば、その値を重積分と呼ぶ}
+\keybox{$N,M$ をともに限りなく大きくしたとき、$S_{N,M}(f)$ が有限の値に収束すれば、
+その極限を $K$ 上の $f$ の重積分と呼び、次のように書く。
 $$
- \iint_Df\,dx\,dy:=\iint_K\widetilde f\,dx\,dy,\qquad
- \widetilde f(p)=\begin{cases}f(p),&p\in D,\\0,&p\in K\setminus D.\end{cases}
+ \iint_K f(x,y)\,dx\,dy
+ :=\lim_{\substack{N\to\infty\\M\to\infty}}
+ \sum_{i=1}^N\sum_{j=1}^M f(x_i,y_j)\,\Delta x\Delta y.
 $$
-と定める。値は $D$ を含む長方形の選び方によらない。
-$D$ の境界の面積が0で、$f$ が $\overline D$ 上連続なら、この積分は存在する。
-領域の指示関数を $\chi_D$（$D$ 上で1、それ以外で0）とすると
-$$
- \iint_D1\,dx\,dy=\iint_K\chi_D\,dx\,dy=\operatorname{Area}(D).
-$$
-$f\ge0$ の積分はグラフの下の体積を表し、一般には正の部分と負の部分の体積の差になる。
+}
+$N,M\to\infty$ は、$N$ と $M$ のどちらも大きくするという意味である。
+増やす速さが違っても同じ値に近づくことをいう。$K$ 上の連続関数では、この極限が存在する。
 
-\topic{積分の基本性質}
-$f,g$ が $D$ 上可積分、$r,s\in\mathbb R$ なら、線形性と大小関係が成り立つ。
+\examplelabel{例：$K=[0,1]^2$、$f(x,y)=xy$。}
+$\Delta x=1/N$、$\Delta y=1/M$、$(x_i,y_j)=(i/N,j/M)$ より
 $$
- \iint_D(rf+sg)=r\iint_Df+s\iint_Dg,\qquad
- f\le g\ \Longrightarrow\ \iint_Df\le\iint_Dg.
+ S_{N,M}(f)=\frac1{N^2M^2}
+ \left(\sum_{i=1}^N i\right)\left(\sum_{j=1}^M j\right)
+ =\frac{(N+1)(M+1)}{4NM}\longrightarrow\frac14.
 $$
-各リーマン和でこれらの関係が成り立つので、極限でも保たれる。
+したがって $\displaystyle\iint_{[0,1]^2}xy\,dx\,dy=\frac14$ である。
 
-\examplelabel{例：単位正方形上の $f(x,y)=xy$。}
-$n\times n$ 分割の中点を選ぶと、すべての $n\ge1$ に対し
+\topic{一般の領域では、外側の高さを0にする}
+有界な領域 $D\subset\mathbb R^2$ 上の実数値関数 $f$ を考える。
+$D$ を含む長方形 $K$ を取り、$D$ の外側で高さを0にした関数を使う。
 $$
- S_{n,n}=\frac1{n^4}
- \left(\sum_{i=1}^n(i-\tfrac12)\right)^2
- =\frac1{n^4}\left(\frac{n^2}{2}\right)^2=\frac14.
+ \widetilde f(x,y)=\begin{cases}
+  f(x,y),&(x,y)\in D,\\
+  0,&(x,y)\in K\setminus D.
+ \end{cases}
+ \qquad
+ \iint_D f(x,y)\,dx\,dy:=\iint_K\widetilde f(x,y)\,dx\,dy.
 $$
-$f$ は連続で可積分だから、この極限が重積分の値である。
-\keybox{確認点：重積分は代表点によらないリーマン和の極限である。
-一般の領域では、関数の連続性だけでなく境界の条件も確認しよう。}
+右辺の和の極限が存在するとき、このように定める。
+三角形や円などでは、高さ1の積分 $\displaystyle\iint_D1\,dx\,dy$ は領域の面積になる。
+
 \end{minipage}\par\nointerlineskip
 % The lower half of page 2 is reserved for exercises and writing space.
 \noindent\begin{minipage}[b][0.5\textheight][t]{\linewidth}
 \exercises
 \begin{problems}
-\item $K=[0,2]\times[0,3]$ を $N=2,M=3$ 等分する。
-小長方形の面積と、定数関数 $f\equiv4$ のリーマン和を求めよ。\problemspace
+\item 一次元の区分求積法を用い、$[0,1]$ を $n$ 等分した右端の和から
+$\displaystyle\int_0^1 t^2\,dt$ を求めよ。\problemspace
+
+\item $K=[0,2]\times[0,3]$ を $N=2,M=3$ 等分するとき、
+小長方形の面積と、$f\equiv4$ のリーマン和を求めよ。\problemspace
 
 \item $K=[0,1]^2$、$f(x,y)=x+y$ とする。
-$n\times n$ 分割で右上の頂点を代表点に取ったリーマン和を計算し、その極限を求めよ。\problemspace
+$N\times M$ 分割のリーマン和と、$N,M\to\infty$ の極限を求めよ。\problemspace
 
-\item $K=[0,1]^2$、$f(x,y)=xy$ を $2\times2$ に分割したとき、
-リーマン和を求めよ。\problemspace
+\item $K=[0,1]^2$、$f(x,y)=xy$ の $2\times2$ 分割のリーマン和を求め、
+重積分の値 $1/4$ と比較せよ。\problemspace
 
-\item $D=\{(x,y):0\le x\le1,\ 0\le y\le x\}$ とする。
-$\iint_D1\,dx\,dy$ の値を図形の面積から求め、正方形 $[0,1]^2$ 上の0延長を書け。\problemspace
+\item $D=\{(x,y):0\le y\le x\le1\}$ とする。
+$\iint_D1\,dx\,dy$ を図形の面積から求め、$[0,1]^2$ 上の0延長を書け。\problemspace
 
-\item 境界の面積が0の有界領域 $D$ 上で、可積分な $f$ が $m\le f\le M$ を満たすとする
-（$m,M\in\mathbb R$）。
-$m\operatorname{Area}(D)\le\iint_Df\le M\operatorname{Area}(D)$ を上和・下和から説明せよ。\problemspace
-
+\item $K=[0,2]\times[0,1]$、$f(x,y)=x^2y$ とする。
+$N\times M$ 分割のリーマン和を計算し、重積分の値を求めよ。\problemspace
 \end{problems}
 \end{minipage}
 
@@ -168,63 +237,75 @@ $m\operatorname{Area}(D)\le\iint_Df\le M\operatorname{Area}(D)$ を上和・下�
 \handouttitle{第3回\quad 演習問題の解答}
 \begin{problems}
 \setlength{\itemsep}{10pt}
-\item $\Delta x=2/2=1$、$\Delta y=3/3=1$ なので、小長方形の面積は $1$ である。
-小長方形は $2\cdot3=6$ 個あり、どの代表点でも $f=4$ だから
+\item 各小区間の幅は $\delta=1/n$、右端は $t_i=i/n$ である。
+高さ $t_i^2$ に幅を掛けて足すと
+$$
+ \sum_{i=1}^n\left(\frac in\right)^2\frac1n
+ =\frac1{n^3}\sum_{i=1}^n i^2
+ =\frac{n(n+1)(2n+1)}{6n^3}
+ =\frac16\left(1+\frac1n\right)\left(2+\frac1n\right)
+ \longrightarrow\frac13.
+$$
+したがって $\displaystyle\int_0^1 t^2\,dt=\frac13$ である。
+
+\item $\Delta x=2/2=1$、$\Delta y=3/3=1$ だから、小長方形の面積は $1$。
+小長方形は $2\cdot3=6$ 個あり、どの点でも高さは4なので
 $$
  S_{2,3}(f)=6\cdot4\cdot1=24.
 $$
+これは底面積 $2\cdot3=6$、高さ4の直方体の体積に一致する。
 
-\item 代表点は $(i/n,j/n)$（$1\le i,j\le n$）、小正方形の面積は $1/n^2$ である。
-$\sum_{i=1}^ni=n(n+1)/2$ を用いると
+\item $(x_i,y_j)=(i/N,j/M)$、$\Delta x\Delta y=1/(NM)$ である。
+$i/N$ は $j$ を変えても同じ値で $M$ 回現れ、$j/M$ は $N$ 回現れるので
 $$
- S_{n,n}(f)=\frac1{n^3}\sum_{i=1}^n\sum_{j=1}^n(i+j)
- =\frac{2n}{n^3}\cdot\frac{n(n+1)}2=1+\frac1n\longrightarrow1.
+ \begin{aligned}
+ S_{N,M}(f)
+ &=\frac1{NM}\sum_{i=1}^N\sum_{j=1}^M
+   \left(\frac iN+\frac jM\right)\\
+ &=\frac1{NM}\left(\frac MN\sum_{i=1}^N i
+   +\frac NM\sum_{j=1}^M j\right)\\
+ &=\frac{N+1}{2N}+\frac{M+1}{2M}
+ =1+\frac1{2N}+\frac1{2M}\longrightarrow1.
+ \end{aligned}
 $$
-$f$ は連続なので、$\iint_{[0,1]^2}(x+y)\,dx\,dy=1$ である。
+したがって $\displaystyle\iint_{[0,1]^2}(x+y)\,dx\,dy=1$ である。
 
-\item $xy$ は $x,y\ge0$ では各変数について単調に増える。
-各小正方形の左下の頂点で最小、右上の頂点で最大となり、面積は $1/4$ だから
+\item 右上の点は $(1/2,1/2),(1/2,1),(1,1/2),(1,1)$。
+それぞれの高さは $1/4,1/2,1/2,1$ で、底面積はすべて $1/4$ なので
 $$
- L=\frac14\left(0+0+0+\frac14\right)=\frac1{16},\qquad
- U=\frac14\left(\frac14+\frac12+\frac12+1\right)=\frac9{16}.
+ S_{2,2}(f)=\frac14\left(\frac14+\frac12+\frac12+1\right)=\frac9{16}.
 $$
-中点の座標は各変数について $1/4$ または $3/4$ なので
-$$
- S_{\mathrm{mid}}=\frac14\left(\frac1{16}+\frac3{16}+\frac3{16}+\frac9{16}\right)
- =\frac14.
-$$
-確かに $L\le S_{\mathrm{mid}}\le U$ となる。
+重積分の値 $1/4=4/16$ より $5/16$ 大きい。
+各小長方形の右上で $xy$ が最も大きくなるため、体積を大きく見積もっている。
+$N,M$ を大きくすると、例題の式により和は $1/4$ に近づく。
 
-\item $D$ は頂点 $(0,0),(1,0),(1,1)$ をもつ直角三角形であり、底辺・高さはともに $1$。
-したがって、$f\equiv1$ の0延長は
+\item $D$ は頂点 $(0,0),(1,0),(1,1)$ をもつ、底辺・高さがともに1の直角三角形である。
+面積は $\frac12\cdot1\cdot1=\frac12$。高さ1の積分はこの面積に等しく、0延長は
 $$
  \iint_D1\,dx\,dy=\frac12,\qquad
- \widetilde f(x,y)=
- \begin{cases}
+ \widetilde f(x,y)=\begin{cases}
   1,&0\le y\le x\le1,\\
   0,&0\le x<y\le1
  \end{cases}
  \quad((x,y)\in[0,1]^2).
 $$
-対角線を含む境界の面積は0なので、0延長は可積分である。
+対角線 $y=x$ 上も $D$ に含まれるので、そこでの値は1とする。
 
-\item $D$ を含む長方形 $K$ で、$\chi_D$ を $D$ 上で1、それ以外で0の関数とする。
-$\widetilde f$ を $f$ の0延長とすると $m\chi_D\le\widetilde f\le M\chi_D$ が成り立つ。
-同じ分割の下和・上和もこの大小関係を保つ。
-境界の面積が0なので $\chi_D$ は可積分であり、分割を細かくして極限を取れば
+\item $\Delta x=2/N$、$\Delta y=1/M$、$(x_i,y_j)=(2i/N,j/M)$ である。
+$i^2$ は $j$ に依存せず、$j$ は $i$ に依存しないので、二重和を二つの和の積に分ける。
 $$
- m\operatorname{Area}(D)=\iint_Km\chi_D\,dx\,dy
- \le\iint_K\widetilde f\,dx\,dy
- =\iint_Df\,dx\,dy
- \le\iint_KM\chi_D\,dx\,dy=M\operatorname{Area}(D).
+ \begin{aligned}
+ S_{N,M}(f)
+ &=\sum_{i=1}^N\sum_{j=1}^M
+   \left(\frac{2i}{N}\right)^2\frac jM\cdot\frac2{NM}
+ =\frac8{N^3M^2}\left(\sum_{i=1}^N i^2\right)
+   \left(\sum_{j=1}^M j\right)\\
+ &=\frac8{N^3M^2}\cdot\frac{N(N+1)(2N+1)}6
+   \cdot\frac{M(M+1)}2\\
+ &=\frac23\left(1+\frac1N\right)\left(2+\frac1N\right)
+   \left(1+\frac1M\right)\longrightarrow\frac43.
+ \end{aligned}
 $$
-$m<0$ や $M<0$ でも、0延長に指示関数を使えば同じ議論が成り立つ。
-
-\item 有理数も無理数も実数の任意の開区間に存在する。
-各小長方形の内部で両座標が有理数の代表点を選ぶと、すべての値が1だから
-$S_{\mathcal P}(f)=\operatorname{Area}([0,1]^2)=1$ となる。
-一方、各代表点の $x$ 座標を無理数に選べば、すべての値が0だから $S_{\mathcal P}(f)=0$。
-どれほど分割を細かくしても二つの和は一致せず、代表点によらない極限は存在しない。
-したがって、この関数はリーマン可積分ではない。
+よって $\displaystyle\iint_{[0,2]\times[0,1]}x^2y\,dx\,dy=\frac43$ である。
 \end{problems}
 \end{document}
