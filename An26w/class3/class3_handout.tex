@@ -84,33 +84,6 @@ $$
 $f\ge0$ なら柱の体積の和になり、負の値は符号を付けて加える。
 定数関数 $f\equiv h$ では、代表点によらず $S_{N,M}(f)=h(b-a)(d-c)$ となる。
 
-\topic{重積分と可積分性}
-$f:K\to\mathbb R$ を有界とする。$K$ を内部が重ならない有限個の小長方形 $Q$ に分けたものを
-分割 $\mathcal P$ と呼び、各 $Q$ の代表点 $\xi_Q\in Q$ に対して
-$$
- S_{\mathcal P}(f)=\sum_{Q\in\mathcal P}f(\xi_Q)\operatorname{Area}(Q),\qquad
- |\mathcal P|=\max_{Q\in\mathcal P}\operatorname{diam}(Q)
-$$
-と定める。ここで $\operatorname{Area}$ は面積、$\operatorname{diam}$ は直径を表す。
-$|\mathcal P|\to0$ のとき、分割・代表点によらず同じ有限値 $I$ に収束するなら
-$$
- \iint_K f(x,y)\,dx\,dy=I:=\lim_{|\mathcal P|\to0}S_{\mathcal P}(f)
-$$
-と定義し、$f$ はリーマン可積分であるという。
-つまり、任意の $\varepsilon>0$ に対してある $\delta>0$ があり、
-$|\mathcal P|<\delta$ ならどの代表点でも $|S_{\mathcal P}(f)-I|<\varepsilon$ となる。
-一つの分割・代表点の選び方で極限が存在するだけでは十分ではない。
-
-\topic{上和・下和でリーマン和をはさむ}
-有界な $f$ に対し、$m_Q=\inf_{p\in Q}f(p)$、$M_Q=\sup_{p\in Q}f(p)$ とおくと
-$$
- L(\mathcal P)=\sum_Qm_Q\operatorname{Area}(Q)
- \le S_{\mathcal P}(f)\le
- \sum_QM_Q\operatorname{Area}(Q)=U(\mathcal P).
-$$
-$L$ を下和、$U$ を上和という。分割を細かくすると下和は増え、上和は減る。
-任意の二つの分割は共通の細分をもつので、どの下和もどの上和以下となる。
-したがって、$U(\mathcal P)-L(\mathcal P)$ をいくらでも小さくできることが可積分性の判定条件である。
 
 \topic{連続関数の積分が存在する理由}
 $f$ が $K$ 上連続なら、閉じた有界な長方形上で一様連続である。
@@ -179,7 +152,7 @@ $f$ は連続で可積分だから、この極限が重積分の値である。
 $n\times n$ 分割で右上の頂点を代表点に取ったリーマン和を計算し、その極限を求めよ。\problemspace
 
 \item $K=[0,1]^2$、$f(x,y)=xy$ を $2\times2$ に分割したとき、
-上和・下和・中点のリーマン和を求めよ。\problemspace
+リーマン和を求めよ。\problemspace
 
 \item $D=\{(x,y):0\le x\le1,\ 0\le y\le x\}$ とする。
 $\iint_D1\,dx\,dy$ の値を図形の面積から求め、正方形 $[0,1]^2$ 上の0延長を書け。\problemspace
@@ -188,8 +161,6 @@ $\iint_D1\,dx\,dy$ の値を図形の面積から求め、正方形 $[0,1]^2$ �
 （$m,M\in\mathbb R$）。
 $m\operatorname{Area}(D)\le\iint_Df\le M\operatorname{Area}(D)$ を上和・下和から説明せよ。\problemspace
 
-\item $[0,1]^2$ 上で、$x,y$ がともに有理数なら $f(x,y)=1$、それ以外では0とする。
-代表点を2通りに選び、この関数がリーマン可積分でないことを示せ。\problemspace
 \end{problems}
 \end{minipage}
 

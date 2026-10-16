@@ -77,7 +77,7 @@ $$
   P(X=x)=\sum_{\omega\in\Omega:\,X(\omega)=x}p_\omega.
 $$
 \keybox{確率変数 $X$ は写像、分布 $\mu_X$ は測度である。同じ分布をもつ確率変数でも、
-標本空間や他の確率変数との関係は異なり得る。}
+標本空間や他の確率変数との関係は異なることがある。}
 
 \topic{分布関数}
 $F_X(x):=P(X\le x)=\mu_X(({-\infty},x])$ と定める。次の性質をもつ。
@@ -111,12 +111,8 @@ $$
 
 \topic{レポート問題}
 \begin{enumerate}[label=\arabic*.]
-  \item 演習第2問と同じ確率空間と $X,Y$ に対し、$T=XY$ の分布関数を求めよ。
-  $X,Y$ は同じ標本 $\omega$ の関数であることに注意せよ。
-  \item 集合 $\{X\le x+1/n\}$ の列を用いて、$F_X$ の右連続性を示せよ。
-  $A_n\downarrow A$ なら $P(A_n)\downarrow P(A)$ となる性質を用いてよい。
-  \item $F_X(x-):=\lim_{y\uparrow x}F_X(y)$ とおく。
-  $P(X=x)=F_X(x)-F_X(x-)$ を示し、分布関数の跳びの意味を説明せよ。
+  \item 離散確率空間、連続確率空間それぞれで確率変数を自分で構成し、分布関数を求めよ.
+  \item 同じ確率空間で定義された確率変数 $X,Y$に対し, $X+Y$も確率変数であることを示せ.
 \end{enumerate}
 
 \newpage
