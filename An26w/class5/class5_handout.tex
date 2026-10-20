@@ -1,4 +1,4 @@
-% Build in this directory: pdflatex -interaction=nonstopmode -halt-on-error class5_handout.tex
+% Build twice in this directory: pdflatex -interaction=nonstopmode -halt-on-error class5_handout.tex
 \documentclass[a4paper,10pt,pdflatex,ja=standard,jafont=ipaex-type1,
   magstyle=real,scale=1]{bxjsarticle}
 \usepackage{lmodern}
@@ -10,6 +10,9 @@
 \usepackage{enumitem}
 \usepackage{array,booktabs,tabularx}
 \usepackage{fancyhdr}
+\usepackage{lastpage}
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta,calc,decorations.pathreplacing}
 
 \definecolor{ink}{HTML}{193A5C}
 \definecolor{accent}{HTML}{237D82}
@@ -21,7 +24,7 @@
 \fancyhf{}
 \fancyhead[L]{\small\color{ink}\coursename{}・授業要約と演習}
 \fancyhead[R]{\small\color{ink}第\handoutnumber 回}
-\fancyfoot[C]{\small\color{ink}\thepage/2}
+\fancyfoot[C]{\small\color{ink}\thepage/\pageref{LastPage}}
 \renewcommand{\headrulewidth}{0.3pt}
 \setlength{\parindent}{0pt}
 \setlength{\parskip}{2pt}
@@ -52,26 +55,73 @@
 
 
 \newcommand{\examplelabel}[1]{{\sffamily\mdseries\color{ink}#1}}
-\newcommand{\answerroom}{\par\vspace{16mm}}
+\newcommand{\problemspace}{\par\vspace{5mm}}
+\newcommand{\exercises}{%
+  {\color{accent}\hrule height 0.7pt}\vspace{3pt}%
+  \topic{演習問題（6題）}%
+  {\small 領域と積分範囲を確認し、計算過程も書こう。図を描くと範囲を読み取りやすい。}\par}
+\tikzset{
+  handout diagram/.style={>={Stealth[length=3.2pt,width=3.2pt]},line join=round,
+    every node/.style={font=\scriptsize,text=ink}},
+  region/.style={fill=soft,draw=accent,semithick},
+  slice/.style={accent,line width=1.8pt},
+  guide/.style={muted,densely dashed,thin},
+  axis/.style={->,ink,thin}}
 
 \begin{document}
 \fontsize{10pt}{13.5pt}\selectfont
 \setlength{\abovedisplayskip}{4pt}
 \setlength{\belowdisplayskip}{4pt}
 \handout{5}{広義積分}
+\keybox{到達目標：特異点と無限遠を別々の極限で扱い、収束・発散を判断できる。
+関数の高さだけでなく、積分される面積の極限を調べよう。}
+
 \topic{特異点や無限遠を極限で扱う}
-$f$ が $[a,b)$ の各閉部分区間で可積分であるとき
+有限端点では $[a,b)$、無限遠では $[a,\infty)$ の各閉部分区間で可積分な実数値関数 $f$ を考える。対応する広義積分を
 $$
  \int_a^bf(x)\,dx:=\lim_{t\to b-}\int_a^tf(x)\,dx,
  \qquad
  \int_a^\infty f(x)\,dx:=\lim_{R\to\infty}\int_a^Rf(x)\,dx.
 $$
-有限の極限が存在するとき「収束する」という。内部の特異点 $c\in(a,b)$ は左右に分け、
+と定める。有限の極限が存在するとき「収束する」という。内部の特異点 $c\in(a,b)$ は左右に分け、
 両方の広義積分がそれぞれ収束する場合だけ和を取る。
 $$
  \int_a^bf=\lim_{t\to c-}\int_a^tf+\lim_{s\to c+}\int_s^bf.
 $$
 同じ幅を除いて左右を相殺する極限は、通常の広義積分と区別する。
+
+
+\par\vspace{2pt}\noindent
+\begin{minipage}[b]{0.48\linewidth}\centering
+\begin{tikzpicture}[handout diagram,x=1cm,y=0.8cm]
+\fill[soft] (0,0) -- plot[domain=0:0.78,samples=40] (3*\x,{0.7/sqrt(1-\x)}) -- (2.34,0) -- cycle;
+ \draw[accent,semithick] plot[domain=0:0.94,samples=55] (3*\x,{0.7/sqrt(1-\x)});
+ \draw[axis] (0,0) -- (3.55,0) node[right] {$x$};
+ \draw[axis] (0,0) -- (0,3.2) node[above] {$f(x)$};
+ \draw[guide] (2.34,0) -- (2.34,1.5);
+ \draw[guide] (3,0) -- (3,2.95);
+ \node[below] at (0,0) {$a$};
+ \node[below] at (2.34,0) {$t$};
+ \node[below] at (3,0) {$b$};
+ \draw[->,accent] (1.9,-0.55) -- (2.92,-0.55) node[midway,below] {$t\to b-$};
+\end{tikzpicture}\par
+{\small\color{muted}端点の手前で止めてから、極限を取る}\par
+\end{minipage}\hfill
+\begin{minipage}[b]{0.48\linewidth}\centering
+\begin{tikzpicture}[handout diagram,x=1cm,y=0.8cm]
+\fill[soft] (0.65,0) -- plot[domain=0.65:2.9,samples=50] (\x,{0.85/(\x*\x)}) -- (2.9,0) -- cycle;
+ \draw[accent,semithick] plot[domain=0.65:3.7,samples=55] (\x,{0.85/(\x*\x)});
+ \draw[axis] (0,0) -- (4.1,0) node[right] {$x$};
+ \draw[axis] (0,0) -- (0,2.8) node[above] {$f(x)$};
+ \draw[guide] (2.9,0) -- (2.9,1.2);
+ \node[below] at (0.65,0) {$a$};
+ \node[below] at (2.9,0) {$R$};
+ \node[above] at (2,0.7) {$f(x)=x^{-2}$};
+ \draw[->,accent] (2.9,-0.55) -- (3.85,-0.55) node[midway,below] {$R\to\infty$};
+\end{tikzpicture}\par
+{\small\color{muted}上端を有限にしてから、無限遠へ広げる}\par
+\end{minipage}
+\par\vspace{2pt}
 
 \topic{べき関数の収束判定と比較}
 $p\in\mathbb R$ に対して、特異点付近と無限遠では条件が逆になる。
@@ -86,6 +136,27 @@ $0\le f\le g$ なら、$\int g<\infty$ は $\int f<\infty$ を導き、
 $\int f=+\infty$ は $\int g=+\infty$ を導く。
 符号が変わる関数では、まず $\int|f|<\infty$（絶対収束）を調べる。
 
+
+\par\vspace{2pt}\noindent
+\begin{minipage}[b]{0.98\linewidth}\centering
+\begin{tikzpicture}[handout diagram,x=0.75cm,y=0.62cm]
+\draw[axis] (0,1.5) -- (7,1.5) node[right] {$p$};
+ \draw[axis] (0,0) -- (7,0) node[right] {$p$};
+ \draw[ink] (3.5,1.35) -- (3.5,1.65);
+ \draw[ink] (3.5,-0.15) -- (3.5,0.15);
+ \draw[slice,<-] (0.4,1.5) -- (3.35,1.5);
+ \draw[slice,->] (3.65,0) -- (6.6,0);
+ \node[above] at (3.5,1.5) {$1$};
+ \node[above] at (3.5,0) {$1$};
+ \node[left] at (0,1.5) {$\int_0^1 x^{-p}\,dx$};
+ \node[left] at (0,0) {$\int_1^\infty x^{-p}\,dx$};
+ \node[above] at (1.75,1.5) {収束：$p<1$};
+ \node[above] at (5.15,0) {収束：$p>1$};
+\end{tikzpicture}\par
+{\small\color{muted}端点付近と無限遠では、収束する側が逆になる}\par
+\end{minipage}
+\par\vspace{2pt}
+
 \topic{例：端点で発散しても積分は収束する}
 $$
  \int_0^1\frac{dx}{\sqrt{1-x}}
@@ -95,14 +166,19 @@ $$
 $$
 関数の値が無限大になることと、積分が発散することは同じではない。
 
+
+\newpage
+% Keep the remaining summary in the upper half of page 2.
+\noindent\begin{minipage}[b][\dimexpr0.5\textheight-\parskip\relax][t]{\linewidth}
 \topic{非負関数の広義重積分}
 特異点を除いた領域を $D$ とし、$D_1\subset D_2\subset\cdots$ を
-有界な積分可能領域、$\bigcup_nD_n=D$ とする。各 $D_n$ 上で連続な $f\ge0$ について
+有界で閉じた積分可能領域、$\bigcup_nD_n=D$ とする。各 $D_n$ 上で連続な $f\ge0$ について
 $$
  \iint_Df\,dx\,dy:=\lim_{n\to\infty}\iint_{D_n}f\,dx\,dy\in[0,+\infty].
 $$
 非負の場合、この値は領域を増やす取り方によらない。
 符号が変わる場合は $\iint_D|f|<\infty$ を仮定すれば、領域の取り方や累次積分の順序に依存しない。
+
 
 \topic{例：2変数の特異点を避ける}
 $D=(0,1]^2$、$D_\varepsilon=[\varepsilon,1]^2$ とすると
@@ -114,15 +190,115 @@ $$
 $$
 \keybox{特異点を列挙し、各部分の極限を別々に調べる。多変数では、非負性または絶対可積分性を確認する。}
 
-\newpage
-\handouttitle{第5回\quad 演習問題}
-計算過程を記し、必要な条件・積分領域・向きを明示すること。
+\par\vspace{2pt}\noindent
+\begin{minipage}[b]{0.48\linewidth}\centering
+\begin{tikzpicture}[handout diagram,x=0.85cm,y=0.68cm]
+\path[region] (0,0) rectangle (2.6,2.6);
+ \fill[accent!13] (0.4,0.4) rectangle (2.6,2.6);
+ \draw[accent] (0.8,0.8) rectangle (2.6,2.6);
+ \draw[guide] (0,0.4) -- (2.6,0.4);
+ \draw[guide] (0.4,0) -- (0.4,2.6);
+ \draw[axis] (0,0) -- (3.1,0) node[right] {$x$};
+ \draw[axis] (0,0) -- (0,3.05) node[above] {$y$};
+ \node[below left] at (0,0) {$0$};
+ \node[below] at (2.6,0) {$1$};
+ \node[left] at (0,2.6) {$1$};
+ \node[below] at (0.4,0) {$\varepsilon$};
+ \node[left] at (0,0.4) {$\varepsilon$};
+ \node at (1.8,1.7) {$D_\varepsilon$};
+ \draw[->,accent] (0.7,0.7) -- (0.15,0.15);
+\end{tikzpicture}\par
+{\small\color{muted}$[\varepsilon,1]^2$ を広げ、両軸へ近づける}\par
+\end{minipage}\hfill
+\begin{minipage}[b]{0.48\linewidth}\centering
+\begin{tikzpicture}[handout diagram,x=1cm,y=0.48cm]
+\fill[soft] (0.35,0) -- plot[domain=0.35:1.5,samples=40] (\x,{0.65/\x}) -- (1.5,0) -- cycle;
+ \fill[ink!12] (-1.5,0) -- plot[domain=-1.5:-0.35,samples=40] (\x,{0.65/\x}) -- (-0.35,0) -- cycle;
+ \draw[accent] plot[domain=0.3:1.6,samples=40] (\x,{0.65/\x});
+ \draw[ink] plot[domain=-1.6:-0.3,samples=40] (\x,{0.65/\x});
+ \draw[axis] (-1.8,0) -- (1.85,0) node[right] {$x$};
+ \draw[axis] (0,-2.3) -- (0,2.3) node[above] {$1/x$};
+ \node[below right] at (0.35,0) {$\varepsilon$};
+ \node[above left] at (-0.35,0) {$-\varepsilon$};
+ \node at (1.1,0.8) {$+$};
+ \node at (-1.1,-0.8) {$-$};
+\end{tikzpicture}\par
+{\small\color{muted}左右の相殺は、別々の収束を保証しない}\par
+\end{minipage}
+\par\vspace{2pt}
+
+\end{minipage}\par\nointerlineskip
+% Keep the exercises and writing space in the lower half of page 2.
+\noindent\begin{minipage}[b][0.5\textheight][t]{\linewidth}
+\exercises
 \begin{problems}
-\item $p\in\mathbb R$ に対し、$\int_0^1x^{-p}\,dx$ と $\int_1^\infty x^{-p}\,dx$ の収束条件を、原始関数と極限から導け。$p=1$ も扱うこと。\answerroom
-\item $\displaystyle\int_0^1\frac{dx}{\sqrt{x}}$ と $\displaystyle\int_0^1\frac{dx}{1-x}$ の収束・発散を調べ、収束する場合は値を求めよ。\answerroom
-\item $\displaystyle\int_1^\infty\frac{dx}{x(x+1)}$ が収束することを示し、その値を求めよ。\answerroom
-\item $\displaystyle\int_{-1}^1\frac{dx}{x}$ は通常の広義積分として収束するか。$\lim_{\varepsilon\downarrow0}(\int_{-1}^{-\varepsilon}\!dx/x+\int_\varepsilon^1\!dx/x)$ と比較せよ。\answerroom
-\item $p,q\in\mathbb R$ とする。$\displaystyle\iint_{(0,1]^2}x^{-p}y^{-q}\,dx\,dy$ の収束条件と、収束する場合の値を求めよ。\answerroom
-\item $\displaystyle\iint_{\mathbb R^2}\frac{dx\,dy}{(1+x^2)(1+y^2)}$ の収束と値を調べよ。累次積分を使える理由も述べよ。\answerroom
+\item $p\in\mathbb R$ に対し、$\int_0^1x^{-p}\,dx$ と $\int_1^\infty x^{-p}\,dx$ の収束条件を、原始関数と極限から導け。$p=1$ も扱うこと。
+\problemspace
+
+\item $\displaystyle\int_0^1\frac{dx}{\sqrt{x}}$ と $\displaystyle\int_0^1\frac{dx}{1-x}$ の収束・発散を調べ、収束する場合は値を求めよ。
+\problemspace
+
+\item $\displaystyle\int_1^\infty\frac{dx}{x(x+1)}$ が収束することを示し、その値を求めよ。
+\problemspace
+
+\item $\displaystyle\int_{-1}^1\frac{dx}{x}$ は通常の広義積分として収束するか。$\lim_{\varepsilon\downarrow0}(\int_{-1}^{-\varepsilon}\!dx/x+\int_\varepsilon^1\!dx/x)$ と比較せよ。
+\problemspace
+
+\item $p,q\in\mathbb R$ とする。$\displaystyle\iint_{(0,1]^2}x^{-p}y^{-q}\,dx\,dy$ の収束条件と、収束する場合の値を求めよ。
+\problemspace
+
+\item $\displaystyle\iint_{\mathbb R^2}\frac{dx\,dy}{(1+x^2)(1+y^2)}$ の収束と値を調べよ。累次積分を使える理由も述べよ。
+\problemspace
 \end{problems}
+\end{minipage}
+
+\newpage
+\handouttitle{第5回\quad 演習問題の解答}
+{\small 設定した範囲と条件も確認しながら、計算を振り返ろう。}\par
+\begin{problems}
+\setlength{\itemsep}{7pt}
+\item $p\ne1$ では原始関数は $x^{1-p}/(1-p)$。したがって
+$$
+ \int_\varepsilon^1x^{-p}\,dx=\frac{1-\varepsilon^{1-p}}{1-p},\qquad
+ \int_1^Rx^{-p}\,dx=\frac{R^{1-p}-1}{1-p}.
+$$
+$\varepsilon\downarrow0$ の極限は $p<1$ のとき $1/(1-p)$、それ以外は $+\infty$。
+$R\to\infty$ の極限は $p>1$ のとき $1/(p-1)$、それ以外は $+\infty$ である。
+$p=1$ では、それぞれ $-\log\varepsilon$、$\log R$ なので両方とも発散する。
+
+\item 最初は $p=1/2<1$ なので収束し、後者は端点 $x=1$ で発散する。
+$$
+ \int_0^1\frac{dx}{\sqrt x}=\lim_{\varepsilon\downarrow0}2(1-\sqrt\varepsilon)=2,\qquad
+ \int_0^{1-\varepsilon}\frac{dx}{1-x}=-\log\varepsilon\longrightarrow+\infty.
+$$
+
+\item $1/\{x(x+1)\}=1/x-1/(x+1)$ より
+$$
+ \int_1^R\frac{dx}{x(x+1)}
+ =\log\frac R{R+1}+\log2\longrightarrow\log2.
+$$
+比較 $0\le1/\{x(x+1)\}\le1/x^2$ でも、収束を先に確認できる。
+
+\item 左側は $\int_{-1}^{-\varepsilon}dx/x=\log\varepsilon\to-\infty$、
+右側は $\int_\varepsilon^1dx/x=-\log\varepsilon\to+\infty$。
+両側が別々には収束しないため、通常の広義積分は発散する。
+一方、同じ $\varepsilon$ を用いた和は常に0で、極限も0。この値をコーシーの主値という。
+
+\item 被積分関数は非負。トネリの定理、または長方形上の積分の極限を使うと
+$$
+ \iint_{(0,1]^2}x^{-p}y^{-q}\,dx\,dy
+ =\left(\int_0^1x^{-p}\,dx\right)\left(\int_0^1y^{-q}\,dy\right).
+$$
+収束条件は $p<1$ かつ $q<1$、値は $1/\{(1-p)(1-q)\}$。
+一方でも条件を満たさなければ、もう一方の変数を $[1/2,1]$ に制限しても積分は発散する。
+
+\item 非負の連続関数なので、トネリの定理で累次積分にできる。
+$$
+ \iint_{\mathbb R^2}\frac{dx\,dy}{(1+x^2)(1+y^2)}
+ =\left(\int_{-\infty}^\infty\frac{dt}{1+t^2}\right)^2
+ =\left([\arctan t]_{-\infty}^\infty\right)^2=\pi^2.
+$$
+値が有限なので、絶対可積分性も確認できた。
+\end{problems}
+\keybox{特異点では左右を別々に判定しよう。非負関数の積分では、有限の値が得られた時点で収束も分かる。}
 \end{document}
