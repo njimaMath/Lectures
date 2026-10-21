@@ -1,0 +1,330 @@
+% Build twice here: pdflatex -interaction=nonstopmode -halt-on-error resume8An26w.tex
+\documentclass[a4paper,10pt,pdflatex,ja=standard,jafont=ipaex-type1,
+  magstyle=real,scale=1]{bxjsarticle}
+\usepackage{lmodern}
+\usepackage{amsmath,amssymb,mathtools}
+\usepackage{geometry}
+\geometry{reset,left=22mm,right=22mm,top=20mm,bottom=17mm,
+  headheight=13pt,headsep=6mm,footskip=10mm}
+\usepackage{xcolor}
+\usepackage{enumitem}
+\usepackage{array,booktabs,tabularx}
+\usepackage{fancyhdr}
+\usepackage{lastpage}
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta,calc,decorations.pathreplacing}
+
+\definecolor{ink}{HTML}{193A5C}
+\definecolor{accent}{HTML}{237D82}
+\definecolor{soft}{HTML}{EAF3F3}
+\definecolor{muted}{HTML}{52616B}
+\newcommand{\coursename}{解析学 II}
+\newcommand{\handoutnumber}{8}
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\small\color{ink}\coursename{}・授業要約と演習}
+\fancyhead[R]{\small\color{ink}第\handoutnumber 回}
+\fancyfoot[C]{\small\color{ink}\thepage/\pageref{LastPage}}
+\renewcommand{\headrulewidth}{0.3pt}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{2pt}
+\setlength{\abovedisplayskip}{5pt}
+\setlength{\belowdisplayskip}{5pt}
+\setlength{\abovedisplayshortskip}{3pt}
+\setlength{\belowdisplayshortskip}{4pt}
+\setlist[itemize]{leftmargin=1.8em,itemsep=1pt,topsep=2pt,parsep=0pt}
+
+\newcommand{\handouttitle}[1]{%
+  \begin{center}
+    {\Large\color{ink}#1}\par\vspace{3mm}
+    {\color{accent}\rule{0.88\linewidth}{0.7pt}}
+  \end{center}\vspace{-2mm}}
+\newcommand{\handout}[2]{%
+  \renewcommand{\handoutnumber}{#1}%
+  \handouttitle{第#1回\quad #2}}
+\newcommand{\topic}[1]{\par\vspace{5pt}%
+  {\large\sffamily\mdseries\color{accent}#1}\par\vspace{2pt}}
+\newcommand{\keybox}[1]{\par\vspace{3pt}\begingroup
+  \setlength{\fboxsep}{4pt}%
+  \colorbox{soft}{\parbox{\dimexpr\linewidth-2\fboxsep\relax}{\small #1}}%
+  \endgroup\par\vspace{2pt}}
+\newenvironment{problems}
+  {\begin{enumerate}[leftmargin=2em,itemsep=3pt,topsep=3pt,parsep=0pt,
+    font=\color{accent}]}
+  {\end{enumerate}}
+
+
+\newcommand{\examplelabel}[1]{{\sffamily\mdseries\color{ink}#1}}
+\newcommand{\problemspace}{\par\vspace{3mm}}
+\newcommand{\exercises}{%
+  {\color{accent}\hrule height 0.7pt}\vspace{3pt}%
+  \topic{演習問題（7題）}%
+  {\small 領域と積分範囲を確認し、計算過程も書こう。図を描くと範囲を読み取りやすい。}\par}
+\tikzset{
+  handout diagram/.style={>={Stealth[length=3.2pt,width=3.2pt]},line join=round,
+    every node/.style={font=\scriptsize,text=ink}},
+  region/.style={fill=soft,draw=accent,semithick},
+  slice/.style={accent,line width=1.8pt},
+  guide/.style={muted,densely dashed,thin},
+  axis/.style={->,ink,thin}}
+
+
+% Review Q&A can also be used for actual student feedback when it is available.
+\newcommand{\feedback}[2]{%
+  \par\addvspace{8pt}\noindent\begin{minipage}{\linewidth}%
+  {\color{ink}Q. #1}\par\vspace{2pt}%
+  {\color{accent}A. }#2%
+  \end{minipage}\par}
+
+\begin{document}
+\fontsize{10pt}{13.5pt}\selectfont
+\setlength{\abovedisplayskip}{4pt}
+\setlength{\belowdisplayskip}{4pt}
+% Feedback section: add comments and responses here when available.
+\fancyhead[L]{\small\color{ink}\coursename{}・フィードバック}
+\handout{8}{前回のコメントへのフィードバック}
+% \feedback{comment}{response}
+\clearpage
+
+% Previous small-test section: add the questions and solutions here.
+\fancyhead[L]{\small\color{ink}\coursename{}・小テスト}
+\fancyhead[R]{\small\color{ink}第7回}
+\handouttitle{第7回\quad 小テスト}
+% Questions and solutions are intentionally blank.
+\clearpage
+
+\fancyhead[L]{\small\color{ink}\coursename{}・授業要約と演習}
+\fancyhead[R]{\small\color{ink}第\handoutnumber 回}
+\handout{8}{前半まとめ：第1回から第7回}\label{lesson-start}
+\keybox{到達目標：第1回から第7回の道具を、定義域・収束条件・領域の形から選べる。
+図で設定を確かめ、式と計算結果を結び付けて復習しよう。}
+
+\topic{逆関数と逆三角関数}
+一対一対応 $f:A\to B$ の逆関数を $g:B\to A$ とすると
+$$
+ f(g(y))=y,\quad g(f(x))=x,\qquad
+ g'(y)=\frac1{f'(g(y))}.
+$$
+微分公式では $A,B$ を開区間、$f$ を $C^1$ 級、$f'(g(y))\ne0$ とする。
+逆三角関数の値域は $\arcsin x\in[-\pi/2,\pi/2]$、$\arccos x\in[0,\pi]$、
+$\arctan x\in(-\pi/2,\pi/2)$ である。
+$$
+ (\arcsin x)'=\frac1{\sqrt{1-x^2}},\quad
+ (\arccos x)'=-\frac1{\sqrt{1-x^2}}\quad(|x|<1),\qquad
+ (\arctan x)'=\frac1{1+x^2}.
+$$
+
+
+\par\vspace{2pt}\noindent
+\begin{minipage}[b]{0.48\linewidth}\centering
+\begin{tikzpicture}[handout diagram,x=0.85cm,y=0.85cm]
+\draw[axis] (0,0) -- (2.9,0) node[right] {$x$};
+ \draw[axis] (0,0) -- (0,2.9) node[above] {$y$};
+ \draw[guide] (0,0) -- (2.65,2.65) node[above right] {$y=x$};
+ \draw[accent,semithick] plot[domain=0:1.6,samples=45] (\x,{\x*\x});
+ \draw[ink,semithick] plot[domain=0:1.6,samples=45] ({\x*\x},\x);
+ \fill[accent] (1.4,1.96) circle (1.5pt);
+ \fill[ink] (1.96,1.4) circle (1.5pt);
+ \draw[guide] (1.4,1.96) -- (1.96,1.4);
+ \node[left] at (1.35,2.2) {$f$};
+ \node[below] at (2.35,1.45) {$f^{-1}$};
+\end{tikzpicture}\par
+{\small\color{muted}逆関数のグラフは $y=x$ に関して対称}\par
+\end{minipage}\hfill
+\begin{minipage}[b]{0.48\linewidth}\centering
+\begin{tikzpicture}[handout diagram,x=0.8cm,y=0.65cm]
+\draw[axis] (-1.9,0) -- (1.95,0) node[right] {$x$};
+ \draw[axis] (0,-1.6) -- (0,1.8) node[above] {$y$};
+ \draw[accent,semithick] plot[domain=-90:90,samples=60] ({\x/60},{1.4*sin(\x)});
+ \draw[guide] (-1.5,0) -- (-1.5,-1.4) -- (0,-1.4);
+ \draw[guide] (1.5,0) -- (1.5,1.4) -- (0,1.4);
+ \node[below] at (-1.5,0) {$-\pi/2$};
+ \node[below] at (1.5,0) {$\pi/2$};
+ \node[left] at (0,1.4) {$1$};
+ \node[right] at (0,-1.4) {$-1$};
+\end{tikzpicture}\par
+{\small\color{muted}$\sin x$ を $[-\pi/2,\pi/2]$ に制限して逆にする}\par
+\end{minipage}
+\par\vspace{2pt}
+
+\topic{有理関数の積分}
+多項式除法 → 分母の実因子分解 → 部分分数分解 → 基本公式で積分する。
+一次因子の項には定数分子、既約二次因子の項には一次式の分子を置く。
+$$
+ \int\frac{dx}{x-a}=\log|x-a|+C,\qquad
+ \int\frac{dx}{x^2+c^2}=\frac1c\arctan\frac xc+C\quad(c>0).
+$$
+
+
+以下、不定積分の $C$ は積分定数。分母の零点で区間を分けて考えよう。
+
+\topic{重積分の定義と累次積分}
+重積分は $\sum_Qf(\xi_Q)\operatorname{Area}(Q)$ の、代表点によらない細分極限である。
+以下の累次積分公式では、$a<b$、境界関数 $\phi\le\psi$ と $f$ は各定義域で連続とする。
+$$
+ D=\{(x,y):a\le x\le b,\ \phi(x)\le y\le\psi(x)\}
+ \ \Longrightarrow\ 
+ \iint_Df=\int_a^b\left(\int_{\phi(x)}^{\psi(x)}f(x,y)\,dy\right)dx.
+$$
+同じ領域を横に切る形へ書き直せば、積分順序を交換できる。
+
+
+\par\vspace{2pt}\noindent
+\begin{minipage}[b]{0.98\linewidth}\centering
+\begin{tikzpicture}[handout diagram,x=0.65cm,y=0.58cm]
+\path[region] (0,0) -- (2.5,0) -- (2.5,2.5) -- cycle;
+ \draw[slice] (1.7,0) -- (1.7,1.7);
+ \draw[slice] (0.9,0.9) -- (2.5,0.9);
+ \draw[axis] (0,0) -- (3.05,0) node[right] {$x$};
+ \draw[axis] (0,0) -- (0,2.95) node[above] {$y$};
+ \node[below left] at (0,0) {$0$};
+ \node[below] at (2.5,0) {$1$};
+ \node[above left] at (1.55,1.8) {$y=x$};
+ \node[right] at (3.4,1.7) {縦：$0\le y\le x\le1$};
+ \node[right] at (3.4,0.75) {横：$0\le y\le1,\ y\le x\le1$};
+\end{tikzpicture}\par
+{\small\color{muted}順序を変えるときは、同じ領域の切り口を読み直す}\par
+\end{minipage}
+\par\vspace{2pt}
+
+\topic{広義積分：特異点と無限遠}
+特異点の各側で極限を別々に取る。符号が変わる関数では絶対収束を確認する。
+$$
+ \int_0^1x^{-p}\,dx<\infty\iff p<1,\qquad
+ \int_1^\infty x^{-p}\,dx<\infty\iff p>1.
+$$
+非負関数の積分は、領域を単調に増やした極限で扱える。
+
+
+\newpage
+% Keep the remaining summary in the upper half of page 2.
+\noindent\begin{minipage}[b][\dimexpr0.5\textheight-\parskip\relax][t]{\linewidth}
+\topic{変数変換とヤコビアン}
+$D=T(E)$ の両領域は有界で境界の面積が0とする。
+$T(u,v)=(x(u,v),y(u,v))$ が $E$ の近傍で $C^1$ 級、内部で1対1かつ $\det DT\ne0$ 、$f$ が $D$ 上で可積分なら
+$$
+ \iint_{T(E)}f(x,y)\,dx\,dy
+ =\iint_E f(T(u,v))\,|\det DT(u,v)|\,du\,dv.
+$$
+極座標では $x=r\cos\theta,\ y=r\sin\theta$、$dx\,dy=r\,dr\,d\theta$。
+円・扇形・円環では半径と角度の範囲を先に決める。
+
+
+\topic{体積・密度・総量}
+$V=\{(x,y,z):(x,y)\in D,\ \phi\le z\le\psi\}$、$\phi,\psi$ が $D$ 上で連続かつ $\phi\le\psi$、$\rho\ge0$ が $V$ 上で可積分のとき
+$$
+ \operatorname{Vol}(V)=\iint_D(\psi-\phi)\,dx\,dy,\qquad
+ M=\iiint_V\rho\,dV.
+$$
+体積・質量の計算でも、積分領域と座標変換を正しく書くことが出発点となる。
+\keybox{公式を選ぶ前に、定義域・特異点・領域の形・可積分性を点検する。計算結果だけでなく設定の理由も説明する。}
+
+\par\vspace{2pt}\noindent
+\begin{minipage}[b]{0.48\linewidth}\centering
+\begin{tikzpicture}[handout diagram,x=0.7cm,y=0.62cm]
+\path[region] (0,0) ellipse (2.1 and 1.25);
+ \draw[axis] (-2.4,0) -- (2.6,0) node[right] {$x$};
+ \draw[axis] (0,-1.45) -- (0,1.7) node[above] {$y$};
+ \node[below right] at (2.1,0) {$a$};
+ \node[above left] at (0,1.25) {$b$};
+ \node at (0,-0.65) {$|J|=ab r$};
+ \draw[accent,->] (0,0) -- (1.49,0.88);
+\end{tikzpicture}\par
+{\small\color{muted}楕円は単位円板の伸縮で扱える}\par
+\end{minipage}\hfill
+\begin{minipage}[b]{0.48\linewidth}\centering
+\begin{tikzpicture}[handout diagram,x=0.85cm,y=0.62cm]
+\draw[accent] (-1,0) -- (-1,1.9) (1,0) -- (1,1.9);
+ \path[region] (0,1.9) ellipse (1 and 0.28);
+ \draw[accent] (-1,0) arc[start angle=180,end angle=360,x radius=1,y radius=0.28];
+ \draw[guide] (-1,0) arc[start angle=180,end angle=0,x radius=1,y radius=0.28];
+ \draw[axis] (0,-0.45) -- (0,2.5) node[above] {$z$};
+ \draw[<->,ink] (1.4,0) -- (1.4,1.9) node[midway,right] {$2$};
+ \node[below] at (0.8,-0.2) {$r\le1$};
+\end{tikzpicture}\par
+{\small\color{muted}体積は1を、質量は $\rho$ を積分する}\par
+\end{minipage}
+\par\vspace{2pt}
+
+\end{minipage}\par\nointerlineskip
+% Keep the exercises and writing space in the lower half of page 2.
+\noindent\begin{minipage}[b][0.5\textheight][t]{\linewidth}
+\exercises
+\begin{problems}
+\item $f(x)=x^2+2x$（$x\ge-1$）の逆関数とその定義域を求めよ。また $\arcsin(-1/2)$ と $\arccos(-1/2)$ を求めよ。
+\problemspace
+
+\item $\displaystyle\int\frac{x^2+1}{x(x+1)}\,dx$ を求めよ。多項式部分と部分分数の項を明記すること。
+\problemspace
+
+\item $[0,1]^2$ 上の連続関数 $f$ の重積分をリーマン和で定義せよ。$f(x,y)=xy$ について、累次積分で値を計算せよ。
+\problemspace
+
+\item $D=\{(x,y):0\le y\le x\le1\}$ 上で $\iint_D(x^2+y^2)\,dx\,dy$ を求めよ。順序を交換した式も書け。
+\problemspace
+
+\item $p\in\mathbb R$ に対して $\displaystyle\int_0^\infty\frac{dx}{(1+x)^p}$ の収束条件と、収束する場合の値を求めよ。
+\problemspace
+
+\item $a,b>0$、$D=\{(x,y):x^2/a^2+y^2/b^2\le1\}$ とする。$\iint_D(x^2/a^2+y^2/b^2)\,dx\,dy$ を変数変換で求めよ。
+\problemspace
+
+\item $V=\{(x,y,z):x^2+y^2\le1,\ 0\le z\le2\}$、$\rho=1+z$ の質量を求めよ。円柱座標で積分を設定すること。
+\problemspace
+\end{problems}
+\end{minipage}
+
+\newpage
+\handouttitle{第8回\quad 演習問題の解答}
+{\small 設定した範囲と条件も確認しながら、計算を振り返ろう。}\par
+\begin{problems}
+\setlength{\itemsep}{7pt}
+\item $f(x)=(x+1)^2-1$ であり、$x\ge-1$ では $x+1\ge0$。
+$y=f(x)$ を解くと $x=-1+\sqrt{y+1}$ なので
+$$
+ f^{-1}(y)=-1+\sqrt{y+1}\quad(y\ge-1),\qquad
+ \arcsin(-1/2)=-\frac\pi6,\quad \arccos(-1/2)=\frac{2\pi}3.
+$$
+逆三角関数の値は、それぞれの主値の範囲に入っている。
+
+\item 除法と部分分数分解により
+$$
+ \frac{x^2+1}{x(x+1)}=1+\frac1x-\frac2{x+1},\qquad
+ \int\frac{x^2+1}{x(x+1)}\,dx=x+\log|x|-2\log|x+1|+C.
+$$
+定義する区間は $(-\infty,-1)$、$(-1,0)$、$(0,\infty)$ のいずれかで、$C$ は積分定数。
+
+\item $Q_{ij}=[(i-1)/N,i/N]\times[(j-1)/M,j/M]$ 内の任意の点を $\xi_{ij}$ とすれば
+$$
+ \iint_{[0,1]^2}f\,dA
+ =\lim_{N,M\to\infty}\frac1{NM}\sum_{i=1}^N\sum_{j=1}^M f(\xi_{ij}).
+$$
+連続性により代表点によらず極限が存在する。$f=xy$ の場合は
+$\int_0^1\int_0^1xy\,dy\,dx=(1/2)^2=1/4$。
+
+\item 縦・横の切り口を読み取ると
+$$
+ \iint_D(x^2+y^2)\,dA
+ =\int_0^1\int_0^x(x^2+y^2)\,dy\,dx
+ =\frac43\int_0^1x^3\,dx=\frac13.
+$$
+順序を交換した式は $\displaystyle\int_0^1\int_y^1(x^2+y^2)\,dx\,dy$。
+
+\item $u=1+x$ とおくと $\int_1^\infty u^{-p}\,du$。
+有限端点 $x=0$ に特異点はなく、無限遠だけを調べればよい。
+収束条件は $p>1$、値は $1/(p-1)$。$p\le1$ では $+\infty$ となる。
+
+\item $x=ar\cos\theta$、$y=br\sin\theta$ とすれば、括弧内は $r^2$、$dA=ab r\,dr\,d\theta$。
+$$
+ \iint_D\left(\frac{x^2}{a^2}+\frac{y^2}{b^2}\right)dA
+ =ab\int_0^{2\pi}\int_0^1r^3\,dr\,d\theta=\frac{\pi ab}{2}.
+$$
+
+\item 円柱座標では $0\le r\le1$、$0\le\theta<2\pi$、$0\le z\le2$。したがって
+$$
+ M=\int_0^{2\pi}\int_0^1\int_0^2(1+z)r\,dz\,dr\,d\theta
+ =2\pi\cdot\frac12\cdot4=4\pi.
+$$
+\end{problems}
+\keybox{逆関数は定義域、広義積分は極限、重積分は領域と面積要素から確認しよう。公式の前提も答えの一部になる。}
+\end{document}

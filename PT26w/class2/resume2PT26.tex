@@ -1,0 +1,499 @@
+% Build in this directory: pdflatex -interaction=nonstopmode -halt-on-error resume2PT26.tex
+% Style follows ../class1/class1PT26.tex; no guidance or syllabus page.
+\documentclass[a4paper,10pt,pdflatex,ja=standard,jafont=ipaex-type1,
+  magstyle=real,scale=1]{bxjsarticle}
+\usepackage{lmodern}
+\usepackage{amsmath,amssymb,mathtools}
+\usepackage{geometry}
+\geometry{reset,left=22mm,right=22mm,top=20mm,bottom=17mm,
+  headheight=13pt,headsep=6mm,footskip=10mm}
+\usepackage{xcolor}
+\usepackage{enumitem}
+\usepackage{array,booktabs,tabularx}
+\usepackage{tikz}
+\usepackage{fancyhdr}
+\usepackage{hyperref}
+
+\definecolor{ink}{HTML}{193A5C}
+\definecolor{accent}{HTML}{237D82}
+\definecolor{soft}{HTML}{EAF3F3}
+\definecolor{muted}{HTML}{52616B}
+\newcommand{\coursename}{確率論と統計学 I}
+\hypersetup{unicode=true,colorlinks=true,urlcolor=accent,linkcolor=ink,
+  pdfauthor={中島秀太},pdftitle={第2回：確率変数と確率分布}}
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\small\color{ink}\coursename{}・授業要約と演習}
+\fancyhead[R]{\small\color{ink}第2回}
+\fancyfoot[C]{\small\color{ink}\thepage/\pageref*{lastpage}}
+\renewcommand{\headrulewidth}{0.3pt}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{2pt}
+\setlength{\abovedisplayskip}{4pt}
+\setlength{\belowdisplayskip}{4pt}
+\setlength{\abovedisplayshortskip}{3pt}
+\setlength{\belowdisplayshortskip}{4pt}
+\setlist[itemize]{leftmargin=1.8em,itemsep=1pt,topsep=2pt,parsep=0pt}
+\setlist[enumerate]{leftmargin=2em,itemsep=3pt,topsep=3pt,parsep=0pt}
+\newcommand{\topic}[1]{\par\vspace{5pt}
+  {\large\sffamily\mdseries\color{accent}#1}\par\vspace{2pt}}
+\newcommand{\handouttitle}[1]{%
+  \begin{center}
+    {\Large\color{ink}#1}\par\vspace{3mm}
+    {\color{accent}\rule{0.88\linewidth}{0.7pt}}
+  \end{center}\vspace{-2mm}}
+\newcommand{\keybox}[1]{\par\vspace{3pt}\begingroup
+  \setlength{\fboxsep}{5pt}
+  \colorbox{soft}{\parbox{\dimexpr\linewidth-2\fboxsep\relax}{#1}}%
+  \endgroup\par\vspace{2pt}}
+\newcommand{\examplelabel}[1]{{\sffamily\mdseries\color{ink}#1}}
+\newcommand{\F}{\mathcal F}
+\newcommand{\R}{\mathbb R}
+
+\begin{document}
+\fontsize{10pt}{13.5pt}\selectfont
+\begingroup
+\fancyhead[L]{\small\color{ink}\coursename{}・前回の演習解答}
+\handouttitle{第1回\quad 演習問題の解答}
+
+\topic{演習1：サイコロ2回の確率空間}
+\keybox{公平なサイコロを独立に2回投げる試行の離散確率空間
+$(\Omega,\F,P)$ を構成し、出た目の合計が3となる確率を求めよ。}
+
+1回目の出目を $i$、2回目の出目を $j$ として、
+$$
+  \Omega=\{1,2,3,4,5,6\}^2
+    =\{(i,j):1\le i,j\le6\},\qquad \F=2^\Omega
+$$
+とおく。公平性と独立性より、各結果の重みは
+$$
+  p_{(i,j)}=\frac16\cdot\frac16=\frac1{36},\qquad
+  \sum_{(i,j)\in\Omega}p_{(i,j)}=36\cdot\frac1{36}=1.
+$$
+したがって、$|A|$ を集合 $A$ の要素数として、
+$$
+  P(A)=\sum_{(i,j)\in A}p_{(i,j)}=\frac{|A|}{36}
+  \qquad(A\in\F)
+$$
+と定める。$P(\Omega)=1$ であり、互いに素な事象列 $(A_n)_{n\ge1}$ について
+$$
+  P\!\left(\bigcup_{n=1}^\infty A_n\right)
+  =\frac1{36}\sum_{n=1}^\infty|A_n|
+  =\sum_{n=1}^\infty P(A_n)
+$$
+が成り立つので、$(\Omega,\F,P)$ は求める離散確率空間である。
+合計が3となる事象は $S=\{(i,j)\in\Omega:i+j=3\}=\{(1,2),(2,1)\}$ だから、
+$$
+  {P(S)=\frac2{36}=\frac1{18}}.
+$$
+
+\topic{演習2：共通部分の可測性と和事象の確率}
+\keybox{$(\Omega,\F,P)$ を確率空間とする。任意の $A,B\in\F$ に対して、
+$A\cap B\in\F$ および $P(A\cup B)=P(A)+P(B)-P(A\cap B)$ を示せよ。}
+
+$A^c=\Omega\setminus A$ とする。$\sigma$-加法族は補集合と有限和について閉じているので、
+ド・モルガンの法則より
+$$
+  A\cap B=(A^c\cup B^c)^c\in\F.
+$$
+また、$\varnothing=\Omega^c\in\F$ である。可算加法性に
+$A_1=\Omega$, $A_n=\varnothing$ $(n\ge2)$ を代入すると、
+$1=1+\sum_{n=2}^\infty P(\varnothing)$ より $P(\varnothing)=0$。
+したがって、可算加法性で残りの事象を空集合とすれば有限加法性が得られる。
+
+$$
+  C=A\setminus B=A\cap B^c,\qquad
+  D=B\setminus A=B\cap A^c,\qquad E=A\cap B
+$$
+とおく。いずれも $\F$ に属し、互いに素である。
+$\sqcup$ は互いに素な集合の和を表すものとすると、
+$$
+  A=C\sqcup E,\qquad B=D\sqcup E,\qquad
+  A\cup B=C\sqcup D\sqcup E.
+$$
+有限加法性から
+$$
+  \begin{aligned}
+    P(A)+P(B)-P(A\cap B)
+      &=\bigl(P(C)+P(E)\bigr)+\bigl(P(D)+P(E)\bigr)-P(E)\\
+      &=P(C)+P(D)+P(E)\\
+      &=P(A\cup B).
+  \end{aligned}
+$$
+よって、${P(A\cup B)=P(A)+P(B)-P(A\cap B)}$ が成り立つ。
+\clearpage
+\endgroup
+
+\handouttitle{第2回\quad 確率変数と確率分布}
+
+\keybox{この回では、試行の結果 $\omega$ から観測値 $X(\omega)$ を取り出し、
+その値がどの範囲に入るかを確率で表す。
+確率変数 $X$、分布関数 $F_X$、確率分布 $\mu_X$ の役割を区別しよう。}
+
+\topic{確率変数：試行の結果から観測値を取り出す}
+以下、$(\Omega,\F,P)$ を確率空間とする。
+$\Omega$ は試行の結果全体、$\F$ は確率を測ることのできる事象の集合族、
+$P$ は各事象に確率を与える測度である。
+写像 $X:\Omega\to\R$ は、一つの結果 $\omega$ に対して一つの実数 $X(\omega)$ を対応させる。
+たとえば、コインを2回投げた結果 $(H,T)$ に、表の個数 $1$ を対応させる。
+
+観測値が集合 $B\subseteq\R$ に入るという条件は、標本空間上の集合
+$$
+  \{X\in B\}:=X^{-1}(B)
+  =\{\omega\in\Omega:X(\omega)\in B\}
+$$
+を表す。$X^{-1}(B)$ は $B$ の逆像である。この集合が $\F$ に属するとき、初めて $P(X\in B)$ を定義できる。
+
+\topic{可測性：観測値に関する条件を事象として扱う}
+$\mathcal B(\R)$ を、実数の開区間から生成される最小の $\sigma$-加法族
+（ボレル集合族）とする。開区間だけでなく、閉区間、半開区間、一点集合なども含まれる。
+写像 $X:\Omega\to\R$ が実数値確率変数であるとは、
+$$
+  X^{-1}(B)\in\F\qquad\bigl(\text{すべての }B\in\mathcal B(\R)\bigr)
+$$
+を満たすことである。この条件を $X$ の可測性という。
+可測性があれば、$\{X\le x\}$、$\{a<X<b\}$、$\{X=x\}$ などはすべて事象になる。
+
+\examplelabel{可測性を確認するための同値な条件：}
+次のいずれかを確認すれば、$X$ は確率変数である。
+$$
+  \begin{aligned}
+    &\{a<X<b\}\in\F\qquad(\text{すべての }a,b\in\R,\ a<b),\\
+    &\{X\le x\}\in\F\qquad(\text{すべての }x\in\R).
+  \end{aligned}
+$$
+逆像は補集合と可算和を保ち、開区間も半直線 $(-\infty,x]$ も
+$\mathcal B(\R)$ を生成するためである。
+特に、$\Omega$ が有限または可算で $\F=2^\Omega$ のときは、
+どの写像 $X:\Omega\to\R$ も確率変数になる。
+また、$X$ が確率変数で $g:\R\to\R$ が連続なら、
+$$
+  (g\circ X)^{-1}(B)=X^{-1}\bigl(g^{-1}(B)\bigr)\in\F
+  \qquad\bigl(B\in\mathcal B(\R)\bigr)
+$$
+なので、$g(X)$ も確率変数である。
+
+\topic{例：公平なコインを独立に2回投げる}
+$H$ を表、$T$ を裏とし、
+$$
+  \Omega=\{H,T\}^2,\qquad \F=2^\Omega,\qquad
+  P(\{\omega\})=\frac14\quad(\omega\in\Omega)
+$$
+とする。表の個数を表す確率変数 $X$ を次のように定義する。
+\begin{center}
+\begin{tabular}{@{}c c c c c@{}}
+\toprule
+試行の結果 $\omega$ & $(H,H)$ & $(H,T)$ & $(T,H)$ & $(T,T)$ \\
+\midrule
+観測値 $X(\omega)$ & $2$ & $1$ & $1$ & $0$ \\
+\bottomrule
+\end{tabular}
+\end{center}
+たとえば $\{X=1\}=\{(H,T),(T,H)\}$ なので、
+$$
+  P(X=1)=P\bigl(\{(H,T),(T,H)\}\bigr)=\frac14+\frac14=\frac12.
+$$
+同じ観測値を与える結果を集めて、その確率を足し合わせることが計算の基本である。
+
+\newpage
+\topic{分布関数}
+確率変数 $X$ の分布関数を
+$$
+  F_X(x):=P(X\le x)
+  =P\bigl(\{\omega\in\Omega:X(\omega)\le x\}\bigr)
+  \qquad(x\in\R)
+$$
+と定める。$x$ は確定したしきい値であり、$F_X(x)$ は $0$ から $1$ の間の数である。
+$F_X(x)$ は、$X$ の値が $x$ 以下となる確率を累積したものである。
+
+\examplelabel{非減少性}
+$$
+  x\le y\quad\Longrightarrow\quad
+  \{X\le x\}\subseteq\{X\le y\}
+  \quad\Longrightarrow\quad F_X(x)\le F_X(y).
+$$
+
+\examplelabel{右連続性と無限遠での極限：}
+証明には、確率測度の次の連続性を使う。
+事象列 $(A_n)_{n\ge1}$ に対し、
+$$
+  \begin{aligned}
+    A_n\uparrow A&\quad\Longrightarrow\quad P(A_n)\uparrow P(A),\\
+    A_n\downarrow A&\quad\Longrightarrow\quad P(A_n)\downarrow P(A).
+  \end{aligned}
+$$
+$A_n\uparrow A$ は $A_n\subseteq A_{n+1}$ かつ $\bigcup_n A_n=A$、
+$A_n\downarrow A$ は $A_{n+1}\subseteq A_n$ かつ $\bigcap_n A_n=A$ を意味する。
+確率測度では $P(\Omega)=1<\infty$ なので、減少列にも適用できる。
+これらは可算加法性から従う。
+
+任意の $x\in\R$ に対して
+$$
+  \{X\le x+1/n\}\downarrow\{X\le x\}
+  \quad\Longrightarrow\quad
+  F_X(x+1/n)\longrightarrow F_X(x).
+$$
+さらに、$0<h\le1/n$ なら $F_X(x)\le F_X(x+h)\le F_X(x+1/n)$ なので、
+$$
+  \lim_{h\downarrow0}F_X(x+h)=F_X(x).
+$$
+また、$X$ が実数値であることから
+$$
+  \begin{aligned}
+    \{X\le n\}\uparrow\Omega
+      &\quad\Longrightarrow\quad F_X(n)\longrightarrow1,\\
+    \{X\le-n\}\downarrow\varnothing
+      &\quad\Longrightarrow\quad F_X(-n)\longrightarrow0.
+  \end{aligned}
+$$
+非減少性と合わせると、
+$\lim_{x\to-\infty}F_X(x)=0$、$\lim_{x\to+\infty}F_X(x)=1$ を得る。
+
+\topic{区間の確率と一点の確率}
+$a<b$ のとき、$\{X\le b\}=\{X\le a\}\cup\{a<X\le b\}$ は互いに素な和なので、
+$$
+  P(a<X\le b)=F_X(b)-F_X(a).
+$$
+左極限 $F_X(x-):=\lim_{t\uparrow x}F_X(t)$ は非減少性により存在する。
+$\{X\le x-1/n\}\uparrow\{X<x\}$ から
+$$
+  F_X(x-)=P(X<x),\qquad P(X=x)=F_X(x)-F_X(x-).
+$$
+したがって、分布関数の点 $x$ での跳びの大きさは $P(X=x)$ に等しい。
+端点を含むかどうかに注意すると、
+$$
+  P(a\le X\le b)=F_X(b)-F_X(a-),\qquad
+  P(a<X<b)=F_X(b-)-F_X(a).
+$$
+
+\topic{コインの例の分布関数}
+前のページの $X$ に対し、$P(X=0)=1/4$、$P(X=1)=1/2$、$P(X=2)=1/4$ である。
+\par\smallskip
+\noindent\begin{minipage}[c]{0.40\linewidth}
+$$
+  F_X(x)=
+  \begin{cases}
+    0, & x<0,\\
+    \dfrac14, & 0\le x<1,\\
+    \dfrac34, & 1\le x<2,\\
+    1, & 2\le x.
+  \end{cases}
+$$
+\end{minipage}\hfill
+\begin{minipage}[c]{0.57\linewidth}
+\centering
+\begin{tikzpicture}[x=2cm,y=2.8cm,font=\small]
+  % Axes and guides; jump segments are not part of the graph.
+  \draw[muted!35,densely dotted] (0,0.25)--(2.8,0.25);
+  \draw[muted!35,densely dotted] (0,0.75)--(2.8,0.75);
+  \draw[muted!35,densely dotted] (0,1)--(2.8,1);
+  \draw[ink,->,line width=0.4pt] (-0.75,0)--(3.05,0)
+    node[right] {$x$};
+  \draw[ink,->,line width=0.4pt] (0,-0.05)--(0,1.2)
+    node[above] {$F_X(x)$};
+  \node[below left,ink] at (0,-0.03) {$0$};
+  \foreach \x in {1,2}{
+    \draw[ink] (\x,0)--(\x,-0.035);
+    \node[below,ink] at (\x,-0.035) {$\x$};
+  }
+  \node[left,ink] at (-0.06,0.25) {$\frac14$};
+  \node[left,ink] at (-0.06,0.75) {$\frac34$};
+  \node[left,ink] at (-0.06,1) {$1$};
+  % Four horizontal pieces, with arrows for the two unbounded tails.
+  \draw[accent,<-,line width=1pt] (-0.7,0)--(0,0);
+  \draw[accent,line width=1pt] (0,0.25)--(1,0.25);
+  \draw[accent,line width=1pt] (1,0.75)--(2,0.75);
+  \draw[accent,->,line width=1pt] (2,1)--(2.85,1);
+  \foreach \x/\y in {0/0,1/0.25,2/0.75}{
+    \draw[ink,fill=white,line width=0.7pt] (\x,\y) circle[radius=2pt];
+  }
+  \foreach \x/\y in {0/0.25,1/0.75,2/1}{
+    \fill[ink] (\x,\y) circle[radius=2pt];
+  }
+\end{tikzpicture}
+\end{minipage}
+\par\smallskip
+{\small\color{muted}黒丸はその点での値、白丸は含まない端点を表す。各跳びの大きさは $P(X=k)$（$k=0,1,2$）に等しい。}\par
+たとえば $F_X(1)=P(X=0)+P(X=1)=3/4$ であり、$P(X=1)=1/2$ とは異なる。
+また、$F_X(1)-F_X(1-)=3/4-1/4=1/2$ が点 $1$ での跳びである。
+
+\newpage
+\topic{確率分布：観測値の空間上の確率測度}
+確率変数 $X$ の確率分布 $\mu_X$ を、$\mathcal B(\R)$ 上で
+$$
+  \mu_X(B):=P(X\in B)=P\bigl(X^{-1}(B)\bigr)
+  \qquad\bigl(B\in\mathcal B(\R)\bigr)
+$$
+と定める。$P$ は標本空間 $\Omega$ の事象に確率を与え、
+$\mu_X$ は観測値の空間 $\R$ のボレル集合に確率を与える。
+標本空間上の確率を写像 $X$ によって移したもので、押し出し測度ともいう。
+
+\examplelabel{$\mu_X$ が確率測度となる理由：}
+可測性により右辺は定義でき、$\mu_X(B)\ge0$ である。また、
+$$
+  \mu_X(\R)=P\bigl(X^{-1}(\R)\bigr)=P(\Omega)=1.
+$$
+互いに素なボレル集合 $B_1,B_2,\ldots$ の逆像も互いに素なので、
+$$
+  \begin{aligned}
+    \mu_X\!\left(\bigcup_{n=1}^{\infty}B_n\right)
+      &=P\!\left(\bigcup_{n=1}^{\infty}X^{-1}(B_n)\right)\\
+      &=\sum_{n=1}^{\infty}P\bigl(X^{-1}(B_n)\bigr)
+       =\sum_{n=1}^{\infty}\mu_X(B_n).
+  \end{aligned}
+$$
+したがって $(\R,\mathcal B(\R),\mu_X)$ も確率空間になる。
+
+\topic{確率分布と分布関数の関係}
+定義から
+$$
+  F_X(x)=\mu_X\bigl((-\infty,x]\bigr),\qquad
+  \mu_X\bigl((a,b]\bigr)=F_X(b)-F_X(a)\quad(a<b).
+$$
+さらに、ボレル集合上の確率測度はこれらの区間上の値で一意に決まる
+（測度の一意性定理）。したがって、分布関数は確率分布を一意に定める。
+
+離散確率空間 $\Omega$（有限または可算、$\F=2^\Omega$）で
+$p_\omega:=P(\{\omega\})$ とすると、
+$$
+  P(X=x)=\sum_{\omega\in\Omega:\,X(\omega)=x}p_\omega,
+  \qquad
+  F_X(t)=\sum_{\omega\in\Omega:\,X(\omega)\le t}p_\omega.
+$$
+コインの例では、任意の $B\in\mathcal B(\R)$ に対して
+$$
+  \mu_X(B)=\frac14\,\mathrm{1}_B(0)
+           +\frac12\,\mathrm{1}_B(1)
+           +\frac14\,\mathrm{1}_B(2),
+$$
+ただし $\mathrm{1}_B(x)$ は $x\in B$ のとき $1$、それ以外では $0$ をとる。
+
+\topic{連続的な例：区間の長さから分布関数を求める}
+$\Omega=[0,1]$、$\F=\mathcal B([0,1])$ とし、$P$ を $[0,1]$ 上の
+ルベーグ測度 $\lambda$ とする。ここで $P(A)=\lambda(A)$ であり、
+区間の確率はその長さに等しい。確率変数 $Z(\omega)=2\omega$ に対し、
+$0\le z\le2$ なら
+$$
+  \{Z\le z\}=\{\omega\in[0,1]:2\omega\le z\}=[0,z/2],
+  \qquad F_Z(z)=\lambda([0,z/2])=\frac z2.
+$$
+範囲外の $z$ も含めると
+$$
+  F_Z(z)=
+  \begin{cases}
+    0, & z<0,\\
+    z/2, & 0\le z\le2,\\
+    1, & z>2.
+  \end{cases}
+$$
+これは $[0,2]$ 上の一様分布である。一点集合の長さは $0$ なので、
+すべての $z\in\R$ に対して $P(Z=z)=0$ となる。
+一方、区間の確率は $P(a<Z\le b)=(b-a)/2$（$0\le a<b\le2$）となる。
+
+\keybox{計算の基本は、観測値の条件を $\omega$ の条件に書き換えることである。
+離散モデルでは該当する標本の確率を足し、区間上の一様モデルでは該当する集合の長さを測る。}
+
+\newpage
+\topic{演習問題}
+\begin{enumerate}[label=\arabic*.]
+  \item 公平なサイコロを独立に2回投げ、出た目を $U,V$ とする。
+  $X=U+V$、$Y=|U-V|$ に対し、
+  分布関数 $F_X(x)$、$F_Y(x)$ を求めよ。
+  \item $\Omega=[0,1]$、$\F=\mathcal B([0,1])$、$P=\lambda$（ルベーグ測度）とする。
+  $X(\omega)=3\omega+1$、$Y(\omega)=(X(\omega)-5/2)^2$ の分布関数を求めよ。
+  $Y$ の計算では、事象 $\{Y\le y\}$ を $\omega$ の区間として表せ。
+\end{enumerate}
+
+\topic{レポート問題}
+\begin{enumerate}[label=\arabic*.]
+  \item 公平なコインを独立に３回投げる。裏の数を表す確率変数を定義したい。確率空間およびその確率変数の定義を述べよ.
+  \item 確率空間$(\Omega,\mathcal F,\mathbb P)$と写像 $X:\Omega\to \mathbb R$を考える. 次の集合族が$\sigma$加法族であることを示せ:
+$$\{B\subset \mathbb R:~X^{-1}(B) \in \mathcal F\}.$$
+\end{enumerate}
+
+\newpage
+\begingroup
+\setlength{\parskip}{2.5pt}
+\newcommand{\columnheading}[1]{\par\vspace{5pt}
+  {\fontsize{11pt}{15pt}\selectfont\sffamily\mdseries\color{accent}#1}\par\vspace{2pt}}
+\fancyhead[L]{\small\color{ink}\coursename{}・発展的内容}
+\fancyhead[R]{\small\color{ink}第2回}
+
+{\small\sffamily\mdseries\color{accent}発展的内容}\par
+\vspace{4pt}
+{\Large\color{ink}なぜ確率変数を「写像」として定義するのか}\par
+\vspace{2pt}
+{\color{accent}\rule{\linewidth}{0.7pt}}\par
+\vspace{4pt}
+
+大学3年生で初めて公理的確率論を学び、確率変数を「写像で定義する」と聞いたとき、
+正直に言えば少し奇妙に感じた。入門的な本では $P(X=a)$ を直接与えることが多く、
+標本空間からの写像を意識しなくても計算できる。そもそも写像という概念自体は、
+確率に限ったものではない。それでも、確率変数を写像として定義すると、
+試行の結果と、そこから取り出す観測値との関係がはっきりする。
+
+\columnheading{観測としての「写像」}
+日常語では「ランダムに数をとること」が確率変数だと説明される。
+サイコロを1回投げるなら、$\Omega=\{1,\ldots,6\}$ として、
+結果そのものを出目と見なせばよい。写像を明示するなら $X(\omega)=\omega$ である。
+
+しかし2回投げるなら、$\Omega=\{1,\ldots,6\}^2$ とするのが自然だ。
+結果 $(a,b)$ から、1回目の目、2回目の目、合計、差の絶対値を取り出す操作は、
+それぞれ別の写像になる。
+$$
+  X_1(a,b)=a,\qquad X_2(a,b)=b,\qquad
+  S(a,b)=a+b,\qquad D(a,b)=|a-b|.
+$$
+確率測度 $P$ は試行の結果に確率を与え、写像はその結果から観測値を取り出す。
+この二つを組み合わせて、たとえば
+$$
+  P(S=3)=P\bigl(\{(a,b)\in\Omega:a+b=3\}\bigr)
+$$
+と計算する。$S$ 自体は固定した写像であり、同じ結果にはいつも同じ値を返す。
+ランダムさは、どの結果が実現するかを $P$ で記述するところにある。
+
+\columnheading{写像なら、複数の観測値を同時に扱える}
+同じ確率空間上の確率変数 $X,Y$ があれば、和 $X+Y$、積 $XY$、
+変換 $g(X)$ を各結果ごとに定義できる。
+$g:\R\to\R$ がボレル可測なら $g(X)$ も確率変数である。
+商 $X/Y$ を考える場合には、$Y=0$ での値の定め方も必要になる。
+
+また、個々の分布だけでは、二つの観測値がどのように組み合わさるかは分からない。
+公平なコイン1回の結果を $\Omega=\{H,T\}$ とし、
+$$
+  X(H)=1,\quad X(T)=0,\qquad Y=X,\qquad Z=1-X
+$$
+とおく。$W=X,Y,Z$ のいずれでも $P(W=0)=P(W=1)=1/2$ だが、
+$$
+  P(X=Y)=1,\qquad P(X=Z)=0.
+$$
+同じ標本空間上の写像として表せば、こうした同時の振る舞いも記述できる。
+各変数の分布は $\mu_X(B)=P(X^{-1}(B))$ として、そこから取り出される。
+
+\columnheading{可測性は「見えている情報」と結びつく}
+コインを2回投げる例で、1回目の結果だけを知っているとする。
+$A_H=\{(H,H),(H,T)\}$、$A_T=\{(T,H),(T,T)\}$ とおけば、
+その情報で判定できる事象は
+$$
+  \F_1=\{\varnothing,\Omega,A_H,A_T\}
+$$
+である。1回目が表かどうかを表す $U(a,b)=\mathrm{1}_{\{H\}}(a)$ は
+$\F_1$-可測だが、2回目が表かどうかを表す
+$V(a,b)=\mathrm{1}_{\{H\}}(b)$ は $\F_1$-可測ではない。実際、
+$$
+  V^{-1}(\{1\})=\{(H,H),(T,H)\}\notin\F_1.
+$$
+$U$ は1回目の情報から値を決められるが、$V$ の値を知るには2回目の結果が必要だ。
+一方、二回分の情報 $\F_2=2^\Omega$ に関しては、どちらも可測になる。
+このように、可測性は「どの情報から観測値を決められるか」を表している。
+
+\columnheading{おわりに}
+初めは遠回りに見えるかもしれないが、具体例で計算していくうちに、
+写像の定義の便利さが少しずつ見えてくる。
+私自身も、使い続けることでその意味を理解するようになった。
+確率過程や条件付き期待値を学ぶときにも、
+「試行の結果」「観測値」「利用できる情報」を区別するこの見方が役に立つ。
+\label{lastpage}
+\clearpage
+\endgroup
+\end{document}

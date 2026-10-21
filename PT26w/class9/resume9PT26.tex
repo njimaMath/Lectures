@@ -1,0 +1,254 @@
+% Build in this directory (run twice for page references):
+% pdflatex -interaction=nonstopmode -halt-on-error resume9PT26.tex
+% Topics follow the syllabus in ../class1/class1PT26.tex.
+% Content adapted from ../lectureNote.tex and ../lectureNotes.tex.
+\documentclass[a4paper,10pt,pdflatex,ja=standard,jafont=ipaex-type1,
+  magstyle=real,scale=1]{bxjsarticle}
+\usepackage{lmodern}
+\usepackage{amsmath,amssymb,mathtools}
+\usepackage{geometry}
+\geometry{reset,left=22mm,right=22mm,top=20mm,bottom=17mm,
+  headheight=13pt,headsep=6mm,footskip=10mm}
+\usepackage{xcolor}
+\usepackage{enumitem}
+\usepackage{array,booktabs,tabularx}
+\usepackage{tikz}
+\usepackage{fancyhdr}
+\usepackage{hyperref}
+\definecolor{ink}{HTML}{193A5C}
+\definecolor{accent}{HTML}{237D82}
+\definecolor{soft}{HTML}{EAF3F3}
+\definecolor{muted}{HTML}{52616B}
+\newcommand{\coursename}{確率論と統計学 I}
+\hypersetup{unicode=true,colorlinks=true,urlcolor=accent,linkcolor=ink,
+  pdfauthor={中島秀太},pdftitle={第9回：分布の弱収束と極限定理}}
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\small\color{ink}\coursename{}・授業要約と演習}
+\fancyhead[R]{\small\color{ink}第9回}
+\fancyfoot[C]{\small\color{ink}\thepage/\pageref*{lastpage}}
+\renewcommand{\headrulewidth}{0.3pt}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{2pt}
+\setlength{\abovedisplayskip}{4pt}
+\setlength{\belowdisplayskip}{4pt}
+\setlength{\abovedisplayshortskip}{3pt}
+\setlength{\belowdisplayshortskip}{4pt}
+\setlist[itemize]{leftmargin=1.8em,itemsep=2pt,topsep=3pt,parsep=0pt}
+\setlist[enumerate]{leftmargin=2em,itemsep=6pt,topsep=4pt,parsep=0pt}
+\newcommand{\topic}[1]{\par\vspace{5pt}
+  {\large\sffamily\mdseries\color{accent}#1}\par\vspace{2pt}}
+\newcommand{\handouttitle}[1]{\begin{center}
+  {\Large\color{ink}#1}\par\vspace{3mm}
+  {\color{accent}\rule{0.88\linewidth}{0.7pt}}
+  \end{center}\vspace{-2mm}}
+\newcommand{\keybox}[1]{\par\vspace{3pt}\begingroup
+  \setlength{\fboxsep}{5pt}
+  \colorbox{soft}{\parbox{\dimexpr\linewidth-2\fboxsep\relax}{#1}}
+  \endgroup\par\vspace{2pt}}
+\newcommand{\examplelabel}[1]{{\sffamily\mdseries\color{ink}#1}}
+\newcommand{\columnheading}[1]{\par\vspace{5pt}
+  {\fontsize{11pt}{15pt}\selectfont\sffamily\mdseries\color{accent}#1}\par\vspace{2pt}}
+\newcommand{\columnstart}[1]{\clearpage
+  \fancyhead[L]{\small\color{ink}\coursename{}・発展的内容}
+  {\small\sffamily\mdseries\color{accent}発展的内容}\par\vspace{4pt}
+  {\Large\color{ink}#1}\par\vspace{2pt}
+  {\color{accent}\rule{\linewidth}{0.7pt}}\par\vspace{4pt}}
+\newcommand{\F}{\mathcal F}
+\newcommand{\R}{\mathbb R}
+\newcommand{\N}{\mathbb N}
+\newcommand{\E}{\mathbb E}
+\newcommand{\Var}{\operatorname{Var}}
+\newcommand{\Cov}{\operatorname{Cov}}
+\newcommand{\ind}{\mathrm{1}}
+\newcommand{\iid}{\text{独立同分布}}
+\begin{document}
+\fontsize{10pt}{13.5pt}\selectfont
+\handouttitle{第9回\quad 分布の弱収束と極限定理}
+\keybox{分布の弱収束は、有界連続関数で観測した期待値の収束である。
+値そのものの近さ、区間の端点、無限遠へ逃げる確率を区別しよう。}
+
+\topic{弱収束と分布収束}
+$\R$ 上の確率測度 $\mu_n,\mu$ について
+$$\mu_n\Rightarrow\mu\quad:\Longleftrightarrow\quad
+ \int_\R f\,d\mu_n\to\int_\R f\,d\mu
+ \quad(\forall f\in C_b(\R))$$
+と定める。$C_b(\R)$ は有界連続関数全体である。
+$X_n\Rightarrow X$ は、その分布が $\mu_{X_n}\Rightarrow\mu_X$ となることをいう。
+この定義には、各変数が同じ確率空間上にあるという仮定は必要ない。
+
+\topic{確率収束から分布収束へ}
+同じ空間上で $X_n\xrightarrow{P}X$ なら $X_n\Rightarrow X$。
+任意の部分列から $X$ へ概収束する部分列を取り出せるので、
+有界連続な $f$ に優収束定理を使えば、その部分列上で期待値が収束する。
+もし列全体で収束しなければ、極限値から一定以上離れる部分列を選べて矛盾する。
+
+\examplelabel{逆は成り立たない：}
+公平な符号 $X\in\{-1,1\}$ と $X_n=(-1)^nX$ を考える。
+各 $X_n$ の分布は $X$ と同じだから $X_n\Rightarrow X$。
+しかし奇数 $n$ では $P(|X_n-X|>1)=1$ なので確率収束しない。
+
+\topic{Portmanteau の定理と端点の影響}
+弱収束は、次の開集合・閉集合の条件のそれぞれと同値である。
+$$
+ \mu(O)\le\liminf_n\mu_n(O)\quad(O\text{ は開}),\qquad
+ \limsup_n\mu_n(F)\le\mu(F)\quad(F\text{ は閉}).
+$$
+さらに $\mu(\partial A)=0$ となるボレル集合 $A$ には
+$$\mu_n(A)\longrightarrow\mu(A)$$
+が成立する。$\partial A$ は境界である。
+すべての集合について確率が収束するという主張ではない。
+
+\examplelabel{例：一点に近づく質量}
+点 $a$ に確率 $1$ を置く測度を $\delta_a$ と書く。
+$\delta_{1/n}\Rightarrow\delta_0$ だが、$A=\{0\}$ について
+$\delta_{1/n}(A)=0$、$\delta_0(A)=1$ となる。
+極限の確率が境界に乗っているので、連続集合の条件は満たされない。
+
+\newpage
+\topic{開集合の不等式を距離関数で示す}
+$O\subsetneq\R$ を空でない開集合とする。
+$d(x,O^c)=\inf_{y\in O^c}|x-y|$ は $1$-Lipschitz 連続である。
+$$f_m(x):=\min\{1,m\,d(x,O^c)\}\in C_b(\R),\qquad
+ 0\le f_m\uparrow\ind_O.$$
+弱収束により、固定した $m$ について
+$$\int f_m\,d\mu=\lim_n\int f_m\,d\mu_n
+ \le\liminf_n\mu_n(O).$$
+$m\to\infty$ として単調収束定理を使えば開集合の不等式が得られる。
+$O=\varnothing,\R$ は直接確認できる。閉集合の不等式は補集合を使って従う。
+
+\topic{分布関数による特徴づけ}
+$F_n,F$ をそれぞれ $\mu_n,\mu$ の分布関数とすると
+$$\mu_n\Rightarrow\mu\quad\Longleftrightarrow\quad
+ F_n(x)\to F(x)\quad(F\text{ のすべての連続点 }x).$$
+$(-\infty,x]$ の境界は $\{x\}$ なので、$\mu(\{x\})=0$ の点では
+Portmanteau の定理を適用できる。
+前ページの $\delta_{1/n}$ の例では、$F$ の不連続点 $0$ での収束を要求しない。
+正規分布の分布関数は連続なので、すべての実数での収束を確認できる。
+
+\topic{Tightness：質量が一様に遠くへ逃げない}
+確率測度列 $(\mu_n)$ が tight であるとは
+$$\forall\varepsilon>0\ \exists R>0:\quad
+ \sup_n\mu_n(\{|x|>R\})<\varepsilon$$
+となることである。たとえば、ある $p>0$ と $C<\infty$ に対し
+$\sup_n\E|X_n|^p\le C$ なら
+$$\sup_nP(|X_n|>R)\le\frac C{R^p}\longrightarrow0.$$
+$\R$ 上では tight な列から弱収束する部分列を取れる（Prokhorov の定理）。
+極限候補が一意であることも示せれば、列全体の弱収束が得られる。
+
+\topic{コンパクトな台の関数だけでは見えないこと}
+$\mu_n=\delta_n$ では、$f\in C_c(\R)$ について $\int f\,d\mu_n\to0$ となる。
+しかし $\mu_n$ はどの確率測度にも弱収束しない。
+もし弱極限 $\mu$ があれば、コンパクトな台の連続関数への積分がすべて $0$ となり、
+$\mu=0$ を意味して $\mu(\R)=1$ に矛盾する。
+質量が逃げないという条件は、極限の全質量を保つために必要になる。
+
+\newpage
+\topic{L\'evy の連続性定理}
+特性関数 $\varphi_n(t)=\int e^{itx}\,\mu_n(dx)$ について
+$$\mu_n\Rightarrow\mu\quad\Longleftrightarrow\quad
+ \varphi_n(t)\to\varphi_\mu(t)\quad(\forall t\in\R).$$
+また $\varphi_n(t)\to\varphi(t)$ が各点で成り立ち、極限 $\varphi$ が原点で連続なら、
+$\varphi$ を特性関数とする確率測度 $\mu$ が存在し、$\mu_n\Rightarrow\mu$。
+この原点での連続性を落としてはいけない。
+
+\examplelabel{例：極限が特性関数にならない場合}
+$X_n\sim N(0,n)$ なら $\varphi_n(t)=e^{-nt^2/2}$ なので
+$$\lim_n\varphi_n(t)=\begin{cases}1,&t=0,\\0,&t\ne0.\end{cases}$$
+極限は原点で不連続であり、特性関数ではない。
+実際、固定した $R$ に対し $P(|X_n|\le R)\to0$ で、列は tight でない。
+
+\topic{連続写像定理}
+$X_n\Rightarrow X$ で $g:\R\to\R$ が連続なら
+$$g(X_n)\Rightarrow g(X).$$
+任意の $f\in C_b(\R)$ に対して $f\circ g\in C_b(\R)$ なので、定義から直ちに従う。
+たとえば $X_n\Rightarrow N(0,1)$ なら $X_n^2\Rightarrow Z^2$（$Z\sim N(0,1)$）。
+ただし非有界な $g$ について $\E[g(X_n)]\to\E[g(X)]$ まで従うわけではない。
+
+\topic{Slutsky の定理：定数に近づく量との演算}
+同じ空間上の $X_n,Y_n$ について、$X_n\Rightarrow X$、$Y_n\xrightarrow{P}c$、
+$c\in\R$ なら
+$$X_n+Y_n\Rightarrow X+c,\qquad X_nY_n\Rightarrow cX.$$
+$c\ne0$ なら商も $X_n/Y_n\Rightarrow X/c$ となる。
+商は $Y_n=0$ で任意の固定値に定めてよい。この事象の確率は $0$ に近づく。
+極限の一方が定数であることが大切であり、単に周辺分布がそれぞれ収束するだけでは
+和や積の極限は決まらない。
+
+\topic{例：二項分布からポアソン分布へ}
+$X_n\sim\mathrm{Bin}(n,\lambda/n)$（$n>\lambda>0$）なら
+$$\varphi_{X_n}(t)=\left(1+\frac{\lambda(e^{it}-1)}n\right)^n
+ \longrightarrow\exp(\lambda(e^{it}-1)).$$
+右辺は $\mathrm{Poi}(\lambda)$ の特性関数なので、L\'evy の定理が分布収束を与える。
+第5回の各点の確率の近似が、分布全体の極限として読み直せる。
+
+\newpage
+\topic{演習問題}
+\begin{enumerate}[label=\arabic*.]
+\item $\mu_n=\delta_{1/n}$ の分布関数を書き、連続点での収束を確認せよ。
+$A=(0,\infty)$ と $A=\{0\}$ について、集合の確率の収束を調べよ。
+\item 空でない集合 $A\subseteq\R$ について
+$|d(x,A)-d(y,A)|\le|x-y|$ を示せ。この評価を使い、開集合に対する
+Portmanteau の不等式を証明せよ。
+\item $\sup_n\E[X_n^2]<\infty$ なら分布列が tight であることを示せ。
+また $\mathrm U(-n,n)$ の分布列が tight でないことを示せ。
+\item $X_n\Rightarrow X$ でも $\E[X_n]\to\E[X]$ が成り立たない例を、
+非負確率変数を使って構成せよ。
+\end{enumerate}
+
+\topic{レポート問題}
+\begin{enumerate}[label=\arabic*.]
+\item $X_n\Rightarrow X$ と $Y_n\Rightarrow Y$ だけでは、$X_n+Y_n\Rightarrow X+Y$
+とは限らないことを、公平な符号変数を使った例で示せ。
+それぞれの周辺分布、和の分布を明記すること。
+\item $X_n\Rightarrow X$、$Y_n\xrightarrow{P}0$ なら $X_n+Y_n\Rightarrow X$ を示せ。
+任意の $\delta>0$ に対し
+$$P(X_n\le t-\delta)-P(|Y_n|>\delta)
+ \le P(X_n+Y_n\le t)
+ \le P(X_n\le t+\delta)+P(|Y_n|>\delta)$$
+を用いてよい。極限の分布関数の連続点をどのように選ぶかも説明せよ。
+\end{enumerate}
+
+\topic{考えるための手がかり}
+弱収束で安定するのは、境界に極限の質量がない集合の確率である。
+原点で連続でない特性関数の点ごとの極限や、無限遠へ動く点質量は、
+極限定理の仮定の役割を確かめるよい例になる。
+\vfill
+{\small\color{muted}解答メモ：有界連続関数、分布関数の連続点、tightness の三つの見方を対応させる。}
+
+\columnstart{分布が近づくとは、何が近づくことなのか}
+離散分布から正規分布への収束では、各近似分布は有限個の点に質量をもち、
+極限分布は一点にも正の確率を置かない。
+それでも、区間に入る確率は近づく。弱収束はこの現象を記述するための収束である。
+
+\columnheading{すべての集合の確率をそろえるのは強すぎる}
+標準化したコイントス $Z_n$ の分布を $\mu_n$、標準正規分布を $\gamma$ とする。
+$Z_n$ の有限な値域を $A_n$ とすれば
+$$\mu_n(A_n)=1,\qquad\gamma(A_n)=0.$$
+したがって $\sup_{A\in\mathcal B(\R)}|\mu_n(A)-\gamma(A)|=1$ であり、
+全変動距離の意味では近づかない。
+一方、連続な観測関数や、端点に質量のない固定した区間の確率では近づく。
+どの観測を使って近さを測るかが、収束概念を決めている。
+
+\columnheading{境界に質量があると何が起こるか}
+$1/n\to0$ なので、連続な $f$ に対して $f(1/n)\to f(0)$。
+しかし $\ind_{\{0\}}(1/n)=0$ は $\ind_{\{0\}}(0)=1$ に近づかない。
+指示関数は境界で不連続であり、そこへ質量が集まると集合の確率が跳ぶ。
+Portmanteau の定理で境界の確率を調べるのは、このずれを除くためである。
+
+\columnheading{無限遠へ逃げる質量を見張る}
+コンパクトな台の関数は、十分遠くにある質量を見ない。
+$\delta_n$ に対する積分がすべて $0$ に近づくのは、分布がなくなったためではなく、
+観測している有限の範囲から外れたためである。
+Tightness は、どの時点でも確率の大部分が共通の有限の範囲に入ることを要求する。
+この条件によって、部分列の極限が全質量 $1$ を保つ。
+
+\columnheading{分布の情報と同じ標本の情報}
+弱収束は各 $n$ の分布だけで判定できる。
+確率収束は、同じ標本における $X_n$ と $X$ の差を使うため、両者の同時の配置に依存する。
+$$X_n\to X\ \text{a.s.}\quad\Longrightarrow\quad
+ X_n\xrightarrow{P}X\quad\Longrightarrow\quad X_n\Rightarrow X.$$
+この矢印を使うときには、強い条件で示して弱い結論へ進んでいることを意識しよう。
+極限定理の目的に合う観測量を選べば、必要以上に強い収束を証明せずに済む。
+
+\label{lastpage}
+\end{document}

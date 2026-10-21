@@ -1,0 +1,242 @@
+% Build in this directory (run twice for page references):
+% pdflatex -interaction=nonstopmode -halt-on-error resume10PT26.tex
+% Topics follow the syllabus in ../class1/class1PT26.tex.
+% Content adapted from ../lectureNote.tex and ../lectureNotes.tex.
+\documentclass[a4paper,10pt,pdflatex,ja=standard,jafont=ipaex-type1,
+  magstyle=real,scale=1]{bxjsarticle}
+\usepackage{lmodern}
+\usepackage{amsmath,amssymb,mathtools}
+\usepackage{geometry}
+\geometry{reset,left=22mm,right=22mm,top=20mm,bottom=17mm,
+  headheight=13pt,headsep=6mm,footskip=10mm}
+\usepackage{xcolor}
+\usepackage{enumitem}
+\usepackage{array,booktabs,tabularx}
+\usepackage{tikz}
+\usepackage{fancyhdr}
+\usepackage{hyperref}
+\definecolor{ink}{HTML}{193A5C}
+\definecolor{accent}{HTML}{237D82}
+\definecolor{soft}{HTML}{EAF3F3}
+\definecolor{muted}{HTML}{52616B}
+\newcommand{\coursename}{確率論と統計学 I}
+\hypersetup{unicode=true,colorlinks=true,urlcolor=accent,linkcolor=ink,
+  pdfauthor={中島秀太},pdftitle={第10回：大数の法則と中心極限定理}}
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\small\color{ink}\coursename{}・授業要約と演習}
+\fancyhead[R]{\small\color{ink}第10回}
+\fancyfoot[C]{\small\color{ink}\thepage/\pageref*{lastpage}}
+\renewcommand{\headrulewidth}{0.3pt}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{2pt}
+\setlength{\abovedisplayskip}{4pt}
+\setlength{\belowdisplayskip}{4pt}
+\setlength{\abovedisplayshortskip}{3pt}
+\setlength{\belowdisplayshortskip}{4pt}
+\setlist[itemize]{leftmargin=1.8em,itemsep=2pt,topsep=3pt,parsep=0pt}
+\setlist[enumerate]{leftmargin=2em,itemsep=6pt,topsep=4pt,parsep=0pt}
+\newcommand{\topic}[1]{\par\vspace{5pt}
+  {\large\sffamily\mdseries\color{accent}#1}\par\vspace{2pt}}
+\newcommand{\handouttitle}[1]{\begin{center}
+  {\Large\color{ink}#1}\par\vspace{3mm}
+  {\color{accent}\rule{0.88\linewidth}{0.7pt}}
+  \end{center}\vspace{-2mm}}
+\newcommand{\keybox}[1]{\par\vspace{3pt}\begingroup
+  \setlength{\fboxsep}{5pt}
+  \colorbox{soft}{\parbox{\dimexpr\linewidth-2\fboxsep\relax}{#1}}
+  \endgroup\par\vspace{2pt}}
+\newcommand{\examplelabel}[1]{{\sffamily\mdseries\color{ink}#1}}
+\newcommand{\columnheading}[1]{\par\vspace{5pt}
+  {\fontsize{11pt}{15pt}\selectfont\sffamily\mdseries\color{accent}#1}\par\vspace{2pt}}
+\newcommand{\columnstart}[1]{\clearpage
+  \fancyhead[L]{\small\color{ink}\coursename{}・発展的内容}
+  {\small\sffamily\mdseries\color{accent}発展的内容}\par\vspace{4pt}
+  {\Large\color{ink}#1}\par\vspace{2pt}
+  {\color{accent}\rule{\linewidth}{0.7pt}}\par\vspace{4pt}}
+\newcommand{\F}{\mathcal F}
+\newcommand{\R}{\mathbb R}
+\newcommand{\N}{\mathbb N}
+\newcommand{\E}{\mathbb E}
+\newcommand{\Var}{\operatorname{Var}}
+\newcommand{\Cov}{\operatorname{Cov}}
+\newcommand{\ind}{\mathrm{1}}
+\newcommand{\iid}{\text{独立同分布}}
+\begin{document}
+\fontsize{10pt}{13.5pt}\selectfont
+\handouttitle{第10回\quad 大数の法則と中心極限定理}
+\keybox{大数の法則は標本平均の安定化を、中心極限定理はその誤差の形を記述する。
+仮定するモーメントと、得られる収束の種類を明確にしよう。}
+
+\topic{Markov と Chebyshev の不等式}
+非負確率変数 $Y$ と $a>0$ に対し $a\ind_{\{Y\ge a\}}\le Y$ なので
+$$P(Y\ge a)\le\frac{\E[Y]}a.$$
+二次モーメントが有限な $X$ に $Y=(X-\E[X])^2$ を適用すると
+$$P(|X-\E[X]|\ge t)\le\frac{\Var(X)}{t^2}\qquad(t>0).$$
+これらは分布の具体的な形を知らなくても使える。
+上界が $1$ を超える場合は、確率は $1$ 以下という評価を併用する。
+
+\topic{標本平均の平均と分散}
+以下、$X_1,X_2,\ldots$ は独立同分布とし、
+$m=\E[X_1]$、$v=\Var(X_1)<\infty$ とおく。
+$$\bar X_n:=\frac1n\sum_{j=1}^nX_j,\qquad
+ \E[\bar X_n]=m,\qquad\Var(\bar X_n)=\frac v n.$$
+平均の計算には線形性を使い、分散の計算には独立性から共分散が消えることを使う。
+二次モーメントが有限なら、対独立でもこの分散公式は成立する。
+
+\topic{弱大数の法則：二次モーメントによる証明}
+Chebyshev の不等式から、任意の $\varepsilon>0$ に対し
+$$P(|\bar X_n-m|>\varepsilon)
+ \le\frac{v}{n\varepsilon^2}\longrightarrow0.$$
+したがって $\bar X_n\xrightarrow{P}m$ となる。
+この上界の和 $\sum_n v/(n\varepsilon^2)$ は発散するため、
+この評価だけを Borel--Cantelli の第1補題に入れて概収束を結論することはできない。
+
+\topic{ベルヌーイ試行への適用}
+$X_j\sim\mathrm{Bern}(p)$ なら $m=p$、$v=p(1-p)\le1/4$。
+$$P(|\bar X_n-p|>\varepsilon)\le\frac1{4n\varepsilon^2}.$$
+右辺を $\delta>0$ 以下にする十分条件は $n\ge1/(4\delta\varepsilon^2)$ である。
+この評価は保守的だが、$p$ を知らずに使える。
+単に極限を述べるだけでなく、有限の試行回数に対する誤差確率の上界も与えている。
+
+\newpage
+\topic{強大数の法則：四次モーメントがある場合}
+ここでは追加仮定 $\E[|X_1|^4]<\infty$ の下で初等的に証明する。
+$Y_j=X_j-m$、$\mu_4=\E[Y_1^4]$ とおく。独立性と $\E[Y_j]=0$ より、
+四次の展開で期待値が消えないのは、一つの添字が4回現れる項と、二つが2回ずつ現れる項である。
+$$
+ \E\left[\left(\sum_{j=1}^nY_j\right)^4\right]
+ =n\mu_4+6\binom n2v^2=n\mu_4+3n(n-1)v^2.
+$$
+したがって
+$$\E[(\bar X_n-m)^4]
+ =\frac{\mu_4}{n^3}+\frac{3(n-1)v^2}{n^3}
+ \le\frac{\mu_4+3v^2}{n^2}.$$
+Markov の不等式を四乗に使えば
+$$\sum_{n=1}^\infty P(|\bar X_n-m|>\varepsilon)
+ \le\frac{\mu_4+3v^2}{\varepsilon^4}\sum_{n=1}^\infty n^{-2}<\infty.$$
+Borel--Cantelli と $\varepsilon=1/r$（$r\in\N$）の可算個の条件から
+$$\bar X_n\longrightarrow m\qquad\text{a.s.}$$
+が従う。四次モーメントは、この簡単な証明の十分条件である。
+
+\topic{一般の強大数の法則との区別}
+独立同分布で $\E|X_1|<\infty$ なら、実際には
+$$\bar X_n\to\E[X_1]\qquad\text{a.s.}$$
+が成り立つ。これが一般の強大数の法則である。
+上の証明は、より強い四次モーメントの仮定の下での証明であり、
+可積分性だけの場合を証明したことにはならない。
+定理の最適な仮定と、授業で使った証明の仮定を分けて把握しよう。
+
+\topic{大数の法則が与えること、与えないこと}
+強法則は、ほぼすべての標本で平均が近づくことを述べる。
+しかし、各時点で誤差が何円・何秒程度か、また正負にどう揺れるかまでは定めない。
+有限分散の場合の誤差の標準偏差は
+$$\sqrt{\Var(\bar X_n)}=\sqrt{\frac vn}.$$
+この尺度で誤差を拡大して残る分布を調べるのが、次ページの中心極限定理である。
+
+\newpage
+\topic{一般の中心極限定理}
+独立同分布で平均 $m$、分散 $0<v<\infty$ のとき
+$$T_n:=\frac{\sum_{j=1}^n(X_j-m)}{\sqrt{nv}}
+ =\frac{\sqrt n(\bar X_n-m)}{\sqrt v}\Rightarrow N(0,1).$$
+分散 $v=0$ なら $X_j=m$ a.s. であり、中心化した和は $0$ である。
+以下は $v>0$ の場合を証明する。
+
+\topic{二次モーメントから特性関数を展開する}
+$Y=(X_1-m)/\sqrt v$ とすると $\E[Y]=0$、$\E[Y^2]=1$。
+$r(s)=e^{is}-1-is+s^2/2$ とおけば
+$$r(s)=o(s^2)\quad(s\to0),\qquad |r(s)|\le s^2\quad(s\in\R).$$
+後者は $|e^{is}-1-is|\le s^2/2$ から従う。
+$Y^2$ が可積分なので優収束定理により
+$$\frac{\E[r(uY)]}{u^2}\longrightarrow0,\qquad
+ \varphi_Y(u)=1-\frac{u^2}2+o(u^2).$$
+三次モーメントを仮定せずに余剰項を処理できる点が重要である。
+
+\topic{独立性、積の極限、L\'evy の定理}
+独立性によって、固定した $t\in\R$ について
+$$\varphi_{T_n}(t)=\left(\varphi_Y(t/\sqrt n)\right)^n
+ =\left(1-\frac{t^2}{2n}+o(n^{-1})\right)^n\longrightarrow e^{-t^2/2}.$$
+最後の極限には、複素数列 $z_n\to z$ に対する
+$\left(1+z_n/n\right)^n\to e^z$ を使う。
+原点近くで $\log(1+w)=w+O(|w|^2)$ と展開すれば
+$n\log(1+z_n/n)\to z$ となる。
+極限は標準正規分布の特性関数なので、L\'evy の連続性定理が主張を与える。
+
+\topic{誤差の形をどう読むか}
+固定した $a<b$ に対し
+$$P\left(a\le\frac{\sqrt n(\bar X_n-m)}{\sqrt v}\le b\right)
+ \longrightarrow\Phi(b)-\Phi(a).$$
+これは $n\to\infty$ の漸近的な主張であり、有限 $n$ での近似誤差の大きさまでは与えない。
+分布収束は、同じ標本で $T_n$ が特定の正規変数へ近づくという意味でもない。
+
+\keybox{弱法則では分散の $1/n$、今回の強法則の証明では四次モーメントの $1/n^2$、
+CLT では特性関数の原点近くの二次展開が中心となる。}
+
+\newpage
+\topic{演習問題}
+\begin{enumerate}[label=\arabic*.]
+\item 独立同分布な $X_j\sim\mathrm{Exp}(\lambda)$ に対し、標本平均の平均と分散を求めよ。
+Chebyshev の不等式から $P(|\bar X_n-1/\lambda|>\varepsilon)$ の上界を与えよ。
+\item 中心化した独立同分布列 $Y_j$ について、四次モーメントの展開式を導け。
+添字が一度だけ現れる項の期待値が $0$ となる理由を説明せよ。
+\item $a_n\to a\in\R$ なら $(1-a_n/n)^n\to e^{-a}$ を示せ。
+十分大きい $n$ で底が正であることを確認してから対数をとれ。
+\item 公平なサイコロを独立に $n$ 回投げた平均 $\bar D_n$ について、
+大数の法則と中心極限定理を、それぞれ定数を具体的に入れて述べよ。
+\end{enumerate}
+
+\topic{レポート問題}
+\begin{enumerate}[label=\arabic*.]
+\item $\E|X_1|^4<\infty$ の下で、$\bar X_n\to m$ a.s. の証明を完成させよ。
+確率の上界の可算和と、$\varepsilon=1/r$ に関する零集合の可算和を明示すること。
+\item 平均 $0$、分散 $1$ の確率変数 $Y$ について
+$\varphi_Y(u)=1-u^2/2+o(u^2)$ を証明し、独立同分布列の CLT を導け。
+優収束定理の支配関数として何を使ったかを示すこと。
+\end{enumerate}
+
+\topic{考えるための手がかり}
+「独立」「同分布」「中心化」「有限モーメント」が使われた式に印を付けよう。
+大数の法則と CLT では、同じ標本平均に異なる拡大率を使っている。
+仮定を外した場合にはどの等式や評価が使えなくなるかも考えてみよう。
+\vfill
+{\small\color{muted}解答メモ：確率収束、概収束、分布収束のどれを結論しているか明記する。}
+
+\columnstart{平均は安定する。その揺らぎはどう残るか}
+多くの観測を平均すると誤差が小さくなる。
+この言葉には、「どこへ近づくか」と「どの尺度で揺れるか」という二つの問いが含まれている。
+大数の法則と中心極限定理は、同じ平均に対して異なる答えを与える。
+
+\columnheading{縮めて見るか、拡大して見るか}
+有限分散 $v>0$ の独立同分布列では
+$$\bar X_n-m\xrightarrow{P}0,\qquad
+ \sqrt n(\bar X_n-m)\Rightarrow N(0,v).$$
+誤差そのものは消えるが、その誤差を $\sqrt n$ 倍すれば消えない分布が残る。
+この二つは矛盾せず、同じ現象を異なる倍率で観測している。
+分散 $v$ が元の分布の尺度を、正規分布が極限の形を担う。
+
+\columnheading{平均の精度と試行回数}
+標本平均の標準偏差は $\sqrt{v/n}$ である。
+標準偏差を半分にするには、独立な試行回数を4倍にする必要がある。
+確率積分 $I=\int_0^1 f(x)\,dx$ を、一様な独立乱数 $U_j$ から
+$n^{-1}\sum_jf(U_j)$ で推定する場合も、$f(U_1)$ の分散が有限なら同じ尺度になる。
+これは積分を標本平均として計算する Monte Carlo 法の基本である。
+ただし有限 $n$ での誤差保証には、分散評価や近似誤差の議論も必要になる。
+
+\columnheading{独立性が失われたら}
+$X_j=X_1$ として同じ観測を何度もコピーすると、$\bar X_n=X_1$ である。
+回数だけ増やしても新しい情報は増えず、分散は減らない。
+一般には
+$$\Var(\bar X_n)=\frac1{n^2}\sum_{i,j=1}^n\Cov(X_i,X_j)$$
+なので、依存関係による項を無視できるかを調べなければならない。
+独立性は単なる計算上の便利な仮定ではなく、平均が安定する仕組みの一部である。
+
+\columnheading{可積分性が失われたら}
+独立な標準 Cauchy 変数 $C_j$ は $\varphi_{C_j}(t)=e^{-|t|}$ をもつ。
+$$\varphi_{n^{-1}\sum_{j=1}^nC_j}(t)
+ =\left(e^{-|t|/n}\right)^n=e^{-|t|}.$$
+平均をとっても分布は変わらず、定数へ集中しない。
+この分布では $\E|C_1|=\infty$ なので、可積分な独立同分布列に対する強法則と矛盾しない。
+平均化の直観を使う前に、独立性と尾の大きさを確認することが大切になる。
+
+\label{lastpage}
+\end{document}

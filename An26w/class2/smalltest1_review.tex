@@ -1,0 +1,94 @@
+% Insert for class2_handout.tex; the parent supplies headers and page numbers.
+% Build: platex -interaction=nonstopmode -halt-on-error smalltest1_review.tex
+% Then: dvipdfmx smalltest1_review.dvi
+\documentclass[a4paper,10pt,dvipdfmx]{jsarticle}
+\usepackage{../an26handout}
+
+\fancyhead[L]{\small\color{ink}解析学 II・小テスト}
+\fancyfoot[C]{\small\color{ink}\thepage}
+
+% Keep headings in regular weight without changing the shared package.
+\renewcommand{\handout}[2]{%
+  \def\handoutnumber{第#1回}%
+  \begin{center}
+    {\Large\normalfont\mdseries\color{ink}第#1回\quad #2}\par
+    \vspace{2pt}{\color{accent}\rule{0.88\linewidth}{1.2pt}}
+  \end{center}\vspace{2pt}}
+\renewcommand{\topic}[1]{\par\vspace{5pt}%
+  {\large\normalfont\mdseries\color{accent}#1}\par\vspace{1pt}}
+
+\renewcommand{\keybox}[1]{\par\smallskip\begingroup
+  \setlength{\fboxsep}{4pt}%
+  \colorbox{pale}{\parbox{\dimexpr\linewidth-2\fboxsep\relax}{\small #1}}%
+  \endgroup\par\smallskip}
+\begin{document}
+\pagestyle{empty}
+\handout{1}{小テスト：逆関数と逆三角関数}
+
+学籍番号：\underline{\hspace{40mm}}\hfill
+氏名：\underline{\hspace{40mm}}
+
+問1は30点、問2は各30点、問3は10点、合計100点です。
+計算過程も書き、角度はラジアンで答えてください。
+
+\topic{問題}
+\begin{enumerate}[label=\color{accent}\arabic*.,leftmargin=2.4em,itemsep=9pt]
+\item 関数 $f(x)=x^2-4x+5$（定義域 $x\leq2$）の逆関数 $g$ を求めよ。
+\hfill（30点）
+\par\vspace{3mm}
+
+\item 次の逆三角関数の値を求めよ。\hfill（各30点、計60点）
+$$
+ \text{(a)}\quad\arcsin\!\left(-\frac{\sqrt2}{2}\right)
+ \qquad\qquad
+ \text{(b)}\quad\arctan\sqrt3
+$$
+\par\vspace{3mm}
+
+\item 授業の感想や疑問を、自由に書いてください。\hfill（10点）
+\end{enumerate}
+
+\par\vspace{4mm}
+{\color{accent}\rule{\linewidth}{0.6pt}}
+\topic{小テストの解答}
+\begin{enumerate}[label=\color{accent}\arabic*.,leftmargin=2.4em,itemsep=9pt]
+\item $y=f(x)=(x-2)^2+1$ とおく。$x\leq2$ より $x-2\leq0$ なので、
+$$
+ (x-2)^2=y-1,\qquad x-2=-\sqrt{y-1},\qquad x=2-\sqrt{y-1}.
+$$
+$f$ は $(-\infty,2]$ 上で狭義単調減少で、値域は $[1,\infty)$ である。
+したがって、逆関数は
+$$
+ g\colon[1,\infty)\longrightarrow(-\infty,2],\qquad
+ g(y)=2-\sqrt{y-1}.
+$$
+入力の文字を $x$ にして、$g(x)=2-\sqrt{x-1}$（$x\ge1$）と書いてもよい。
+
+\keybox{確認：平方根の前の符号は、もとの定義域 $x\leq2$ に合わせて選ぶ。
+$+\sqrt{y-1}$ を選ぶと、$y>1$ ではもとの定義域から外れてしまう。}
+
+\item 逆三角関数では、それぞれの値域に入る角度を選ぶ。
+
+(a) $\arcsin$ の値域は $[-\pi/2,\pi/2]$ である。
+$$
+ \sin\!\left(-\frac\pi4\right)=-\frac{\sqrt2}{2},\qquad
+ -\frac\pi4\in\left[-\frac\pi2,\frac\pi2\right]
+ \quad\Longrightarrow\quad
+ \arcsin\!\left(-\frac{\sqrt2}{2}\right)=-\frac\pi4.
+$$
+
+\medskip
+(b) $\arctan$ の値域は $(-\pi/2,\pi/2)$ である。
+$$
+ \tan\frac\pi3=\sqrt3,\qquad
+ \frac\pi3\in\left(-\frac\pi2,\frac\pi2\right)
+ \quad\Longrightarrow\quad
+ \arctan\sqrt3=\frac\pi3.
+$$
+
+\keybox{確認：三角関数の値が一致する角度は複数ある。
+逆三角関数の答えは、その値域に入る一つの角度に決まる。}
+
+\item 自由記述（10点）。決まった正解はない。感想や疑問を自分の言葉で書けばよい。
+\end{enumerate}
+\end{document}

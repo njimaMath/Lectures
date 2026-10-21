@@ -1,0 +1,224 @@
+% Build in this directory (run twice for page references):
+% pdflatex -interaction=nonstopmode -halt-on-error resume5PT26.tex
+% Topics follow the syllabus in ../class1/class1PT26.tex.
+% Content adapted from ../lectureNote.tex and ../lectureNotes.tex.
+\documentclass[a4paper,10pt,pdflatex,ja=standard,jafont=ipaex-type1,
+  magstyle=real,scale=1]{bxjsarticle}
+\usepackage{lmodern}
+\usepackage{amsmath,amssymb,mathtools}
+\usepackage{geometry}
+\geometry{reset,left=22mm,right=22mm,top=20mm,bottom=17mm,
+  headheight=13pt,headsep=6mm,footskip=10mm}
+\usepackage{xcolor}
+\usepackage{enumitem}
+\usepackage{array,booktabs,tabularx}
+\usepackage{tikz}
+\usepackage{fancyhdr}
+\usepackage{hyperref}
+\definecolor{ink}{HTML}{193A5C}
+\definecolor{accent}{HTML}{237D82}
+\definecolor{soft}{HTML}{EAF3F3}
+\definecolor{muted}{HTML}{52616B}
+\newcommand{\coursename}{確率論と統計学 I}
+\hypersetup{unicode=true,colorlinks=true,urlcolor=accent,linkcolor=ink,
+  pdfauthor={中島秀太},pdftitle={第5回：代表的な確率分布}}
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\small\color{ink}\coursename{}・授業要約と演習}
+\fancyhead[R]{\small\color{ink}第5回}
+\fancyfoot[C]{\small\color{ink}\thepage/\pageref*{lastpage}}
+\renewcommand{\headrulewidth}{0.3pt}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{2pt}
+\setlength{\abovedisplayskip}{4pt}
+\setlength{\belowdisplayskip}{4pt}
+\setlength{\abovedisplayshortskip}{3pt}
+\setlength{\belowdisplayshortskip}{4pt}
+\setlist[itemize]{leftmargin=1.8em,itemsep=2pt,topsep=3pt,parsep=0pt}
+\setlist[enumerate]{leftmargin=2em,itemsep=6pt,topsep=4pt,parsep=0pt}
+\newcommand{\topic}[1]{\par\vspace{5pt}
+  {\large\sffamily\mdseries\color{accent}#1}\par\vspace{2pt}}
+\newcommand{\handouttitle}[1]{\begin{center}
+  {\Large\color{ink}#1}\par\vspace{3mm}
+  {\color{accent}\rule{0.88\linewidth}{0.7pt}}
+  \end{center}\vspace{-2mm}}
+\newcommand{\keybox}[1]{\par\vspace{3pt}\begingroup
+  \setlength{\fboxsep}{5pt}
+  \colorbox{soft}{\parbox{\dimexpr\linewidth-2\fboxsep\relax}{#1}}
+  \endgroup\par\vspace{2pt}}
+\newcommand{\examplelabel}[1]{{\sffamily\mdseries\color{ink}#1}}
+\newcommand{\columnheading}[1]{\par\vspace{5pt}
+  {\fontsize{11pt}{15pt}\selectfont\sffamily\mdseries\color{accent}#1}\par\vspace{2pt}}
+\newcommand{\columnstart}[1]{\clearpage
+  \fancyhead[L]{\small\color{ink}\coursename{}・発展的内容}
+  {\small\sffamily\mdseries\color{accent}発展的内容}\par\vspace{4pt}
+  {\Large\color{ink}#1}\par\vspace{2pt}
+  {\color{accent}\rule{\linewidth}{0.7pt}}\par\vspace{4pt}}
+\newcommand{\F}{\mathcal F}
+\newcommand{\R}{\mathbb R}
+\newcommand{\N}{\mathbb N}
+\newcommand{\E}{\mathbb E}
+\newcommand{\Var}{\operatorname{Var}}
+\newcommand{\Cov}{\operatorname{Cov}}
+\newcommand{\ind}{\mathrm{1}}
+\newcommand{\iid}{\text{独立同分布}}
+\begin{document}
+\fontsize{10pt}{13.5pt}\selectfont
+\handouttitle{第5回\quad 代表的な確率分布}
+\keybox{分布を表す式、パラメータの意味、期待値と分散を組にして覚えよう。
+回数を数える離散分布と、待ち時間を表す連続分布の関係が見えてくる。}
+
+\topic{確率質量と確率密度}
+$X$ の分布を $\mu_X(B)=P(X\in B)$ とする。離散型なら
+$$P(X=x)=p_X(x),\qquad p_X(x)\ge0,\qquad \sum_xp_X(x)=1.$$
+ある非負可測関数 $f_X$ により $\mu_X(B)=\int_B f_X(x)\,dx$ と書けるとき、
+$f_X$ を確率密度という。$\int_\R f_X=1$ であり、可積分な $g(X)$ に対し
+$$\E[g(X)]=\sum_xg(x)p_X(x)\quad\text{または}\quad
+  \E[g(X)]=\int_\R g(x)f_X(x)\,dx.$$
+密度の高さは一点の確率ではない。密度があれば $P(X=x)=0$ である。
+また、分布関数が連続でも密度をもつとは限らない。
+
+\topic{ベルヌーイ分布と二項分布}
+$0<p<1$ とし、$P(B=1)=p$、$P(B=0)=1-p$ なら $B\sim\mathrm{Bern}(p)$ と書く。
+独立な $B_1,\ldots,B_n\sim\mathrm{Bern}(p)$ の和 $S_n$ は二項分布に従う。
+$$
+  P(S_n=k)=\binom nkp^k(1-p)^{n-k}\quad(0\le k\le n),
+  \qquad \E[S_n]=np,\quad\Var(S_n)=np(1-p).
+$$
+$k$ 個の成功の配置が $\binom nk$ 通りある。
+期待値は線形性から、分散は独立性と $B_j^2=B_j$ から計算できる。
+
+\topic{ポアソン分布とまれな事象の極限}
+$\lambda>0$ に対し、$X\sim\mathrm{Poi}(\lambda)$ とは
+$$
+  P(X=k)=e^{-\lambda}\frac{\lambda^k}{k!}\quad(k=0,1,\ldots),
+  \qquad \E[X]=\lambda,\quad\Var(X)=\lambda
+$$
+である。$\sum_{k\ge0}\lambda^k/k!=e^\lambda$ より確率の総和は $1$。
+また $\E[X(X-1)]=\lambda^2$ を使うと分散を求めやすい。
+固定した $k$ に対し
+$$\binom nk(\lambda/n)^k(1-\lambda/n)^{n-k}
+  \longrightarrow e^{-\lambda}\frac{\lambda^k}{k!}.$$
+多数の独立な機会に小さな確率で起こる事象の総回数を、この極限が記述する。
+
+\topic{幾何分布：最初の成功までの試行回数}
+$X\sim\mathrm{Geo}(p)$ は、本資料では $1,2,\ldots$ の値をとる規約とする。
+$$P(X=k)=(1-p)^{k-1}p,\qquad \E[X]=\frac1p,\qquad
+  \Var(X)=\frac{1-p}{p^2}.$$
+$P(X>m)=(1-p)^m$ より、整数 $m,n\ge0$ に対し
+$$P(X>m+n\mid X>m)=\frac{(1-p)^{m+n}}{(1-p)^m}=P(X>n).$$
+
+\newpage
+\topic{一様分布：区間の長さに比例する確率}
+$a<b$ に対し、$X\sim\mathrm U(a,b)$ の密度とモーメントは
+$$
+ f_X(x)=\frac{\ind_{[a,b]}(x)}{b-a},\qquad
+ \E[X]=\frac{a+b}{2},\qquad \Var(X)=\frac{(b-a)^2}{12}.
+$$
+$a\le s<t\le b$ なら $P(s<X\le t)=(t-s)/(b-a)$。
+$U\sim\mathrm U(0,1)$ なら $a+(b-a)U\sim\mathrm U(a,b)$ である。
+
+\topic{指数分布：連続時間の待ち時間}
+$\lambda>0$ を rate とする $X\sim\mathrm{Exp}(\lambda)$ の密度は
+$$f_X(x)=\lambda e^{-\lambda x}\ind_{[0,\infty)}(x),\qquad
+  P(X>t)=e^{-\lambda t}\quad(t\ge0).$$
+部分積分、または尾確率の積分によって
+$$\E[X]=\frac1\lambda,\qquad \E[X^2]=\frac2{\lambda^2},\qquad
+  \Var(X)=\frac1{\lambda^2}.$$
+$s,t\ge0$ に対して $P(X>s+t\mid X>t)=e^{-\lambda s}$。
+幾何分布と同じく記憶なし性質をもつが、変数は連続時間を表す。
+
+\topic{ガンマ分布：形状と rate を区別する}
+$\alpha,\beta>0$ に対し $\mathrm{Gamma}(\alpha,\beta)$ を rate 表示で定義する。
+$$
+ \Gamma(\alpha)=\int_0^\infty x^{\alpha-1}e^{-x}\,dx,\qquad
+ f_X(x)=\frac{\beta^\alpha}{\Gamma(\alpha)}x^{\alpha-1}e^{-\beta x}
+ \quad(x>0).
+$$
+$x\le0$ では密度を $0$ とする。$\Gamma(\alpha+1)=\alpha\Gamma(\alpha)$ を用いると
+$$\E[X^r]=\frac{\Gamma(\alpha+r)}{\beta^r\Gamma(\alpha)}\quad(r> -\alpha),
+ \qquad \E[X]=\frac\alpha\beta,\quad\Var(X)=\frac\alpha{\beta^2}.$$
+$\alpha=1$ は指数分布である。独立な $\mathrm{Exp}(\beta)$ 変数 $m$ 個の和は
+$\mathrm{Gamma}(m,\beta)$ に従い、$m$ 回目の到着までの待ち時間を表す。
+scale $\theta=1/\beta$ を使う本では平均は $\alpha\theta$、分散は $\alpha\theta^2$ となる。
+
+\topic{正規分布：中心と幅を二つのパラメータで表す}
+$m\in\R$、$\sigma>0$ に対し、$X\sim N(m,\sigma^2)$ の密度は
+$$f_X(x)=\frac1{\sqrt{2\pi}\sigma}
+ e^{-(x-m)^2/(2\sigma^2)},\qquad \E[X]=m,\quad\Var(X)=\sigma^2.$$
+$Z\sim N(0,1)$ なら $m+\sigma Z\sim N(m,\sigma^2)$ である。
+対称性から $\E[Z]=0$、部分積分から $\E[Z^2]=1$。
+正規化に使う Gauss 積分と、二項分布との関係は次回に扱う。
+
+\newpage
+\topic{演習問題}
+\begin{enumerate}[label=\arabic*.]
+\item $X\sim\mathrm{Exp}(\lambda)$ の平均、二次モーメント、分散を積分で求め、
+記憶なし性質を示せ。
+\item 分布関数 $F_X$ が連続なら $P(X=x)=0$（すべての $x$）を示せ。
+さらに、この性質だけから確率密度の存在を結論してよいか考えよ。
+\item $X\sim\mathrm{Gamma}(\alpha,\beta)$ の密度の積分が $1$ であることと、
+平均・分散の公式を、変数変換 $u=\beta x$ によって確かめよ。
+\item 正の確率変数 $T$ の生存関数 $G(t)=P(T>t)$ が連続で正、
+$G(s+t)=G(s)G(t)$（$s,t\ge0$）、$G(0)=1$、$G(t)\to0$ を満たすとする。
+$G(t)=e^{-ct}$（ある $c>0$）を示せ。
+\end{enumerate}
+
+\topic{レポート問題}
+\begin{enumerate}[label=\arabic*.]
+\item $X\sim\mathrm{Poi}(\lambda)$ の平均と分散を求めよ。
+独立な $X\sim\mathrm{Poi}(\lambda)$、$Y\sim\mathrm{Poi}(\mu)$ に対し、
+畳み込み和から $X+Y\sim\mathrm{Poi}(\lambda+\mu)$ を示せ。
+\item $X\sim\mathrm{Geo}(p)$ の平均と分散、記憶なし性質を導け。
+続いてガンマ分布の応用として、独立な指数待ち時間の和を考え、
+何が観測量で、$\alpha$ と $\beta$ が何を表すかを説明せよ。
+\end{enumerate}
+
+\topic{考えるための手がかり}
+ポアソン分布では $k(k-1)$ を掛けると添字をずらしやすい。
+幾何分布では $\sum_{k\ge0}q^k=(1-q)^{-1}$ とその微分、
+または $\E[X]=\sum_{m\ge0}P(X>m)$ を使える。
+記憶なし性質では、条件付き確率の分母が正であることも確認しよう。
+\vfill
+{\small\color{muted}解答メモ：パラメータの範囲、値域、密度が $0$ となる範囲を省略しない。}
+
+\columnstart{回数と待ち時間は、同じ過程の二つの見方}
+一定時間内に何回起こるかを数えるとポアソン分布、次に起こるまで待つと指数分布。
+この関係は分布の公式の偶然の一致ではなく、同じランダムな到着過程を
+異なる方向から観測した結果として理解できる。
+
+\columnheading{短い時間での仮定を置く}
+$N(t)$ を時刻 $t$ までの到着回数とし、$N(0)=0$ とする。
+異なる時間区間の増分が独立で、増分の分布は区間の長さだけで決まると仮定する。
+さらに $h\downarrow0$ で
+$$P(N(h)=1)=\lambda h+o(h),\qquad P(N(h)\ge2)=o(h)$$
+と置く。$\lambda>0$ は単位時間当たりの到着の rate である。
+これらの仮定の下で、微小時間に複数回到着する寄与は一次の項より小さい。
+
+\columnheading{回数の確率が満たす方程式}
+$p_k(t)=P(N(t)=k)$ とすると、独立増分を使った畳み込みと上の展開から
+$$p_0'(t)=-\lambda p_0(t),\qquad
+  p_k'(t)=-\lambda p_k(t)+\lambda p_{k-1}(t)\quad(k\ge1).$$
+初期条件 $p_0(0)=1$、$p_k(0)=0$（$k\ge1$）を満たす解は
+$$p_k(t)=e^{-\lambda t}\frac{(\lambda t)^k}{k!}.$$
+したがって、時刻 $t$ の総回数は $\mathrm{Poi}(\lambda t)$ に従う。
+
+\columnheading{最初の到着まで待つ}
+$T_1=\inf\{t\ge0:N(t)\ge1\}$ とする。
+「$t$ より長く待つ」は「時刻 $t$ までに一度も到着しない」と同じだから
+$$P(T_1>t)=P(N(t)=0)=e^{-\lambda t}.$$
+よって $T_1\sim\mathrm{Exp}(\lambda)$ であり、記憶なし性質も直ちに従う。
+すでに $t$ 待ったという情報を得ても、さらに待つ時間の分布は同じである。
+
+\columnheading{$m$ 回目の到着まで待つ}
+$T_m$ を $m$ 回目の到着時刻とすると
+$$P(T_m>t)=P(N(t)\le m-1)
+ =e^{-\lambda t}\sum_{k=0}^{m-1}\frac{(\lambda t)^k}{k!}.$$
+この式を微分すると $T_m$ の密度は
+$\lambda^m t^{m-1}e^{-\lambda t}/(m-1)!$（$t>0$）となる。
+これは $\mathrm{Gamma}(m,\lambda)$ である。
+どの現象にも当てはまるわけではなく、独立な増分と一定 rate という仮定が
+どこまで適切かを確かめることが、分布名を選ぶ前の大切な作業となる。
+
+\label{lastpage}
+\end{document}

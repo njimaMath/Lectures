@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="color-scheme" content="light">
+  <meta name="darkreader-lock">
+  <title>第1回 小テスト：逆関数と逆三角関数</title>
+  <style>
+    :root {
+      --ink: #17324d;
+      --accent: #267a78;
+      --rule: #9ab5b9;
+      --slide-scale: 1;
+    }
+
+    * { box-sizing: border-box; }
+
+    html, body {
+      width: 100%;
+      height: 100%;
+      margin: 0;
+      overflow: hidden;
+      background: #fff;
+    }
+
+    body {
+      color: var(--ink);
+      font-family: "Yu Gothic", "Meiryo", "Hiragino Sans", sans-serif;
+      font-weight: 400;
+      font-synthesis: none;
+    }
+
+    .slide {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      width: 1280px;
+      height: 720px;
+      padding: 36px 64px;
+      transform: translate(-50%, -50%) scale(var(--slide-scale));
+      transform-origin: center;
+      background: #fff;
+    }
+
+    .slide-header {
+      padding-bottom: 16px;
+      border-bottom: 2px solid var(--accent);
+    }
+
+    .header-line, .question-heading {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 24px;
+    }
+
+    .course, .total, .score, h1, h2, p { margin: 0; }
+
+    .course { font-size: 22px; line-height: 1.4; }
+    .total { font-size: 26px; line-height: 1.4; }
+
+    h1 {
+      margin-top: 6px;
+      font-size: 40px;
+      font-weight: 400;
+      line-height: 1.4;
+      letter-spacing: 0.04em;
+    }
+
+    .instructions {
+      margin-top: 8px;
+      font-size: 24px;
+      line-height: 1.5;
+    }
+
+    .questions {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      margin-top: 16px;
+    }
+
+    .question + .question {
+      padding-top: 12px;
+      border-top: 1px solid var(--rule);
+    }
+
+    h2 {
+      color: var(--accent);
+      font-size: 24px;
+      font-weight: 400;
+      line-height: 1.3;
+    }
+
+    .score { font-size: 24px; line-height: 1.3; }
+
+    .statement {
+      margin-top: 6px;
+      font-size: 32px;
+      line-height: 1.5;
+    }
+
+    .subquestions {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 64px;
+      margin: 12px 40px 0;
+    }
+
+    .subquestion {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 24px;
+      min-width: 0;
+    }
+
+    .subquestion-label { font-size: 30px; }
+    .formula { font-size: 40px; }
+    mjx-container[display="true"] { margin: 0 !important; }
+
+    .presentation-controls {
+      position: fixed;
+      right: 16px;
+      bottom: 10px;
+    }
+
+    .fullscreen-button {
+      padding: 7px 12px;
+      border: 1px solid var(--rule);
+      border-radius: 3px;
+      background: #fff;
+      color: var(--ink);
+      font: inherit;
+      font-size: 14px;
+      cursor: pointer;
+    }
+
+    .fullscreen-button:hover { border-color: var(--accent); }
+    .fullscreen-button:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+    html:fullscreen .presentation-controls { display: none; }
+  </style>
+  <script>
+    window.MathJax = {
+      tex: {
+        inlineMath: [['$', '$']],
+        displayMath: [['$$', '$$']],
+        packages: ['base', 'ams']
+      },
+      svg: { fontCache: 'local' },
+      options: { enableMenu: false }
+    };
+  </script>
+  <!-- Local MathJax and SVG fonts allow projection without an internet connection. -->
+  <script defer src="assets/mathjax/tex-svg.js"></script>
+</head>
+<body>
+  <main class="slide" aria-label="小テストの問題、1枚のスライド">
+    <header class="slide-header">
+      <div class="header-line">
+        <p class="course">解析学 II・第1回 小テスト</p>
+        <p class="total">合計100点</p>
+      </div>
+      <h1>逆関数と逆三角関数</h1>
+      <p class="instructions">計算過程も記し、角度はラジアンで答えること。</p>
+    </header>
+
+    <div class="questions">
+      <section class="question" aria-labelledby="question-1">
+        <div class="question-heading">
+          <h2 id="question-1">問1</h2>
+          <p class="score">30点</p>
+        </div>
+        <p class="statement">関数 $f(x)=x^2-4x+5$（定義域 $x\leq 2$）の逆関数 $g$ を求めよ。</p>
+      </section>
+
+      <section class="question" aria-labelledby="question-2">
+        <div class="question-heading">
+          <h2 id="question-2">問2</h2>
+          <p class="score">各30点、計60点</p>
+        </div>
+        <p class="statement">次の逆三角関数の値を求めよ。</p>
+        <div class="subquestions">
+          <div class="subquestion">
+            <span class="subquestion-label">(a)</span>
+            <div class="formula">$${\rm Sin}^{-1}\!\left(-\frac{\sqrt{2}}{2}\right)$$</div>
+          </div>
+          <div class="subquestion">
+            <span class="subquestion-label">(c)</span>
+            <div class="formula">$${\rm Tan}^{-1}\sqrt{3}$$</div>
+          </div>
+        </div>
+      </section>
+
+      <section class="question" aria-labelledby="question-3">
+        <div class="question-heading">
+          <h2 id="question-3">問3　自由感想</h2>
+          <p class="score">10点</p>
+        </div>
+        <p class="statement">自由に感想を書いてください。</p>
+      </section>
+    </div>
+  </main>
+
+  <div class="presentation-controls">
+    <button class="fullscreen-button" type="button" title="全画面表示（Fキー）">全画面</button>
+  </div>
+
+  <script>
+    const root = document.documentElement;
+    const fullscreenButton = document.querySelector('.fullscreen-button');
+
+    function fitSlide() {
+      const scale = Math.min(window.innerWidth / 1280, window.innerHeight / 720);
+      root.style.setProperty('--slide-scale', String(scale));
+    }
+
+    async function toggleFullscreen() {
+      try {
+        if (document.fullscreenElement) {
+          await document.exitFullscreen();
+        } else {
+          await root.requestFullscreen();
+        }
+      } catch {
+        fullscreenButton.textContent = 'F11で全画面';
+        fullscreenButton.title = 'ブラウザーのF11キーで全画面表示できます。';
+      }
+    }
+
+    fitSlide();
+    window.addEventListener('resize', fitSlide);
+    document.addEventListener('fullscreenchange', fitSlide);
+    fullscreenButton.addEventListener('click', toggleFullscreen);
+    document.addEventListener('keydown', (event) => {
+      if (event.key.toLowerCase() === 'f' && !event.repeat && !event.ctrlKey && !event.metaKey && !event.altKey) {
+        event.preventDefault();
+        toggleFullscreen();
+      }
+    });
+  </script>
+</body>
+</html>

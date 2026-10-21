@@ -23,6 +23,8 @@
 *.snm
 *.vrb
 
+pdflatex*
+
 # Python bytecode
 __pycache__/
 *.py[cod]

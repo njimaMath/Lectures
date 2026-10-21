@@ -1,0 +1,328 @@
+% Build twice here: pdflatex -interaction=nonstopmode -halt-on-error resume6An26w.tex
+\documentclass[a4paper,10pt,pdflatex,ja=standard,jafont=ipaex-type1,
+  magstyle=real,scale=1]{bxjsarticle}
+\usepackage{lmodern}
+\usepackage{amsmath,amssymb,mathtools}
+\usepackage{geometry}
+\geometry{reset,left=22mm,right=22mm,top=20mm,bottom=17mm,
+  headheight=13pt,headsep=6mm,footskip=10mm}
+\usepackage{xcolor}
+\usepackage{enumitem}
+\usepackage{array,booktabs,tabularx}
+\usepackage{fancyhdr}
+\usepackage{lastpage}
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta,calc,decorations.pathreplacing}
+
+\definecolor{ink}{HTML}{193A5C}
+\definecolor{accent}{HTML}{237D82}
+\definecolor{soft}{HTML}{EAF3F3}
+\definecolor{muted}{HTML}{52616B}
+\newcommand{\coursename}{解析学 II}
+\newcommand{\handoutnumber}{6}
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\small\color{ink}\coursename{}・授業要約と演習}
+\fancyhead[R]{\small\color{ink}第\handoutnumber 回}
+\fancyfoot[C]{\small\color{ink}\thepage/\pageref{LastPage}}
+\renewcommand{\headrulewidth}{0.3pt}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{2pt}
+\setlength{\abovedisplayskip}{5pt}
+\setlength{\belowdisplayskip}{5pt}
+\setlength{\abovedisplayshortskip}{3pt}
+\setlength{\belowdisplayshortskip}{4pt}
+\setlist[itemize]{leftmargin=1.8em,itemsep=1pt,topsep=2pt,parsep=0pt}
+
+\newcommand{\handouttitle}[1]{%
+  \begin{center}
+    {\Large\color{ink}#1}\par\vspace{3mm}
+    {\color{accent}\rule{0.88\linewidth}{0.7pt}}
+  \end{center}\vspace{-2mm}}
+\newcommand{\handout}[2]{%
+  \renewcommand{\handoutnumber}{#1}%
+  \handouttitle{第#1回\quad #2}}
+\newcommand{\topic}[1]{\par\vspace{5pt}%
+  {\large\sffamily\mdseries\color{accent}#1}\par\vspace{2pt}}
+\newcommand{\keybox}[1]{\par\vspace{3pt}\begingroup
+  \setlength{\fboxsep}{4pt}%
+  \colorbox{soft}{\parbox{\dimexpr\linewidth-2\fboxsep\relax}{\small #1}}%
+  \endgroup\par\vspace{2pt}}
+\newenvironment{problems}
+  {\begin{enumerate}[leftmargin=2em,itemsep=3pt,topsep=3pt,parsep=0pt,
+    font=\color{accent}]}
+  {\end{enumerate}}
+
+
+\newcommand{\examplelabel}[1]{{\sffamily\mdseries\color{ink}#1}}
+\newcommand{\problemspace}{\par\vspace{5mm}}
+\newcommand{\exercises}{%
+  {\color{accent}\hrule height 0.7pt}\vspace{3pt}%
+  \topic{演習問題（6題）}%
+  {\small 領域と積分範囲を確認し、計算過程も書こう。図を描くと範囲を読み取りやすい。}\par}
+\tikzset{
+  handout diagram/.style={>={Stealth[length=3.2pt,width=3.2pt]},line join=round,
+    every node/.style={font=\scriptsize,text=ink}},
+  region/.style={fill=soft,draw=accent,semithick},
+  slice/.style={accent,line width=1.8pt},
+  guide/.style={muted,densely dashed,thin},
+  axis/.style={->,ink,thin}}
+
+
+% Review Q&A can also be used for actual student feedback when it is available.
+\newcommand{\feedback}[2]{%
+  \par\addvspace{8pt}\noindent\begin{minipage}{\linewidth}%
+  {\color{ink}Q. #1}\par\vspace{2pt}%
+  {\color{accent}A. }#2%
+  \end{minipage}\par}
+
+\begin{document}
+\fontsize{10pt}{13.5pt}\selectfont
+\setlength{\abovedisplayskip}{4pt}
+\setlength{\belowdisplayskip}{4pt}
+% Feedback section: add comments and responses here when available.
+\fancyhead[L]{\small\color{ink}\coursename{}・フィードバック}
+\handout{6}{前回のコメントへのフィードバック}
+% \feedback{comment}{response}
+\clearpage
+
+% Previous small-test section: add the questions and solutions here.
+\fancyhead[L]{\small\color{ink}\coursename{}・小テスト}
+\fancyhead[R]{\small\color{ink}第5回}
+\handouttitle{第5回\quad 小テスト}
+% Questions and solutions are intentionally blank.
+\clearpage
+
+\fancyhead[L]{\small\color{ink}\coursename{}・授業要約と演習}
+\fancyhead[R]{\small\color{ink}第\handoutnumber 回}
+\handout{6}{重積分の変数変換（ヤコビアン）}\label{lesson-start}
+\keybox{到達目標：変換後の領域・関数・面積要素をそろえて重積分を計算できる。
+ヤコビアンの絶対値を面積の伸縮率として理解しよう。}
+
+\topic{ヤコビ行列と面積の伸縮率}
+$C^1$ 級の座標変換 $T(u,v)=(x(u,v),y(u,v))$ のヤコビ行列と行列式を
+$$
+ DT=\begin{pmatrix}x_u&x_v\\y_u&y_v\end{pmatrix},\qquad
+ J_T=\det DT=x_uy_v-x_vy_u
+$$
+とする。微小長方形の2辺の像は、$T_u\,du$ と $T_v\,dv$ で近似される。
+その面積は $|J_T|\,du\,dv$ なので
+$$
+ dx\,dy=|J_T(u,v)|\,du\,dv.
+$$
+通常の面積では絶対値を取る。$J_T$ の符号は座標の向きの保存・反転を表す。
+
+
+\par\vspace{2pt}\noindent
+\begin{minipage}[b]{0.48\linewidth}\centering
+\begin{tikzpicture}[handout diagram,x=1cm,y=0.8cm]
+\path[region] (0,0) rectangle (2.7,1.9);
+ \draw[axis] (0,0) -- (3.3,0) node[right] {$u$};
+ \draw[axis] (0,0) -- (0,2.5) node[above] {$v$};
+ \draw[<->,accent] (0,-0.4) -- (2.7,-0.4) node[midway,below] {$du$};
+ \draw[<->,accent] (3.05,0) -- (3.05,1.9) node[midway,right] {$dv$};
+ \node at (1.35,0.95) {$du\,dv$};
+\end{tikzpicture}\par
+{\small\color{muted}変換前：小さな長方形}\par
+\end{minipage}\hfill
+\begin{minipage}[b]{0.48\linewidth}\centering
+\begin{tikzpicture}[handout diagram,x=1cm,y=0.8cm]
+\path[region] (0,0) -- (2.5,0.5) -- (3.4,2.2) -- (0.9,1.7) -- cycle;
+ \draw[axis] (0,0) -- (3.8,0) node[right] {$x$};
+ \draw[axis] (0,0) -- (0,2.7) node[above] {$y$};
+ \draw[->,accent,semithick] (0,0) -- (2.5,0.5) node[midway,above] {$T_u\,du$};
+ \draw[->,ink,semithick] (0,0) -- (0.9,1.7) node[midway,right] {$T_v\,dv$};
+ \node at (2,1.45) {$|J_T|\,du\,dv$};
+\end{tikzpicture}\par
+{\small\color{muted}変換後：接ベクトルが張る平行四辺形}\par
+\end{minipage}
+\par\vspace{2pt}
+
+\topic{変数変換公式と適用条件}
+$D,E$ は有界で境界の面積が0、$D=T(E)$ とする。
+$T$ は $E$ の近傍で $C^1$ 級、内部で1対1かつ $J_T\ne0$ とする。
+$f$ が $D$ 上可積分なら
+$$
+ \iint_Df(x,y)\,dx\,dy
+ =\iint_E f(x(u,v),y(u,v))\,|J_T(u,v)|\,du\,dv.
+$$
+境界など面積0の部分での重複・退化は積分値に影響しない。
+関数・面積要素・積分領域の3つを同時に変換する。
+
+
+\topic{線形変換の例}
+$x=2u+v$、$y=u+3v$ なら $J_T=\det\begin{pmatrix}2&1\\1&3\end{pmatrix}=5$。
+$E=[0,1]^2$ の像 $D$ は平行四辺形で
+$$
+ \operatorname{Area}(D)=\iint_E5\,du\,dv=5,\qquad
+ \iint_D(x+y)\,dx\,dy
+ =5\int_0^1\int_0^1(3u+4v)\,dv\,du=\frac{35}{2}.
+$$
+
+
+\par\vspace{2pt}\noindent
+\begin{minipage}[b]{0.48\linewidth}\centering
+\begin{tikzpicture}[handout diagram,x=0.9cm,y=0.75cm]
+\path[region] (0,0) rectangle (2,2);
+ \draw[accent!40,step=0.5] (0,0) grid (2,2);
+ \draw[axis] (0,0) -- (2.6,0) node[right] {$u$};
+ \draw[axis] (0,0) -- (0,2.6) node[above] {$v$};
+ \node[below left] at (0,0) {$0$};
+ \node[below] at (2,0) {$1$};
+ \node[left] at (0,2) {$1$};
+ \node at (1,1) {$E$};
+\end{tikzpicture}\par
+{\small\color{muted}単位正方形の面積は1}\par
+\end{minipage}\hfill
+\begin{minipage}[b]{0.48\linewidth}\centering
+\begin{tikzpicture}[handout diagram,x=0.8cm,y=0.48cm]
+\path[region] (0,0) -- (2,1) -- (3,4) -- (1,3) -- cycle;
+ \foreach \t in {0.25,0.5,0.75}{
+  \draw[accent!40] (2*\t,\t) -- ({2*\t+1},{\t+3});
+  \draw[accent!40] (\t,3*\t) -- ({\t+2},{3*\t+1});}
+ \draw[axis] (0,0) -- (3.8,0) node[right] {$x$};
+ \draw[axis] (0,0) -- (0,4.4) node[above] {$y$};
+ \node[below] at (2,1) {$(2,1)$};
+ \node[above right] at (3,4) {$(3,4)$};
+ \node[left] at (1,3) {$(1,3)$};
+ \node at (1.5,2) {$D$};
+\end{tikzpicture}\par
+{\small\color{muted}$T(u,v)=(2u+v,u+3v)$ で面積は5倍}\par
+\end{minipage}
+\par\vspace{2pt}
+
+\newpage
+% Keep the remaining summary in the upper half of page 2.
+\noindent\begin{minipage}[b][\dimexpr0.5\textheight-\parskip\relax][t]{\linewidth}
+\topic{極座標：円・扇形・円環に適する座標}
+$x=r\cos\theta$、$y=r\sin\theta$、$r\ge0$ とすると
+$$
+ \det\frac{\partial(x,y)}{\partial(r,\theta)}
+ =\begin{vmatrix}\cos\theta&-r\sin\theta\\\sin\theta&r\cos\theta\end{vmatrix}=r,
+ \qquad dx\,dy=r\,dr\,d\theta.
+$$
+半径方向の幅 $dr$ と円弧方向の長さ $r\,d\theta$ の積が面積要素になる。
+\par\examplelabel{例：半径 $R>0$ の円板 $D_R$。}
+$$
+ \iint_{D_R}(x^2+y^2)\,dx\,dy
+ =\int_0^{2\pi}\int_0^Rr^3\,dr\,d\theta=\frac{\pi R^4}{2}.
+$$
+
+
+\topic{楕円と多対1の変換}
+$a,b>0$、$x=ar\cos\theta$、$y=br\sin\theta$ なら $|J_T|=ab r$。
+楕円 $x^2/a^2+y^2/b^2\le1$ は $0\le r\le1,\ 0\le\theta<2\pi$ に対応する。
+\par
+同じ点を複数回覆う変換では、その重複回数も積分に入る。
+1対1になる範囲へ制限してから公式を使うのが基本である。
+\keybox{ヤコビアンは逆変換のものと取り違えない。極座標では半径の範囲と角度の範囲を図で確認する。}
+
+\par\vspace{2pt}\noindent
+\begin{minipage}[b]{0.48\linewidth}\centering
+\begin{tikzpicture}[handout diagram,x=1cm,y=0.8cm]
+\path[region] (20:1.5) -- (20:2.3) arc[start angle=20,end angle=48,radius=2.3]
+   -- (48:1.5) arc[start angle=48,end angle=20,radius=1.5] -- cycle;
+ \draw[guide] (0,0) -- (20:2.6);
+ \draw[guide] (0,0) -- (48:2.6);
+ \draw[axis] (0,0) -- (3.15,0) node[right] {$x$};
+ \draw[axis] (0,0) -- (0,2.5) node[above] {$y$};
+ \draw[->,ink] (0.7,0) arc[start angle=0,end angle=20,radius=0.7];
+ \node at (1,0.16) {$\theta$};
+ \node[below] at (20:1.9) {$dr$};
+ \node[above right] at (36:2.3) {$r\,d\theta$};
+\end{tikzpicture}\par
+{\small\color{muted}細い扇形：$dA\approx dr\,(r\,d\theta)$}\par
+\end{minipage}\hfill
+\begin{minipage}[b]{0.48\linewidth}\centering
+\begin{tikzpicture}[handout diagram,x=0.8cm,y=0.65cm]
+\path[region] (0,0) ellipse (2.25 and 1.3);
+ \draw[guide] (0,0) circle (1.3);
+ \draw[axis] (-2.55,0) -- (2.7,0) node[right] {$x$};
+ \draw[axis] (0,-1.5) -- (0,1.7) node[above] {$y$};
+ \draw[->,accent] (0,0) -- (1.59,0.92) node[midway,above left] {$r$};
+ \node[below right] at (2.25,0) {$a$};
+ \node[above left] at (0,1.3) {$b$};
+\end{tikzpicture}\par
+{\small\color{muted}単位円板を $x$ 方向に $a$ 倍、$y$ 方向に $b$ 倍}\par
+\end{minipage}
+\par\vspace{2pt}
+
+\end{minipage}\par\nointerlineskip
+% Keep the exercises and writing space in the lower half of page 2.
+\noindent\begin{minipage}[b][0.5\textheight][t]{\linewidth}
+\exercises
+\begin{problems}
+\item $T(u,v)=(3u+v,u-2v)$ のヤコビアンを求め、単位正方形の像の面積を計算せよ。行列式の符号の意味も述べよ。
+\problemspace
+
+\item 極座標を用いて、$\displaystyle\iint_{x^2+y^2\le1}(x^2+y^2)\,dx\,dy$ を求めよ。
+\problemspace
+
+\item 円環 $D=\{(x,y):1\le x^2+y^2\le4\}$ 上の $\displaystyle\iint_D\frac{dx\,dy}{x^2+y^2}$ を求めよ。
+\problemspace
+
+\item $a,b>0$、$D=\{(x,y):x^2/a^2+y^2/b^2\le1\}$ とする。変数変換を用いて $D$ の面積と $\iint_Dx^2\,dx\,dy$ を求めよ。
+\problemspace
+
+\item $u=x+y,\ v=x-y$ とする。$D=\{(x,y):0\le x+y\le2,\ 0\le x-y\le1\}$ 上の $\iint_D(x+y)\,dx\,dy$ を求めよ。
+\problemspace
+
+\item $T(u,v)=(u^2-v^2,2uv)$ の $|J_T|$ を求めよ。$u^2+v^2\le1$ の像と重複回数を調べ、$\iint_{u^2+v^2\le1}|J_T|\,du\,dv$ が像の面積と一致するか説明せよ。
+\problemspace
+\end{problems}
+\end{minipage}
+
+\newpage
+\handouttitle{第6回\quad 演習問題の解答}
+{\small 設定した範囲と条件も確認しながら、計算を振り返ろう。}\par
+\begin{problems}
+\setlength{\itemsep}{7pt}
+\item $J_T=\det\begin{pmatrix}3&1\\1&-2\end{pmatrix}=-7$。
+したがって単位正方形の像の面積は $|-7|\cdot1=7$。
+負の符号は向きの反転を表し、面積自体は正である。
+
+\item $x^2+y^2=r^2$、$dA=r\,dr\,d\theta$ より
+$$
+ \iint_{x^2+y^2\le1}(x^2+y^2)\,dA
+ =\int_0^{2\pi}\int_0^1r^3\,dr\,d\theta=\frac\pi2.
+$$
+
+\item 円環では $1\le r\le2$、$0\le\theta<2\pi$ である。したがって
+$$
+ \iint_D\frac{dA}{x^2+y^2}
+ =\int_0^{2\pi}\int_1^2\frac1{r^2}r\,dr\,d\theta=2\pi\log2.
+$$
+原点は領域に含まれないので、この領域上に特異点はない。
+
+\item $x=ar\cos\theta$、$y=br\sin\theta$、$|J_T|=ab r$ とおく。
+範囲は $0\le r\le1$、$0\le\theta<2\pi$。
+$$
+ \operatorname{Area}(D)=ab\int_0^{2\pi}\int_0^1r\,dr\,d\theta=\pi ab,
+$$
+$$
+ \iint_Dx^2\,dA
+ =a^3b\left(\int_0^1r^3\,dr\right)
+         \left(\int_0^{2\pi}\cos^2\theta\,d\theta\right)=\frac{\pi a^3b}{4}.
+$$
+
+\item 積分に使うのは逆変換 $x=(u+v)/2$、$y=(u-v)/2$ であり、
+$\det\partial(x,y)/\partial(u,v)=-1/2$。
+$D$ は $0\le u\le2,\ 0\le v\le1$ に移るので
+$$
+ \iint_D(x+y)\,dA=\frac12\int_0^2\int_0^1u\,dv\,du=1.
+$$
+
+\item $DT=\begin{pmatrix}2u&-2v\\2v&2u\end{pmatrix}$ なので $|J_T|=4(u^2+v^2)$。
+$u=s\cos\theta$、$v=s\sin\theta$ と書くと
+$$
+ T(u,v)=(s^2\cos2\theta,s^2\sin2\theta).
+$$
+像は単位円板で、原点以外の各点を2回覆う。したがって
+$$
+ \iint_{u^2+v^2\le1}|J_T|\,du\,dv
+ =\int_0^{2\pi}\int_0^1 4s^3\,ds\,d\theta=2\pi.
+$$
+像の面積 $\pi$ の2倍となる。原点だけは像の重複回数が1だが、面積0なので影響しない。
+\end{problems}
+\keybox{変換後の関数・領域・面積要素を一組にしよう。変換が多対1なら、面積を重複して数えていないか確認する。}
+\end{document}

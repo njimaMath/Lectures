@@ -1,0 +1,230 @@
+% Build in this directory (run twice for page references):
+% pdflatex -interaction=nonstopmode -halt-on-error resume11PT26.tex
+% Topics follow the syllabus in ../class1/class1PT26.tex.
+% Content adapted from ../lectureNote.tex and ../lectureNotes.tex.
+\documentclass[a4paper,10pt,pdflatex,ja=standard,jafont=ipaex-type1,
+  magstyle=real,scale=1]{bxjsarticle}
+\usepackage{lmodern}
+\usepackage{amsmath,amssymb,mathtools}
+\usepackage{geometry}
+\geometry{reset,left=22mm,right=22mm,top=20mm,bottom=17mm,
+  headheight=13pt,headsep=6mm,footskip=10mm}
+\usepackage{xcolor}
+\usepackage{enumitem}
+\usepackage{array,booktabs,tabularx}
+\usepackage{tikz}
+\usepackage{fancyhdr}
+\usepackage{hyperref}
+\definecolor{ink}{HTML}{193A5C}
+\definecolor{accent}{HTML}{237D82}
+\definecolor{soft}{HTML}{EAF3F3}
+\definecolor{muted}{HTML}{52616B}
+\newcommand{\coursename}{確率論と統計学 I}
+\hypersetup{unicode=true,colorlinks=true,urlcolor=accent,linkcolor=ink,
+  pdfauthor={中島秀太},pdftitle={第11回：条件付き期待値}}
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\small\color{ink}\coursename{}・授業要約と演習}
+\fancyhead[R]{\small\color{ink}第11回}
+\fancyfoot[C]{\small\color{ink}\thepage/\pageref*{lastpage}}
+\renewcommand{\headrulewidth}{0.3pt}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{2pt}
+\setlength{\abovedisplayskip}{4pt}
+\setlength{\belowdisplayskip}{4pt}
+\setlength{\abovedisplayshortskip}{3pt}
+\setlength{\belowdisplayshortskip}{4pt}
+\setlist[itemize]{leftmargin=1.8em,itemsep=2pt,topsep=3pt,parsep=0pt}
+\setlist[enumerate]{leftmargin=2em,itemsep=6pt,topsep=4pt,parsep=0pt}
+\newcommand{\topic}[1]{\par\vspace{5pt}
+  {\large\sffamily\mdseries\color{accent}#1}\par\vspace{2pt}}
+\newcommand{\handouttitle}[1]{\begin{center}
+  {\Large\color{ink}#1}\par\vspace{3mm}
+  {\color{accent}\rule{0.88\linewidth}{0.7pt}}
+  \end{center}\vspace{-2mm}}
+\newcommand{\keybox}[1]{\par\vspace{3pt}\begingroup
+  \setlength{\fboxsep}{5pt}
+  \colorbox{soft}{\parbox{\dimexpr\linewidth-2\fboxsep\relax}{#1}}
+  \endgroup\par\vspace{2pt}}
+\newcommand{\examplelabel}[1]{{\sffamily\mdseries\color{ink}#1}}
+\newcommand{\columnheading}[1]{\par\vspace{5pt}
+  {\fontsize{11pt}{15pt}\selectfont\sffamily\mdseries\color{accent}#1}\par\vspace{2pt}}
+\newcommand{\columnstart}[1]{\clearpage
+  \fancyhead[L]{\small\color{ink}\coursename{}・発展的内容}
+  {\small\sffamily\mdseries\color{accent}発展的内容}\par\vspace{4pt}
+  {\Large\color{ink}#1}\par\vspace{2pt}
+  {\color{accent}\rule{\linewidth}{0.7pt}}\par\vspace{4pt}}
+\newcommand{\F}{\mathcal F}
+\newcommand{\R}{\mathbb R}
+\newcommand{\N}{\mathbb N}
+\newcommand{\E}{\mathbb E}
+\newcommand{\Var}{\operatorname{Var}}
+\newcommand{\Cov}{\operatorname{Cov}}
+\newcommand{\ind}{\mathrm{1}}
+\newcommand{\iid}{\text{独立同分布}}
+\begin{document}
+\fontsize{10pt}{13.5pt}\selectfont
+\handouttitle{第11回\quad 条件付き期待値}
+\keybox{条件付き期待値は、手元の情報だけから決まる確率変数である。
+可測性と、情報で区別できるすべての事象上での積分一致が、その定義となる。}
+
+\topic{有限空間での条件付き分布}
+$(\Omega,\F,P)$ を有限確率空間、$X,Y$ を実数値確率変数とする。
+$P(Y=y)>0$ に対して
+$$P(X=x\mid Y=y)=\frac{P(X=x,Y=y)}{P(Y=y)},\qquad
+ f(y):=\E[X\mid Y=y]=\sum_x xP(X=x\mid Y=y).$$
+$P(Y=y)=0$ の値では $f(y)=0$ など任意に定めてよい。
+この関数に実際の観測 $Y$ を代入して
+$$\E[X\mid Y]:=f(Y)$$
+と定める。$\E[X\mid Y=y]$ は数、$\E[X\mid Y]$ は $\Omega$ 上の確率変数である。
+
+\topic{例：二回のコイントス}
+公平なコインを独立に2回投げ、$X$ を1回目が表なら $1$、裏なら $0$、
+$Y$ を表の総数とする。
+\begin{center}
+\renewcommand{\arraystretch}{1.25}
+\begin{tabular}{@{}ccccc@{}}
+\toprule
+$\omega$ & $HH$ & $HT$ & $TH$ & $TT$ \\
+\midrule
+$X$ & $1$ & $1$ & $0$ & $0$ \\
+$Y$ & $2$ & $1$ & $1$ & $0$ \\
+$\E[X\mid Y]$ & $1$ & $1/2$ & $1/2$ & $0$ \\
+\bottomrule
+\end{tabular}
+\end{center}
+$Y=1$ と知ったとき、$HT,TH$ は等確率なので $\E[X\mid Y=1]=1/2$。
+この例では $\E[X\mid Y]=Y/2$ となる。
+
+\topic{情報を表す $\sigma$-加法族}
+$\mathcal G=\sigma(Y)=\{Y^{-1}(B):B\in\mathcal B(\R)\}$ は、
+$Y$ の観測だけで判定できる事象の族である。
+有限空間では、同じ $Y$ の値をもつ標本を一つのまとまりに分けて考えられる。
+一般の部分 $\sigma$-加法族 $\mathcal G\subseteq\F$ も、利用可能な情報を表す。
+
+\topic{一般の定義：二つの条件}
+$\E|X|<\infty$ とする。確率変数 $Z$ が
+$$Z\text{ は }\mathcal G\text{-可測},\qquad \E|Z|<\infty,\qquad
+ \E[Z\ind_A]=\E[X\ind_A]\quad(\forall A\in\mathcal G)$$
+を満たすとき、$Z$ を $\E[X\mid\mathcal G]$ と書く。
+可測性は $\mathcal G$ の情報だけで値を決められる条件、積分一致は
+その情報で区別できるどの事象上でも平均が保たれる条件である。
+$\E[X\mid Y]$ は $\E[X\mid\sigma(Y)]$ の略記として使う。
+
+\newpage
+\topic{存在と一意性}
+$A\in\mathcal G$ に対して $\nu(A)=\E[X\ind_A]$ と定める。
+$\nu$ は有限符号付き測度で $\nu\ll P|_{\mathcal G}$ なので、Radon--Nikodym の定理が
+$$Z=\frac{d\nu}{d(P|_{\mathcal G})}$$
+という可積分な $\mathcal G$-可測関数を与える。これが存在を保証する。
+同じ定義を満たす $Z_1,Z_2$ には、$A=\{Z_1>Z_2\}\in\mathcal G$ を使うと
+$\E[(Z_1-Z_2)\ind_A]=0$ なので $P(Z_1>Z_2)=0$。
+逆の不等式も同様で、$Z_1=Z_2$ a.s. となる。
+
+\topic{線形性と、すでに分かっている量}
+可積分な $X,Y$ と $a,b\in\R$ に対して
+$$\E[aX+bY\mid\mathcal G]
+ =a\E[X\mid\mathcal G]+b\E[Y\mid\mathcal G]\quad\text{a.s.}$$
+$X$ が $\mathcal G$-可測なら $\E[X\mid\mathcal G]=X$ a.s.。
+また有界な $\mathcal G$-可測確率変数 $H$ について
+$$\E[HX\mid\mathcal G]=H\E[X\mid\mathcal G]\quad\text{a.s.}$$
+となる。既知の量は条件付き期待値の外へ出せる。
+有界性を外す場合には、積の可積分性を別に確認する必要がある。
+
+\topic{全期待値と塔の性質}
+定義式に $A=\Omega$ を入れるだけで
+$$\E[\E[X\mid\mathcal G]]=\E[X]$$
+を得る。さらに $\mathcal H\subseteq\mathcal G\subseteq\F$ なら
+$$\E[\E[X\mid\mathcal G]\mid\mathcal H]
+ =\E[X\mid\mathcal H]\quad\text{a.s.}$$
+である。左辺は $\mathcal H$-可測で、任意の $A\in\mathcal H$ に対し積分をとると
+$$\E[\E[\E[X\mid\mathcal G]\mid\mathcal H]\ind_A]
+ =\E[\E[X\mid\mathcal G]\ind_A]=\E[X\ind_A].$$
+定義と一意性から結論が従う。
+
+\topic{情報がない場合と独立な情報の場合}
+自明な $\sigma$-加法族 $\{\varnothing,\Omega\}$ については
+$\E[X\mid\{\varnothing,\Omega\}]=\E[X]$ a.s.。
+$X$ が $\mathcal G$ と独立、すなわち $\sigma(X)$ と $\mathcal G$ の任意の事象が独立なら
+$$\E[X\mid\mathcal G]=\E[X]\quad\text{a.s.}$$
+となる。実際、定数 $\E[X]$ は可測であり、
+$\E[X\ind_A]=\E[X]P(A)$ が積分一致を与える。
+
+\keybox{候補を計算したら、情報についての可測性と積分一致を確かめる。
+等式は原則として a.s. の意味であり、零確率の条件上の値は一意に定まらない。}
+
+\newpage
+\topic{演習問題}
+\begin{enumerate}[label=\arabic*.]
+\item 公平なコインを独立に3回投げ、$X$ を1回目の表の指示関数、$T$ を表の総数とする。
+$\E[X\mid T=t]$（$t=0,1,2,3$）を求め、$\E[X\mid T]$ を $T$ の式で表せ。
+\item 公平なサイコロの出目を $D$ とし、$\mathcal G$ を偶奇だけを知る情報とする。
+$\E[D\mid\mathcal G]$ の値とその分布を求め、全期待値の公式を確認せよ。
+\item $X$ が可積分で $\mathcal G$-可測なら、$X$ 自身が条件付き期待値の定義を満たすことを示せ。
+さらに $\E[\E[X\mid\mathcal G]]=\E[X]$ を定義から示せ。
+\item $\mathcal H\subseteq\mathcal G$ とする。塔の性質を定義から証明せよ。
+情報の包含関係を逆にすると、同じ式をそのまま使えるか考えよ。
+\end{enumerate}
+
+\topic{レポート問題}
+\begin{enumerate}[label=\arabic*.]
+\item 公平なサイコロ2個を独立に投げ、出目を $U,V$、$S=U+V$ とする。
+$\E[U\mid S]$ を求め、その確率分布を明示せよ。
+対称性から候補を考えた後、各 $S=s$ の条件付き分布で確認すること。
+\item $\E[X^2]<\infty$ とし、$Z=\E[X\mid\mathcal G]$ とおく。
+任意の二乗可積分な $\mathcal G$-可測変数 $H$ に対して
+$$\E[(X-H)^2]=\E[(X-Z)^2]+\E[(Z-H)^2]$$
+を示せ。$Z$ の二乗可積分性には条件付き Jensen の不等式を使ってよい。
+\end{enumerate}
+
+\topic{考えるための手がかり}
+条件付き期待値は、観測で区別できない標本の間を平均する。
+有限空間では、情報による分割を図や表にすると計算しやすい。
+一般の定義の証明では、候補が可測であることも忘れず確認しよう。
+\vfill
+{\small\color{muted}解答メモ：数 $\E[X\mid Y=y]$ と確率変数 $\E[X\mid Y]$ を区別する。}
+
+\columnstart{条件付き期待値は、情報に基づく最良予測}
+見えている情報だけを使って、まだ分からない量 $X$ を予測したい。
+予測誤差を二乗で測るとき、条件付き期待値には明確な最適性がある。
+この性質は「情報を $\sigma$-加法族で表す」という考え方を幾何学へつなぐ。
+
+\columnheading{予測の候補は $\mathcal G$-可測な変数}
+$\E[X^2]<\infty$、$Z=\E[X\mid\mathcal G]$ とする。
+条件付き Jensen の不等式より
+$$Z^2\le\E[X^2\mid\mathcal G]\quad\text{a.s.},\qquad
+ \E[Z^2]\le\E[X^2]<\infty.$$
+情報 $\mathcal G$ だけを使う予測値 $H$ も、$\mathcal G$-可測な二乗可積分変数とする。
+$X-Z$ は、情報から説明できずに残る誤差である。
+
+\columnheading{残った誤差は既知の量と直交する}
+定義の積分一致を有界な $\mathcal G$-可測関数へ拡張すれば
+$\E[(X-Z)K]=0$ となる。
+二乗可積分な $K$ へは切断と Cauchy--Schwarz の不等式で拡張できる。
+特に $K=Z-H$ と置くと
+$$\E[(X-Z)(Z-H)]=0.$$
+したがって二乗を展開した交差項が消え、
+$$\E[(X-H)^2]=\E[(X-Z)^2]+\E[(Z-H)^2]
+ \ge\E[(X-Z)^2].$$
+最小値は $H=Z$ で達成され、等号なら $H=Z$ a.s.。
+これは $L^2$ 空間での直交射影に対応している。
+
+\columnheading{情報が増えると、最小誤差は増えない}
+$\mathcal H\subseteq\mathcal G$ なら、$\mathcal H$-可測な予測はすべて
+$\mathcal G$-可測でもある。選べる予測が増えるので
+$$\E[(X-\E[X\mid\mathcal G])^2]
+ \le\E[(X-\E[X\mid\mathcal H])^2].$$
+コイン2回の例で、何も知らなければ1回目の表の指示関数の予測は $1/2$。
+表の総数を知れば $Y/2$ となり、1回目の結果を直接知れば誤差は $0$ になる。
+情報の包含関係が、予測精度の関係として表れる。
+
+\columnheading{時間とともに更新する予測}
+情報が $\F_s\subseteq\F_t$（$s\le t$）と増えるとき、
+$M_t=\E[X\mid\F_t]$ とおけば塔の性質から
+$$\E[M_t\mid\F_s]=M_s.$$
+この性質をもつ過程を martingale という。
+将来の予測値を、現在の情報で平均し直すと現在の予測に戻る。
+条件付き期待値は一回の計算だけでなく、情報が増える過程の整合性も記述している。
+
+\label{lastpage}
+\end{document}

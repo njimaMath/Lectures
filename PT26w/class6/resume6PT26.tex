@@ -1,0 +1,232 @@
+% Build in this directory (run twice for page references):
+% pdflatex -interaction=nonstopmode -halt-on-error resume6PT26.tex
+% Topics follow the syllabus in ../class1/class1PT26.tex.
+% Content adapted from ../lectureNote.tex and ../lectureNotes.tex.
+\documentclass[a4paper,10pt,pdflatex,ja=standard,jafont=ipaex-type1,
+  magstyle=real,scale=1]{bxjsarticle}
+\usepackage{lmodern}
+\usepackage{amsmath,amssymb,mathtools}
+\usepackage{geometry}
+\geometry{reset,left=22mm,right=22mm,top=20mm,bottom=17mm,
+  headheight=13pt,headsep=6mm,footskip=10mm}
+\usepackage{xcolor}
+\usepackage{enumitem}
+\usepackage{array,booktabs,tabularx}
+\usepackage{tikz}
+\usepackage{fancyhdr}
+\usepackage{hyperref}
+\definecolor{ink}{HTML}{193A5C}
+\definecolor{accent}{HTML}{237D82}
+\definecolor{soft}{HTML}{EAF3F3}
+\definecolor{muted}{HTML}{52616B}
+\newcommand{\coursename}{確率論と統計学 I}
+\hypersetup{unicode=true,colorlinks=true,urlcolor=accent,linkcolor=ink,
+  pdfauthor={中島秀太},pdftitle={第6回：二項分布の正規近似}}
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\small\color{ink}\coursename{}・授業要約と演習}
+\fancyhead[R]{\small\color{ink}第6回}
+\fancyfoot[C]{\small\color{ink}\thepage/\pageref*{lastpage}}
+\renewcommand{\headrulewidth}{0.3pt}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{2pt}
+\setlength{\abovedisplayskip}{4pt}
+\setlength{\belowdisplayskip}{4pt}
+\setlength{\abovedisplayshortskip}{3pt}
+\setlength{\belowdisplayshortskip}{4pt}
+\setlist[itemize]{leftmargin=1.8em,itemsep=2pt,topsep=3pt,parsep=0pt}
+\setlist[enumerate]{leftmargin=2em,itemsep=6pt,topsep=4pt,parsep=0pt}
+\newcommand{\topic}[1]{\par\vspace{5pt}
+  {\large\sffamily\mdseries\color{accent}#1}\par\vspace{2pt}}
+\newcommand{\handouttitle}[1]{\begin{center}
+  {\Large\color{ink}#1}\par\vspace{3mm}
+  {\color{accent}\rule{0.88\linewidth}{0.7pt}}
+  \end{center}\vspace{-2mm}}
+\newcommand{\keybox}[1]{\par\vspace{3pt}\begingroup
+  \setlength{\fboxsep}{5pt}
+  \colorbox{soft}{\parbox{\dimexpr\linewidth-2\fboxsep\relax}{#1}}
+  \endgroup\par\vspace{2pt}}
+\newcommand{\examplelabel}[1]{{\sffamily\mdseries\color{ink}#1}}
+\newcommand{\columnheading}[1]{\par\vspace{5pt}
+  {\fontsize{11pt}{15pt}\selectfont\sffamily\mdseries\color{accent}#1}\par\vspace{2pt}}
+\newcommand{\columnstart}[1]{\clearpage
+  \fancyhead[L]{\small\color{ink}\coursename{}・発展的内容}
+  {\small\sffamily\mdseries\color{accent}発展的内容}\par\vspace{4pt}
+  {\Large\color{ink}#1}\par\vspace{2pt}
+  {\color{accent}\rule{\linewidth}{0.7pt}}\par\vspace{4pt}}
+\newcommand{\F}{\mathcal F}
+\newcommand{\R}{\mathbb R}
+\newcommand{\N}{\mathbb N}
+\newcommand{\E}{\mathbb E}
+\newcommand{\Var}{\operatorname{Var}}
+\newcommand{\Cov}{\operatorname{Cov}}
+\newcommand{\ind}{\mathrm{1}}
+\newcommand{\iid}{\text{独立同分布}}
+\begin{document}
+\fontsize{10pt}{13.5pt}\selectfont
+\handouttitle{第6回\quad 二項分布の正規近似}
+\keybox{二項分布の中心は $n/2$、幅は $\sqrt n/2$ である。
+中心と幅をそろえると、離散的な確率質量の和が正規密度の積分へ近づく。}
+
+\topic{公平なコイントスと標準化}
+$X_1,X_2,\ldots$ は独立で $P(X_j=0)=P(X_j=1)=1/2$ とする。
+表の個数 $S_n=\sum_{j=1}^nX_j$ について
+$$P(S_n=k)=\binom nk2^{-n},\qquad
+ \E[S_n]=\frac n2,\qquad \Var(S_n)=\frac n4.$$
+標準化した変数と格子幅は
+$$Z_n:=\frac{S_n-n/2}{\sqrt n/2},\qquad
+ x_{n,k}:=\frac{2k-n}{\sqrt n},\qquad \Delta x=\frac2{\sqrt n}.$$
+$Z_n$ の平均は $0$、分散は $1$ となる。
+値の刻みは $n$ とともに小さくなるが、各 $n$ で $Z_n$ は離散型である。
+
+\topic{正規密度と Gauss 積分}
+標準正規密度とその分布関数を
+$$\phi(x):=\frac1{\sqrt{2\pi}}e^{-x^2/2},\qquad
+ \Phi(t):=\int_{-\infty}^t\phi(x)\,dx$$
+とおく。正規化のために $I=\int_\R e^{-x^2/2}\,dx$ を計算する。
+非負積分に Tonelli の定理を使い、極座標に変換すれば
+$$I^2=\int_{\R^2}e^{-(x^2+y^2)/2}\,dx\,dy
+ =2\pi\int_0^\infty r e^{-r^2/2}\,dr=2\pi.$$
+$I>0$ なので $I=\sqrt{2\pi}$、したがって $\int_\R\phi=1$ となる。
+
+\topic{Stirling 公式から中心の高さを求める}
+階乗の漸近公式
+$$n!\sim\sqrt{2\pi n}\left(\frac ne\right)^n$$
+を使う。偶数 $n$ について中心の確率は
+$$P(S_n=n/2)=\frac{n!}{((n/2)!)^2}2^{-n}
+ \sim\sqrt{\frac2{\pi n}}=\phi(0)\frac2{\sqrt n}.$$
+中心の一点の確率は $n^{-1/2}$ 程度となる。
+$n=100$ なら厳密値は約 $0.079589$、上の近似値は約 $0.079788$ である。
+密度の高さそのものに比べるのではなく、格子幅を掛けて比べる点が重要である。
+
+\topic{確率質量と正規密度の比較（$n=20$）}
+\begin{center}
+\begin{tikzpicture}[x=0.43cm,y=14cm,font=\small]
+ \foreach \k/\p in {0/0.000000954,1/0.000019073,2/0.000181198,
+ 3/0.001087189,4/0.004620552,5/0.014785767,6/0.036964417,
+ 7/0.073928833,8/0.120134354,9/0.160179138,10/0.176197052,
+ 11/0.160179138,12/0.120134354,13/0.073928833,14/0.036964417,
+ 15/0.014785767,16/0.004620552,17/0.001087189,18/0.000181198,
+ 19/0.000019073,20/0.000000954}{
+   \fill[ink!22] ({\k-0.45},0) rectangle ({\k+0.45},\p);
+ }
+ \draw[accent,line width=0.9pt,domain=0:20,samples=101]
+  plot (\x,{exp(-(\x-10)^2/10)/sqrt(10*pi)});
+ \draw[ink,->] (-0.7,0)--(21,0) node[right] {$k$};
+ \draw[ink,->] (0,0)--(0,0.22);
+ \foreach \k in {0,5,10,15,20}{\node[below,ink] at (\k,0) {$\k$};}
+ \foreach \p in {0.1,0.2}{
+   \draw[muted!35,dotted] (0,\p)--(20.5,\p);
+   \node[left,ink] at (0,\p) {$\p$};
+ }
+ \node[accent,right] at (12.3,0.19) {$N(10,5)$ の密度};
+\end{tikzpicture}
+\end{center}
+{\small\color{muted}棒の高さは $P(S_{20}=k)$。曲線は平均10・分散5の正規密度で、
+一点の確率は幅1の区間の面積で近似する。}\par
+
+\newpage
+\topic{中心付近の局所近似}
+固定した $R>0$ に対し、$|x_{n,k}|\le R$ の範囲では
+$$P(S_n=k)=\phi(x_{n,k})\frac2{\sqrt n}\,(1+o(1))$$
+が $k$ について一様に成り立つ。
+Stirling 公式を二項係数に代入し、$u=(2k-n)/n=x_{n,k}/\sqrt n$ とおくと、
+指数部分には
+$$\frac{(1+u)\log(1+u)+(1-u)\log(1-u)}2
+ =\frac{u^2}2+O(u^4)$$
+が現れる。$x_{n,k}$ が有界なら $nu^2=x_{n,k}^2$、$nu^4\to0$ なので
+$e^{-x_{n,k}^2/2}$ が残る。係数は $\sqrt{2/(\pi n)}$ に近づく。
+
+\topic{確率質量を足すと積分になる}
+固定した有限区間 $[a,b]$ では、上の一様近似と Riemann 和により
+$$P(a\le Z_n\le b)
+ =\sum_{a\le x_{n,k}\le b}P(S_n=k)
+ \longrightarrow\int_a^b\phi(x)\,dx.$$
+無限区間に進むには尾を抑える。$\E[Z_n^2]=1$ なので
+$$P(|Z_n|>R)\le\frac1{R^2}.$$
+まず有限区間で $n\to\infty$、次に $R\to\infty$ として
+$$P(Z_n\le t)\longrightarrow\Phi(t)\qquad(t\in\R)$$
+を得る。これが公平なコイントスに対する de Moivre--Laplace の定理である。
+
+\topic{実際の計算：連続性補正}
+整数 $a\le b$ に対し、$S_n$ の一点 $k$ を区間 $[k-1/2,k+1/2]$ に対応させると
+$$P(a\le S_n\le b)\approx
+ \Phi\left(\frac{b+1/2-n/2}{\sqrt n/2}\right)
+ -\Phi\left(\frac{a-1/2-n/2}{\sqrt n/2}\right).$$
+たとえば $n=100$、$a=45$、$b=55$ では $\Phi(1.1)-\Phi(-1.1)$ となる。
+これは有限 $n$ での精度を改善する方法であり、極限定理の主張そのものとは区別する。
+
+\topic{一般の成功確率の場合}
+固定した $0<p<1$ に対しても、独立な $\mathrm{Bern}(p)$ の和は
+$$\frac{S_n-np}{\sqrt{np(1-p)}}\ \Rightarrow\ N(0,1).$$
+$\Rightarrow$ は分布収束を表す。一般の独立同分布列への拡張は第10回に扱う。
+小さい $n$ や極端な尾では、正規近似の誤差に注意する。
+
+\newpage
+\topic{演習問題}
+\begin{enumerate}[label=\arabic*.]
+\item 独立な $X_j\sim\mathrm{Bern}(p)$ に対し、$\E[S_n]$ と $\Var(S_n)$ を求めよ。
+標準化で平均 $0$、分散 $1$ になることを確かめよ。
+\item $S_{100}\sim\mathrm{Bin}(100,1/2)$ について、$P(45\le S_{100}\le55)$ を
+連続性補正あり・なしで正規近似せよ。厳密な二項和と比べよ。
+\item $Z_n$ の局所近似を用いて、有限な $a<b$ に対する区間確率の収束を示せ。
+各項の近似誤差を足し合わせるため、一様性をどこで使うか説明せよ。
+\item $P(|Z_n|>R)\le R^{-2}$ を証明し、有限区間での収束から分布関数の収束へ
+進む際の誤差を評価せよ。
+\end{enumerate}
+
+\topic{レポート問題}
+\begin{enumerate}[label=\arabic*.]
+\item $n=100$ の公平なコイントスを $10\,000$ 回反復するシミュレーションを行え。
+$S_n$ の確率質量のヒストグラムに、$N(50,25)$ の密度を重ねよ。
+標準化して描く場合は、密度と確率質量のどちらを表示しているか明記せよ。
+\item $n=20,50,200$ の結果を比較し、中心部と尾部の近似誤差、
+および連続性補正の効果を考察せよ。試行回数を増やしても残る理論上の近似誤差と、
+反復回数による標本の揺らぎを区別して述べよ。
+\end{enumerate}
+
+\topic{考えるための手がかり}
+幅 $h$ のビンの度数を全反復回数だけで割ると確率質量、さらに $h$ で割ると密度の推定になる。
+$Z_n$ の格子幅は $2/\sqrt n$ なので、正規密度と確率質量を直接重ねると縦軸が合わない。
+数値実験を行う場合は、使用した乱数生成方法と反復回数も記録しよう。
+\vfill
+{\small\color{muted}解答メモ：中心化、標準化、格子幅、端点の補正を順に確認する。}
+
+\columnstart{コインの足し算から、ランダムな軌跡へ}
+コインの表の個数を数える代わりに、表なら右へ一歩、裏なら左へ一歩進む。
+同じコイントスの列が、確率分布だけでなく時間とともに動く道のモデルを与える。
+
+\columnheading{位置の大きさは $\sqrt n$ 程度}
+$Y_j=2X_j-1\in\{-1,1\}$、$R_m=\sum_{j=1}^mY_j$ とおく。
+独立性と対称性から
+$$\E[R_m]=0,\qquad \Var(R_m)=m,\qquad
+ \frac{R_n}{\sqrt n}=Z_n\Rightarrow N(0,1).$$
+一歩ずつは同じ長さでも、右と左が打ち消し合うため、典型的な位置の幅は $\sqrt n$ となる。
+一方向へ進み続ける場合の距離 $n$ とは異なる尺度である。
+
+\columnheading{時間と空間を同時に縮める}
+時間間隔を $1/n$、歩幅を $1/\sqrt n$ とし、格子時刻で
+$$W^{(n)}(k/n)=\frac{R_k}{\sqrt n}$$
+と定め、格子点の間を線形に補間する。
+各時刻 $t$ での分散はほぼ $t$、増分の分散はほぼ経過時間となる。
+たとえば補間前の値について $s\le t$ なら
+$$\Cov\left(\frac{R_{\lfloor ns\rfloor}}{\sqrt n},
+ \frac{R_{\lfloor nt\rfloor}}{\sqrt n}\right)
+ =\frac{\lfloor ns\rfloor}{n}\longrightarrow s=\min\{s,t\}.$$
+過去までに共有した歩数が、二つの時刻の位置の相関を決めている。
+
+\columnheading{極限としての Brown 運動}
+Brown 運動 $(B_t)_{t\ge0}$ は $B_0=0$、連続な軌跡、独立な増分をもち、
+$B_t-B_s\sim N(0,t-s)$（$0\le s<t$）を満たす過程である。
+一時刻の中心極限定理を、連続な軌跡全体の収束へ強めると、
+補間した $W^{(n)}$ は $C([0,1])$ 上で Brown 運動へ弱収束する。
+この主張は Donsker の不変原理の、公平な符号列に対する場合である。
+
+\columnheading{一時刻の定理と軌跡の定理の違い}
+各固定時刻の分布が近づくだけでは、軌跡全体が近づくとは限らない。
+複数時刻の同時分布に加え、短い時間で大きく振動しすぎないことも制御する必要がある。
+本講義の中心極限定理はその入口である。
+分布の収束を学ぶときには、何がランダムな対象なのかが、数から関数へ広がる点も意識してみよう。
+
+\label{lastpage}
+\end{document}

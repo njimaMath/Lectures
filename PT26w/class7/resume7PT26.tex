@@ -1,0 +1,220 @@
+% Build in this directory (run twice for page references):
+% pdflatex -interaction=nonstopmode -halt-on-error resume7PT26.tex
+% Topics follow the syllabus in ../class1/class1PT26.tex.
+% Content adapted from ../lectureNote.tex and ../lectureNotes.tex.
+\documentclass[a4paper,10pt,pdflatex,ja=standard,jafont=ipaex-type1,
+  magstyle=real,scale=1]{bxjsarticle}
+\usepackage{lmodern}
+\usepackage{amsmath,amssymb,mathtools}
+\usepackage{geometry}
+\geometry{reset,left=22mm,right=22mm,top=20mm,bottom=17mm,
+  headheight=13pt,headsep=6mm,footskip=10mm}
+\usepackage{xcolor}
+\usepackage{enumitem}
+\usepackage{array,booktabs,tabularx}
+\usepackage{tikz}
+\usepackage{fancyhdr}
+\usepackage{hyperref}
+\definecolor{ink}{HTML}{193A5C}
+\definecolor{accent}{HTML}{237D82}
+\definecolor{soft}{HTML}{EAF3F3}
+\definecolor{muted}{HTML}{52616B}
+\newcommand{\coursename}{確率論と統計学 I}
+\hypersetup{unicode=true,colorlinks=true,urlcolor=accent,linkcolor=ink,
+  pdfauthor={中島秀太},pdftitle={第7回：分布と特性関数}}
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\small\color{ink}\coursename{}・授業要約と演習}
+\fancyhead[R]{\small\color{ink}第7回}
+\fancyfoot[C]{\small\color{ink}\thepage/\pageref*{lastpage}}
+\renewcommand{\headrulewidth}{0.3pt}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{2pt}
+\setlength{\abovedisplayskip}{4pt}
+\setlength{\belowdisplayskip}{4pt}
+\setlength{\abovedisplayshortskip}{3pt}
+\setlength{\belowdisplayshortskip}{4pt}
+\setlist[itemize]{leftmargin=1.8em,itemsep=2pt,topsep=3pt,parsep=0pt}
+\setlist[enumerate]{leftmargin=2em,itemsep=6pt,topsep=4pt,parsep=0pt}
+\newcommand{\topic}[1]{\par\vspace{5pt}
+  {\large\sffamily\mdseries\color{accent}#1}\par\vspace{2pt}}
+\newcommand{\handouttitle}[1]{\begin{center}
+  {\Large\color{ink}#1}\par\vspace{3mm}
+  {\color{accent}\rule{0.88\linewidth}{0.7pt}}
+  \end{center}\vspace{-2mm}}
+\newcommand{\keybox}[1]{\par\vspace{3pt}\begingroup
+  \setlength{\fboxsep}{5pt}
+  \colorbox{soft}{\parbox{\dimexpr\linewidth-2\fboxsep\relax}{#1}}
+  \endgroup\par\vspace{2pt}}
+\newcommand{\examplelabel}[1]{{\sffamily\mdseries\color{ink}#1}}
+\newcommand{\columnheading}[1]{\par\vspace{5pt}
+  {\fontsize{11pt}{15pt}\selectfont\sffamily\mdseries\color{accent}#1}\par\vspace{2pt}}
+\newcommand{\columnstart}[1]{\clearpage
+  \fancyhead[L]{\small\color{ink}\coursename{}・発展的内容}
+  {\small\sffamily\mdseries\color{accent}発展的内容}\par\vspace{4pt}
+  {\Large\color{ink}#1}\par\vspace{2pt}
+  {\color{accent}\rule{\linewidth}{0.7pt}}\par\vspace{4pt}}
+\newcommand{\F}{\mathcal F}
+\newcommand{\R}{\mathbb R}
+\newcommand{\N}{\mathbb N}
+\newcommand{\E}{\mathbb E}
+\newcommand{\Var}{\operatorname{Var}}
+\newcommand{\Cov}{\operatorname{Cov}}
+\newcommand{\ind}{\mathrm{1}}
+\newcommand{\iid}{\text{独立同分布}}
+\begin{document}
+\fontsize{10pt}{13.5pt}\selectfont
+\handouttitle{第7回\quad 分布と特性関数}
+\keybox{分布を振動関数の期待値で表すと、独立な和は積になる。
+特性関数は常に存在し、分布の一意性と極限の判定に使える。}
+
+\topic{特性関数の定義と基本性質}
+実数値確率変数 $X$ の特性関数を、$i^2=-1$ として
+$$\varphi_X(t):=\E[e^{itX}]=\int_\R e^{itx}\,\mu_X(dx)
+ \qquad(t\in\R)$$
+と定める。複素数値の期待値は実部と虚部に分けて定義する。
+$|e^{itX}|=1$ より、$X$ が可積分でなくても存在し、
+$$\varphi_X(0)=1,\qquad |\varphi_X(t)|\le1,\qquad
+ \varphi_X(-t)=\overline{\varphi_X(t)}.$$
+$t_n\to t$ なら、優収束定理によって $\varphi_X(t_n)\to\varphi_X(t)$。
+また $a,b\in\R$ に対し $\varphi_{aX+b}(t)=e^{itb}\varphi_X(at)$ である。
+
+\topic{代表的な分布の特性関数}
+\begin{center}
+\renewcommand{\arraystretch}{1.6}
+\begin{tabular}{@{}ll@{}}
+\toprule
+分布 & 特性関数 $\varphi_X(t)$ \\
+\midrule
+$\mathrm{Bern}(p)$ & $1-p+pe^{it}$ \\
+$\mathrm{Bin}(n,p)$ & $(1-p+pe^{it})^n$ \\
+$\mathrm{Poi}(\lambda)$ & $\exp(\lambda(e^{it}-1))$ \\
+$\mathrm{Exp}(\lambda)$ & $\lambda/(\lambda-it)$ \\
+$N(m,\sigma^2)$ & $\exp(imt-\sigma^2t^2/2)$ \\
+\bottomrule
+\end{tabular}
+\end{center}
+たとえばポアソン分布では、指数関数の級数から
+$$\varphi_X(t)=e^{-\lambda}\sum_{k=0}^\infty
+ \frac{(\lambda e^{it})^k}{k!}=\exp(\lambda(e^{it}-1)).$$
+
+\topic{独立な和を積に直す}
+独立な $X,Y$ に対し、$e^{itX},e^{itY}$ も独立で有界なので
+$$\varphi_{X+Y}(t)=\E[e^{itX}e^{itY}]
+ =\varphi_X(t)\varphi_Y(t).$$
+独立な $X\sim\mathrm{Poi}(\lambda)$、$Y\sim\mathrm{Poi}(\mu)$ なら
+$$\varphi_{X+Y}(t)=\exp((\lambda+\mu)(e^{it}-1))$$
+となる。次ページの一意性定理により、$X+Y\sim\mathrm{Poi}(\lambda+\mu)$ と分かる。
+和の分布の計算を、関数の積と既知の形の比較へ置き換えられる。
+
+\newpage
+\topic{Fourier 変換と Gauss 核による正則化}
+可積分な関数 $f$ の Fourier 変換を
+$$\widehat f(t):=\int_\R f(x)e^{-itx}\,dx$$
+と定める。$f\in C_c(\R)$（コンパクトな台をもつ連続関数）でも、
+$\widehat f$ が可積分とは限らない。そのため逆変換には条件が必要となる。
+$$q_\varepsilon(x)=\frac1{\sqrt{2\pi}\varepsilon}
+ e^{-x^2/(2\varepsilon^2)},\qquad
+ \widehat q_\varepsilon(t)=e^{-\varepsilon^2t^2/2}\quad(\varepsilon>0)$$
+を使って平滑化すると、Fubini の定理により
+$$
+ (f*q_\varepsilon)(x)
+ =\frac1{2\pi}\int_\R\widehat f(t)e^{-\varepsilon^2t^2/2}e^{itx}\,dt,
+ \qquad (f*q_\varepsilon)(x):=\int_\R f(x-y)q_\varepsilon(y)\,dy.
+$$
+$\varepsilon\downarrow0$ で $f*q_\varepsilon\to f$ は一様収束する。
+$\widehat f\in L^1$ も仮定すれば、優収束定理により Gauss 因子を外せる。
+
+\topic{特性関数は分布を一意に決める}
+上の式を期待値に入れると
+$$\E[(f*q_\varepsilon)(X)]
+ =\frac1{2\pi}\int_\R\widehat f(t)e^{-\varepsilon^2t^2/2}\varphi_X(t)\,dt.$$
+$\varphi_X=\varphi_Y$ なら平滑化した期待値が一致し、$\varepsilon\downarrow0$ で
+$\E[f(X)]=\E[f(Y)]$（すべての $f\in C_c(\R)$）となる。
+この積分の一致は $\mu_X=\mu_Y$ を意味する。
+開区間の指示関数を下から連続関数で近似し、測度の一意性を使えばよい。
+
+\topic{特性関数による収束の判定}
+分布収束 $X_n\Rightarrow X$ とは、任意の有界連続関数 $f$ に対して
+$\E[f(X_n)]\to\E[f(X)]$ となることである。
+L\'evy の連続性定理は
+$$X_n\Rightarrow X\quad\Longleftrightarrow\quad
+ \varphi_{X_n}(t)\to\varphi_X(t)\quad(\forall t\in\R)$$
+を与える。さらに点ごとの極限 $\varphi$ が原点で連続なら、それ自身が
+ある確率分布の特性関数となる。分布収束とこの条件の役割は第9回で詳しく扱う。
+
+\topic{モーメントが有限なら原点で微分できる}
+$\E|X|<\infty$ なら $\varphi_X'(0)=i\E[X]$。
+$\E[X^2]<\infty$ なら $\varphi_X''(0)=-\E[X^2]$ であり、
+$$\varphi_X(t)=1+it\E[X]-\frac{t^2}2\E[X^2]+o(t^2).$$
+この展開と独立な和の積公式が、一般の中心極限定理の証明の出発点になる。
+
+\newpage
+\topic{演習問題}
+\begin{enumerate}[label=\arabic*.]
+\item $X\sim\mathrm{Geo}(p)$（$P(X=k)=p(1-p)^{k-1}$、$k\ge1$）の特性関数を求めよ。
+得られた分母が実数 $t$ について消えないことを確かめよ。
+\item $X\sim\mathrm U(-a,a)$（$a>0$）の特性関数を求め、$t=0$ における値と連続性を示せ。
+\item 独立な $X\sim N(m_1,v_1)$、$Y\sim N(m_2,v_2)$（$v_1,v_2>0$）について、
+特性関数から和の分布を求めよ。
+\item $f\in C_c(\R)$ とする。任意の $\delta>0$ に対して
+$$\|f*q_\varepsilon-f\|_\infty
+ \le\sup_{|u-v|\le\delta}|f(u)-f(v)|
+ +2\|f\|_\infty\int_{|y|>\delta}q_\varepsilon(y)\,dy$$
+を示し、一様収束を導け。
+\end{enumerate}
+
+\topic{レポート問題}
+\begin{enumerate}[label=\arabic*.]
+\item $\mathrm{Gamma}(m,\beta)$（整数 $m\ge1$、rate $\beta>0$）の特性関数を、
+独立な指数分布の和を用いて求めよ。
+\item Gauss 核による正則化逆変換公式を証明せよ。
+$q_\varepsilon$ の逆表示を畳み込みに代入し、積分順序の交換が可能なことを
+絶対値の積分で示すこと。続いて $\widehat f\in L^1$ の場合に古典的な逆変換公式を導け。
+\end{enumerate}
+
+\topic{考えるための手がかり}
+$\widehat f$ の符号は $e^{-itx}$、特性関数の符号は $e^{itX}$ としている。
+Fourier 変換の定義を途中で変えないようにしよう。
+正則化では $|\widehat f(t)|\le\|f\|_1$ と Gauss 因子の可積分性が使える。
+\vfill
+{\small\color{muted}解答メモ：逆変換の存在、Fubini の条件、極限操作の条件をそれぞれ明記する。}
+
+\columnstart{平均がなくても、分布の波形は記述できる}
+期待値や分散は確率分布の要約として便利だが、有限とは限らない。
+特性関数は、値の大きさを振動に変えてから平均することで、どの分布にも定義できる。
+
+\columnheading{振動を平均する}
+Euler の公式から
+$$\varphi_X(t)=\E[\cos(tX)]+i\E[\sin(tX)].$$
+周波数 $t$ ごとに、$X$ を角度 $tX$ へ写し、単位円上の点を平均していると考えられる。
+観測値が大きくなっても単位円の外へは出ないため、可積分性の問題が起こらない。
+ただし、振動の打ち消し合いも含めて分布を表すので、単なる平均値の一覧ではない。
+
+\columnheading{積率母関数との違い}
+積率母関数 $M_X(t)=\E[e^{tX}]$ では、$e^{tX}$ が片方の尾で大きくなる。
+たとえば標準 Cauchy 分布は密度
+$$f(x)=\frac1{\pi(1+x^2)}$$
+をもち、$\E|X|=\infty$、$M_X(t)=\infty$（$t\ne0$）である。
+一方、その特性関数は $\varphi_X(t)=e^{-|t|}$ となる。
+原点で微分できないことにも、有限の一次モーメントをもたない性質が現れている。
+
+\columnheading{一意性と、有限個のモーメントの違い}
+平均と分散が一致する異なる分布は容易に作れる。
+たとえば公平な符号 $R\in\{-1,1\}$ と $G\sim N(0,1)$ はともに平均 $0$、分散 $1$ だが、
+$$\varphi_R(t)=\cos t,\qquad \varphi_G(t)=e^{-t^2/2}$$
+は異なる。特性関数をすべての周波数で知ることは、
+原点での少数の微分係数だけを知ることより多くの情報を含む。
+一意性定理は、その情報が分布全体を決定することを保証する。
+
+\columnheading{和の極限で二次の項が残る}
+平均 $0$、分散 $1$ の独立同分布列では、原点近くの展開から
+$$\varphi_X(u)=1-\frac{u^2}2+o(u^2),\qquad
+ \varphi_{n^{-1/2}\sum_{j=1}^nX_j}(t)
+ =\left(1-\frac{t^2}{2n}+o(n^{-1})\right)^n\longrightarrow e^{-t^2/2}.$$
+L\'evy の定理によって正規分布への収束が従う。
+複雑な畳み込みを何度も計算せず、原点近くの形を読むだけで和の極限を捉えられる。
+この方法が働くために二次モーメントをどこで使ったかは、第10回で確かめよう。
+
+\label{lastpage}
+\end{document}

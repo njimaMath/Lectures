@@ -1,0 +1,223 @@
+% Build in this directory (run twice for page references):
+% pdflatex -interaction=nonstopmode -halt-on-error resume4PT26.tex
+% Topics follow the syllabus in ../class1/class1PT26.tex.
+% Content adapted from ../lectureNote.tex and ../lectureNotes.tex.
+\documentclass[a4paper,10pt,pdflatex,ja=standard,jafont=ipaex-type1,
+  magstyle=real,scale=1]{bxjsarticle}
+\usepackage{lmodern}
+\usepackage{amsmath,amssymb,mathtools}
+\usepackage{geometry}
+\geometry{reset,left=22mm,right=22mm,top=20mm,bottom=17mm,
+  headheight=13pt,headsep=6mm,footskip=10mm}
+\usepackage{xcolor}
+\usepackage{enumitem}
+\usepackage{array,booktabs,tabularx}
+\usepackage{tikz}
+\usepackage{fancyhdr}
+\usepackage{hyperref}
+\definecolor{ink}{HTML}{193A5C}
+\definecolor{accent}{HTML}{237D82}
+\definecolor{soft}{HTML}{EAF3F3}
+\definecolor{muted}{HTML}{52616B}
+\newcommand{\coursename}{確率論と統計学 I}
+\hypersetup{unicode=true,colorlinks=true,urlcolor=accent,linkcolor=ink,
+  pdfauthor={中島秀太},pdftitle={第4回：独立性と共分散}}
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\small\color{ink}\coursename{}・授業要約と演習}
+\fancyhead[R]{\small\color{ink}第4回}
+\fancyfoot[C]{\small\color{ink}\thepage/\pageref*{lastpage}}
+\renewcommand{\headrulewidth}{0.3pt}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{2pt}
+\setlength{\abovedisplayskip}{4pt}
+\setlength{\belowdisplayskip}{4pt}
+\setlength{\abovedisplayshortskip}{3pt}
+\setlength{\belowdisplayshortskip}{4pt}
+\setlist[itemize]{leftmargin=1.8em,itemsep=2pt,topsep=3pt,parsep=0pt}
+\setlist[enumerate]{leftmargin=2em,itemsep=6pt,topsep=4pt,parsep=0pt}
+\newcommand{\topic}[1]{\par\vspace{5pt}
+  {\large\sffamily\mdseries\color{accent}#1}\par\vspace{2pt}}
+\newcommand{\handouttitle}[1]{\begin{center}
+  {\Large\color{ink}#1}\par\vspace{3mm}
+  {\color{accent}\rule{0.88\linewidth}{0.7pt}}
+  \end{center}\vspace{-2mm}}
+\newcommand{\keybox}[1]{\par\vspace{3pt}\begingroup
+  \setlength{\fboxsep}{5pt}
+  \colorbox{soft}{\parbox{\dimexpr\linewidth-2\fboxsep\relax}{#1}}
+  \endgroup\par\vspace{2pt}}
+\newcommand{\examplelabel}[1]{{\sffamily\mdseries\color{ink}#1}}
+\newcommand{\columnheading}[1]{\par\vspace{5pt}
+  {\fontsize{11pt}{15pt}\selectfont\sffamily\mdseries\color{accent}#1}\par\vspace{2pt}}
+\newcommand{\columnstart}[1]{\clearpage
+  \fancyhead[L]{\small\color{ink}\coursename{}・発展的内容}
+  {\small\sffamily\mdseries\color{accent}発展的内容}\par\vspace{4pt}
+  {\Large\color{ink}#1}\par\vspace{2pt}
+  {\color{accent}\rule{\linewidth}{0.7pt}}\par\vspace{4pt}}
+\newcommand{\F}{\mathcal F}
+\newcommand{\R}{\mathbb R}
+\newcommand{\N}{\mathbb N}
+\newcommand{\E}{\mathbb E}
+\newcommand{\Var}{\operatorname{Var}}
+\newcommand{\Cov}{\operatorname{Cov}}
+\newcommand{\ind}{\mathrm{1}}
+\newcommand{\iid}{\text{独立同分布}}
+\begin{document}
+\fontsize{10pt}{13.5pt}\selectfont
+\handouttitle{第4回\quad 独立性と共分散}
+\keybox{独立性は同時分布の積への分解であり、共分散は依存関係の一面を数値化したものである。
+「独立なら無相関」と、その逆が成り立たないことを具体例で確かめよう。}
+
+\topic{事象と確率変数の独立性}
+以下、$(\Omega,\F,P)$ を確率空間とする。事象 $A,B\in\F$ は
+$P(A\cap B)=P(A)P(B)$ のとき独立という。
+実数値確率変数 $X,Y$ が独立であるとは、任意のボレル集合 $C,D\subseteq\R$ に対し
+$$P(X\in C,Y\in D)=P(X\in C)P(Y\in D)$$
+が成り立つことをいう。$P(Y\in D)>0$ のときは
+$$P(X\in C\mid Y\in D)=P(X\in C)$$
+と書ける。$Y$ についての情報を得ても、$X$ の分布が変わらないという意味である。
+
+\topic{独立性の判定と可測変換}
+離散型では、取り得るすべての $x,y$ について
+$$P(X=x,Y=y)=P(X=x)P(Y=y)$$
+を確かめればよい。同時密度 $f_{X,Y}$ と周辺密度 $f_X,f_Y$ がある場合は、
+$f_{X,Y}(x,y)=f_X(x)f_Y(y)$ がほとんど至る所で成り立つことと同値である。
+
+独立な $X,Y$ とボレル可測関数 $f,g:\R\to\R$ に対し、$f(X),g(Y)$ も独立になる。
+実際、$\{f(X)\in C\}=\{X\in f^{-1}(C)\}$ と逆像で書けば定義を適用できる。
+ただし $X+Y$ と $X-Y$ のように、双方が同じ変数を共有する場合には、この命題を直接使えない。
+
+\topic{積の期待値と独立な和}
+$X,Y$ が独立で $\E|X|,\E|Y|<\infty$ なら
+$$\E|XY|=\E|X|\E|Y|<\infty,\qquad \E[XY]=\E[X]\E[Y].$$
+指示関数の積について独立性の定義を使い、単関数近似で一般の場合へ拡張する。
+一方、$\E[X+Y]=\E[X]+\E[Y]$ には独立性は必要ない。
+
+\topic{分散と共分散}
+$\E[X^2],\E[Y^2]<\infty$ を仮定する。Cauchy--Schwarz の不等式により
+$XY$ も可積分となり、
+$$
+ \begin{aligned}
+ \Var(X)&:=\E[(X-\E[X])^2]=\E[X^2]-(\E[X])^2,\\
+ \Cov(X,Y)&:=\E[(X-\E[X])(Y-\E[Y])]=\E[XY]-\E[X]\E[Y]
+ \end{aligned}
+$$
+を定義できる。独立なら $\Cov(X,Y)=0$ である。
+後者の等式だけを満たすことを無相関という。
+
+\newpage
+\topic{和の分散と相関係数}
+二次モーメントが有限な $X,Y$ と $a,b\in\R$ について
+$$\Var(aX+bY)=a^2\Var(X)+2ab\Cov(X,Y)+b^2\Var(Y).$$
+特に独立なら $\Var(X+Y)=\Var(X)+\Var(Y)$。
+両分散が正のとき、相関係数を
+$$\rho(X,Y):=\frac{\Cov(X,Y)}{\sqrt{\Var(X)\Var(Y)}}\in[-1,1]$$
+と定める。範囲の評価は Cauchy--Schwarz の不等式から従う。
+$X=Y$ なら $\Var(X+Y)=4\Var(X)$ であり、和の分散を常に足してよいわけではない。
+
+\topic{無相関でも独立でない例}
+$X$ が $\{-1,0,1\}$ の各値を確率 $1/3$ でとり、$Y=X^2$ とする。
+$$\E[X]=0,\quad\E[Y]=\frac23,\quad
+  \E[XY]=\E[X^3]=0,\quad\Cov(X,Y)=0.$$
+しかし
+$$P(X=0,Y=0)=\frac13\ne P(X=0)P(Y=0)=\frac19.$$
+したがって独立ではない。共分散が消えても、$Y=X^2$ という関係は残っている。
+
+\topic{対独立と相互独立}
+族 $(X_i)_{i\in I}$ が相互独立であるとは、任意の相異なる有限個の添字
+$i_1,\ldots,i_m$ とボレル集合 $B_1,\ldots,B_m$ について
+$$P(X_{i_1}\in B_1,\ldots,X_{i_m}\in B_m)
+  =\prod_{j=1}^mP(X_{i_j}\in B_j)$$
+となることをいう。対独立は、すべての二つ組について独立性を要求する条件である。
+相互独立なら対独立だが、その逆は一般には成り立たない。
+
+\examplelabel{例：独立な公平コイン二つから三つの変数を作る}
+$X,Y$ が独立に $\{-1,1\}$ の値を等確率でとり、$Z=XY$ とする。
+\begin{center}
+\begin{tabular}{@{}rrrr@{}}
+\toprule
+$X$ & $Y$ & $Z$ & 確率 \\
+\midrule
+$1$ & $1$ & $1$ & $1/4$ \\
+$1$ & $-1$ & $-1$ & $1/4$ \\
+$-1$ & $1$ & $-1$ & $1/4$ \\
+$-1$ & $-1$ & $1$ & $1/4$ \\
+\bottomrule
+\end{tabular}
+\end{center}
+各二つ組の四通りはすべて確率 $1/4$ である。一方、$XYZ=1$ は常に成り立ち、
+$P(X=Y=Z=1)=1/4\ne1/8$。三つ全体は相互独立ではない。
+
+\newpage
+\topic{演習問題}
+\begin{enumerate}[label=\arabic*.]
+\item 公平なサイコロの出目を $D$ とし、$A=\{D\text{ は偶数}\}$、
+$B=\{D\le3\}$、$C=\{D\le4\}$ とする。$A,B$ と $A,C$ の独立性をそれぞれ判定せよ。
+\item 独立な公平サイコロの出目 $U,V$ に対し $S=U+V$、$T=U-V$ とおく。
+$\Cov(S,T)$ を求め、$P(S=2,T=0)$ と $P(S=2)P(T=0)$ を比較して独立性を判定せよ。
+\item 二次モーメントが有限な $X_1,\ldots,X_n$ に対し
+$$\Var\left(\sum_{j=1}^n X_j\right)
+ =\sum_{j=1}^n\Var(X_j)+2\sum_{i<j}\Cov(X_i,X_j)$$
+を示せ。相互独立と対独立のどちらがあれば右辺の第2項が消えるか。
+\item 前ページの $X,Y,Z$ に対し、各二つ組が独立であることを表から確認せよ。
+また、どの二つの値を知れば残り一つが決まるかを説明せよ。
+\end{enumerate}
+
+\topic{レポート問題}
+\begin{enumerate}[label=\arabic*.]
+\item 独立な確率変数 $X,Y$ を考える。ボレル可測関数 $f,g$ による変換
+$f(X),g(Y)$ も独立となることを証明せよ。
+さらに両者が可積分なら、積の可積分性と期待値の積公式を示せ。
+\item $X$ が $[-1,1]$ 上の一様分布に従い、$Y=X^2$ とする。
+$\Cov(X,Y)=0$ を積分で示せ。事象 $\{|X|\le1/2\}$ と $\{Y\le1/4\}$ を使い、
+$X,Y$ が独立でないことを証明せよ。
+\end{enumerate}
+
+\topic{考えるための手がかり}
+独立性を否定するには、積公式が破れる事象を一組見つければよい。
+独立性を肯定する場合には、すべての値またはすべてのボレル集合を扱う必要がある。
+共分散の計算と、独立性の判定を分けて書こう。
+\vfill
+{\small\color{muted}解答メモ：期待値の線形性、分散の加法性、積の期待値の分解では仮定が異なる。}
+
+\columnstart{二つずつ見ても、全体の関係は分からない}
+二つの観測値がどの組み合わせでも独立なら、全体も独立だと思いたくなる。
+しかし独立性は、何個の変数を同時に観測するかによって条件が変わる。
+二つ組の情報だけでは見えない関係を、積の制約が具体的に示してくれる。
+
+\columnheading{三者の間だけに残る規則}
+独立な公平な符号 $X,Y\in\{-1,1\}$ に対し、$Z=XY$ とした例を振り返る。
+$X$ を一つ知っても、$Z$ は $1$ と $-1$ をそれぞれ確率 $1/2$ でとる。
+$Y$ についても同じであり、各二つ組は独立である。
+ところが二つ同時に知ると $Z$ は完全に決まる。
+$$\E[X]=\E[Y]=\E[Z]=0,\qquad \E[XYZ]=1.$$
+もし三つが相互独立なら、右の期待値は $\E[X]\E[Y]\E[Z]=0$ となるはずである。
+二つずつの計算で見落とした関係が、三つの積に現れている。
+
+\columnheading{任意に多くの変数でも起こる}
+$n\ge3$ とし、$X_1,\ldots,X_{n-1}$ を独立な公平な符号とする。
+$$X_n=\prod_{j=1}^{n-1}X_j,\qquad \prod_{j=1}^nX_j=1.$$
+任意の $n-1$ 個の値を指定すると、元の $n-1$ 個の符号は一意に定まる。
+その指定の確率は $2^{-(n-1)}$ なので、任意の $n-1$ 個は独立である。
+しかし全 $n$ 個の積は固定されているため、全体は相互独立ではない。
+低い次数での情報を増やしても、最後の一つの関係だけが残る例である。
+
+\columnheading{共分散行列に記録される情報}
+二次モーメントが有限な確率ベクトル $V=(V_1,\ldots,V_d)$ の共分散行列は
+$\Sigma_{ij}=\Cov(V_i,V_j)$ である。
+$$a^{\mathsf T}\Sigma a=\Var\left(\sum_{j=1}^d a_jV_j\right)\ge0
+ \qquad(a\in\R^d).$$
+すべての線形な組み合わせの分散を記録する一方、一般にはそれだけで同時分布は決まらない。
+上の符号の例では共分散行列は単位行列でも、高い次数の依存関係が残る。
+
+\columnheading{正規分布の特別な性質}
+共同正規分布、すなわち任意の線形結合が正規分布となる確率ベクトルでは事情が異なる。
+平均ベクトル $m$ と共分散行列 $\Sigma$ によって特性関数は
+$$\E[e^{i t^{\mathsf T}V}]
+ =\exp\left(i t^{\mathsf T}m-\tfrac12 t^{\mathsf T}\Sigma t\right)$$
+と決まる。$\Sigma$ が対角なら各座標の特性関数の積に分かれ、相互独立となる。
+この結論には共同正規性の仮定が必要である。
+相関係数が $0$ という計算結果を読むときも、同時分布に何を仮定したかを確かめよう。
+
+\label{lastpage}
+\end{document}

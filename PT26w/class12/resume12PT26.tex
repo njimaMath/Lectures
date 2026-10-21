@@ -1,0 +1,271 @@
+% Build in this directory (run twice for page references):
+% pdflatex -interaction=nonstopmode -halt-on-error resume12PT26.tex
+% Topics follow the syllabus in ../class1/class1PT26.tex.
+% Content adapted from ../lectureNote.tex and ../lectureNotes.tex.
+\documentclass[a4paper,10pt,pdflatex,ja=standard,jafont=ipaex-type1,
+  magstyle=real,scale=1]{bxjsarticle}
+\usepackage{lmodern}
+\usepackage{amsmath,amssymb,mathtools}
+\usepackage{geometry}
+\geometry{reset,left=22mm,right=22mm,top=20mm,bottom=17mm,
+  headheight=13pt,headsep=6mm,footskip=10mm}
+\usepackage{xcolor}
+\usepackage{enumitem}
+\usepackage{array,booktabs,tabularx}
+\usepackage{tikz}
+\usepackage{fancyhdr}
+\usepackage{hyperref}
+\definecolor{ink}{HTML}{193A5C}
+\definecolor{accent}{HTML}{237D82}
+\definecolor{soft}{HTML}{EAF3F3}
+\definecolor{muted}{HTML}{52616B}
+\newcommand{\coursename}{確率論と統計学 I}
+\hypersetup{unicode=true,colorlinks=true,urlcolor=accent,linkcolor=ink,
+  pdfauthor={中島秀太},pdftitle={第12回：Kolmogorov の拡張定理}}
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\small\color{ink}\coursename{}・授業要約と演習}
+\fancyhead[R]{\small\color{ink}第12回}
+\fancyfoot[C]{\small\color{ink}\thepage/\pageref*{lastpage}}
+\renewcommand{\headrulewidth}{0.3pt}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{2pt}
+\setlength{\abovedisplayskip}{4pt}
+\setlength{\belowdisplayskip}{4pt}
+\setlength{\abovedisplayshortskip}{3pt}
+\setlength{\belowdisplayshortskip}{4pt}
+\setlist[itemize]{leftmargin=1.8em,itemsep=2pt,topsep=3pt,parsep=0pt}
+\setlist[enumerate]{leftmargin=2em,itemsep=6pt,topsep=4pt,parsep=0pt}
+\newcommand{\topic}[1]{\par\vspace{5pt}
+  {\large\sffamily\mdseries\color{accent}#1}\par\vspace{2pt}}
+\newcommand{\handouttitle}[1]{\begin{center}
+  {\Large\color{ink}#1}\par\vspace{3mm}
+  {\color{accent}\rule{0.88\linewidth}{0.7pt}}
+  \end{center}\vspace{-2mm}}
+\newcommand{\keybox}[1]{\par\vspace{3pt}\begingroup
+  \setlength{\fboxsep}{5pt}
+  \colorbox{soft}{\parbox{\dimexpr\linewidth-2\fboxsep\relax}{#1}}
+  \endgroup\par\vspace{2pt}}
+\newcommand{\examplelabel}[1]{{\sffamily\mdseries\color{ink}#1}}
+\newcommand{\columnheading}[1]{\par\vspace{5pt}
+  {\fontsize{11pt}{15pt}\selectfont\sffamily\mdseries\color{accent}#1}\par\vspace{2pt}}
+\newcommand{\columnstart}[1]{\clearpage
+  \fancyhead[L]{\small\color{ink}\coursename{}・発展的内容}
+  {\small\sffamily\mdseries\color{accent}発展的内容}\par\vspace{4pt}
+  {\Large\color{ink}#1}\par\vspace{2pt}
+  {\color{accent}\rule{\linewidth}{0.7pt}}\par\vspace{4pt}}
+\newcommand{\F}{\mathcal F}
+\newcommand{\R}{\mathbb R}
+\newcommand{\N}{\mathbb N}
+\newcommand{\E}{\mathbb E}
+\newcommand{\Var}{\operatorname{Var}}
+\newcommand{\Cov}{\operatorname{Cov}}
+\newcommand{\ind}{\mathrm{1}}
+\newcommand{\iid}{\text{独立同分布}}
+\begin{document}
+\fontsize{10pt}{13.5pt}\selectfont
+\handouttitle{第12回\quad Kolmogorov の拡張定理}
+\keybox{有限回の試行の分布を矛盾なく指定したとき、無限列全体の確率を構成できる。
+円筒集合、整合条件、測度の拡張が、そのための基本概念である。}
+
+\topic{有限から無限へ進む前の準備}
+$(\Omega,\F,P)$ 上で $\E|X|<\infty$ を可積分性と呼ぶ。
+非負の増加列と、可積分関数に支配される収束列には、それぞれ
+$$
+  0\le X_n\uparrow X\ \Longrightarrow\ \E[X_n]\uparrow\E[X],
+  \qquad
+  \begin{gathered}X_n\to X\ \text{a.s.},\quad |X_n|\le Y,\\ \E[Y]<\infty\end{gathered}
+  \ \Longrightarrow\ \E[X_n]\to\E[X]
+$$
+が成立する。有限の記述から無限の対象へ移るときにも、
+どの極限操作が正当化されるかを確認する必要がある。
+
+\topic{有限回コイントスの確率空間}
+$E=\{-1,1\}$ とし、$n$ 回の公平な独立試行を
+$$
+  \Omega_n=E^n,\qquad \F_n=2^{E^n},\qquad
+  P_n(A)=\frac{\#A}{2^n}\quad(A\subseteq E^n)
+$$
+で表す。$m\ge n$ に対し、最初の $n$ 座標を取り出す写像を
+$\pi_{m,n}:E^m\to E^n$ と書く。後ろの $m-n$ 座標を自由に動かせば
+$$
+  P_m(\pi_{m,n}^{-1}(A))
+  =\frac{\#A\,2^{m-n}}{2^m}=P_n(A).
+$$
+長い試行の分布を短い試行へ射影すると、もとの分布が回復する。
+
+\topic{無限列の標本空間と円筒集合}
+無限回の試行では、標本そのものを無限列として
+$$
+  \Omega=E^\N,\qquad \omega=(\omega_1,\omega_2,\ldots),\qquad
+  \pi_n(\omega)=(\omega_1,\ldots,\omega_n)
+$$
+とする。有限個の座標だけで判定できる集合
+$$
+  C=\pi_n^{-1}(A),\qquad A\subseteq E^n
+$$
+を円筒集合という。たとえば $\{\omega_1=1,\omega_3=-1\}$ は
+$A=\{(1,a,-1):a\in E\}\subset E^3$ を使って表せる。
+一方、「表が無限回出る」という事象は一つの円筒集合では表せない。
+
+\topic{整合条件と円筒集合上の確率}
+一般に $E^n$ 上の確率 $P_n$ が
+$$P_m\circ\pi_{m,n}^{-1}=P_n\qquad(m\ge n)$$
+を満たすことを整合的という。円筒集合の族を
+$\mathcal S=\{\pi_n^{-1}(A):n\ge1,\ A\subseteq E^n\}$ とおき、
+$$\mu(\pi_n^{-1}(A)):=P_n(A)$$
+と定めたい。整合性は、同じ集合を異なる $n$ で表示しても
+この値が変わらないことを保証する。
+
+\newpage
+\topic{表示によらないことと有限加法性}
+$m\ge n$ とし、$\pi_n^{-1}(A)=\pi_m^{-1}(B)$ とする。
+任意の有限列は無限列へ延長できるので
+$$
+  B=\pi_{m,n}^{-1}(A),\qquad P_m(B)=P_n(A).
+$$
+したがって $\mu$ は一意に定まる。有限個の円筒集合は、座標数を最大のものへ
+そろえることができる。この共通の有限空間で和・積・補集合を計算すれば、
+$\mathcal S$ は有限加法族となり、互いに素な $C,D\in\mathcal S$ に対し
+$$\mu(C\cup D)=\mu(C)+\mu(D),\qquad \mu(\Omega)=1$$
+が従う。
+
+\topic{有限加法性だけでは拡張できない}
+測度の拡張には前測度であることが必要である。
+これは、互いに素な $C_j\in\mathcal S$ の和も $\mathcal S$ に属するとき
+$$\mu\left(\bigcup_{j=1}^\infty C_j\right)=\sum_{j=1}^\infty\mu(C_j)$$
+が成立することをいう。有限加法性から可算加法性が自動的に出るわけではない。
+
+この有限状態空間では、$E$ に離散位相、$\Omega=E^\N$ に積位相を入れると、
+$\Omega$ はコンパクトで円筒集合は開かつ閉となる。
+コンパクト性は、各座標で値が一定となる部分列を順に選ぶ対角線論法でも確認できる。
+円筒集合 $C$ を円筒集合列 $C_j$ が覆えば、有限部分被覆が存在する。
+特に $C=\bigsqcup_{j\ge1}C_j$ なら、非空の $C_j$ は有限個しかなく、上の等式が従う。
+
+\topic{外測度を使ってすべての部分集合へ値を置く}
+$A\subseteq\Omega$ に対し
+$$
+ P^*(A):=\inf\left\{\sum_{j=1}^\infty\mu(C_j):
+ A\subseteq\bigcup_{j=1}^\infty C_j,\ C_j\in\mathcal S\right\}
+$$
+と定める。空集合を使って有限被覆も含める。この $P^*$ は外測度であり、
+非負性、単調性、可算劣加法性を満たす。円筒集合 $C$ については
+$$
+  P^*(C)\le\mu(C),\qquad
+  C\subseteq\bigcup_j C_j\ \Longrightarrow\ \mu(C)\le\sum_j\mu(C_j)
+$$
+だから $P^*(C)=\mu(C)$ となる。後半の不等式では有限部分被覆と有限劣加法性を使う。
+
+\keybox{整合性で円筒上の値を定め、前測度であることを確かめてから拡張する。
+有限状態空間では、円筒集合のコンパクト性が可算的な議論を支えている。}
+
+\newpage
+\topic{Carath\'eodory の可測性と拡張測度}
+外測度 $P^*$ に対し、集合 $A\subseteq\Omega$ が
+$$P^*(T)=P^*(T\cap A)+P^*(T\setminus A)\qquad(T\subseteq\Omega)$$
+を満たすとき $P^*$-可測という。Carath\'eodory の定理によれば、
+これらの集合は $\sigma$-加法族をなし、その上で $P^*$ は可算加法的測度となる。
+円筒集合はこの条件を満たすので、$\F:=\sigma(\mathcal S)$ に制限して
+$$P:=P^*|_\F,\qquad P(\Omega)=1,\qquad
+  P(\pi_n^{-1}(A))=P_n(A)$$
+という確率測度が得られる。全質量が有限なので、拡張の一意性定理により
+$\F$ 上でこの $P$ は一意である。
+
+\topic{拡張定理の主張と適用範囲}
+今回の有限集合 $E$ の場合、整合的な $(P_n)_{n\ge1}$ には、
+それらを有限次元周辺分布にもつ $E^\N$ 上の確率測度が一意に対応する。
+一般の Kolmogorov 拡張定理は、標準ボレル空間などの適切な状態空間で、
+整合的な有限次元分布族を積空間上へ拡張する定理である。
+状態空間を一般化すると、前ページの有限部分被覆の議論をそのまま使えるとは限らない。
+
+\topic{無限列上の確率変数と事象}
+公平な独立コイントスの $P_n$ を拡張したとき、
+$X_j(\omega)=\omega_j$ は可測で、任意の異なる $i_1,\ldots,i_r$ と
+$a_1,\ldots,a_r\in E$ に対し
+$$P(X_{i_1}=a_1,\ldots,X_{i_r}=a_r)=2^{-r}.$$
+よって $(X_j)$ は独立同分布となる。
+「$1$ が無限回出る」は
+$$A=\bigcap_{m=1}^\infty\bigcup_{j=m}^\infty\{X_j=1\}\in\F$$
+と書ける。補事象について、固定した $m$ に対し
+$$P\left(\bigcap_{j=m}^\infty\{X_j=-1\}\right)
+ =\lim_{r\to\infty}2^{-r}=0$$
+だから、可算和の劣加法性より $P(A)=1$ である。
+
+\topic{一つの無限列の確率は $0$}
+任意の $a=(a_1,a_2,\ldots)\in E^\N$ に対し
+$$\{a\}=\bigcap_{n\ge1}\{X_1=a_1,\ldots,X_n=a_n\},\qquad
+  P(\{a\})=\lim_{n\to\infty}2^{-n}=0.$$
+それでも $P(\Omega)=1$ で矛盾はない。確率の加法性は可算和についての主張であり、
+非可算個の一点集合の和へ直接適用することはできない。
+
+\newpage
+\topic{演習問題}
+\begin{enumerate}[label=\arabic*.]
+\item $\Omega=\{-1,1\}^\N$ 上の公平な独立コイントスについて、
+$\{X_2=1,X_5=-1\}$ を $\pi_5^{-1}(B)$ の形に書き、その確率を求めよ。
+\item 円筒集合 $C=\pi_n^{-1}(A)$、$D=\pi_m^{-1}(B)$ の和・積・補集合が
+再び円筒集合であることを示せ。
+\item 「$1$ がちょうど有限回だけ出る」事象を、座標変数を用いた可算回の
+和・積・補集合で表し、その確率を求めよ。
+\item 整合性を満たさない有限次元分布の例を作れ。
+たとえば $P_1(X_1=1)=1/2$ と $P_2(X_1=X_2=1)=1$ は両立するか。
+\end{enumerate}
+
+\topic{レポート問題}
+\begin{enumerate}[label=\arabic*.]
+\item $\pi_n^{-1}(A)=\pi_m^{-1}(B)$ なら $P_n(A)=P_m(B)$ であることを、
+整合条件と射影の全射性から示せ。さらに、円筒集合上の $\mu$ の有限加法性を示せ。
+\item 有限状態空間で使った「円筒集合による可算被覆から有限部分被覆を選ぶ」議論が、
+$[0,1]^\N$ 上の任意のボレル円筒集合にはそのまま使えない理由を説明せよ。
+実際に、$[0,1]$ のボレル集合による可算被覆で有限部分被覆をもたないものを構成し、
+第1座標の逆像をとって積空間上の被覆を作れ。
+拡張定理自体の不成立を主張する問題ではないことに注意する。
+\end{enumerate}
+
+\topic{考えるための手がかり}
+有限の離散空間では、任意の部分集合が開かつ閉である。
+$[0,1]$ の任意のボレル集合にはこの性質がない。
+コンパクト性から有限部分被覆を取れるのは、開被覆に対してである。
+レポートでは、集合の種類と使った定理の仮定を対応させよう。
+\vfill
+{\small\color{muted}解答メモ：有限加法性、前測度の可算加法性、拡張後の測度の可算加法性を区別する。}
+
+\columnstart{一つの一様乱数の中に、無限回のコイントスを見る}
+無限列の確率測度を抽象的に構成する代わりに、$[0,1)$ の一点から
+二進展開の各桁を取り出してみよう。区間上の長さと、独立なコイントスが結びつく。
+
+\columnheading{二進展開の規約を決める}
+$u\in[0,1)$ に対し
+$$\varepsilon_j(u)=\lfloor2^ju\rfloor-2\lfloor2^{j-1}u\rfloor\in\{0,1\},
+ \qquad u=\sum_{j=1}^\infty\frac{\varepsilon_j(u)}{2^j}$$
+と定める。たとえば $1/2=0.1000\ldots$ のように、二進有理数では
+末尾が $0$ となる表示を採用する。各桁はボレル可測な関数である。
+
+\columnheading{先頭の桁を固定すると区間になる}
+$e_1,\ldots,e_n\in\{0,1\}$ とし、$k=\sum_{j=1}^n e_j2^{n-j}$ とおくと
+$$\{u:\varepsilon_1(u)=e_1,\ldots,\varepsilon_n(u)=e_n\}
+  =[k2^{-n},(k+1)2^{-n}).$$
+一様確率 $\lambda$ の下では、この集合の確率は長さ $2^{-n}$ に等しい。
+すなわち $n$ 個の桁の同時分布は、$n$ 回の公平な独立コイントスと一致する。
+途中の桁だけ指定する場合も、指定しない桁を足し合わせれば同じ結論になる。
+
+\columnheading{写像で測度を押し出す}
+$\Phi(u)=(2\varepsilon_1(u)-1,2\varepsilon_2(u)-1,\ldots)$ とおく。
+円筒集合の逆像が可測なので、$\Phi$ は積 $\sigma$-加法族に関して可測であり、
+$$P(B):=\lambda(\Phi^{-1}(B))$$
+で $\{-1,1\}^\N$ 上の確率測度が得られる。
+円筒集合上の値は拡張定理で構成したものと一致し、一意性により同じ測度になる。
+二進有理数は可算個なので、そこで展開の規約を変えても分布は変わらない。
+
+\columnheading{有限桁の独立性と、無限列の制約}
+採用した規約では、たとえば末尾がすべて $1$ の一部の列は像に入らない。
+しかし各有限桁の列は等確率で現れる。像から除かれるこうした列の集合は可算であり、
+コイントスの測度では確率 $0$ になる。
+有限次元分布を指定するという考え方は、零集合上の表示の違いに影響されない。
+
+この構成では、一つの実数から任意の有限個の独立なビットを取り出せる。
+そのためには、実数の無限精度の情報を用いている。
+有限桁しか記録しない計算機上の乱数と、数学上の一様分布との違いも、ここから見えてくる。
+
+\label{lastpage}
+\end{document}

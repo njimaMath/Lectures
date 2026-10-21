@@ -1,0 +1,307 @@
+% Build twice here: pdflatex -interaction=nonstopmode -halt-on-error resume9An26w.tex
+\documentclass[a4paper,10pt,pdflatex,ja=standard,jafont=ipaex-type1,
+  magstyle=real,scale=1]{bxjsarticle}
+\usepackage{lmodern}
+\usepackage{amsmath,amssymb,mathtools}
+\usepackage{geometry}
+\geometry{reset,left=22mm,right=22mm,top=20mm,bottom=17mm,
+  headheight=13pt,headsep=6mm,footskip=10mm}
+\usepackage{xcolor}
+\usepackage{enumitem}
+\usepackage{array,booktabs,tabularx}
+\usepackage{fancyhdr}
+\usepackage{lastpage}
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta,calc,decorations.pathreplacing}
+
+\definecolor{ink}{HTML}{193A5C}
+\definecolor{accent}{HTML}{237D82}
+\definecolor{soft}{HTML}{EAF3F3}
+\definecolor{muted}{HTML}{52616B}
+\newcommand{\coursename}{解析学 II}
+\newcommand{\handoutnumber}{9}
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\small\color{ink}\coursename{}・授業要約と演習}
+\fancyhead[R]{\small\color{ink}第\handoutnumber 回}
+\fancyfoot[C]{\small\color{ink}\thepage/\pageref{LastPage}}
+\renewcommand{\headrulewidth}{0.3pt}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{2pt}
+\setlength{\abovedisplayskip}{5pt}
+\setlength{\belowdisplayskip}{5pt}
+\setlength{\abovedisplayshortskip}{3pt}
+\setlength{\belowdisplayshortskip}{4pt}
+\setlist[itemize]{leftmargin=1.8em,itemsep=1pt,topsep=2pt,parsep=0pt}
+
+\newcommand{\handouttitle}[1]{%
+  \begin{center}
+    {\Large\color{ink}#1}\par\vspace{3mm}
+    {\color{accent}\rule{0.88\linewidth}{0.7pt}}
+  \end{center}\vspace{-2mm}}
+\newcommand{\handout}[2]{%
+  \renewcommand{\handoutnumber}{#1}%
+  \handouttitle{第#1回\quad #2}}
+\newcommand{\topic}[1]{\par\vspace{5pt}%
+  {\large\sffamily\mdseries\color{accent}#1}\par\vspace{2pt}}
+\newcommand{\keybox}[1]{\par\vspace{3pt}\begingroup
+  \setlength{\fboxsep}{4pt}%
+  \colorbox{soft}{\parbox{\dimexpr\linewidth-2\fboxsep\relax}{\small #1}}%
+  \endgroup\par\vspace{2pt}}
+\newenvironment{problems}
+  {\begin{enumerate}[leftmargin=2em,itemsep=3pt,topsep=3pt,parsep=0pt,
+    font=\color{accent}]}
+  {\end{enumerate}}
+
+
+\newcommand{\examplelabel}[1]{{\sffamily\mdseries\color{ink}#1}}
+\newcommand{\problemspace}{\par\vspace{5mm}}
+\newcommand{\exercises}{%
+  {\color{accent}\hrule height 0.7pt}\vspace{3pt}%
+  \topic{演習問題（6題）}%
+  {\small 領域と積分範囲を確認し、計算過程も書こう。図を描くと範囲を読み取りやすい。}\par}
+\tikzset{
+  handout diagram/.style={>={Stealth[length=3.2pt,width=3.2pt]},line join=round,
+    every node/.style={font=\scriptsize,text=ink}},
+  region/.style={fill=soft,draw=accent,semithick},
+  slice/.style={accent,line width=1.8pt},
+  guide/.style={muted,densely dashed,thin},
+  axis/.style={->,ink,thin}}
+
+
+% Review Q&A can also be used for actual student feedback when it is available.
+\newcommand{\feedback}[2]{%
+  \par\addvspace{8pt}\noindent\begin{minipage}{\linewidth}%
+  {\color{ink}Q. #1}\par\vspace{2pt}%
+  {\color{accent}A. }#2%
+  \end{minipage}\par}
+
+\begin{document}
+\fontsize{10pt}{13.5pt}\selectfont
+\setlength{\abovedisplayskip}{4pt}
+\setlength{\belowdisplayskip}{4pt}
+% Feedback section: add comments and responses here when available.
+\fancyhead[L]{\small\color{ink}\coursename{}・フィードバック}
+\handout{9}{前回のコメントへのフィードバック}
+% \feedback{comment}{response}
+\clearpage
+
+% Previous small-test section: add the questions and solutions here.
+\fancyhead[L]{\small\color{ink}\coursename{}・小テスト}
+\fancyhead[R]{\small\color{ink}第8回}
+\handouttitle{第8回\quad 小テスト}
+% Questions and solutions are intentionally blank.
+\clearpage
+
+\fancyhead[L]{\small\color{ink}\coursename{}・授業要約と演習}
+\fancyhead[R]{\small\color{ink}第\handoutnumber 回}
+\handout{9}{空間内の曲面と曲面積}\label{lesson-start}
+\keybox{到達目標：接ベクトルの外積から曲面の面積要素を求め、投影領域上の積分に直せる。
+傾き・折れ目・座標表示の退化を図で区別しよう。}
+
+\topic{外積と平行四辺形の面積}
+$\vec a=(a_1,a_2,a_3)$、$\vec b=(b_1,b_2,b_3)$ に対し
+$$
+ \vec a\times\vec b=
+ (a_2b_3-a_3b_2,\ a_3b_1-a_1b_3,\ a_1b_2-a_2b_1).
+$$
+外積は両方のベクトルに直交し、順序を逆にすると符号が変わる。
+$$
+ |\vec a\times\vec b|^2=|\vec a|^2|\vec b|^2-(\vec a\cdot\vec b)^2,
+ \qquad
+ \operatorname{Area}(\text{平行四辺形})=|\vec a\times\vec b|.
+$$
+三角形の面積は、この半分である。
+
+
+\par\vspace{2pt}\noindent
+\begin{minipage}[b]{0.98\linewidth}\centering
+\begin{tikzpicture}[handout diagram,x={(0.85cm,-0.12cm)},y={(0.35cm,0.32cm)},z={(0cm,0.8cm)}]
+\path[region] (0,0,0) -- (2,0,0) -- (2.6,1.5,0) -- (0.6,1.5,0) -- cycle;
+ \draw[->,accent,semithick] (0,0,0) -- (2,0,0) node[midway,below] {$\vec a$};
+ \draw[->,ink,semithick] (0,0,0) -- (0.6,1.5,0) node[midway,left] {$\vec b$};
+ \draw[->,ink,semithick] (0,0,0) -- (0,0,1.8) node[above] {$\vec a\times\vec b$};
+ \node[right] at (2.8,0.8,0.7) {外積の大きさが面積};
+\end{tikzpicture}\par
+{\small\color{muted}外積の向きは、並べる順序で決まる}\par
+\end{minipage}
+\par\vspace{2pt}
+
+\topic{グラフで与えられる曲面}
+有界な積分可能領域 $D$ の近傍で $f$ が $C^1$ 級とする。
+曲面を $S=\{(x,y,f(x,y)):(x,y)\in D\}$ と表すと、接ベクトルは
+$$
+ \vec r_x=(1,0,f_x),\qquad \vec r_y=(0,1,f_y),\qquad
+ \vec r_x\times\vec r_y=(-f_x,-f_y,1).
+$$
+微小領域の像を接平面上の平行四辺形で近似すると
+$$
+ dS=\sqrt{1+f_x^2+f_y^2}\,dx\,dy,\qquad
+ \operatorname{Area}(S)=\iint_D\sqrt{1+f_x^2+f_y^2}\,dx\,dy.
+$$
+曲面の面積は、$xy$ 平面への投影面積に局所的な傾きの効果を掛けたものになる。
+
+
+\topic{リーマン和による面積要素の見方}
+辺の差を $(\Delta x,0,\delta_x f)$、$(0,\Delta y,\delta_y f)$ と近似すると
+$$
+ \Delta S\approx\Delta x\Delta y
+ \sqrt{1+\left(\frac{\delta_xf}{\Delta x}\right)^2
+          +\left(\frac{\delta_yf}{\Delta y}\right)^2}.
+$$
+細分極限で差商が偏微分に近づき、上の曲面積公式になる。
+特に $dS\ge dx\,dy$ なので、グラフの面積は投影面積以上である。
+
+
+\par\vspace{2pt}\noindent
+\begin{minipage}[b]{0.48\linewidth}\centering
+\begin{tikzpicture}[handout diagram,x={(0.7cm,-0.12cm)},y={(0.28cm,0.3cm)},z={(0cm,0.65cm)}]
+\path[region] (0,0,0.8) -- (2.4,0,1.6) -- (2.4,1.7,2.1) -- (0,1.7,1.3) -- cycle;
+ \draw[guide] (0,0,0) -- (0,0,0.8) (2.4,0,0) -- (2.4,0,1.6)
+   (2.4,1.7,0) -- (2.4,1.7,2.1) (0,1.7,0) -- (0,1.7,1.3);
+ \draw[ink] (0,0,0) -- (2.4,0,0) -- (2.4,1.7,0) -- (0,1.7,0) -- cycle;
+ \draw[axis] (0,0,0) -- (3.1,0,0) node[right] {$x$};
+ \draw[axis] (0,0,0) -- (0,2.5,0) node[right] {$y$};
+ \draw[axis] (0,0,0) -- (0,0,2.5) node[above] {$z$};
+ \node[below] at (1.2,0,0) {$dx\,dy$};
+ \node[above] at (1.2,0.9,1.55) {$dS$};
+\end{tikzpicture}\par
+{\small\color{muted}傾いた曲面片は、その投影より面積が大きい}\par
+\end{minipage}\hfill
+\begin{minipage}[b]{0.48\linewidth}\centering
+\begin{tikzpicture}[handout diagram,x=1cm,y=0.8cm]
+\path[region] (0,0) -- (2.4,0.4) -- (3.1,2) -- (0.7,1.6) -- cycle;
+ \foreach \t in {0.25,0.5,0.75}{
+  \draw[accent!50] (2.4*\t,0.4*\t) -- ({2.4*\t+0.7},{0.4*\t+1.6});
+  \draw[accent!50] (0.7*\t,1.6*\t) -- ({0.7*\t+2.4},{1.6*\t+0.4});}
+ \draw[->,ink] (0,0) -- (2.4,0.4) node[midway,below] {$\vec r_x\,dx$};
+ \draw[->,ink] (0,0) -- (0.7,1.6) node[midway,left] {$\vec r_y\,dy$};
+ \node[above] at (1.9,2.1) {接平面上の近似};
+\end{tikzpicture}\par
+{\small\color{muted}$dS=|\vec r_x\times\vec r_y|\,dx\,dy$}\par
+\end{minipage}
+\par\vspace{2pt}
+
+\newpage
+% Keep the remaining summary in the upper half of page 2.
+\noindent\begin{minipage}[b][\dimexpr0.5\textheight-\parskip\relax][t]{\linewidth}
+\topic{例：平面と放物面}
+平面 $z=ax+by+c$ の $D$ 上の部分では
+$$
+ \operatorname{Area}(S)=\sqrt{1+a^2+b^2}\,\operatorname{Area}(D).
+$$
+放物面 $z=x^2+y^2$、$x^2+y^2\le R^2$（$R>0$）では
+$$
+ \begin{aligned}
+ \operatorname{Area}(S)
+ &=\int_0^{2\pi}\int_0^R\sqrt{1+4r^2}\,r\,dr\,d\theta\\
+ &=\frac\pi6\left((1+4R^2)^{3/2}-1\right).
+ \end{aligned}
+$$
+
+
+\topic{滑らかでない点と表示の選び方}
+折れ目のあるグラフは、滑らかな部分に分けて面積を足す。
+面積0の境界線は積分値に影響しない。
+球面など1枚のグラフで表せない曲面は、複数の部分に分けるか媒介変数表示を用いる。
+\keybox{曲面積を計算する前に、偏微分と投影領域を確認する。$dx\,dy$ と $dS$ を取り違えない。}
+
+\par\vspace{2pt}\noindent
+\begin{minipage}[b]{0.48\linewidth}\centering
+\begin{tikzpicture}[handout diagram,x=0.85cm,y=0.65cm]
+\fill[soft] (0,0) -- plot[domain=0:1.5,samples=45] (\x,{\x*\x}) -- (1.5,0) -- cycle;
+ \draw[accent,semithick] plot[domain=-1.5:1.5,samples=60] (\x,{\x*\x});
+ \draw[axis] (-1.8,0) -- (1.95,0) node[right] {$x$};
+ \draw[axis] (0,0) -- (0,2.7) node[above] {$z$};
+ \node[right] at (1,1.3) {$z=x^2$};
+ \node[below] at (1.5,0) {$R$};
+\end{tikzpicture}\par
+{\small\color{muted}放物面の断面 $y=0$：$z=x^2$}\par
+\end{minipage}\hfill
+\begin{minipage}[b]{0.48\linewidth}\centering
+\begin{tikzpicture}[handout diagram,x=0.75cm,y=0.65cm]
+\draw[axis] (-1.9,0) -- (1.95,0) node[right] {$s=x+y$};
+ \draw[axis] (0,0) -- (0,2.5) node[above] {$z$};
+ \draw[accent,semithick] (-1.7,1.7) -- (0,0) -- (1.7,1.7);
+ \node[above left] at (-0.85,0.85) {$z=-s$};
+ \node[above right] at (0.85,0.85) {$z=s$};
+ \node[below] at (0,-0.1) {折れ目で分ける};
+\end{tikzpicture}\par
+{\small\color{muted}$z=|x+y|$ は2枚の平面に分ける}\par
+\end{minipage}
+\par\vspace{2pt}
+
+\end{minipage}\par\nointerlineskip
+% Keep the exercises and writing space in the lower half of page 2.
+\noindent\begin{minipage}[b][0.5\textheight][t]{\linewidth}
+\exercises
+\begin{problems}
+\item $\vec a=(1,0,1)$、$\vec b=(0,1,1)$ の外積を求め、両者が張る平行四辺形と三角形の面積を求めよ。
+\problemspace
+
+\item $z=2x-y$、$(x,y)\in[0,1]\times[0,2]$ で表される曲面の面積を求めよ。
+\problemspace
+
+\item $z=x^2+y^2$、$x^2+y^2\le1$ で表される曲面の面積を、極座標を用いて求めよ。
+\problemspace
+
+\item $z=xy$、$(x,y)\in[0,1]^2$ の曲面積を重積分で表せ。さらに、その面積が1以上 $\sqrt3$ 以下であることを示せ。
+\problemspace
+
+\item $z=|x+y|$、$(x,y)\in[-1,1]^2$ の面積を、領域を分割して求めよ。折れ目があることをどう扱ったか述べよ。
+\problemspace
+
+\item 半径 $R>0$ の上半球を $z=\sqrt{R^2-x^2-y^2}$ と表す。まず $x^2+y^2\le b^2$（$0<b<R$）の部分の面積を求め、$b\uparrow R$ の極限で上半球の面積を求めよ。
+\problemspace
+\end{problems}
+\end{minipage}
+
+\newpage
+\handouttitle{第9回\quad 演習問題の解答}
+{\small 設定した範囲と条件も確認しながら、計算を振り返ろう。}\par
+\begin{problems}
+\setlength{\itemsep}{7pt}
+\item $\vec a\times\vec b=(-1,-1,1)$、$|\vec a\times\vec b|=\sqrt3$。
+したがって平行四辺形の面積は $\sqrt3$、三角形の面積は $\sqrt3/2$。
+
+\item $f_x=2$、$f_y=-1$ なので、傾きの因子は $\sqrt{1+4+1}=\sqrt6$。
+投影領域の面積が2であることから
+$$
+ \operatorname{Area}(S)=\int_0^1\int_0^2\sqrt6\,dy\,dx=2\sqrt6.
+$$
+
+\item $f_x=2x$、$f_y=2y$。極座標で
+$$
+ \operatorname{Area}(S)=2\pi\int_0^1r\sqrt{1+4r^2}\,dr
+ =\frac\pi6(5\sqrt5-1).
+$$
+置換 $u=1+4r^2$ により $du=8r\,dr$ となる。
+
+\item $f_x=y$、$f_y=x$ なので
+$$
+ \operatorname{Area}(S)=\int_0^1\int_0^1\sqrt{1+x^2+y^2}\,dy\,dx.
+$$
+単位正方形上では $1\le\sqrt{1+x^2+y^2}\le\sqrt3$。
+この不等式を面積1の領域上で積分して $1\le\operatorname{Area}(S)\le\sqrt3$ を得る。
+
+\item $x+y>0$ では $(f_x,f_y)=(1,1)$、$x+y<0$ では $(-1,-1)$。
+どちらも面積要素は $\sqrt3\,dA$ である。
+折れ目 $x+y=0$ の両側に分けて積分し、面積0の共通境界は重ねて数えない。
+$$
+ \operatorname{Area}(S)=\sqrt3\,\operatorname{Area}([-1,1]^2)=4\sqrt3.
+$$
+
+\item $r<R$ では $f_x=-x/\sqrt{R^2-r^2}$、$f_y=-y/\sqrt{R^2-r^2}$ より
+$$
+ \sqrt{1+f_x^2+f_y^2}=\frac R{\sqrt{R^2-r^2}}.
+$$
+したがって半径 $b<R$ の投影領域に対応する面積は
+$$
+ A(b)=2\pi R\int_0^b\frac{r}{\sqrt{R^2-r^2}}\,dr
+ =2\pi R\left(R-\sqrt{R^2-b^2}\right).
+$$
+$b\uparrow R$ として上半球の面積は $2\pi R^2$。
+赤道付近でグラフの傾きは発散するが、面積の広義積分は収束する。
+\end{problems}
+\keybox{曲面積は非負で、グラフなら投影面積以上になる。折れ目は部分に分け、表示が退化する場所は極限や別の表示で扱おう。}
+\end{document}

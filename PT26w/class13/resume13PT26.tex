@@ -1,0 +1,219 @@
+% Build in this directory (run twice for page references):
+% pdflatex -interaction=nonstopmode -halt-on-error resume13PT26.tex
+% Topics follow the syllabus in ../class1/class1PT26.tex.
+% Content adapted from ../lectureNote.tex and ../lectureNotes.tex.
+\documentclass[a4paper,10pt,pdflatex,ja=standard,jafont=ipaex-type1,
+  magstyle=real,scale=1]{bxjsarticle}
+\usepackage{lmodern}
+\usepackage{amsmath,amssymb,mathtools}
+\usepackage{geometry}
+\geometry{reset,left=22mm,right=22mm,top=20mm,bottom=17mm,
+  headheight=13pt,headsep=6mm,footskip=10mm}
+\usepackage{xcolor}
+\usepackage{enumitem}
+\usepackage{array,booktabs,tabularx}
+\usepackage{tikz}
+\usepackage{fancyhdr}
+\usepackage{hyperref}
+\definecolor{ink}{HTML}{193A5C}
+\definecolor{accent}{HTML}{237D82}
+\definecolor{soft}{HTML}{EAF3F3}
+\definecolor{muted}{HTML}{52616B}
+\newcommand{\coursename}{確率論と統計学 I}
+\hypersetup{unicode=true,colorlinks=true,urlcolor=accent,linkcolor=ink,
+  pdfauthor={中島秀太},pdftitle={第13回：無限回の試行の確率空間}}
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\small\color{ink}\coursename{}・授業要約と演習}
+\fancyhead[R]{\small\color{ink}第13回}
+\fancyfoot[C]{\small\color{ink}\thepage/\pageref*{lastpage}}
+\renewcommand{\headrulewidth}{0.3pt}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{2pt}
+\setlength{\abovedisplayskip}{4pt}
+\setlength{\belowdisplayskip}{4pt}
+\setlength{\abovedisplayshortskip}{3pt}
+\setlength{\belowdisplayshortskip}{4pt}
+\setlist[itemize]{leftmargin=1.8em,itemsep=2pt,topsep=3pt,parsep=0pt}
+\setlist[enumerate]{leftmargin=2em,itemsep=6pt,topsep=4pt,parsep=0pt}
+\newcommand{\topic}[1]{\par\vspace{5pt}
+  {\large\sffamily\mdseries\color{accent}#1}\par\vspace{2pt}}
+\newcommand{\handouttitle}[1]{\begin{center}
+  {\Large\color{ink}#1}\par\vspace{3mm}
+  {\color{accent}\rule{0.88\linewidth}{0.7pt}}
+  \end{center}\vspace{-2mm}}
+\newcommand{\keybox}[1]{\par\vspace{3pt}\begingroup
+  \setlength{\fboxsep}{5pt}
+  \colorbox{soft}{\parbox{\dimexpr\linewidth-2\fboxsep\relax}{#1}}
+  \endgroup\par\vspace{2pt}}
+\newcommand{\examplelabel}[1]{{\sffamily\mdseries\color{ink}#1}}
+\newcommand{\columnheading}[1]{\par\vspace{5pt}
+  {\fontsize{11pt}{15pt}\selectfont\sffamily\mdseries\color{accent}#1}\par\vspace{2pt}}
+\newcommand{\columnstart}[1]{\clearpage
+  \fancyhead[L]{\small\color{ink}\coursename{}・発展的内容}
+  {\small\sffamily\mdseries\color{accent}発展的内容}\par\vspace{4pt}
+  {\Large\color{ink}#1}\par\vspace{2pt}
+  {\color{accent}\rule{\linewidth}{0.7pt}}\par\vspace{4pt}}
+\newcommand{\F}{\mathcal F}
+\newcommand{\R}{\mathbb R}
+\newcommand{\N}{\mathbb N}
+\newcommand{\E}{\mathbb E}
+\newcommand{\Var}{\operatorname{Var}}
+\newcommand{\Cov}{\operatorname{Cov}}
+\newcommand{\ind}{\mathrm{1}}
+\newcommand{\iid}{\text{独立同分布}}
+\begin{document}
+\fontsize{10pt}{13.5pt}\selectfont
+\handouttitle{第13回\quad 無限回の試行の確率空間}
+\keybox{無限回の試行を一つの確率空間上に置くと、長期平均、初めて成功する時刻、
+無限に続く軌跡を同じモデルの中で扱える。有限の条件と無限の事象をつなごう。}
+
+\topic{無限コイントスの積空間}
+$0<p<1$ とし、$E=\{0,1\}$、$\Omega=E^\N$ とおく。
+有限列 $(a_1,\ldots,a_n)\in E^n$ の分布を
+$$P_n(\{(a_1,\ldots,a_n)\})
+ =\prod_{j=1}^n p^{a_j}(1-p)^{1-a_j}$$
+と定める。末尾の座標を足し合わせると $p+(1-p)=1$ だから整合条件を満たす。
+第12回の拡張定理により、円筒集合が生成する $\sigma$-加法族 $\F$ 上に
+これらの周辺分布をもつ一意な確率測度 $P_p$ が存在する。
+
+\topic{座標写像が独立な試行を表す}
+$B_j(\omega)=\omega_j$ とおく。$\{B_j=a\}$ は円筒集合なので可測であり、
+任意の有限個の座標の同時確率が積に分かれる。
+したがって $(B_j)_{j\ge1}$ は独立な $\mathrm{Bern}(p)$ 変数列となる。
+$$\F_n:=\sigma(B_1,\ldots,B_n),\qquad
+ \F_0:=\{\varnothing,\Omega\},\qquad
+ \F_0\subseteq\F_1\subseteq\cdots,\quad
+ \F=\sigma\left(\bigcup_{n\ge0}\F_n\right).$$
+$\F_n$ は時刻 $n$ までに知ることのできる情報である。
+これらの増加列を filtration（情報の増大列）という。
+
+\topic{初めて成功する時刻}
+$$T:=\inf\{n\ge1:B_n=1\}\in\N\cup\{\infty\}$$
+と定める。成功が一度も起こらない場合は $T=\infty$ とする。
+$\{T\le n\}=\{B_1+\cdots+B_n\ge1\}\in\F_n$ なので、$T$ は停止時刻である。
+停止時刻とは、その時刻までの情報だけで「すでに止まったか」を判定できる変数である。
+$$P_p(T=k)=(1-p)^{k-1}p,\qquad
+ P_p(T=\infty)=\lim_{n\to\infty}(1-p)^n=0.$$
+よって $T$ は a.s. 有限で、幾何分布をもつ。
+無限列の空間に置くことで「いつまで待っても成功しない」という可能性も定義に含められる。
+
+\topic{ランダムウォークを一つの空間上に置く}
+$S_0=0$、$S_n=\sum_{j=1}^n(2B_j-1)$ とすると
+$$\E_p[S_n]=n(2p-1),\qquad\Var_p(S_n)=4np(1-p).$$
+各 $S_n$ の分布に加え、$(S_0,S_1,\ldots)$ という軌跡全体を扱える。
+$M_n=S_n-n(2p-1)$ とおけば、独立性から
+$\E_p[M_{n+1}\mid\F_n]=M_n$。第11回の martingale の例にもなる。
+
+\newpage
+\topic{無限回起こる事象と Borel--Cantelli}
+事象 $A_n$ が無限回起こることを
+$$\limsup_n A_n:=\bigcap_{m=1}^\infty\bigcup_{n\ge m}A_n$$
+で表す。$\sum_nP(A_n)<\infty$ ならその確率は $0$。
+$A_n$ が相互独立で和が無限大なら、その確率は $1$ である。
+たとえば $A_n=\{B_n=1\}$ では和が発散するので、成功は a.s. 無限回起こる。
+失敗についても同じである。
+
+\topic{どの有限パターンも無限回現れる}
+長さ $r$ の有限列 $a=(a_1,\ldots,a_r)\in E^r$ を固定する。
+重ならないブロックに対して
+$$A_k=\{(B_{(k-1)r+1},\ldots,B_{kr})=a\}\quad(k\ge1)$$
+とおく。これらは独立で、共通の確率
+$q=p^{\sum_j a_j}(1-p)^{r-\sum_j a_j}>0$ をもつ。
+$\sum_kP_p(A_k)=\infty$ なので、パターン $a$ は a.s. 無限回現れる。
+有限パターンは全体でも可算個だから、すべての有限パターンが無限回現れることも確率 $1$ である。
+重なるブロックをそのまま独立として扱わない点に注意しよう。
+
+\topic{長期頻度は、有限回での揺らぎと両立する}
+強大数の法則を座標列へ適用すると
+$$P_p\left(\lim_{n\to\infty}\frac1n\sum_{j=1}^nB_j=p\right)=1.$$
+任意に長い成功の連続も a.s. 現れるが、全体の長期頻度は $p$ へ収束する。
+長い連続の存在と、その区間が全試行に占める割合とは、異なる主張である。
+
+\topic{有限次元では似ていても、無限列では区別できる}
+$A_p=\{\lim_n n^{-1}\sum_{j=1}^nB_j=p\}$ とする。
+$p\ne q$ なら $P_p(A_p)=1$、$P_q(A_p)=0$ となる。
+どの有限列も両モデルで正の確率をもつが、無限列の長期頻度から両者を区別できる。
+無限列上の測度 $P_p$ と $P_q$ は互いに特異である。
+
+\topic{一点の列と、確率 $1$ の性質}
+固定した $\omega\in\Omega$ に対し
+$$P_p(\{\omega\})=\lim_{n\to\infty}
+ \prod_{j=1}^n p^{\omega_j}(1-p)^{1-\omega_j}
+ \le\lim_{n\to\infty}\max\{p,1-p\}^n=0.$$
+各列の確率は $0$ でも、長期頻度の収束などの性質を満たす列全体の確率は $1$ となる。
+確率 $1$ の事象と、すべての標本で起こる事象は同じとは限らない。
+
+\newpage
+\topic{演習問題}
+\begin{enumerate}[label=\arabic*.]
+\item $p=1/3$ の無限コイントスで $P_p(B_1=1,B_3=0,B_7=1)$ を求めよ。
+また、最初の成功時刻 $T$ について $P_p(T>5)$ と $\E_p[T]$ を求めよ。
+\item $T$ が停止時刻であることを定義から確認せよ。
+一方、$L=\sup\{n\ge1:B_n=1\}$ は、なぜ「最後の成功時刻」を有限の観測で
+判定するための変数として適切でないか説明せよ。
+ここで成功が一度もないときは $L=0$、成功が無限回なら $L=\infty$ と定める。
+\item 任意の $r\ge1$ について、成功が $r$ 回続く箇所が a.s. 無限回あることを示せ。
+独立にするために、どのようなブロックを選んだか明記すること。
+\item $p=1/2$ とし $U=\sum_{j\ge1}2^{-j}B_j$ とおく。
+先頭 $n$ 桁が指定された事象を使い、$U$ が $[0,1]$ 上の一様分布に従うことを示せ。
+二進有理点の二重表示に対応する例外が確率 $0$ であることも確認せよ。
+\end{enumerate}
+
+\topic{レポート問題}
+\begin{enumerate}[label=\arabic*.]
+\item $p\ne q$、$p,q\in(0,1)$ の積測度 $P_p,P_q$ について、
+各有限次元分布は同じ零集合をもつ一方、無限列上の測度は互いに特異であることを示せ。
+識別する事象が $\F$ に属することも説明すること。
+\item $M_n=\sum_{j=1}^n(B_j-p)$、$M_0=0$ とする。
+$M_n$ が $\F_n$-可測で可積分であることと、
+$$\E_p[M_{n+1}\mid\F_n]=M_n$$
+を証明せよ。独立性と条件付き期待値の性質をどこで使ったか明記すること。
+\end{enumerate}
+
+\topic{考えるための手がかり}
+有限個の座標に関する事象は円筒集合で扱える。
+無限回の主張では、可算和・可算積で事象を書き、極限や Borel--Cantelli を使う。
+試行全体を一つの空間に置いたことで何を定義できるようになったかを考えよう。
+\vfill
+{\small\color{muted}解答メモ：有限の周辺分布、無限列の事象、時刻までの情報を区別する。}
+
+\columnstart{有限の初め方に左右されない事象の確率}
+最初の100回の結果を変えても、長期頻度が $p$ に収束するかどうかは変わらない。
+こうした無限列の末尾だけで決まる事象には、独立試行に特有の強い法則がある。
+
+\columnheading{末尾の情報を取り出す}
+独立な座標列 $(B_j)$ に対し、末尾 $\sigma$-加法族を
+$$\mathcal T:=\bigcap_{n=1}^\infty\sigma(B_{n+1},B_{n+2},\ldots)$$
+と定める。$A\in\mathcal T$ なら、どれほど先まで最初の座標を取り除いても、
+残りの情報だけで $A$ を判定できる。
+たとえば「成功が無限回起こる」や「標本平均が $p$ に収束する」は末尾事象である。
+
+\columnheading{初めの有限個とは独立になる}
+$A\in\mathcal T$ を固定する。任意の $n$ について、$A$ は
+$\sigma(B_{n+1},B_{n+2},\ldots)$ に属する。
+座標列の独立性より、この $\sigma$-加法族と $\F_n=\sigma(B_1,\ldots,B_n)$ は独立なので
+$$P(A\cap C)=P(A)P(C)\qquad(C\in\F_n).$$
+有限座標の円筒集合全体は $\F$ を生成する。
+測度の一意性定理を使えば、この等式はすべての $C\in\F$ へ拡張される。
+すなわち $A$ は、試行全体の情報とも独立になってしまう。
+
+\columnheading{自分自身との独立性}
+$A\in\mathcal T\subseteq\F$ なので、上の等式で $C=A$ と置くと
+$$P(A)=P(A\cap A)=P(A)^2,\qquad P(A)\in\{0,1\}.$$
+これが Kolmogorov の零一法則である。
+独立な試行の末尾事象には、中間の確率が現れない。
+同分布の仮定は必要なく、独立性が核心となる。
+
+\columnheading{零一法則が決めること、残すこと}
+零一法則は、末尾事象の確率が $0$ か $1$ かを制限するが、
+どちらになるかはそれだけでは決めない。
+「長期頻度が $p$ に収束する」が確率 $1$ となることには大数の法則が必要である。
+「長期頻度が $q\ne p$ に収束する」は確率 $0$ となる。
+
+一方、「最初の試行が成功する」は末尾事象ではなく、確率は $p$ でよい。
+法則を適用するときには、無限回の言葉が出ているかではなく、
+最初の任意の有限個の座標を捨てても判定できるかを、$\sigma$-加法族の定義から確認しよう。
+
+\label{lastpage}
+\end{document}

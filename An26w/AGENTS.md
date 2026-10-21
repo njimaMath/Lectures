@@ -1,33 +1,102 @@
-# An26w instructions
+# An26w の作業指針
 
-These instructions apply to all files in `An26w/` and its subdirectories.
+この指示は、`An26w/` とその下のすべてのファイルに適用する。
+説明文、見出し、作成時に追加・更新するコメントは日本語で書く。ファイル名、命令名、パッケージ名などの識別子は変更しない。
 
-## General formatting
+## 共通の表記
 
-- Do not use `\boxed` in mathematical formulas, including answers and summaries. This rule takes precedence over any existing use in the reference files below. Present results as ordinary formulas.
-- Do not use bold text or bold mathematical symbols.
-- Write proofs in connected prose without numbered steps. Numbering exercises and test questions is allowed.
-- Use `$...$` for inline mathematics and `$$...$$` for displayed mathematics. Use MathJax for mathematics in HTML.
-- Write Japanese course materials in clear, kind language suitable for undergraduate students. State necessary assumptions, define symbols, and specify domains or intervals when relevant.
+- 数式には、解答やまとめも含めて `\boxed` を使わない。参照ファイルで使われていても、この指示を優先し、通常の数式として示す。
+- 本文と数式のどちらにも太字を使わない。見出しも通常の太さにする。
+- 証明は段階に番号を付けず、つながりのある文章と数式で書く。演習問題や小テストの問題番号は付けてよい。
+- 文中数式は `$...$`、独立した数式は `$$...$$` で囲む。複数行の数式には、その内側で `aligned` などを使う。HTML の数式には MathJax を使う。
+- 学部学生に向けて、明確で親切な日本語で説明する。必要な仮定と記号の意味を示し、定義域や対象の区間も必要に応じて明記する。
 
-## Handout style
+## 授業要約・演習プリントの書式
 
-- Match the style of [class2_handout.tex](class2/class2_handout.tex) when creating or editing handouts.
-- Follow its A4, 10 pt `bxjsarticle` setup with Japanese support and the `pdflatex` build configuration.
-- Match its margins: 22 mm left and right, 20 mm top, and 17 mm bottom. Preserve the compact paragraph, formula, and list spacing.
-- Use its navy `ink`, teal `accent`, pale `soft`, and gray `muted` colors, with regular-weight headings and the thin teal title rule.
-- Preserve the course and lesson headers and the centered current-page/total-pages footer. Update the lesson number and title for the material being written.
-- Follow the existing `\handout`, `\handouttitle`, `\topic`, `\keybox`, and `problems` conventions. Keep learning goals, explanations, worked examples, and exercises organized as in the reference.
-- Each handout must be exactly three pages: 1.5 pages for the lesson summary, 0.5 page for exercise problems, and 1 page for answers to those exercises.
-- Place the summary on page 1 and the upper half of page 2, the exercise problems on the lower half of page 2, and the answers on page 3. Start the answers on a new page and keep their numbering aligned with the exercise problems.
-- Adapt the reference's page-break and spacing commands to meet this allocation. Leave appropriate writing space within the half-page exercise section and explain the answers clearly within the final page.
+- 授業要約と演習だけのプリントを作成・編集するときは、[第2回の授業プリント](class2/class2_handout.tex) を書式の基準にする。前回の振り返りを含むレジュメは、後述の [第2回のレジュメ](class2/resume2An26w.tex) を基準にする。
+- 用紙は A4、本文は 10 pt、文書クラスは日本語対応の `bxjsarticle` とし、`pdflatex` でコンパイルする。
+- 余白は左右 22 mm、上 20 mm、下 17 mm とする。段落、数式、箇条書きの間隔は参照ファイルのコンパクトな設定に合わせる。
+- 色は紺色の `ink`、青緑色の `accent`、淡色の `soft`、灰色の `muted` を使う。見出しは通常の太さとし、題名の下に細い青緑色の罫線を引く。
+- ヘッダーの授業名と授業回、中央フッターの「現在のページ番号／総ページ数」を維持する。授業回と題名は対象の回に合わせて更新する。
+- 既存の `\handout`、`\handouttitle`、`\topic`、`\keybox`、`problems` の使い方に従い、学習目標、説明、例題、演習を整理する。
+- 授業要約・演習・解答の部分は必ず3ページとする。内訳は授業要約1.5ページ、演習問題0.5ページ、演習の解答1ページとする。
+- この部分の1ページ目と2ページ目の上半分に授業要約と例題を置き、2ページ目の下半分に演習問題、3ページ目に解答を置く。解答は改ページして始め、問題と番号を一致させる。
+- 参照ファイルの改ページと余白の命令を調整して、この配分を守る。演習には書き込み用の余白を設け、解答は最後の1ページで理由まで説明する。
 
-## Small test style
+## レジュメの構成と書式
 
-- Use [smalltest1.tex](class1/smalltest1.tex) as the style reference when creating or editing small tests.
-- Follow its A4, 10 pt `jsarticle` setup with `dvipdfmx` and the shared [an26handout.sty](an26handout.sty) package, loaded through the appropriate relative path.
-- Use `\handout` for the lesson number and test title, the `解析学 II・小テスト` header, and a centered page-number footer.
-- Place student-number and name fields below the title, followed by concise instructions and a clear point allocation.
-- Use `\topic{問題}` and an enumerated question list with teal Arabic-number labels, a `2.4em` left margin, and `9pt` item spacing, as in the reference.
-- Start the solutions on a new page, with the teal horizontal rule and `\topic{解答}`. Keep solution numbering aligned with the questions and explain the reasoning clearly.
-- Adapt the questions, scores, and length to the requested test while preserving this layout. Apply the prohibition on `\boxed` to all solutions, even though the reference currently uses it.
+- 作成・編集の基準は [第2回のレジュメ](class2/resume2An26w.tex) とする。内容をそのまま流用せず、構成、見た目、命令の使い方を参考にする。
+- 第 N 回のレジュメは `classN/resumeNAn26w.tex` に保存し、同名の PDF を作成する。ここで N は対象の授業回を表す。
+- 全体は「前回のコメントへのフィードバック」「前回の小テストとその解答」「今回の授業要約・演習問題・解答」の順に並べる。
+- 参照ファイルのフィードバックは2ページだが、ページ数は実際のコメント量に応じて調整する。小テストの挿入ページも含め、レジュメ全体を3ページに収める必要はない。3ページの指定は末尾の授業要約・演習・解答だけに適用する。
+- 文書クラスのオプション `a4paper,10pt,pdflatex,ja=standard,jafont=ipaex-type1,magstyle=real,scale=1` と、余白・色・ヘッダー・フッターの設定を引き継ぐ。
+- 色の値は `ink=193A5C`、`accent=237D82`、`soft=EAF3F3`、`muted=52616B` とする。
+- `\handout`、`\handouttitle`、`\topic`、`\keybox`、`problems` に加え、`\examplelabel`、`\problemspace`、`\exercises`、`\feedback`、`smalltestpages` の定義を引き継ぐ。題数や余白などは内容に合わせて調整する。
+- 本文は参照ファイルの `\fontsize{10pt}{13.5pt}\selectfont` を基本とし、ページ数を合わせるために文字を過度に小さくしない。
+
+## レジュメを作成する手順
+
+### 資料の確認とファイルの準備
+
+- 対象回の授業内容、前回の学生コメント、前回の小テストと解答を確認する。既存の対象回ファイルがあれば、その内容と変更を確認してから編集する。
+- 新規作成時は [第2回のレジュメ](class2/resume2An26w.tex) を複製して `classN/resumeNAn26w.tex` を作る。参照元自体は書き換えない。
+- `\handoutnumber`、各 `\handout`、続きのページや解答ページの題名を対象回に合わせる。挿入する小テストの回数は、その小テストの実際の回数に合わせる。
+- 冒頭のコンパイル方法を記したコメントも日本語にし、作成するファイル名に更新する。参照元のコメントにある `class2_handout.tex` をそのまま残さない。
+
+### 前回のコメントへのフィードバック
+
+- 左ヘッダーを「解析学 II・フィードバック」にし、`\handout{N}{前回のコメントへのフィードバック}` で始める。命令例の N は実際の授業回に置き換える。
+- コメントは内容ごとに `\topic{...}` で分類し、`\feedback{学生のコメント}{回答}` の形で記述する。
+- 質問と回答が別ページに分かれないよう、参照ファイルの `minipage` を使った定義を維持する。1組がページ内に収まらない場合は、内容を整理して分割する。
+- 複数ページになる場合は、適切な位置で `\newpage` を使い、続きのページに `\handouttitle{第N回\quad フィードバック（つづき）}` を置く。
+- 実際の学生コメントと教員の回答をもとに書き、提供されていない発言や個人的な回答を作らない。資料がない場合は、その旨を示し、必要なら「前回の復習」として内容を区別する。
+
+### 前回の小テストと解答の挿入
+
+- 挿入用の原稿は [第1回小テストの復習用原稿](class2/smalltest1_review.tex) を参考にし、対象回のフォルダーに `smalltestM_review.tex` として用意する。M は前回の小テストの回数で、通常は N より1小さい。
+- 挿入用原稿は `\documentclass[a4paper,10pt,dvipdfmx]{jsarticle}` と `\usepackage{../an26handout}` を使い、`platex` と `dvipdfmx` で別途 PDF にする。レジュメ本体とコンパイル方法を混同しない。
+- 問題、配点、学籍番号欄、氏名欄と解答を収録する。挿入用原稿は参照例のように問題と解答を同じページに配置してよく、単独配布の小テストに対する解答の改ページ指定は適用しない。
+- 挿入用原稿は `\pagestyle{empty}` とし、ヘッダーとページ番号はレジュメ本体の `smalltestpages` で付ける。共有の書式に太字指定がある場合は、参照例のように挿入用原稿側で通常の太さに変更する。
+- レジュメ本体では、フィードバックの後に `\clearpage` を置き、次の形で挿入する。M は実際の小テスト回数に置き換える。
+
+```latex
+\includepdf[pages=-,pagecommand={\thispagestyle{smalltestpages}}]{smalltestM_review.pdf}
+```
+
+- `smalltestpages` の右ヘッダーは前回の小テストの回数にする。フッターには本体と共通の `\thepage/\pageref{LastPage}` を使い、レジュメ全体でページ番号を通す。
+
+### 今回の授業要約・例題・演習・解答
+
+- 小テストの挿入後、左ヘッダーを「解析学 II・授業要約と演習」に戻し、`\handout{N}{今回の題名}` から末尾3ページを始める。
+- 末尾3ページの1ページ目には、仮定と記号の説明、主要な定義・公式、計算方法を置く。`\topic` で内容を分け、必要に応じて短い例を添える。
+- `\newpage` の後、2ページ目の上半分に解き方が追える例題を置く。参照ファイルと同じく、高さを `\dimexpr0.5\textheight-\parskip\relax` とした `minipage` を使う。
+- 上半分の終わりは `\end{minipage}\par\nointerlineskip` とし、下半分は高さ `0.5\textheight` の `minipage` にする。`\exercises` と `problems` で演習問題を置き、`\problemspace` で書き込み用の余白を設ける。
+- 演習は参照ファイルの6題を基本とし、基本事項から応用へと並べる。題数を変更する場合は `\exercises` 内の見出しも更新する。
+- 続く `\newpage` で3ページ目を始め、`\handouttitle{第N回\quad 演習問題の解答}` を置く。解答の番号と小問の記号を問題に対応させ、結論だけでなく要点となる計算や理由も示す。
+- 不定積分では積分定数と対象区間、逆関数では定義域と値域など、各題で必要な条件を確認する。参照元の数学的な内容も無条件に写さず、正しさを確認する。
+
+### コンパイルと完成後の確認
+
+- 対象の `classN/` を作業フォルダーにして、挿入用小テスト、レジュメ本体の順にコンパイルする。例えば、第3回に第2回小テストを挿入する場合は `An26w/class3/` で次を順に実行する。
+
+```powershell
+platex -interaction=nonstopmode -halt-on-error smalltest2_review.tex
+dvipdfmx smalltest2_review.dvi
+pdflatex -interaction=nonstopmode -halt-on-error resume3An26w.tex
+pdflatex -interaction=nonstopmode -halt-on-error resume3An26w.tex
+```
+
+- 総ページ数の参照を確定するため、本体は少なくとも2回コンパイルする。参照の再実行を求める警告が残る場合は、解消するまで再実行する。
+- 出力した PDF の全ページを確認し、文字化け、数式や表のはみ出し、不要な空白ページ、ヘッダーやフッターの重なりがないか調べる。
+- 末尾の授業要約1.5ページ、演習0.5ページ、解答1ページという配分と、演習の書き込み用余白を確認する。固定高さの `minipage` から内容があふれていないかも目視する。
+- 授業回、題名、小テストの回数、問題と解答の対応、通しページ番号、総ページ数を確認する。LaTeX のエラー、未定義参照、はみ出しの警告があれば修正して再確認する。
+
+## 単独配布の小テストの書式
+
+- 小テストを作成・編集するときは、[第1回の小テスト](class1/smalltest1.tex) を書式の基準にする。
+- 用紙は A4、本文は 10 pt、文書クラスは `jsarticle`、出力設定は `dvipdfmx` とする。共有の [小テスト用スタイル](an26handout.sty) を適切な相対パスで読み込む。
+- `\handout` で授業回と題名を指定し、ヘッダーを「解析学 II・小テスト」、中央フッターをページ番号にする。
+- 題名の下に学籍番号欄と氏名欄を置き、その後に簡潔な注意事項と配点を示す。
+- `\topic{問題}` の下に番号付きの問題一覧を置く。参照ファイルに合わせて、番号は青緑色の算用数字、左余白は `2.4em`、項目間の余白は `9pt` とする。
+- 解答は改ページして始め、青緑色の水平線と `\topic{解答}` を置く。問題と解答の番号を一致させ、考え方を明確に説明する。
+- この書式を維持しながら、依頼に応じて問題、配点、分量を調整する。参照ファイルの解答に `\boxed` があっても使わない。

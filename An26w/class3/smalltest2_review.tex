@@ -1,0 +1,83 @@
+% Insert for resume3An26w.tex; the parent supplies headers and page numbers.
+% Build: platex -interaction=nonstopmode -halt-on-error smalltest2_review.tex
+% Then: dvipdfmx smalltest2_review.dvi
+\documentclass[a4paper,10pt,dvipdfmx]{jsarticle}
+\usepackage{../an26handout}
+
+\fancyhead[L]{\small\color{ink}解析学 II・小テスト}
+\fancyfoot[C]{\small\color{ink}\thepage}
+
+\renewcommand{\handout}[2]{%
+  \def\handoutnumber{第#1回}%
+  \begin{center}
+    {\Large\normalfont\mdseries\color{ink}第#1回\quad #2}\par
+    \vspace{2pt}{\color{accent}\rule{0.88\linewidth}{1.2pt}}
+  \end{center}\vspace{2pt}}
+\renewcommand{\topic}[1]{\par\vspace{5pt}%
+  {\large\normalfont\mdseries\color{accent}#1}\par\vspace{1pt}}
+
+\begin{document}
+\pagestyle{empty}
+\handout{2}{小テスト：有理関数の積分}
+
+学籍番号：\underline{\hspace{40mm}}\hfill
+氏名：\underline{\hspace{40mm}}
+
+次の不定積分を求めてください。計算過程も書き、積分定数を付けてください。
+問1は30点、問2は40点、問3は30点、合計100点です。
+
+\topic{問題}
+\begin{enumerate}[label=\color{accent}\arabic*.,leftmargin=2.4em,itemsep=9pt]
+\item $\displaystyle\int\frac{1}{x^2-3x+2}\,dx$\hfill（30点）
+
+\item $\displaystyle\int\frac{x}{x^2-2x+1}\,dx$\hfill（40点）
+
+\item $\displaystyle\int\frac{1}{x^2-2x+2}\,dx$\hfill（30点）
+\end{enumerate}
+
+\par\vspace{4mm}
+{\color{accent}\rule{\linewidth}{0.6pt}}
+\topic{小テストの解答}
+以下、$C$ は区間ごとに選ぶ積分定数、$\log$ は自然対数を表します。
+
+\begin{enumerate}[label=\color{accent}\arabic*.,leftmargin=2.4em,itemsep=9pt]
+\item 分母を因数分解し、部分分数に分けます。
+$$
+ x^2-3x+2=(x-1)(x-2),\qquad
+ \frac1{(x-1)(x-2)}=-\frac1{x-1}+\frac1{x-2}.
+$$
+したがって、
+$$
+ \int\frac{1}{x^2-3x+2}\,dx
+ =-\log|x-1|+\log|x-2|+C
+ =\log\left|\frac{x-2}{x-1}\right|+C.
+$$
+原始関数を考える区間は $(-\infty,1)$、$(1,2)$、$(2,\infty)$ です。
+
+\item 分母は $(x-1)^2$ です。分子を $x=(x-1)+1$ と書くと、
+$$
+ \frac{x}{x^2-2x+1}
+ =\frac{(x-1)+1}{(x-1)^2}
+ =\frac1{x-1}+\frac1{(x-1)^2}.
+$$
+したがって、
+$$
+ \int\frac{x}{x^2-2x+1}\,dx
+ =\log|x-1|-\frac1{x-1}+C.
+$$
+原始関数を考える区間は $(-\infty,1)$、$(1,\infty)$ です。
+
+\item 分母を平方完成し、$u=x-1$ と置きます。
+$$
+ x^2-2x+2=(x-1)^2+1,\qquad du=dx.
+$$
+したがって、
+$$
+ \int\frac{1}{x^2-2x+2}\,dx
+ =\int\frac{du}{1+u^2}
+ =\arctan u+C
+ =\arctan(x-1)+C.
+$$
+分母はすべての実数 $x$ で正なので、実数全体で原始関数を考えられます。
+\end{enumerate}
+\end{document}

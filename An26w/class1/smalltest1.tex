@@ -4,73 +4,76 @@
 \fancyhead[L]{\small\color{ink}解析学 II・小テスト}
 \fancyfoot[C]{\small\color{ink}\thepage}
 
+% Keep headings in regular weight without changing the shared package.
+\renewcommand{\handout}[2]{%
+  \def\handoutnumber{第#1回}%
+  \begin{center}
+    {\Large\normalfont\mdseries\color{ink}第#1回\quad #2}\par
+    \vspace{2pt}{\color{accent}\rule{0.88\linewidth}{1.2pt}}
+  \end{center}\vspace{2pt}}
+\renewcommand{\topic}[1]{\par\vspace{5pt}%
+  {\large\normalfont\mdseries\color{accent}#1}\par\vspace{1pt}}
+
 \begin{document}
 \handout{1}{小テスト：逆関数と逆三角関数}
 
 学籍番号：\underline{\hspace{40mm}}\hfill
 氏名：\underline{\hspace{40mm}}
 
-各問30点、合計90点。計算過程も記し、角度はラジアンで答えること。
+問1は30点、問2は各30点、問3は10点、合計100点。計算過程も記し、角度はラジアンで答えること。
 
 \topic{問題}
 \begin{enumerate}[label=\color{accent}\arabic*.,leftmargin=2.4em,itemsep=9pt]
-\item 関数 $f(x)=x^2-4x+5$（定義域 $x\leq 2$）の逆関数 $g$ を求め、
-その定義域と値域を示せ。
-\hfill（30点：式20点、定義域・値域各5点）
+\item 関数 $f(x)=x^2-4x+5$（定義域 $x\leq 2$）の逆関数 $g$ を求めよ。
+\par\vspace{40mm}
 
-\item $I,J$ を開区間とし、$f:I\to J$ を微分可能な一対一対応とする。
-逆関数 $g=f^{-1}:J\to I$ も微分可能で、$f'(x)\ne 0$（$x\in I$）と仮定する。
-逆関数の定義と合成関数の微分法を用いて、公式
-\begin{center}
-  $\displaystyle g'(y)=\frac{1}{f'(g(y))}\qquad(y\in J)$
-\end{center}
-を導出せよ。\hfill（30点）
-
-\item 次の逆三角関数の主値を求めよ。\hfill（各10点、計30点）
+\item 次の逆三角関数の値を求めよ。\hfill（各30点、計60点）
 \begin{center}
   $\displaystyle
     \text{(a) }\arcsin\!\left(-\frac{\sqrt{2}}{2}\right)
     \qquad
-    \text{(b) }\arccos\!\left(-\frac{\sqrt{3}}{2}\right)
     \qquad
     \text{(c) }\arctan\sqrt{3}$
 \end{center}
+\par\vspace{45mm}
+\item 自由に感想を書いてください。\hfill（10点）
+\par\vspace{40mm}
 \end{enumerate}
-
-\pagebreak
+\newpage
 \vspace{4mm}
 {\color{accent}\rule{\linewidth}{0.6pt}}
 \topic{解答}
 \begin{enumerate}[label=\color{accent}\arabic*.,leftmargin=2.4em,itemsep=9pt]
 \item $y=f(x)=(x-2)^2+1$ とおく。$x\leq 2$ より $x-2\leq 0$ なので、
-\begin{center}
-  $\displaystyle x-2=-\sqrt{y-1},\qquad
-    \boxed{g(y)=2-\sqrt{y-1}}$。
-\end{center}
+$$
+ x-2=-\sqrt{y-1},\qquad x=2-\sqrt{y-1}.
+$$
 $f$ は $(-\infty,2]$ 上で狭義単調減少で、値域は $[1,\infty)$ である。
-したがって $g$ の定義域は $\boxed{[1,\infty)}$、値域は
-$\boxed{(-\infty,2]}$ である。
+したがって、逆関数は
+$$
+ g\colon[1,\infty)\longrightarrow(-\infty,2],\qquad
+ g(y)=2-\sqrt{y-1}.
+$$
+平方根の前の符号は、もとの定義域 $x\leq2$ に合わせて選ぶことが大切である。
 
-\item 逆関数の定義より、すべての $y\in J$ に対して $f(g(y))=y$ が成り立つ。
-両辺を $y$ で微分すると、合成関数の微分法により
-\begin{center}
-  $\displaystyle f'(g(y))\,g'(y)=1$
-\end{center}
-を得る。仮定 $f'(g(y))\ne 0$ により両辺を $f'(g(y))$ で割れば、
-\begin{center}
-  $\displaystyle\boxed{g'(y)=\frac{1}{f'(g(y))}}$
-\end{center}
-となる。
+\item 逆三角関数では、それぞれの値域に入る角度を選ぶ。
 
-\item それぞれの値域に入る角度を選ぶと、
-\begin{center}
-  $\displaystyle
-    \text{(a) }\boxed{-\frac{\pi}{4}}\qquad
-    \text{(b) }\boxed{\frac{5\pi}{6}}\qquad
-    \text{(c) }\boxed{\frac{\pi}{3}}$
-\end{center}
-である。実際、$\sin(-\pi/4)=-\sqrt{2}/2$、
-$\cos(5\pi/6)=-\sqrt{3}/2$、$\tan(\pi/3)=\sqrt{3}$ であり、
-各角度はそれぞれ $[-\pi/2,\pi/2]$、$[0,\pi]$、$(-\pi/2,\pi/2)$ に属する。
+(a) $\arcsin$ の値域は $[-\pi/2,\pi/2]$ である。
+$$
+ \sin\!\left(-\frac\pi4\right)=-\frac{\sqrt2}{2},\qquad
+ -\frac\pi4\in\left[-\frac\pi2,\frac\pi2\right]
+ \quad\Longrightarrow\quad
+ \arcsin\!\left(-\frac{\sqrt2}{2}\right)=-\frac\pi4.
+$$
+
+\medskip
+(c) $\arctan$ の値域は $(-\pi/2,\pi/2)$ である。
+$$
+ \tan\frac\pi3=\sqrt3,\qquad
+ \frac\pi3\in\left(-\frac\pi2,\frac\pi2\right)
+ \quad\Longrightarrow\quad
+ \arctan\sqrt3=\frac\pi3.
+$$
+\item 自由記述（10点）。決まった正解はない。
 \end{enumerate}
 \end{document}

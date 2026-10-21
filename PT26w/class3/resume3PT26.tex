@@ -1,0 +1,290 @@
+% Build in this directory (run twice for page references):
+% pdflatex -interaction=nonstopmode -halt-on-error resume3PT26.tex
+% Topics follow the syllabus in ../class1/class1PT26.tex.
+% Content adapted from ../lectureNote.tex and ../lectureNotes.tex.
+\documentclass[a4paper,10pt,pdflatex,ja=standard,jafont=ipaex-type1,
+  magstyle=real,scale=1]{bxjsarticle}
+\usepackage{lmodern}
+\usepackage{amsmath,amssymb,mathtools}
+\usepackage{geometry}
+\geometry{reset,left=22mm,right=22mm,top=20mm,bottom=17mm,
+  headheight=13pt,headsep=6mm,footskip=10mm}
+\usepackage{xcolor}
+\usepackage{enumitem}
+\usepackage{array,booktabs,tabularx}
+\usepackage{tikz}
+\usepackage{fancyhdr}
+\usepackage{hyperref}
+\definecolor{ink}{HTML}{193A5C}
+\definecolor{accent}{HTML}{237D82}
+\definecolor{soft}{HTML}{EAF3F3}
+\definecolor{muted}{HTML}{52616B}
+\newcommand{\coursename}{確率論と統計学 I}
+\hypersetup{unicode=true,colorlinks=true,urlcolor=accent,linkcolor=ink,
+  pdfauthor={中島秀太},pdftitle={第3回：期待値と積分}}
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\small\color{ink}\coursename{}・授業要約と演習}
+\fancyhead[R]{\small\color{ink}第3回}
+\fancyfoot[C]{\small\color{ink}\thepage/\pageref*{lastpage}}
+\renewcommand{\headrulewidth}{0.3pt}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{2pt}
+\setlength{\abovedisplayskip}{4pt}
+\setlength{\belowdisplayskip}{4pt}
+\setlength{\abovedisplayshortskip}{3pt}
+\setlength{\belowdisplayshortskip}{4pt}
+\setlist[itemize]{leftmargin=1.8em,itemsep=2pt,topsep=3pt,parsep=0pt}
+\setlist[enumerate]{leftmargin=2em,itemsep=6pt,topsep=4pt,parsep=0pt}
+\newcommand{\topic}[1]{\par\vspace{5pt}
+  {\large\sffamily\mdseries\color{accent}#1}\par\vspace{2pt}}
+\newcommand{\handouttitle}[1]{\begin{center}
+  {\Large\color{ink}#1}\par\vspace{3mm}
+  {\color{accent}\rule{0.88\linewidth}{0.7pt}}
+  \end{center}\vspace{-2mm}}
+\newcommand{\keybox}[1]{\par\vspace{3pt}\begingroup
+  \setlength{\fboxsep}{5pt}
+  \colorbox{soft}{\parbox{\dimexpr\linewidth-2\fboxsep\relax}{#1}}
+  \endgroup\par\vspace{2pt}}
+\newcommand{\examplelabel}[1]{{\sffamily\mdseries\color{ink}#1}}
+\newcommand{\columnheading}[1]{\par\vspace{5pt}
+  {\fontsize{11pt}{15pt}\selectfont\sffamily\mdseries\color{accent}#1}\par\vspace{2pt}}
+\newcommand{\columnstart}[1]{\clearpage
+  \fancyhead[L]{\small\color{ink}\coursename{}・発展的内容}
+  {\small\sffamily\mdseries\color{accent}発展的内容}\par\vspace{4pt}
+  {\Large\color{ink}#1}\par\vspace{2pt}
+  {\color{accent}\rule{\linewidth}{0.7pt}}\par\vspace{4pt}}
+\newcommand{\F}{\mathcal F}
+\newcommand{\R}{\mathbb R}
+\newcommand{\N}{\mathbb N}
+\newcommand{\E}{\mathbb E}
+\newcommand{\Var}{\operatorname{Var}}
+\newcommand{\Cov}{\operatorname{Cov}}
+\newcommand{\ind}{\mathrm{1}}
+\newcommand{\iid}{\text{独立同分布}}
+\begin{document}
+\fontsize{10pt}{13.5pt}\selectfont
+\begingroup
+\fancyhead[L]{\small\color{ink}\coursename{}・前回の演習解答}
+\handouttitle{第2回\quad 演習問題の解答}
+
+\topic{演習1：サイコロの和と差の絶対値の分布関数}
+公平なサイコロを独立に2回投げた出目を $U,V$ とし、$X=U+V$、$Y=|U-V|$ とする。
+$(U,V)\in\{1,\ldots,6\}^2$ の36通りはすべて確率 $1/36$ である。
+和が $k$ となる組は $6-|7-k|$ 通りなので、
+$$
+  P(X=k)=\frac{6-|7-k|}{36}\qquad(k=2,\ldots,12).
+$$
+これを累積すると、整数点での分布関数の値は次のようになる。
+\begin{center}
+\begin{tabular}{@{}c*{11}{c}@{}}
+\toprule
+$k$ & $2$ & $3$ & $4$ & $5$ & $6$ & $7$ & $8$ & $9$ & $10$ & $11$ & $12$ \\
+\midrule
+$36F_X(k)$ & $1$ & $3$ & $6$ & $10$ & $15$ & $21$ & $26$ & $30$ & $33$ & $35$ & $36$ \\
+\bottomrule
+\end{tabular}
+\end{center}
+$X$ は整数値をとるから $F_X(x)=F_X(\lfloor x\rfloor)$ であり、
+上表と $F_X(x)=0$（$x<2$）、$F_X(x)=1$（$x\ge12$）で、すべての $x\in\R$ に対する値が決まる。
+ここで $\lfloor x\rfloor$ は $x$ 以下の最大の整数である。
+
+一方、$Y=0$ となる組は6通りである。$k=1,\ldots,5$ に対し、
+$U-V=k$ と $V-U=k$ はそれぞれ $6-k$ 通りなので、
+$$
+  P(Y=0)=\frac6{36},\qquad
+  P(Y=k)=\frac{2(6-k)}{36}\qquad(k=1,\ldots,5).
+$$
+\begin{center}
+\begin{tabular}{@{}c*{6}{c}@{}}
+\toprule
+$k$ & $0$ & $1$ & $2$ & $3$ & $4$ & $5$ \\
+\midrule
+$36F_Y(k)$ & $6$ & $16$ & $24$ & $30$ & $34$ & $36$ \\
+\bottomrule
+\end{tabular}
+\end{center}
+同様に $F_Y(x)=F_Y(\lfloor x\rfloor)$ であり、
+$F_Y(x)=0$（$x<0$）、$F_Y(x)=1$（$x\ge5$）と上表で分布関数が得られる。
+
+\topic{演習2：区間の長さから求める分布関数}
+$\Omega=[0,1]$、$\F=\mathcal B([0,1])$、$P=\lambda$ とし、
+$X(\omega)=3\omega+1$、$Y(\omega)=(X(\omega)-5/2)^2$ とする。
+$1\le x\le4$ のとき $\{X\le x\}=[0,(x-1)/3]$ なので、
+$$
+  F_X(x)=
+  \begin{cases}
+    0, & x<1,\\
+    (x-1)/3, & 1\le x\le4,\\
+    1, & x>4.
+  \end{cases}
+$$
+また、$Y(\omega)=9(\omega-1/2)^2$ より、$0\le y\le9/4$ では
+$$
+  \{Y\le y\}
+  =\left\{\omega\in[0,1]:\left|\omega-\frac12\right|\le\frac{\sqrt y}{3}\right\}
+  =\left[\frac12-\frac{\sqrt y}{3},\,\frac12+\frac{\sqrt y}{3}\right].
+$$
+この区間の長さを測れば、
+$$
+  F_Y(y)=
+  \begin{cases}
+    0, & y<0,\\
+    2\sqrt y/3, & 0\le y\le9/4,\\
+    1, & y>9/4.
+  \end{cases}
+$$
+\clearpage
+\endgroup
+
+\handouttitle{第3回\quad 期待値と積分}
+\keybox{期待値は、確率を重みとする積分である。
+有限和から単関数近似へ進み、定義・分布による計算・極限との交換を区別しよう。}
+
+\topic{有限確率空間：値と確率の重み付き平均}
+以下、$(\Omega,\F,P)$ を確率空間とする。$\Omega$ が有限で $\F=2^\Omega$、
+$p_\omega=P(\{\omega\})$ のとき、確率変数 $X:\Omega\to\R$ の期待値は
+$$
+  \E[X]=\sum_{\omega\in\Omega}X(\omega)p_\omega
+  =\sum_{x\in X(\Omega)}xP(X=x).
+$$
+右の表示は、同じ値をとる標本をまとめたものである。
+公平なサイコロの出目 $D$ なら $\E[D]=(1+\cdots+6)/6=7/2$。
+期待値は実際に取り得る値である必要はない。
+
+\topic{指示関数と単関数}
+$A\in\F$ の指示関数を $\ind_A(\omega)=1$（$\omega\in A$）、
+$0$（$\omega\notin A$）と定める。すると $\E[\ind_A]=P(A)$ である。
+有限個の値をとる非負確率変数を単関数という。互いに素な $A_j\in\F$ と
+$a_j\ge0$ を用いて $S=\sum_{j=1}^m a_j\ind_{A_j}$ と書けば
+$$
+  \E[S]:=\sum_{j=1}^m a_jP(A_j).
+$$
+異なる表示でも、集合を共通に細分すれば同じ値になる。
+したがってこの定義は表示の仕方に依存しない。
+
+\topic{一般の非負確率変数を下から近似する}
+$X\ge0$ に対して、$X$ 以下にある単関数の積分の上限をとる。
+$$
+  \E[X]:=\sup\{\E[S]:0\le S\le X,\ S\text{ は単関数}\}
+  \in[0,\infty].
+$$
+具体的には、$\lfloor t\rfloor$ を $t$ 以下の最大の整数として
+$$
+  S_n=2^{-n}\left\lfloor 2^n\min\{X,n\}\right\rfloor,
+  \qquad 0\le S_n\uparrow X,\qquad \E[S_n]\uparrow\E[X].
+$$
+各 $S_n$ の値域は有限であり、高さの刻みを細かくしながら上限も広げている。
+ここでは $\E[X]=\infty$ も許す。
+
+\topic{正負のある変数と可積分性}
+実数値確率変数 $X$ を $X=X^+-X^-$、$|X|=X^++X^-$ と分ける。
+$$
+  X^+:=\max\{X,0\},\quad X^-:=\max\{-X,0\},\qquad
+  \E|X|<\infty\ \Longrightarrow\ \E[X]:=\E[X^+]-\E[X^-].
+$$
+$\E|X|<\infty$ を可積分という。両方が無限大の場合の
+$\infty-\infty$ は定義しない。一方だけが無限大なら拡張実数としての期待値を
+定めることもあるが、本レジュメの「可積分」は有限の期待値を扱う条件である。
+
+\newpage
+\topic{線形性・単調性とその使い方}
+可積分な $X,Y$、定数 $a,b\in\R$ に対して
+$$
+  \E[aX+bY]=a\E[X]+b\E[Y],\qquad
+  X\le Y\ \text{a.s.}\ \Longrightarrow\ \E[X]\le\E[Y].
+$$
+ここで a.s. は確率 $1$ で成立するという意味である。また
+$|\E[X]|\le\E|X|$。線形性に独立性は不要だが、一般に
+$\E[XY]=\E[X]\E[Y]$ とは限らない。
+
+\examplelabel{例：一様ランダムな置換の不動点数}
+$\Omega=S_m$（$m$ 個の要素の置換全体）に一様確率を入れ、
+$N(\sigma)=\sum_{j=1}^m\ind_{\{\sigma(j)=j\}}$ とする。$m\ge1$ に対して
+$$
+  P(\sigma(j)=j)=\frac{(m-1)!}{m!}=\frac1m,
+  \qquad \E[N]=\sum_{j=1}^m\frac1m=1.
+$$
+
+
+\topic{極限と期待値を交換する条件}
+\examplelabel{単調収束定理：}非負確率変数について
+$$
+  0\le X_n\uparrow X\ \text{a.s.}
+  \quad\Longrightarrow\quad \E[X_n]\uparrow\E[X].
+$$
+\examplelabel{優収束定理：}$X_n\to X$ a.s. かつ、ある可積分な $Y\ge0$ に対し
+$|X_n|\le Y$ a.s.（すべての $n$）なら
+$$
+  \E|X_n-X|\longrightarrow0,\qquad \E[X_n]\longrightarrow\E[X].
+$$
+
+\keybox{極限を積分の外へ出すときには、
+単調性または共通の可積分な上界を式で示す。}
+
+\newpage
+\topic{演習問題}
+\begin{enumerate}[label=\arabic*.]
+  \item 第2回の演習第1問の $X=U+V$、$Y=|U-V|$ に対し、
+  $\E[X]$、$\E[Y]$ を求めよ。36通りの標本はすべて等確率である。
+  \item 第2回の演習第2問の $X(\omega)=3\omega+1$、
+  $Y(\omega)=(X(\omega)-5/2)^2$ に対し、$\E[X]$、$\E[Y]$ を
+  $\Omega=[0,1]$ 上の積分により求めよ。
+\end{enumerate}
+
+\topic{レポート問題}
+以下、$\Omega=(0,1)$、$\F=\mathcal B((0,1))$、$P=\lambda$ とする。
+\begin{enumerate}[label=\arabic*.]
+  \item $X(\omega)=\omega^2$ とする。$\E[X]$ を積分により求めよ。
+  \item $X_n(\omega)=n\mathbf{1}_{(0,1/n)}(\omega)$ とする。
+  $X_n\to0$ と $\E[X_n]=1$ を示し、優収束定理を適用できない理由を述べよ。 (理由の部分はAIを用いてよいが、自分の言葉で書くこと)
+\end{enumerate}
+
+\vfill
+
+\columnstart{確率変数の期待値の定義を考える}
+期待値は、離散的な場合には「値 $\times$ その確率」の総和で定義される。
+式で書けば $\E[X]=\sum_x x\,P(X=x)$ となる。
+一見自然だが、なぜこれが「期待する値」と呼ばれるのか。
+本コラムでは、期待値の概念を深掘りすることにする。
+
+\columnheading{コイン投げの長期平均}
+公平なコインを1回投げ、表なら100円、裏なら0円獲得するとする。
+上記の期待値の計算に基づくと、このゲームの期待値は
+$0\times(1/2)+100\times(1/2)=50$ 円となる。
+一回の結果は0円か100円のどちらかで、50円は出てこないのであるが、
+この期待値は何を意味しているのだろうか。
+
+意味を与えるために、この試行を独立に繰り返すことにする。
+実際、$n$ 回繰り返すと、合計金額を $n$ で割った（標本）平均は50円に近づく。
+回数を増やすほど平均は安定し、50円に近づく。
+この収束が大数の法則であり、期待値が表すのは「長期的な平均」だと言える。
+
+
+\columnheading{「期待できる値」とズレる状況}
+一方で、非常に小さい確率だが大きな値をとる確率変数の場合、
+期待値は直感的に期待できる値と異なる。
+たとえば、表の確率が1兆分の1で表なら1兆円、裏なら0円もらえるというゲームを考える。
+期待値は $1$ 円になるが、実際にはほとんどの試行で0円のままになる。
+
+こうした小さな確率で極端な値（アウトライヤーなどと呼ぶ）をもつ確率変数では、
+中央値（半分の結果がそれ以下・以上、つまり
+$P(X\ge a)\ge1/2$ かつ $P(X\le a)\ge1/2$ となる点）のほうが現実をよく捉える。
+また、期待値そのものが発散して、有限の値としては定義できないことすらある。
+
+\columnheading{それでも期待値を使う理由（要点だけ）}
+期待値が重要である理由として、次の2点があげられる。
+\begin{enumerate}[label=\arabic*.,itemsep=2pt,topsep=3pt]
+\item 線形性：確率変数の和の期待値は各確率変数の期待値の和となる。
+\item 計算が易しい：足し算するだけなので計算が易しい。
+\end{enumerate}
+
+\columnheading{まとめ}
+多くの教科書では、期待値を「だいたいこのあたりの値が期待される」といった形で柔らかく導入している。
+しかし実際には、期待値とは「都合がよい代表値」として考えられているにすぎず、
+現実の結果がその値から大きく離れることも珍しくない。
+むしろ現代の確率論の多くの研究では、「期待値からどれだけ、どのように離れるか」を扱うことが主題となっており、
+その偏りの分布や典型的な値（例えば中央値）をいかに正確に捉えるかが重要な関心となっている。
+
+\label{lastpage}
+\end{document}

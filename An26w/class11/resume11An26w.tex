@@ -1,0 +1,308 @@
+% Build twice here: pdflatex -interaction=nonstopmode -halt-on-error resume11An26w.tex
+\documentclass[a4paper,10pt,pdflatex,ja=standard,jafont=ipaex-type1,
+  magstyle=real,scale=1]{bxjsarticle}
+\usepackage{lmodern}
+\usepackage{amsmath,amssymb,mathtools}
+\usepackage{geometry}
+\geometry{reset,left=22mm,right=22mm,top=20mm,bottom=17mm,
+  headheight=13pt,headsep=6mm,footskip=10mm}
+\usepackage{xcolor}
+\usepackage{enumitem}
+\usepackage{array,booktabs,tabularx}
+\usepackage{fancyhdr}
+\usepackage{lastpage}
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta,calc,decorations.pathreplacing}
+
+\definecolor{ink}{HTML}{193A5C}
+\definecolor{accent}{HTML}{237D82}
+\definecolor{soft}{HTML}{EAF3F3}
+\definecolor{muted}{HTML}{52616B}
+\newcommand{\coursename}{解析学 II}
+\newcommand{\handoutnumber}{11}
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\small\color{ink}\coursename{}・授業要約と演習}
+\fancyhead[R]{\small\color{ink}第\handoutnumber 回}
+\fancyfoot[C]{\small\color{ink}\thepage/\pageref{LastPage}}
+\renewcommand{\headrulewidth}{0.3pt}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{2pt}
+\setlength{\abovedisplayskip}{5pt}
+\setlength{\belowdisplayskip}{5pt}
+\setlength{\abovedisplayshortskip}{3pt}
+\setlength{\belowdisplayshortskip}{4pt}
+\setlist[itemize]{leftmargin=1.8em,itemsep=1pt,topsep=2pt,parsep=0pt}
+
+\newcommand{\handouttitle}[1]{%
+  \begin{center}
+    {\Large\color{ink}#1}\par\vspace{3mm}
+    {\color{accent}\rule{0.88\linewidth}{0.7pt}}
+  \end{center}\vspace{-2mm}}
+\newcommand{\handout}[2]{%
+  \renewcommand{\handoutnumber}{#1}%
+  \handouttitle{第#1回\quad #2}}
+\newcommand{\topic}[1]{\par\vspace{5pt}%
+  {\large\sffamily\mdseries\color{accent}#1}\par\vspace{2pt}}
+\newcommand{\keybox}[1]{\par\vspace{3pt}\begingroup
+  \setlength{\fboxsep}{4pt}%
+  \colorbox{soft}{\parbox{\dimexpr\linewidth-2\fboxsep\relax}{\small #1}}%
+  \endgroup\par\vspace{2pt}}
+\newenvironment{problems}
+  {\begin{enumerate}[leftmargin=2em,itemsep=3pt,topsep=3pt,parsep=0pt,
+    font=\color{accent}]}
+  {\end{enumerate}}
+
+
+\newcommand{\examplelabel}[1]{{\sffamily\mdseries\color{ink}#1}}
+\newcommand{\problemspace}{\par\vspace{5mm}}
+\newcommand{\exercises}{%
+  {\color{accent}\hrule height 0.7pt}\vspace{3pt}%
+  \topic{演習問題（6題）}%
+  {\small 領域と積分範囲を確認し、計算過程も書こう。図を描くと範囲を読み取りやすい。}\par}
+\tikzset{
+  handout diagram/.style={>={Stealth[length=3.2pt,width=3.2pt]},line join=round,
+    every node/.style={font=\scriptsize,text=ink}},
+  region/.style={fill=soft,draw=accent,semithick},
+  slice/.style={accent,line width=1.8pt},
+  guide/.style={muted,densely dashed,thin},
+  axis/.style={->,ink,thin}}
+
+
+% Review Q&A can also be used for actual student feedback when it is available.
+\newcommand{\feedback}[2]{%
+  \par\addvspace{8pt}\noindent\begin{minipage}{\linewidth}%
+  {\color{ink}Q. #1}\par\vspace{2pt}%
+  {\color{accent}A. }#2%
+  \end{minipage}\par}
+
+\begin{document}
+\fontsize{10pt}{13.5pt}\selectfont
+\setlength{\abovedisplayskip}{4pt}
+\setlength{\belowdisplayskip}{4pt}
+% Feedback section: add comments and responses here when available.
+\fancyhead[L]{\small\color{ink}\coursename{}・フィードバック}
+\handout{11}{前回のコメントへのフィードバック}
+% \feedback{comment}{response}
+\clearpage
+
+% Previous small-test section: add the questions and solutions here.
+\fancyhead[L]{\small\color{ink}\coursename{}・小テスト}
+\fancyhead[R]{\small\color{ink}第10回}
+\handouttitle{第10回\quad 小テスト}
+% Questions and solutions are intentionally blank.
+\clearpage
+
+\fancyhead[L]{\small\color{ink}\coursename{}・授業要約と演習}
+\fancyhead[R]{\small\color{ink}第\handoutnumber 回}
+\handout{11}{線積分}\label{lesson-start}
+\keybox{到達目標：弧長に沿う積分と、接線方向の仕事を区別して計算できる。
+曲線の表示・速度・向きをそろえ、ポテンシャルも活用しよう。}
+
+\topic{曲線の表示と弧長要素}
+区分的に $C^1$ 級の正則曲線 $C$ を
+$\vec r(t)=(x(t),y(t),z(t))$（$a\le t\le b$）で表す。
+パラメータが増える方向を曲線の向きとする。
+$$
+ ds=|\vec r'(t)|\,dt
+ =\sqrt{x'(t)^2+y'(t)^2+z'(t)^2}\,dt,\qquad
+ \operatorname{Length}(C)=\int_a^b|\vec r'(t)|\,dt.
+$$
+積分は曲線の各滑らかな部分で計算して足し合わせる。
+
+
+\par\vspace{2pt}\noindent
+\begin{minipage}[b]{0.98\linewidth}\centering
+\begin{tikzpicture}[handout diagram,x=0.75cm,y=0.68cm]
+\draw[axis] (0,0) -- (3.3,0) node[right] {$x$};
+ \draw[axis] (0,0) -- (0,2.5) node[above] {$y$};
+ \draw[accent,semithick] plot[domain=0:1.3,samples=50] ({2*\x},{1.2*\x*\x});
+ \fill[ink] (1.6,0.768) circle (1.7pt);
+ \draw[->,ink,semithick] (1.6,0.768) -- (2.5,1.632) node[right] {$\vec r'(t)$};
+ \draw[slice] plot[domain=0.8:1.0,samples=15] ({2*\x},{1.2*\x*\x});
+ \node[left] at (0,1.2) {$ds=|\vec r'|\,dt$};
+ \node[right] at (3.8,1.1) {速さは長さの変化率};
+\end{tikzpicture}\par
+{\small\color{muted}位置の変化はベクトル、弧長の変化は非負の量}\par
+\end{minipage}
+\par\vspace{2pt}
+
+\topic{スカラー場の線積分：弧長に沿う総量}
+曲線上の連続なスカラー場 $f$ に対して
+$$
+ \int_Cf\,ds:=\int_a^bf(\vec r(t))\,|\vec r'(t)|\,dt.
+$$
+$f$ が線密度なら、この積分は曲線状の物体の質量を表す。
+弧長要素は非負であり、曲線の向きを逆にしても値は変わらない。
+\par\examplelabel{例：単位円周上の $\int_Cx^2\,ds$。}
+$\vec r(t)=(\cos t,\sin t)$、$0\le t\le2\pi$、$|\vec r'|=1$ なので
+$$
+ \int_Cx^2\,ds=\int_0^{2\pi}\cos^2t\,dt=\pi.
+$$
+
+
+\topic{ベクトル場の線積分：仕事と循環}
+連続なベクトル場 $\vec F=(P,Q,R)$ に対して
+$$
+ \int_C\vec F\cdot d\vec r
+ :=\int_a^b\vec F(\vec r(t))\cdot\vec r'(t)\,dt
+ =\int_C(P\,dx+Q\,dy+R\,dz).
+$$
+曲線の向きを逆にすると符号が変わる。閉曲線上の積分は $\oint_C$ とも書く。
+力の場なら仕事、速度場なら接線方向の流れの循環を表す。
+\par\examplelabel{例：$\vec F=(-y,x)$ と単位円周の反時計回り。}
+$$
+ \vec F(\vec r(t))=(-\sin t,\cos t)=\vec r'(t),\qquad
+ \oint_C\vec F\cdot d\vec r=\int_0^{2\pi}1\,dt=2\pi.
+$$
+
+
+\par\vspace{2pt}\noindent
+\begin{minipage}[b]{0.48\linewidth}\centering
+\begin{tikzpicture}[handout diagram,x=0.8cm,y=0.62cm]
+\draw[accent] (0,0) circle (1.25);
+ \draw[slice] (-30:1.25) arc[start angle=-30,end angle=30,radius=1.25];
+ \draw[slice] (150:1.25) arc[start angle=150,end angle=210,radius=1.25];
+ \draw[axis] (-1.55,0) -- (1.75,0) node[right] {$x$};
+ \draw[axis] (0,-1.5) -- (0,1.6) node[above] {$y$};
+ \node[above right] at (0.8,0.8) {$x^2\,ds$};
+ \node[below] at (0,-1.65) {向きを変えても同じ総量};
+\end{tikzpicture}\par
+{\small\color{muted}スカラー積分：各小区間に重みを付けて足す}\par
+\end{minipage}\hfill
+\begin{minipage}[b]{0.48\linewidth}\centering
+\begin{tikzpicture}[handout diagram,x=0.8cm,y=0.62cm]
+\draw[accent] (0,0) circle (1.25);
+ \foreach \t in {0,90,180,270}{
+  \draw[->,ink,semithick] ({1.25*cos(\t)},{1.25*sin(\t)})
+    -- ({1.25*cos(\t)-0.45*sin(\t)},{1.25*sin(\t)+0.45*cos(\t)});}
+ \draw[axis] (-1.7,0) -- (1.8,0) node[right] {$x$};
+ \draw[axis] (0,-1.65) -- (0,1.8) node[above] {$y$};
+ \node[right] at (1.85,0.95) {$\vec F=(-y,x)$};
+ \node[right] at (1.85,-0.95) {$\vec F\cdot d\vec r>0$};
+\end{tikzpicture}\par
+{\small\color{muted}仕事：場と進む方向がそろえば正になる}\par
+\end{minipage}
+\par\vspace{2pt}
+
+\newpage
+% Keep the remaining summary in the upper half of page 2.
+\noindent\begin{minipage}[b][\dimexpr0.5\textheight-\parskip\relax][t]{\linewidth}
+\topic{ポテンシャルと線積分の基本定理}
+$\phi$ が $C^1$ 級、$\vec F=\nabla\phi$、$C$ が $A$ から $B$ への曲線なら
+$$
+ \int_C\nabla\phi\cdot d\vec r
+ =\int_a^b\frac d{dt}\phi(\vec r(t))\,dt
+ =\phi(B)-\phi(A).
+$$
+この値は端点だけで決まり、経路によらない。特に閉曲線では0になる。
+たとえば $\vec F=(x,y)$ は $\phi=(x^2+y^2)/2$ の勾配である。
+
+
+\topic{再パラメータ化と向き}
+同じ曲線を重複なく走る正則な表示へ変えても、弧長積分の値は変わらない。
+ベクトル場の線積分は、向きを保つ表示変更で値が保存される。
+曲線を何周も走れば、その回数に応じて積分も加算される。
+\keybox{$f\,ds$ には速度の大きさを、$\vec F\cdot d\vec r$ には速度ベクトルを使う。始点・終点と進む向きを必ず指定する。}
+
+\par\vspace{2pt}\noindent
+\begin{minipage}[b]{0.48\linewidth}\centering
+\begin{tikzpicture}[handout diagram,x=1cm,y=0.8cm]
+\coordinate (A) at (0,0); \coordinate (B) at (3,1.5);
+ \draw[->,accent,semithick] (A) .. controls (0.4,2.2) and (2.2,2.4) .. (B);
+ \draw[->,ink,semithick] (A) .. controls (1.4,-0.3) and (2.4,0) .. (B);
+ \fill[ink] (A) circle (1.5pt) node[below left] {$A$};
+ \fill[ink] (B) circle (1.5pt) node[right] {$B$};
+ \node at (1.5,1) {$\vec F=\nabla\phi$};
+\end{tikzpicture}\par
+{\small\color{muted}ポテンシャルがあれば、経路を変えても同じ仕事}\par
+\end{minipage}\hfill
+\begin{minipage}[b]{0.48\linewidth}\centering
+\begin{tikzpicture}[handout diagram,x=1cm,y=0.8cm]
+\draw[axis] (0,0) -- (3,0) node[right] {$x$};
+ \draw[axis] (0,0) -- (0,2.6) node[above] {$y$};
+ \draw[->,accent,semithick] (0,0) -- (2.2,2.2);
+ \draw[->,ink,semithick] (0,0) -- (2.2,0) -- (2.2,2.2);
+ \node[below left] at (0,0) {$O$};
+ \node[right] at (2.2,2.2) {$(1,1)$};
+ \node[above left] at (1.2,1.3) {$C_1$};
+ \node[right] at (2.2,1) {$C_2$};
+ \node[below] at (2.2,0) {$(1,0)$};
+\end{tikzpicture}\par
+{\small\color{muted}$(-y,x)$ では $C_1$ の仕事は0、$C_2$ は1}\par
+\end{minipage}
+\par\vspace{2pt}
+
+\end{minipage}\par\nointerlineskip
+% Keep the exercises and writing space in the lower half of page 2.
+\noindent\begin{minipage}[b][0.5\textheight][t]{\linewidth}
+\exercises
+\begin{problems}
+\item 半径 $R>0$ の円周 $C$ について、$\int_C1\,ds$ と $\int_Cx^2\,ds$ を求めよ。
+\problemspace
+
+\item $\vec r(t)=(t,t^2)$（$0\le t\le1$）で表される曲線に沿って、$\int_Cx\,ds$ を求めよ。
+\problemspace
+
+\item $\vec F=(-y,x)$ を単位円周で時計回りに積分せよ。反時計回りの値との関係も説明せよ。
+\problemspace
+
+\item $\vec F=(x,y)$ の、$(0,0)$ から $(1,2)$ への線分に沿う仕事を、直接の積分とポテンシャルの両方で求めよ。
+\problemspace
+
+\item $\vec F=(2xy,x^2+2y)$ のポテンシャルを求め、$(0,0)$ から $(1,2)$ への任意の区分的に滑らかな曲線に沿う線積分を求めよ。
+\problemspace
+
+\item $\vec F=(-y,x)$ を $(0,0)$ から $(1,1)$ へ積分する。対角線に沿う経路と、$(1,0)$ を経由する2本の線分の経路でそれぞれ計算し、経路依存性を確認せよ。
+\problemspace
+\end{problems}
+\end{minipage}
+
+\newpage
+\handouttitle{第11回\quad 演習問題の解答}
+{\small 設定した範囲と条件も確認しながら、計算を振り返ろう。}\par
+\begin{problems}
+\setlength{\itemsep}{7pt}
+\item $\vec r(t)=(R\cos t,R\sin t)$（$0\le t\le2\pi$）なら $|\vec r'|=R$。
+$$
+ \int_C1\,ds=2\pi R,\qquad
+ \int_Cx^2\,ds=R^3\int_0^{2\pi}\cos^2t\,dt=\pi R^3.
+$$
+
+\item $\vec r'=(1,2t)$ なので $ds=\sqrt{1+4t^2}\,dt$。したがって
+$$
+ \int_Cx\,ds=\int_0^1t\sqrt{1+4t^2}\,dt
+ =\left[\frac{(1+4t^2)^{3/2}}{12}\right]_0^1=\frac{5\sqrt5-1}{12}.
+$$
+
+\item 時計回りを $\vec r(t)=(\cos t,-\sin t)$（$0\le t\le2\pi$）で表す。
+$\vec F(\vec r)=(\sin t,\cos t)$、$\vec r'=(-\sin t,-\cos t)$ なので
+$$
+ \oint_C\vec F\cdot d\vec r=\int_0^{2\pi}(-1)\,dt=-2\pi.
+$$
+向きを反転したため、反時計回りの値 $2\pi$ の符号が逆になった。
+
+\item 線分を $\vec r(t)=(t,2t)$（$0\le t\le1$）とすれば
+$$
+ \int_C\vec F\cdot d\vec r=\int_0^1(t,2t)\cdot(1,2)\,dt=\frac52.
+$$
+また $\phi=(x^2+y^2)/2$ と取れるので、$\phi(1,2)-\phi(0,0)=5/2$ と一致する。
+
+\item $\phi_x=2xy$ より $\phi=x^2y+h(y)$。
+$\phi_y=x^2+h'(y)=x^2+2y$ から $h(y)=y^2+C$ を得る。
+$\phi=x^2y+y^2$ と選べば、どの経路でも
+$$
+ \int_C\vec F\cdot d\vec r=\phi(1,2)-\phi(0,0)=2+4=6.
+$$
+
+\item 対角線では $\vec r(t)=(t,t)$ として
+$\vec F\cdot\vec r'=(-t,t)\cdot(1,1)=0$ なので仕事は0。
+折れ線の最初の辺 $(t,0)$ でも内積は0だが、次の辺 $(1,t)$ では
+$$
+ \int_0^1\vec F(1,t)\cdot(0,1)\,dt
+ =\int_0^1(-t,1)\cdot(0,1)\,dt=1.
+$$
+同じ始点・終点でも値が異なるため、この場の仕事は経路に依存する。
+\end{problems}
+\keybox{弧長積分には速さ、仕事には速度ベクトルを使う。仕事の向きを逆にしたら、答えの符号も反転するか確認しよう。}
+\end{document}
