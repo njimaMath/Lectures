@@ -1,3 +1,4 @@
+% Style follows ../class2/resume2PT26.tex.
 % Build in this directory (run twice for page references):
 % pdflatex -interaction=nonstopmode -halt-on-error resume6PT26.tex
 % Topics follow the syllabus in ../class1/class1PT26.tex.
@@ -34,22 +35,24 @@
 \setlength{\belowdisplayskip}{4pt}
 \setlength{\abovedisplayshortskip}{3pt}
 \setlength{\belowdisplayshortskip}{4pt}
-\setlist[itemize]{leftmargin=1.8em,itemsep=2pt,topsep=3pt,parsep=0pt}
-\setlist[enumerate]{leftmargin=2em,itemsep=6pt,topsep=4pt,parsep=0pt}
+\setlist[itemize]{leftmargin=1.8em,itemsep=1pt,topsep=2pt,parsep=0pt}
+\setlist[enumerate]{leftmargin=2em,itemsep=3pt,topsep=3pt,parsep=0pt}
 \newcommand{\topic}[1]{\par\vspace{5pt}
   {\large\sffamily\mdseries\color{accent}#1}\par\vspace{2pt}}
-\newcommand{\handouttitle}[1]{\begin{center}
-  {\Large\color{ink}#1}\par\vspace{3mm}
-  {\color{accent}\rule{0.88\linewidth}{0.7pt}}
+\newcommand{\handouttitle}[1]{%
+  \begin{center}
+    {\Large\color{ink}#1}\par\vspace{3mm}
+    {\color{accent}\rule{0.88\linewidth}{0.7pt}}
   \end{center}\vspace{-2mm}}
 \newcommand{\keybox}[1]{\par\vspace{3pt}\begingroup
   \setlength{\fboxsep}{5pt}
-  \colorbox{soft}{\parbox{\dimexpr\linewidth-2\fboxsep\relax}{#1}}
+  \colorbox{soft}{\parbox{\dimexpr\linewidth-2\fboxsep\relax}{#1}}%
   \endgroup\par\vspace{2pt}}
 \newcommand{\examplelabel}[1]{{\sffamily\mdseries\color{ink}#1}}
 \newcommand{\columnheading}[1]{\par\vspace{5pt}
   {\fontsize{11pt}{15pt}\selectfont\sffamily\mdseries\color{accent}#1}\par\vspace{2pt}}
 \newcommand{\columnstart}[1]{\clearpage
+  \setlength{\parskip}{2.5pt}
   \fancyhead[L]{\small\color{ink}\coursename{}・発展的内容}
   {\small\sffamily\mdseries\color{accent}発展的内容}\par\vspace{4pt}
   {\Large\color{ink}#1}\par\vspace{2pt}
@@ -64,6 +67,57 @@
 \newcommand{\iid}{\text{独立同分布}}
 \begin{document}
 \fontsize{10pt}{13.5pt}\selectfont
+\begingroup
+\fancyhead[L]{\small\color{ink}\coursename{}・前回の演習解答}
+\handouttitle{第5回\quad 演習問題の解答}
+
+\topic{演習1：指数分布のモーメントと記憶なし性質}
+$X\sim\mathrm{Exp}(\lambda)$、$\lambda>0$ とする。部分積分により
+$I_r:=\int_0^\infty x^r\lambda e^{-\lambda x}\,dx$ は
+$I_0=1$、$I_r=(r/\lambda)I_{r-1}$（$r=1,2$）を満たす。よって
+$$
+  \E[X]=\frac1\lambda,\qquad \E[X^2]=\frac2{\lambda^2},\qquad
+  \Var(X)=\frac1{\lambda^2}.
+$$
+$s,t\ge0$ に対し $P(X>t)=e^{-\lambda t}>0$ なので、
+$P(X>s+t\mid X>t)=e^{-\lambda(s+t)}/e^{-\lambda t}=P(X>s)$ となる。
+
+\topic{演習2：連続な分布関数と一点の確率}
+分布関数 $F_X$ が連続なら、測度の下からの連続性により
+$$
+  P(X=x)=F_X(x)-P(X<x)
+    =F_X(x)-\lim_{m\to\infty}F_X(x-1/m)=0.
+$$
+密度の存在までは従わない。例えば、カントール分布は各一点の確率が $0$ だが、
+ルベーグ測度 $0$ のカントール集合に確率 $1$ を与える。
+密度があればルベーグ零集合の確率は $0$ となるので、この分布は密度をもたない。
+
+\topic{演習3：ガンマ密度の正規化とモーメント}
+$\alpha,\beta>0$ とし、$x>0$ で
+$f(x)=\beta^\alpha x^{\alpha-1}e^{-\beta x}/\Gamma(\alpha)$、$x\le0$ で $f(x)=0$ とする。
+$u=\beta x$ によって、$r=0,1,2$ に対し
+$$
+  \int_0^\infty x^r f(x)\,dx
+    =\frac{\beta^{-r}}{\Gamma(\alpha)}
+      \int_0^\infty u^{\alpha+r-1}e^{-u}\,du
+    =\frac{\Gamma(\alpha+r)}{\beta^r\Gamma(\alpha)}.
+$$
+$r=0$ で正規化が分かる。$\Gamma(\alpha+1)=\alpha\Gamma(\alpha)$ より
+$$
+  \E[X]=\frac\alpha\beta,\qquad
+  \E[X^2]=\frac{\alpha(\alpha+1)}{\beta^2},\qquad
+  \Var(X)=\frac\alpha{\beta^2}.
+$$
+
+\topic{演習4：連続な記憶なし生存関数}
+正で連続な $G(t)=P(T>t)$ が $G(s+t)=G(s)G(t)$、$G(0)=1$、$G(t)\to0$ を満たすとする。
+$h(t)=-\log G(t)$ は連続で加法的である。$c=h(1)$ とすれば、
+整数 $m\ge0,n\ge1$ について $h(m/n)=mc/n$。
+非負有理数で近似し連続性を使うと、すべての $t\ge0$ で $h(t)=ct$ となる。
+$G\le1$ より $c\ge0$、$G(t)\to0$ より $c=0$ は除かれ、$G(t)=e^{-ct}$（$c>0$）を得る。
+\clearpage
+\endgroup
+
 \handouttitle{第6回\quad 二項分布の正規近似}
 \keybox{二項分布の中心は $n/2$、幅は $\sqrt n/2$ である。
 中心と幅をそろえると、離散的な確率質量の和が正規密度の積分へ近づく。}

@@ -1,3 +1,4 @@
+% Style follows ../class2/resume2PT26.tex.
 % Build in this directory (run twice for page references):
 % pdflatex -interaction=nonstopmode -halt-on-error resume8PT26.tex
 % Topics follow the syllabus in ../class1/class1PT26.tex.
@@ -34,22 +35,24 @@
 \setlength{\belowdisplayskip}{4pt}
 \setlength{\abovedisplayshortskip}{3pt}
 \setlength{\belowdisplayshortskip}{4pt}
-\setlist[itemize]{leftmargin=1.8em,itemsep=2pt,topsep=3pt,parsep=0pt}
-\setlist[enumerate]{leftmargin=2em,itemsep=6pt,topsep=4pt,parsep=0pt}
+\setlist[itemize]{leftmargin=1.8em,itemsep=1pt,topsep=2pt,parsep=0pt}
+\setlist[enumerate]{leftmargin=2em,itemsep=3pt,topsep=3pt,parsep=0pt}
 \newcommand{\topic}[1]{\par\vspace{5pt}
   {\large\sffamily\mdseries\color{accent}#1}\par\vspace{2pt}}
-\newcommand{\handouttitle}[1]{\begin{center}
-  {\Large\color{ink}#1}\par\vspace{3mm}
-  {\color{accent}\rule{0.88\linewidth}{0.7pt}}
+\newcommand{\handouttitle}[1]{%
+  \begin{center}
+    {\Large\color{ink}#1}\par\vspace{3mm}
+    {\color{accent}\rule{0.88\linewidth}{0.7pt}}
   \end{center}\vspace{-2mm}}
 \newcommand{\keybox}[1]{\par\vspace{3pt}\begingroup
   \setlength{\fboxsep}{5pt}
-  \colorbox{soft}{\parbox{\dimexpr\linewidth-2\fboxsep\relax}{#1}}
+  \colorbox{soft}{\parbox{\dimexpr\linewidth-2\fboxsep\relax}{#1}}%
   \endgroup\par\vspace{2pt}}
 \newcommand{\examplelabel}[1]{{\sffamily\mdseries\color{ink}#1}}
 \newcommand{\columnheading}[1]{\par\vspace{5pt}
   {\fontsize{11pt}{15pt}\selectfont\sffamily\mdseries\color{accent}#1}\par\vspace{2pt}}
 \newcommand{\columnstart}[1]{\clearpage
+  \setlength{\parskip}{2.5pt}
   \fancyhead[L]{\small\color{ink}\coursename{}・発展的内容}
   {\small\sffamily\mdseries\color{accent}発展的内容}\par\vspace{4pt}
   {\Large\color{ink}#1}\par\vspace{2pt}
@@ -64,6 +67,59 @@
 \newcommand{\iid}{\text{独立同分布}}
 \begin{document}
 \fontsize{10pt}{13.5pt}\selectfont
+\begingroup
+\fancyhead[L]{\small\color{ink}\coursename{}・前回の演習解答}
+\handouttitle{第7回\quad 演習問題の解答}
+
+\topic{演習1：幾何分布の特性関数}
+$0<p<1$、$q=1-p$、$P(X=k)=pq^{k-1}$（$k\ge1$）とする。
+$|qe^{it}|=q<1$ なので、絶対収束する等比級数を用いて
+$$
+  \varphi_X(t)=\sum_{k=1}^\infty pq^{k-1}e^{itk}
+    =\frac{pe^{it}}{1-qe^{it}}\qquad(t\in\R).
+$$
+分母は $|1-qe^{it}|\ge1-q=p>0$ を満たし、実数 $t$ について消えない。
+
+\topic{演習2：対称な一様分布の特性関数}
+$X\sim\mathrm U(-a,a)$（$a>0$）なら、$t\ne0$ に対し
+$$
+  \varphi_X(t)=\frac1{2a}\int_{-a}^a e^{itx}\,dx
+    =\frac{e^{iat}-e^{-iat}}{2ait}=\frac{\sin(at)}{at}.
+$$
+$t=0$ では定義から $\varphi_X(0)=1$。
+$\sin u/u\to1$（$u\to0$）より、この値で原点でも連続になる。
+
+\topic{演習3：独立な正規確率変数の和}
+独立な $X\sim N(m_1,v_1)$、$Y\sim N(m_2,v_2)$（$v_1,v_2>0$）について
+$$
+  \begin{aligned}
+    \varphi_{X+Y}(t)&=\varphi_X(t)\varphi_Y(t)\\
+      &=e^{im_1t-v_1t^2/2}e^{im_2t-v_2t^2/2}
+       =e^{i(m_1+m_2)t-(v_1+v_2)t^2/2}.
+  \end{aligned}
+$$
+これは $N(m_1+m_2,v_1+v_2)$ の特性関数であり、一意性から
+$X+Y\sim N(m_1+m_2,v_1+v_2)$ と分かる。
+
+\topic{演習4：Gauss 核による平滑化の一様収束}
+$f\in C_c(\R)$、$q_\varepsilon(y)=e^{-y^2/(2\varepsilon^2)}/(\sqrt{2\pi}\varepsilon)$ とする。
+$\int q_\varepsilon=1$ なので、$\delta>0$ に対し
+$$
+  \begin{aligned}
+    |(f*q_\varepsilon)(x)-f(x)|
+      &\le\int_\R|f(x-y)-f(x)|q_\varepsilon(y)\,dy\\
+      &\le\sup_{|u-v|\le\delta}|f(u)-f(v)|
+        +2\|f\|_\infty\int_{|y|>\delta}q_\varepsilon(y)\,dy.
+  \end{aligned}
+$$
+右辺は $x$ によらず、上限をとれば設問の評価となる。
+$f$ の一様連続性から第1項は $\delta\downarrow0$ で消える。
+固定した $\delta$ に対し、第2項の積分は $N(0,\varepsilon^2)$ の尾確率で、
+Chebyshev の不等式により $\varepsilon^2/\delta^2$ 以下となる。
+先に $\delta$ を小さく選び、次に $\varepsilon\downarrow0$ とすれば一様収束を得る。
+\clearpage
+\endgroup
+
 \handouttitle{第8回\quad 確率変数列の収束}
 \keybox{概収束は各標本での長期的な振る舞い、確率収束は各時点での誤差確率を見る。
 量化の順序を区別し、どちらの条件が必要かを考えよう。}

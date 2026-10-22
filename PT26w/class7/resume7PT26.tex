@@ -1,3 +1,4 @@
+% Style follows ../class2/resume2PT26.tex.
 % Build in this directory (run twice for page references):
 % pdflatex -interaction=nonstopmode -halt-on-error resume7PT26.tex
 % Topics follow the syllabus in ../class1/class1PT26.tex.
@@ -34,22 +35,24 @@
 \setlength{\belowdisplayskip}{4pt}
 \setlength{\abovedisplayshortskip}{3pt}
 \setlength{\belowdisplayshortskip}{4pt}
-\setlist[itemize]{leftmargin=1.8em,itemsep=2pt,topsep=3pt,parsep=0pt}
-\setlist[enumerate]{leftmargin=2em,itemsep=6pt,topsep=4pt,parsep=0pt}
+\setlist[itemize]{leftmargin=1.8em,itemsep=1pt,topsep=2pt,parsep=0pt}
+\setlist[enumerate]{leftmargin=2em,itemsep=3pt,topsep=3pt,parsep=0pt}
 \newcommand{\topic}[1]{\par\vspace{5pt}
   {\large\sffamily\mdseries\color{accent}#1}\par\vspace{2pt}}
-\newcommand{\handouttitle}[1]{\begin{center}
-  {\Large\color{ink}#1}\par\vspace{3mm}
-  {\color{accent}\rule{0.88\linewidth}{0.7pt}}
+\newcommand{\handouttitle}[1]{%
+  \begin{center}
+    {\Large\color{ink}#1}\par\vspace{3mm}
+    {\color{accent}\rule{0.88\linewidth}{0.7pt}}
   \end{center}\vspace{-2mm}}
 \newcommand{\keybox}[1]{\par\vspace{3pt}\begingroup
   \setlength{\fboxsep}{5pt}
-  \colorbox{soft}{\parbox{\dimexpr\linewidth-2\fboxsep\relax}{#1}}
+  \colorbox{soft}{\parbox{\dimexpr\linewidth-2\fboxsep\relax}{#1}}%
   \endgroup\par\vspace{2pt}}
 \newcommand{\examplelabel}[1]{{\sffamily\mdseries\color{ink}#1}}
 \newcommand{\columnheading}[1]{\par\vspace{5pt}
   {\fontsize{11pt}{15pt}\selectfont\sffamily\mdseries\color{accent}#1}\par\vspace{2pt}}
 \newcommand{\columnstart}[1]{\clearpage
+  \setlength{\parskip}{2.5pt}
   \fancyhead[L]{\small\color{ink}\coursename{}・発展的内容}
   {\small\sffamily\mdseries\color{accent}発展的内容}\par\vspace{4pt}
   {\Large\color{ink}#1}\par\vspace{2pt}
@@ -64,6 +67,58 @@
 \newcommand{\iid}{\text{独立同分布}}
 \begin{document}
 \fontsize{10pt}{13.5pt}\selectfont
+\begingroup
+\fancyhead[L]{\small\color{ink}\coursename{}・前回の演習解答}
+\handouttitle{第6回\quad 演習問題の解答}
+
+\topic{演習1：ベルヌーイ和の標準化}
+独立な $X_j\sim\mathrm{Bern}(p)$（$0<p<1$）、$S_n=\sum_{j=1}^nX_j$ とする。
+$X_j^2=X_j$ より $\E[X_j]=p$、$\Var(X_j)=p(1-p)$。線形性と独立性から
+$$
+  \E[S_n]=np,\qquad \Var(S_n)=np(1-p),\qquad
+  \E\left[\frac{S_n-np}{\sqrt{np(1-p)}}\right]=0,\quad
+  \Var\left(\frac{S_n-np}{\sqrt{np(1-p)}}\right)=1.
+$$
+
+\topic{演習2：正規近似と連続性補正}
+$S_{100}\sim\mathrm{Bin}(100,1/2)$ の平均は $50$、標準偏差は $5$。
+標準正規分布関数を $\Phi$ とすると、$P(45\le S_{100}\le55)$ は
+$$
+  \begin{aligned}
+    \text{補正なし：}&\quad\Phi(1)-\Phi(-1)\simeq0.682689,\\
+    \text{補正あり：}&\quad\Phi(1.1)-\Phi(-1.1)\simeq0.728668,\\
+    \text{厳密値：}&\quad2^{-100}\sum_{k=45}^{55}\binom{100}{k}
+      \simeq0.728747.
+  \end{aligned}
+$$
+補正ありでは $[44.5,55.5]$ に対応する正規確率を使い、厳密値に近づいている。
+
+\topic{演習3：一様な局所近似から区間確率へ}
+ここでは $p=1/2$ とし、$Z_n=(2S_n-n)/\sqrt n$、$x_{n,k}=(2k-n)/\sqrt n$、
+$h_n=2/\sqrt n$、$\phi(x)=e^{-x^2/2}/\sqrt{2\pi}$ とおく。
+有限な $a<b$ に対して、局所近似を
+$P(S_n=k)=\phi(x_{n,k})h_n(1+r_{n,k})$ と書けば
+$\eta_n:=\max_{a\le x_{n,k}\le b}|r_{n,k}|\to0$ であり、
+$$
+  \left|P(a\le Z_n\le b)-\sum_{a\le x_{n,k}\le b}\phi(x_{n,k})h_n\right|
+   \le\eta_n\sum_{a\le x_{n,k}\le b}\phi(x_{n,k})h_n\longrightarrow0.
+$$
+右の和は Riemann 和として $\int_a^b\phi(x)\,dx$ に収束する。
+一様性は、項数が増える和全体の誤差を $\eta_n$ で抑える箇所で使っている。
+
+\topic{演習4：尾の評価から分布関数の収束へ}
+$\E[Z_n^2]=1$ なので、Markov の不等式より $P(|Z_n|>R)\le R^{-2}$。
+$R>|t|$ とすれば
+$$
+  |P(Z_n\le t)-\Phi(t)|
+    \le\left|P(-R\le Z_n\le t)-\int_{-R}^t\phi(x)\,dx\right|
+       +R^{-2}+\Phi(-R).
+$$
+まず $n\to\infty$ とすると第1項は消え、次に $R\to\infty$ とすれば残りも消える。
+したがって、すべての $t\in\R$ で $P(Z_n\le t)\to\Phi(t)$ となる。
+\clearpage
+\endgroup
+
 \handouttitle{第7回\quad 分布と特性関数}
 \keybox{分布を振動関数の期待値で表すと、独立な和は積になる。
 特性関数は常に存在し、分布の一意性と極限の判定に使える。}

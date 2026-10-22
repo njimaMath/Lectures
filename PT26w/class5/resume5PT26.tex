@@ -1,3 +1,4 @@
+% Style follows ../class2/resume2PT26.tex.
 % Build in this directory (run twice for page references):
 % pdflatex -interaction=nonstopmode -halt-on-error resume5PT26.tex
 % Topics follow the syllabus in ../class1/class1PT26.tex.
@@ -34,22 +35,24 @@
 \setlength{\belowdisplayskip}{4pt}
 \setlength{\abovedisplayshortskip}{3pt}
 \setlength{\belowdisplayshortskip}{4pt}
-\setlist[itemize]{leftmargin=1.8em,itemsep=2pt,topsep=3pt,parsep=0pt}
-\setlist[enumerate]{leftmargin=2em,itemsep=6pt,topsep=4pt,parsep=0pt}
+\setlist[itemize]{leftmargin=1.8em,itemsep=1pt,topsep=2pt,parsep=0pt}
+\setlist[enumerate]{leftmargin=2em,itemsep=3pt,topsep=3pt,parsep=0pt}
 \newcommand{\topic}[1]{\par\vspace{5pt}
   {\large\sffamily\mdseries\color{accent}#1}\par\vspace{2pt}}
-\newcommand{\handouttitle}[1]{\begin{center}
-  {\Large\color{ink}#1}\par\vspace{3mm}
-  {\color{accent}\rule{0.88\linewidth}{0.7pt}}
+\newcommand{\handouttitle}[1]{%
+  \begin{center}
+    {\Large\color{ink}#1}\par\vspace{3mm}
+    {\color{accent}\rule{0.88\linewidth}{0.7pt}}
   \end{center}\vspace{-2mm}}
 \newcommand{\keybox}[1]{\par\vspace{3pt}\begingroup
   \setlength{\fboxsep}{5pt}
-  \colorbox{soft}{\parbox{\dimexpr\linewidth-2\fboxsep\relax}{#1}}
+  \colorbox{soft}{\parbox{\dimexpr\linewidth-2\fboxsep\relax}{#1}}%
   \endgroup\par\vspace{2pt}}
 \newcommand{\examplelabel}[1]{{\sffamily\mdseries\color{ink}#1}}
 \newcommand{\columnheading}[1]{\par\vspace{5pt}
   {\fontsize{11pt}{15pt}\selectfont\sffamily\mdseries\color{accent}#1}\par\vspace{2pt}}
 \newcommand{\columnstart}[1]{\clearpage
+  \setlength{\parskip}{2.5pt}
   \fancyhead[L]{\small\color{ink}\coursename{}・発展的内容}
   {\small\sffamily\mdseries\color{accent}発展的内容}\par\vspace{4pt}
   {\Large\color{ink}#1}\par\vspace{2pt}
@@ -64,6 +67,55 @@
 \newcommand{\iid}{\text{独立同分布}}
 \begin{document}
 \fontsize{10pt}{13.5pt}\selectfont
+\begingroup
+\fancyhead[L]{\small\color{ink}\coursename{}・前回の演習解答}
+\handouttitle{第4回\quad 演習問題の解答}
+
+\topic{演習1：サイコロの事象の独立性}
+公平なサイコロの出目を $D$、$A=\{D\text{ は偶数}\}$、
+$B=\{D\le3\}$、$C=\{D\le4\}$ とする。
+$$
+  P(A)=\frac12,\quad P(B)=\frac12,\quad P(C)=\frac23,
+  \qquad P(A\cap B)=\frac16\ne\frac14=P(A)P(B).
+$$
+よって $A,B$ は独立ではない。一方、$A\cap C=\{2,4\}$ なので
+$P(A\cap C)=1/3=P(A)P(C)$ となり、$A,C$ は独立である。
+
+\topic{演習2：無相関でも独立でない和と差}
+独立な公平サイコロの出目 $U,V$ に対し、$S=U+V$、$T=U-V$ とする。
+$\Var(U)=\Var(V)=35/12$ と共分散の双線形性から
+$$
+  \Cov(S,T)=\Var(U)-\Var(V)=0.
+$$
+しかし、$\{S=2,T=0\}=\{U=V=1\}$、$\{T=0\}=\{U=V\}$ より
+$$
+  P(S=2,T=0)=\frac1{36},\qquad
+  P(S=2)P(T=0)=\frac1{36}\cdot\frac16=\frac1{216}.
+$$
+積公式が破れるので、$S,T$ は独立ではない。
+
+\topic{演習3：有限個の和の分散}
+二次モーメントが有限な $X_1,\ldots,X_n$ について、$W_j=X_j-\E[X_j]$ とおく。
+$\E|W_iW_j|<\infty$ は Cauchy--Schwarz の不等式から従う。したがって
+$$
+  \begin{aligned}
+    \Var\left(\sum_{j=1}^nX_j\right)
+      &=\E\left[\left(\sum_{j=1}^nW_j\right)^2\right]\\
+      &=\sum_{j=1}^n\E[W_j^2]+2\sum_{i<j}\E[W_iW_j]
+       =\sum_{j=1}^n\Var(X_j)+2\sum_{i<j}\Cov(X_i,X_j).
+  \end{aligned}
+$$
+対独立で各共分散は $0$ になるので十分である。相互独立でも成り立つ。
+
+\topic{演習4：三つの符号の関係}
+独立な公平な符号 $X,Y\in\{-1,1\}$ と $Z=XY$ を考える。
+$(X,Y)$、$(X,Z)$、$(Y,Z)$ のいずれも、四通りの符号の組が各確率 $1/4$ で現れる。
+各変数の周辺確率は $1/2$ なので、どの二つ組も独立である。
+一方、$Z=XY$、$X=YZ$、$Y=XZ$ より、どの二つの値からも残りが決まる。
+$P(X=Y=Z=1)=1/4\ne1/8$ だから、三つは相互独立ではない。
+\clearpage
+\endgroup
+
 \handouttitle{第5回\quad 代表的な確率分布}
 \keybox{分布を表す式、パラメータの意味、期待値と分散を組にして覚えよう。
 回数を数える離散分布と、待ち時間を表す連続分布の関係が見えてくる。}

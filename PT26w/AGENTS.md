@@ -10,17 +10,20 @@
 | `classN/classNPT26.tex` | 既存の配布資料。複数回分を含む場合がある |
 | `classN/stN.html` | 同じ回のコラムの参照元 |
 | `classN/answer_exerciseN.tex` | 存在する場合、その回の演習解答の参照元 |
-| `class1/class1PT26.tex` | シラバス、授業計画、第1回の資料、共通の体裁 |
+| `class1/class1PT26.tex` | シラバス、授業計画、第1回の資料 |
+| `class2/class2PT26.tex` | `class` 資料の基本スタイルの基準 |
+| `class2/resume2PT26.tex` | 詳しいレジュメの基本スタイルの基準 |
 | `lectureNote.tex`・`lectureNotes.tex` | 定義、定理、説明、例の参照元 |
 
 - 最初に対象ファイルと参照元を UTF-8 で読み、適用される指示と作業中の変更を確認する。PowerShell では `Get-Content -Encoding utf8` を使う。
 - 対象回は本文の見出しで確認する。ファイル名だけで判断しない。例えば [class2PT26.tex](class2/class2PT26.tex) は第2回と第3回を含み、第3回の問題もこのファイルにある。
-- 現在の詳しいレジュメの体裁は [resume2PT26.tex](class2/resume2PT26.tex) と [resume3PT26.tex](class3/resume3PT26.tex) を参照する。
+- [resume3PT26.tex](class3/resume3PT26.tex) は、前回の演習解答やコラムの構成の補助的な参照元とする。
 - 既存ファイルが Git の未追跡ファイルでも、ユーザーの作業成果として扱う。変更前の比較に必要なら `tmp/` 以下に一時コピーを置く。
 - 変更箇所を依頼された範囲に絞り、既存の本文、問題、コラムを保ちながら更新する。
 
 ## 共通の体裁と文章
 
+- `PT26w/` 内の資料は、基本的に `class2/` の [class2PT26.tex](class2/class2PT26.tex) と [resume2PT26.tex](class2/resume2PT26.tex) と同じスタイルにする。`classNPT26.tex` は前者、`resumeNPT26.tex` は後者を基準とし、フォント、文字サイズ、余白、配色、見出し、マクロ、ヘッダー・フッター、段落・数式・箇条書きの間隔をそろえる。授業回、内容、必要なページ数は対象資料に合わせる。ユーザーの個別の指定がある場合は、その指定を優先する。
 - 日本語の学部向け講義資料として、読みやすく丁寧に書く。仮定、記号、定義域、区間、端点の扱いを明記する。
 - 太字の文章や数式を新たに使わない。見出しは既存の `\sffamily\mdseries` を使う。
 - 解答やまとめを含むすべての数式で `\boxed` を使わない。結果は通常の数式として示す。参照資料に既存の使用例があっても、このルールを優先する。

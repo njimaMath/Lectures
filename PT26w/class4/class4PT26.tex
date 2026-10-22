@@ -1,3 +1,4 @@
+% Style follows ../class2/class2PT26.tex.
 % Build in this directory (run twice to resolve page references and bookmarks):
 % pdflatex -interaction=nonstopmode -halt-on-error class4PT26.tex
 % Lecture topics follow PT26w/lectureNote.tex, sections 4 and 5.
@@ -31,19 +32,19 @@
 \fancyfoot[C]{\small\color{ink}\thepage/\pageref*{LastPage}}
 \renewcommand{\headrulewidth}{0.3pt}
 \setlength{\parindent}{0pt}
-\setlength{\parskip}{1.5pt}
+\setlength{\parskip}{2pt}
 \setlength{\abovedisplayskip}{4pt}
 \setlength{\belowdisplayskip}{4pt}
 \setlength{\abovedisplayshortskip}{3pt}
 \setlength{\belowdisplayshortskip}{4pt}
 \setlist[itemize]{leftmargin=1.8em,itemsep=1pt,topsep=2pt,parsep=0pt}
 \setlist[enumerate]{leftmargin=2em,itemsep=3pt,topsep=3pt,parsep=0pt}
-\newcommand{\topic}[1]{\par\vspace{4pt}
+\newcommand{\topic}[1]{\par\vspace{5pt}
   {\large\sffamily\mdseries\color{accent}#1}\par\vspace{2pt}}
 \newcommand{\handouttitle}[1]{%
   \pdfbookmark[0]{#1}{lecture\lecturenumber}%
   \begin{center}
-    {\Large\color{ink}#1}\par\vspace{2mm}
+    {\Large\color{ink}#1}\par\vspace{3mm}
     {\color{accent}\rule{0.88\linewidth}{0.7pt}}
   \end{center}\vspace{-2mm}}
 \newcommand{\keybox}[1]{\par\vspace{3pt}\begingroup
@@ -51,7 +52,6 @@
   \colorbox{soft}{\parbox{\dimexpr\linewidth-2\fboxsep\relax}{#1}}%
   \endgroup\par\vspace{2pt}}
 \newcommand{\examplelabel}[1]{{\sffamily\mdseries\color{ink}#1}}
-\newcommand{\learninggoal}[1]{{\small\color{muted}到達目標：#1}\par}
 \newcommand{\F}{\mathcal F}
 \newcommand{\R}{\mathbb R}
 \newcommand{\E}{\mathbb E}
@@ -59,9 +59,8 @@
 \newcommand{\Cov}{\operatorname{Cov}}
 
 \begin{document}
-\fontsize{10pt}{13pt}\selectfont
+\fontsize{10pt}{13.5pt}\selectfont
 \handouttitle{第4回\quad 独立性と共分散}
-\learninggoal{独立性を判定し、共分散との関係、対独立と相互独立の違いを説明する。}
 
 \topic{確率変数の独立性}
 $(\Omega,\F,P)$ を確率空間、$\mathcal B(\R)$ を $\R$ のボレル集合族とする。
@@ -84,6 +83,7 @@ $$
   \E[f(X)g(Y)]=\E[f(X)]\E[g(Y)].
 $$
 特に、独立な可積分確率変数について $\E[XY]=\E[X]\E[Y]$ となる。
+
 期待値の線形性 $\E[X+Y]=\E[X]+\E[Y]$ には独立性は不要である。
 
 \topic{分散と共分散}
@@ -133,7 +133,6 @@ $$
 \newpage
 \renewcommand{\lecturenumber}{5}
 \handouttitle{第5回\quad 代表的な確率分布}
-\learninggoal{分布の使い分けとパラメータの意味を理解し、確率・期待値・分散を求める。}
 
 \topic{分布から期待値を計算する}
 $\mu_X(B):=P(X\in B)$（$B\in\mathcal B(\R)$）を $X$ の分布とする。
@@ -143,7 +142,9 @@ $$
   \E[g(X)]=\int_\R g(x)\,\mu_X(dx).
 $$
 離散分布 $P(X=x_k)=q_k$（$x_k$ は相異なり、$q_k\ge0$、$\sum_k q_k=1$）なら
-$\E[g(X)]=\sum_k g(x_k)q_k$。
+$$
+  \E[g(X)]=\sum_k g(x_k)q_k\text{。}
+$$
 非負ボレル関数 $f$ が $\mu_X(B)=\int_B f(x)\,dx$ を満たすとき、$f$ を確率密度といい、
 $\E[g(X)]=\int_\R g(x)f(x)\,dx$ となる。いずれも上と同じ条件で用いる。
 特に $g(x)=x,x^2$ とすれば、期待値と二次モーメントを計算できる。
@@ -152,11 +153,12 @@ $\E[g(X)]=\int_\R g(x)f(x)\,dx$ となる。いずれも上と同じ条件で用
 $n\ge1$ は整数、$0<p<1$、$\lambda>0$ とする。
 
 \begingroup
-\small
-\renewcommand{\arraystretch}{1.45}
+\setlength{\tabcolsep}{5pt}
+\renewcommand{\arraystretch}{1.55}
 \begin{tabularx}{\linewidth}{@{}l c >{\centering\arraybackslash}X c c@{}}
 \toprule
-分布 & $k$ の範囲 & $P(X=k)$ & $\E[X]$ & $\Var(X)$ \\
+\examplelabel{分布} & \examplelabel{$k$ の範囲} & \leavevmode\examplelabel{$P(X=k)$}
+  & \examplelabel{$\E[X]$} & \examplelabel{$\Var(X)$} \\
 \midrule
 ベルヌーイ $\mathrm{Ber}(p)$ & $0,1$ & $p^k(1-p)^{1-k}$ & $p$ & $p(1-p)$ \\
 二項 $\mathrm{Bin}(n,p)$ & $0,\ldots,n$ & $\binom nk p^k(1-p)^{n-k}$ & $np$ & $np(1-p)$ \\
@@ -165,34 +167,32 @@ $n\ge1$ は整数、$0<p<1$、$\lambda>0$ とする。
 \bottomrule
 \end{tabularx}
 \par\endgroup
+\smallskip
 ベルヌーイ分布は1回の試行の成功を1、失敗を0で表す。
 $X_1,\ldots,X_n\sim\mathrm{Ber}(p)$ が独立なら、その和は $\mathrm{Bin}(n,p)$ に従う。
+
 幾何分布は初めて成功するまでの試行回数（成功した回を含む）を表す。
 ポアソン分布は、一定の区間内の発生回数のモデルとして用いる。
 
-\topic{連続分布：一様・指数・正規分布}
-$a<b$、$\lambda>0$、$m\in\R$、$\sigma>0$ とする。
+\topic{連続分布：一様・指数分布}
+$a<b$、$\lambda>0$ とする。
 $1_A(x)$ は $x\in A$ のとき1、それ以外で0をとる指示関数である。
 
 \begingroup
-\small
-\renewcommand{\arraystretch}{1.6}
+\setlength{\tabcolsep}{5pt}
+\renewcommand{\arraystretch}{1.75}
 \begin{tabularx}{\linewidth}{@{}l >{\centering\arraybackslash}X c c@{}}
 \toprule
-分布 & 密度 $f(x)$（$x\in\R$） & $\E[X]$ & $\Var(X)$ \\
+\examplelabel{分布} & \leavevmode\examplelabel{密度 $f(x)$（$x\in\R$）}
+  & \examplelabel{$\E[X]$} & \examplelabel{$\Var(X)$} \\
 \midrule
 一様 $U(a,b)$ & $\dfrac{1}{b-a}\,1_{[a,b]}(x)$ & $\dfrac{a+b}{2}$ & $\dfrac{(b-a)^2}{12}$ \\
 指数 $\mathrm{Exp}(\lambda)$ & $\lambda e^{-\lambda x}\,1_{[0,\infty)}(x)$ & $\dfrac1\lambda$ & $\dfrac1{\lambda^2}$ \\
-正規 $N(m,\sigma^2)$ & $\dfrac{1}{\sqrt{2\pi}\sigma}\exp\!\left(-\dfrac{(x-m)^2}{2\sigma^2}\right)$ & $m$ & $\sigma^2$ \\
 \bottomrule
 \end{tabularx}
 \par\endgroup
+\smallskip
 指数分布の $\lambda$ は率のパラメータであり、平均待ち時間は $1/\lambda$ である。
-正規分布の第2引数は分散 $\sigma^2$（$\sigma$ は標準偏差）であり、標準化すると
-$$
-  X\sim N(m,\sigma^2)\quad\Longrightarrow\quad
-  \frac{X-m}{\sigma}\sim N(0,1).
-$$
 
 \topic{演習問題}
 \begin{enumerate}[label=\arabic*.]
@@ -209,9 +209,5 @@ $$
   \item $\lambda,\nu>0$ とし、独立な $X\sim\mathrm{Poi}(\lambda)$、$Y\sim\mathrm{Poi}(\nu)$ に対して
   $X+Y\sim\mathrm{Poi}(\lambda+\nu)$ を示せ。
   $P(X+Y=k)=\sum_{j=0}^kP(X=j,\,Y=k-j)$ を用いてよい。
-  \item $m\in\R$、$\sigma>0$ とする。$X\sim N(m,\sigma^2)$ の密度を用いて、
-  $\E[X]=m$、$\Var(X)=\sigma^2$ を示せ。
-  $z=(x-m)/\sigma$ と置換し、分散の計算には部分積分を用いよ。
-  $\int_\R e^{-z^2/2}\,dz=\sqrt{2\pi}$ は用いてよい。
 \end{enumerate}
 \end{document}

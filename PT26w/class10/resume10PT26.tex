@@ -1,3 +1,4 @@
+% Style follows ../class2/resume2PT26.tex.
 % Build in this directory (run twice for page references):
 % pdflatex -interaction=nonstopmode -halt-on-error resume10PT26.tex
 % Topics follow the syllabus in ../class1/class1PT26.tex.
@@ -34,22 +35,24 @@
 \setlength{\belowdisplayskip}{4pt}
 \setlength{\abovedisplayshortskip}{3pt}
 \setlength{\belowdisplayshortskip}{4pt}
-\setlist[itemize]{leftmargin=1.8em,itemsep=2pt,topsep=3pt,parsep=0pt}
-\setlist[enumerate]{leftmargin=2em,itemsep=6pt,topsep=4pt,parsep=0pt}
+\setlist[itemize]{leftmargin=1.8em,itemsep=1pt,topsep=2pt,parsep=0pt}
+\setlist[enumerate]{leftmargin=2em,itemsep=3pt,topsep=3pt,parsep=0pt}
 \newcommand{\topic}[1]{\par\vspace{5pt}
   {\large\sffamily\mdseries\color{accent}#1}\par\vspace{2pt}}
-\newcommand{\handouttitle}[1]{\begin{center}
-  {\Large\color{ink}#1}\par\vspace{3mm}
-  {\color{accent}\rule{0.88\linewidth}{0.7pt}}
+\newcommand{\handouttitle}[1]{%
+  \begin{center}
+    {\Large\color{ink}#1}\par\vspace{3mm}
+    {\color{accent}\rule{0.88\linewidth}{0.7pt}}
   \end{center}\vspace{-2mm}}
 \newcommand{\keybox}[1]{\par\vspace{3pt}\begingroup
   \setlength{\fboxsep}{5pt}
-  \colorbox{soft}{\parbox{\dimexpr\linewidth-2\fboxsep\relax}{#1}}
+  \colorbox{soft}{\parbox{\dimexpr\linewidth-2\fboxsep\relax}{#1}}%
   \endgroup\par\vspace{2pt}}
 \newcommand{\examplelabel}[1]{{\sffamily\mdseries\color{ink}#1}}
 \newcommand{\columnheading}[1]{\par\vspace{5pt}
   {\fontsize{11pt}{15pt}\selectfont\sffamily\mdseries\color{accent}#1}\par\vspace{2pt}}
 \newcommand{\columnstart}[1]{\clearpage
+  \setlength{\parskip}{2.5pt}
   \fancyhead[L]{\small\color{ink}\coursename{}・発展的内容}
   {\small\sffamily\mdseries\color{accent}発展的内容}\par\vspace{4pt}
   {\Large\color{ink}#1}\par\vspace{2pt}
@@ -64,6 +67,49 @@
 \newcommand{\iid}{\text{独立同分布}}
 \begin{document}
 \fontsize{10pt}{13.5pt}\selectfont
+\begingroup
+\fancyhead[L]{\small\color{ink}\coursename{}・前回の演習解答}
+\handouttitle{第9回\quad 演習問題の解答}
+
+\topic{演習1：一点に近づく分布と集合の確率}
+$\mu_n=\delta_{1/n}$、$\mu=\delta_0$ の分布関数は
+$$
+  F_n(x)=\ind_{[1/n,\infty)}(x),\qquad F(x)=\ind_{[0,\infty)}(x).
+$$
+$x<0$ では常に $F_n(x)=0$、$x>0$ では十分大きい $n$ で $F_n(x)=1$ となる。
+よって $F$ のすべての連続点で収束する。しかし
+$\mu_n((0,\infty))=1\ne0=\mu((0,\infty))$、
+$\mu_n(\{0\})=0\ne1=\mu(\{0\})$ で、これらの集合の確率は収束しない。
+
+\topic{演習2：距離関数と開集合の不等式}
+空でない $A\subseteq\R$ に対し、$a\in A$ なら
+$d(x,A)\le|x-a|\le|x-y|+|y-a|$。$a$ について下限をとり、$x,y$ を交換すれば
+$$|d(x,A)-d(y,A)|\le|x-y|.$$
+$\mu_n\Rightarrow\mu$ とし、空でない真の開集合 $O$ に対し
+$f_m(x)=\min\{1,m\,d(x,O^c)\}$ とおく。
+$f_m\in C_b(\R)$、$0\le f_m\uparrow\ind_O$ であり、
+$$
+  \int f_m\,d\mu=\lim_n\int f_m\,d\mu_n
+     \le\liminf_n\mu_n(O).
+$$
+$m\to\infty$ として単調収束定理から $\mu(O)\le\liminf_n\mu_n(O)$ を得る。
+$O=\varnothing,\R$ では直接成り立つ。
+
+\topic{演習3：二次モーメントによる tightness}
+$C=\sup_n\E[X_n^2]<\infty$ なら、任意の $R>0$ に対して
+$$\sup_nP(|X_n|>R)\le C/R^2\longrightarrow0\qquad(R\to\infty).$$
+したがって分布列は tight である。一方、$V_n\sim\mathrm U(-n,n)$ なら、$n>R$ で
+$P(|V_n|>R)=1-R/n$ となり、任意の $R$ に対し上限は $1$ だから tight ではない。
+
+\topic{演習4：分布収束しても平均が収束しない例}
+$\Omega=(0,1)$ に一様確率を入れ、$X_n(\omega)=n\ind_{(0,1/n)}(\omega)$ とおく。
+各 $\omega>0$ で十分大きい $n$ には $X_n(\omega)=0$ となり、$X_n\to0$ a.s.、従って
+$X_n\Rightarrow0$ である。しかし
+$$\E[X_n]=n\,P((0,1/n))=1\not\longrightarrow0=\E[0].$$
+弱収束が保証するのは有界連続関数の期待値の収束であり、関数 $x\mapsto x$ は有界ではない。
+\clearpage
+\endgroup
+
 \handouttitle{第10回\quad 大数の法則と中心極限定理}
 \keybox{大数の法則は標本平均の安定化を、中心極限定理はその誤差の形を記述する。
 仮定するモーメントと、得られる収束の種類を明確にしよう。}

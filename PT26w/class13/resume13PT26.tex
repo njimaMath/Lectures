@@ -1,3 +1,4 @@
+% Style follows ../class2/resume2PT26.tex.
 % Build in this directory (run twice for page references):
 % pdflatex -interaction=nonstopmode -halt-on-error resume13PT26.tex
 % Topics follow the syllabus in ../class1/class1PT26.tex.
@@ -34,22 +35,24 @@
 \setlength{\belowdisplayskip}{4pt}
 \setlength{\abovedisplayshortskip}{3pt}
 \setlength{\belowdisplayshortskip}{4pt}
-\setlist[itemize]{leftmargin=1.8em,itemsep=2pt,topsep=3pt,parsep=0pt}
-\setlist[enumerate]{leftmargin=2em,itemsep=6pt,topsep=4pt,parsep=0pt}
+\setlist[itemize]{leftmargin=1.8em,itemsep=1pt,topsep=2pt,parsep=0pt}
+\setlist[enumerate]{leftmargin=2em,itemsep=3pt,topsep=3pt,parsep=0pt}
 \newcommand{\topic}[1]{\par\vspace{5pt}
   {\large\sffamily\mdseries\color{accent}#1}\par\vspace{2pt}}
-\newcommand{\handouttitle}[1]{\begin{center}
-  {\Large\color{ink}#1}\par\vspace{3mm}
-  {\color{accent}\rule{0.88\linewidth}{0.7pt}}
+\newcommand{\handouttitle}[1]{%
+  \begin{center}
+    {\Large\color{ink}#1}\par\vspace{3mm}
+    {\color{accent}\rule{0.88\linewidth}{0.7pt}}
   \end{center}\vspace{-2mm}}
 \newcommand{\keybox}[1]{\par\vspace{3pt}\begingroup
   \setlength{\fboxsep}{5pt}
-  \colorbox{soft}{\parbox{\dimexpr\linewidth-2\fboxsep\relax}{#1}}
+  \colorbox{soft}{\parbox{\dimexpr\linewidth-2\fboxsep\relax}{#1}}%
   \endgroup\par\vspace{2pt}}
 \newcommand{\examplelabel}[1]{{\sffamily\mdseries\color{ink}#1}}
 \newcommand{\columnheading}[1]{\par\vspace{5pt}
   {\fontsize{11pt}{15pt}\selectfont\sffamily\mdseries\color{accent}#1}\par\vspace{2pt}}
 \newcommand{\columnstart}[1]{\clearpage
+  \setlength{\parskip}{2.5pt}
   \fancyhead[L]{\small\color{ink}\coursename{}・発展的内容}
   {\small\sffamily\mdseries\color{accent}発展的内容}\par\vspace{4pt}
   {\Large\color{ink}#1}\par\vspace{2pt}
@@ -64,6 +67,52 @@
 \newcommand{\iid}{\text{独立同分布}}
 \begin{document}
 \fontsize{10pt}{13.5pt}\selectfont
+\begingroup
+\fancyhead[L]{\small\color{ink}\coursename{}・前回の演習解答}
+\handouttitle{第12回\quad 演習問題の解答}
+
+\topic{演習1：離れた二つの座標を指定する円筒集合}
+$E=\{-1,1\}$、$\Omega=E^\N$、$X_j(\omega)=\omega_j$ とし、公平な独立コイントスを考える。
+先頭5座標への射影を $\pi_5$ とすれば
+$$
+  B=\{(x_1,\ldots,x_5)\in E^5:x_2=1,\ x_5=-1\},\qquad
+  \{X_2=1,X_5=-1\}=\pi_5^{-1}(B).
+$$
+指定のない3座標は自由なので、確率は $2^3\cdot2^{-5}=1/4$ である。
+
+\topic{演習2：円筒集合の和・積・補集合}
+$C=\pi_n^{-1}(A)$、$D=\pi_m^{-1}(B)$ に対し、$k=\max\{n,m\}$ とし、
+$\pi_{k,n}:E^k\to E^n$、$\pi_{k,m}:E^k\to E^m$ を先頭座標への射影とする。
+$A'=\pi_{k,n}^{-1}(A)$、$B'=\pi_{k,m}^{-1}(B)$ と置けば
+$$
+  C\cup D=\pi_k^{-1}(A'\cup B'),\qquad
+  C\cap D=\pi_k^{-1}(A'\cap B'),\qquad
+  C^c=\pi_k^{-1}(E^k\setminus A').
+$$
+いずれも有限個の座標で決まるので、再び円筒集合である。
+
+\topic{演習3：$1$ が有限回しか出ない事象}
+有限回には零回も含める。「ある時点以降、すべて $-1$」と同値なので、求める事象は
+$$A=\bigcup_{M=1}^\infty\bigcap_{j=M}^\infty\{X_j=-1\}\in\F.$$
+各 $M$ について、独立性と測度の上からの連続性から
+$$
+  P\left(\bigcap_{j=M}^\infty\{X_j=-1\}\right)
+    =\lim_{r\to\infty}P(X_M=\cdots=X_{M+r-1}=-1)
+    =\lim_{r\to\infty}2^{-r}=0.
+$$
+可算劣加法性により $P(A)=0$。従って $1$ は確率 $1$ で無限回現れる。
+
+\topic{演習4：整合性に反する有限次元分布}
+$E$ 上で $P_1(X_1=1)=P_1(X_1=-1)=1/2$ とし、
+$E^2$ 上で $P_2((X_1,X_2)=(1,1))=1$ とする。
+後者の第1座標への周辺分布は $1$ に確率 $1$ を置くので
+$$
+  (P_2\circ\pi_{2,1}^{-1})(\{1\})=1\ne\frac12=P_1(\{1\}).
+$$
+整合条件を満たさず、両者を同時に周辺分布とする無限列上の確率測度は存在しない。
+\clearpage
+\endgroup
+
 \handouttitle{第13回\quad 無限回の試行の確率空間}
 \keybox{無限回の試行を一つの確率空間上に置くと、長期平均、初めて成功する時刻、
 無限に続く軌跡を同じモデルの中で扱える。有限の条件と無限の事象をつなごう。}

@@ -1,3 +1,4 @@
+% Style follows ../class2/resume2PT26.tex.
 % Build in this directory (run twice for page references):
 % pdflatex -interaction=nonstopmode -halt-on-error resume11PT26.tex
 % Topics follow the syllabus in ../class1/class1PT26.tex.
@@ -34,22 +35,24 @@
 \setlength{\belowdisplayskip}{4pt}
 \setlength{\abovedisplayshortskip}{3pt}
 \setlength{\belowdisplayshortskip}{4pt}
-\setlist[itemize]{leftmargin=1.8em,itemsep=2pt,topsep=3pt,parsep=0pt}
-\setlist[enumerate]{leftmargin=2em,itemsep=6pt,topsep=4pt,parsep=0pt}
+\setlist[itemize]{leftmargin=1.8em,itemsep=1pt,topsep=2pt,parsep=0pt}
+\setlist[enumerate]{leftmargin=2em,itemsep=3pt,topsep=3pt,parsep=0pt}
 \newcommand{\topic}[1]{\par\vspace{5pt}
   {\large\sffamily\mdseries\color{accent}#1}\par\vspace{2pt}}
-\newcommand{\handouttitle}[1]{\begin{center}
-  {\Large\color{ink}#1}\par\vspace{3mm}
-  {\color{accent}\rule{0.88\linewidth}{0.7pt}}
+\newcommand{\handouttitle}[1]{%
+  \begin{center}
+    {\Large\color{ink}#1}\par\vspace{3mm}
+    {\color{accent}\rule{0.88\linewidth}{0.7pt}}
   \end{center}\vspace{-2mm}}
 \newcommand{\keybox}[1]{\par\vspace{3pt}\begingroup
   \setlength{\fboxsep}{5pt}
-  \colorbox{soft}{\parbox{\dimexpr\linewidth-2\fboxsep\relax}{#1}}
+  \colorbox{soft}{\parbox{\dimexpr\linewidth-2\fboxsep\relax}{#1}}%
   \endgroup\par\vspace{2pt}}
 \newcommand{\examplelabel}[1]{{\sffamily\mdseries\color{ink}#1}}
 \newcommand{\columnheading}[1]{\par\vspace{5pt}
   {\fontsize{11pt}{15pt}\selectfont\sffamily\mdseries\color{accent}#1}\par\vspace{2pt}}
 \newcommand{\columnstart}[1]{\clearpage
+  \setlength{\parskip}{2.5pt}
   \fancyhead[L]{\small\color{ink}\coursename{}・発展的内容}
   {\small\sffamily\mdseries\color{accent}発展的内容}\par\vspace{4pt}
   {\Large\color{ink}#1}\par\vspace{2pt}
@@ -64,6 +67,59 @@
 \newcommand{\iid}{\text{独立同分布}}
 \begin{document}
 \fontsize{10pt}{13.5pt}\selectfont
+\begingroup
+\fancyhead[L]{\small\color{ink}\coursename{}・前回の演習解答}
+\handouttitle{第10回\quad 演習問題の解答}
+
+\topic{演習1：指数分布の標本平均}
+独立同分布な $X_j\sim\mathrm{Exp}(\lambda)$（$\lambda>0$）と
+$\bar X_n=n^{-1}\sum_{j=1}^nX_j$ について
+$$
+  \E[\bar X_n]=\frac1\lambda,\qquad
+  \Var(\bar X_n)=\frac1{n\lambda^2},\qquad
+  P\left(\left|\bar X_n-\frac1\lambda\right|>\varepsilon\right)
+     \le\frac1{n\lambda^2\varepsilon^2}\quad(\varepsilon>0).
+$$
+最後の評価は Chebyshev の不等式による。
+
+\topic{演習2：中心化した独立な和の四次モーメント}
+$Y_j$ は独立同分布で $\E[Y_j]=0$、$\mu_4=\E[Y_j^4]<\infty$、
+$v=\E[Y_j^2]$ とする。四乗を展開した積で、ある添字が一度だけ現れるなら、
+独立性によってその $\E[Y_j]=0$ を因子としてもつので期待値は消える。
+残るのは同一の添字4個、または異なる添字が2個ずつの場合だけである。
+$$
+  \E\left[\left(\sum_{j=1}^nY_j\right)^4\right]
+     =n\mu_4+6\binom n2v^2=n\mu_4+3n(n-1)v^2.
+$$
+係数 $6$ は、固定した二つの添字を2個ずつ並べる $\binom42$ 通りから生じる。
+
+\topic{演習3：指数関数を与える極限}
+$a_n\to a\in\R$ なら $(a_n)$ は有界であり、十分大きい $n$ で
+$|a_n/n|\le1/2$、従って $1-a_n/n>0$ となる。
+$\log(1-u)=-u+O(u^2)$（$u\to0$）を使うと
+$$
+  n\log(1-a_n/n)=-a_n+O(a_n^2/n)\longrightarrow-a.
+$$
+指数関数の連続性より、$(1-a_n/n)^n\to e^{-a}$ を得る。
+
+\topic{演習4：サイコロの大数の法則と中心極限定理}
+公平なサイコロを独立に投げた出目を $D_1,D_2,\ldots$ とし、
+$\bar D_n=n^{-1}\sum_{j=1}^nD_j$ とおく。
+$$
+  \E[D_j]=\frac72,\qquad
+  \E[D_j^2]=\frac{91}{6},\qquad
+  \Var(D_j)=\frac{91}{6}-\frac{49}{4}=\frac{35}{12}.
+$$
+有界なので強大数の法則から $\bar D_n\to7/2$ a.s.、従って確率収束もする。
+中心極限定理は
+$$
+  \sqrt{\frac{12n}{35}}\left(\bar D_n-\frac72\right)
+      \Rightarrow N(0,1)
+$$
+を与える。前者は平均の安定化、後者は $n^{-1/2}$ の尺度で見た揺らぎの分布を述べる。
+\clearpage
+\endgroup
+
 \handouttitle{第11回\quad 条件付き期待値}
 \keybox{条件付き期待値は、手元の情報だけから決まる確率変数である。
 可測性と、情報で区別できるすべての事象上での積分一致が、その定義となる。}
