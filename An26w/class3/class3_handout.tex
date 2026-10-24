@@ -1,4 +1,4 @@
-% Build in this directory: pdflatex -interaction=nonstopmode -halt-on-error class3_handout.tex
+% このディレクトリで2回実行：pdflatex -interaction=nonstopmode -halt-on-error class3_handout.tex
 \documentclass[a4paper,10pt,pdflatex,ja=standard,jafont=ipaex-type1,
   magstyle=real,scale=1]{bxjsarticle}
 \usepackage{lmodern}
@@ -169,7 +169,7 @@ $$
 $$
 
 \newpage
-% Reserve the upper half of page 2 for the remaining summary.
+% 2ページ目の上半分に授業要約と例題の続きを置く。
 \noindent\begin{minipage}[b][\dimexpr0.5\textheight-\parskip\relax][t]{\linewidth}
 \topic{極限が存在すれば、その値を重積分と呼ぶ}
 \keybox{$N,M$ をともに限りなく大きくしたとき、$S_{N,M}(f)$ が有限の値に収束すれば、
@@ -206,7 +206,7 @@ $$
 三角形や円などでは、高さ1の積分 $\displaystyle\iint_D1\,dx\,dy$ は領域の面積になる。
 
 \end{minipage}\par\nointerlineskip
-% The lower half of page 2 is reserved for exercises and writing space.
+% 2ページ目の下半分に演習問題と書き込み用の余白を置く。
 \noindent\begin{minipage}[b][0.5\textheight][t]{\linewidth}
 \exercises
 \begin{problems}
@@ -231,81 +231,4 @@ $\iint_D1\,dx\,dy$ を図形の面積と重積分ともに求めて比較せよ�
 
 \end{problems}
 \end{minipage}
-\iffalse
-\newpage
-\handouttitle{第3回\quad 演習問題の解答}
-\begin{problems}
-\setlength{\itemsep}{10pt}
-\item 各小区間の幅は $\Delta=1/n$、右端は $i/n$ である。
-高さ $(i/n)^2$ に幅を掛けて足すと
-$$
- \sum_{i=1}^n\left(\frac in\right)^2\frac1n
- =\frac1{n^3}\sum_{i=1}^n i^2
- =\frac{n(n+1)(2n+1)}{6n^3}
- =\frac16\left(1+\frac1n\right)\left(2+\frac1n\right)
- \longrightarrow\frac13.
-$$
-したがって $\displaystyle\int_0^1 t^2\,dt=\frac13$ である。
-
-\item $\Delta_x=2/2=1$、$\Delta_y=3/3=1$ だから、小長方形の面積は $1$。
-小長方形は $2\cdot3=6$ 個あり、どの点でも高さは4なので
-$$
- S_{2,3}(f)=6\cdot4\cdot1=24.
-$$
-これは底面積 $2\cdot3=6$、高さ4の直方体の体積に一致する。
-
-\item $(x_i,y_j)=(i/N,j/M)$、$\Delta_x\Delta_y=1/(NM)$ である。
-$i/N$ は $j$ を変えても同じ値で $M$ 回現れ、$j/M$ は $N$ 回現れるので
-$$
- \begin{aligned}
- S_{N,M}(f)
- &=\frac1{NM}\sum_{i=1}^N\sum_{j=1}^M
-   \left(\frac iN+\frac jM\right)\\
- &=\frac1{NM}\left(\frac MN\sum_{i=1}^N i
-   +\frac NM\sum_{j=1}^M j\right)\\
- &=\frac{N+1}{2N}+\frac{M+1}{2M}
- =1+\frac1{2N}+\frac1{2M}\longrightarrow1.
- \end{aligned}
-$$
-したがって $\displaystyle\iint_{[0,1]^2}(x+y)\,dx\,dy=1$ である。
-
-\item 右上の点は $(1/2,1/2),(1/2,1),(1,1/2),(1,1)$。
-それぞれの高さは $1/4,1/2,1/2,1$ で、底面積はすべて $1/4$ なので
-$$
- S_{2,2}(f)=\frac14\left(\frac14+\frac12+\frac12+1\right)=\frac9{16}.
-$$
-重積分の値 $1/4=4/16$ より $5/16$ 大きい。
-各小長方形の右上で $xy$ が最も大きくなるため、体積を大きく見積もっている。
-$N,M$ を大きくすると、例題の式により和は $1/4$ に近づく。
-
-\item $D$ は頂点 $(0,0),(1,0),(1,1)$ をもつ、底辺・高さがともに1の直角三角形である。
-面積は $\frac12\cdot1\cdot1=\frac12$。高さ1の積分はこの面積に等しく、0延長は
-$$
- \iint_D1\,dx\,dy=\frac12,\qquad
- \widetilde f(x,y)=\begin{cases}
-  1,&0\le y\le x\le1,\\
-  0,&0\le x<y\le1
- \end{cases}
- \quad((x,y)\in[0,1]^2).
-$$
-対角線 $y=x$ 上も $D$ に含まれるので、そこでの値は1とする。
-
-\item $\Delta_x=2/N$、$\Delta_y=1/M$、$(x_i,y_j)=(2i/N,j/M)$ である。
-$i^2$ は $j$ に依存せず、$j$ は $i$ に依存しないので、二重和を二つの和の積に分ける。
-$$
- \begin{aligned}
- S_{N,M}(f)
- &=\sum_{i=1}^N\sum_{j=1}^M
-   \left(\frac{2i}{N}\right)^2\frac jM\cdot\frac2{NM}
- =\frac8{N^3M^2}\left(\sum_{i=1}^N i^2\right)
-   \left(\sum_{j=1}^M j\right)\\
- &=\frac8{N^3M^2}\cdot\frac{N(N+1)(2N+1)}6
-   \cdot\frac{M(M+1)}2\\
- &=\frac23\left(1+\frac1N\right)\left(2+\frac1N\right)
-   \left(1+\frac1M\right)\longrightarrow\frac43.
- \end{aligned}
-$$
-よって $\displaystyle\iint_{[0,2]\times[0,1]}x^2y\,dx\,dy=\frac43$ である。
-\end{problems}
-\fi
 \end{document}

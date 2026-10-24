@@ -1,4 +1,4 @@
-% Build twice in this directory: pdflatex -interaction=nonstopmode -halt-on-error class12_handout.tex
+% このディレクトリで2回実行：pdflatex -interaction=nonstopmode -halt-on-error class12_handout.tex
 \documentclass[a4paper,10pt,pdflatex,ja=standard,jafont=ipaex-type1,
   magstyle=real,scale=1]{bxjsarticle}
 \usepackage{lmodern}
@@ -209,7 +209,7 @@ $$
 \par\vspace{2pt}
 
 \end{minipage}\par\nointerlineskip
-% Keep the exercises and writing space in the lower half of page 2.
+% 2ページ目の下半分に演習問題と書き込み用の余白を置く。
 \noindent\begin{minipage}[b][0.5\textheight][t]{\linewidth}
 \exercises
 \begin{problems}
@@ -232,56 +232,4 @@ $$
 \problemspace
 \end{problems}
 \end{minipage}
-
-\newpage
-\handouttitle{第12回\quad 演習問題の解答}
-{\small 設定した範囲と条件も確認しながら、計算を振り返ろう。}\par
-\begin{problems}
-\setlength{\itemsep}{7pt}
-\item 順向きは $\vec r(t)=(-1+t,1)$、逆向きは $\widetilde{\vec r}(t)=(-t,1)$
-（どちらも $0\le t\le1$）。速度はそれぞれ $(1,0)$、$(-1,0)$ である。
-
-\item $0\le t\le2\pi$ として
-$$
- \vec r_+(t)=(a\cos t,b\sin t),\qquad
- \vec r_-(t)=(a\cos t,-b\sin t).
-$$
-どちらも $t=0$ の位置は $(a,0)$。速度は $(0,b)$ と $(0,-b)$ なので、
-右端から上へ進む前者が反時計回り、下へ進む後者が時計回りとなる。
-
-\item $\vec r(x,y)=(x,y,x^2+y^2)$（$x^2+y^2\le1$）とおくと
-$$
- \vec r_x=(1,0,2x),\quad \vec r_y=(0,1,2y),\quad
- \vec N=(-2x,-2y,1).
-$$
-第3成分が正なので上向きであり、
-$$
- \vec n=\frac{(-2x,-2y,1)}{\sqrt{1+4x^2+4y^2}},\qquad
- dS=\sqrt{1+4x^2+4y^2}\,dx\,dy.
-$$
-
-\item $\vec r(\theta,z)=(R\cos\theta,R\sin\theta,z)$、
-$0\le\theta<2\pi$、$0\le z\le H$ とすれば
-$$
- \vec r_\theta=(-R\sin\theta,R\cos\theta,0),\quad \vec r_z=(0,0,1),\quad
- \vec r_\theta\times\vec r_z=(R\cos\theta,R\sin\theta,0).
-$$
-軸から外へ向くので外向き。順序を交換すると内向きとなるが、$dS=R\,d\theta\,dz$ の大きさは同じ。
-
-\item 接ベクトルと外積は
-$$
- \begin{aligned}
- \vec r_\alpha&=(\cos\alpha\cos\theta,\cos\alpha\sin\theta,-\sin\alpha),\\
- \vec r_\theta&=(-\sin\alpha\sin\theta,\sin\alpha\cos\theta,0),\\
- \vec r_\alpha\times\vec r_\theta&=\sin\alpha\,\vec r.
- \end{aligned}
-$$
-$0<\alpha<\pi$ では $\sin\alpha>0$ なので外向きで、$dS=\sin\alpha\,d\alpha\,d\theta$。
-極は表示が退化するだけなので、別の局所表示で覆える。面積分では面積0の2点を除いて計算してよい。
-
-\item 上面の外向き法線は $+z$ 方向なので、境界は $+z$ 側から見て反時計回り。
-下面の外向き法線は $-z$ 方向なので、同じ $+z$ 側から見ると時計回りである。
-法線を親指に合わせた右手の指の曲がる方向が、各境界の正の向きとなる。
-\end{problems}
-\keybox{法線を指定された向きに合わせてから境界を決めよう。外積を交換したとき、法線と流束の符号は反転し、面積は変わらない。}
 \end{document}

@@ -1,4 +1,4 @@
-% Build twice in this directory: pdflatex -interaction=nonstopmode -halt-on-error class5_handout.tex
+% このディレクトリで2回実行：pdflatex -interaction=nonstopmode -halt-on-error class5_handout.tex
 \documentclass[a4paper,10pt,pdflatex,ja=standard,jafont=ipaex-type1,
   magstyle=real,scale=1]{bxjsarticle}
 \usepackage{lmodern}
@@ -228,7 +228,7 @@ $$
 \par\vspace{2pt}
 
 \end{minipage}\par\nointerlineskip
-% Keep the exercises and writing space in the lower half of page 2.
+% 2ページ目の下半分に演習問題と書き込み用の余白を置く。
 \noindent\begin{minipage}[b][0.5\textheight][t]{\linewidth}
 \exercises
 \begin{problems}
@@ -251,54 +251,4 @@ $$
 \problemspace
 \end{problems}
 \end{minipage}
-
-\newpage
-\handouttitle{第5回\quad 演習問題の解答}
-{\small 設定した範囲と条件も確認しながら、計算を振り返ろう。}\par
-\begin{problems}
-\setlength{\itemsep}{7pt}
-\item $p\ne1$ では原始関数は $x^{1-p}/(1-p)$。したがって
-$$
- \int_\varepsilon^1x^{-p}\,dx=\frac{1-\varepsilon^{1-p}}{1-p},\qquad
- \int_1^Rx^{-p}\,dx=\frac{R^{1-p}-1}{1-p}.
-$$
-$\varepsilon\downarrow0$ の極限は $p<1$ のとき $1/(1-p)$、それ以外は $+\infty$。
-$R\to\infty$ の極限は $p>1$ のとき $1/(p-1)$、それ以外は $+\infty$ である。
-$p=1$ では、それぞれ $-\log\varepsilon$、$\log R$ なので両方とも発散する。
-
-\item 最初は $p=1/2<1$ なので収束し、後者は端点 $x=1$ で発散する。
-$$
- \int_0^1\frac{dx}{\sqrt x}=\lim_{\varepsilon\downarrow0}2(1-\sqrt\varepsilon)=2,\qquad
- \int_0^{1-\varepsilon}\frac{dx}{1-x}=-\log\varepsilon\longrightarrow+\infty.
-$$
-
-\item $1/\{x(x+1)\}=1/x-1/(x+1)$ より
-$$
- \int_1^R\frac{dx}{x(x+1)}
- =\log\frac R{R+1}+\log2\longrightarrow\log2.
-$$
-比較 $0\le1/\{x(x+1)\}\le1/x^2$ でも、収束を先に確認できる。
-
-\item 左側は $\int_{-1}^{-\varepsilon}dx/x=\log\varepsilon\to-\infty$、
-右側は $\int_\varepsilon^1dx/x=-\log\varepsilon\to+\infty$。
-両側が別々には収束しないため、通常の広義積分は発散する。
-一方、同じ $\varepsilon$ を用いた和は常に0で、極限も0。この値をコーシーの主値という。
-
-\item 被積分関数は非負。トネリの定理、または長方形上の積分の極限を使うと
-$$
- \iint_{(0,1]^2}x^{-p}y^{-q}\,dx\,dy
- =\left(\int_0^1x^{-p}\,dx\right)\left(\int_0^1y^{-q}\,dy\right).
-$$
-収束条件は $p<1$ かつ $q<1$、値は $1/\{(1-p)(1-q)\}$。
-一方でも条件を満たさなければ、もう一方の変数を $[1/2,1]$ に制限しても積分は発散する。
-
-\item 非負の連続関数なので、トネリの定理で累次積分にできる。
-$$
- \iint_{\mathbb R^2}\frac{dx\,dy}{(1+x^2)(1+y^2)}
- =\left(\int_{-\infty}^\infty\frac{dt}{1+t^2}\right)^2
- =\left([\arctan t]_{-\infty}^\infty\right)^2=\pi^2.
-$$
-値が有限なので、絶対可積分性も確認できた。
-\end{problems}
-\keybox{特異点では左右を別々に判定しよう。非負関数の積分では、有限の値が得られた時点で収束も分かる。}
 \end{document}

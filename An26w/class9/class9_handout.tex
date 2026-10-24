@@ -1,4 +1,4 @@
-% Build twice in this directory: pdflatex -interaction=nonstopmode -halt-on-error class9_handout.tex
+% このディレクトリで2回実行：pdflatex -interaction=nonstopmode -halt-on-error class9_handout.tex
 \documentclass[a4paper,10pt,pdflatex,ja=standard,jafont=ipaex-type1,
   magstyle=real,scale=1]{bxjsarticle}
 \usepackage{lmodern}
@@ -209,7 +209,7 @@ $$
 \par\vspace{2pt}
 
 \end{minipage}\par\nointerlineskip
-% Keep the exercises and writing space in the lower half of page 2.
+% 2ページ目の下半分に演習問題と書き込み用の余白を置く。
 \noindent\begin{minipage}[b][0.5\textheight][t]{\linewidth}
 \exercises
 \begin{problems}
@@ -232,53 +232,4 @@ $$
 \problemspace
 \end{problems}
 \end{minipage}
-
-\newpage
-\handouttitle{第9回\quad 演習問題の解答}
-{\small 設定した範囲と条件も確認しながら、計算を振り返ろう。}\par
-\begin{problems}
-\setlength{\itemsep}{7pt}
-\item $\vec a\times\vec b=(-1,-1,1)$、$|\vec a\times\vec b|=\sqrt3$。
-したがって平行四辺形の面積は $\sqrt3$、三角形の面積は $\sqrt3/2$。
-
-\item $f_x=2$、$f_y=-1$ なので、傾きの因子は $\sqrt{1+4+1}=\sqrt6$。
-投影領域の面積が2であることから
-$$
- \operatorname{Area}(S)=\int_0^1\int_0^2\sqrt6\,dy\,dx=2\sqrt6.
-$$
-
-\item $f_x=2x$、$f_y=2y$。極座標で
-$$
- \operatorname{Area}(S)=2\pi\int_0^1r\sqrt{1+4r^2}\,dr
- =\frac\pi6(5\sqrt5-1).
-$$
-置換 $u=1+4r^2$ により $du=8r\,dr$ となる。
-
-\item $f_x=y$、$f_y=x$ なので
-$$
- \operatorname{Area}(S)=\int_0^1\int_0^1\sqrt{1+x^2+y^2}\,dy\,dx.
-$$
-単位正方形上では $1\le\sqrt{1+x^2+y^2}\le\sqrt3$。
-この不等式を面積1の領域上で積分して $1\le\operatorname{Area}(S)\le\sqrt3$ を得る。
-
-\item $x+y>0$ では $(f_x,f_y)=(1,1)$、$x+y<0$ では $(-1,-1)$。
-どちらも面積要素は $\sqrt3\,dA$ である。
-折れ目 $x+y=0$ の両側に分けて積分し、面積0の共通境界は重ねて数えない。
-$$
- \operatorname{Area}(S)=\sqrt3\,\operatorname{Area}([-1,1]^2)=4\sqrt3.
-$$
-
-\item $r<R$ では $f_x=-x/\sqrt{R^2-r^2}$、$f_y=-y/\sqrt{R^2-r^2}$ より
-$$
- \sqrt{1+f_x^2+f_y^2}=\frac R{\sqrt{R^2-r^2}}.
-$$
-したがって半径 $b<R$ の投影領域に対応する面積は
-$$
- A(b)=2\pi R\int_0^b\frac{r}{\sqrt{R^2-r^2}}\,dr
- =2\pi R\left(R-\sqrt{R^2-b^2}\right).
-$$
-$b\uparrow R$ として上半球の面積は $2\pi R^2$。
-赤道付近でグラフの傾きは発散するが、面積の広義積分は収束する。
-\end{problems}
-\keybox{曲面積は非負で、グラフなら投影面積以上になる。折れ目は部分に分け、表示が退化する場所は極限や別の表示で扱おう。}
 \end{document}

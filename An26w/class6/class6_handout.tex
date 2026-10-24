@@ -1,4 +1,4 @@
-% Build twice in this directory: pdflatex -interaction=nonstopmode -halt-on-error class6_handout.tex
+% このディレクトリで2回実行：pdflatex -interaction=nonstopmode -halt-on-error class6_handout.tex
 \documentclass[a4paper,10pt,pdflatex,ja=standard,jafont=ipaex-type1,
   magstyle=real,scale=1]{bxjsarticle}
 \usepackage{lmodern}
@@ -225,7 +225,7 @@ $a,b>0$、$x=ar\cos\theta$、$y=br\sin\theta$ なら $|J_T|=ab r$。
 \par\vspace{2pt}
 
 \end{minipage}\par\nointerlineskip
-% Keep the exercises and writing space in the lower half of page 2.
+% 2ページ目の下半分に演習問題と書き込み用の余白を置く。
 \noindent\begin{minipage}[b][0.5\textheight][t]{\linewidth}
 \exercises
 \begin{problems}
@@ -248,58 +248,4 @@ $a,b>0$、$x=ar\cos\theta$、$y=br\sin\theta$ なら $|J_T|=ab r$。
 \problemspace
 \end{problems}
 \end{minipage}
-
-\newpage
-\handouttitle{第6回\quad 演習問題の解答}
-{\small 設定した範囲と条件も確認しながら、計算を振り返ろう。}\par
-\begin{problems}
-\setlength{\itemsep}{7pt}
-\item $J_T=\det\begin{pmatrix}3&1\\1&-2\end{pmatrix}=-7$。
-したがって単位正方形の像の面積は $|-7|\cdot1=7$。
-負の符号は向きの反転を表し、面積自体は正である。
-
-\item $x^2+y^2=r^2$、$dA=r\,dr\,d\theta$ より
-$$
- \iint_{x^2+y^2\le1}(x^2+y^2)\,dA
- =\int_0^{2\pi}\int_0^1r^3\,dr\,d\theta=\frac\pi2.
-$$
-
-\item 円環では $1\le r\le2$、$0\le\theta<2\pi$ である。したがって
-$$
- \iint_D\frac{dA}{x^2+y^2}
- =\int_0^{2\pi}\int_1^2\frac1{r^2}r\,dr\,d\theta=2\pi\log2.
-$$
-原点は領域に含まれないので、この領域上に特異点はない。
-
-\item $x=ar\cos\theta$、$y=br\sin\theta$、$|J_T|=ab r$ とおく。
-範囲は $0\le r\le1$、$0\le\theta<2\pi$。
-$$
- \operatorname{Area}(D)=ab\int_0^{2\pi}\int_0^1r\,dr\,d\theta=\pi ab,
-$$
-$$
- \iint_Dx^2\,dA
- =a^3b\left(\int_0^1r^3\,dr\right)
-         \left(\int_0^{2\pi}\cos^2\theta\,d\theta\right)=\frac{\pi a^3b}{4}.
-$$
-
-\item 積分に使うのは逆変換 $x=(u+v)/2$、$y=(u-v)/2$ であり、
-$\det\partial(x,y)/\partial(u,v)=-1/2$。
-$D$ は $0\le u\le2,\ 0\le v\le1$ に移るので
-$$
- \iint_D(x+y)\,dA=\frac12\int_0^2\int_0^1u\,dv\,du=1.
-$$
-
-\item $DT=\begin{pmatrix}2u&-2v\\2v&2u\end{pmatrix}$ なので $|J_T|=4(u^2+v^2)$。
-$u=s\cos\theta$、$v=s\sin\theta$ と書くと
-$$
- T(u,v)=(s^2\cos2\theta,s^2\sin2\theta).
-$$
-像は単位円板で、原点以外の各点を2回覆う。したがって
-$$
- \iint_{u^2+v^2\le1}|J_T|\,du\,dv
- =\int_0^{2\pi}\int_0^1 4s^3\,ds\,d\theta=2\pi.
-$$
-像の面積 $\pi$ の2倍となる。原点だけは像の重複回数が1だが、面積0なので影響しない。
-\end{problems}
-\keybox{変換後の関数・領域・面積要素を一組にしよう。変換が多対1なら、面積を重複して数えていないか確認する。}
 \end{document}

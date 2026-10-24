@@ -1,4 +1,4 @@
-% Build twice in this directory: pdflatex -interaction=nonstopmode -halt-on-error class11_handout.tex
+% このディレクトリで2回実行：pdflatex -interaction=nonstopmode -halt-on-error class11_handout.tex
 \documentclass[a4paper,10pt,pdflatex,ja=standard,jafont=ipaex-type1,
   magstyle=real,scale=1]{bxjsarticle}
 \usepackage{lmodern}
@@ -211,7 +211,7 @@ $$
 \par\vspace{2pt}
 
 \end{minipage}\par\nointerlineskip
-% Keep the exercises and writing space in the lower half of page 2.
+% 2ページ目の下半分に演習問題と書き込み用の余白を置く。
 \noindent\begin{minipage}[b][0.5\textheight][t]{\linewidth}
 \exercises
 \begin{problems}
@@ -234,52 +234,4 @@ $$
 \problemspace
 \end{problems}
 \end{minipage}
-
-\newpage
-\handouttitle{第11回\quad 演習問題の解答}
-{\small 設定した範囲と条件も確認しながら、計算を振り返ろう。}\par
-\begin{problems}
-\setlength{\itemsep}{7pt}
-\item $\vec r(t)=(R\cos t,R\sin t)$（$0\le t\le2\pi$）なら $|\vec r'|=R$。
-$$
- \int_C1\,ds=2\pi R,\qquad
- \int_Cx^2\,ds=R^3\int_0^{2\pi}\cos^2t\,dt=\pi R^3.
-$$
-
-\item $\vec r'=(1,2t)$ なので $ds=\sqrt{1+4t^2}\,dt$。したがって
-$$
- \int_Cx\,ds=\int_0^1t\sqrt{1+4t^2}\,dt
- =\left[\frac{(1+4t^2)^{3/2}}{12}\right]_0^1=\frac{5\sqrt5-1}{12}.
-$$
-
-\item 時計回りを $\vec r(t)=(\cos t,-\sin t)$（$0\le t\le2\pi$）で表す。
-$\vec F(\vec r)=(\sin t,\cos t)$、$\vec r'=(-\sin t,-\cos t)$ なので
-$$
- \oint_C\vec F\cdot d\vec r=\int_0^{2\pi}(-1)\,dt=-2\pi.
-$$
-向きを反転したため、反時計回りの値 $2\pi$ の符号が逆になった。
-
-\item 線分を $\vec r(t)=(t,2t)$（$0\le t\le1$）とすれば
-$$
- \int_C\vec F\cdot d\vec r=\int_0^1(t,2t)\cdot(1,2)\,dt=\frac52.
-$$
-また $\phi=(x^2+y^2)/2$ と取れるので、$\phi(1,2)-\phi(0,0)=5/2$ と一致する。
-
-\item $\phi_x=2xy$ より $\phi=x^2y+h(y)$。
-$\phi_y=x^2+h'(y)=x^2+2y$ から $h(y)=y^2+C$ を得る。
-$\phi=x^2y+y^2$ と選べば、どの経路でも
-$$
- \int_C\vec F\cdot d\vec r=\phi(1,2)-\phi(0,0)=2+4=6.
-$$
-
-\item 対角線では $\vec r(t)=(t,t)$ として
-$\vec F\cdot\vec r'=(-t,t)\cdot(1,1)=0$ なので仕事は0。
-折れ線の最初の辺 $(t,0)$ でも内積は0だが、次の辺 $(1,t)$ では
-$$
- \int_0^1\vec F(1,t)\cdot(0,1)\,dt
- =\int_0^1(-t,1)\cdot(0,1)\,dt=1.
-$$
-同じ始点・終点でも値が異なるため、この場の仕事は経路に依存する。
-\end{problems}
-\keybox{弧長積分には速さ、仕事には速度ベクトルを使う。仕事の向きを逆にしたら、答えの符号も反転するか確認しよう。}
 \end{document}

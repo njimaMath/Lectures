@@ -1,4 +1,4 @@
-% Build twice in this directory: pdflatex -interaction=nonstopmode -halt-on-error class7_handout.tex
+% このディレクトリで2回実行：pdflatex -interaction=nonstopmode -halt-on-error class7_handout.tex
 \documentclass[a4paper,10pt,pdflatex,ja=standard,jafont=ipaex-type1,
   magstyle=real,scale=1]{bxjsarticle}
 \usepackage{lmodern}
@@ -214,7 +214,7 @@ $$
 \par\vspace{2pt}
 
 \end{minipage}\par\nointerlineskip
-% Keep the exercises and writing space in the lower half of page 2.
+% 2ページ目の下半分に演習問題と書き込み用の余白を置く。
 \noindent\begin{minipage}[b][0.5\textheight][t]{\linewidth}
 \exercises
 \begin{problems}
@@ -237,53 +237,4 @@ $$
 \problemspace
 \end{problems}
 \end{minipage}
-
-\newpage
-\handouttitle{第7回\quad 演習問題の解答}
-{\small 設定した範囲と条件も確認しながら、計算を振り返ろう。}\par
-\begin{problems}
-\setlength{\itemsep}{7pt}
-\item 投影領域は単位円板、下面は $z=0$、上面は $z=1-r^2$。
-$$
- \operatorname{Vol}(V)=\int_0^{2\pi}\int_0^1(1-r^2)r\,dr\,d\theta
- =2\pi\left(\frac12-\frac14\right)=\frac\pi2.
-$$
-
-\item $0\le s\le R$、$0\le\alpha\le\pi$、$0\le\theta<2\pi$ として
-$$
- \operatorname{Vol}(V)
- =\int_0^{2\pi}\int_0^\pi\int_0^R s^2\sin\alpha\,ds\,d\alpha\,d\theta
- =2\pi\cdot2\cdot\frac{R^3}{3}=\frac{4\pi R^3}{3}.
-$$
-上下のグラフを用いた1ページの計算と一致する。
-
-\item 円柱の体積は $\pi\cdot1^2\cdot2=2\pi$ なので、一定密度では $M=2\pi\rho_0$。
-密度が $\rho=z$ の場合は
-$$
- M=\int_0^{2\pi}\int_0^1\int_0^2z r\,dz\,dr\,d\theta
- =2\pi\cdot\frac12\cdot2=2\pi.
-$$
-
-\item $x$ を固定すると $0\le y\le1-x$、さらに $0\le z\le1-x-y$。
-$$
- \operatorname{Vol}(V)=\int_0^1\int_0^{1-x}\int_0^{1-x-y}1\,dz\,dy\,dx
- =\frac12\int_0^1(1-x)^2\,dx=\frac16.
-$$
-
-\item $x,y$ 方向の積分はどちらも1となるので
-$$
- M=\int_0^1(1+z)\,dz=\frac32,\qquad
- \iiint_Vz\rho\,dV=\int_0^1(z+z^2)\,dz=\frac56.
-$$
-したがって $\overline z=(5/6)/(3/2)=5/9$。上側ほど重いため、$\overline z>1/2$ となる。
-
-\item 密度は $\rho=s^2$。体積要素の $s^2\sin\alpha$ も忘れずに掛ける。
-$$
- M=\int_0^{2\pi}\int_0^\pi\int_0^R s^4\sin\alpha\,ds\,d\alpha\,d\theta
- =\frac{4\pi R^5}{5}.
-$$
-球と密度は各座標の符号反転に対して不変である。
-$x\rho,y\rho,z\rho$ の積分はそれぞれ0なので、重心は原点となる。
-\end{problems}
-\keybox{重心は密度を掛けた一次モーメントを質量で割ったもの。対称性を使うときは、形と密度の両方を確認しよう。}
 \end{document}

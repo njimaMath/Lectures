@@ -1,4 +1,4 @@
-% Build twice in this directory: pdflatex -interaction=nonstopmode -halt-on-error class10_handout.tex
+% このディレクトリで2回実行：pdflatex -interaction=nonstopmode -halt-on-error class10_handout.tex
 \documentclass[a4paper,10pt,pdflatex,ja=standard,jafont=ipaex-type1,
   magstyle=real,scale=1]{bxjsarticle}
 \usepackage{lmodern}
@@ -206,7 +206,7 @@ $$
 \par\vspace{2pt}
 
 \end{minipage}\par\nointerlineskip
-% Keep the exercises and writing space in the lower half of page 2.
+% 2ページ目の下半分に演習問題と書き込み用の余白を置く。
 \noindent\begin{minipage}[b][0.5\textheight][t]{\linewidth}
 \exercises
 \begin{problems}
@@ -229,51 +229,4 @@ $$
 \problemspace
 \end{problems}
 \end{minipage}
-
-\newpage
-\handouttitle{第10回\quad 演習問題の解答}
-{\small 設定した範囲と条件も確認しながら、計算を振り返ろう。}\par
-\begin{problems}
-\setlength{\itemsep}{7pt}
-\item $\nabla f=(2x,4y,6z)$。点 $(1,1,1)$ では $(2,4,6)$ となり、
-最大の方向微分は $\sqrt{4+16+36}=2\sqrt{14}$。
-その方向の単位ベクトルは $(1,2,3)/\sqrt{14}$ である。
-
-\item 成分ごとに微分すると
-$$
- \operatorname{div}\vec F=y+z+x,\qquad
- \operatorname{curl}\vec F=(-y,-z,-x).
-$$
-発散は実数を値とするスカラー場、回転は3成分のベクトル場である。
-
-\item $\operatorname{div}\vec F=0$、$\operatorname{curl}\vec F=\vec0$。
-ポテンシャルは $\phi=xyz$ と取れる。実際、
-$$
- \nabla(xyz)=(yz,xz,xy)=\vec F.
-$$
-この場は $\mathbb R^3$ 全体で定義されている。
-
-\item $\nabla f=(2x,-2y,2z)=\vec0$ となるのは原点だけ。
-しかし $f(t,0,0)=t^2>0$、$f(0,t,0)=-t^2<0$（$t\ne0$）なので、
-原点のどの近傍にも正の値と負の値がある。原点は極大でも極小でもなく、鞍点である。
-
-\item $f\in C^2$ では混合偏微分が交換できるため、各成分は
-$$
- \nabla\times(\nabla f)
- =(\partial_y\partial_zf-\partial_z\partial_yf,\
-   \partial_z\partial_xf-\partial_x\partial_zf,\
-   \partial_x\partial_yf-\partial_y\partial_xf)=\vec0.
-$$
-これで3成分すべてが0であることが確かめられた。
-
-\item $\vec A=(0,0,h)$ に対して $\nabla\times\vec A=(h_y,-h_x,0)$。
-$h=-(x^2+y^2)/2$ とすれば
-$$
- \vec A=\left(0,0,-\frac{x^2+y^2}{2}\right),\qquad
- \nabla\times\vec A=(-y,x,0)=\vec F.
-$$
-一方、$\nabla\times\vec F=(0,0,2)\ne\vec0$ なので、
-この $\vec F$ を勾配として表すスカラーポテンシャルは存在しない。
-\end{problems}
-\keybox{発散0と回転0は別々の条件。回転0からポテンシャルの存在を結論するときは、定義域に関する仮定も必要になる。}
 \end{document}

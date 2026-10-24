@@ -1,4 +1,4 @@
-% Build twice in this directory: pdflatex -interaction=nonstopmode -halt-on-error class4_handout.tex
+% このディレクトリで2回実行：pdflatex -interaction=nonstopmode -halt-on-error class4_handout.tex
 \documentclass[a4paper,10pt,pdflatex,ja=standard,jafont=ipaex-type1,
   magstyle=real,scale=1]{bxjsarticle}
 \usepackage{lmodern}
@@ -59,7 +59,7 @@
 \newcommand{\exercises}{%
   {\color{accent}\hrule height 0.7pt}\vspace{3pt}%
   \topic{演習問題（6題）}%
-  {\small 領域と積分範囲を確認し、計算過程も書こう。図を描くと範囲を読み取りやすい。}\par}
+\par}
 \tikzset{
   handout diagram/.style={>={Stealth[length=3.2pt,width=3.2pt]},line join=round,
     every node/.style={font=\scriptsize,text=ink}},
@@ -73,8 +73,7 @@
 \setlength{\abovedisplayskip}{4pt}
 \setlength{\belowdisplayskip}{4pt}
 \handout{4}{重積分の計算と累次積分}
-\keybox{到達目標：領域の図から積分範囲を読み取り、累次積分を計算できる。
-同じ領域を縦・横の両方に切って表し、計算しやすい順序を選ぼう。}
+\keybox{到達目標：累次積分を計算できる。}
 
 \topic{長方形上の累次積分}
 $a<b$、$c<d$ とし、長方形 $K=[a,b]\times[c,d]$ 上で実数値関数 $f$ が連続とする。
@@ -87,14 +86,11 @@ $$
 \noindent\begin{minipage}[c]{0.65\linewidth}
 内側の積分では、外側の変数を定数として扱う。
 右図では $x=x_0$ を固定して $y$ を $c$ から $d$ まで動かし、
-その結果を $x$ について積分する。
+その後 $x$ について積分する。\\
 
-連続関数 $g,h$ に対し $f(x,y)=g(x)h(y)$ なら
-$$
- \iint_K g(x)h(y)\,dx\,dy
- =\left(\int_a^bg(x)\,dx\right)\left(\int_c^dh(y)\,dy\right).
-$$
-例えば $\displaystyle\iint_{[0,1]^2}xy\,dx\,dy=\frac12\cdot\frac12=\frac14$。
+\examplelabel{例：}
+ $$\displaystyle\iint_{[0,1]^2}xy\,dx\,dy =\int_0^1\left(\int_0^1 xy\,dy\right)dx
+= \frac12\cdot\frac12=\frac14.$$
 \end{minipage}\hfill
 \begin{minipage}[c]{0.32\linewidth}
 \centering
@@ -231,7 +227,7 @@ $$
 順序を変えても領域は同じなので、積分値も一致する。}
 
 \newpage
-% Reserve the upper half of page 2 for the remaining summary.
+% 2ページ目の上半分に授業要約と例題の続きを置く。
 \noindent\begin{minipage}[b][\dimexpr0.5\textheight-\parskip\relax][t]{\linewidth}
 \topic{計算しやすい順序を選ぶ}
 \noindent\begin{minipage}[c]{0.73\linewidth}
@@ -291,110 +287,31 @@ $$
  \node at (0.5,-0.4) {$+$};
 \end{tikzpicture}
 \end{minipage}\par
-\keybox{領域を描く → 外側の変数の範囲を決める → 切り口の両端を読む → 積分する。
-切り口の境界が途中で変わるときは、その位置で領域を分けて足し合わせよう。}
-{\small\color{muted}補足：ルベーグ積分では、可測集合 $D$ 上の可測関数 $f$ に対し、
-$\iint_D|f|<\infty$ ならフビニの定理で順序を交換できる。
-$f\ge0$ ならトネリの定理が使え、積分値が $\infty$ でもよい。}\par
+
+\par
 \end{minipage}\par\nointerlineskip
-% Reserve the lower half of page 2 for exercises and writing space.
+% 2ページ目の下半分に演習問題と書き込み用の余白を置く。
 \noindent\begin{minipage}[b][0.5\textheight][t]{\linewidth}
 \exercises
 \begin{problems}
-\item $\displaystyle\iint_{[-1,1]\times[0,2]}(2x+1)y\,dx\,dy$ を、2通りの積分順序で計算せよ。
+\item \examplelabel{内側の積分。}
+$I=\displaystyle\int_0^1\left(\int_0^2(2x+y)\,dy\right)dx$ を求め、積分順序を交換した式も書け。
 \problemspace
-\item $D=\{(x,y):0\le y\le x\le1\}$ とする。
-$\iint_D(x+y)\,dx\,dy$ を求め、順序を交換した式も書け。
+\item \examplelabel{三角形の領域。}
+$D=\{(x,y):0\le y\le x\le1\}$ を描き、$\iint_D(2x+y)\,dx\,dy$ を2通りの積分順序で計算せよ。
 \problemspace
-\item $D=\{(x,y):0\le x\le1,\ x^2\le y\le x\}$ を描き、$\iint_Dxy\,dx\,dy$ を求めよ。
+\item \examplelabel{曲線に囲まれた領域。}
+$D=\{(x,y):0\le x\le1,\ x^2\le y\le x\}$ を描き、横に切ったときの積分範囲を示せ。また、$\iint_Dxy\,dx\,dy$ を求めよ。
 \problemspace
-\item $\displaystyle\int_0^1\left(\int_y^1e^{x^2}\,dx\right)dy$ の領域を描き、積分順序を変えて計算せよ。
+\item \examplelabel{計算しやすい順序。}
+$I=\displaystyle\int_0^1\left(\int_{\sqrt y}^1e^{x^3}\,dx\right)dy$ の領域を描き、積分順序を変えて計算せよ。
 \problemspace
-\item $D=\{(x,y):x\ge0,\ y\ge0,\ x+y\le1\}$ 上の $\iint_Dx^2\,dx\,dy$ を求めよ。
+\item \examplelabel{直線で囲まれた領域。}
+$D=\{(x,y):x\ge0,\ y\ge0,\ x+y\le1\}$ 上の $\iint_D(1+x)\,dx\,dy$ を求めよ。
 \problemspace
-\item 円板 $D=\{(x,y):x^2+y^2\le1\}$ 上の $\iint_Dxe^{x^2+y^2}\,dx\,dy$ を、対称性から求めよ。
+\item \examplelabel{対称性で消える項。}
+$D=[-1,1]\times[-1,1]$ 上の $I=\iint_D\bigl(xe^{x^2+y^2}+y^2\bigr)\,dx\,dy$ を、対称性を利用して求めよ。
 \problemspace
 \end{problems}
 \end{minipage}
-
-\newpage
-\handouttitle{第4回\quad 演習問題の解答}
-{\small 同じ領域を表せているか、図と不等式を照らし合わせて確認しよう。}\par
-\begin{problems}
-\setlength{\itemsep}{7pt}
-\item 長方形では、$x,y$ の範囲は互いに依存しない。
-$$
- \begin{aligned}
- \int_{-1}^1\left(\int_0^2(2x+1)y\,dy\right)dx
- &=2\int_{-1}^1(2x+1)\,dx=4,\\
- \int_0^2\left(\int_{-1}^1(2x+1)y\,dx\right)dy
- &=\int_0^2 2y\,dy=4.
- \end{aligned}
-$$
-
-\item 縦の切り口は $0\le y\le x$、横の切り口は $y\le x\le1$ である（1ページの図）。
-$$
- \begin{aligned}
- \iint_D(x+y)\,dx\,dy
- &=\int_0^1\left(\int_0^x(x+y)\,dy\right)dx
- =\frac32\int_0^1x^2\,dx=\frac12,\\
- &=\int_0^1\left(\int_y^1(x+y)\,dx\right)dy
- =\int_0^1\left(\frac12+y-\frac32y^2\right)dy=\frac12.
- \end{aligned}
-$$
-
-\item $0\le x\le1$ では $x^2\le x$。下側が $y=x^2$、上側が $y=x$ となる。
-\par\noindent\begin{minipage}[c]{0.72\linewidth}
-$$
- \begin{aligned}
- \iint_Dxy\,dx\,dy
- &=\int_0^1\left(\int_{x^2}^xxy\,dy\right)dx\\
- &=\frac12\int_0^1(x^3-x^5)\,dx=\frac1{24}.
- \end{aligned}
-$$
-横に切ると $0\le y\le1,\ y\le x\le\sqrt y$ であり、
-$$
- \int_0^1\left(\int_y^{\sqrt y}xy\,dx\right)dy=\frac1{24}.
-$$
-\end{minipage}\hfill
-\begin{minipage}[c]{0.26\linewidth}
-\centering
-\begin{tikzpicture}[handout diagram,x=2.6cm,y=2.3cm]
- \path[region] plot[domain=0:1,samples=45] (\x,{\x*\x}) -- cycle;
- \draw[slice] (0.36,0.36) -- (0.6,0.36);
- \draw[guide] (0,0.36) -- (0.36,0.36);
- \draw[axis] (0,0) -- (1.19,0) node[right] {$x$};
- \draw[axis] (0,0) -- (0,1.19) node[above] {$y$};
- \node[below left] at (0,0) {$0$};
- \node[below] at (1,0) {$1$};
- \node[left] at (0,1) {$1$};
- \draw[guide] (0,1) -- (1,1) -- (1,0);
- \node[above left] at (0.52,0.62) {$y=x$};
- \node[below right] at (0.66,0.43) {$y=x^2$};
-\end{tikzpicture}
-\end{minipage}\par
-
-\item 領域は $0\le y\le x\le1$ であり、問題2と同じ三角形である。
-$x$ を固定すると $0\le y\le x$ なので
-$$
- \int_0^1\left(\int_y^1e^{x^2}\,dx\right)dy
- =\int_0^1\left(\int_0^xe^{x^2}\,dy\right)dx
- =\int_0^1xe^{x^2}\,dx=\frac{e-1}{2}.
-$$
-
-\item 境界は座標軸と直線 $y=1-x$。縦に切ると $0\le x\le1,\ 0\le y\le1-x$。
-$$
- \iint_Dx^2\,dx\,dy
- =\int_0^1\left(\int_0^{1-x}x^2\,dy\right)dx
- =\int_0^1(x^2-x^3)\,dx=\frac1{12}.
-$$
-
-\item 円板 $D$ は $y$ 軸に関して対称であり、連続関数 $f(x,y)=xe^{x^2+y^2}$ は
-$f(-x,y)=-xe^{x^2+y^2}=-f(x,y)$ を満たす。したがって
-$$
- \iint_Dxe^{x^2+y^2}\,dx\,dy=0.
-$$
-\end{problems}
-\keybox{検算のヒント：問題2・3・5の被積分関数は各領域で非負なので、答えも非負になる。
-問題6では関数の符号だけでなく、左右の点がどちらも領域に含まれることが大切。}
 \end{document}

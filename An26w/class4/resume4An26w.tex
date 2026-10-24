@@ -1,4 +1,4 @@
-% Build twice here: pdflatex -interaction=nonstopmode -halt-on-error resume4An26w.tex
+% このディレクトリで2回実行：pdflatex -interaction=nonstopmode -halt-on-error resume4An26w.tex
 \documentclass[a4paper,10pt,pdflatex,ja=standard,jafont=ipaex-type1,
   magstyle=real,scale=1]{bxjsarticle}
 \usepackage{lmodern}
@@ -324,60 +324,70 @@ $f\ge0$ ならトネリの定理が使え、積分値が $\infty$ でもよい�
 \noindent\begin{minipage}[b][0.5\textheight][t]{\linewidth}
 \exercises
 \begin{problems}
-\item $\displaystyle\iint_{[-1,1]\times[0,2]}(2x+1)y\,dx\,dy$ を、2通りの積分順序で計算せよ。
+\item \examplelabel{内側の積分。}
+$I=\displaystyle\int_0^1\left(\int_0^2(2x+y)\,dy\right)dx$ を求め、積分順序を交換した式も書け。
 \problemspace
-\item $D=\{(x,y):0\le y\le x\le1\}$ とする。
-$\iint_D(x+y)\,dx\,dy$ を求め、順序を交換した式も書け。
+\item \examplelabel{三角形の領域。}
+$D=\{(x,y):0\le y\le x\le1\}$ を描き、$\iint_D(2x+y)\,dx\,dy$ を2通りの積分順序で計算せよ。
 \problemspace
-\item $D=\{(x,y):0\le x\le1,\ x^2\le y\le x\}$ を描き、$\iint_Dxy\,dx\,dy$ を求めよ。
+\item \examplelabel{曲線に囲まれた領域。}
+$D=\{(x,y):0\le x\le1,\ x^2\le y\le x\}$ を描き、横に切ったときの積分範囲を示せ。また、$\iint_Dxy\,dx\,dy$ を求めよ。
 \problemspace
-\item $\displaystyle\int_0^1\left(\int_y^1e^{x^2}\,dx\right)dy$ の領域を描き、積分順序を変えて計算せよ。
+\item \examplelabel{計算しやすい順序。}
+$I=\displaystyle\int_0^1\left(\int_{\sqrt y}^1e^{x^3}\,dx\right)dy$ の領域を描き、積分順序を変えて計算せよ。
 \problemspace
-\item $D=\{(x,y):x\ge0,\ y\ge0,\ x+y\le1\}$ 上の $\iint_Dx^2\,dx\,dy$ を求めよ。
+\item \examplelabel{直線で囲まれた領域。}
+$D=\{(x,y):x\ge0,\ y\ge0,\ x+y\le1\}$ 上の $\iint_D(1+x)\,dx\,dy$ を求めよ。
 \problemspace
-\item 円板 $D=\{(x,y):x^2+y^2\le1\}$ 上の $\iint_Dxe^{x^2+y^2}\,dx\,dy$ を、対称性から求めよ。
+\item \examplelabel{対称性で消える項。}
+$D=[-1,1]\times[-1,1]$ 上の $I=\iint_D\bigl(xe^{x^2+y^2}+y^2\bigr)\,dx\,dy$ を、対称性を利用して求めよ。
 \problemspace
 \end{problems}
 \end{minipage}
 
 \newpage
 \handouttitle{第4回\quad 演習問題の解答}
-{\small 同じ領域を表せているか、図と不等式を照らし合わせて確認しよう。}\par
+{\small 各問の被積分関数は対応する有界な閉領域上で連続なので、積分順序を交換できる。}\par
 \begin{problems}
-\setlength{\itemsep}{7pt}
-\item 長方形では、$x,y$ の範囲は互いに依存しない。
+\setlength{\itemsep}{5pt}
+\item \examplelabel{内側の積分。}
+内側では $x$ を定数として扱う。逆順では $y$ を定数として扱うので、
 $$
  \begin{aligned}
- \int_{-1}^1\left(\int_0^2(2x+1)y\,dy\right)dx
- &=2\int_{-1}^1(2x+1)\,dx=4,\\
- \int_0^2\left(\int_{-1}^1(2x+1)y\,dx\right)dy
- &=\int_0^2 2y\,dy=4.
+ \int_0^2(2x+y)\,dy
+ &=\left[2xy+\frac{y^2}{2}\right]_{y=0}^{y=2}=4x+2,\\
+ I&=\int_0^1(4x+2)\,dx=\left[2x^2+2x\right]_0^1=4,\\
+ I&=\int_0^2\left(\int_0^1(2x+y)\,dx\right)dy
+ =\int_0^2(1+y)\,dy=4.
  \end{aligned}
 $$
 
-\item 縦の切り口は $0\le y\le x$、横の切り口は $y\le x\le1$ である（\pageref{lesson-start}ページの図）。
+\item \examplelabel{三角形の領域。}
+$D$ の頂点は $(0,0),(1,0),(1,1)$。
+縦に切ると $0\le x\le1,\ 0\le y\le x$、
+横に切ると $0\le y\le1,\ y\le x\le1$ である。
 $$
  \begin{aligned}
- \iint_D(x+y)\,dx\,dy
- &=\int_0^1\left(\int_0^x(x+y)\,dy\right)dx
- =\frac32\int_0^1x^2\,dx=\frac12,\\
- &=\int_0^1\left(\int_y^1(x+y)\,dx\right)dy
- =\int_0^1\left(\frac12+y-\frac32y^2\right)dy=\frac12.
+ \iint_D(2x+y)\,dx\,dy
+ &=\int_0^1\left(\int_0^x(2x+y)\,dy\right)dx
+ =\int_0^1\frac52x^2\,dx=\frac56,\\
+ &=\int_0^1\left(\int_y^1(2x+y)\,dx\right)dy
+ =\int_0^1(1+y-2y^2)\,dy=\frac56.
  \end{aligned}
 $$
 
-\item $0\le x\le1$ では $x^2\le x$。下側が $y=x^2$、上側が $y=x$ となる。
+\item \examplelabel{曲線に囲まれた領域。}
+$x^2=x$ より交点は $(0,0),(1,1)$。この間で $x^2\le x$ となる。
 \par\noindent\begin{minipage}[c]{0.72\linewidth}
+横に切ると、$x\ge0$ と $x^2\le y\le x$ より
+$0\le y\le1,\ y\le x\le\sqrt y$ である。
 $$
  \begin{aligned}
  \iint_Dxy\,dx\,dy
  &=\int_0^1\left(\int_{x^2}^xxy\,dy\right)dx\\
- &=\frac12\int_0^1(x^3-x^5)\,dx=\frac1{24}.
+ &=\frac12\int_0^1(x^3-x^5)\,dx
+ =\frac12\left(\frac14-\frac16\right)=\frac1{24}.
  \end{aligned}
-$$
-横に切ると $0\le y\le1,\ y\le x\le\sqrt y$ であり、
-$$
- \int_0^1\left(\int_y^{\sqrt y}xy\,dx\right)dy=\frac1{24}.
 $$
 \end{minipage}\hfill
 \begin{minipage}[c]{0.26\linewidth}
@@ -397,27 +407,35 @@ $$
 \end{tikzpicture}
 \end{minipage}\par
 
-\item 領域は $0\le y\le x\le1$ であり、問題2と同じ三角形である。
-$x$ を固定すると $0\le y\le x$ なので
+\item \examplelabel{計算しやすい順序。}
+$0\le y\le1,\ \sqrt y\le x\le1$ は
+$0\le x\le1,\ 0\le y\le x^2$ と同じ領域で、放物線の下側である。
+内側では $e^{x^3}$ が定数となり、積分区間の長さは $x^2$ なので、
 $$
- \int_0^1\left(\int_y^1e^{x^2}\,dx\right)dy
- =\int_0^1\left(\int_0^xe^{x^2}\,dy\right)dx
- =\int_0^1xe^{x^2}\,dx=\frac{e-1}{2}.
+ I=\int_0^1\left(\int_0^{x^2}e^{x^3}\,dy\right)dx
+ =\int_0^1x^2e^{x^3}\,dx
+ =\frac13\int_0^1e^u\,du=\frac{e-1}{3}.
+$$
+ここで $u=x^3$、$du=3x^2\,dx$ と置いた。
+
+\item \examplelabel{直線で囲まれた領域。}
+頂点は $(0,0),(1,0),(0,1)$ で、$0\le x\le1,\ 0\le y\le1-x$ と表せる。
+$$
+ \begin{aligned}
+ \iint_D(1+x)\,dx\,dy
+ &=\int_0^1\left(\int_0^{1-x}(1+x)\,dy\right)dx\\
+ &=\int_0^1(1+x)(1-x)\,dx
+ =\left[x-\frac{x^3}{3}\right]_0^1=\frac23.
+ \end{aligned}
 $$
 
-\item 境界は座標軸と直線 $y=1-x$。縦に切ると $0\le x\le1,\ 0\le y\le1-x$。
+\item \examplelabel{対称性で消える項。}
+$y$ を固定すると、$(-x)e^{(-x)^2+y^2}=-xe^{x^2+y^2}$。
+$x$ の積分区間は $[-1,1]$ なので奇関数の積分は0となる。
 $$
- \iint_Dx^2\,dx\,dy
- =\int_0^1\left(\int_0^{1-x}x^2\,dy\right)dx
- =\int_0^1(x^2-x^3)\,dx=\frac1{12}.
-$$
-
-\item 円板 $D$ は $y$ 軸に関して対称であり、連続関数 $f(x,y)=xe^{x^2+y^2}$ は
-$f(-x,y)=-xe^{x^2+y^2}=-f(x,y)$ を満たす。したがって
-$$
- \iint_Dxe^{x^2+y^2}\,dx\,dy=0.
+ \int_{-1}^1xe^{x^2+y^2}\,dx=0,\qquad
+ I=\int_{-1}^1\left(\int_{-1}^1y^2\,dx\right)dy
+ =2\left[\frac{y^3}{3}\right]_{-1}^1=\frac43.
 $$
 \end{problems}
-\keybox{検算のヒント：問題2・3・5の被積分関数は各領域で非負なので、答えも非負になる。
-問題6では関数の符号だけでなく、左右の点がどちらも領域に含まれることが大切。}
 \end{document}
