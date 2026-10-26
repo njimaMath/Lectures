@@ -76,6 +76,14 @@
   {\color{accent}A. }#2%
   \end{minipage}\par}
 
+% 挿入する小テストにも、レジュメ全体で通したページ番号を付ける。
+\fancypagestyle{smalltestpages}{%
+  \fancyhf{}%
+  \fancyhead[L]{\small\color{ink}\coursename{}・小テスト}%
+  \fancyhead[R]{\small\color{ink}第3回}%
+  \fancyfoot[C]{\small\color{ink}\thepage/\pageref{LastPage}}%
+  \renewcommand{\headrulewidth}{0.3pt}}
+
 \begin{document}
 \fontsize{10pt}{13.5pt}\selectfont
 \setlength{\abovedisplayskip}{4pt}
@@ -86,11 +94,83 @@
 % \feedback{comment}{response}
 \clearpage
 
-% Previous small-test section: add the questions and solutions here.
-\fancyhead[L]{\small\color{ink}\coursename{}・小テスト}
-\fancyhead[R]{\small\color{ink}第3回}
-\handouttitle{第3回\quad 小テスト}
-% Questions and solutions are intentionally blank.
+% 第3回の小テストと解答を本体に直接記述する。
+\thispagestyle{smalltestpages}
+\handouttitle{第3回\quad 小テスト：区分求積法と重積分}
+
+学籍番号：\underline{\hspace{40mm}}\hfill
+氏名：\underline{\hspace{40mm}}
+
+$K=[0,1]\times[0,2]$ とする。次の重積分を区分求積法で求めよ。
+$x$ 方向を $N$ 等分、$y$ 方向を $M$ 等分し、各小長方形の左下の点で高さを決める。
+$N,M$ は正の整数とする。
+分割幅、小長方形の面積、リーマン和を書き、$N,M$ をそれぞれ独立に無限大にした極限を求めよ。
+
+
+公式 $\displaystyle\sum_{i=1}^{n} i =\frac{n(n+1)}2$, $\displaystyle\sum_{i=1}^{n} i^2=\frac{n(n+1)(2n+1)}6$（$n$ は正の整数）を用いてよい。
+
+\topic{問題}
+\begin{enumerate}[label=\color{accent}\arabic*.,leftmargin=2.4em,itemsep=9pt]
+\item $\displaystyle\iint_K y \,dx\,dy$\hfill（50点）
+\par\vspace{3mm}
+
+\item $\displaystyle\iint_K x^2 y\,dx\,dy$\hfill（50点）
+\par\vspace{3mm}
+\end{enumerate}
+
+\par\vspace{4mm}
+{\color{accent}\rule{\linewidth}{0.6pt}}
+\topic{小テストの解答}
+どちらの問題でも、分割幅、小長方形の面積、左下の点は次のとおりである。
+$$
+ \begin{aligned}
+ &\Delta_x=\frac1N,\qquad \Delta_y=\frac2M,\qquad
+ \Delta_x\Delta_y=\frac2{NM},\\
+ &(x_i,y_j)=\left(\frac{i-1}{N},\frac{2(j-1)}{M}\right)
+ \quad(i=1,\ldots,N,\ j=1,\ldots,M).
+ \end{aligned}
+$$
+被積分関数は $K$ 上で連続なので、リーマン和の極限が重積分の値になる。
+
+\begin{enumerate}[label=\color{accent}\arabic*.,leftmargin=2.4em,itemsep=9pt]
+\item $x$ の項は $j$ について $M$ 回、$y$ の項は $i$ について $N$ 回現れる。
+$$
+ \begin{aligned}
+ S_{N,M}
+ &=\frac2{NM}\sum_{i=1}^{N}\sum_{j=1}^{M}
+   \left(\frac{i-1}{N}+\frac{2(j-1)}{M}\right)\\
+ &=\frac2{N^2}\sum_{i=1}^{N}(i-1)
+   +\frac4{M^2}\sum_{j=1}^{M}(j-1)\\
+ &=\frac{N-1}{N}+\frac{2(M-1)}{M}.
+ \end{aligned}
+$$
+したがって、
+$$
+ \iint_K(x+y)\,dx\,dy
+ =\lim_{\substack{N\to\infty\\M\to\infty}}S_{N,M}
+ =1+2=3.
+$$
+
+\item $i$ だけに依存する因子と $j$ だけに依存する因子に分かれるので、二重和を積に書き直す。
+$$
+ \begin{aligned}
+ T_{N,M}
+ &=\frac2{NM}\sum_{i=1}^{N}\sum_{j=1}^{M}
+   \frac{i-1}{N}\frac{2(j-1)}{M}\\
+ &=\frac4{N^2M^2}
+   \left(\sum_{i=1}^{N}(i-1)\right)
+   \left(\sum_{j=1}^{M}(j-1)\right)\\
+ &=\frac{N(N-1)M(M-1)}{N^2M^2}
+ =\frac{N-1}{N}\frac{M-1}{M}.
+ \end{aligned}
+$$
+したがって、
+$$
+ \iint_Kxy\,dx\,dy
+ =\lim_{\substack{N\to\infty\\M\to\infty}}T_{N,M}
+ =1\cdot1=1.
+$$
+\end{enumerate}
 \clearpage
 
 \fancyhead[L]{\small\color{ink}\coursename{}・授業要約と演習}

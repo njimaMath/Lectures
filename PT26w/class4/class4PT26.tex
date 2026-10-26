@@ -127,8 +127,8 @@ $$
   各ペアの同時分布を求め、$X,Y,Z$ が対独立であることを示せ。
   次に $\{X=1,Y=1,Z=1\}$ の確率を用い、相互独立ではないことを示せ。
   \item $X,Y$ を独立な確率変数、$f,g:\R\to\R$ をボレル可測関数とする。
-  集合の逆像を用いて、$f(X),g(Y)$ が独立であることを示せ。
-  \item これまでの授業や演習の感想または改善してほしいところなど。
+  集合の逆像を用いて、$f(X),g(Y)$ が独立であることを示せ。($A\in \mathcal B(\mathbb R)$に対し, $f^{-1}(A)\in \mathcal B(\mathbb R)$を用いてよい)
+  \item これまでの授業や演習の感想または改善してほしいところなど。（ここまででレポート提出, 11/3）
 \end{enumerate}
 
 \newpage
@@ -144,11 +144,10 @@ $$
 $$
 離散分布 $P(X=x_k)=q_k$（$x_k$ は相異なり、$q_k\ge0$、$\sum_k q_k=1$）なら
 $$
-  \E[g(X)]=\sum_k g(x_k)q_k\text{。}
+  \E[g(X)]=\sum_k g(x_k)q_k.
 $$
 非負ボレル関数 $f$ が $\mu_X(B)=\int_B f(x)\,dx$ を満たすとき、$f$ を確率密度といい、
 $\E[g(X)]=\int_\R g(x)f(x)\,dx$ となる。いずれも上と同じ条件で用いる。
-特に $g(x)=x,x^2$ とすれば、期待値と二次モーメントを計算できる。
 
 \topic{離散分布：成功回数・待ち時間・発生回数}
 $n\ge1$ は整数、$0<p<1$、$\lambda>0$ とする。
@@ -193,7 +192,7 @@ $1_A(x)$ は $x\in A$ のとき1、それ以外で0をとる指示関数であ�
 \end{tabularx}
 \par\endgroup
 \smallskip
-指数分布の $\lambda$ は率のパラメータであり、平均待ち時間は $1/\lambda$ である。
+指数分布の $\lambda$ はパラメータと呼ばれ、平均待ち時間は $1/\lambda$ である。
 
 \topic{演習問題}
 \begin{enumerate}[label=\arabic*.]
@@ -201,8 +200,6 @@ $1_A(x)$ は $x\in A$ のとき1、それ以外で0をとる指示関数であ�
   $P(S=0)$、$P(S=2)$、$\E[S]$、$\Var(S)$ を求めよ。
   \item 成功確率 $p=1/4$ の試行を独立に繰り返し、初成功までの試行回数を $T$ とする。
   $P(T>3)$、$\E[T]$、$\Var(T)$ を求めよ。
-  \item $W\sim\mathrm{Exp}(2)$ とする。密度を積分して $P(W>1)$ を求めよ。
-  また、$\E[W]$、$\Var(W)$ を求めよ。
 \end{enumerate}
 
 \topic{レポート問題}
@@ -210,5 +207,7 @@ $1_A(x)$ は $x\in A$ のとき1、それ以外で0をとる指示関数であ�
   \item $\lambda,\nu>0$ とし、独立な $X\sim\mathrm{Poi}(\lambda)$、$Y\sim\mathrm{Poi}(\nu)$ に対して
   $X+Y\sim\mathrm{Poi}(\lambda+\nu)$ を示せ。
   $P(X+Y=k)=\sum_{j=0}^kP(X=j,\,Y=k-j)$ を用いてよい。
+    \item $W\sim\mathrm{Exp}(2)$ とする。密度を積分して $P(W>1)$ を求めよ。
+  また、$\E[W]$、$\Var(W)$ を求めよ。(計算過程まで書くこと)
 \end{enumerate}
 \end{document}

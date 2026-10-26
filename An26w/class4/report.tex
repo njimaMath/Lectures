@@ -1,0 +1,162 @@
+% このディレクトリで2回実行：pdflatex -interaction=nonstopmode -halt-on-error report.tex
+\documentclass[a4paper,10pt,pdflatex,ja=standard,jafont=ipaex-type1,
+  magstyle=real,scale=1]{bxjsarticle}
+\usepackage{lmodern}
+\usepackage{amsmath,amssymb,mathtools}
+\usepackage{geometry}
+\geometry{reset,left=22mm,right=22mm,top=20mm,bottom=17mm,
+  headheight=13pt,headsep=6mm,footskip=10mm}
+\usepackage{xcolor}
+\usepackage{enumitem}
+\usepackage{fancyhdr}
+\usepackage{lastpage}
+
+\definecolor{ink}{HTML}{193A5C}
+\definecolor{accent}{HTML}{237D82}
+\definecolor{soft}{HTML}{EAF3F3}
+\definecolor{muted}{HTML}{52616B}
+\newcommand{\coursename}{解析学 II}
+\newcommand{\handoutnumber}{4}
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\small\color{ink}\coursename{}・レポート課題}
+\fancyhead[R]{\small\color{ink}第\handoutnumber 回}
+\fancyfoot[C]{\small\color{ink}\thepage/\pageref{LastPage}}
+\renewcommand{\headrulewidth}{0.3pt}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{2pt}
+\setlength{\abovedisplayskip}{5pt}
+\setlength{\belowdisplayskip}{5pt}
+\setlength{\abovedisplayshortskip}{3pt}
+\setlength{\belowdisplayshortskip}{4pt}
+
+\newcommand{\handouttitle}[1]{%
+  \begin{center}
+    {\Large\mdseries\color{ink}#1}\par\vspace{3mm}
+    {\color{accent}\rule{0.88\linewidth}{0.7pt}}
+  \end{center}\vspace{-2mm}}
+\newcommand{\handout}[2]{%
+  \renewcommand{\handoutnumber}{#1}%
+  \handouttitle{第#1回\quad #2}}
+\newcommand{\topic}[1]{\par\vspace{5pt}%
+  {\large\sffamily\mdseries\color{accent}#1}\par\vspace{2pt}}
+\newcommand{\keybox}[1]{\par\vspace{3pt}\begingroup
+  \setlength{\fboxsep}{4pt}%
+  \colorbox{soft}{\parbox{\dimexpr\linewidth-2\fboxsep\relax}{\small #1}}%
+  \endgroup\par\vspace{2pt}}
+\newenvironment{problems}
+  {\begin{enumerate}[leftmargin=2.4em,itemsep=3pt,topsep=3pt,parsep=0pt,
+    font=\color{accent}]}
+  {\end{enumerate}}
+\newcommand{\problemlabel}[1]{{\sffamily\mdseries\color{ink}#1}}
+\newcommand{\problemspace}[1][14mm]{\par\vspace{#1}}
+
+\begin{document}
+\fontsize{10pt}{13.5pt}\selectfont
+\setlength{\abovedisplayskip}{4pt}
+\setlength{\belowdisplayskip}{4pt}
+\handout{4}{レポート課題（全10題）}
+
+学籍番号：\underline{\hspace{42mm}}\hfill
+氏名：\underline{\hspace{42mm}}
+
+\keybox{範囲：第1回から第4回まで。問題1から9は基礎問題、問題10は発展問題である。\\
+答えだけでなく、計算過程や理由も記すこと。不定積分では積分定数を付け、
+原始関数を考える区間も明示すること。$\log$ は自然対数を表す。}
+
+\topic{逆関数・逆三角関数と1変数の積分}
+\begin{problems}
+\item \problemlabel{逆関数。}
+区間 $[-2,\infty)$ 上の関数 $f(x)=x^2+4x$ の逆関数 $g$ を求め、
+$g$ の定義域と値域を示せ。
+\problemspace
+
+\item \problemlabel{逆三角関数の値と微分。}
+逆三角関数は授業で定義した主値を用いる。
+\par (a) 次の値を求めよ。
+$$
+ \arcsin\left(-\frac12\right),\qquad
+ \arccos\left(-\frac{\sqrt3}{2}\right),\qquad
+ \arctan\sqrt3.
+$$
+(b) 次の関数を微分せよ。
+$$
+ u(x)=\arctan(2x)\quad(x\in\mathbb R),\qquad
+ v(x)=\arcsin\frac{x}{2}\quad(-2<x<2).
+$$
+\problemspace
+
+\item \problemlabel{多項式除法を用いる積分。}
+分子を分母で割り、次の不定積分を求めよ。
+$$
+ \int\frac{x^3}{x^2+4}\,dx.
+$$
+\problemspace
+
+\item \problemlabel{部分分数分解。}
+被積分関数を部分分数に分解し、次の不定積分を求めよ。
+$$
+ \int\frac{dx}{(x-1)(x+2)}.
+$$
+\problemspace
+
+\item \problemlabel{平方完成と逆正接。}
+分母を平方完成し、次の積分を求めよ。
+$$
+\quad\int\frac{dx}{x^2-2x+5}.
+$$
+\problemspace
+\end{problems}
+
+\newpage
+\handouttitle{第4回\quad レポート課題（つづき）}
+\topic{重積分の定義と累次積分}
+\begin{problems}
+\setcounter{enumi}{5}
+\item \problemlabel{リーマン和から重積分へ。}
+$K=[0,2]\times[0,1]$、$f(x,y)=x+2y$ とする。
+$N,M$ を正の整数とし、$K$ を $x$ 方向に $N$ 等分、$y$ 方向に $M$ 等分する。
+各小長方形の右上の点で関数の値を取る。
+\par (a) 小長方形の面積と標本点の座標を求め、リーマン和 $S_{N,M}$ を計算せよ。
+\par (b) $N,M\to\infty$ の極限から $\displaystyle\iint_K(x+2y)\,dx\,dy$ を求めよ。
+\par {\small\color{muted}必要なら $\displaystyle\sum_{i=1}^n i=\frac{n(n+1)}2$
+（$n$ は正の整数）を用いてよい。}
+\problemspace[12mm]
+
+\item \problemlabel{区分求積による重積分。}
+$K=[0,1]\times[0,2]$、$f(x,y)=x^2y$ とする。
+$N,M$ を正の整数とし、$K$ を $x$ 方向に $N$ 等分、$y$ 方向に $M$ 等分する。
+各小長方形の右上の点を標本点とするリーマン和 $S_{N,M}$ を計算し、
+$N,M\to\infty$ の極限として次の重積分を求めよ。
+$$
+ \iint_K x^2y\,dx\,dy.
+$$
+{\small\color{muted}必要なら $\displaystyle\sum_{i=1}^n i^2=\frac{n(n+1)(2n+1)}6$
+（$n$ は正の整数）を用いてよい。}
+\problemspace[12mm]
+
+\item \problemlabel{三角形上の重積分。}
+領域 $D=\{(x,y)\in\mathbb R^2:x\ge0,\ y\ge0,\ x+y\le2\}$ を図示せよ。
+次の重積分を2通りの積分順序で計算し、値が一致することを確かめよ。
+$$
+ \iint_D(x+2y)\,dx\,dy.
+$$
+\problemspace[12mm]
+
+\item \problemlabel{対称性の利用。}
+$D=[-1,1]\times[-2,2]$ とする。対称性によって積分が $0$ になる項を理由とともに示し、
+次の重積分を求めよ。
+$$
+ \iint_D\left(xe^{x^2+y^2}+y^2\right)\,dx\,dy.
+$$
+\problemspace[12mm]
+
+\item \problemlabel{発展：曲線で囲まれた領域と積分順序。}
+次の累次積分の積分領域を図示し、積分順序を交換して $I$ を求めよ。
+交換後の積分範囲と計算過程を示すこと。
+$$
+ I=\int_0^1\left(\int_y^{\sqrt[3]{y}}\frac{1}{1+x^4}\,dx\right)dy.
+$$
+\problemspace[12mm]
+\end{problems}
+\end{document}

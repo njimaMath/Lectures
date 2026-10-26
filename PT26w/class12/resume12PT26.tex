@@ -3,6 +3,8 @@
 % pdflatex -interaction=nonstopmode -halt-on-error resume12PT26.tex
 % Topics follow the syllabus in ../class1/class1PT26.tex.
 % Content adapted from ../lectureNote.tex and ../lectureNotes.tex.
+% Column merged with the binary-expansion article moved from ../class4/resume4PT26.tex.
+% Original article: ../class4/st4.html; measurable sets and endpoints clarified.
 \documentclass[a4paper,10pt,pdflatex,ja=standard,jafont=ipaex-type1,
   magstyle=real,scale=1]{bxjsarticle}
 \usepackage{lmodern}
@@ -281,31 +283,79 @@ $[0,1]$ の任意のボレル集合にはこの性質がない。
 \vfill
 {\small\color{muted}解答メモ：有限加法性、前測度の可算加法性、拡張後の測度の可算加法性を区別する。}
 
-\columnstart{一つの一様乱数の中に、無限回のコイントスを見る}
-無限列の確率測度を抽象的に構成する代わりに、$[0,1)$ の一点から
-二進展開の各桁を取り出してみよう。区間上の長さと、独立なコイントスが結びつく。
+\columnstart{無限回の試行}
+コルモゴロフの拡張定理を用いると、整合的な有限次元分布から
+公平なコイントスの無限列を表す確率測度を構成できる。
+ここでは別の具体的な構成として、$[0,1]$ 上のルベーグ測度と二進展開を用いる。
 
-\columnheading{二進展開の規約を決める}
-$u\in[0,1)$ に対し
-$$\varepsilon_j(u)=\lfloor2^ju\rfloor-2\lfloor2^{j-1}u\rfloor\in\{0,1\},
- \qquad u=\sum_{j=1}^\infty\frac{\varepsilon_j(u)}{2^j}$$
-と定める。たとえば $1/2=0.1000\ldots$ のように、二進有理数では
-末尾が $0$ となる表示を採用する。各桁はボレル可測な関数である。
+\columnheading{二進展開による写像の定義}
+$\N=\{1,2,\ldots\}$ とし、$[0,1]$ 上のルベーグ測度を $\lambda$ と書く。
+二進有理点の集合
+$$
+  D=\left\{\frac{k}{2^n}:n\in\N,\ k=0,1,\ldots,2^n\right\}
+$$
+は可算で $\lambda(D)=0$ である。$x\in[0,1]\setminus D$ の二進展開は一意である。
+$x\in D\cap[0,1)$ では末尾が $0$ で続く展開を選び、$x=1$ ではすべての桁を $1$ とする。
+この規約により、すべての $x\in[0,1]$ に対して
+$$
+  x=\sum_{j=1}^{\infty}\frac{\varepsilon_j(x)}{2^j},\qquad
+  \varepsilon_j(x)\in\{0,1\},\qquad
+  \phi(x)=(\varepsilon_1(x),\varepsilon_2(x),\ldots)
+$$
+が定まる。$0\le x<1$ での各桁は、床関数を用いて
+$$
+  \varepsilon_j(x)=\lfloor2^jx\rfloor-2\lfloor2^{j-1}x\rfloor
+$$
+とも書ける。たとえば $1/2=0.1000\ldots$ である。
+無限列の空間 $S=\{0,1\}^{\N}$ には、各座標で生成される積の $\sigma$-加法族
+$$
+  \mathcal G=\sigma\bigl(\{\omega\in S:\omega_j=a\}:j\in\N,\ a\in\{0,1\}\bigr)
+$$
+を入れる。各桁 $\varepsilon_j$ はボレル可測なので、$\phi:[0,1]\to S$ も可測である。
+したがって、像測度
+$$
+  \nu(A):=\lambda\bigl(\phi^{-1}(A)\bigr)\qquad(A\in\mathcal G)
+$$
+は $(S,\mathcal G)$ 上の確率測度となる。
 
-\columnheading{先頭の桁を固定すると区間になる}
-$e_1,\ldots,e_n\in\{0,1\}$ とし、$k=\sum_{j=1}^n e_j2^{n-j}$ とおくと
-$$\{u:\varepsilon_1(u)=e_1,\ldots,\varepsilon_n(u)=e_n\}
-  =[k2^{-n},(k+1)2^{-n}).$$
-一様確率 $\lambda$ の下では、この集合の確率は長さ $2^{-n}$ に等しい。
-すなわち $n$ 個の桁の同時分布は、$n$ 回の公平な独立コイントスと一致する。
-途中の桁だけ指定する場合も、指定しない桁を足し合わせれば同じ結論になる。
+\columnheading{シリンダー集合での振る舞い}
+長さ $n$ の列 $e=(e_1,\ldots,e_n)\in\{0,1\}^n$ に対して、
+最初の $n$ 桁を指定するシリンダー集合を
+$$
+  C(e)=\{\omega\in S:\omega_1=e_1,\ldots,\omega_n=e_n\}
+$$
+と定める。対応する二進区間は
+$$
+  I_e=\left[\frac{k(e)}{2^n},\frac{k(e)+1}{2^n}\right),\qquad
+  k(e)=\sum_{j=1}^n e_j2^{n-j}
+$$
+である。上の規約では $\phi^{-1}(C(e))=I_e$ であり、
+$e=(1,\ldots,1)$ の場合だけ右辺に $\{1\}$ を加える。
+これらはボレル集合であり、特に各桁の可測性も確認できる。
+一点の測度は $0$ なので、
+$$
+  \nu(C(e))=\lambda(I_e)=2^{-n}=\prod_{j=1}^n\frac12.
+$$
+任意の $1\le j_1<\cdots<j_m$ と $a_1,\ldots,a_m\in\{0,1\}$ に対しても、
+$n=j_m$ とおき、指定されていない $n-m$ 桁について和をとれば
+$$
+  \nu(\omega_{j_1}=a_1,\ldots,\omega_{j_m}=a_m)
+  =2^{n-m}2^{-n}=2^{-m}.
+$$
+$S$ 上の座標変数 $Z_j(\omega)=\omega_j$ は相互独立で、
+それぞれ $0,1$ を確率 $1/2$ でとる。これが公平なコイントス無限列のモデルである。
 
-\columnheading{写像で測度を押し出す}
-$\Phi(u)=(2\varepsilon_1(u)-1,2\varepsilon_2(u)-1,\ldots)$ とおく。
-円筒集合の逆像が可測なので、$\Phi$ は積 $\sigma$-加法族に関して可測であり、
-$$P(B):=\lambda(\Phi^{-1}(B))$$
-で $\{-1,1\}^\N$ 上の確率測度が得られる。
-円筒集合上の値は拡張定理で構成したものと一致し、一意性により同じ測度になる。
+\newpage
+\columnheading{拡張定理による構成との対応}
+本文ではコインの結果を $-1,1$ で表した。上の各桁を変換して
+$$
+  \Phi(x)=(2\varepsilon_1(x)-1,2\varepsilon_2(x)-1,\ldots)
+  \in\{-1,1\}^{\N}
+$$
+とおくと、本文の積 $\sigma$-加法族 $\F$ 上に
+$$P(B)=\lambda\bigl(\Phi^{-1}(B)\bigr)\qquad(B\in\F)$$
+という確率測度が得られる。円筒集合上の値は拡張定理で構成したものと一致し、
+一意性により同じ測度になる。
 二進有理数は可算個なので、そこで展開の規約を変えても分布は変わらない。
 
 \columnheading{有限桁の独立性と、無限列の制約}
@@ -317,6 +367,12 @@ $$P(B):=\lambda(\Phi^{-1}(B))$$
 この構成では、一つの実数から任意の有限個の独立なビットを取り出せる。
 そのためには、実数の無限精度の情報を用いている。
 有限桁しか記録しない計算機上の乱数と、数学上の一様分布との違いも、ここから見えてくる。
+
+\columnheading{まとめ}
+二進展開による構成では、有限個の桁を指定する確率が区間の長さとして見える。
+この方法は具体的で分かりやすいが、一般の状態空間や別の依存関係を扱うには工夫が必要となる。
+コルモゴロフの拡張定理は、そのような構成をより一般的な枠組みで与える。
+同じ確率モデルを異なる方法で構成すると、抽象的な定理と具体的な計算とのつながりが見えてくる。
 
 \label{lastpage}
 \end{document}
