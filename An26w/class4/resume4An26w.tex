@@ -58,7 +58,7 @@
 \newcommand{\problemspace}{\par\vspace{5mm}}
 \newcommand{\exercises}{%
   {\color{accent}\hrule height 0.7pt}\vspace{3pt}%
-  \topic{演習問題（6題）}%
+  \topic{演習問題（5題）}%
   {\small 領域と積分範囲を確認し、計算過程も書こう。図を描くと範囲を読み取りやすい。}\par}
 \tikzset{
   handout diagram/.style={>={Stealth[length=3.2pt,width=3.2pt]},line join=round,
@@ -88,10 +88,128 @@
 \fontsize{10pt}{13.5pt}\selectfont
 \setlength{\abovedisplayskip}{4pt}
 \setlength{\belowdisplayskip}{4pt}
-% Feedback section: add comments and responses here when available.
+% 前回の学生コメントと回答を内容ごとにまとめる。
 \fancyhead[L]{\small\color{ink}\coursename{}・フィードバック}
 \handout{4}{前回のコメントへのフィードバック}
-% \feedback{comment}{response}
+\topic{重積分の意味とイメージ}
+\feedback{区分求積はいらないのでは？}{%
+おそらく計算するだけなら、必要ない場合のほうが圧倒的に多いと思いますが、なぜこの定義でよいのかを知ることは、他の分野とのつながりを考えると必要だと思います。
+例えば力学や電磁気学などを勉強するときに、「小さく分けて、それぞれの量を足し合わせる」という考え方がわかっていないと、何をやっているのかわからなくなります。}
+\feedback{重積分は何に利用されているか？}{%
+物理では色んな場面で出てきます。質量や電荷などを求めるのに必要ですね。
+例えば、場所によって密度が違う物体でも、その密度を物体全体にわたって積分すると、全体の質量が求められます。
+化学や生物学でも、濃度から物質の総量を求めるときなどに出てくると思います。}
+\feedback{重積分の図形的なイメージがわかない}{%
+$f(x,y)\geq0$ の場合は、\par
+\noindent\begin{minipage}[c]{0.58\linewidth}
+$$
+ \{(x,y,z):(x,y)\in D,\ 0\leq z\leq f(x,y)\}
+$$
+という立体の体積が、重積分
+$$
+ \iint_D f(x,y)\,dx\,dy
+$$
+の値になります。$D$ を底面として、その上に高さ $f(x,y)$ まで積み上げた立体を考える感じですね。
+底面を細かく分けて、小さな柱の体積を全部足し合わせていると思うと、イメージしやすいかもしれません。
+\end{minipage}\hfill
+\begin{minipage}[c]{0.40\linewidth}
+\centering
+% 曲面の下の立体と、底面の小長方形に対応する柱を描く。
+\begin{tikzpicture}[handout diagram,
+ x={(0.85cm,-0.20cm)},y={(0.40cm,0.34cm)},z={(0cm,0.88cm)},
+ declare function={feedbackheight(\u,\v)=2+0.3*sin(55*\u)+0.17*\v;}]
+ \path[use as bounding box] (-0.25cm,-1.25cm) rectangle (5.8cm,3.6cm);
+ \path[fill=soft] (0.4,0.4,0) -- (3.6,0.4,0)
+   -- (3.6,2.8,0) -- (0.4,2.8,0) -- cycle;
+ \foreach \u in {0.4,0.8,...,3.6}{
+  \draw[accent!35,thin] (\u,0.4,0) -- (\u,2.8,0);}
+ \foreach \v in {0.4,0.8,...,2.8}{
+  \draw[accent!35,thin] (0.4,\v,0) -- (3.6,\v,0);}
+ \draw[accent,thin] (0.4,0.4,0) -- (3.6,0.4,0)
+   -- (3.6,2.8,0) -- (0.4,2.8,0) -- cycle;
+ \draw[guide] (0.4,2.8,0) -- (0.4,2.8,{feedbackheight(0.4,2.8)});
+ \draw[guide] (3.6,2.8,0) -- (3.6,2.8,{feedbackheight(3.6,2.8)});
+ % 代表点での高さをもつ小さな柱。上面は曲面を近似する平面とする。
+ \pgfmathsetmacro{\columnheight}{feedbackheight(2.4,0.8)}
+ \path[fill=accent!22,draw=accent,thin]
+   (2.4,0.8,0) -- (2.8,0.8,0) -- (2.8,0.8,\columnheight)
+   -- (2.4,0.8,\columnheight) -- cycle;
+ \path[fill=accent!35,draw=accent,thin]
+   (2.8,0.8,0) -- (2.8,1.2,0) -- (2.8,1.2,\columnheight)
+   -- (2.8,0.8,\columnheight) -- cycle;
+ \path[fill=accent!45,draw=accent,thin]
+   (2.4,0.8,\columnheight) -- (2.8,0.8,\columnheight)
+   -- (2.8,1.2,\columnheight) -- (2.4,1.2,\columnheight) -- cycle;
+ % 薄い曲面を重ね、底面と柱が見えるようにする。
+ \foreach \u in {0.4,0.8,...,3.2}{
+  \foreach \v in {0.4,0.8,...,2.4}{
+   \path[fill=accent,fill opacity=0.10]
+    (\u,\v,{feedbackheight(\u,\v)})
+    -- ({\u+0.4},\v,{feedbackheight(\u+0.4,\v)})
+    -- ({\u+0.4},{\v+0.4},{feedbackheight(\u+0.4,\v+0.4)})
+    -- (\u,{\v+0.4},{feedbackheight(\u,\v+0.4)}) -- cycle;}}
+ \foreach \v in {0.4,1.2,2.0,2.8}{
+  \draw[accent!65,thin] plot[domain=0.4:3.6,samples=25]
+   (\x,\v,{feedbackheight(\x,\v)});}
+ \foreach \u in {0.4,1.2,2.0,2.8,3.6}{
+  \draw[accent!65,thin] (\u,0.4,{feedbackheight(\u,0.4)})
+   -- (\u,2.8,{feedbackheight(\u,2.8)});}
+ \draw[accent,thin] (0.4,0.4,0) -- (0.4,0.4,{feedbackheight(0.4,0.4)});
+ \draw[accent,thin] (3.6,0.4,0) -- (3.6,0.4,{feedbackheight(3.6,0.4)});
+ \draw[axis] (0,0,0) -- (4.5,0,0) node[right] {$x$};
+ \draw[axis] (0,0,0) -- (0,3.5,0) node[above] {$y$};
+ \draw[axis] (0,0,0) -- (0,0,3.6) node[above] {$z$};
+ \node[below left] at (0,0,0) {$0$};
+ \node[above] at (1.8,2.8,{feedbackheight(1.8,2.8)}) {$z=f(x,y)$};
+ \node at (1.1,1.4,0) {$D$};
+ \draw[<->,ink,thin] (3.95,0.8,0) -- (3.95,0.8,\columnheight)
+   node[midway,right] {$f(x_i,y_j)$};
+ \draw[guide] (2.8,0.8,\columnheight) -- (3.95,0.8,\columnheight);
+ \draw[guide] (2.8,0.8,0) -- (3.95,0.8,0);
+ \draw[accent,thin] (2.6,1,0) -- (2.2,-0.5,0)
+   node[below] {小長方形の面積 $\Delta A$};
+\end{tikzpicture}\par
+{\small 小さな柱の体積 $\simeq f(x_i,y_j)\,\Delta A$}
+\end{minipage}\par}
+\feedback{前回扱った重積分は、球のような対称性があるものに対して、どのような変化が式に表れるか？}{%
+その場合は、例えば原点を中心とする半径1の球なら、
+$$
+ D=\{(x,y):x^2+y^2\leq1\}
+$$
+とすると、$(x,y)$ に対する高さが $2\sqrt{1-x^2-y^2}$ になるので、
+$$
+ \iint_D 2\sqrt{1-x^2-y^2}\,dx\,dy
+$$
+を計算することになります。ここでいう高さは、球の下側から上側までの長さです。}
+\feedback{積分が難しい（$\iiiint$）}{楽しそうな記号ですね。}
+\feedback{重積分がどぱると話題}{そんなはずは、、}
+
+\newpage
+\handouttitle{第4回\quad フィードバック（つづき）}
+\topic{計算の進め方と復習}
+\feedback{計算のミスをしないための検算の仕方}{%
+自分の場合は、違う方法で計算して2つが一致していたら大丈夫かなと思っています。
+例えば累次積分で、$x$ を先に積分したものと $y$ を先に積分したものが一致していたら、という感じでしょうか。
+積分の順番を変えるときは、積分範囲にも気をつけてください。}
+\feedback{久々に積分をするので難しい。コツはあるか？}{%
+練習あるのみですね。}
+\feedback{春学期の知識は必要か？}{%
+ある程度必要ですが、高校までの範囲がわかっていれば、ある程度は大丈夫だと思います。
+（前期の積分のところは使いますね。）置換積分や部分積分などは、少し復習しておくとよいと思います。}
+
+\topic{授業への出席と試験}
+\feedback{出席を取らない他クラスは10人くらいしか出席してないらしい}{%
+出席を取らないとそうなりますよね、、1限は辛い部分もありますが、コンスタントに来て勉強したほうが、学期単位では圧倒的に楽に生活できるとは思います。
+あとでまとめて取り返そうとするのは、なかなか大変ですからね。}
+\feedback{過去問を公開するか？}{%
+期末テストの過去問は必ず公開します。公開時期については、少しお待ちください。}
+\feedback{中間テストの難易度}{春と同じくらいです。基礎問題を中心に出そうと思います。}
+
+\topic{感想と近況}
+\feedback{前回の感想がレジュメに採用された}{これからも頑張ってください。}
+\feedback{バロンドールはケインだった}{あら予想外。}
+\feedback{寒くて服がまだ用意できていない}{もう冬がきますよ！}
+\feedback{平均何時間寝ているか？}{7時間くらいですかね。}
 \clearpage
 
 % 第3回の小テストと解答を本体に直接記述する。
@@ -133,22 +251,22 @@ $$
 被積分関数は $K$ 上で連続なので、リーマン和の極限が重積分の値になる。
 
 \begin{enumerate}[label=\color{accent}\arabic*.,leftmargin=2.4em,itemsep=9pt]
-\item $x$ の項は $j$ について $M$ 回、$y$ の項は $i$ について $N$ 回現れる。
+\item 被積分関数 $y$ は $i$ によらないので、$i$ についての和は同じ項を $N$ 回足すことになる。
 $$
  \begin{aligned}
  S_{N,M}
  &=\frac2{NM}\sum_{i=1}^{N}\sum_{j=1}^{M}
-   \left(\frac{i-1}{N}+\frac{2(j-1)}{M}\right)\\
- &=\frac2{N^2}\sum_{i=1}^{N}(i-1)
-   +\frac4{M^2}\sum_{j=1}^{M}(j-1)\\
- &=\frac{N-1}{N}+\frac{2(M-1)}{M}.
+   \frac{2(j-1)}{M}\\
+ &=\frac4{M^2}\sum_{j=1}^{M}(j-1)
+ =\frac4{M^2}\frac{M(M-1)}2\\
+ &=\frac{2(M-1)}{M}.
  \end{aligned}
 $$
 したがって、
 $$
- \iint_K(x+y)\,dx\,dy
+ \iint_K y\,dx\,dy
  =\lim_{\substack{N\to\infty\\M\to\infty}}S_{N,M}
- =1+2=3.
+ =2.
 $$
 
 \item $i$ だけに依存する因子と $j$ だけに依存する因子に分かれるので、二重和を積に書き直す。
@@ -156,19 +274,19 @@ $$
  \begin{aligned}
  T_{N,M}
  &=\frac2{NM}\sum_{i=1}^{N}\sum_{j=1}^{M}
-   \frac{i-1}{N}\frac{2(j-1)}{M}\\
- &=\frac4{N^2M^2}
-   \left(\sum_{i=1}^{N}(i-1)\right)
+   \left(\frac{i-1}{N}\right)^2\frac{2(j-1)}{M}\\
+ &=\frac4{N^3M^2}
+   \left(\sum_{i=1}^{N}(i-1)^2\right)
    \left(\sum_{j=1}^{M}(j-1)\right)\\
- &=\frac{N(N-1)M(M-1)}{N^2M^2}
- =\frac{N-1}{N}\frac{M-1}{M}.
+ &=\frac4{N^3M^2}\frac{(N-1)N(2N-1)}6\frac{M(M-1)}2\\
+ &=\frac{(N-1)(2N-1)}{3N^2}\frac{M-1}{M}.
  \end{aligned}
 $$
 したがって、
 $$
- \iint_Kxy\,dx\,dy
+ \iint_K x^2y\,dx\,dy
  =\lim_{\substack{N\to\infty\\M\to\infty}}T_{N,M}
- =1\cdot1=1.
+ =\frac23\cdot1=\frac23.
 $$
 \end{enumerate}
 \clearpage
@@ -419,9 +537,6 @@ $I=\displaystyle\int_0^1\left(\int_{\sqrt y}^1e^{x^3}\,dx\right)dy$ の領域を
 \item \examplelabel{直線で囲まれた領域。}
 $D=\{(x,y):x\ge0,\ y\ge0,\ x+y\le1\}$ 上の $\iint_D(1+x)\,dx\,dy$ を求めよ。
 \problemspace
-\item \examplelabel{対称性で消える項。}
-$D=[-1,1]\times[-1,1]$ 上の $I=\iint_D\bigl(xe^{x^2+y^2}+y^2\bigr)\,dx\,dy$ を、対称性を利用して求めよ。
-\problemspace
 \end{problems}
 \end{minipage}
 
@@ -507,15 +622,6 @@ $$
  &=\int_0^1(1+x)(1-x)\,dx
  =\left[x-\frac{x^3}{3}\right]_0^1=\frac23.
  \end{aligned}
-$$
-
-\item \examplelabel{対称性で消える項。}
-$y$ を固定すると、$(-x)e^{(-x)^2+y^2}=-xe^{x^2+y^2}$。
-$x$ の積分区間は $[-1,1]$ なので奇関数の積分は0となる。
-$$
- \int_{-1}^1xe^{x^2+y^2}\,dx=0,\qquad
- I=\int_{-1}^1\left(\int_{-1}^1y^2\,dx\right)dy
- =2\left[\frac{y^3}{3}\right]_{-1}^1=\frac43.
 $$
 \end{problems}
 \end{document}

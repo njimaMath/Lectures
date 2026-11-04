@@ -59,7 +59,7 @@
 \newcommand{\exercises}{%
   {\color{accent}\hrule height 0.7pt}\vspace{3pt}%
   \topic{演習問題（6題）}%
-  {\small 領域と積分範囲を確認し、計算過程も書こう。図を描くと範囲を読み取りやすい。}\par}
+  {\small 特異点・無限遠を確認し、比較に使った不等式や極限を書こう。問2・3は積分値を求めなくてよい。}\par}
 \tikzset{
   handout diagram/.style={>={Stealth[length=3.2pt,width=3.2pt]},line join=round,
     every node/.style={font=\scriptsize,text=ink}},
@@ -73,8 +73,7 @@
 \setlength{\abovedisplayskip}{4pt}
 \setlength{\belowdisplayskip}{4pt}
 \handout{5}{広義積分}
-\keybox{到達目標：特異点と無限遠を別々の極限で扱い、収束・発散を判断できる。
-関数の高さだけでなく、積分される面積の極限を調べよう。}
+\keybox{到達目標：1変数・2変数の広義積分を極限で定め、収束・発散を判断できる。}
 
 \topic{特異点や無限遠を極限で扱う}
 有限端点では $[a,b)$、無限遠では $[a,\infty)$ の各閉部分区間で可積分な実数値関数 $f$ を考える。対応する広義積分を
@@ -85,10 +84,6 @@ $$
 $$
 と定める。有限の極限が存在するとき「収束する」という。内部の特異点 $c\in(a,b)$ は左右に分け、
 両方の広義積分がそれぞれ収束する場合だけ和を取る。
-$$
- \int_a^bf=\lim_{t\to c-}\int_a^tf+\lim_{s\to c+}\int_s^bf.
-$$
-同じ幅を除いて左右を相殺する極限は、通常の広義積分と区別する。
 
 
 \par\vspace{2pt}\noindent
@@ -123,7 +118,7 @@ $$
 \end{minipage}
 \par\vspace{2pt}
 
-\topic{べき関数の収束判定と比較}
+\topic{べき関数の広義積分}
 $p\in\mathbb R$ に対して、特異点付近と無限遠では条件が逆になる。
 $$
  \int_0^1x^{-p}\,dx=
@@ -132,69 +127,73 @@ $$
  \int_1^\infty x^{-p}\,dx=
  \begin{cases}\dfrac1{p-1},&p>1,\\+\infty,&p\le1.\end{cases}
 $$
-$0\le f\le g$ なら、$\int g<\infty$ は $\int f<\infty$ を導き、
-$\int f=+\infty$ は $\int g=+\infty$ を導く。
-符号が変わる関数では、まず $\int|f|<\infty$（絶対収束）を調べる。
 
 
-\par\vspace{2pt}\noindent
-\begin{minipage}[b]{0.98\linewidth}\centering
-\begin{tikzpicture}[handout diagram,x=0.75cm,y=0.62cm]
-\draw[axis] (0,1.5) -- (7,1.5) node[right] {$p$};
- \draw[axis] (0,0) -- (7,0) node[right] {$p$};
- \draw[ink] (3.5,1.35) -- (3.5,1.65);
- \draw[ink] (3.5,-0.15) -- (3.5,0.15);
- \draw[slice,<-] (0.4,1.5) -- (3.35,1.5);
- \draw[slice,->] (3.65,0) -- (6.6,0);
- \node[above] at (3.5,1.5) {$1$};
- \node[above] at (3.5,0) {$1$};
- \node[left] at (0,1.5) {$\int_0^1 x^{-p}\,dx$};
- \node[left] at (0,0) {$\int_1^\infty x^{-p}\,dx$};
- \node[above] at (1.75,1.5) {収束：$p<1$};
- \node[above] at (5.15,0) {収束：$p>1$};
-\end{tikzpicture}\par
-{\small\color{muted}端点付近と無限遠では、収束する側が逆になる}\par
-\end{minipage}
-\par\vspace{2pt}
+\topic{定理：比較による収束・発散の判定}
+$a\in\mathbb R$、$a<b\le+\infty$ とし、実数値関数 $f,g$ を考える。\\
 
-\topic{例：端点で発散しても積分は収束する}
+\examplelabel{発散の判定：下から押さえる。}
 $$
- \int_0^1\frac{dx}{\sqrt{1-x}}
- =\lim_{\varepsilon\downarrow0}
- \left[-2\sqrt{1-x}\right]_0^{1-\varepsilon}
- =\lim_{\varepsilon\downarrow0}(2-2\sqrt\varepsilon)=2.
+ f(x)\ge |g(x)|,\quad \int_a^b|g(x)|\,dx=+\infty
+ \quad\Longrightarrow\quad \int_a^bf(x)\,dx=+\infty.
 $$
-関数の値が無限大になることと、積分が発散することは同じではない。
+\examplelabel{収束の判定：絶対値を上から押さえる。}
+$$
+ |f(x)|\le g(x),\quad \int_a^bg(x)\,dx<\infty
+ \quad\Longrightarrow\quad \int_a^b|f(x)|\,dx<\infty.
+$$
+このとき $\int_a^bf(x)\,dx$ は有限の値として存在する。$a=-\infty$の場合も同様。
 
 
-\newpage
-% Keep the remaining summary in the upper half of page 2.
-\noindent\begin{minipage}[b][\dimexpr0.5\textheight-\parskip\relax][t]{\linewidth}
 \topic{非負関数の広義重積分}
-特異点を除いた領域を $D$ とし、$D_1\subset D_2\subset\cdots$ を
-有界で閉じた積分可能領域、$\bigcup_nD_n=D$ とする。各 $D_n$ 上で連続な $f\ge0$ について
+$D\subset\mathbb R^2$ 上の連続な非負関数 $f$ を考える。$D_n\subset D$ を有界な積分可能領域で、
+$D_n\subset D_{n+1}$、$\bigcup_nD_n=D$ を満たすものとする。このとき、
 $$
  \iint_Df\,dx\,dy:=\lim_{n\to\infty}\iint_{D_n}f\,dx\,dy\in[0,+\infty].
 $$
-非負の場合、この値は領域を増やす取り方によらない。
-符号が変わる場合は $\iint_D|f|<\infty$ を仮定すれば、領域の取り方や累次積分の順序に依存しない。
+積分値は単調に増え、極限は領域列の取り方によらない。有限なら収束、$+\infty$ なら発散という。
+例えば $D=(0,1]^2$ では $D_n=[1/n,1]^2$、$D=\mathbb R^2$ では $D_n=[-n,n]^2$ と取れる。
 
 
-\topic{例：2変数の特異点を避ける}
-$D=(0,1]^2$、$D_\varepsilon=[\varepsilon,1]^2$ とすると
+\newpage
+% 2ページ目の上半分に比較判定の例と2変数の計算例を置く。
+\noindent\begin{minipage}[b][\dimexpr0.5\textheight-\parskip\relax][t]{\linewidth}
+\topic{比較判定の例}
+\examplelabel{符号が変わっても収束。}
+$x\ge1$ では
 $$
- \iint_D\frac{dx\,dy}{\sqrt{xy}}
- =\lim_{\varepsilon\downarrow0}
- \left(\int_\varepsilon^1x^{-1/2}\,dx\right)^2
- =\lim_{\varepsilon\downarrow0}4(1-\sqrt\varepsilon)^2=4.
+ \left|\frac{\sin x}{1+x^2}\right|\le x^{-2},\qquad
+ \int_1^\infty x^{-2}\,dx=1<\infty.
 $$
-\keybox{特異点を列挙し、各部分の極限を別々に調べる。多変数では、非負性または絶対可積分性を確認する。}
+したがって $\int_1^\infty\frac{\sin x}{1+x^2}\,dx$ は収束する。
 
-\par\vspace{2pt}\noindent
-\begin{minipage}[b]{0.48\linewidth}\centering
-\begin{tikzpicture}[handout diagram,x=0.85cm,y=0.68cm]
-\path[region] (0,0) rectangle (2.6,2.6);
- \fill[accent!13] (0.4,0.4) rectangle (2.6,2.6);
+\examplelabel{特異点での発散。}
+$0<x\le1$ では
+$$
+ \frac{1+x}{x}\ge x^{-1},\qquad \int_0^1x^{-1}\,dx=+\infty.
+$$
+したがって $\int_0^1\frac{1+x}{x}\,dx=+\infty$。
+
+\topic{計算例：特異点を避ける・無限遠へ広げる}
+\noindent\begin{minipage}[t]{0.73\linewidth}
+\vspace{0pt}
+\examplelabel{両軸に近づく例。}
+$D=(0,1]^2$ で $f(x,y)=1/\sqrt{xy}$ は非負であり、$x=0$ と $y=0$ に近づくと大きくなる。
+$0<\varepsilon<1$ に対し $D_\varepsilon=[\varepsilon,1]^2$ とすると
+$$
+ \begin{aligned}
+ \iint_{D_\varepsilon}\frac{dx\,dy}{\sqrt{xy}}
+ &=\left(\int_\varepsilon^1t^{-1/2}\,dt\right)^2
+ =4(1-\sqrt\varepsilon)^2,\\
+ \iint_D\frac{dx\,dy}{\sqrt{xy}}&=\lim_{\varepsilon\downarrow0}4(1-\sqrt\varepsilon)^2=4.
+ \end{aligned}
+$$
+\end{minipage}\hfill
+\begin{minipage}[t]{0.24\linewidth}\centering
+\vspace{0pt}
+\begin{tikzpicture}[handout diagram,x=0.85cm,y=0.85cm]
+ \draw[guide] (0,0) rectangle (2.6,2.6);
+ \path[region] (0.4,0.4) rectangle (2.6,2.6);
  \draw[accent] (0.8,0.8) rectangle (2.6,2.6);
  \draw[guide] (0,0.4) -- (2.6,0.4);
  \draw[guide] (0.4,0) -- (0.4,2.6);
@@ -208,47 +207,56 @@ $$
  \node at (1.8,1.7) {$D_\varepsilon$};
  \draw[->,accent] (0.7,0.7) -- (0.15,0.15);
 \end{tikzpicture}\par
-{\small\color{muted}$[\varepsilon,1]^2$ を広げ、両軸へ近づける}\par
-\end{minipage}\hfill
-\begin{minipage}[b]{0.48\linewidth}\centering
-\begin{tikzpicture}[handout diagram,x=1cm,y=0.48cm]
-\fill[soft] (0.35,0) -- plot[domain=0.35:1.5,samples=40] (\x,{0.65/\x}) -- (1.5,0) -- cycle;
- \fill[ink!12] (-1.5,0) -- plot[domain=-1.5:-0.35,samples=40] (\x,{0.65/\x}) -- (-0.35,0) -- cycle;
- \draw[accent] plot[domain=0.3:1.6,samples=40] (\x,{0.65/\x});
- \draw[ink] plot[domain=-1.6:-0.3,samples=40] (\x,{0.65/\x});
- \draw[axis] (-1.8,0) -- (1.85,0) node[right] {$x$};
- \draw[axis] (0,-2.3) -- (0,2.3) node[above] {$1/x$};
- \node[below right] at (0.35,0) {$\varepsilon$};
- \node[above left] at (-0.35,0) {$-\varepsilon$};
- \node at (1.1,0.8) {$+$};
- \node at (-1.1,-0.8) {$-$};
-\end{tikzpicture}\par
-{\small\color{muted}左右の相殺は、別々の収束を保証しない}\par
+{\small\color{muted}$\varepsilon\downarrow0$ で両軸へ}\par
 \end{minipage}
-\par\vspace{2pt}
+\par\vspace{3pt}
+
+\examplelabel{無限領域の例。}
+$Q=[0,\infty)^2$ では $Q_R=[0,R]^2$ を広げる。非負性と $e^{-x-y}=e^{-x}e^{-y}$ より
+$$
+ \iint_Qe^{-x-y}\,dx\,dy
+ =\lim_{R\to\infty}\left(\int_0^Re^{-t}\,dt\right)^2
+ =\lim_{R\to\infty}(1-e^{-R})^2=1.
+$$
+
 
 \end{minipage}\par\nointerlineskip
 % 2ページ目の下半分に演習問題と書き込み用の余白を置く。
 \noindent\begin{minipage}[b][0.5\textheight][t]{\linewidth}
 \exercises
 \begin{problems}
-\item $p\in\mathbb R$ に対し、$\int_0^1x^{-p}\,dx$ と $\int_1^\infty x^{-p}\,dx$ の収束条件を、原始関数と極限から導け。$p=1$ も扱うこと。
+\item \examplelabel{極限から計算する。}
+$\displaystyle\int_0^1\frac{dx}{\sqrt{x}}$、$\displaystyle\int_1^\infty\frac{dx}{x^{3/2}}$ を、
+それぞれ下端を $\varepsilon>0$、上端を $R>1$ にして計算し、極限と値を求めよ。
 \problemspace
 
-\item $\displaystyle\int_0^1\frac{dx}{\sqrt{x}}$ と $\displaystyle\int_0^1\frac{dx}{1-x}$ の収束・発散を調べ、収束する場合は値を求めよ。
+\item \examplelabel{べき関数と比較する。}
+(a) $\displaystyle\int_0^1\frac{dx}{\sqrt{x}(1+x)}$、
+(b) $\displaystyle\int_1^\infty\frac{dx}{\sqrt{x^2+x}}$ の収束・発散を判定せよ。
+(b) では $x^2+x\le2x^2$（$x\ge1$）を使う。
 \problemspace
 
-\item $\displaystyle\int_1^\infty\frac{dx}{x(x+1)}$ が収束することを示し、その値を求めよ。
+\item \examplelabel{絶対値で比較する。}
+$\displaystyle\int_1^\infty\frac{\cos x}{x^{3/2}}\,dx$ が絶対収束することを示せ。
+また、積分値の絶対値が $2$ 以下であることを示せ。
 \problemspace
 
-\item $\displaystyle\int_{-1}^1\frac{dx}{x}$ は通常の広義積分として収束するか。$\lim_{\varepsilon\downarrow0}(\int_{-1}^{-\varepsilon}\!dx/x+\int_\varepsilon^1\!dx/x)$ と比較せよ。
+
+\item \examplelabel{長方形で近づける。}
+$D=(0,1]^2$ とする。$D_\varepsilon=[\varepsilon,1]^2$（$0<\varepsilon<1$）で積分してから、
+$\displaystyle\iint_D\frac{y}{\sqrt{x}}\,dx\,dy$ の収束と値を調べよ。
 \problemspace
 
-\item $p,q\in\mathbb R$ とする。$\displaystyle\iint_{(0,1]^2}x^{-p}y^{-q}\,dx\,dy$ の収束条件と、収束する場合の値を求めよ。
+\item \examplelabel{無限領域へ広げる。}
+$Q=[1,\infty)^2$ を $Q_R=[1,R]^2$（$R>1$）で近づけ、
+(a) $\displaystyle\iint_Q\frac{dx\,dy}{x^2y^2}$、
+(b) $\displaystyle\iint_Q\frac{dx\,dy}{xy}$ の収束・発散と、収束する場合の値を調べよ。
+\problemspace
+\item \examplelabel{特異点で分ける。}
+$\displaystyle\int_{-1}^1\frac{dx}{x}$ の収束・発散を左右別々に調べよ。
+$\displaystyle\int_{-1}^{-\varepsilon}\frac{dx}{x}+\int_\varepsilon^1\frac{dx}{x}=0$（$0<\varepsilon<1$）でも、収束といえないのはなぜか。（AIに聞くこと推奨）
 \problemspace
 
-\item $\displaystyle\iint_{\mathbb R^2}\frac{dx\,dy}{(1+x^2)(1+y^2)}$ の収束と値を調べよ。累次積分を使える理由も述べよ。
-\problemspace
 \end{problems}
 \end{minipage}
 \end{document}

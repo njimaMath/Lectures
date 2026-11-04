@@ -1,0 +1,125 @@
+% このディレクトリで2回実行：pdflatex -interaction=nonstopmode -halt-on-error class5_handout_answers.tex
+\documentclass[a4paper,10pt,pdflatex,ja=standard,jafont=ipaex-type1,
+  magstyle=real,scale=1]{bxjsarticle}
+\usepackage{lmodern}
+\usepackage{amsmath,amssymb,mathtools}
+\usepackage{geometry}
+\geometry{reset,left=22mm,right=22mm,top=20mm,bottom=17mm,
+  headheight=13pt,headsep=6mm,footskip=10mm}
+\usepackage{xcolor}
+\usepackage{enumitem}
+\usepackage{fancyhdr}
+\usepackage{lastpage}
+\definecolor{ink}{HTML}{193A5C}
+\definecolor{accent}{HTML}{237D82}
+\definecolor{soft}{HTML}{EAF3F3}
+\definecolor{muted}{HTML}{52616B}
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\small\color{ink}解析学 II・演習問題の解答}
+\fancyhead[R]{\small\color{ink}第5回}
+\fancyfoot[C]{\small\color{ink}\thepage/\pageref{LastPage}}
+\renewcommand{\headrulewidth}{0.3pt}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{2pt}
+\newcommand{\handouttitle}[1]{%
+  \begin{center}
+    {\Large\color{ink}#1}\par\vspace{3mm}
+    {\color{accent}\rule{0.88\linewidth}{0.7pt}}
+  \end{center}\vspace{-2mm}}
+\newcommand{\examplelabel}[1]{{\sffamily\mdseries\color{ink}#1}}
+\newenvironment{problems}
+  {\begin{enumerate}[leftmargin=2em,itemsep=6pt,topsep=3pt,parsep=0pt,
+    font=\color{accent}]}
+  {\end{enumerate}}
+
+\begin{document}
+\fontsize{10pt}{13.5pt}\selectfont
+\setlength{\abovedisplayskip}{4pt}
+\setlength{\belowdisplayskip}{4pt}
+\setlength{\abovedisplayshortskip}{3pt}
+\setlength{\belowdisplayshortskip}{4pt}
+\handouttitle{第5回\quad 広義積分：演習問題の解答}
+\begin{problems}
+\item \examplelabel{極限から計算する。}
+$0<\varepsilon<1<R$ とすると、
+$$
+ \begin{aligned}
+ \int_\varepsilon^1x^{-1/2}\,dx
+ &=[2\sqrt{x}]_\varepsilon^1=2(1-\sqrt\varepsilon)
+ \longrightarrow2\quad(\varepsilon\downarrow0),\\
+ \int_1^Rx^{-3/2}\,dx
+ &=[-2x^{-1/2}]_1^R=2(1-R^{-1/2})
+ \longrightarrow2\quad(R\to\infty).
+ \end{aligned}
+$$
+どちらも収束し、値は $2$。関数が端点で非有界でも、区間が無限でも、積分が発散するとは限らない。
+
+\item \examplelabel{べき関数と比較する。}
+(a) $0<x\le1$ で
+$$
+ 0\le\frac1{\sqrt{x}(1+x)}\le x^{-1/2},\qquad
+ \int_0^1x^{-1/2}\,dx=2<\infty
+$$
+より収束する。(b) $x\ge1$ で $x^2+x\le2x^2$ だから、
+$$
+ \frac1{\sqrt{x^2+x}}\ge\frac1{\sqrt2\,x},\qquad
+ \int_1^\infty\frac{dx}{\sqrt2\,x}=+\infty
+$$
+より $+\infty$ に発散する。分母が大きいほど逆数は小さいので、不等号の向きに注意しよう。
+
+\item \examplelabel{絶対値で比較する。}
+$x\ge1$ では $|\cos x|\le1$ より、
+$$
+ \int_1^\infty\left|\frac{\cos x}{x^{3/2}}\right|\,dx
+ \le\int_1^\infty x^{-3/2}\,dx=2<\infty.
+$$
+したがって絶対収束し、積分値 $I=\int_1^\infty x^{-3/2}\cos x\,dx$ は有限である。さらに、
+$$
+ |I|\le\int_1^\infty\frac{|\cos x|}{x^{3/2}}\,dx\le2.
+$$
+
+\item \examplelabel{特異点で分ける。}
+左右の積分を独立に調べると、
+$$
+ \begin{aligned}
+ \int_{-1}^{-\varepsilon}\frac{dx}{x}
+ &=[\log|x|]_{-1}^{-\varepsilon}=\log\varepsilon
+ \longrightarrow-\infty\quad(\varepsilon\downarrow0),\\
+ \int_\delta^1\frac{dx}{x}
+ &=[\log x]_\delta^1=-\log\delta
+ \longrightarrow+\infty\quad(\delta\downarrow0).
+ \end{aligned}
+$$
+左右とも有限の極限をもたないので、通常の広義積分は発散する。
+$\delta=\varepsilon$ とした和は $0$ だが、これは左右を同じ幅だけ除く特別な極限（コーシーの主値）である。
+$-\infty$ と $+\infty$ を相殺して積分値を定めることはできない。
+
+\item \examplelabel{長方形で近づける。}
+$D_\varepsilon$ 上では連続なので、累次積分を計算できる。
+$$
+ \begin{aligned}
+ \iint_{D_\varepsilon}\frac{y}{\sqrt{x}}\,dx\,dy
+ &=\left(\int_\varepsilon^1x^{-1/2}\,dx\right)
+   \left(\int_\varepsilon^1y\,dy\right)\\
+ &=2(1-\sqrt\varepsilon)\,\frac{1-\varepsilon^2}{2}
+ \longrightarrow1\quad(\varepsilon\downarrow0).
+ \end{aligned}
+$$
+被積分関数は非負であり、$D_\varepsilon$ は $D$ へ広がるので、広義重積分は収束し、値は $1$。
+
+\item \examplelabel{無限領域へ広げる。}
+どちらも非負なので、$Q_R=[1,R]^2$ 上の積分の極限を調べればよい。
+$$
+ \begin{aligned}
+ \text{(a)}\quad\iint_{Q_R}\frac{dx\,dy}{x^2y^2}
+ &=\left(\int_1^Rt^{-2}\,dt\right)^2=(1-R^{-1})^2
+ \longrightarrow1\quad(R\to\infty),\\
+ \text{(b)}\quad\iint_{Q_R}\frac{dx\,dy}{xy}
+ &=\left(\int_1^R\frac{dt}{t}\right)^2=(\log R)^2
+ \longrightarrow+\infty\quad(R\to\infty).
+ \end{aligned}
+$$
+(a) は収束し、値は $1$。(b) は $+\infty$ に発散する。同じ無限領域でも、関数の減衰の速さで結論が変わる。
+\end{problems}
+\end{document}
