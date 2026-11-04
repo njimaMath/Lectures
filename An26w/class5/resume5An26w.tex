@@ -1,4 +1,4 @@
-% Build twice here: pdflatex -interaction=nonstopmode -halt-on-error resume5An26w.tex
+% このディレクトリで2回実行：pdflatex -interaction=nonstopmode -halt-on-error resume5An26w.tex
 \documentclass[a4paper,10pt,pdflatex,ja=standard,jafont=ipaex-type1,
   magstyle=real,scale=1]{bxjsarticle}
 \usepackage{lmodern}
@@ -59,7 +59,7 @@
 \newcommand{\exercises}{%
   {\color{accent}\hrule height 0.7pt}\vspace{3pt}%
   \topic{演習問題（6題）}%
-  {\small 領域と積分範囲を確認し、計算過程も書こう。図を描くと範囲を読み取りやすい。}\par}
+  {\small 特異点・無限遠を確認し、比較に使った不等式や極限を書こう。問2・3は積分値を求めなくてよい。}\par}
 \tikzset{
   handout diagram/.style={>={Stealth[length=3.2pt,width=3.2pt]},line join=round,
     every node/.style={font=\scriptsize,text=ink}},
@@ -69,32 +69,10 @@
   axis/.style={->,ink,thin}}
 
 
-% Review Q&A can also be used for actual student feedback when it is available.
-\newcommand{\feedback}[2]{%
-  \par\addvspace{8pt}\noindent\begin{minipage}{\linewidth}%
-  {\color{ink}Q. #1}\par\vspace{2pt}%
-  {\color{accent}A. }#2%
-  \end{minipage}\par}
-
 \begin{document}
 \fontsize{10pt}{13.5pt}\selectfont
 \setlength{\abovedisplayskip}{4pt}
 \setlength{\belowdisplayskip}{4pt}
-% Feedback section: add comments and responses here when available.
-\fancyhead[L]{\small\color{ink}\coursename{}・フィードバック}
-\handout{5}{前回のコメントへのフィードバック}
-% \feedback{comment}{response}
-\clearpage
-
-% Previous small-test section: add the questions and solutions here.
-\fancyhead[L]{\small\color{ink}\coursename{}・小テスト}
-\fancyhead[R]{\small\color{ink}第4回}
-\handouttitle{第4回\quad 小テスト}
-% Questions and solutions are intentionally blank.
-\clearpage
-
-\fancyhead[L]{\small\color{ink}\coursename{}・授業要約と演習}
-\fancyhead[R]{\small\color{ink}第\handoutnumber 回}
 \handout{5}{広義積分}\label{lesson-start}
 \keybox{到達目標：特異点と無限遠を別々の極限で扱い、収束・発散を判断できる。
 関数の高さだけでなく、積分される面積の極限を調べよう。}
@@ -191,7 +169,7 @@ $$
 
 
 \newpage
-% Keep the remaining summary in the upper half of page 2.
+% 2ページ目の上半分に授業要約と例題を置く。
 \noindent\begin{minipage}[b][\dimexpr0.5\textheight-\parskip\relax][t]{\linewidth}
 \topic{非負関数の広義重積分}
 特異点を除いた領域を $D$ とし、$D_1\subset D_2\subset\cdots$ を
@@ -251,77 +229,129 @@ $$
 \par\vspace{2pt}
 
 \end{minipage}\par\nointerlineskip
-% Keep the exercises and writing space in the lower half of page 2.
+% 2ページ目の下半分に演習問題と書き込み用の余白を置く。
 \noindent\begin{minipage}[b][0.5\textheight][t]{\linewidth}
 \exercises
 \begin{problems}
-\item $p\in\mathbb R$ に対し、$\int_0^1x^{-p}\,dx$ と $\int_1^\infty x^{-p}\,dx$ の収束条件を、原始関数と極限から導け。$p=1$ も扱うこと。
+\item \examplelabel{極限から計算する。}
+$\displaystyle\int_0^1\frac{dx}{\sqrt{x}}$、$\displaystyle\int_1^\infty\frac{dx}{x^{3/2}}$ を、
+それぞれ下端を $\varepsilon>0$、上端を $R>1$ にして計算し、極限と値を求めよ。
 \problemspace
 
-\item $\displaystyle\int_0^1\frac{dx}{\sqrt{x}}$ と $\displaystyle\int_0^1\frac{dx}{1-x}$ の収束・発散を調べ、収束する場合は値を求めよ。
+\item \examplelabel{べき関数と比較する。}
+(a) $\displaystyle\int_0^1\frac{dx}{\sqrt{x}(1+x)}$、
+(b) $\displaystyle\int_1^\infty\frac{dx}{\sqrt{x^2+x}}$ の収束・発散を判定せよ。
+(b) では $x^2+x\le2x^2$（$x\ge1$）を使う。
 \problemspace
 
-\item $\displaystyle\int_1^\infty\frac{dx}{x(x+1)}$ が収束することを示し、その値を求めよ。
+\item \examplelabel{絶対値で比較する。}
+$\displaystyle\int_1^\infty\frac{\cos x}{x^{3/2}}\,dx$ が絶対収束することを示せ。
+また、積分値の絶対値が $2$ 以下であることを示せ。
 \problemspace
 
-\item $\displaystyle\int_{-1}^1\frac{dx}{x}$ は通常の広義積分として収束するか。$\lim_{\varepsilon\downarrow0}(\int_{-1}^{-\varepsilon}\!dx/x+\int_\varepsilon^1\!dx/x)$ と比較せよ。
+
+\item \examplelabel{長方形で近づける。}
+$D=(0,1]^2$ とする。$D_\varepsilon=[\varepsilon,1]^2$（$0<\varepsilon<1$）で積分してから、
+$\displaystyle\iint_D\frac{y}{\sqrt{x}}\,dx\,dy$ の収束と値を調べよ。
 \problemspace
 
-\item $p,q\in\mathbb R$ とする。$\displaystyle\iint_{(0,1]^2}x^{-p}y^{-q}\,dx\,dy$ の収束条件と、収束する場合の値を求めよ。
+\item \examplelabel{無限領域へ広げる。}
+$Q=[1,\infty)^2$ を $Q_R=[1,R]^2$（$R>1$）で近づけ、
+(a) $\displaystyle\iint_Q\frac{dx\,dy}{x^2y^2}$、
+(b) $\displaystyle\iint_Q\frac{dx\,dy}{xy}$ の収束・発散と、収束する場合の値を調べよ。
+\problemspace
+\item \examplelabel{特異点で分ける。}
+$\displaystyle\int_{-1}^1\frac{dx}{x}$ の収束・発散を左右別々に調べよ。
+$\displaystyle\int_{-1}^{-\varepsilon}\frac{dx}{x}+\int_\varepsilon^1\frac{dx}{x}=0$（$0<\varepsilon<1$）でも、収束といえないのはなぜか。（AIに聞くこと推奨）
 \problemspace
 
-\item $\displaystyle\iint_{\mathbb R^2}\frac{dx\,dy}{(1+x^2)(1+y^2)}$ の収束と値を調べよ。累次積分を使える理由も述べよ。
-\problemspace
 \end{problems}
 \end{minipage}
 
 \newpage
+\fancyhead[L]{\small\color{ink}\coursename{}・演習問題の解答}
 \handouttitle{第5回\quad 演習問題の解答}
-{\small 設定した範囲と条件も確認しながら、計算を振り返ろう。}\par
 \begin{problems}
-\setlength{\itemsep}{7pt}
-\item $p\ne1$ では原始関数は $x^{1-p}/(1-p)$。したがって
+\setlength{\itemsep}{6pt}
+\item \examplelabel{極限から計算する。}
+$0<\varepsilon<1<R$ とすると、
 $$
- \int_\varepsilon^1x^{-p}\,dx=\frac{1-\varepsilon^{1-p}}{1-p},\qquad
- \int_1^Rx^{-p}\,dx=\frac{R^{1-p}-1}{1-p}.
+ \begin{aligned}
+ \int_\varepsilon^1x^{-1/2}\,dx
+ &=[2\sqrt{x}]_\varepsilon^1=2(1-\sqrt\varepsilon)
+ \longrightarrow2\quad(\varepsilon\downarrow0),\\
+ \int_1^Rx^{-3/2}\,dx
+ &=[-2x^{-1/2}]_1^R=2(1-R^{-1/2})
+ \longrightarrow2\quad(R\to\infty).
+ \end{aligned}
 $$
-$\varepsilon\downarrow0$ の極限は $p<1$ のとき $1/(1-p)$、それ以外は $+\infty$。
-$R\to\infty$ の極限は $p>1$ のとき $1/(p-1)$、それ以外は $+\infty$ である。
-$p=1$ では、それぞれ $-\log\varepsilon$、$\log R$ なので両方とも発散する。
+どちらも収束し、値は $2$。関数が端点で非有界でも、区間が無限でも、積分が発散するとは限らない。
 
-\item 最初は $p=1/2<1$ なので収束し、後者は端点 $x=1$ で発散する。
+\item \examplelabel{べき関数と比較する。}
+(a) $0<x\le1$ で
 $$
- \int_0^1\frac{dx}{\sqrt x}=\lim_{\varepsilon\downarrow0}2(1-\sqrt\varepsilon)=2,\qquad
- \int_0^{1-\varepsilon}\frac{dx}{1-x}=-\log\varepsilon\longrightarrow+\infty.
+ 0\le\frac1{\sqrt{x}(1+x)}\le x^{-1/2},\qquad
+ \int_0^1x^{-1/2}\,dx=2<\infty
+$$
+より収束する。(b) $x\ge1$ で $x^2+x\le2x^2$ だから、
+$$
+ \frac1{\sqrt{x^2+x}}\ge\frac1{\sqrt2\,x},\qquad
+ \int_1^\infty\frac{dx}{\sqrt2\,x}=+\infty
+$$
+より $+\infty$ に発散する。分母が大きいほど逆数は小さいので、不等号の向きに注意しよう。
+
+\item \examplelabel{絶対値で比較する。}
+$x\ge1$ では $|\cos x|\le1$ より、
+$$
+ \int_1^\infty\left|\frac{\cos x}{x^{3/2}}\right|\,dx
+ \le\int_1^\infty x^{-3/2}\,dx=2<\infty.
+$$
+したがって絶対収束し、積分値 $I=\int_1^\infty x^{-3/2}\cos x\,dx$ は有限である。さらに、
+$$
+ |I|\le\int_1^\infty\frac{|\cos x|}{x^{3/2}}\,dx\le2.
 $$
 
-\item $1/\{x(x+1)\}=1/x-1/(x+1)$ より
+\item \examplelabel{長方形で近づける。}
+$D_\varepsilon$ 上では連続なので、累次積分を計算できる。
 $$
- \int_1^R\frac{dx}{x(x+1)}
- =\log\frac R{R+1}+\log2\longrightarrow\log2.
+ \begin{aligned}
+ \iint_{D_\varepsilon}\frac{y}{\sqrt{x}}\,dx\,dy
+ &=\left(\int_\varepsilon^1x^{-1/2}\,dx\right)
+   \left(\int_\varepsilon^1y\,dy\right)\\
+ &=2(1-\sqrt\varepsilon)\,\frac{1-\varepsilon^2}{2}
+ \longrightarrow1\quad(\varepsilon\downarrow0).
+ \end{aligned}
 $$
-比較 $0\le1/\{x(x+1)\}\le1/x^2$ でも、収束を先に確認できる。
+被積分関数は非負であり、$D_\varepsilon$ は $D$ へ広がるので、広義重積分は収束し、値は $1$。
 
-\item 左側は $\int_{-1}^{-\varepsilon}dx/x=\log\varepsilon\to-\infty$、
-右側は $\int_\varepsilon^1dx/x=-\log\varepsilon\to+\infty$。
-両側が別々には収束しないため、通常の広義積分は発散する。
-一方、同じ $\varepsilon$ を用いた和は常に0で、極限も0。この値をコーシーの主値という。
+\item \examplelabel{無限領域へ広げる。}
+どちらも非負なので、$Q_R=[1,R]^2$ 上の積分の極限を調べればよい。
+$$
+ \begin{aligned}
+ \text{(a)}\quad\iint_{Q_R}\frac{dx\,dy}{x^2y^2}
+ &=\left(\int_1^Rt^{-2}\,dt\right)^2=(1-R^{-1})^2
+ \longrightarrow1\quad(R\to\infty),\\
+ \text{(b)}\quad\iint_{Q_R}\frac{dx\,dy}{xy}
+ &=\left(\int_1^R\frac{dt}{t}\right)^2=(\log R)^2
+ \longrightarrow+\infty\quad(R\to\infty).
+ \end{aligned}
+$$
+(a) は収束し、値は $1$。(b) は $+\infty$ に発散する。同じ無限領域でも、関数の減衰の速さで結論が変わる。
 
-\item 被積分関数は非負。トネリの定理、または長方形上の積分の極限を使うと
+\item \examplelabel{特異点で分ける。}
+左右の積分を独立に調べると、
 $$
- \iint_{(0,1]^2}x^{-p}y^{-q}\,dx\,dy
- =\left(\int_0^1x^{-p}\,dx\right)\left(\int_0^1y^{-q}\,dy\right).
+ \begin{aligned}
+ \int_{-1}^{-\varepsilon}\frac{dx}{x}
+ &=[\log|x|]_{-1}^{-\varepsilon}=\log\varepsilon
+ \longrightarrow-\infty\quad(\varepsilon\downarrow0),\\
+ \int_\delta^1\frac{dx}{x}
+ &=[\log x]_\delta^1=-\log\delta
+ \longrightarrow+\infty\quad(\delta\downarrow0).
+ \end{aligned}
 $$
-収束条件は $p<1$ かつ $q<1$、値は $1/\{(1-p)(1-q)\}$。
-一方でも条件を満たさなければ、もう一方の変数を $[1/2,1]$ に制限しても積分は発散する。
-
-\item 非負の連続関数なので、トネリの定理で累次積分にできる。
-$$
- \iint_{\mathbb R^2}\frac{dx\,dy}{(1+x^2)(1+y^2)}
- =\left(\int_{-\infty}^\infty\frac{dt}{1+t^2}\right)^2
- =\left([\arctan t]_{-\infty}^\infty\right)^2=\pi^2.
-$$
-値が有限なので、絶対可積分性も確認できた。
+左右とも有限の極限をもたないので、通常の広義積分は発散する。
+$\delta=\varepsilon$ とした和は $0$ だが、これは左右を同じ幅だけ除く特別な極限（コーシーの主値）である。
+$-\infty$ と $+\infty$ を相殺して積分値を定めることはできない。
 \end{problems}
-\keybox{特異点では左右を別々に判定しよう。非負関数の積分では、有限の値が得られた時点で収束も分かる。}
 \end{document}
