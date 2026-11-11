@@ -119,110 +119,177 @@ $G\le1$ より $c\ge0$、$G(t)\to0$ より $c=0$ は除かれ、$G(t)=e^{-ct}$�
 \endgroup
 
 \handouttitle{第6回\quad 二項分布の正規近似}
-\keybox{二項分布の中心は $n/2$、幅は $\sqrt n/2$ である。
-中心と幅をそろえると、離散的な確率質量の和が正規密度の積分へ近づく。}
+\keybox{公平なコイントスを $-1$ と $1$ で表すと、和 $S_n$ の平均は $0$、
+標準偏差は $\sqrt n$ となる。$S_n/\sqrt n$ の確率質量の和は、正規密度の積分へ近づく。}
 
 \topic{公平なコイントスと標準化}
-$X_1,X_2,\ldots$ は独立で $P(X_j=0)=P(X_j=1)=1/2$ とする。
-表の個数 $S_n=\sum_{j=1}^nX_j$ について
-$$P(S_n=k)=\binom nk2^{-n},\qquad
- \E[S_n]=\frac n2,\qquad \Var(S_n)=\frac n4.$$
+$X_1,X_2,\ldots$ は独立で $P(X_j=-1)=P(X_j=1)=1/2$ とする。
+表を $1$、裏を $-1$ と記録すると
+$$\E[X_j]=\frac12-\frac12=0,\qquad
+ \Var(X_j)=\E[X_j^2]=1.$$
+和 $S_n:=\sum_{j=1}^nX_j$ は「表の回数から裏の回数を引いた値」であり、独立性から
+$$\E[S_n]=0,\qquad \Var(S_n)=n.$$
+$S_n=k$ となるには表が $(n+k)/2$ 回、裏が $(n-k)/2$ 回出ればよい。
+したがって、取り得る値の集合と一点の確率は
+$$\mathcal K_n:=\{-n,-n+2,\ldots,n\},\qquad
+ P(S_n=k)=\binom{n}{(n+k)/2}2^{-n}\quad(k\in\mathcal K_n).$$
+$k\notin\mathcal K_n$ なら $P(S_n=k)=0$ である。
+なお、表の回数 $(S_n+n)/2$ は二項分布 $\mathrm{Bin}(n,1/2)$ に従う。
 標準化した変数と格子幅は
-$$Z_n:=\frac{S_n-n/2}{\sqrt n/2},\qquad
- x_{n,k}:=\frac{2k-n}{\sqrt n},\qquad \Delta x=\frac2{\sqrt n}.$$
+$$Z_n:=\frac{S_n}{\sqrt n},\qquad
+ x_{n,k}:=\frac{k}{\sqrt n},\qquad \Delta x=\frac2{\sqrt n}.$$
 $Z_n$ の平均は $0$、分散は $1$ となる。
-値の刻みは $n$ とともに小さくなるが、各 $n$ で $Z_n$ は離散型である。
+隣り合う $S_n$ の値の差が $2$ なので、$Z_n$ の格子幅は $2/\sqrt n$ となる。
 
-\topic{正規密度と Gauss 積分}
+\topic{標準正規密度と分布関数}
 標準正規密度とその分布関数を
 $$\phi(x):=\frac1{\sqrt{2\pi}}e^{-x^2/2},\qquad
  \Phi(t):=\int_{-\infty}^t\phi(x)\,dx$$
-とおく。正規化のために $I=\int_\R e^{-x^2/2}\,dx$ を計算する。
-非負積分に Tonelli の定理を使い、極座標に変換すれば
-$$I^2=\int_{\R^2}e^{-(x^2+y^2)/2}\,dx\,dy
- =2\pi\int_0^\infty r e^{-r^2/2}\,dr=2\pi.$$
-$I>0$ なので $I=\sqrt{2\pi}$、したがって $\int_\R\phi=1$ となる。
+とおく。$\phi(x)\ge0$、$\int_\R\phi(x)\,dx=1$ であり、
+この密度をもつ分布を標準正規分布 $N(0,1)$ という。
 
-\topic{Stirling 公式から中心の高さを求める}
-階乗の漸近公式
-$$n!\sim\sqrt{2\pi n}\left(\frac ne\right)^n$$
-を使う。偶数 $n$ について中心の確率は
-$$P(S_n=n/2)=\frac{n!}{((n/2)!)^2}2^{-n}
- \sim\sqrt{\frac2{\pi n}}=\phi(0)\frac2{\sqrt n}.$$
-中心の一点の確率は $n^{-1/2}$ 程度となる。
-$n=100$ なら厳密値は約 $0.079589$、上の近似値は約 $0.079788$ である。
-密度の高さそのものに比べるのではなく、格子幅を掛けて比べる点が重要である。
+\topic{一般の一点確率にスターリングの公式を使う}
+$k\in\mathcal K_n$ に対し $a:=(n+k)/2$、$b:=(n-k)/2$ とおくと、
+$a+b=n$、$P(S_n=k)=n!\,2^{-n}/(a!b!)$ である。
+スターリングの公式
+$$m!=\sqrt{2\pi m}\left(\frac me\right)^m
+ \bigl(1+O(m^{-1})\bigr)\qquad(m\to\infty)$$
+を三つの階乗に代入しよう。
+$O(m^{-1})$ は、絶対値が定数倍の $m^{-1}$ 以下となる誤差を表す。
+$a,b$ がともに $\infty$ に向かう範囲では
+$$\begin{aligned}
+ P(S_n=k)
+ &=\frac{\sqrt{2\pi n}(n/e)^n}
+ {\sqrt{2\pi a}(a/e)^a\sqrt{2\pi b}(b/e)^b}\,2^{-n}
+ \bigl(1+O(a^{-1}+b^{-1})\bigr)\\
+ &=\sqrt{\frac{n}{2\pi ab}}\,
+ \frac{n^n}{2^n a^a b^b}\bigl(1+O(a^{-1}+b^{-1})\bigr).
+\end{aligned}$$
+ここでは $a+b=n$ により、$e^{-n}/(e^{-a}e^{-b})=1$ と打ち消し合う。
+中心の一点に限らず、表と裏がともに十分多く出る $k$ に使える近似である。
 
-\topic{確率質量と正規密度の比較（$n=20$）}
+\newpage
+\topic{中心付近の局所近似}
+固定した $R>0$ に対し、$k\in\mathcal K_n$、$|x_{n,k}|\le R$ の範囲を考え、
+$$x:=x_{n,k},\qquad u:=\frac{k}{n}=\frac{x}{\sqrt n},\qquad
+ a=\frac n2(1+u),\quad b=\frac n2(1-u)$$
+とおく。$|u|\le R/\sqrt n\to0$ なので、十分大きな $n$ では
+$a,b\ge n/4$ となり、前ページの相対誤差は一様に $O(n^{-1})$ となる。
+
+\examplelabel{係数と指数を整理する。}
+平方根の係数は $ab=n^2(1-u^2)/4$ により
+$\sqrt{2/(\pi n)}(1-u^2)^{-1/2}$ となる。
+一方、累乗部分は対数をとると整理しやすい。
+$$\begin{aligned}
+ \log\frac{n^n}{2^n a^a b^b}
+ &=-a\log(1+u)-b\log(1-u)=-nH(u),\\
+ H(u)&:=\frac{(1+u)\log(1+u)+(1-u)\log(1-u)}2.
+\end{aligned}$$
+したがって、確率は次の形に書ける。
+$$P(S_n=k)=\sqrt{\frac2{\pi n}}\,
+ \frac{e^{-nH(u)}}{\sqrt{1-u^2}}\bigl(1+O(n^{-1})\bigr).$$
+
+\examplelabel{対数を展開して、正規密度の指数を取り出す。}
+$u=0$ のまわりで $\log(1\pm u)$ を展開して掛け合わせると、
+$$\begin{aligned}
+ (1+u)\log(1+u)&=u+\frac{u^2}2-\frac{u^3}6+O(u^4),\\
+ (1-u)\log(1-u)&=-u+\frac{u^2}2+\frac{u^3}6+O(u^4).
+\end{aligned}$$
+二つを足すと一次と三次の項が消え、$H(u)=u^2/2+O(u^4)$ を得る。
+$u=x/\sqrt n$、$|x|\le R$ だから
+$$nH(u)=\frac{x^2}2+O\!\left(\frac{x^4}{n}\right)
+ =\frac{x^2}2+O(n^{-1}),\qquad
+ (1-u^2)^{-1/2}=1+O(n^{-1}).$$
+これらを代入すれば、局所近似
+$$\begin{aligned}
+ P(S_n=k)&=\frac{2}{\sqrt{2\pi n}}e^{-k^2/(2n)}
+ \bigl(1+O(n^{-1})\bigr)\\
+ &=\phi(x_{n,k})\,\Delta x\,\bigl(1+O(n^{-1})\bigr).
+\end{aligned}$$
+が得られる。ここで $\Delta x=2/\sqrt n$ である。
+このページの $O(n^{-1})$ の定数は $R$ に依存してよいが、$k$ には依存しない。
+つまり、固定した範囲 $|x_{n,k}|\le R$ のすべての格子点で、相対誤差が一様に $0$ に近づく。
+
+\topic{確率質量と正規近似の比較（$n=20$）}
 \begin{center}
-\begin{tikzpicture}[x=0.43cm,y=14cm,font=\small]
- \foreach \k/\p in {0/0.000000954,1/0.000019073,2/0.000181198,
+\begin{tikzpicture}[x=0.215cm,y=14cm,font=\small]
+ \foreach \j/\p in {0/0.000000954,1/0.000019073,2/0.000181198,
  3/0.001087189,4/0.004620552,5/0.014785767,6/0.036964417,
  7/0.073928833,8/0.120134354,9/0.160179138,10/0.176197052,
  11/0.160179138,12/0.120134354,13/0.073928833,14/0.036964417,
  15/0.014785767,16/0.004620552,17/0.001087189,18/0.000181198,
  19/0.000019073,20/0.000000954}{
-   \fill[ink!22] ({\k-0.45},0) rectangle ({\k+0.45},\p);
+   \fill[ink!22] ({2*\j-20-0.9},0) rectangle ({2*\j-20+0.9},\p);
  }
- \draw[accent,line width=0.9pt,domain=0:20,samples=101]
-  plot (\x,{exp(-(\x-10)^2/10)/sqrt(10*pi)});
- \draw[ink,->] (-0.7,0)--(21,0) node[right] {$k$};
- \draw[ink,->] (0,0)--(0,0.22);
- \foreach \k in {0,5,10,15,20}{\node[below,ink] at (\k,0) {$\k$};}
+ \draw[accent,line width=0.9pt,domain=-20:20,samples=101]
+  plot (\x,{2*exp(-(\x*\x)/40)/sqrt(40*pi)});
+ \draw[ink,->] (-21.4,0)--(22,0) node[right] {$k$};
+ \draw[ink,->] (-21,0)--(-21,0.22);
+ \foreach \k in {-20,-10,0,10,20}{\node[below,ink] at (\k,0) {$\k$};}
  \foreach \p in {0.1,0.2}{
-   \draw[muted!35,dotted] (0,\p)--(20.5,\p);
-   \node[left,ink] at (0,\p) {$\p$};
+   \draw[muted!35,dotted] (-21,\p)--(21,\p);
+   \node[left,ink] at (-21,\p) {$\p$};
  }
- \node[accent,right] at (12.3,0.19) {$N(10,5)$ の密度};
+ \node[accent,right,fill=white,inner sep=1pt] at (4.6,0.19)
+  {$\displaystyle\frac{2}{\sqrt{40\pi}}e^{-k^2/40}$};
 \end{tikzpicture}
 \end{center}
-{\small\color{muted}棒の高さは $P(S_{20}=k)$。曲線は平均10・分散5の正規密度で、
-一点の確率は幅1の区間の面積で近似する。}\par
+{\small\color{muted}棒の高さは偶数 $k$ における $P(S_{20}=k)$。
+曲線は $N(0,20)$ の密度に、$S_{20}$ の格子幅 $2$ を掛けたもの。
+密度そのものではなく「密度 $\times$ 格子幅」と一点の確率を比べている。}\par
 
 \newpage
-\topic{中心付近の局所近似}
-固定した $R>0$ に対し、$|x_{n,k}|\le R$ の範囲では
-$$P(S_n=k)=\phi(x_{n,k})\frac2{\sqrt n}\,(1+o(1))$$
-が $k$ について一様に成り立つ。
-Stirling 公式を二項係数に代入し、$u=(2k-n)/n=x_{n,k}/\sqrt n$ とおくと、
-指数部分には
-$$\frac{(1+u)\log(1+u)+(1-u)\log(1-u)}2
- =\frac{u^2}2+O(u^4)$$
-が現れる。$x_{n,k}$ が有界なら $nu^2=x_{n,k}^2$、$nu^4\to0$ なので
-$e^{-x_{n,k}^2/2}$ が残る。係数は $\sqrt{2/(\pi n)}$ に近づく。
-
 \topic{確率質量を足すと積分になる}
-固定した有限区間 $[a,b]$ では、上の一様近似と Riemann 和により
-$$P(a\le Z_n\le b)
- =\sum_{a\le x_{n,k}\le b}P(S_n=k)
- \longrightarrow\int_a^b\phi(x)\,dx.$$
-無限区間に進むには尾を抑える。$\E[Z_n^2]=1$ なので
-$$P(|Z_n|>R)\le\frac1{R^2}.$$
-まず有限区間で $n\to\infty$、次に $R\to\infty$ として
+固定した有限区間 $[a,b]$（$a<b$）を考える。
+$R>\max\{|a|,|b|\}$ を選べば、区間内の各格子点に局所近似が使える。
+以下の和と最大値は、$k\in\mathcal K_n$ の範囲でとる。
+その相対誤差を $r_{n,k}$ と書くと
+$$\begin{aligned}
+ P(a\le Z_n\le b)
+ &=\sum_{a\le x_{n,k}\le b}\phi(x_{n,k})\,\Delta x\,(1+r_{n,k}),\\
+ \varepsilon_n&:=\max_{a\le x_{n,k}\le b}|r_{n,k}|\longrightarrow0.
+\end{aligned}$$
+近似誤差の和の絶対値は
+$$\left|\sum_{a\le x_{n,k}\le b}\phi(x_{n,k})\,\Delta x\,r_{n,k}\right|
+ \le\varepsilon_n\sum_{a\le x_{n,k}\le b}\phi(x_{n,k})\,\Delta x$$
+で抑えられる。右辺の和は格子幅 $\Delta x\to0$ の Riemann 和なので、
+$\int_a^b\phi(x)\,dx$ に収束し、特に有界である。
+したがって誤差の和も $0$ に近づき、
+$$P(a\le Z_n\le b)\longrightarrow\int_a^b\phi(x)\,dx$$
+が従う。一点の確率が「密度 $\times$ 格子幅」に近づくため、
+それらを足すと曲線の下の面積に近づくのである。
+
+\topic{有限区間から分布関数の収束へ}
+分布関数 $P(Z_n\le t)$ では区間の左端が $-\infty$ となるので、
+まず遠い尾の確率を抑える。$\E[Z_n^2]=1$ と Markov の不等式から
+$$P(|Z_n|>R)=P(Z_n^2>R^2)\le\frac{\E[Z_n^2]}{R^2}=\frac1{R^2}.$$
+$t\in\R$ を固定し、$R>|t|$ とすると
+$$\begin{aligned}
+ \left|P(Z_n\le t)-\Phi(t)\right|
+ &\le\left|P(-R\le Z_n\le t)-\int_{-R}^t\phi(x)\,dx\right|\\
+ &\quad+\frac1{R^2}+\int_{-\infty}^{-R}\phi(x)\,dx.
+\end{aligned}$$
+固定した $R$ について $n\to\infty$ とすると、有限区間での収束により第一項が消える。
+次に $R\to\infty$ とすれば残りの二項も $0$ となり、
 $$P(Z_n\le t)\longrightarrow\Phi(t)\qquad(t\in\R)$$
 を得る。これが公平なコイントスに対する de Moivre--Laplace の定理である。
 
-\topic{実際の計算：連続性補正}
-整数 $a\le b$ に対し、$S_n$ の一点 $k$ を区間 $[k-1/2,k+1/2]$ に対応させると
-$$P(a\le S_n\le b)\approx
- \Phi\left(\frac{b+1/2-n/2}{\sqrt n/2}\right)
- -\Phi\left(\frac{a-1/2-n/2}{\sqrt n/2}\right).$$
-たとえば $n=100$、$a=45$、$b=55$ では $\Phi(1.1)-\Phi(-1.1)$ となる。
-これは有限 $n$ での精度を改善する方法であり、極限定理の主張そのものとは区別する。
-
 \topic{一般の成功確率の場合}
-固定した $0<p<1$ に対しても、独立な $\mathrm{Bern}(p)$ の和は
-$$\frac{S_n-np}{\sqrt{np(1-p)}}\ \Rightarrow\ N(0,1).$$
+偏りのあるコインも扱える。固定した $0<p<1$ に対し、独立な変数 $Y_j\in\{-1,1\}$ が
+$P(Y_j=1)=p$、$P(Y_j=-1)=1-p$ を満たすとする。
+$T_n:=\sum_{j=1}^nY_j$ の平均は $n(2p-1)$、分散は $4np(1-p)$ であり、
+$$\frac{T_n-n(2p-1)}{2\sqrt{np(1-p)}}\ \Rightarrow\ N(0,1).$$
 $\Rightarrow$ は分布収束を表す。一般の独立同分布列への拡張は第10回に扱う。
 小さい $n$ や極端な尾では、正規近似の誤差に注意する。
 
 \newpage
 \topic{演習問題}
 \begin{enumerate}[label=\arabic*.]
-\item 独立な $X_j\sim\mathrm{Bern}(p)$ に対し、$\E[S_n]$ と $\Var(S_n)$ を求めよ。
+\item 独立な $X_j$ が $P(X_j=-1)=P(X_j=1)=1/2$ を満たすとする。
+$S_n=\sum_{j=1}^nX_j$ の期待値と分散を求めよ。
 標準化で平均 $0$、分散 $1$ になることを確かめよ。
-\item $S_{100}\sim\mathrm{Bin}(100,1/2)$ について、$P(45\le S_{100}\le55)$ を
-連続性補正あり・なしで正規近似せよ。厳密な二項和と比べよ。
+\item 公平なコイントス100回の和 $S_{100}$ について、$P(-10\le S_{100}\le10)$ を
+$P(-1\le Z_{100}\le1)$ と書き換えて正規近似せよ。厳密な二項和と比べよ。
 \item $Z_n$ の局所近似を用いて、有限な $a<b$ に対する区間確率の収束を示せ。
 各項の近似誤差を足し合わせるため、一様性をどこで使うか説明せよ。
 \item $P(|Z_n|>R)\le R^{-2}$ を証明し、有限区間での収束から分布関数の収束へ
@@ -232,10 +299,11 @@ $\Rightarrow$ は分布収束を表す。一般の独立同分布列への拡張
 \topic{レポート問題}
 \begin{enumerate}[label=\arabic*.]
 \item $n=100$ の公平なコイントスを $10\,000$ 回反復するシミュレーションを行え。
-$S_n$ の確率質量のヒストグラムに、$N(50,25)$ の密度を重ねよ。
-標準化して描く場合は、密度と確率質量のどちらを表示しているか明記せよ。
-\item $n=20,50,200$ の結果を比較し、中心部と尾部の近似誤差、
-および連続性補正の効果を考察せよ。試行回数を増やしても残る理論上の近似誤差と、
+表を $1$、裏を $-1$ として和 $S_n$ を求め、その確率質量のヒストグラムに、
+$N(0,100)$ の密度を $2$ 倍した曲線を重ねよ。
+標準化して描く場合も、正規密度に格子幅を掛けて確率質量と比較せよ。
+\item $n=20,50,200$ の結果を比較し、中心部と尾部の近似誤差を考察せよ。
+試行回数を増やしても残る理論上の近似誤差と、
 反復回数による標本の揺らぎを区別して述べよ。
 \end{enumerate}
 
@@ -244,30 +312,72 @@ $S_n$ の確率質量のヒストグラムに、$N(50,25)$ の密度を重ねよ
 $Z_n$ の格子幅は $2/\sqrt n$ なので、正規密度と確率質量を直接重ねると縦軸が合わない。
 数値実験を行う場合は、使用した乱数生成方法と反復回数も記録しよう。
 \vfill
-{\small\color{muted}解答メモ：中心化、標準化、格子幅、端点の補正を順に確認する。}
+{\small\color{muted}解答メモ：中心化、標準化、格子幅、局所近似の一様性を確認する。}
 
 \columnstart{コインの足し算から、ランダムな軌跡へ}
-コインの表の個数を数える代わりに、表なら右へ一歩、裏なら左へ一歩進む。
+本文と同じコイントスを、表なら右へ一歩、裏なら左へ一歩進む運動として読んでみよう。
 同じコイントスの列が、確率分布だけでなく時間とともに動く道のモデルを与える。
 
 \columnheading{位置の大きさは $\sqrt n$ 程度}
-$Y_j=2X_j-1\in\{-1,1\}$、$R_m=\sum_{j=1}^mY_j$ とおく。
-独立性と対称性から
-$$\E[R_m]=0,\qquad \Var(R_m)=m,\qquad
- \frac{R_n}{\sqrt n}=Z_n\Rightarrow N(0,1).$$
+$S_0:=0$ とおくと、$S_m=\sum_{j=1}^mX_j$ が $m$ 歩後の位置を表す。
+本文で求めた期待値、分散、正規近似から
+$$\E[S_m]=0,\qquad \Var(S_m)=m,\qquad
+ \frac{S_n}{\sqrt n}=Z_n\Rightarrow N(0,1).$$
 一歩ずつは同じ長さでも、右と左が打ち消し合うため、典型的な位置の幅は $\sqrt n$ となる。
 一方向へ進み続ける場合の距離 $n$ とは異なる尺度である。
 
 \columnheading{時間と空間を同時に縮める}
 時間間隔を $1/n$、歩幅を $1/\sqrt n$ とし、格子時刻で
-$$W^{(n)}(k/n)=\frac{R_k}{\sqrt n}$$
+$$W^{(n)}(k/n)=\frac{S_k}{\sqrt n}$$
 と定め、格子点の間を線形に補間する。
 各時刻 $t$ での分散はほぼ $t$、増分の分散はほぼ経過時間となる。
 たとえば補間前の値について $s\le t$ なら
-$$\Cov\left(\frac{R_{\lfloor ns\rfloor}}{\sqrt n},
- \frac{R_{\lfloor nt\rfloor}}{\sqrt n}\right)
+$$\Cov\left(\frac{S_{\lfloor ns\rfloor}}{\sqrt n},
+ \frac{S_{\lfloor nt\rfloor}}{\sqrt n}\right)
  =\frac{\lfloor ns\rfloor}{n}\longrightarrow s=\min\{s,t\}.$$
 過去までに共有した歩数が、二つの時刻の位置の相関を決めている。
+
+\begin{center}
+\begin{tikzpicture}[x=0.30cm,y=0.40cm,font=\small]
+ \foreach \offset/\pathcolor/\scaled in {0/ink/0,7.2/accent/1}{
+  \begin{scope}[xshift=\offset cm]
+   \foreach \y in {-2,0,2,4}{
+    \draw[muted!30,dotted] (0,\y)--(16,\y);
+   }
+   \draw[ink,->] (0,-3)--(17.5,-3);
+   \draw[ink,->] (0,-3)--(0,4.3);
+   \draw[\pathcolor,line width=0.9pt] plot coordinates {
+    (0,0) (1,1) (2,2) (3,1) (4,2) (5,3) (6,2) (7,1)
+    (8,0) (9,-1) (10,0) (11,-1) (12,-2) (13,-1) (14,0) (15,1) (16,2)
+   };
+   \ifnum\scaled=0
+    \node[ink] at (8,5) {元の歩み $S_k$};
+    \node[ink,right] at (17.5,-3) {$k$};
+    \foreach \k in {0,4,8,12,16}{
+     \draw[ink] (\k,-3)--(\k,-3.15) node[below] {$\k$};
+    }
+    \foreach \y in {-2,0,2,4}{\node[ink,left] at (0,\y) {$\y$};}
+    \foreach \k/\y in {0/0,1/1,2/2,3/1,4/2,5/3,6/2,7/1,
+     8/0,9/-1,10/0,11/-1,12/-2,13/-1,14/0,15/1,16/2}{
+     \fill[ink] (\k,\y) circle[radius=1.2pt];
+    }
+   \else
+    \node[accent] at (8,5) {縮めた軌跡 $W^{(16)}(t)$};
+    \node[ink,right] at (17.5,-3) {$t$};
+    \foreach \k/\ticklabel in {0/0,4/{1/4},8/{1/2},12/{3/4},16/1}{
+     \draw[ink] (\k,-3)--(\k,-3.15) node[below] {$\ticklabel$};
+    }
+    \foreach \y/\ticklabel in {-2/{-1/2},0/0,2/{1/2},4/1}{
+     \node[ink,left] at (0,\y) {$\ticklabel$};
+    }
+   \fi
+  \end{scope}
+ }
+\end{tikzpicture}
+\end{center}
+{\small\color{muted}同じ16回のコイントスの例。左の点 $(k,S_k)$ を
+右の点 $(k/16,S_k/4)$ に移し、点の間を直線で結ぶ。
+横軸の1歩は $1/16$、縦軸の1歩は $1/4$ になる。}\par
 
 \columnheading{極限としての Brown 運動}
 Brown 運動 $(B_t)_{t\ge0}$ は $B_0=0$、連続な軌跡、独立な増分をもち、

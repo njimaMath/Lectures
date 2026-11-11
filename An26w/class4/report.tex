@@ -10,6 +10,8 @@
 \usepackage{enumitem}
 \usepackage{fancyhdr}
 \usepackage{lastpage}
+\usepackage{tikz}
+\usepackage[unicode,hidelinks]{hyperref}
 
 \definecolor{ink}{HTML}{193A5C}
 \definecolor{accent}{HTML}{237D82}
@@ -73,14 +75,14 @@ $g$ の定義域と値域を示せ。
 逆三角関数は授業で定義した主値を用いる。
 \par (a) 次の値を求めよ。
 $$
- {\rm Sin}^{-1}\left(-\frac12\right),\qquad
- {\rm Cos}^{-1}\left(-\frac{\sqrt3}{2}\right),\qquad
- {\rm Tan}^{-1}\sqrt3.
+ \mathrm{Sin}^{-1}\left(-\frac12\right),\qquad
+ \mathrm{Cos}^{-1}\left(-\frac{\sqrt3}{2}\right),\qquad
+ \mathrm{Tan}^{-1}\sqrt3.
 $$
 (b) 次の関数を微分せよ。
 $$
- u(x)={\rm Tan}^{-1}(2x)\quad(x\in\mathbb R),\qquad
- v(x)={\rm Sin}^{-1}\left(\frac{x}{2}\right)\quad(-2<x<2).
+ u(x)=\mathrm{Tan}^{-1}(2x)\quad(x\in\mathbb R),\qquad
+ v(x)=\mathrm{Sin}^{-1}\left(\frac{x}{2}\right)\quad(-2<x<2).
 $$
 \problemspace
 
@@ -152,4 +154,166 @@ $$
 \item \problemlabel{発展：}重積分の歴史を調べよ。誰が発展させたかなどを３００字程度で書くこと。
 \problemspace[12mm]
 \end{problems}
+
+\clearpage
+\fancyhead[L]{\small\color{ink}\coursename{}・レポート課題の解答}
+\handouttitle{第4回\quad レポート課題の解答}
+{\small 以下、$C$ は積分定数であり、原始関数を考える区間ごとに異なってよい。}\par
+\topic{逆関数・逆三角関数と1変数の積分}
+\begin{problems}
+\setlength{\itemsep}{9pt}
+\item \problemlabel{逆関数。}
+$y=f(x)=(x+2)^2-4$ とおく。$x\ge-2$ なので $x+2\ge0$ であり、
+$$
+ x+2=\sqrt{y+4},\qquad x=-2+\sqrt{y+4}.
+$$
+$f$ は $[-2,\infty)$ 上で狭義単調増加し、値域は $[-4,\infty)$ である。したがって、
+$$
+ g\colon[-4,\infty)\longrightarrow[-2,\infty),\qquad
+ g(y)=-2+\sqrt{y+4}.
+$$
+逆関数の定義域は $[-4,\infty)$、値域は $[-2,\infty)$ となる。
+
+\item \problemlabel{逆三角関数の値と微分。}
+(a) 主値の範囲は順に $[-\pi/2,\pi/2]$、$[0,\pi]$、$(-\pi/2,\pi/2)$ である。
+この範囲で対応する角度を選ぶと、
+$$
+ \mathrm{Sin}^{-1}\left(-\frac12\right)=-\frac\pi6,\qquad
+ \mathrm{Cos}^{-1}\left(-\frac{\sqrt3}{2}\right)=\frac{5\pi}6,\qquad
+ \mathrm{Tan}^{-1}\sqrt3=\frac\pi3.
+$$
+(b) 合成関数の微分法により、
+$$
+ \begin{aligned}
+ u'(x)&=\frac{2}{1+(2x)^2}=\frac{2}{1+4x^2}
+ &&(x\in\mathbb R),\\
+ v'(x)&=\frac{1/2}{\sqrt{1-(x/2)^2}}=\frac1{\sqrt{4-x^2}}
+ &&(-2<x<2).
+ \end{aligned}
+$$
+
+\item \problemlabel{多項式除法を用いる積分。}
+$x^3=x(x^2+4)-4x$ より、
+$$
+ \begin{aligned}
+ \int\frac{x^3}{x^2+4}\,dx
+ &=\int\left(x-\frac{4x}{x^2+4}\right)dx\\
+ &=\frac{x^2}{2}-2\log(x^2+4)+C.
+ \end{aligned}
+$$
+$x^2+4>0$ なので、原始関数は $\mathbb R$ 上で考えられる。
+
+\item \problemlabel{部分分数分解。}
+$1=A(x+2)+B(x+1)$ とおき、$x=-1,-2$ を代入すると $A=1$、$B=-1$ を得る。
+$$
+ \begin{aligned}
+ \frac1{(x+1)(x+2)}&=\frac1{x+1}-\frac1{x+2},\\
+ \int\frac{dx}{(x+1)(x+2)}&=\log|x+1|-\log|x+2|+C.
+ \end{aligned}
+$$
+対象の区間は $(-\infty,-2)$、$(-2,-1)$、$(-1,\infty)$ のいずれかである。
+
+\item \problemlabel{平方完成と逆正接。}
+$x^2-2x+5=(x-1)^2+2^2$ と平方完成する。$t=(x-1)/2$ とおくと $dx=2\,dt$ なので、
+$$
+ \int\frac{dx}{x^2-2x+5}
+ =\frac12\int\frac{dt}{1+t^2}
+ =\frac12\mathrm{Tan}^{-1}\frac{x-1}{2}+C.
+$$
+分母は常に正なので、原始関数は $\mathbb R$ 上で考えられる。
+\end{problems}
+
+\newpage
+\handouttitle{第4回\quad レポート課題の解答（つづき）}
+\topic{重積分の定義と累次積分・歴史}
+\begin{problems}
+\setcounter{enumi}{5}
+\setlength{\itemsep}{5pt}
+\item \problemlabel{リーマン和から重積分へ。}
+(a) $\Delta x=2/N$、$\Delta y=1/M$ なので、小長方形の面積は $2/(NM)$、
+標本点は $(x_i,y_j)=(2i/N,j/M)$（$1\le i\le N$、$1\le j\le M$）である。
+$$
+ \begin{aligned}
+ S_{N,M}
+ &=\frac{2}{NM}\sum_{i=1}^N\sum_{j=1}^M
+    \left(\frac{2i}{N}+\frac{2j}{M}\right)\\
+ &=\frac{2}{NM}\left(\frac{2M}{N}\frac{N(N+1)}2
+                +\frac{2N}{M}\frac{M(M+1)}2\right)
+ =4+\frac2N+\frac2M.
+ \end{aligned}
+$$
+(b) $f$ は長方形 $K$ 上で連続なので、重積分はこのリーマン和の極限に等しく、
+$\iint_K(x+2y)\,dx\,dy=\lim_{N,M\to\infty}S_{N,M}=4$ となる。
+
+\item \problemlabel{区分求積による重積分。}
+小長方形の面積は $2/(NM)$、標本点は $(i/N,2j/M)$（$1\le i\le N$、$1\le j\le M$）である。
+$$
+ \begin{aligned}
+ S_{N,M}
+ &=\sum_{i=1}^N\sum_{j=1}^M
+   \left(\frac{i}{N}\right)^2\frac{2j}{M}\frac{2}{NM}
+ =\frac{4}{N^3M^2}\left(\sum_{i=1}^Ni^2\right)\left(\sum_{j=1}^Mj\right)\\
+ &=\frac{(N+1)(2N+1)(M+1)}{3N^2M}
+ \longrightarrow\frac23\qquad(N,M\to\infty).
+ \end{aligned}
+$$
+$f$ は $K$ 上で連続なので、$\iint_Kx^2y\,dx\,dy=2/3$ である。
+
+\item \problemlabel{三角形上の重積分。}
+$D$ は頂点 $(0,0)$、$(2,0)$、$(0,2)$ をもつ三角形で、斜辺は $y=2-x$ である。
+\par\noindent
+\begin{minipage}[c]{0.26\linewidth}\centering
+\begin{tikzpicture}[x=0.8cm,y=0.8cm,every node/.style={font=\scriptsize,text=ink}]
+ \filldraw[fill=soft,draw=accent] (0,0) -- (2,0) -- (0,2) -- cycle;
+ \draw[->,ink] (-0.2,0) -- (2.5,0) node[right] {$x$};
+ \draw[->,ink] (0,-0.2) -- (0,2.5) node[above] {$y$};
+ \node[below left] at (0,0) {$0$};
+ \node[below] at (2,0) {$2$};
+ \node[left] at (0,2) {$2$};
+ \node at (0.6,0.6) {$D$};
+\end{tikzpicture}
+\end{minipage}\hfill
+\begin{minipage}[c]{0.71\linewidth}
+被積分関数は連続なので、どちらの順序でも累次積分で計算できる。
+$$
+ \begin{aligned}
+ D&=\{(x,y):0\le x\le2,\ 0\le y\le2-x\}\\
+  &=\{(x,y):0\le y\le2,\ 0\le x\le2-y\}.
+ \end{aligned}
+$$
+\end{minipage}\par
+$$
+ \begin{aligned}
+ \int_0^2\!\int_0^{2-x}(x+2y)\,dy\,dx
+ &=\int_0^2(4-2x)\,dx=4,\\
+ \int_0^2\!\int_0^{2-y}(x+2y)\,dx\,dy
+ &=\int_0^2\left(2+2y-\frac32y^2\right)dy=4.
+ \end{aligned}
+$$
+
+\item \problemlabel{対称性の利用。}
+$xe^{x^2+y^2}$ は $x$ の奇関数であり、$D$ は $x\mapsto-x$ で変わらない。
+したがって、この項の重積分は $0$ となる。残る項を積分すると、
+$$
+ \iint_D\left(xe^{x^2+y^2}+y^2\right)\,dx\,dy
+ =\int_{-2}^2\!\int_{-1}^1y^2\,dx\,dy
+ =2\left[\frac{y^3}{3}\right]_{-2}^2=\frac{32}{3}.
+$$
+
+\item \problemlabel{発展：重積分の歴史（解答例）。}
+重積分は、立体の体積や曲面の面積を求める問題と結び付いて発展した。
+17世紀のニュートンとライプニッツの微積分が、その基礎となった。
+オイラーは1770年の論文で二重積分を体系的に研究し、積分範囲や変数変換を論じた。\href{https://scholarlycommons.pacific.edu/euler-works/391/}{[1]}
+19世紀にはコーシーやリーマンらが積分を和の極限として扱い、計算手続きだけでなく、積分が存在する条件の研究を進めた。\href{https://arxiv.org/abs/1710.03982}{[2]}
+20世紀初め、ルベーグは測度に基づく積分を導入し、扱える関数を広げた。\href{https://www.numdam.org/item/ASENS_1903_3_20__453_0/}{[3]}
+さらにフビニは1907年、重積分と累次積分を結ぶ定理を証明した。\href{https://archive.numdam.org/articles/10.1016/j.crma.2012.03.010/}{[4]}
+今日の重積分は、領域を細分して値を足す幾何学的な考えと、極限や測度による厳密な理論の両方を基礎とし、物理学の質量や重心の計算にも使われる。
+\end{problems}
+\par{\small\color{muted}問10の参考資料（各番号と書名から閲覧できる）：}\par
+{\small\setlength{\parskip}{0pt}
+[1] L.~Euler, \href{https://scholarlycommons.pacific.edu/euler-works/391/}{De formulis integralibus duplicatis}（1770年）。\par
+[2] A.~Papadopoulos, \href{https://arxiv.org/abs/1710.03982}{Looking backward: From Euler to Riemann}（2017年）、11節。\par
+[3] H.~Lebesgue, \href{https://www.numdam.org/item/ASENS_1903_3_20__453_0/}{Sur les s\'eries trigonom\'etriques}（1903年）、冒頭の定義。\par
+[4] F.~M\'oricz, \href{https://archive.numdam.org/articles/10.1016/j.crma.2012.03.010/}{On the regular convergence of multiple integrals\ldots}（2012年）、参考文献[1]。
+}\par
 \end{document}
