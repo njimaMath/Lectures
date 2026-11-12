@@ -1,0 +1,191 @@
+% Style follows ../class2/class2PT26.tex.
+% Build in this directory (run twice to resolve page references and bookmarks):
+% pdflatex -interaction=nonstopmode -halt-on-error class6PT26.tex
+% Lecture topics follow PT26w/lectureNote.tex, sections 6 and 7.
+\documentclass[a4paper,10pt,pdflatex,ja=standard,jafont=ipaex-type1,
+  magstyle=real,scale=1]{bxjsarticle}
+\usepackage{lmodern}
+\usepackage{amsmath,amssymb,mathtools}
+\usepackage{geometry}
+\geometry{reset,left=22mm,right=22mm,top=20mm,bottom=17mm,
+  headheight=13pt,headsep=6mm,footskip=10mm}
+\usepackage{xcolor}
+\usepackage{enumitem}
+\usepackage{array,booktabs,tabularx}
+\usepackage{fancyhdr}
+\usepackage{lastpage}
+\usepackage{hyperref}
+
+\definecolor{ink}{HTML}{193A5C}
+\definecolor{accent}{HTML}{237D82}
+\definecolor{soft}{HTML}{EAF3F3}
+\definecolor{muted}{HTML}{52616B}
+\newcommand{\coursename}{確率論と統計学 I}
+\newcommand{\lecturenumber}{6}
+\hypersetup{unicode=true,colorlinks=true,urlcolor=accent,linkcolor=ink,
+  pdfauthor={中島秀太},pdftitle={第6・7回：二項分布の正規近似、分布と特性関数}}
+\pdfstringdefDisableCommands{\def\quad{ }}
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\small\color{ink}\coursename{}・授業要約と演習}
+\fancyhead[R]{\small\color{ink}第\lecturenumber 回}
+\fancyfoot[C]{\small\color{ink}\thepage/\pageref*{LastPage}}
+\renewcommand{\headrulewidth}{0.3pt}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{2pt}
+\setlength{\abovedisplayskip}{4pt}
+\setlength{\belowdisplayskip}{4pt}
+\setlength{\abovedisplayshortskip}{3pt}
+\setlength{\belowdisplayshortskip}{4pt}
+\setlist[itemize]{leftmargin=1.8em,itemsep=1pt,topsep=2pt,parsep=0pt}
+\setlist[enumerate]{leftmargin=2em,itemsep=3pt,topsep=3pt,parsep=0pt}
+\newcommand{\topic}[1]{\par\vspace{5pt}
+  {\large\sffamily\mdseries\color{accent}#1}\par\vspace{2pt}}
+\newcommand{\handouttitle}[1]{%
+  \pdfbookmark[0]{#1}{lecture\lecturenumber}%
+  \begin{center}
+    {\Large\color{ink}#1}\par\vspace{3mm}
+    {\color{accent}\rule{0.88\linewidth}{0.7pt}}
+  \end{center}\vspace{-2mm}}
+\newcommand{\keybox}[1]{\par\vspace{3pt}\begingroup
+  \setlength{\fboxsep}{5pt}
+  \colorbox{soft}{\parbox{\dimexpr\linewidth-2\fboxsep\relax}{#1}}%
+  \endgroup\par\vspace{2pt}}
+\newcommand{\examplelabel}[1]{{\sffamily\mdseries\color{ink}#1}}
+\newcommand{\F}{\mathcal F}
+\newcommand{\R}{\mathbb R}
+\newcommand{\E}{\mathbb E}
+\newcommand{\Var}{\operatorname{Var}}
+\newcommand{\Cov}{\operatorname{Cov}}
+
+\begin{document}
+\fontsize{10pt}{13.5pt}\selectfont
+\handouttitle{第6回\quad 二項分布の正規近似}
+確率変数 $X$ がある分布 $\mu$ に従うとき, $X\sim \mu$と書くことにする。
+\topic{公平なコイントスと標準化}
+公平なコインを独立に投げ、$j$ 回目が表なら $X_j=1$、裏なら $X_j=-1$ とする。
+$S_n:=\sum_{j=1}^nX_j$ は「表の回数から裏の回数を引いた値」であり、
+表の回数を $H_n$ とすれば $S_n=2H_n-n$ となる。したがって
+$$
+  P(S_n=2k-n)=\binom nk2^{-n}\quad(k=0,\ldots,n),\qquad
+  \E[S_n]=0,\qquad \Var(S_n)=n.
+$$
+$$
+  Z_n:=\frac{S_n}{\sqrt n},\qquad
+  \E[Z_n]=0,\quad\Var(Z_n)=1.
+$$
+
+\topic{正規分布の密度・平均・分散}
+標準正規分布 $N(0,1)$ の密度を $\phi(x):=\frac1{\sqrt{2\pi}}e^{-x^2/2}$ とする。
+Gauss 積分 $\int_\R e^{-x^2/2}\,dx=\sqrt{2\pi}$ より $\int_\R\phi(x)\,dx=1$ である。
+
+確率変数 $G$ を $G\sim N(0,1)$とする。$\phi'(x)=-x\phi(x)$、$x\phi(x)\to0$（$x\to\pm\infty$）より、部分積分で
+$$
+  \E[G^2]=\int_\R x^2\phi(x)\,dx
+  =-\int_\R x\phi'(x)\,dx
+  =[-x\phi(x)]_{-\infty}^{\infty}+\int_\R\phi(x)\,dx=1.
+$$
+二次モーメントが有限なので平均が存在し、対称性より $\E[G]=\int_\R x\phi(x)\,dx=0$。
+したがって $\Var(G)=\E[G^2]-(\E[G])^2=1$ となる。
+\par $m\in\R$、$\sigma>0$ に対し、$X=m+\sigma G\sim N(m,\sigma^2)$ とおけば
+$$\E[X]=m+\sigma\E[G]=m,\qquad
+  \Var(X)=\sigma^2\Var(G)=\sigma^2.$$
+
+\topic{Stirling 公式から正規近似へ}
+$n!\sim\sqrt{2\pi n}(n/e)^n$ より、固定した $R>0$ に対し
+$$
+  P(S_n=2k-n)=\phi\Big(\frac{2k-n}{\sqrt n}\Big)\,\frac2{\sqrt n}\,(1+o(1))
+  \qquad\bigl(|x_{n,k}|\le R\bigr)
+$$
+が $k$ について一様に成り立つ。
+\keybox{\examplelabel{de Moivre--Laplace の定理：}
+任意の実数 $a<b$ に対して
+$$P(a\le Z_n\le b)\longrightarrow
+  \int_a^b\frac1{\sqrt{2\pi}}e^{-x^2/2}\,dx\qquad(n\to\infty).$$}
+
+\topic{演習問題}
+\begin{enumerate}[label=\arabic*.]
+  \item 上の独立なコイントスで $P(X_j=1)=p$、$P(X_j=-1)=1-p$（$0<p<1$）とする。
+  $\E[S_n]$ と $\Var(S_n)$ を求め、
+  $(S_n-n(2p-1))/(2\sqrt{np(1-p)})$ の平均が $0$、分散が $1$ となることを確かめよ。
+  \item 公平なコインを独立に $2m$ 回投げる（$m\ge1$ は整数）。
+  $P(S_{2m}>0)=\frac12\bigl(1-\binom{2m}{m}2^{-2m}\bigr)$ を示せ。
+  \par ヒント：表と裏を入れ替える対応と、$S_{2m}=0$ となる場合の数を考えよ。
+\end{enumerate}
+
+\topic{レポート問題}
+\begin{enumerate}[label=\arabic*.]
+  \item コインを20回投げ、その結果を投げた順に、表は $1$、裏は $-1$ として記録せよ。
+  \item Gauss 積分 $I=\int_\R e^{-x^2/2}\,dx$ について、$I=\sqrt{2\pi}$ を証明せよ。ヒント：$(\int_\R e^{-x^2/2}\,dx)^2$ を $\R^2$ 上の非負関数の積分で表し、極座標
+  $x=r\cos\theta$、$y=r\sin\theta$ に変換せよ。積分順序の交換は用いてよい。
+\end{enumerate}
+\clearpage
+\renewcommand{\lecturenumber}{7}
+\handouttitle{第7回\quad 分布と特性関数}
+
+\topic{特性関数の定義と基本性質}
+実数値確率変数 $X$ の分布を $\mu_X$ とし、$i^2=-1$ とする。特性関数を
+$$
+  \varphi_X(t):=\E[e^{itX}]=\int_\R e^{itx}\,\mu_X(dx)\qquad(t\in\R)
+$$
+と定める。$|e^{itX}|=1$ なので常に存在し、優収束定理により連続である。
+$$
+  \varphi_X(0)=1,\quad |\varphi_X(t)|\le1,\quad
+  \varphi_X(-t)=\overline{\varphi_X(t)},\quad
+  \varphi_{aX+b}(t)=e^{itb}\varphi_X(at)\quad(a,b\in\R).
+$$
+例えば上の $X=m+\sigma G\sim N(m,\sigma^2)$（$m\in\R$、$\sigma>0$）の特性関数は
+$$\varphi_X(t)=\exp(imt-\sigma^2t^2/2).$$
+
+\topic{独立な和と分布の一意性}
+独立な $X,Y$ に対して、有界な関数の積の期待値を分解すると
+$$\varphi_{X+Y}(t)=\E[e^{itX}e^{itY}]=\varphi_X(t)\varphi_Y(t).$$
+\keybox{特性関数は分布を一意に決める。すなわち、すべての $t\in\R$ で
+$\varphi_X(t)=\varphi_Y(t)$ なら $\mu_X=\mu_Y$ である。}
+
+\topic{Fourier 逆変換による分布の一意性}
+すべての $t\in\R$ で $\varphi_X(t)=\varphi_Y(t)$ とする。
+$f\in C_c^\infty(\R)$（コンパクトな台をもつ滑らかな関数）なら $\widehat f\in L^1(\R)$ であり、
+次の Fourier 変換と逆変換の公式が成り立つ。
+$$
+  \widehat f(t):=\int_\R f(x)e^{-itx}\,dx,\qquad
+  f(x)=\frac1{2\pi}\int_\R\widehat f(t)e^{itx}\,dt.
+$$
+$|e^{itX}|=|e^{itY}|=1$ と $\int_\R|\widehat f(t)|\,dt<\infty$ より、Fubini の定理を使うと
+$$
+  \begin{aligned}
+    \E[f(X)]
+      &=\textstyle\frac1{2\pi}\E\bigl[\int_\R\widehat f(t)e^{itX}\,dt\bigr]\\
+      &=\textstyle\frac1{2\pi}\int_\R\widehat f(t)\,\E[e^{itX}]\,dt\\
+      &=\textstyle\frac1{2\pi}\int_\R\widehat f(t)\,\varphi_X(t)\,dt.
+  \end{aligned}
+$$
+仮定 $\varphi_X=\varphi_Y$ より右辺を置き換え、再び Fubini の定理と Fourier 逆変換を使うと
+$$
+  \begin{aligned}
+    \textstyle\frac1{2\pi}\int_\R\widehat f(t)\,\varphi_Y(t)\,dt
+      &=\textstyle\frac1{2\pi}\E\bigl[\int_\R\widehat f(t)e^{itY}\,dt\bigr]\\
+      &=\E[f(Y)].
+  \end{aligned}
+$$
+よって $\E[f(X)]=\E[f(Y)]$。滑らかな関数による一様近似で、これはすべての $f\in C_c(\R)$ に拡張できる。
+したがって $\mu_X=\mu_Y$ となる。
+
+\topic{演習問題}
+\begin{enumerate}[label=\arabic*.]
+\item $X\sim\mathrm{Geo}(p)$（$P(X=k)=p(1-p)^{k-1}$、$k\ge1$）の特性関数を求めよ。
+\item $X\sim\mathrm U(-a,a)$（$a>0$）の特性関数を求め、$t=0$ における値と連続性を示せ。
+\end{enumerate}
+
+\topic{レポート問題}
+\begin{enumerate}[label=\arabic*.]
+\item $X\sim N(m,\sigma^2)$（$m\in\R$、$\sigma>0$）とする。特性関数
+$\varphi_X(t)=\exp(imt-\sigma^2t^2/2)$（$t\in\R$）を、授業で扱った方法とは異なる方法で導け。
+用いた方法と計算過程を明記せよ。
+\item 実数値確率変数 $X$ について、$X$ の分布が原点対称であること
+（$X$ と $-X$ が同じ分布をもつこと）と、すべての $t\in\R$ で
+$\varphi_X(t)\in\R$ となることが同値であることを示せ。
+ヒント：特性関数の一意性定理を用いてよい。
+\end{enumerate}
+
+\end{document}

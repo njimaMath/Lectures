@@ -1,0 +1,87 @@
+% resume6An26w.tex への挿入用。ヘッダーとページ番号はレジュメ本体で付ける。
+% このディレクトリで実行：platex -interaction=nonstopmode -halt-on-error smalltest5_review.tex
+% 続けて実行：dvipdfmx smalltest5_review.dvi
+\documentclass[a4paper,10pt,dvipdfmx]{jsarticle}
+\usepackage{../an26handout}
+
+\renewcommand{\handout}[2]{%
+  \def\handoutnumber{第#1回}%
+  \begin{center}
+    {\Large\normalfont\mdseries\color{ink}第#1回\quad #2}\par
+    \vspace{2pt}{\color{accent}\rule{0.88\linewidth}{1.2pt}}
+  \end{center}\vspace{2pt}}
+\renewcommand{\topic}[1]{\par\vspace{5pt}%
+  {\large\normalfont\mdseries\color{accent}#1}\par\vspace{1pt}}
+
+\begin{document}
+\pagestyle{empty}
+\handout{5}{小テスト：広義積分}
+
+学籍番号：\underline{\hspace{40mm}}\hfill
+氏名：\underline{\hspace{40mm}}
+
+次の広義積分を求めてください。極限を用いた計算過程も書いてください。
+
+\topic{問題}
+\begin{enumerate}[label=\color{accent}\arabic*.,leftmargin=2.4em,itemsep=9pt]
+\item $\displaystyle\int_0^\infty e^{-x}\,dx$
+\par\vspace{3mm}
+
+\item $\displaystyle\iint_{(0,\infty)^2}e^{-x-y}\,dx\,dy$
+\par\vspace{3mm}
+
+\item $\displaystyle\iint_{(0,1)\times(1,\infty)}\frac{1}{y^2\sqrt{x}}\,dx\,dy$
+\par\vspace{3mm}
+\end{enumerate}
+
+\par\vspace{4mm}
+{\color{accent}\rule{\linewidth}{0.6pt}}
+\topic{小テストの解答}
+\begin{enumerate}[label=\color{accent}\arabic*.,leftmargin=2.4em,itemsep=9pt]
+\item 広義積分の定義により、
+$$
+ \begin{aligned}
+ \int_0^\infty e^{-x}\,dx
+ &=\lim_{R\to\infty}\int_0^R e^{-x}\,dx\\
+ &=\lim_{R\to\infty}\left[-e^{-x}\right]_0^R
+ =\lim_{R\to\infty}(1-e^{-R})=1.
+ \end{aligned}
+$$
+
+\item $R,S>0$ とし、$D_{R,S}=[0,R]\times[0,S]$ とおくと
+$$
+ \begin{aligned}
+ \iint_{D_{R,S}}e^{-x-y}\,dx\,dy
+ &=\left(\int_0^R e^{-x}\,dx\right)
+   \left(\int_0^S e^{-y}\,dy\right)\\
+ &=(1-e^{-R})(1-e^{-S}).
+ \end{aligned}
+$$
+被積分関数は非負であり、$R,S\to\infty$ として領域を広げると
+$$
+ \iint_{(0,\infty)^2}e^{-x-y}\,dx\,dy
+ =\lim_{\substack{R\to\infty\\S\to\infty}}
+   (1-e^{-R})(1-e^{-S})=1.
+$$
+
+\item $D=(0,1)\times(1,\infty)$、$0<\varepsilon<1<R$ とする。
+$D_{\varepsilon,R}=[\varepsilon,1]\times[1,R]$ 上では
+$$
+ \begin{aligned}
+ \iint_{D_{\varepsilon,R}}\frac{1}{y^2\sqrt{x}}\,dx\,dy
+ &=\left(\int_\varepsilon^1\frac{dx}{\sqrt{x}}\right)
+   \left(\int_1^R\frac{dy}{y^2}\right)\\
+ &=\left[2\sqrt{x}\right]_\varepsilon^1
+   \left[-\frac1y\right]_1^R
+ =2(1-\sqrt{\varepsilon})\left(1-\frac1R\right).
+ \end{aligned}
+$$
+被積分関数は非負であり、境界は積分値に影響しない。
+$\varepsilon\to0+$、$R\to\infty$ として領域を広げると
+$$
+ \iint_D\frac{1}{y^2\sqrt{x}}\,dx\,dy
+ =\lim_{\substack{\varepsilon\to0+\\R\to\infty}}
+  2(1-\sqrt{\varepsilon})\left(1-\frac1R\right)=2.
+$$
+\end{enumerate}
+\end{document}

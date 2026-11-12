@@ -71,51 +71,34 @@
 \fancyhead[L]{\small\color{ink}\coursename{}・前回の演習解答}
 \handouttitle{第6回\quad 演習問題の解答}
 
-\topic{演習1：ベルヌーイ和の標準化}
-独立な $X_j\sim\mathrm{Bern}(p)$（$0<p<1$）、$S_n=\sum_{j=1}^nX_j$ とする。
-$X_j^2=X_j$ より $\E[X_j]=p$、$\Var(X_j)=p(1-p)$。線形性と独立性から
+\topic{演習1：偏りのあるコイントスの標準化}
+独立な $X_j$ が $P(X_j=1)=p$、$P(X_j=-1)=1-p$（$0<p<1$）を満たし、
+$S_n=\sum_{j=1}^nX_j$ とする。$X_j^2=1$ より
 $$
-  \E[S_n]=np,\qquad \Var(S_n)=np(1-p),\qquad
-  \E\left[\frac{S_n-np}{\sqrt{np(1-p)}}\right]=0,\quad
-  \Var\left(\frac{S_n-np}{\sqrt{np(1-p)}}\right)=1.
+ \E[X_j]=p-(1-p)=2p-1,\qquad
+ \Var(X_j)=1-(2p-1)^2=4p(1-p).
+$$
+期待値の線形性と独立性から
+$$\E[S_n]=n(2p-1),\qquad \Var(S_n)=4np(1-p).$$
+したがって、$Z_n:=(S_n-n(2p-1))/(2\sqrt{np(1-p)})$ とおけば
+$$
+ \E[Z_n]=\frac{\E[S_n]-n(2p-1)}{2\sqrt{np(1-p)}}=0,\qquad
+ \Var(Z_n)=\frac{\Var(S_n)}{4np(1-p)}=1.
 $$
 
-\topic{演習2：正規近似と連続性補正}
-$S_{100}\sim\mathrm{Bin}(100,1/2)$ の平均は $50$、標準偏差は $5$。
-標準正規分布関数を $\Phi$ とすると、$P(45\le S_{100}\le55)$ は
+\topic{演習2：表と裏の対称性と正の和の確率}
+公平なコインを独立に $2m$ 回投げる（$m\ge1$ は整数）。
+表と裏をすべて入れ替える対応は、各結果の確率を変えずに $S_{2m}$ の符号を反転する。
+よって $P(S_{2m}>0)=P(S_{2m}<0)$ であり、
 $$
-  \begin{aligned}
-    \text{補正なし：}&\quad\Phi(1)-\Phi(-1)\simeq0.682689,\\
-    \text{補正あり：}&\quad\Phi(1.1)-\Phi(-1.1)\simeq0.728668,\\
-    \text{厳密値：}&\quad2^{-100}\sum_{k=45}^{55}\binom{100}{k}
-      \simeq0.728747.
-  \end{aligned}
+ 1=P(S_{2m}>0)+P(S_{2m}=0)+P(S_{2m}<0)
+   =2P(S_{2m}>0)+P(S_{2m}=0).
 $$
-補正ありでは $[44.5,55.5]$ に対応する正規確率を使い、厳密値に近づいている。
-
-\topic{演習3：一様な局所近似から区間確率へ}
-ここでは $p=1/2$ とし、$Z_n=(2S_n-n)/\sqrt n$、$x_{n,k}=(2k-n)/\sqrt n$、
-$h_n=2/\sqrt n$、$\phi(x)=e^{-x^2/2}/\sqrt{2\pi}$ とおく。
-有限な $a<b$ に対して、局所近似を
-$P(S_n=k)=\phi(x_{n,k})h_n(1+r_{n,k})$ と書けば
-$\eta_n:=\max_{a\le x_{n,k}\le b}|r_{n,k}|\to0$ であり、
-$$
-  \left|P(a\le Z_n\le b)-\sum_{a\le x_{n,k}\le b}\phi(x_{n,k})h_n\right|
-   \le\eta_n\sum_{a\le x_{n,k}\le b}\phi(x_{n,k})h_n\longrightarrow0.
-$$
-右の和は Riemann 和として $\int_a^b\phi(x)\,dx$ に収束する。
-一様性は、項数が増える和全体の誤差を $\eta_n$ で抑える箇所で使っている。
-
-\topic{演習4：尾の評価から分布関数の収束へ}
-$\E[Z_n^2]=1$ なので、Markov の不等式より $P(|Z_n|>R)\le R^{-2}$。
-$R>|t|$ とすれば
-$$
-  |P(Z_n\le t)-\Phi(t)|
-    \le\left|P(-R\le Z_n\le t)-\int_{-R}^t\phi(x)\,dx\right|
-       +R^{-2}+\Phi(-R).
-$$
-まず $n\to\infty$ とすると第1項は消え、次に $R\to\infty$ とすれば残りも消える。
-したがって、すべての $t\in\R$ で $P(Z_n\le t)\to\Phi(t)$ となる。
+$S_{2m}=0$ となるのは、表と裏がちょうど $m$ 回ずつ出る場合である。
+全結果は $2^{2m}$ 通りで等確率、表の出る位置の選び方は $\binom{2m}{m}$ 通りなので
+$$P(S_{2m}=0)=\binom{2m}{m}2^{-2m}.$$
+したがって
+$$P(S_{2m}>0)=\frac12\left(1-\binom{2m}{m}2^{-2m}\right).$$
 \clearpage
 \endgroup
 
@@ -208,32 +191,27 @@ $$\varphi_X(t)=1+it\E[X]-\frac{t^2}2\E[X^2]+o(t^2).$$
 \topic{演習問題}
 \begin{enumerate}[label=\arabic*.]
 \item $X\sim\mathrm{Geo}(p)$（$P(X=k)=p(1-p)^{k-1}$、$k\ge1$）の特性関数を求めよ。
-得られた分母が実数 $t$ について消えないことを確かめよ。
 \item $X\sim\mathrm U(-a,a)$（$a>0$）の特性関数を求め、$t=0$ における値と連続性を示せ。
-\item 独立な $X\sim N(m_1,v_1)$、$Y\sim N(m_2,v_2)$（$v_1,v_2>0$）について、
-特性関数から和の分布を求めよ。
-\item $f\in C_c(\R)$ とする。任意の $\delta>0$ に対して
-$$\|f*q_\varepsilon-f\|_\infty
- \le\sup_{|u-v|\le\delta}|f(u)-f(v)|
- +2\|f\|_\infty\int_{|y|>\delta}q_\varepsilon(y)\,dy$$
-を示し、一様収束を導け。
 \end{enumerate}
 
 \topic{レポート問題}
 \begin{enumerate}[label=\arabic*.]
-\item $\mathrm{Gamma}(m,\beta)$（整数 $m\ge1$、rate $\beta>0$）の特性関数を、
-独立な指数分布の和を用いて求めよ。
-\item Gauss 核による正則化逆変換公式を証明せよ。
-$q_\varepsilon$ の逆表示を畳み込みに代入し、積分順序の交換が可能なことを
-絶対値の積分で示すこと。続いて $\widehat f\in L^1$ の場合に古典的な逆変換公式を導け。
+\item $X\sim N(m,\sigma^2)$（$m\in\R$、$\sigma>0$）とする。特性関数
+$\varphi_X(t)=\exp(imt-\sigma^2t^2/2)$（$t\in\R$）を、授業で扱った方法とは異なる方法で導け。
+用いた方法と計算過程を明記せよ。
+\item 実数値確率変数 $X$ について、$X$ の分布が原点対称であること
+（$X$ と $-X$ が同じ分布をもつこと）と、すべての $t\in\R$ で
+$\varphi_X(t)\in\R$ となることが同値であることを示せ。
+ヒント：特性関数の一意性定理を用いてよい。
 \end{enumerate}
 
 \topic{考えるための手がかり}
-$\widehat f$ の符号は $e^{-itx}$、特性関数の符号は $e^{itX}$ としている。
-Fourier 変換の定義を途中で変えないようにしよう。
-正則化では $|\widehat f(t)|\le\|f\|_1$ と Gauss 因子の可積分性が使える。
+離散分布では期待値を和に、密度をもつ分布では積分に書き換えて計算しよう。
+一様分布では $t=0$ を別に扱い、得られた式の極限と一致することを確認する。
+原点対称性の問題では、$\varphi_{-X}(t)=\varphi_X(-t)=\overline{\varphi_X(t)}$ と
+特性関数の一意性を組み合わせよう。
 \vfill
-{\small\color{muted}解答メモ：逆変換の存在、Fubini の条件、極限操作の条件をそれぞれ明記する。}
+{\small\color{muted}解答メモ：特性関数の定義、原点での連続性、分布の一意性を確認する。}
 
 \columnstart{平均がなくても、分布の波形は記述できる}
 期待値や分散は確率分布の要約として便利だが、有限とは限らない。

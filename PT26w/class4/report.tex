@@ -1,0 +1,410 @@
+% 第1回は ../class1/class1PT26.tex、第2・3回は ../class2/class2PT26.tex、
+% 第4回は class4PT26.tex のレポート問題を収録する。
+% 第2回は resume2PT26.tex では省略されている第3・4問も収録する。
+% Build in this directory (run twice for page references):
+% pdflatex -interaction=nonstopmode -halt-on-error -file-line-error report.tex
+\documentclass[a4paper,10pt,pdflatex,ja=standard,jafont=ipaex-type1,
+  magstyle=real,scale=1]{bxjsarticle}
+\usepackage{lmodern}
+\usepackage{amsmath,amssymb,mathtools}
+\usepackage{geometry}
+\geometry{reset,left=22mm,right=22mm,top=20mm,bottom=17mm,
+  headheight=13pt,headsep=6mm,footskip=10mm}
+\usepackage{xcolor}
+\usepackage{enumitem}
+\usepackage{array,booktabs,tabularx}
+\usepackage{fancyhdr}
+\usepackage{hyperref}
+
+\definecolor{ink}{HTML}{193A5C}
+\definecolor{accent}{HTML}{237D82}
+\definecolor{soft}{HTML}{EAF3F3}
+\definecolor{muted}{HTML}{52616B}
+\newcommand{\coursename}{確率論と統計学 I}
+\hypersetup{unicode=true,colorlinks=true,urlcolor=accent,linkcolor=ink,
+  pdftitle={第1〜4回 レポート問題と解答}}
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\small\color{ink}\coursename{}・レポート問題と解答}
+\fancyhead[R]{\small\color{ink}第4回配布（第1〜4回）}
+\fancyfoot[C]{\small\color{ink}\thepage/\pageref*{lastpage}}
+\renewcommand{\headrulewidth}{0.3pt}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{2pt}
+\setlength{\abovedisplayskip}{4pt}
+\setlength{\belowdisplayskip}{4pt}
+\setlength{\abovedisplayshortskip}{3pt}
+\setlength{\belowdisplayshortskip}{4pt}
+\setlist[itemize]{leftmargin=1.8em,itemsep=1pt,topsep=2pt,parsep=0pt}
+\setlist[enumerate]{leftmargin=2em,itemsep=3pt,topsep=3pt,parsep=0pt}
+\newcommand{\topic}[1]{\par\vspace{5pt}
+  {\large\sffamily\mdseries\color{accent}#1}\par\vspace{2pt}}
+\newcommand{\handouttitle}[1]{%
+  \begin{center}
+    {\Large\sffamily\mdseries\color{ink}#1}\par\vspace{3mm}
+    {\color{accent}\rule{0.88\linewidth}{0.7pt}}
+  \end{center}\vspace{-2mm}}
+\newcommand{\keybox}[1]{\par\vspace{3pt}\begingroup
+  \setlength{\fboxsep}{5pt}
+  \colorbox{soft}{\parbox{\dimexpr\linewidth-2\fboxsep\relax}{#1}}%
+  \endgroup\par\vspace{2pt}}
+\newcommand{\examplelabel}[1]{{\sffamily\mdseries\color{ink}#1}}
+\newcommand{\F}{\mathcal F}
+\newcommand{\R}{\mathbb R}
+\newcommand{\Prob}{\mathbb P}
+\newcommand{\E}{\mathbb E}
+\newcommand{\ind}{\mathrm{1}}
+
+\begin{document}
+\fontsize{10pt}{13.5pt}\selectfont
+\handouttitle{第1回\quad 確率空間：レポート問題と解答}
+{\small\color{muted}第1〜4回の全12問を収録する。問題番号「$i.j$」は第$i$回の第$j$問を表す。}
+
+\topic{問題1.1\quad 天気の確率空間}
+\keybox{晴れの確率が30\%、くもりが50\%、雨が20\%となる確率空間を構成せよ。
+（ただし$\mathbb P$を具体的に構成する必要はなく、$p_{\omega}$のみでよい）}
+
+\examplelabel{解答}
+標本空間、事象の集合族、各結果の重みを
+$$
+  \begin{gathered}
+    \Omega=\{\text{晴れ},\text{くもり},\text{雨}\},\qquad \F=2^\Omega,\\
+    p_{\text{晴れ}}=\frac3{10},\qquad
+    p_{\text{くもり}}=\frac5{10},\qquad
+    p_{\text{雨}}=\frac2{10}
+  \end{gathered}
+$$
+と定める。$2^\Omega$ は $\Omega$ のすべての部分集合からなる集合族である。
+各重みは非負で、
+$$
+  \sum_{\omega\in\Omega}p_\omega=\frac3{10}+\frac5{10}+\frac2{10}=1
+$$
+を満たすので、これらは離散確率空間を定める。具体的には
+$\Prob(A)=\sum_{\omega\in A}p_\omega$ $(A\subseteq\Omega)$ とすればよい。
+
+\topic{問題1.2\quad 確率を測る集合を制限する理由}
+\keybox{一般の確率空間で、確率を測れる集合を $\F$ に制限する理由を説明せよ。}
+
+\examplelabel{解答}
+確率を測る事象については、補事象や可算個の和事象も扱いたい。
+そのため、確率測度の定義域 $\F$ には
+$$
+  \Omega\in\F,\qquad
+  A\in\F\ \Longrightarrow\ A^c\in\F,\qquad
+  A_n\in\F\ (n\ge1)\ \Longrightarrow\ \bigcup_{n=1}^{\infty}A_n\in\F
+$$
+を要求する。これが $\sigma$-加法族の条件である。
+
+有限・可算な標本空間では、各点の重みからすべての部分集合の確率を定められる。
+一方、区間上の一様な確率を考える場合には、すべての部分集合に確率を与えようとすると、
+可算加法性と一様性に対応する移動不変性が両立しない。問題1.3でその例を示す。
+したがって、ボレル集合族などの適切な $\F$ を選び、その上で確率を定義する。
+
+また、$\F$ は「どの事象を区別できるか」という情報の範囲を表すこともできる。
+例えば $\F=\{\varnothing,\Omega\}$ は、結果の違いを区別しない情報に対応する。
+
+\keybox{元の問題の注意：レポート問題の第2,3問はAIと相談してもよいが、その場合は
+どのような議論をしたかも書くこと。ただし、内容を自分で理解したうえで、
+自分の言葉で説明すること。}
+
+\clearpage
+\handouttitle{第1回\quad 確率空間：レポート問題と解答（続き）}
+
+\topic{問題1.3\quad すべての部分集合で測れない例}
+\keybox{第2問と関連して、自然に求める性質を保つために $\F$をすべての$\Omega$の部分集合
+とできない例を一つ挙げ、どの性質が両立しないのか述べよ。}
+
+\examplelabel{解答}
+区間 $\Omega=[0,1)$ の両端をつないだ円周上の一様な確率を考える。
+$t\in[0,1)$ に対して、円周に沿った移動を
+$$
+  T_t(x)=x+t-\lfloor x+t\rfloor\qquad(x\in[0,1))
+$$
+と定める。$\lfloor u\rfloor$ は $u$ 以下の最大の整数である。
+一様性に対応する自然な条件は、事象を移動しても確率が変わらないこと、すなわち
+$$
+  \Prob(T_t(A))=\Prob(A),\qquad
+  T_t(A):=\{T_t(x):x\in A\}
+$$
+である。ボレル集合上のルベーグ測度はこの条件を満たす。
+以下では、この条件と可算加法性を保ったまま $\F=2^\Omega$ とすることはできないと示す。
+
+$[0,1)$ 上に同値関係
+$$
+  x\sim y\quad\Longleftrightarrow\quad x-y\in\mathbb Q
+$$
+を定める。選択公理を用いて各同値類から一点ずつ選び、その集合を $V$ とする。
+これはヴィタリ集合の円周上での構成である。
+$Q=\mathbb Q\cap[0,1)$ とおき、$q\in Q$ に対して $V_q=T_q(V)$ と定める。
+
+任意の $x\in[0,1)$ について、その同値類の代表元 $v\in V$ が存在する。
+$x-v\in\mathbb Q$ なので、その差を1を法として $[0,1)$ に移した数 $q$ は $Q$ に属し、
+$x=T_q(v)$ となる。したがって
+$$
+  [0,1)=\bigcup_{q\in Q}V_q.
+$$
+また、$T_q(v)=T_r(w)$ $(v,w\in V,\ q,r\in Q)$ なら $v-w\in\mathbb Q$ である。
+代表元の選び方から $v=w$ となり、続いて $q-r\in\mathbb Z$ が従う。
+$q,r\in[0,1)$ より $q=r$ である。よって、$V_q$ は互いに素である。
+
+もしすべての部分集合に確率を与えられるなら、$V$ とすべての $V_q$ も事象となる。
+移動不変性より $\Prob(V_q)=\Prob(V)=:c\ge0$ であり、$Q$ は可算無限集合なので、
+可算加法性から
+$$
+  1=\Prob([0,1))=\sum_{q\in Q}\Prob(V_q)=\sum_{q\in Q}c
+$$
+となる。しかし、右辺は $c=0$ なら $0$、$c>0$ なら $+\infty$ であり、矛盾する。
+
+以上より、すべての部分集合への定義、非負性と全体の確率が1であること、
+可算加法性、円周上の移動不変性は同時には満たせない。
+なお、任意の集合 $\Omega$ 上でも、一点 $\omega_0$ に確率を集中させる
+$$
+  \Prob(A)=\ind_A(\omega_0)\qquad(A\subseteq\Omega)
+$$
+という確率測度は定義できる。問題となるのは、上で要求した一様性も保つ場合である。
+
+\clearpage
+\handouttitle{第2回\quad 確率変数と分布：レポート問題と解答}
+
+\topic{問題2.1\quad コイン3回の裏の数}
+\keybox{公平なコインを３回投げる。裏の数を表す確率変数を定義したい。
+確率空間およびその確率変数の定義を述べよ。}
+
+\examplelabel{解答}
+各回のコイン投げは独立とする。$H$ を表、$T$ を裏として
+$$
+  \Omega=\{H,T\}^3,\qquad \F=2^\Omega,\qquad
+  \Prob(\{\omega\})=\frac18\quad(\omega\in\Omega)
+$$
+と定める。すなわち、$\Prob(A)=|A|/8$ $(A\subseteq\Omega)$ である。
+ここで $|A|$ は $A$ の要素数を表す。裏の数を表す写像を
+$$
+  X:\Omega\longrightarrow\R,\qquad
+  X(\omega_1,\omega_2,\omega_3)=\sum_{j=1}^{3}\ind_{\{T\}}(\omega_j)
+$$
+と定義する。$\F=2^\Omega$ なので、任意のボレル集合 $B\subseteq\R$ について
+$X^{-1}(B)\in\F$ となり、$X$ は確率変数である。
+例えば $X(H,T,T)=2$、$X(H,H,H)=0$ である。
+確認として、その分布は
+$$
+  \Prob(X=k)=\frac{\binom3k}{8}\quad(k=0,1,2,3),\qquad
+  \Prob(X=k)=0\quad(k\notin\{0,1,2,3\})
+$$
+となる。公平であるという条件だけでは回ごとの独立性は定まらないため、
+上では独立なコイン投げのモデルを明示した。
+
+\topic{問題2.2\quad 逆像で定まる集合族}
+\keybox{確率空間$(\Omega,\mathcal F,\mathbb P)$と写像 $X:\Omega\to\mathbb R$を考える。
+次の集合族が$\sigma$加法族であることを示せ：
+$$\{B\subset\mathbb R:\ X^{-1}(B)\in\mathcal F\}.$$}
+
+\examplelabel{解答}
+$\mathcal G:=\{B\subseteq\R:X^{-1}(B)\in\F\}$ とおく。
+まず $X^{-1}(\R)=\Omega\in\F$ なので、$\R\in\mathcal G$ である。
+$B\in\mathcal G$ に対して、補集合をそれぞれ $\R$ と $\Omega$ の中で取ると
+$$
+  X^{-1}(\R\setminus B)=\Omega\setminus X^{-1}(B)\in\F
+$$
+であり、$\R\setminus B\in\mathcal G$ となる。
+さらに、$B_n\in\mathcal G$ $(n\ge1)$ なら
+$$
+  X^{-1}\!\left(\bigcup_{n=1}^{\infty}B_n\right)
+  =\bigcup_{n=1}^{\infty}X^{-1}(B_n)\in\F,
+  \qquad \bigcup_{n=1}^{\infty}B_n\in\mathcal G.
+$$
+以上より、$\mathcal G$ は $\R$ 上の $\sigma$-加法族である。
+この証明では、$X$ があらかじめ確率変数であるとは仮定していない。
+
+\clearpage
+\handouttitle{第2回\quad 確率変数と分布：レポート問題と解答（続き）}
+
+\topic{問題2.3\quad 自分で構成する確率変数と分布関数}
+\keybox{離散確率空間、連続確率空間それぞれで確率変数を自分で構成し、
+分布関数を求めよ。}
+
+\examplelabel{解答例：離散確率空間}
+公平なサイコロを1回投げるモデル
+$$
+  \Omega_d=\{1,2,3,4,5,6\},\qquad \F_d=2^{\Omega_d},\qquad
+  \Prob_d(A)=\frac{|A|}{6}
+$$
+上で、偶数の目の指示関数 $X_d(\omega)=\ind_{\{2,4,6\}}(\omega)$ を定める。
+すべての部分集合が事象なので、$X_d$ は確率変数であり、
+$\Prob_d(X_d=0)=\Prob_d(X_d=1)=1/2$ である。したがって
+$$
+  F_{X_d}(x)=\Prob_d(X_d\le x)=
+  \begin{cases}
+    0,&x<0,\\
+    \dfrac12,&0\le x<1,\\
+    1,&x\ge1.
+  \end{cases}
+$$
+
+\examplelabel{解答例：連続確率空間}
+$\lambda$ をルベーグ測度として
+$$
+  \Omega_c=[0,1],\qquad \F_c=\mathcal B([0,1]),\qquad
+  \Prob_c(A)=\lambda(A),\qquad X_c(\omega)=\omega^2
+$$
+と定める。$X_c$ は連続関数なのでボレル可測、すなわち確率変数である。
+$0\le x<1$ のとき
+$$
+  \{\omega\in[0,1]:X_c(\omega)\le x\}=[0,\sqrt{x}]
+$$
+より、分布関数はすべての $x\in\R$ に対して
+$$
+  F_{X_c}(x)=
+  \begin{cases}
+    0,&x<0,\\
+    \sqrt{x},&0\le x<1,\\
+    1,&x\ge1
+  \end{cases}
+$$
+となる。
+
+\topic{問題2.4\quad 確率変数の和の可測性}
+\keybox{同じ確率空間で定義された確率変数 $X,Y$に対し、
+$X+Y$も確率変数であることを示せ。}
+
+\examplelabel{解答}
+$X,Y$ は実数値確率変数とする。任意の $a\in\R$ について
+$$
+  \{X+Y<a\}
+  =\bigcup_{q\in\mathbb Q}\bigl(\{X<q\}\cap\{Y<a-q\}\bigr)
+$$
+が成り立つ。実際、$X(\omega)+Y(\omega)<a$ なら、
+$X(\omega)<q<a-Y(\omega)$ を満たす有理数 $q$ が存在する。逆向きは不等式の加算による。
+各集合 $\{X<q\},\{Y<a-q\}$ は $\F$ に属し、$\mathbb Q$ は可算なので
+$\{X+Y<a\}\in\F$ である。半直線 $(-\infty,a)$ はボレル集合族を生成するから、
+$X+Y$ は確率変数である。この結論に $X,Y$ の独立性は必要ない。
+
+\clearpage
+\handouttitle{第3回\quad 期待値と積分：レポート問題と解答}
+以下の2問では、$\Omega=(0,1)$、$\F=\mathcal B((0,1))$、$P=\lambda$ とする。
+$\lambda$ はルベーグ測度であり、この区間の長さは1である。
+
+\topic{問題3.1\quad 積分による期待値の計算}
+\keybox{$X(\omega)=\omega^2$ とする。$\E[X]$ を積分により求めよ。}
+
+\examplelabel{解答}
+$X$ は非負で有界な連続関数なので、可積分な確率変数である。
+$$
+  \E[X]=\int_{\Omega}X\,dP=\int_0^1\omega^2\,d\omega
+  =\left[\frac{\omega^3}{3}\right]_0^1=\frac13.
+$$
+端点 $0,1$ はルベーグ測度0の集合なので、開区間 $(0,1)$ 上の積分を上の形で計算できる。
+
+\topic{問題3.2\quad 点ごとの収束と優収束定理}
+\keybox{$X_n(\omega)=n\ind_{(0,1/n)}(\omega)$ とする。
+$X_n\to0$ と $\E[X_n]=1$ を示し、優収束定理を適用できない理由を述べよ。
+（理由の部分はAIを用いてよいが、自分の言葉で書くこと）}
+
+\examplelabel{解答}
+$n$ は正の整数とする。各 $X_n$ はボレル集合の指示関数の定数倍なので確率変数である。
+任意に $\omega\in(0,1)$ を固定し、$N>1/\omega$ となる整数 $N$ を選ぶ。
+$n\ge N$ なら $1/n<\omega$ なので
+$$
+  X_n(\omega)=0\quad(n\ge N),\qquad
+  \lim_{n\to\infty}X_n(\omega)=0.
+$$
+したがって、すべての $\omega\in\Omega$ で $X_n(\omega)\to0$ となる。
+一方、各 $n\ge1$ について
+$$
+  \E[X_n]=\int_0^1 n\ind_{(0,1/n)}(\omega)\,d\omega
+  =n\lambda((0,1/n))=n\cdot\frac1n=1.
+$$
+よって、$\lim_{n\to\infty}\E[X_n]=1\ne0=\E[\lim_{n\to\infty}X_n]$ である。
+
+優収束定理には、すべての $n$ に共通する可積分な支配関数が必要である。
+そのような非負確率変数 $G$ が存在し、$X_n\le G$ が各 $n$ についてほとんど確実に成り立つと仮定する。
+互いに素な区間
+$$
+  I_m=\left(\frac1{m+1},\frac1m\right)\qquad(m=1,2,\ldots)
+$$
+上では $X_m=m$ なので、$G\ge m$ が $I_m$ 上でほとんど至るところ成り立つ。
+したがって、任意の正の整数 $M$ に対して
+$$
+  \E[G]\ge\sum_{m=1}^{M}\int_{I_m}G\,d\lambda
+  \ge\sum_{m=1}^{M}m\left(\frac1m-\frac1{m+1}\right)
+  =\sum_{m=1}^{M}\frac1{m+1}\xrightarrow[M\to\infty]{}+\infty.
+$$
+これは $G$ の可積分性に反する。よって優収束定理の支配条件は満たされない。
+区間の幅が $1/n$ に縮む一方で高さが $n$ に増えるため、積分値は1のまま保たれる。
+
+\clearpage
+\handouttitle{第4回\quad 独立性：レポート問題と解答}
+
+\topic{問題4.1\quad 対独立でも相互独立でない例}
+\keybox{独立な $X,Y$ がそれぞれ $-1,1$ を確率 $1/2$ でとるとし、$Z=XY$ とおく。
+各ペアの同時分布を求め、$X,Y,Z$ が対独立であることを示せ。
+次に $\{X=1,Y=1,Z=1\}$ の確率を用い、相互独立ではないことを示せ。}
+
+\examplelabel{解答}
+独立性より $\Prob(X=x,Y=y)=1/4$ $(x,y\in\{-1,1\})$ である。
+$Z=XY$ なので、三つ組の分布は次の表で尽くされる。
+\begin{center}
+  \renewcommand{\arraystretch}{1.15}
+  \begin{tabular}{@{}cccc@{}}
+    \toprule
+    $X$ & $Y$ & $Z$ & 確率\\
+    \midrule
+    $1$ & $1$ & $1$ & $1/4$\\
+    $1$ & $-1$ & $-1$ & $1/4$\\
+    $-1$ & $1$ & $-1$ & $1/4$\\
+    $-1$ & $-1$ & $1$ & $1/4$\\
+    \bottomrule
+  \end{tabular}
+\end{center}
+特に $\Prob(Z=1)=\Prob(Z=-1)=1/2$ である。
+$x,y,z\in\{-1,1\}$ に対し、$x^2=y^2=1$ を使うと
+$$
+  \begin{aligned}
+    \Prob(X=x,Y=y)&=\frac14,\\
+    \Prob(X=x,Z=z)&=\Prob(X=x,Y=xz)=\frac14,\\
+    \Prob(Y=y,Z=z)&=\Prob(X=yz,Y=y)=\frac14.
+  \end{aligned}
+$$
+したがって、どのペア $(U,V)\in\{(X,Y),(X,Z),(Y,Z)\}$ についても、
+同時分布は $\{-1,1\}^2$ の各点で $1/4$、その外では0である。
+各点で $\Prob(U=u,V=v)=\Prob(U=u)\Prob(V=v)$ が成り立つ。
+有限個の値しかとらないので、点の確率を足せば任意のボレル集合についても独立性が従う。
+よって $X,Y,Z$ は対独立である。しかし
+$$
+  \Prob(X=1,Y=1,Z=1)=\frac14
+  \ne\frac18=\Prob(X=1)\Prob(Y=1)\Prob(Z=1)
+$$
+であるから、相互独立ではない。
+
+\topic{問題4.2\quad 可測関数による変換と独立性}
+\keybox{$X,Y$ を独立な確率変数、$f,g:\R\to\R$ をボレル可測関数とする。
+集合の逆像を用いて、$f(X),g(Y)$ が独立であることを示せ。
+（$A\in\mathcal B(\mathbb R)$に対し、$f^{-1}(A)\in\mathcal B(\mathbb R)$を用いてよい）}
+
+\examplelabel{解答}
+任意の $A,B\in\mathcal B(\R)$ に対して $f^{-1}(A),g^{-1}(B)\in\mathcal B(\R)$ である。
+また、$\{f(X)\in A\}=\{X\in f^{-1}(A)\}\in\F$ なので、$f(X)$ は確率変数であり、
+$g(Y)$ も同様である。$X,Y$ の独立性から
+$$
+  \begin{aligned}
+    \Prob(f(X)\in A,\ g(Y)\in B)
+    &=\Prob(X\in f^{-1}(A),\ Y\in g^{-1}(B))\\
+    &=\Prob(X\in f^{-1}(A))\Prob(Y\in g^{-1}(B))\\
+    &=\Prob(f(X)\in A)\Prob(g(Y)\in B).
+  \end{aligned}
+$$
+これは任意のボレル集合 $A,B$ で成り立つので、$f(X),g(Y)$ は独立である。
+
+\topic{問題4.3\quad 授業・演習への感想}
+\keybox{これまでの授業や演習の感想または改善してほしいところなど。
+（ここまででレポート提出、11/3）}
+
+\examplelabel{記入例}
+この問題には一意の正解はない。次の例を参考に、自分の経験や考えに合わせて記述する。
+
+「有限の標本空間で確率を計算したあと、連続な標本空間では積分を使う、という流れが
+理解の助けになりました。特に、対独立と相互独立の違いは具体例を通して整理できました。
+可測性の証明では逆像の書き換えにまだ慣れていないので、授業内でもう一つ例を扱って
+いただけると復習しやすいです。」
+
+\label{lastpage}
+\end{document}

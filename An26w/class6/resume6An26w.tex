@@ -1,4 +1,4 @@
-% Build twice here: pdflatex -interaction=nonstopmode -halt-on-error resume6An26w.tex
+% このディレクトリで2回実行：pdflatex -interaction=nonstopmode -halt-on-error resume6An26w.tex
 \documentclass[a4paper,10pt,pdflatex,ja=standard,jafont=ipaex-type1,
   magstyle=real,scale=1]{bxjsarticle}
 \usepackage{lmodern}
@@ -11,6 +11,7 @@
 \usepackage{array,booktabs,tabularx}
 \usepackage{fancyhdr}
 \usepackage{lastpage}
+\usepackage{pdfpages}
 \usepackage{tikz}
 \usetikzlibrary{arrows.meta,calc,decorations.pathreplacing}
 
@@ -59,7 +60,7 @@
 \newcommand{\exercises}{%
   {\color{accent}\hrule height 0.7pt}\vspace{3pt}%
   \topic{演習問題（6題）}%
-  {\small 領域と積分範囲を確認し、計算過程も書こう。図を描くと範囲を読み取りやすい。}\par}
+  {\small 変換後の式・ヤコビアン・積分範囲を書こう。面積や質量の問題にも同じ公式を使える。}\par}
 \tikzset{
   handout diagram/.style={>={Stealth[length=3.2pt,width=3.2pt]},line join=round,
     every node/.style={font=\scriptsize,text=ink}},
@@ -69,28 +70,81 @@
   axis/.style={->,ink,thin}}
 
 
-% Review Q&A can also be used for actual student feedback when it is available.
+% 学生コメントと回答を一組にして配置する。
 \newcommand{\feedback}[2]{%
-  \par\addvspace{8pt}\noindent\begin{minipage}{\linewidth}%
-  {\color{ink}Q. #1}\par\vspace{2pt}%
+  \par\addvspace{3pt}\noindent\begin{minipage}{\linewidth}%
+  {\color{ink}Q. #1}\par\vspace{1pt}%
   {\color{accent}A. }#2%
   \end{minipage}\par}
+\fancypagestyle{smalltestpages}{%
+  \fancyhf{}%
+  \fancyhead[L]{\small\color{ink}\coursename{}・小テスト}%
+  \fancyhead[R]{\small\color{ink}第5回}%
+  \fancyfoot[C]{\small\color{ink}\thepage/\pageref{LastPage}}%
+  \renewcommand{\headrulewidth}{0.3pt}}
 
 \begin{document}
 \fontsize{10pt}{13.5pt}\selectfont
 \setlength{\abovedisplayskip}{4pt}
 \setlength{\belowdisplayskip}{4pt}
-% Feedback section: add comments and responses here when available.
+% 前回の学生コメントと回答を話題ごとにまとめる。
 \fancyhead[L]{\small\color{ink}\coursename{}・フィードバック}
 \handout{6}{前回のコメントへのフィードバック}
-% \feedback{comment}{response}
+\topic{広義積分と答案の書き方}
+\feedback{無限を文字におきかえないと計算できない例を見てみたい}{%
+$\displaystyle\int_1^\infty\frac{1}{x(x+1)}\,dx$ などを考えると面白いかもしれないですね。}
+
+\feedback{広義積分で置き換える文字をどうするか}{%
+基本好きな文字で良いです。自分は $R$ とかよく使いますが。}
+
+\feedback{中間や期末でも広義積分は極限を取ったほうが良いか？}{%
+そうですね、ぜひ取ってください。}
+
+\feedback{本当にこれでいいんだろうかと思ってしまう}{%
+小テストの回答を見ている限り、よくできてると思います。記述の仕方も全て正しいと思います。}
+
+\feedback{3）の操作が正当であるかわからないので後で調べたい}{%
+正しいですよ。}
+
+\feedback{重心を求める問題に一時間戦ってやっと理解した}{%
+その格闘が大事です！}
+
+\topic{中間テストについて}
+\feedback{中間テストの難易度}{%
+演習やレポートのレベルの問題で作ります。後は皆さんの作る問題次第。}
+
+\feedback{中間テストは同じ形式か？}{%
+次回作ってもらった問題を二問くらい出そうと思います。}
+
+\topic{授業と日々のこと}
+\feedback{とても寒い、中島もお大事に}{%
+ありがとうございます、すっかり風邪をひいてしまいました。}
+
+\feedback{3限が休みでチョーハッピー}{%
+よかったですね（にっこり）。}
+
+\feedback{物理と中国語のテストが被っていて大変です}{%
+そういう時期なんですね。頑張ってください。}
+
+\feedback{毎回一限これていい感じ}{%
+そうですね、早起きできると一日のリズムが整ったような気になります。}
+
+\topic{ちょっとした話題}
+\feedback{すきなラーメンは？}{%
+二郎系ですね。}
+
+\feedback{無限にとんがっててハッピー}{%
+！！？！？！？}
+
+\feedback{ポッキーは？トッポは？}{%
+もちろんポッキーです。}
+
+\feedback{今日はポッキーの日だがポッキーが強いからポッキーの日にしたのかポッキーの日と呼ばれるからポッキーが強いのか}{%
+やたらポッキーの感想が多いと思ったら今日は11月11日だからポッキーの日なんですね。}
 \clearpage
 
-% Previous small-test section: add the questions and solutions here.
-\fancyhead[L]{\small\color{ink}\coursename{}・小テスト}
-\fancyhead[R]{\small\color{ink}第5回}
-\handouttitle{第5回\quad 小テスト}
-% Questions and solutions are intentionally blank.
+% 前回の小テストの問題と解答を配置する。
+\includepdf[pages=-,pagecommand={\thispagestyle{smalltestpages}}]{smalltest5_review.pdf}
 \clearpage
 
 \fancyhead[L]{\small\color{ink}\coursename{}・授業要約と演習}
@@ -100,12 +154,13 @@
 ヤコビアンの絶対値を面積の伸縮率として理解しよう。}
 
 \topic{ヤコビ行列と面積の伸縮率}
-$C^1$ 級の座標変換 $T(u,v)=(x(u,v),y(u,v))$ のヤコビ行列と行列式を
+座標変換 $T(u,v)=(x(u,v),y(u,v))$ のヤコビ行列と、その行列式を
 $$
- DT=\begin{pmatrix}x_u&x_v\\y_u&y_v\end{pmatrix},\qquad
- J_T=\det DT=x_uy_v-x_vy_u
+ DT=\begin{pmatrix}\partial_u x&\partial_v x\\\partial_u y&\partial_v y\end{pmatrix},\qquad
+ J_T=\det DT=(\partial_u x)(\partial_v y)-(\partial_v x)(\partial_u y)
 $$
-とする。微小長方形の2辺の像は、$T_u\,du$ と $T_v\,dv$ で近似される。
+とする。$\partial_u x=\partial x/\partial u$ は、$u$ についての偏微分を表す。
+微小長方形の2辺は、変換後には $(\partial_u T)\,du$ と $(\partial_v T)\,dv$ で近似される。
 その面積は $|J_T|\,du\,dv$ なので
 $$
  dx\,dy=|J_T(u,v)|\,du\,dv.
@@ -130,24 +185,22 @@ $$
 \path[region] (0,0) -- (2.5,0.5) -- (3.4,2.2) -- (0.9,1.7) -- cycle;
  \draw[axis] (0,0) -- (3.8,0) node[right] {$x$};
  \draw[axis] (0,0) -- (0,2.7) node[above] {$y$};
- \draw[->,accent,semithick] (0,0) -- (2.5,0.5) node[midway,above] {$T_u\,du$};
- \draw[->,ink,semithick] (0,0) -- (0.9,1.7) node[midway,right] {$T_v\,dv$};
+ \draw[->,accent,semithick] (0,0) -- (2.5,0.5) node[below right] {$(\partial_u T)\,du$};
+ \draw[->,ink,semithick] (0,0) -- (0.9,1.7) node[above] {$(\partial_v T)\,dv$};
  \node at (2,1.45) {$|J_T|\,du\,dv$};
 \end{tikzpicture}\par
 {\small\color{muted}変換後：接ベクトルが張る平行四辺形}\par
 \end{minipage}
 \par\vspace{2pt}
 
-\topic{変数変換公式と適用条件}
-$D,E$ は有界で境界の面積が0、$D=T(E)$ とする。
-$T$ は $E$ の近傍で $C^1$ 級、内部で1対1かつ $J_T\ne0$ とする。
-$f$ が $D$ 上可積分なら
+\topic{変数変換公式と計算の要点}
+元の積分領域を $D$、$(u,v)$ 平面でそれに対応する領域を $E$ とすると
 $$
  \iint_Df(x,y)\,dx\,dy
  =\iint_E f(x(u,v),y(u,v))\,|J_T(u,v)|\,du\,dv.
 $$
-境界など面積0の部分での重複・退化は積分値に影響しない。
-関数・面積要素・積分領域の3つを同時に変換する。
+関数・面積要素・積分範囲の3つを同時に書き換える。
+同じ点を重複して数えないように、変換に使う範囲を選ぶことに注意。
 
 
 \topic{線形変換の例}
@@ -192,7 +245,7 @@ $$
 \par\vspace{2pt}
 
 \newpage
-% Keep the remaining summary in the upper half of page 2.
+% 授業要約の2ページ目の上半分に残りの説明を置く。
 \noindent\begin{minipage}[b][\dimexpr0.5\textheight-\parskip\relax][t]{\linewidth}
 \topic{極座標：円・扇形・円環に適する座標}
 $x=r\cos\theta$、$y=r\sin\theta$、$r\ge0$ とすると
@@ -209,12 +262,12 @@ $$
 $$
 
 
-\topic{楕円と多対1の変換}
+\topic{楕円への変換と板の質量}
 $a,b>0$、$x=ar\cos\theta$、$y=br\sin\theta$ なら $|J_T|=ab r$。
 楕円 $x^2/a^2+y^2/b^2\le1$ は $0\le r\le1,\ 0\le\theta<2\pi$ に対応する。
 \par
-同じ点を複数回覆う変換では、その重複回数も積分に入る。
-1対1になる範囲へ制限してから公式を使うのが基本である。
+面密度が $\rho(x,y)$ の板の質量は $M=\iint_D\rho(x,y)\,dx\,dy$ で求める。
+面密度が一定なら、質量は「面密度 $\times$ 面積」となる。
 \keybox{ヤコビアンは逆変換のものと取り違えない。極座標では半径の範囲と角度の範囲を図で確認する。}
 
 \par\vspace{2pt}\noindent
@@ -248,81 +301,98 @@ $a,b>0$、$x=ar\cos\theta$、$y=br\sin\theta$ なら $|J_T|=ab r$。
 \par\vspace{2pt}
 
 \end{minipage}\par\nointerlineskip
-% Keep the exercises and writing space in the lower half of page 2.
+% 授業要約の2ページ目の下半分に演習問題と書き込み用の余白を置く。
 \noindent\begin{minipage}[b][0.5\textheight][t]{\linewidth}
 \exercises
 \begin{problems}
-\item $T(u,v)=(3u+v,u-2v)$ のヤコビアンを求め、単位正方形の像の面積を計算せよ。行列式の符号の意味も述べよ。
+\item $x=2u$、$y=3v$ の $J_T$ と、単位正方形 $0\le u,v\le1$ を変換した長方形の面積を求めよ。
 \problemspace
 
-\item 極座標を用いて、$\displaystyle\iint_{x^2+y^2\le1}(x^2+y^2)\,dx\,dy$ を求めよ。
+\item $D=\{(x,y):0\le x+y\le2,\ 0\le x-y\le1\}$ とする。
+変数変換で $\iint_D(x+y)e^{x-y}\,dx\,dy$ を求めよ。
 \problemspace
 
-\item 円環 $D=\{(x,y):1\le x^2+y^2\le4\}$ 上の $\displaystyle\iint_D\frac{dx\,dy}{x^2+y^2}$ を求めよ。
+\item 台形の板 $D=\{(x,y):1\le x\le2,\ x\le y\le2x\}$ の面密度を $\rho(x,y)=1+(y/x)^2$ とする。
+$u=x$、$v=y/x$ とおき、変換後の積分範囲と面積要素を示して、質量 $M=\iint_D\rho(x,y)\,dx\,dy$ を求めよ。
 \problemspace
 
-\item $a,b>0$、$D=\{(x,y):x^2/a^2+y^2/b^2\le1\}$ とする。変数変換を用いて $D$ の面積と $\iint_Dx^2\,dx\,dy$ を求めよ。
+\item 上半円板 $D=\{(x,y):x^2+y^2\le4,\ y\ge0\}$ の面積を、極座標で計算せよ。
 \problemspace
 
-\item $u=x+y,\ v=x-y$ とする。$D=\{(x,y):0\le x+y\le2,\ 0\le x-y\le1\}$ 上の $\iint_D(x+y)\,dx\,dy$ を求めよ。
+\item 内半径 $1$、外半径 $2$ のワッシャーを、円環 $D=\{(x,y):1\le x^2+y^2\le4\}$ として表す。
+極座標を用いて面積 $A=\iint_D1\,dx\,dy$ を求めよ。$r$ と $\theta$ の積分範囲も書け。
 \problemspace
 
-\item $T(u,v)=(u^2-v^2,2uv)$ の $|J_T|$ を求めよ。$u^2+v^2\le1$ の像と重複回数を調べ、$\iint_{u^2+v^2\le1}|J_T|\,du\,dv$ が像の面積と一致するか説明せよ。
+\item 楕円板 $x^2/4+y^2\le1$ の面積を、$x=2r\cos\theta$、$y=r\sin\theta$ を使って求めよ。
 \problemspace
+
 \end{problems}
 \end{minipage}
 
 \newpage
 \handouttitle{第6回\quad 演習問題の解答}
-{\small 設定した範囲と条件も確認しながら、計算を振り返ろう。}\par
+{\small ヤコビアン・積分範囲・計算結果を、問題文と照らし合わせて確認しよう。}\par
 \begin{problems}
-\setlength{\itemsep}{7pt}
-\item $J_T=\det\begin{pmatrix}3&1\\1&-2\end{pmatrix}=-7$。
-したがって単位正方形の像の面積は $|-7|\cdot1=7$。
-負の符号は向きの反転を表し、面積自体は正である。
+\setlength{\itemsep}{9pt}
+\item $x=2u$、$y=3v$ より
+$$
+ DT=\begin{pmatrix}2&0\\0&3\end{pmatrix},\qquad J_T=6.
+$$
+変換前の範囲は $0\le u,v\le1$ なので、長方形の面積は
+$$A=\int_0^1\int_0^1 6\,dv\,du=6.$$
 
-\item $x^2+y^2=r^2$、$dA=r\,dr\,d\theta$ より
+\item $u=x+y$、$v=x-y$ とおくと、$x=(u+v)/2$、$y=(u-v)/2$ より
 $$
- \iint_{x^2+y^2\le1}(x^2+y^2)\,dA
- =\int_0^{2\pi}\int_0^1r^3\,dr\,d\theta=\frac\pi2.
+ J_T=\begin{vmatrix}1/2&1/2\\1/2&-1/2\end{vmatrix}=-\frac12,\qquad
+ dx\,dy=\frac12\,du\,dv.
 $$
-
-\item 円環では $1\le r\le2$、$0\le\theta<2\pi$ である。したがって
+積分範囲は $0\le u\le2$、$0\le v\le1$、被積分関数は $(x+y)e^{x-y}=ue^v$ なので
 $$
- \iint_D\frac{dA}{x^2+y^2}
- =\int_0^{2\pi}\int_1^2\frac1{r^2}r\,dr\,d\theta=2\pi\log2.
-$$
-原点は領域に含まれないので、この領域上に特異点はない。
-
-\item $x=ar\cos\theta$、$y=br\sin\theta$、$|J_T|=ab r$ とおく。
-範囲は $0\le r\le1$、$0\le\theta<2\pi$。
-$$
- \operatorname{Area}(D)=ab\int_0^{2\pi}\int_0^1r\,dr\,d\theta=\pi ab,
-$$
-$$
- \iint_Dx^2\,dA
- =a^3b\left(\int_0^1r^3\,dr\right)
-         \left(\int_0^{2\pi}\cos^2\theta\,d\theta\right)=\frac{\pi a^3b}{4}.
+ \iint_D(x+y)e^{x-y}\,dx\,dy
+ =\frac12\int_0^2\int_0^1 ue^v\,dv\,du
+ =\frac12\left[\frac{u^2}{2}\right]_0^2[e^v]_0^1=e-1.
 $$
 
-\item 積分に使うのは逆変換 $x=(u+v)/2$、$y=(u-v)/2$ であり、
-$\det\partial(x,y)/\partial(u,v)=-1/2$。
-$D$ は $0\le u\le2,\ 0\le v\le1$ に移るので
+\item $u=x$、$v=y/x$ を逆に解くと $x=u$、$y=uv$。
+$1\le x\le2$ は $1\le u\le2$ に、$x\le y\le2x$ は $1\le v\le2$ に変わる。
+また
 $$
- \iint_D(x+y)\,dA=\frac12\int_0^2\int_0^1u\,dv\,du=1.
+ J_T=\begin{vmatrix}1&0\\v&u\end{vmatrix}=u,\qquad
+ dx\,dy=u\,du\,dv,\qquad \rho(u,uv)=1+v^2.
+$$
+したがって、質量は
+$$
+ M=\int_1^2\int_1^2 u(1+v^2)\,dv\,du
+  =\left[\frac{u^2}{2}\right]_1^2
+   \left[v+\frac{v^3}{3}\right]_1^2
+  =\frac32\cdot\frac{10}3=5.
 $$
 
-\item $DT=\begin{pmatrix}2u&-2v\\2v&2u\end{pmatrix}$ なので $|J_T|=4(u^2+v^2)$。
-$u=s\cos\theta$、$v=s\sin\theta$ と書くと
+\item 上半円板の範囲は $0\le r\le2$、$0\le\theta\le\pi$。
+面積要素 $dx\,dy=r\,dr\,d\theta$ を用いると
 $$
- T(u,v)=(s^2\cos2\theta,s^2\sin2\theta).
+ A=\int_0^{\pi}\int_0^2 r\,dr\,d\theta
+  =\pi\left[\frac{r^2}{2}\right]_0^2=2\pi.
 $$
-像は単位円板で、原点以外の各点を2回覆う。したがって
+
+\item $x^2+y^2=r^2$ より、ワッシャーの範囲 $1\le x^2+y^2\le4$ は
+$1\le r\le2$、$0\le\theta<2\pi$ に対応する。したがって
 $$
- \iint_{u^2+v^2\le1}|J_T|\,du\,dv
- =\int_0^{2\pi}\int_0^1 4s^3\,ds\,d\theta=2\pi.
+ A=\iint_D1\,dx\,dy
+  =\int_0^{2\pi}\int_1^2 r\,dr\,d\theta
+  =2\pi\left[\frac{r^2}{2}\right]_1^2=3\pi.
 $$
-像の面積 $\pi$ の2倍となる。原点だけは像の重複回数が1だが、面積0なので影響しない。
+外側の円板の面積 $4\pi$ から、穴の面積 $\pi$ を引いても同じ値になる。
+
+\item $x=2r\cos\theta$、$y=r\sin\theta$ では $x^2/4+y^2=r^2$ なので、
+範囲は $0\le r\le1$、$0\le\theta<2\pi$ となる。また
+$$
+ J_T=\begin{vmatrix}2\cos\theta&-2r\sin\theta\\\sin\theta&r\cos\theta\end{vmatrix}=2r.
+$$
+よって、楕円板の面積は
+$$
+ A=\int_0^{2\pi}\int_0^1 2r\,dr\,d\theta=2\pi.
+$$
 \end{problems}
-\keybox{変換後の関数・領域・面積要素を一組にしよう。変換が多対1なら、面積を重複して数えていないか確認する。}
+\keybox{積分する関数を置き換えたら、面積要素の $|J_T|$ と、変換後の積分範囲も確認しよう。}
 \end{document}

@@ -71,48 +71,43 @@
 \fancyhead[L]{\small\color{ink}\coursename{}・前回の演習解答}
 \handouttitle{第4回\quad 演習問題の解答}
 
-\topic{演習1：サイコロの事象の独立性}
-公平なサイコロの出目を $D$、$A=\{D\text{ は偶数}\}$、
-$B=\{D\le3\}$、$C=\{D\le4\}$ とする。
+\topic{演習1：二つのサイコロの和と差}
+公平なサイコロを独立に2回投げ、出目を $X,Y$ とする。
 $$
-  P(A)=\frac12,\quad P(B)=\frac12,\quad P(C)=\frac23,
-  \qquad P(A\cap B)=\frac16\ne\frac14=P(A)P(B).
+ \E[X]=\E[Y]=\frac16\sum_{j=1}^6j=\frac72,\qquad
+ \E[X^2]=\E[Y^2]=\frac16\sum_{j=1}^6j^2=\frac{91}{6}.
 $$
-よって $A,B$ は独立ではない。一方、$A\cap C=\{2,4\}$ なので
-$P(A\cap C)=1/3=P(A)P(C)$ となり、$A,C$ は独立である。
+したがって $\Var(X)=\Var(Y)=91/6-(7/2)^2=35/12$。
+期待値の線形性と独立性から
+$$
+ \E[X+Y]=\E[X]+\E[Y]=7,\qquad
+ \Var(X+Y)=\Var(X)+\Var(Y)=\frac{35}{6}.
+$$
+共分散の双線形性と対称性により
+$$\begin{aligned}
+ \Cov(X+Y,X-Y)
+ &=\Var(X)-\Cov(X,Y)+\Cov(Y,X)-\Var(Y)\\
+ &=\Var(X)-\Var(Y)=0.
+\end{aligned}$$
 
-\topic{演習2：無相関でも独立でない和と差}
-独立な公平サイコロの出目 $U,V$ に対し、$S=U+V$、$T=U-V$ とする。
-$\Var(U)=\Var(V)=35/12$ と共分散の双線形性から
+\topic{演習2：無相関でも独立でない確率変数}
+$\Omega=[-1,1]$、$\F=\mathcal B([-1,1])$、$P=\lambda/2$（$\lambda$ はルベーグ測度）とし、
+$X(\omega)=\omega$、$Y(\omega)=\omega^2$ とする。
 $$
-  \Cov(S,T)=\Var(U)-\Var(V)=0.
+ \E[X]=\frac12\int_{-1}^1\omega\,d\omega=0,\qquad
+ \E[Y]=\frac12\int_{-1}^1\omega^2\,d\omega=\frac13,
 $$
-しかし、$\{S=2,T=0\}=\{U=V=1\}$、$\{T=0\}=\{U=V\}$ より
 $$
-  P(S=2,T=0)=\frac1{36},\qquad
-  P(S=2)P(T=0)=\frac1{36}\cdot\frac16=\frac1{216}.
+ \E[XY]=\frac12\int_{-1}^1\omega^3\,d\omega=0,\qquad
+ \Cov(X,Y)=\E[XY]-\E[X]\E[Y]=0.
 $$
-積公式が破れるので、$S,T$ は独立ではない。
-
-\topic{演習3：有限個の和の分散}
-二次モーメントが有限な $X_1,\ldots,X_n$ について、$W_j=X_j-\E[X_j]$ とおく。
-$\E|W_iW_j|<\infty$ は Cauchy--Schwarz の不等式から従う。したがって
+一方、$A:=\{|X|\le1/2\}$、$B:=\{Y\le1/4\}$ はともに
+$\{\omega:|\omega|\le1/2\}=[-1/2,1/2]$ なので
 $$
-  \begin{aligned}
-    \Var\left(\sum_{j=1}^nX_j\right)
-      &=\E\left[\left(\sum_{j=1}^nW_j\right)^2\right]\\
-      &=\sum_{j=1}^n\E[W_j^2]+2\sum_{i<j}\E[W_iW_j]
-       =\sum_{j=1}^n\Var(X_j)+2\sum_{i<j}\Cov(X_i,X_j).
-  \end{aligned}
+ P(A)=P(B)=\frac12,\qquad
+ P(A\cap B)=\frac12\ne\frac14=P(A)P(B).
 $$
-対独立で各共分散は $0$ になるので十分である。相互独立でも成り立つ。
-
-\topic{演習4：三つの符号の関係}
-独立な公平な符号 $X,Y\in\{-1,1\}$ と $Z=XY$ を考える。
-$(X,Y)$、$(X,Z)$、$(Y,Z)$ のいずれも、四通りの符号の組が各確率 $1/4$ で現れる。
-各変数の周辺確率は $1/2$ なので、どの二つ組も独立である。
-一方、$Z=XY$、$X=YZ$、$Y=XZ$ より、どの二つの値からも残りが決まる。
-$P(X=Y=Z=1)=1/4\ne1/8$ だから、三つは相互独立ではない。
+したがって、$X,Y$ は無相関だが独立ではない。
 \clearpage
 \endgroup
 
@@ -205,76 +200,98 @@ $Z\sim N(0,1)$ なら $m+\sigma Z\sim N(m,\sigma^2)$ である。
 \newpage
 \topic{演習問題}
 \begin{enumerate}[label=\arabic*.]
-\item $X\sim\mathrm{Exp}(\lambda)$ の平均、二次モーメント、分散を積分で求め、
-記憶なし性質を示せ。
-\item 分布関数 $F_X$ が連続なら $P(X=x)=0$（すべての $x$）を示せ。
-さらに、この性質だけから確率密度の存在を結論してよいか考えよ。
-\item $X\sim\mathrm{Gamma}(\alpha,\beta)$ の密度の積分が $1$ であることと、
-平均・分散の公式を、変数変換 $u=\beta x$ によって確かめよ。
-\item 正の確率変数 $T$ の生存関数 $G(t)=P(T>t)$ が連続で正、
-$G(s+t)=G(s)G(t)$（$s,t\ge0$）、$G(0)=1$、$G(t)\to0$ を満たすとする。
-$G(t)=e^{-ct}$（ある $c>0$）を示せ。
+  \item $S\sim\mathrm{Bin}(5,1/3)$ とする。
+  $P(S=0)$、$P(S=2)$、$\E[S]$、$\Var(S)$ を求めよ。
+  \item 成功確率 $p=1/4$ の試行を独立に繰り返し、初成功までの試行回数を $T$ とする。
+  $P(T>3)$、$\E[T]$、$\Var(T)$ を求めよ。
 \end{enumerate}
 
 \topic{レポート問題}
 \begin{enumerate}[label=\arabic*.]
-\item $X\sim\mathrm{Poi}(\lambda)$ の平均と分散を求めよ。
-独立な $X\sim\mathrm{Poi}(\lambda)$、$Y\sim\mathrm{Poi}(\mu)$ に対し、
-畳み込み和から $X+Y\sim\mathrm{Poi}(\lambda+\mu)$ を示せ。
-\item $X\sim\mathrm{Geo}(p)$ の平均と分散、記憶なし性質を導け。
-続いてガンマ分布の応用として、独立な指数待ち時間の和を考え、
-何が観測量で、$\alpha$ と $\beta$ が何を表すかを説明せよ。
+  \item $\lambda,\nu>0$ とし、独立な $X\sim\mathrm{Poi}(\lambda)$、$Y\sim\mathrm{Poi}(\nu)$ に対して
+  $X+Y\sim\mathrm{Poi}(\lambda+\nu)$ を示せ。
+  $P(X+Y=k)=\sum_{j=0}^kP(X=j,\,Y=k-j)$ を用いてよい。
+    \item $W\sim\mathrm{Exp}(2)$ とする。密度を積分して $P(W>1)$ を求めよ。
+  また、$\E[W]$、$\Var(W)$ を求めよ。(計算過程まで書くこと)
 \end{enumerate}
 
 \topic{考えるための手がかり}
-ポアソン分布では $k(k-1)$ を掛けると添字をずらしやすい。
+ポアソン分布の和では、独立性で同時確率を積に分け、二項定理を使おう。
 幾何分布では $\sum_{k\ge0}q^k=(1-q)^{-1}$ とその微分、
 または $\E[X]=\sum_{m\ge0}P(X>m)$ を使える。
-記憶なし性質では、条件付き確率の分母が正であることも確認しよう。
+指数分布では、生存確率とモーメントをそれぞれ密度の積分に書き換えよう。
 \vfill
 {\small\color{muted}解答メモ：パラメータの範囲、値域、密度が $0$ となる範囲を省略しない。}
 
 \columnstart{地震の回数とポアソン分布}
-「一日にはめったに起こらないことも、長い期間には何回か起こる」。
-地域と数える地震の規模を決め、日々の $0$ と $1$ の記録から、この考えを式にしてみよう。
+「1秒ではめったに起こらないことも、1年間では何回か起こる」。
+地域と数える地震の規模を決め、1秒ごとの $0$ と $1$ の記録から、この考えを式にしてみよう。
 
-\columnheading{毎日の記録を足すと、期間全体の回数になる}
-観測する日数を $n$、何日目かを $j$ と書き、
+\columnheading{1秒ごとの記録を足すと、1年間の回数になる}
+1年を365日とし、1年間を1秒ずつの区間に分ける。その区間数は
+$$n=365\times24\times3600=31\,536\,000.$$
+$j$ 番目の1秒間の記録を
 $$
   X_j=\begin{cases}
-    1 & (j\text{ 日目に対象の地震が起きる}),\\
-    0 & (j\text{ 日目に対象の地震が起きない})
+    1 & (j\text{ 番目の1秒間に対象の地震が起きる}),\\
+    0 & (j\text{ 番目の1秒間に対象の地震が起きない})
   \end{cases}
   \qquad(j=1,\ldots,n)
 $$
-とする。特に $X_n$ は $n$ 日目の記録である。
-一日に対象の地震は高々 $1$ 回と仮定すれば、総回数は $S_n=X_1+\cdots+X_n$。
-例えば記録が $(0,1,0,0,1)$ なら、$S_5=2$ である。
-一日に複数回起きる場合、この和が数えるのは「地震が起きた日数」になる。
+とする。特に $X_n$ は1年間の最後の1秒間の記録である。
+各1秒間に対象の地震は高々 $1$ 回と仮定すれば、1年間の総回数は $S_n=X_1+\cdots+X_n$。
+例えば最初の5秒間の記録が $(0,1,0,0,1)$ なら、$S_5=2$ である。
+同じ1秒間に複数回起きる場合、この和が数えるのは「地震が起きた秒区間の数」になる。
 
 $\lambda>0$、$n>\lambda$ とし、$X_1,\ldots,X_n$ は互いに独立で、
-各日の発生確率は共通に
+各1秒間の発生確率は共通に
 $$
   P(X_j=1)=\frac{\lambda}{n},\qquad
   P(X_j=0)=1-\frac{\lambda}{n}\quad(j=1,\ldots,n)
 $$
-と仮定する。独立とは、ほかの日に起きたかどうかを知っても、その日の発生確率が
+と仮定する。独立とは、ほかの1秒間に起きたかどうかを知っても、その1秒間の発生確率が
 変わらないということである。$\E[X_j]=\lambda/n$ より
 $\E[S_n]=n\times(\lambda/n)=\lambda$。
-つまり $\lambda$ は $n$ 日間全体での平均回数を表す。
+つまり $\lambda$ は1年間全体での平均回数を表す。
 
 \columnheading{ちょうど $k$ 回起きる確率を数えよう}
-$0\le k\le n$ とする。地震が起きる $k$ 日を先に指定すると、独立性により、
-その日にだけ起きる確率は $(\lambda/n)^k(1-\lambda/n)^{n-k}$。
-その $k$ 日の選び方は $\binom nk$ 通りあるので、
+$0\le k\le n$ とする。地震が起きる $k$ 個の区間を先に指定すると、独立性により、
+その区間にだけ起きる確率は $(\lambda/n)^k(1-\lambda/n)^{n-k}$。
+その $k$ 個の区間の選び方は $\binom nk$ 通りあるので、
 $$
   P(S_n=k)=\binom nk\left(\frac{\lambda}{n}\right)^k
                   \left(1-\frac{\lambda}{n}\right)^{n-k}.
 $$
 これは二項分布である。
 
+\begin{center}
+\begin{tikzpicture}[x=0.92cm,y=8cm,font=\small]
+ \foreach \y in {0.1,0.2,0.3}{
+  \draw[muted!25,dotted] (-0.65,\y)--(8.5,\y);
+ }
+ \foreach \k/\p in {0/0.135335283,1/0.270670566,2/0.270670566,3/0.180447044,4/0.090223522,5/0.036089409,6/0.012029803,7/0.003437087,8/0.000859272}{
+  \filldraw[fill=accent!45,draw=accent,line width=0.4pt]
+   ({\k-0.29},0) rectangle ({\k+0.29},\p);
+ }
+ \draw[ink,->] (-0.65,0)--(8.75,0);
+ \draw[ink,->] (-0.65,0)--(-0.65,0.335);
+ \foreach \k in {0,...,8}{
+  \draw[ink] (\k,0)--(\k,-0.008) node[below] {$\k$};
+ }
+ \foreach \y in {0,0.1,0.2,0.3}{
+  \draw[ink] (-0.65,\y)--(-0.75,\y) node[left] {$\y$};
+ }
+ \node[anchor=south west,text=ink] at (-0.65,0.337) {確率};
+ \node[text=ink] at (4,0.36) {年間平均 $\lambda=2$ のモデル例};
+ \node[anchor=north,text=ink] at (4,-0.073) {1年間の回数 $k$};
+\end{tikzpicture}\par
+{\small\color{muted}ポアソン近似の棒グラフ。棒の高さは $e^{-2}2^k/k!$（$k=0,\ldots,8$）。}
+\end{center}
+
+\newpage
 \columnheading{まれな発生をたくさんの機会で数えると}
-平均 $\lambda$ を固定して $n$ を大きくすると、一日の確率 $\lambda/n$ は小さくなる。
+ここからは、観測する1年間を固定したまま、区切りを1秒よりも細かくして区間数 $n$ を大きくする。
+1年間の平均 $\lambda$ を固定しているので、各区間の発生確率 $\lambda/n$ は小さくなる。
 固定した整数 $k\ge1$ に対し、二項分布の式を二つに分けて眺めよう。
 $$
   \begin{aligned}
@@ -297,18 +314,14 @@ $$
 $$
 右辺がポアソン分布 $\mathrm{Poi}(\lambda)$ の確率である。
 有限の $n$ では二項分布だが、$n$ が大きく $\lambda/n$ が小さいとき、
-ポアソン分布で近似できる。例えば平均 $2$ 回なら、$0$ 回の確率は
+ポアソン分布で近似できる。例えば1年間で平均 $2$ 回なら、$0$ 回の確率は
 $e^{-2}\approx0.135$、$2$ 回の確率は $2e^{-2}\approx0.271$ となる。
 
-\columnheading{地震について、何が説明できたのだろう}
-この極限では $n$ ごとに一日の確率を $\lambda/n$ と置き直している。
-実際に観測日数を増やすと一日の発生確率が下がる、という意味ではない。
-「独立でまれな発生を、平均回数 $\lambda$ を保って数える」とポアソン分布が現れる。
+\columnheading{まとめ}
+1秒ごとのモデルでは $n=31\,536\,000$ であり、各1秒間の発生確率を $\lambda/n$ とする。
+時間の区切りをさらに細かくし、1年間の平均回数 $\lambda$ を保って独立で希少な発生を数えると、ポアソン分布が現れる。
 現実の地震への適用では、余震のように発生が続く場合もあるため、独立性などの仮定が
 適切かを確かめよう。
-\par{\small\color{muted}余震の参考：
-\href{https://www.usgs.gov/faqs/what-difference-between-aftershocks-and-swarms}
-{USGS「What is the difference between aftershocks and swarms?」}}
 
 \label{lastpage}
 \end{document}
