@@ -59,7 +59,7 @@
 \newcommand{\exercises}{%
   {\color{accent}\hrule height 0.7pt}\vspace{3pt}%
   \topic{演習問題（6題）}%
-  {\small 領域と積分範囲を確認し、計算過程も書こう。図を描くと範囲を読み取りやすい。}\par}
+  {\small 積分範囲と計算過程を書こう。体積の割合や重心の位置にも注目しよう。}\par}
 \tikzset{
   handout diagram/.style={>={Stealth[length=3.2pt,width=3.2pt]},line join=round,
     every node/.style={font=\scriptsize,text=ink}},
@@ -73,8 +73,7 @@
 \setlength{\abovedisplayskip}{4pt}
 \setlength{\belowdisplayskip}{4pt}
 \handout{7}{重積分の応用：体積と質量}
-\keybox{到達目標：立体の投影領域と上下の境界から積分を設定し、体積・質量・重心を求められる。
-密度の変化と座標変換の両方を積分式に反映しよう。}
+\keybox{到達目標：体積・質量・重心を求められる。}
 
 \topic{上下のグラフに挟まれた立体の体積}
 $D\subset\mathbb R^2$ を有界な積分可能領域、$\phi,\psi$ を $D$ 上の連続関数、$\phi\le\psi$ とし
@@ -91,18 +90,63 @@ $$
 
 \par\vspace{2pt}\noindent
 \begin{minipage}[b]{0.48\linewidth}\centering
-\begin{tikzpicture}[handout diagram,x=1cm,y=0.8cm]
-\path[region] (0,0.5) -- (3,0.85) -- (3,2.55) -- (0,2) -- cycle;
- \draw[accent] (0,2) .. controls (1,2.25) and (2,2.35) .. (3,2.55);
- \draw[slice,<->] (1.6,0.72) -- (1.6,2.3);
- \node[right] at (1.7,1.5) {$\psi-\phi$};
- \draw[guide] (1.6,0) -- (1.6,0.72);
- \draw[axis] (0,0) -- (3.6,0) node[right] {底面の位置};
- \draw[axis] (0,0) -- (0,3) node[above] {$z$};
- \node[above] at (2.7,2.55) {$z=\psi$};
- \node[below] at (2.7,0.8) {$z=\phi$};
+\begin{tikzpicture}[handout diagram,
+  x={(0.95cm,-0.10cm)},y={(0.48cm,0.25cm)},z={(0cm,0.77cm)}]
+ % 投影領域と座標軸を、立体より奥に描く。
+ \draw[axis] (0,0,0) -- (4.8,0,0) node[right] {$x$};
+ \draw[axis] (0,0,0) -- (0,3.2,0);
+ \draw[axis] (0,0,0) -- (0,0,3.9) node[above] {$z$};
+ \path[fill=soft,draw=muted,densely dashed,thin]
+   (0.35,0.3,0) -- (3.65,0.3,0) -- (3.65,2.55,0)
+   -- (0.35,2.55,0) -- cycle;
+ \node at (1.1,1.25,0) {$D$};
+ \foreach \u/\v/\h in {0.35/0.3/0.65,3.65/0.3/0.9,3.65/2.55/1.1,0.35/2.55/0.8}{
+   \draw[guide] (\u,\v,0) -- (\u,\v,\h);}
+ % 下面と側面。曲線は一般のグラフを表す模式的な輪郭とする。
+ \path[fill=accent!9,draw=accent,semithick]
+   (0.35,0.3,0.65)
+   .. controls (0.9,0.3,0.45) and (1.5,0.3,0.45) .. (2.15,0.3,0.78)
+   .. controls (2.75,0.3,1.0) and (3.25,0.3,1.05) .. (3.65,0.3,0.9)
+   .. controls (3.65,1.0,0.8) and (3.65,1.9,0.85) .. (3.65,2.55,1.1)
+   .. controls (2.6,2.55,1.3) and (1.3,2.55,0.6) .. (0.35,2.55,0.8)
+   .. controls (0.35,1.8,0.95) and (0.35,0.9,0.8) .. cycle;
+ \path[fill=accent!13,draw=accent,semithick]
+   (3.65,0.3,0.9)
+   .. controls (3.65,1.0,0.8) and (3.65,1.9,0.85) .. (3.65,2.55,1.1)
+   -- (3.65,2.55,2.9)
+   .. controls (3.65,1.8,3.05) and (3.65,0.9,2.8) .. (3.65,0.3,2.6)
+   -- cycle;
+ \path[fill=accent!20,draw=accent,semithick]
+   (0.35,0.3,0.65)
+   .. controls (0.9,0.3,0.45) and (1.5,0.3,0.45) .. (2.15,0.3,0.78)
+   .. controls (2.75,0.3,1.0) and (3.25,0.3,1.05) .. (3.65,0.3,0.9)
+   -- (3.65,0.3,2.6)
+   .. controls (3.2,0.3,2.25) and (2.8,0.3,2.1) .. (2.15,0.3,2.35)
+   .. controls (1.5,0.3,2.6) and (0.9,0.3,2.65) .. (0.35,0.3,2.25)
+   -- cycle;
+ % 上面に曲線の網目を添え、曲面の奥行きを示す。
+ \path[region]
+   (0.35,0.3,2.25)
+   .. controls (0.9,0.3,2.65) and (1.5,0.3,2.6) .. (2.15,0.3,2.35)
+   .. controls (2.8,0.3,2.1) and (3.2,0.3,2.25) .. (3.65,0.3,2.6)
+   .. controls (3.65,0.9,2.8) and (3.65,1.8,3.05) .. (3.65,2.55,2.9)
+   .. controls (2.5,2.55,2.65) and (1.3,2.55,3.0) .. (0.35,2.55,2.45)
+   .. controls (0.35,1.8,2.8) and (0.35,0.9,2.55) .. cycle;
+ \draw[accent!55,thin] (2.15,0.3,2.35)
+   .. controls (2.15,1.0,2.6) and (2.15,1.9,2.9) .. (2.15,2.55,2.76);
+ \draw[accent!55,thin] (0.35,1.4,2.58)
+   .. controls (1.3,1.4,3.0) and (2.5,1.4,2.4) .. (3.65,1.4,2.91);
+ % 同じ底面の点から上下のグラフまでの高さを示す。
+ \draw[guide] (2.15,0.3,0) -- (2.15,0.3,0.78);
+ \fill[ink] (2.15,0.3,0) circle (0.8pt);
+ \node[below] at (2.15,0.3,0) {$(x,y)$};
+ \draw[accent,<->,line width=0.9pt] (2.15,0.3,0.78) -- (2.15,0.3,2.35)
+   node[midway,right,text=ink] {$\psi-\phi$};
+ \node[right] at (3.7,2.55,2.9) {$z=\psi(x,y)$};
+ \node[right] at (3.7,1.6,0.88) {$z=\phi(x,y)$};
+ \node[above left] at (0,0.8,0) {$y$};
 \end{tikzpicture}\par
-{\small\color{muted}柱の高さは「上面 $-$ 下面」（断面の模式図）}\par
+{\small\color{muted}2つの曲面に挟まれた立体（模式図）}\par
 \end{minipage}\hfill
 \begin{minipage}[b]{0.48\linewidth}\centering
 \begin{tikzpicture}[handout diagram,x=0.9cm,y=0.65cm]
@@ -144,13 +188,47 @@ $$
 
 \par\vspace{2pt}\noindent
 \begin{minipage}[b]{0.98\linewidth}\centering
-\begin{tikzpicture}[handout diagram,x=0.75cm,y=0.65cm]
-\foreach \z/\shade in {0/8,0.45/15,0.9/23,1.35/32}{
-  \filldraw[fill=accent!\shade,draw=accent] (0,\z) rectangle (2.6,{\z+0.45});}
- \draw[axis] (-0.4,0) -- (-0.4,2.4) node[above] {$z$};
- \draw[<->,ink] (2.9,0) -- (2.9,1.8) node[midway,right] {$H$};
- \node[right] at (3.4,1.5) {上ほど密度が大きい};
- \node[right] at (3.4,0.6) {各層で $dM=\rho\,dV$};
+\begin{tikzpicture}[handout diagram]
+ \colorlet{densitylow}{accent!30}
+ \colorlet{densityhigh}{ink}
+ \begin{scope}[x={(1cm,-0.12cm)},y={(0.50cm,0.32cm)},z={(0cm,0.95cm)}]
+  % 透明な立体の奥側と底面を先に描く。
+  \path[fill=soft!45] (0,0,0) -- (3.2,0,0) -- (3.2,2.2,0) -- (0,2.2,0) -- cycle;
+  \path[fill=soft!25] (0,2.2,0) -- (3.2,2.2,0) -- (3.2,2.2,2.7) -- (0,2.2,2.7) -- cycle;
+  \draw[guide] (0,0,0) -- (0,2.2,0) -- (3.2,2.2,0)
+    (0,2.2,0) -- (0,2.2,2.7);
+  \draw[axis] (-0.6,-0.35,0) -- (3.8,-0.35,0) node[right] {$x$};
+  \draw[axis] (-0.6,-0.35,0) -- (-0.6,0.65,0) node[above left] {$y$};
+  \draw[axis] (-0.6,-0.35,0) -- (-0.6,-0.35,3.1) node[above] {$z$};
+  % 各点を同じ質量とし、上ほど点を多く、色を濃くして密度の差を示す。
+  \foreach \k in {0,...,8}{
+   \pgfmathtruncatemacro{\pointcount}{10+10*\k}
+   \foreach \i in {1,...,\pointcount}{
+    \pgfmathsetmacro{\u}{0.12+2.96*mod(0.618034*\i+0.173205*\k,1)}
+    \pgfmathsetmacro{\v}{0.10+2.00*mod(0.414214*\i+0.271828*\k,1)}
+    \pgfmathsetmacro{\h}{0.15+0.30*\k+0.11*sin(137.508*\i+61*\k)}
+    \pgfmathtruncatemacro{\shade}{100*(\h/2.7)^1.2}
+    \fill[densityhigh!\shade!densitylow] (\u,\v,\h) circle (1.35pt);
+   }
+  }
+  % 手前の輪郭を重ね、点が立体の内部に分布する様子を示す。
+  \draw[accent!65,semithick]
+    (0,0,0) -- (3.2,0,0) -- (3.2,2.2,0) -- (3.2,2.2,2.7)
+    -- (0,2.2,2.7) -- (0,0,2.7) -- (3.2,0,2.7) -- (3.2,2.2,2.7)
+    (0,0,0) -- (0,0,2.7) (3.2,0,0) -- (3.2,0,2.7);
+ \end{scope}
+ % 右側には、同じ体積での質量の違いが読み取れる凡例を置く。
+ \begin{scope}[every node/.append style={font=\small}]
+  \node[anchor=west] at (5.2,3.25) {上ほど密度 $\rho$ が大きい例};
+  \shade[bottom color=densitylow,top color=densityhigh,draw=accent!50,thin]
+    (5.2,0.1) rectangle (5.55,2.85);
+  \node[anchor=west,text=ink] at (5.85,2.75) {高密度：濃い色・点が多い};
+  \node[anchor=west] at (5.85,2.3) {同じ体積に多くの質量};
+  \node[anchor=west] at (5.85,1.55) {各点は同じ質量を表す};
+  \node[anchor=west] at (5.85,1.05) {各層で $dM=\rho\,dV$};
+  \node[anchor=west,text=accent] at (5.85,0.5) {低密度：淡い色・点が少ない};
+  \node[anchor=west] at (5.85,0.05) {同じ体積に少ない質量};
+ \end{scope}
 \end{tikzpicture}\par
 {\small\color{muted}密度が変わると、同じ体積でも質量が変わる}\par
 \end{minipage}
@@ -218,22 +296,29 @@ $$
 \noindent\begin{minipage}[b][0.5\textheight][t]{\linewidth}
 \exercises
 \begin{problems}
-\item $V=\{(x,y,z):x^2+y^2\le1,\ 0\le z\le1-x^2-y^2\}$ の体積を求めよ。投影領域と上下の境界を明記すること。
+\item 底面が正方形で、天井が傾いた立体
+$V=\{(x,y,z):0\le x,y\le1,\ 0\le z\le1+x\}$ の体積を重積分で求めよ。
 \problemspace
 
-\item 半径 $R>0$ の球の体積を球面座標で求め、上下のグラフを用いた計算と一致することを確認せよ。
+\item 丸い山の形をした立体
+$V=\{(x,y,z):x^2+y^2\le1,\ 0\le z\le1-x^2-y^2\}$ の体積を求めよ。
+半径1・高さ1の円柱の体積の何倍か。
 \problemspace
 
-\item 半径1・高さ2の円柱に一定密度 $\rho_0>0$ があるときの質量を求めよ。次に密度を $\rho=z$ に変えた場合の質量を求めよ。
+\item 円すい $V=\{(x,y,z):x^2+y^2\le1,\ 0\le z\le1-\sqrt{x^2+y^2}\}$
+の体積を円柱座標で求めよ。問2の立体と比べ、どちらの体積が大きいか。
 \problemspace
 
-\item $V=\{(x,y,z):x,y,z\ge0,\ x+y+z\le1\}$ の体積を累次積分で求めよ。
+\item 円柱 $V=\{(x,y,z):x^2+y^2\le1,\ 0\le z\le1\}$ の密度を $\rho=1+z$ とする。
+質量 $M$ と重心の高さ $\overline z$ を求め、中央の高さ $1/2$ からのずれを計算せよ。
 \problemspace
 
-\item $V=\{(x,y,z):0\le x,y,z\le1\}$、$\rho=1+z$ とする。質量 $M$ と重心の高さ $\overline z$ を求めよ。
+\item 半径1の球から、同じ中心の半径 $1/2$ の球をくり抜く。
+残った部分の体積を球面座標で求めよ。もとの球の体積の何倍が残るか。
 \problemspace
 
-\item 半径 $R>0$ の球内で $\rho(x,y,z)=x^2+y^2+z^2$ とする。質量を球面座標で求め、重心が原点となる理由を述べよ。
+\item 球 $V=\{(x,y,z):x^2+y^2+z^2\le1\}$ の密度を $\rho=x^2+y^2+z^2$ とする。
+質量を球面座標で求めよ。同じ球で密度が一様に1の場合の質量の何倍か。
 \problemspace
 \end{problems}
 \end{minipage}

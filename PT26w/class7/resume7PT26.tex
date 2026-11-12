@@ -53,10 +53,8 @@
   {\fontsize{11pt}{15pt}\selectfont\sffamily\mdseries\color{accent}#1}\par\vspace{2pt}}
 \newcommand{\columnstart}[1]{\clearpage
   \setlength{\parskip}{2.5pt}
-  \fancyhead[L]{\small\color{ink}\coursename{}・発展的内容}
-  {\small\sffamily\mdseries\color{accent}発展的内容}\par\vspace{4pt}
-  {\Large\color{ink}#1}\par\vspace{2pt}
-  {\color{accent}\rule{\linewidth}{0.7pt}}\par\vspace{4pt}}
+  \fancyhead[L]{\small\color{ink}\coursename{}・コラム}
+  \handouttitle{コラム\quad #1}}
 \newcommand{\F}{\mathcal F}
 \newcommand{\R}{\mathbb R}
 \newcommand{\N}{\mathbb N}
@@ -213,41 +211,122 @@ $\varphi_X(t)\in\R$ となることが同値であることを示せ。
 \vfill
 {\small\color{muted}解答メモ：特性関数の定義、原点での連続性、分布の一意性を確認する。}
 
-\columnstart{平均がなくても、分布の波形は記述できる}
-期待値や分散は確率分布の要約として便利だが、有限とは限らない。
-特性関数は、値の大きさを振動に変えてから平均することで、どの分布にも定義できる。
+\columnstart{分布の指紋}
+平均と分散は、分布の特徴を二つの数に要約する。
+特性関数は分布全体の情報を保ち、さらに独立な和の計算を積に変える。その働きをコインで見てみよう。
 
-\columnheading{振動を平均する}
-Euler の公式から
-$$\varphi_X(t)=\E[\cos(tX)]+i\E[\sin(tX)].$$
-周波数 $t$ ごとに、$X$ を角度 $tX$ へ写し、単位円上の点を平均していると考えられる。
-観測値が大きくなっても単位円の外へは出ないため、可積分性の問題が起こらない。
-ただし、振動の打ち消し合いも含めて分布を表すので、単なる平均値の一覧ではない。
+\columnheading{平均と分散が同じでも、出やすい範囲は違う}
+公平な符号 $P(R=-1)=P(R=1)=1/2$ と標準正規変数 $G\sim N(0,1)$ は、
+ともに平均 $0$、分散 $1$。それでも $P(|R|<1/2)=0$ だが、$P(|G|<1/2)>0$ である。
+平均と分散だけでは、この違いを捉えられない。
+\begin{center}
+\begin{tikzpicture}[x=0.76cm,y=2.3cm,font=\small]
+ \begin{scope}
+  \node[ink] at (0,0.66) {コイン $R$};
+  \fill[soft] (-0.5,0) rectangle (0.5,0.55);
+  \draw[muted!35,dotted] (-3.1,0.5)--(3.1,0.5);
+  \node[ink,left] at (-3.2,0.5) {$1/2$};
+  \draw[ink,->] (-3.2,0)--(3.4,0) node[right] {$x$};
+  \draw[ink,->] (-3.2,0)--(-3.2,0.59);
+  \foreach \position in {-1,1}{
+   \draw[ink,line width=1pt] (\position,0)--(\position,0.5);
+   \fill[ink] (\position,0.5) circle[radius=2pt];
+  }
+  \foreach \position in {-1,0,1}{
+   \draw[ink] (\position,0)--(\position,-0.02) node[below] {$\position$};
+  }
+ \end{scope}
+ \begin{scope}[xshift=8cm]
+  \node[accent] at (0,0.66) {正規変数 $G$};
+  \fill[soft] (-3.1,0)--plot[domain=-3.1:3.1,samples=101]
+   (\x,{exp(-(\x*\x)/2)/sqrt(2*pi)})--(3.1,0)--cycle;
+  \fill[accent!30] (-0.5,0)--plot[domain=-0.5:0.5,samples=41]
+   (\x,{exp(-(\x*\x)/2)/sqrt(2*pi)})--(0.5,0)--cycle;
+  \draw[accent,line width=1pt,domain=-3.1:3.1,samples=101]
+   plot (\x,{exp(-(\x*\x)/2)/sqrt(2*pi)});
+  \draw[ink,->] (-3.2,0)--(3.4,0) node[right] {$x$};
+  \draw[ink,->] (-3.2,0)--(-3.2,0.59);
+  \draw[muted!35,dotted] (-3.1,0.4)--(3.1,0.4);
+  \node[ink,left] at (-3.2,0.4) {$0.4$};
+  \foreach \position in {-1,0,1}{
+   \draw[ink] (\position,0)--(\position,-0.02) node[below] {$\position$};
+  }
+ \end{scope}
+\end{tikzpicture}
+\end{center}
+{\small\color{muted}中央の帯 $(-1/2,1/2)$：左に確率はなく、右には正の面積がある。}\par
 
-\columnheading{積率母関数との違い}
-積率母関数 $M_X(t)=\E[e^{tX}]$ では、$e^{tX}$ が片方の尾で大きくなる。
-たとえば標準 Cauchy 分布は密度
-$$f(x)=\frac1{\pi(1+x^2)}$$
-をもち、$\E|X|=\infty$、$M_X(t)=\infty$（$t\ne0$）である。
-一方、その特性関数は $\varphi_X(t)=e^{-|t|}$ となる。
-原点で微分できないことにも、有限の一次モーメントをもたない性質が現れている。
+\columnheading{値を矢印に変えると、分布全体を記録できる}
+$e^{itx}$ は長さ $1$、角度 $tx$ の矢印。特性関数 $\varphi_X(t)=\E[e^{itX}]$ は、
+その先端を確率で重み付けして平均した点である。コインでは二つの先端の中点となり、
+$$\varphi_R(t)=\frac{e^{it}+e^{-it}}2=\cos t,\qquad
+ \varphi_G(t)=e^{-t^2/2}.$$
+\begin{center}
+\begin{minipage}[t]{0.45\linewidth}
+\centering
+\begin{tikzpicture}[x=0.72cm,y=0.72cm,font=\small]
+ \foreach \shift/\rotationangle/\timelabel/\average in {
+  0/90/{\pi/2}/0,3.3/180/\pi/{-1}}{
+  \begin{scope}[xshift=\shift cm]
+   \draw[muted!55] (0,0) circle[radius=1];
+   \draw[muted!60,->] (-1.2,0)--(1.25,0);
+   \draw[muted!60,->] (0,-1.12)--(0,1.2);
+   \draw[ink!70,->,line width=0.8pt] (0,0)--(\rotationangle:1);
+   \draw[ink!70,->,line width=0.8pt] (0,0)--(-\rotationangle:1);
+   \fill[ink] (\rotationangle:1) circle[radius=1.5pt];
+   \fill[ink] (-\rotationangle:1) circle[radius=1.5pt];
+   \ifnum\rotationangle=90
+    \fill[accent] (0,0) circle[radius=2.5pt];
+   \else
+    \draw[accent,->,line width=1.5pt] (0,0)--(-1,0);
+    \fill[accent] (-1,0) circle[radius=2pt];
+   \fi
+   \node[ink] at (0,1.7) {$t=\timelabel$};
+   \node[accent] at (0,-1.5) {$\varphi_R(t)=\average$};
+  \end{scope}
+ }
+\end{tikzpicture}
+\par{\small\color{muted}青緑は矢印の平均。}\par
+\end{minipage}\hfill
+\begin{minipage}[t]{0.53\linewidth}
+\centering
+\begin{tikzpicture}[x=0.88cm,y=0.8cm,font=\small]
+ \draw[ink,dashed,line width=1pt] (-3.1,1.7)--(-2.6,1.7)
+  node[right] {$\cos t$};
+ \draw[accent,line width=1.1pt] (0.1,1.7)--(0.6,1.7)
+  node[right] {$e^{-t^2/2}$};
+ \foreach \level in {-1,1}{
+  \draw[muted!35,dotted] (-3.3,\level)--(3.3,\level);
+  \node[ink,left] at (0,\level) {$\level$};
+ }
+ \draw[ink,->] (-3.4,0)--(3.55,0) node[right] {$t$};
+ \draw[ink,->] (0,-1.15)--(0,1.2);
+ \draw[ink,dashed,line width=1pt,domain=-3.3:3.3,samples=121]
+  plot (\x,{cos(\x*180/pi)});
+ \draw[accent,line width=1.1pt,domain=-3.3:3.3,samples=121]
+  plot (\x,{exp(-(\x*\x)/2)});
+ \foreach \position/\ticklabel in {-3.141593/{-\pi},3.141593/\pi}{
+  \draw[ink] (\position,0)--(\position,-0.06) node[below] {$\ticklabel$};
+ }
+\end{tikzpicture}
+\par{\small\color{muted}同じ平均・分散でも、波形は異なる。}\par
+\end{minipage}
+\end{center}
+$t$ を変えると、矢印の打ち消し合い方の違いが現れる。
+$t=\pi$ でコインは $-1$、正規分布は約 $0.0072$ となり、二つを区別できる。
+一つの $t$ の値だけで分布は決まらないが、すべての $t$ で特性関数が一致すれば分布も一致する。
+これが「分布の指紋」と呼べる理由である。
 
-\columnheading{一意性と、有限個のモーメントの違い}
-平均と分散が一致する異なる分布は容易に作れる。
-たとえば公平な符号 $R\in\{-1,1\}$ と $G\sim N(0,1)$ はともに平均 $0$、分散 $1$ だが、
-$$\varphi_R(t)=\cos t,\qquad \varphi_G(t)=e^{-t^2/2}$$
-は異なる。特性関数をすべての周波数で知ることは、
-原点での少数の微分係数だけを知ることより多くの情報を含む。
-一意性定理は、その情報が分布全体を決定することを保証する。
-
-\columnheading{和の極限で二次の項が残る}
-平均 $0$、分散 $1$ の独立同分布列では、原点近くの展開から
-$$\varphi_X(u)=1-\frac{u^2}2+o(u^2),\qquad
- \varphi_{n^{-1/2}\sum_{j=1}^nX_j}(t)
- =\left(1-\frac{t^2}{2n}+o(n^{-1})\right)^n\longrightarrow e^{-t^2/2}.$$
-L\'evy の定理によって正規分布への収束が従う。
-複雑な畳み込みを何度も計算せず、原点近くの形を読むだけで和の極限を捉えられる。
-この方法が働くために二次モーメントをどこで使ったかは、第10回で確かめよう。
+\columnheading{指紋を使えば、和の分布も読み取れる}
+独立な公平な符号 $R_1,R_2$ を足してみよう。特性関数では、独立な和が積になる。
+$$\begin{aligned}
+ \varphi_{R_1+R_2}(t)&=\varphi_{R_1}(t)\varphi_{R_2}(t)=\cos^2 t\\
+ &=\frac14e^{-2it}+\frac12+\frac14e^{2it}.
+\end{aligned}$$
+右辺は $-2,0,2$ に確率 $1/4,1/2,1/4$ を置いた分布の特性関数である。
+一意性から、これが $R_1+R_2$ の分布だと分かる。
+多くの独立な変数の和にも、この「積を計算し、分布を同定する」方法が使える。
+\keybox{特性関数は、分布を見分けるための全情報を保ち、独立な足し算を積に置き換える。}
 
 \label{lastpage}
 \end{document}
