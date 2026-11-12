@@ -1,0 +1,591 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="darkreader-lock">
+<meta name="description" content="解析学II・第7回。変数変換の問題4題と解答、体積と質量、AIを用いた学習について。">
+<title>変数変換・体積と質量・AIを用いた学習</title>
+<style>
+:root{
+  color-scheme:light;
+  --bg:#f6f3ec;--panel:#fffcf7;--ink:#193a5c;--muted:#52616b;
+  --accent:#237d82;--soft:#eaf3f3;--line:#d5dcd8;--stage:#e4e5e0;
+  --warm:#a44e2c;--warm-soft:#f6ece2;
+}
+*{box-sizing:border-box;font-weight:400}
+body{
+  margin:0;background:var(--stage);color:var(--ink);
+  font-family:"Noto Sans JP","Hiragino Kaku Gothic ProN","Yu Gothic",sans-serif;
+}
+h1,h2,h3,p,figure{margin:0}
+h1{font-size:76px;line-height:1.35;letter-spacing:.03em}
+h2{font-size:44px;line-height:1.4;margin-bottom:25px}
+h3{font-size:27px;line-height:1.5;margin-bottom:10px}
+p{font-size:25px;line-height:1.75}
+a{color:var(--accent);text-underline-offset:4px}
+a:hover{color:var(--warm)}
+button{font:inherit;cursor:pointer;-webkit-tap-highlight-color:transparent}
+a:focus-visible,button:focus-visible{outline:2px solid var(--accent);outline-offset:4px}
+#viewport{height:100dvh;display:grid;place-items:center;overflow:hidden;padding-bottom:58px}
+#deck{
+  width:1280px;height:720px;position:relative;flex-shrink:0;
+  transform:scale(var(--scale,1));transform-origin:center;
+  background:var(--bg);box-shadow:0 16px 60px #193a5c15;
+}
+.slide{position:absolute;inset:0;padding:40px 64px 78px;display:none;overflow:hidden}
+.slide.active{display:flex;flex-direction:column}
+.topline{
+  display:flex;justify-content:space-between;gap:20px;
+  font-size:16px;color:var(--muted);letter-spacing:.06em;margin-bottom:25px;
+}
+.chapter{justify-content:center}
+.chapter .topline{position:absolute;top:40px;left:64px;right:64px}
+.chapter-number{font-size:20px;color:var(--accent);margin-bottom:20px;letter-spacing:.16em}
+.chapter h1{padding-bottom:24px;margin-bottom:25px;border-bottom:2px solid var(--accent)}
+.chapter p{color:var(--muted);font-size:29px}
+.chapter .agenda{display:grid;grid-template-columns:1fr 1fr;gap:13px 34px;margin-top:7px}
+.chapter .agenda p{font-size:25px}
+.ai-cover h1{font-size:62px;letter-spacing:0}
+.lead{font-size:26px;margin-bottom:22px}
+.small{font-size:21px;line-height:1.65}
+.muted{color:var(--muted)}
+.accent{color:var(--accent)}
+.warm{color:var(--warm)}
+.grid2{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:24px}
+.panel{padding:24px 28px;border:1px solid var(--line);border-radius:12px;background:var(--panel);min-width:0}
+.panel.soft{background:var(--soft);border-color:#b4ccca}
+.panel.warm-panel{background:var(--warm-soft);border-color:#dcc6b8}
+.problem-grid{gap:18px}
+.problem-grid .panel{padding:17px 22px;min-height:195px}
+.problem-grid h3{font-size:25px;margin-bottom:8px}
+.problem-grid p{font-size:20px;line-height:1.45}
+.problem-grid .question{margin-top:12px;color:var(--accent);font-size:23px}
+.math{font-size:29px;line-height:1.6}
+.math.compact{font-size:25px}
+mjx-container[jax="SVG"][display="true"]{margin:.45em 0!important}
+.math.left mjx-container[display="true"]{text-align:left!important}
+.result{color:var(--accent);font-size:31px;margin-top:12px}
+.solution-lines{display:flex;flex-direction:column;gap:8px}
+.takeaway{margin-top:auto;padding-top:20px;font-size:28px;line-height:1.6;color:var(--accent)}
+.rule{margin-top:auto;padding:18px 24px;border-left:3px solid var(--accent);background:var(--soft);font-size:26px;line-height:1.6}
+.footer{
+  position:absolute;left:64px;right:64px;bottom:24px;
+  display:flex;align-items:flex-end;justify-content:space-between;gap:22px;
+  color:var(--muted);font-size:14px;line-height:1.5;
+}
+.sources{display:flex;flex-wrap:wrap;gap:4px 18px;max-width:1030px}
+.sources a{color:var(--muted)}
+.page{white-space:nowrap;font-variant-numeric:tabular-nums}
+.volume-layout{display:grid;grid-template-columns:1.45fr 1fr;gap:40px;align-items:center}
+.volume-layout figure > svg{width:100%;height:270px;display:block}
+figcaption{font-size:18px;color:var(--muted);text-align:center;margin-top:10px}
+.coordinates .panel{padding:22px 26px}
+.coordinates .math{font-size:24px}
+.coordinates .small{font-size:20px}
+.performance-layout{display:grid;grid-template-columns:1.5fr 1fr;gap:40px;align-items:start;margin-top:16px}
+.performance-table{width:100%;border-collapse:collapse;font-size:24px;line-height:1.5}
+.performance-table th,.performance-table td{padding:9px 18px;border-bottom:1px solid var(--line);text-align:left}
+.performance-table thead{background:var(--soft)}
+.performance-table td:last-child{text-align:right;color:var(--accent);font-variant-numeric:tabular-nums}
+.performance-trend{border-left:2px solid var(--accent);padding-left:26px}
+.performance-trend p{font-size:24px;line-height:1.6;margin-bottom:17px}
+.performance-note{font-size:19px;line-height:1.6;color:var(--muted);margin-top:17px}
+.comparison{display:grid;grid-template-columns:1fr 1fr;gap:42px;align-items:center}
+.bars{display:flex;flex-direction:column;gap:21px}
+.bar-label{font-size:22px;margin-bottom:8px}
+.bar-track{background:#e6e8e2;width:100%;height:46px;border-radius:3px}
+.bar{height:100%;background:var(--accent);display:flex;align-items:center;justify-content:flex-end;padding-right:14px;color:white;font-size:24px;border-radius:3px}
+.bar.lower{background:var(--warm);width:83%}
+.study-note{font-size:19px;color:var(--muted);margin-top:18px;line-height:1.6}
+.brain-panels .panel{min-height:195px}
+.brain-panels p{font-size:24px}
+.flow{display:grid;grid-template-columns:1fr 44px 1fr 44px 1fr;align-items:center;gap:10px;margin:17px 0 25px}
+.flow .panel{text-align:center;padding:26px 16px}
+.flow h3{font-size:27px;margin-bottom:8px}
+.flow p{font-size:22px}
+.arrow{font-size:36px;color:var(--muted);text-align:center}
+.prompt{margin:0;padding:24px 30px;border-left:3px solid var(--accent);background:var(--soft);font-size:27px;line-height:1.8}
+.reply{margin-top:23px;font-size:26px;line-height:1.7}
+.error-equation{color:var(--warm);margin:0 0 10px}
+#controls{
+  position:fixed;bottom:10px;left:50%;transform:translateX(-50%);
+  display:flex;align-items:center;justify-content:center;gap:8px;z-index:10;white-space:nowrap;
+}
+#controls button,#counter{background:var(--panel);color:var(--ink);border:1px solid var(--line);border-radius:6px;padding:7px 12px;font-size:14px}
+#controls button:hover:not(:disabled){background:var(--soft);border-color:var(--accent)}
+#controls button:disabled{opacity:.35;cursor:default}
+.key-hint{font-size:12px;color:var(--muted);margin-left:8px}
+#progress{position:absolute;bottom:0;left:0;height:3px;background:var(--accent);transition:width .2s}
+#math-status{position:fixed;top:8px;left:50%;transform:translateX(-50%);background:var(--panel);padding:8px 14px;color:var(--warm);font-size:14px;z-index:20}
+@media(max-width:700px){.key-hint{display:none}#controls{gap:5px}#controls button,#counter{padding:7px 9px;font-size:12px}}
+@media(prefers-reduced-motion:reduce){*{transition:none!important}}
+@media print{
+  @page{size:338.67mm 190.5mm;margin:0}
+  body{background:var(--bg);-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  #viewport{height:auto;display:block;overflow:visible;padding:0}
+  #deck{width:1280px;height:auto;transform:none!important;box-shadow:none}
+  .slide,.slide.active{position:relative;display:flex;width:1280px;height:720px;break-after:page;page-break-after:always}
+  .slide:last-of-type{break-after:auto;page-break-after:auto}
+  #controls,#progress,#math-status{display:none!important}
+}
+</style>
+<script>
+window.MathJax = {
+  tex: {inlineMath: [['$', '$']], displayMath: [['$$', '$$']]},
+  svg: {fontCache: 'local'},
+  options: {skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']}
+};
+</script>
+<script defer id="mathjax-script" src="https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/tex-svg.js"
+  onerror="document.getElementById('math-status').hidden=false"></script>
+</head>
+<body>
+<div id="math-status" role="status" hidden>数式の表示にはインターネット接続が必要です。</div>
+<div id="viewport">
+<main id="deck" aria-label="解析学II・第7回の講義スライド">
+
+<!-- 変数変換：問題と解答 -->
+<section class="slide active chapter" aria-label="変数変換">
+  <div class="topline"><span>解析学 II・第7回</span><span>前回の復習</span></div>
+  <div class="chapter-number">第１部</div>
+  <h1>変数変換</h1>
+  <p>問題4題と解答</p>
+  <div class="footer"><span>変換後の式・積分範囲・ヤコビアンをそろえる。</span></div>
+</section>
+
+<section class="slide" aria-label="変数変換の問題4題">
+  <div class="topline"><span>第１部・変数変換</span><span>問題</span></div>
+  <h2>4つの積分を、変数変換で求めよう。</h2>
+  <div class="grid2 problem-grid">
+    <div class="panel">
+      <h3>問1　線形変換</h3>
+      <p>$D_1=\{(x,y):0\le x+y\le2,$<br>$\qquad\qquad 0\le x-y\le2\}$</p>
+      <p class="question">$\displaystyle\iint_{D_1}(x+y)\,dx\,dy$</p>
+    </div>
+    <div class="panel">
+      <h3>問2　円板</h3>
+      <p>$D_2=\{(x,y):x^2+y^2\le4\}$</p>
+      <p class="question">$\displaystyle\iint_{D_2}(x^2+y^2)\,dx\,dy$</p>
+    </div>
+    <div class="panel">
+      <h3>問3　楕円の面積</h3>
+      <p>$D_3=\{(x,y):x^2/4+y^2\le1\}$</p>
+      <p class="question">$\displaystyle\iint_{D_3}1\,dx\,dy$</p>
+    </div>
+    <div class="panel">
+      <h3>問4　第1象限の円環</h3>
+      <p>$D_4=\{(x,y):1\le x^2+y^2\le4,$<br>$\qquad\qquad x\ge0,\ y\ge0\}$</p>
+      <p class="question">$\displaystyle\iint_{D_4}\frac{1}{x^2+y^2}\,dx\,dy$</p>
+    </div>
+  </div>
+  <div class="footer"><span>問1：$x=u+v,\ y=u-v$ を使おう。</span></div>
+</section>
+
+<section class="slide" aria-label="問1の解答：線形変換">
+  <div class="topline"><span>第１部・変数変換</span><span>問1の解答</span></div>
+  <h2>線形変換では、行列式を確認する。</h2>
+  <div class="solution-lines">
+    <p>$x=u+v,\ y=u-v$ とおくと、$x+y=2u,\ x-y=2v$。</p>
+    <div class="math">$$0\le u\le1,\qquad 0\le v\le1$$</div>
+    <div class="math">$$\det\frac{\partial(x,y)}{\partial(u,v)}=\begin{vmatrix}1&1\\1&-1\end{vmatrix}=-2,\qquad dx\,dy=2\,du\,dv$$</div>
+    <div class="math result">$$\iint_{D_1}(x+y)\,dx\,dy=\int_0^1\int_0^1 4u\,dv\,du=2$$</div>
+  </div>
+  <p class="takeaway">面積の倍率には、行列式の絶対値を使う。</p>
+</section>
+
+<section class="slide" aria-label="問2の解答：円板">
+  <div class="topline"><span>第１部・変数変換</span><span>問2の解答</span></div>
+  <h2>円板では、極座標を使う。</h2>
+  <p>$x=r\cos\theta,\ y=r\sin\theta$ とおく。</p>
+  <div class="math">$$0\le r\le2,\qquad 0\le\theta<2\pi,\qquad dx\,dy=r\,dr\,d\theta$$</div>
+  <div class="math">$$\begin{aligned}
+  \iint_{D_2}(x^2+y^2)\,dx\,dy
+  &=\int_0^{2\pi}\int_0^2 r^2\cdot r\,dr\,d\theta\\
+  &=2\pi\left[\frac{r^4}{4}\right]_0^2=8\pi
+  \end{aligned}$$</div>
+  <p class="takeaway">関数から $r^2$、面積要素から $r$ が出る。</p>
+</section>
+
+<section class="slide" aria-label="問3の解答：楕円の面積">
+  <div class="topline"><span>第１部・変数変換</span><span>問3の解答</span></div>
+  <h2>楕円を、単位円板に変える。</h2>
+  <p>$x=2r\cos\theta,\ y=r\sin\theta$ とおく。</p>
+  <div class="math">$$\frac{x^2}{4}+y^2=r^2,\qquad 0\le r\le1,\quad 0\le\theta<2\pi$$</div>
+  <div class="math">$$\left|\det\frac{\partial(x,y)}{\partial(r,\theta)}\right|=2r,\qquad dx\,dy=2r\,dr\,d\theta$$</div>
+  <div class="math result">$$\iint_{D_3}1\,dx\,dy=\int_0^{2\pi}\int_0^1 2r\,dr\,d\theta=2\pi$$</div>
+  <p class="takeaway">単位円板を横に2倍伸ばすと、面積も2倍。</p>
+</section>
+
+<section class="slide" aria-label="問4の解答：第1象限の円環">
+  <div class="topline"><span>第１部・変数変換</span><span>問4の解答</span></div>
+  <h2>半径と角度の範囲を、別々に決める。</h2>
+  <p>$x=r\cos\theta,\ y=r\sin\theta$ とおく。</p>
+  <div class="math">$$1\le r\le2,\qquad 0\le\theta\le\frac{\pi}{2},\qquad dx\,dy=r\,dr\,d\theta$$</div>
+  <div class="math">$$\begin{aligned}
+  \iint_{D_4}\frac{1}{x^2+y^2}\,dx\,dy
+  &=\int_0^{\pi/2}\int_1^2\frac{1}{r^2}\,r\,dr\,d\theta\\
+  &=\frac{\pi}{2}\left[\log r\right]_1^2=\frac{\pi}{2}\log2
+  \end{aligned}$$</div>
+  <p class="takeaway">第1象限なので、角度は $0$ から $\pi/2$ まで。</p>
+</section>
+
+<!-- 体積と質量：配布資料の内容 -->
+<section class="slide chapter" aria-label="体積と質量">
+  <div class="topline"><span>解析学 II・第7回</span><span>今回の授業</span></div>
+  <div class="chapter-number">第２部</div>
+  <h1>体積と質量</h1>
+  <p>小さな量を足し合わせ、全体を求める。</p>
+  <div class="footer"><div class="sources"><a href="class7_handout.pdf" target="_blank" rel="noopener">第7回の配布資料</a></div></div>
+</section>
+
+<section class="slide" aria-label="上下の曲面に挟まれた体積">
+  <div class="topline"><span>第２部・体積と質量</span><span>体積の公式</span></div>
+  <h2>体積は「底面積 × 高さ」を足す。</h2>
+  <p class="small">$D$ は有界な積分可能領域。$\phi,\psi$ はその閉包上で連続で、$\phi\le\psi$ とする。</p>
+  <div class="math compact">$$V=\{(x,y,z):(x,y)\in D,\quad\phi(x,y)\le z\le\psi(x,y)\}$$</div>
+  <div class="volume-layout">
+    <div>
+      <p>柱の高さは、上面と下面の差。</p>
+      <div class="math left">$$\operatorname{Vol}(V)=\iint_D(\psi-\phi)\,dx\,dy$$</div>
+      <div class="math left">$$=\iiint_V1\,dV$$</div>
+      <p class="small muted">$dV=dx\,dy\,dz$ は体積要素。</p>
+    </div>
+    <figure>
+      <svg viewBox="0 0 400 270" role="img" aria-label="上下の曲面の断面と、その間の柱の高さを示す模式図">
+        <path d="M25 202 Q115 235 200 194 T375 198 L375 66 Q285 33 200 79 T25 55 Z" fill="#eaf3f3"/>
+        <path d="M25 55 Q115 101 200 79 T375 66 M25 202 Q115 235 200 194 T375 198" fill="none" stroke="#237d82" stroke-width="2"/>
+        <path d="M175 202 L175 83" stroke="#237d82" stroke-width="5"/>
+        <path d="M196 199 L196 80 M190 88 L196 80 L202 88 M190 191 L196 199 L202 191" fill="none" stroke="#193a5c" stroke-width="1.5"/>
+        <text x="276" y="37" fill="#193a5c" font-size="22">上面</text>
+        <text x="282" y="238" fill="#193a5c" font-size="22">下面</text>
+        <text x="213" y="146" fill="#193a5c" font-size="22">高さ</text>
+      </svg>
+      <figcaption>上下の曲面の断面（模式図）</figcaption>
+    </figure>
+  </div>
+  <div class="footer"><div class="sources"><a href="class7_handout.pdf" target="_blank" rel="noopener">配布資料：体積の公式</a></div></div>
+</section>
+
+<section class="slide" aria-label="球の体積">
+  <div class="topline"><span>第２部・体積と質量</span><span>体積の例</span></div>
+  <h2>球の体積を、二重積分で求める。</h2>
+  <p>半径を $R>0$ とする。底面は $x^2+y^2\le R^2$。</p>
+  <div class="math">$$\psi=\sqrt{R^2-x^2-y^2},\qquad\phi=-\sqrt{R^2-x^2-y^2}$$</div>
+  <div class="math">$$\begin{aligned}
+  \operatorname{Vol}(V)
+  &=\int_0^{2\pi}\int_0^R2\sqrt{R^2-r^2}\,r\,dr\,d\theta\\
+  &=4\pi\left[-\frac13(R^2-r^2)^{3/2}\right]_0^R=\frac{4\pi R^3}{3}
+  \end{aligned}$$</div>
+  <p class="takeaway">球の上半分と下半分の間の長さを積分する。</p>
+  <div class="footer"><div class="sources"><a href="class7_handout.pdf" target="_blank" rel="noopener">配布資料：球の体積</a></div></div>
+</section>
+
+<section class="slide" aria-label="密度と質量">
+  <div class="topline"><span>第２部・体積と質量</span><span>質量の公式</span></div>
+  <h2>質量は「密度 × 小さな体積」を足す。</h2>
+  <p>立体 $V$ の質量密度を $\rho(x,y,z)\ge0$ とする。<br>$\rho$ が $V$ 上で可積分なら、質量 $M$ は</p>
+  <div class="math result">$$M=\iiint_V\rho(x,y,z)\,dV$$</div>
+  <div class="grid2" style="margin-top:22px">
+    <div class="panel">
+      <h3>密度が一定のとき</h3>
+      <div class="math compact">$$M=\rho_0\operatorname{Vol}(V)$$</div>
+      <p class="small">体積が2倍なら、質量も2倍。</p>
+    </div>
+    <div class="panel soft">
+      <h3>密度が場所で変わるとき</h3>
+      <p class="small">同じ体積でも、質量は変わる。<br>密度を積分の中に入れる。</p>
+    </div>
+  </div>
+  <div class="footer"><div class="sources"><a href="class7_handout.pdf" target="_blank" rel="noopener">配布資料：密度と質量</a></div></div>
+</section>
+
+<section class="slide" aria-label="円柱座標と球面座標">
+  <div class="topline"><span>第２部・体積と質量</span><span>座標の選び方</span></div>
+  <h2>立体の形に合う座標を選ぶ。</h2>
+  <div class="grid2 coordinates">
+    <div class="panel">
+      <h3>円柱座標</h3>
+      <div class="math">$$x=r\cos\theta,\quad y=r\sin\theta$$</div>
+      <p class="small">$z$ はそのまま使う。<br>$r\ge0,\quad0\le\theta<2\pi$。</p>
+      <div class="math result">$$dV=r\,dr\,d\theta\,dz$$</div>
+      <p class="small muted">円柱・円すいに向く。</p>
+    </div>
+    <div class="panel soft">
+      <h3>球面座標</h3>
+      <div class="math">$$\begin{aligned}x&=s\sin\alpha\cos\theta\\y&=s\sin\alpha\sin\theta\\z&=s\cos\alpha\end{aligned}$$</div>
+      <p class="small">$s\ge0,\quad0\le\alpha\le\pi$、$0\le\theta<2\pi$。</p>
+      <div class="math result">$$dV=s^2\sin\alpha\,ds\,d\alpha\,d\theta$$</div>
+    </div>
+  </div>
+  <p class="takeaway small">$s$ は原点からの距離。$\alpha$ は $+z$ 軸から測る角度。</p>
+  <div class="footer"><div class="sources"><a href="class7_handout.pdf" target="_blank" rel="noopener">配布資料：円柱座標と球面座標</a></div></div>
+</section>
+
+<section class="slide" aria-label="円柱の質量と重心">
+  <div class="topline"><span>第２部・体積と質量</span><span>質量と重心の例</span></div>
+  <h2>上ほど重い円柱の、重心はどこか。</h2>
+  <p>$V=\{(x,y,z):x^2+y^2\le1,\ 0\le z\le2\}$、密度は $\rho=z$。</p>
+  <div class="math">$$M=\int_0^{2\pi}\int_0^1\int_0^2 z\,r\,dz\,dr\,d\theta=2\pi$$</div>
+  <p class="small">重心は位置の質量による平均。$M>0$ のとき、$\displaystyle\overline z=\frac1M\iiint_V z\rho\,dV$。</p>
+  <div class="math">$$\overline z=\frac1{2\pi}\int_0^{2\pi}\int_0^1\int_0^2 z^2r\,dz\,dr\,d\theta=\frac43$$</div>
+  <p class="small">回転対称性から $\overline x=\overline y=0$。</p>
+  <p class="takeaway">重心の高さ $4/3$ は、中央の高さ $1$ より上。</p>
+  <div class="footer"><div class="sources"><a href="class7_handout.pdf" target="_blank" rel="noopener">配布資料：円柱の質量と重心</a></div></div>
+</section>
+
+<!-- AIを用いた学習：発展・影響・使い方 -->
+<section class="slide chapter ai-cover" aria-label="AIを用いた学習について">
+  <div class="topline"><span>解析学 II・第7回</span><span>学び方を考える</span></div>
+  <div class="chapter-number">第３部</div>
+  <h1>AIを用いた学習について</h1>
+  <div class="agenda">
+    <p>1．科目別の性能とその発展</p><p>2．学習への悪影響と脳活動</p>
+    <p>3．AIを用いた学習の理想形</p><p>4．授業での使用例</p>
+  </div>
+</section>
+
+<section class="slide" aria-label="AIの科目別の性能と発展">
+  <div class="topline"><span>第３部・AIを用いた学習</span><span>1．科目別の性能</span></div>
+  <h2>AIの発展を、科目別の得点で見る。</h2>
+  <p class="small">2026年の共通テストを解かせた一例。AIは GPT-5.2 Thinking。</p>
+  <div class="performance-layout">
+    <table class="performance-table" aria-label="2026年の共通テストにおけるAIの科目別得点率">
+      <thead><tr><th scope="col">科目</th><th scope="col">得点率</th></tr></thead>
+      <tbody>
+        <tr><th scope="row">国語</th><td>90％</td></tr>
+        <tr><th scope="row">数学（ⅠA・ⅡBC）</th><td>ともに100％</td></tr>
+        <tr><th scope="row">化学</th><td>100％</td></tr>
+        <tr><th scope="row">物理</th><td>95％</td></tr>
+        <tr><th scope="row">社会（地理・歴史・公民）</th><td>91〜100％</td></tr>
+      </tbody>
+    </table>
+    <div class="performance-trend">
+      <p><span class="accent">2024年</span><br>数学に苦戦。</p>
+      <p><span class="accent">2025年</span><br>国語・数学が大きく伸びる。</p>
+      <p><span class="accent">2026年</span><br>数学・化学で満点。</p>
+    </div>
+  </div>
+  <p class="performance-note">試験年度・AI・入力方法が異なるため、厳密な同条件比較ではない。<br>国語は文字起こしを使用。社会の値は、各科目の得点率の範囲。</p>
+  <div class="footer"><div class="sources">
+    <span>ライフプロンプトの検証：</span>
+    <a href="https://note.com/lifeprompt/n/n87f4d5510100" target="_blank" rel="noopener">2024年</a>
+    <a href="https://note.com/lifeprompt/n/n02c40e908130" target="_blank" rel="noopener">2025年</a>
+    <a href="https://note.com/lifeprompt/n/nb87edfb2e7ca" target="_blank" rel="noopener">2026年（得点表・実験条件）</a>
+  </div></div>
+</section>
+
+<section class="slide" aria-label="AIへの依存と学習への悪影響">
+  <div class="topline"><span>第３部・AIを用いた学習</span><span>2．学習への悪影響</span></div>
+  <h2>答えを任せると、自力で解く練習が減る。</h2>
+  <p class="lead">高校数学の実験では、約1,000人を対象にAIの使い方を比較した。</p>
+  <div class="comparison">
+    <div class="bars" role="img" aria-label="後のAIなし試験における比較。AIなしで練習した群を100とすると、自由にAIを使った群は約83。相対的に17パーセント低い。">
+      <div>
+        <div class="bar-label">AIなしで練習した群</div>
+        <div class="bar-track"><div class="bar" style="width:100%">100</div></div>
+      </div>
+      <div>
+        <div class="bar-label">自由にAIを使って練習した群</div>
+        <div class="bar-track"><div class="bar lower">約83</div></div>
+      </div>
+      <p class="study-note">後のAIなし試験の成績。<br>AIなし群を100とした、相対的な比較。</p>
+    </div>
+    <div class="panel warm-panel">
+      <h3>練習中の高得点だけでは測れない。</h3>
+      <p>自由にAIを使った群は、<br>後の試験で成績が約17％低かった。</p>
+      <p class="small" style="margin-top:16px">ヒント中心のAIでは、この悪影響がおおむね抑えられた。</p>
+    </div>
+  </div>
+  <p class="takeaway small">この実験が示すのは、使い方による技能習得の差。能力が必ず消えるという結果ではない。</p>
+  <div class="footer"><div class="sources"><a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC12232635/" target="_blank" rel="noopener">高校数学での無作為化比較実験（2025年）</a></div></div>
+</section>
+
+<section class="slide" aria-label="AI利用と脳活動の変化">
+  <div class="topline"><span>第３部・AIを用いた学習</span><span>2．脳活動の変化</span></div>
+  <h2>脳活動の違いは、何を示すか。</h2>
+  <p class="lead">文章作成の予備研究では、54人の脳波と記憶を調べた。</p>
+  <div class="grid2 brain-panels">
+    <div class="panel">
+      <h3>報告されたこと</h3>
+      <p>AIを使った群では、脳領域間の活動の連動が弱かった。</p>
+      <p class="small muted" style="margin-top:16px">書いた内容を引用することにも苦労した。</p>
+    </div>
+    <div class="panel soft">
+      <h3>この研究では分からないこと</h3>
+      <p>脳の損傷や、能力が永久に失われることは示していない。</p>
+      <p class="small muted" style="margin-top:16px">少人数・特定課題での査読前原稿。<br>長期的な影響は、さらに検証が必要。</p>
+    </div>
+  </div>
+  <p class="takeaway">自分で考え、思い出し、説明する機会を残そう。</p>
+  <div class="footer"><div class="sources">
+    <a href="https://arxiv.org/abs/2506.08872" target="_blank" rel="noopener">脳波と文章作成の予備研究（2025年）</a>
+    <a href="https://www.brainonllm.com/faq" target="_blank" rel="noopener">研究者による説明と注意点</a>
+  </div></div>
+</section>
+
+<section class="slide" aria-label="AIを用いた学習の理想形">
+  <div class="topline"><span>第３部・AIを用いた学習</span><span>3．学習の理想形</span></div>
+  <h2>目標は、AIを閉じても解けること。</h2>
+  <div class="flow">
+    <div class="panel"><h3>自分で考える</h3><p>途中式を書き、<br>疑問を絞る。</p></div>
+    <div class="arrow" aria-hidden="true">→</div>
+    <div class="panel soft"><h3>ヒントを聞く</h3><p>答えを待たず、<br>自分で続きを書く。</p></div>
+    <div class="arrow" aria-hidden="true">→</div>
+    <div class="panel"><h3>自力で解き直す</h3><p>AIを閉じて、<br>理由まで説明する。</p></div>
+  </div>
+  <div class="grid2">
+    <p class="small">AIの説明は、配布資料の仮定・公式・計算と照らし合わせる。</p>
+    <p class="small">翌日に類題を解き、何も見ずにできるか確かめる。</p>
+  </div>
+  <p class="rule">分かった感覚を、自分でできるかの確認につなげる。</p>
+  <div class="footer"><div class="sources"><a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC12232635/" target="_blank" rel="noopener">参考：ヒントを中心にする学習支援の実験</a></div></div>
+</section>
+
+<section class="slide" aria-label="使用例：ヒントをもらう">
+  <div class="topline"><span>第３部・AIを用いた学習</span><span>4．使用例</span></div>
+  <h2>使用例：考えを伝えて、ヒントをもらう。</h2>
+  <p class="small muted" style="margin-bottom:16px">問2の円板の積分で、途中まで考えたとき。</p>
+  <blockquote class="prompt">
+    半径2の円板上で、$x^2+y^2$ を積分したいです。<br>
+    極座標を使うと考えました。答えはまだ出さず、<br>
+    積分範囲と面積要素を確認する質問を、一つずつしてください。
+  </blockquote>
+  <p class="reply"><span class="accent">想定される質問：</span><br>「半径と角度は、それぞれどの範囲を動きますか。」</p>
+  <p class="takeaway">紙に範囲と $dx\,dy$ を書いてから、続きを考える。</p>
+</section>
+
+<section class="slide" aria-label="使用例：途中式を点検する">
+  <div class="topline"><span>第３部・AIを用いた学習</span><span>4．使用例</span></div>
+  <h2>使用例：途中式を点検し、自分で直す。</h2>
+  <p class="small muted">問2で、次の途中式を書いたとする（誤りを含む）。</p>
+  <div class="math error-equation">$$\iint_{D_2}(x^2+y^2)\,dx\,dy=\int_0^{2\pi}\int_0^2r^2\,dr\,d\theta$$</div>
+  <blockquote class="prompt">
+    誤りのある箇所と、その理由だけ教えてください。<br>
+    修正式と答えは、まだ示さないでください。
+  </blockquote>
+  <p class="reply small">指摘を配布資料と照合する。面積要素を確かめ、自分で修正する。</p>
+  <p class="takeaway">AIを閉じ、最初からもう一度解こう。</p>
+</section>
+
+<div id="progress" aria-hidden="true"></div>
+</main>
+</div>
+<nav id="controls" aria-label="スライド操作">
+  <button id="prev" type="button" aria-label="前のスライド">前へ</button>
+  <span id="counter" role="status" aria-live="polite" aria-atomic="true"></span>
+  <button id="next" type="button" aria-label="次のスライド">次へ</button>
+  <button id="full" type="button">全画面</button>
+  <button id="print" type="button">印刷</button>
+  <span class="key-hint">← →：移動　F：全画面</span>
+</nav>
+<script>
+(() => {
+  "use strict";
+  const slides = [...document.querySelectorAll(".slide")];
+  const deck = document.getElementById("deck");
+  const counter = document.getElementById("counter");
+  const progress = document.getElementById("progress");
+  const prev = document.getElementById("prev");
+  const next = document.getElementById("next");
+  let index = 0;
+
+  slides.forEach((slide, i) => {
+    let footer = slide.querySelector(".footer");
+    if (!footer) {
+      footer = document.createElement("div");
+      footer.className = "footer";
+      slide.appendChild(footer);
+    }
+    const page = document.createElement("span");
+    page.className = "page";
+    page.textContent = `${String(i + 1).padStart(2, "0")} / ${slides.length}`;
+    if (!footer.firstElementChild) footer.appendChild(document.createElement("span"));
+    footer.appendChild(page);
+    slide.setAttribute("role", "group");
+    slide.setAttribute("aria-roledescription", "スライド");
+  });
+
+  function resize() {
+    const height = Math.max(1, window.innerHeight - 58);
+    deck.style.setProperty("--scale", Math.min(window.innerWidth / 1280, height / 720));
+  }
+
+  function show(n, updateHash = true) {
+    index = Math.max(0, Math.min(slides.length - 1, n));
+    const focusedSlide = document.activeElement.closest(".slide");
+    if (focusedSlide && focusedSlide !== slides[index]) document.activeElement.blur();
+    slides.forEach((slide, i) => {
+      slide.classList.toggle("active", i === index);
+      slide.setAttribute("aria-hidden", String(i !== index));
+      slide.inert = i !== index;
+    });
+    counter.textContent = `${index + 1} / ${slides.length}`;
+    progress.style.width = `${(index + 1) / slides.length * 100}%`;
+    prev.disabled = index === 0;
+    next.disabled = index === slides.length - 1;
+    if (updateHash) {
+      try { history.replaceState(null, "", `#${index + 1}`); }
+      catch (_) { /* ローカルファイルでも表示を続ける。 */ }
+    }
+  }
+
+  async function toggleFullscreen() {
+    try {
+      if (!document.fullscreenElement) {
+        if (document.documentElement.requestFullscreen) await document.documentElement.requestFullscreen();
+      } else if (document.exitFullscreen) await document.exitFullscreen();
+    } catch (_) { /* 全画面表示に非対応でもスライドは使える。 */ }
+  }
+
+  prev.addEventListener("click", () => show(index - 1));
+  next.addEventListener("click", () => show(index + 1));
+  document.getElementById("full").addEventListener("click", toggleFullscreen);
+  document.getElementById("print").addEventListener("click", () => window.print());
+  document.addEventListener("keydown", event => {
+    if (event.ctrlKey || event.metaKey || event.altKey) return;
+    if (event.target.closest("input,textarea,select,[contenteditable]")) return;
+    if (event.target.closest("button,a") && [" ", "Enter"].includes(event.key)) return;
+    const key = event.key.toLowerCase();
+    if (["arrowright", "arrowdown", "pagedown", " "].includes(key)) {
+      event.preventDefault(); show(index + 1);
+    } else if (["arrowleft", "arrowup", "pageup"].includes(key)) {
+      event.preventDefault(); show(index - 1);
+    } else if (key === "home") {
+      event.preventDefault(); show(0);
+    } else if (key === "end") {
+      event.preventDefault(); show(slides.length - 1);
+    } else if (key === "f") {
+      event.preventDefault(); toggleFullscreen();
+    }
+  });
+
+  let touchStart = null;
+  deck.addEventListener("touchstart", event => {
+    if (event.target.closest("a,button")) return;
+    const touch = event.changedTouches[0];
+    touchStart = {x: touch.clientX, y: touch.clientY};
+  }, {passive:true});
+  deck.addEventListener("touchend", event => {
+    if (!touchStart) return;
+    const touch = event.changedTouches[0];
+    const dx = touch.clientX - touchStart.x;
+    const dy = touch.clientY - touchStart.y;
+    if (Math.abs(dx) > 55 && Math.abs(dx) > Math.abs(dy) * 1.5) show(index + (dx < 0 ? 1 : -1));
+    touchStart = null;
+  }, {passive:true});
+  deck.addEventListener("touchcancel", () => { touchStart = null; }, {passive:true});
+
+  function readHash() {
+    const value = Number(location.hash.slice(1));
+    return Number.isInteger(value) && value >= 1 ? value - 1 : 0;
+  }
+  window.addEventListener("hashchange", () => show(readHash(), false));
+  window.addEventListener("resize", resize);
+  document.addEventListener("fullscreenchange", resize);
+  resize();
+  show(readHash(), false);
+})();
+</script>
+</body>
+</html>
