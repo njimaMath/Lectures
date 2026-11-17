@@ -80,9 +80,16 @@ mjx-container[jax="SVG"][display="true"]{margin:.45em 0!important}
 .volume-layout{display:grid;grid-template-columns:1.45fr 1fr;gap:40px;align-items:center}
 .volume-layout figure > svg{width:100%;height:270px;display:block}
 figcaption{font-size:18px;color:var(--muted);text-align:center;margin-top:10px}
-.coordinates .panel{padding:22px 26px}
-.coordinates .math{font-size:24px}
-.coordinates .small{font-size:20px}
+.sphere-layout{display:grid;grid-template-columns:1.6fr 1fr;gap:28px;align-items:center}
+.sphere-layout figure > svg{display:block;width:100%;height:235px}
+.sphere-layout figcaption{font-size:17px;line-height:1.5;margin-top:3px}
+.sphere-layout .math{font-size:24px}
+.sphere-calculation{font-size:25px;margin-top:8px}
+.mass-exercises{margin-top:12px;gap:28px;flex:1}
+.mass-exercises .panel{padding:24px;display:flex;flex-direction:column}
+.mass-exercises .math{font-size:25px}
+.mass-exercises .question{font-size:25px;color:var(--accent);margin-top:15px}
+.mass-exercises .hint{margin-top:auto;padding-top:24px;font-size:20px;line-height:1.6;color:var(--muted)}
 .performance-layout{display:grid;grid-template-columns:1.5fr 1fr;gap:40px;align-items:start;margin-top:16px}
 .performance-table{width:100%;border-collapse:collapse;font-size:24px;line-height:1.5}
 .performance-table th,.performance-table td{padding:9px 18px;border-bottom:1px solid var(--line);text-align:left}
@@ -164,9 +171,9 @@ window.MathJax = {
       <p class="question">$\displaystyle\iint_{D_1}(x+y)\,dx\,dy$</p>
     </div>
     <div class="panel">
-      <h3>問2　円板</h3>
-      <p>$D_2=\{(x,y):x^2+y^2\le4\}$</p>
-      <p class="question">$\displaystyle\iint_{D_2}(x^2+y^2)\,dx\,dy$</p>
+      <h3>問2　双曲線と直線</h3>
+      <p>$D_2=\{(x,y):x>0,\ y>0,$<br>$\qquad 1\le xy\le2,\quad 1\le y/x\le4\}$</p>
+      <p class="question">$\displaystyle\iint_{D_2}xy\,dx\,dy$</p>
     </div>
     <div class="panel">
       <h3>問3　楕円の面積</h3>
@@ -194,17 +201,18 @@ window.MathJax = {
   <p class="takeaway">面積の倍率には、行列式の絶対値を使う。</p>
 </section>
 
-<section class="slide" aria-label="問2の解答：円板">
+<section class="slide" aria-label="問2の解答：双曲線と直線">
   <div class="topline"><span>第１部・変数変換</span><span>問2の解答</span></div>
-  <h2>円板では、極座標を使う。</h2>
-  <p>$x=r\cos\theta,\ y=r\sin\theta$ とおく。</p>
-  <div class="math">$$0\le r\le2,\qquad 0\le\theta<2\pi,\qquad dx\,dy=r\,dr\,d\theta$$</div>
+  <h2>積と比を座標にすると、長方形になる。</h2>
+  <p class="small">$u=xy,\ v=y/x$ とおく。$x,y>0$ より逆変換は $x=\sqrt{u/v},\ y=\sqrt{uv}$。</p>
+  <div class="math compact">$$1\le u\le2,\qquad 1\le v\le4$$</div>
+  <div class="math compact">$$\det\frac{\partial(u,v)}{\partial(x,y)}=\begin{vmatrix}y&x\\-y/x^2&1/x\end{vmatrix}=2v,\qquad dx\,dy=\frac{1}{2v}\,du\,dv$$</div>
   <div class="math">$$\begin{aligned}
-  \iint_{D_2}(x^2+y^2)\,dx\,dy
-  &=\int_0^{2\pi}\int_0^2 r^2\cdot r\,dr\,d\theta\\
-  &=2\pi\left[\frac{r^4}{4}\right]_0^2=8\pi
+  \iint_{D_2}xy\,dx\,dy
+  &=\int_1^2\int_1^4\frac{u}{2v}\,dv\,du\\
+  &=\left[\frac{u^2}{2}\right]_1^2\left[\frac{\log v}{2}\right]_1^4=\frac32\log2
   \end{aligned}$$</div>
-  <p class="takeaway">関数から $r^2$、面積要素から $r$ が出る。</p>
+  <p class="takeaway">境界に現れる $xy$ と $y/x$ を、新しい変数にする。</p>
 </section>
 
 <section class="slide" aria-label="問3の解答：楕円の面積">
@@ -247,8 +255,7 @@ window.MathJax = {
   <div class="volume-layout">
     <div>
       <p>柱の高さは、上面と下面の差。</p>
-      <div class="math left">$$\operatorname{Vol}(V)=\iint_D(\psi-\phi)\,dx\,dy$$</div>
-      <div class="math left">$$=\iiint_V1\,dV$$</div>
+      <div class="math left">$$\operatorname{Vol}(V)=\iint_D(\psi-\phi)\,dx\,dy=\iiint_V1\,dV$$</div>
       <p class="small muted">$dV=dx\,dy\,dz$ は体積要素。</p>
     </div>
     <figure>
@@ -270,56 +277,84 @@ window.MathJax = {
 <section class="slide" aria-label="球の体積">
   <div class="topline"><span>第２部・体積と質量</span><span>体積の例</span></div>
   <h2>球の体積を、二重積分で求める。</h2>
-  <p>半径を $R>0$ とする。底面は $x^2+y^2\le R^2$。</p>
-  <div class="math">$$\psi=\sqrt{R^2-x^2-y^2},\qquad\phi=-\sqrt{R^2-x^2-y^2}$$</div>
-  <div class="math">$$\begin{aligned}
+  <div class="sphere-layout">
+    <div>
+      <p class="small">半径 $R>0$ の球 $V=\{(x,y,z):x^2+y^2+z^2\le R^2\}$ を考える。</p>
+      <p class="small">底面は $D=\{(x,y):x^2+y^2\le R^2\}$。</p>
+      <div class="math left">$$\begin{aligned}
+      \psi(x,y)&=\sqrt{R^2-x^2-y^2}\\
+      \phi(x,y)&=-\sqrt{R^2-x^2-y^2}
+      \end{aligned}$$</div>
+      <div class="math left">$$\operatorname{Vol}(V)=\iint_D2\sqrt{R^2-x^2-y^2}\,dx\,dy$$</div>
+    </div>
+    <figure>
+      <svg viewBox="0 0 400 275" role="img" aria-labelledby="sphere-title sphere-description">
+        <title id="sphere-title">球の上下の面を結ぶ柱の高さ</title>
+        <desc id="sphere-description">球の中心を通る鉛直断面。底面の同じ点で、上半球面と下半球面を結ぶ縦線が柱の高さを表す。</desc>
+        <circle cx="135" cy="135" r="105" fill="var(--soft)" stroke="var(--accent)" stroke-width="2"/>
+        <path d="M16 135 H254 M135 257 V14" fill="none" stroke="var(--muted)" stroke-width="1.3"/>
+        <path d="M249 131 L254 135 L249 139 M131 19 L135 14 L139 19" fill="none" stroke="var(--muted)" stroke-width="1.3"/>
+        <path d="M187.5 44.07 V225.93" stroke="var(--accent)" stroke-width="6"/>
+        <path d="M187.5 44.07 H235 M187.5 225.93 H235" fill="none" stroke="var(--muted)" stroke-dasharray="4 4"/>
+        <path d="M222 44.07 V225.93 M217 52.07 L222 44.07 L227 52.07 M217 217.93 L222 225.93 L227 217.93" fill="none" stroke="var(--ink)" stroke-width="1.6"/>
+        <circle cx="135" cy="135" r="3" fill="var(--ink)"/>
+        <circle cx="187.5" cy="135" r="4" fill="var(--warm)"/>
+        <text x="246" y="51" fill="var(--ink)" font-size="21">上面</text>
+        <text x="246" y="233" fill="var(--ink)" font-size="21">下面</text>
+        <text x="258" y="143" fill="var(--ink)" font-size="22">柱の高さ</text>
+        <text x="94" y="159" fill="var(--muted)" font-size="18">中心</text>
+      </svg>
+      <figcaption>中心を通る鉛直断面（模式図）<br>中心からの距離 $r=\sqrt{x^2+y^2}$、高さ $2\sqrt{R^2-r^2}$</figcaption>
+    </figure>
+  </div>
+  <div class="math sphere-calculation">$$\begin{aligned}
   \operatorname{Vol}(V)
   &=\int_0^{2\pi}\int_0^R2\sqrt{R^2-r^2}\,r\,dr\,d\theta\\
   &=4\pi\left[-\frac13(R^2-r^2)^{3/2}\right]_0^R=\frac{4\pi R^3}{3}
   \end{aligned}$$</div>
-  <p class="takeaway">球の上半分と下半分の間の長さを積分する。</p>
+  <p class="takeaway small">底面の小さな面積に、その場所の柱の高さを掛けて足す。</p>
   <div class="footer"><div class="sources"><a href="class7_handout.pdf" target="_blank" rel="noopener">配布資料：球の体積</a></div></div>
 </section>
 
 <section class="slide" aria-label="密度と質量">
   <div class="topline"><span>第２部・体積と質量</span><span>質量の公式</span></div>
-  <h2>質量は「密度 × 小さな体積」を足す。</h2>
-  <p>立体 $V$ の質量密度を $\rho(x,y,z)\ge0$ とする。<br>$\rho$ が $V$ 上で可積分なら、質量 $M$ は</p>
+  <h2>密度を積分すると、質量になる。</h2>
+  <p>小片の質量は、およそ「その場所の密度 × 小片の体積」。</p>
+  <p class="small muted">立体 $V$ 上で $\rho(x,y,z)\ge0$ は可積分とする。$dV=dx\,dy\,dz$ は体積要素。</p>
   <div class="math result">$$M=\iiint_V\rho(x,y,z)\,dV$$</div>
-  <div class="grid2" style="margin-top:22px">
-    <div class="panel">
-      <h3>密度が一定のとき</h3>
-      <div class="math compact">$$M=\rho_0\operatorname{Vol}(V)$$</div>
-      <p class="small">体積が2倍なら、質量も2倍。</p>
-    </div>
-    <div class="panel soft">
-      <h3>密度が場所で変わるとき</h3>
-      <p class="small">同じ体積でも、質量は変わる。<br>密度を積分の中に入れる。</p>
-    </div>
+  <div class="panel soft" style="margin-top:16px">
+    <h3>まず、高さ方向に密度を積分する。</h3>
+    <p class="small">$V=\{(x,y,z):(x,y)\in D,\ \phi(x,y)\le z\le\psi(x,y)\}$ なら</p>
+    <div class="math compact">$$M=\iint_D\left(\int_{\phi(x,y)}^{\psi(x,y)}\rho(x,y,z)\,dz\right)dx\,dy$$</div>
+    <p class="small">高さ方向に密度を積分し、その結果を底面 $D$ 全体で足す。</p>
   </div>
+  <p class="takeaway small">密度が一定 $\rho_0$ なら、$M=\rho_0\operatorname{Vol}(V)$。</p>
   <div class="footer"><div class="sources"><a href="class7_handout.pdf" target="_blank" rel="noopener">配布資料：密度と質量</a></div></div>
 </section>
 
-<section class="slide" aria-label="円柱座標と球面座標">
-  <div class="topline"><span>第２部・体積と質量</span><span>座標の選び方</span></div>
-  <h2>立体の形に合う座標を選ぶ。</h2>
-  <div class="grid2 coordinates">
+<section class="slide" aria-label="質量を求める演習2問">
+  <div class="topline"><span>第２部・体積と質量</span><span>演習問題</span></div>
+  <h2>密度と積分範囲を決めて、質量を求めよう。</h2>
+  <p class="small">それぞれの立体について、質量を表す積分を立て、その値を求めよう。</p>
+  <div class="grid2 mass-exercises">
     <div class="panel">
-      <h3>円柱座標</h3>
-      <div class="math">$$x=r\cos\theta,\quad y=r\sin\theta$$</div>
-      <p class="small">$z$ はそのまま使う。<br>$r\ge0,\quad0\le\theta<2\pi$。</p>
-      <div class="math result">$$dV=r\,dr\,d\theta\,dz$$</div>
-      <p class="small muted">円柱・円すいに向く。</p>
+      <h3>問1　上ほど重い立方体</h3>
+      <p class="small">一辺の長さが $1$ の立方体</p>
+      <div class="math">$$V_1=\{(x,y,z):0\le x,y,z\le1\}$$</div>
+      <p class="small">の質量密度を $\rho(x,y,z)=1+z$ とする。</p>
+      <p class="question">この立方体の質量 $M_1$ を求めよ。</p>
+      <p class="hint">ヒント：$z$ から積分しよう。<br>密度が一定の場合との違いも考えよう。</p>
     </div>
     <div class="panel soft">
-      <h3>球面座標</h3>
-      <div class="math">$$\begin{aligned}x&=s\sin\alpha\cos\theta\\y&=s\sin\alpha\sin\theta\\z&=s\cos\alpha\end{aligned}$$</div>
-      <p class="small">$s\ge0,\quad0\le\alpha\le\pi$、$0\le\theta<2\pi$。</p>
-      <div class="math result">$$dV=s^2\sin\alpha\,ds\,d\alpha\,d\theta$$</div>
+      <h3>問2　斜めの面をもつ四面体</h3>
+      <p class="small">座標平面と $x+y+z=1$ で囲まれる</p>
+      <div class="math">$$\begin{aligned}V_2=\{(x,y,z):&\ x,y,z\ge0,\\&\ x+y+z\le1\}\end{aligned}$$</div>
+      <p class="small">立体の質量密度を $\rho(x,y,z)=z$ とする。</p>
+      <p class="question">この四面体の質量 $M_2$ を求めよ。</p>
+      <p class="hint">ヒント：$(x,y)$ を固定したとき、<br>$z$ はどこからどこまで動くかな。</p>
     </div>
   </div>
-  <p class="takeaway small">$s$ は原点からの距離。$\alpha$ は $+z$ 軸から測る角度。</p>
-  <div class="footer"><div class="sources"><a href="class7_handout.pdf" target="_blank" rel="noopener">配布資料：円柱座標と球面座標</a></div></div>
+  <div class="footer"><div class="sources"><a href="class7_handout.pdf" target="_blank" rel="noopener">配布資料：密度と質量</a></div></div>
 </section>
 
 <section class="slide" aria-label="円柱の質量と重心">
@@ -445,21 +480,21 @@ window.MathJax = {
 <section class="slide" aria-label="使用例：ヒントをもらう">
   <div class="topline"><span>第３部・AIを用いた学習</span><span>4．使用例</span></div>
   <h2>使用例：考えを伝えて、ヒントをもらう。</h2>
-  <p class="small muted" style="margin-bottom:16px">問2の円板の積分で、途中まで考えたとき。</p>
+  <p class="small muted" style="margin-bottom:16px">問2の双曲線と直線で囲まれた領域で、途中まで考えたとき。</p>
   <blockquote class="prompt">
-    半径2の円板上で、$x^2+y^2$ を積分したいです。<br>
-    極座標を使うと考えました。答えはまだ出さず、<br>
-    積分範囲と面積要素を確認する質問を、一つずつしてください。
+    $u=xy,\ v=y/x$ とおくと考えました。<br>
+    答えはまだ出さず、積分範囲と面積要素を<br>
+    確認する質問を、一つずつしてください。
   </blockquote>
-  <p class="reply"><span class="accent">想定される質問：</span><br>「半径と角度は、それぞれどの範囲を動きますか。」</p>
+  <p class="reply"><span class="accent">想定される質問：</span><br>「$xy$ と $y/x$ は、それぞれどの範囲を動きますか。」</p>
   <p class="takeaway">紙に範囲と $dx\,dy$ を書いてから、続きを考える。</p>
 </section>
 
 <section class="slide" aria-label="使用例：途中式を点検する">
   <div class="topline"><span>第３部・AIを用いた学習</span><span>4．使用例</span></div>
   <h2>使用例：途中式を点検し、自分で直す。</h2>
-  <p class="small muted">問2で、次の途中式を書いたとする（誤りを含む）。</p>
-  <div class="math error-equation">$$\iint_{D_2}(x^2+y^2)\,dx\,dy=\int_0^{2\pi}\int_0^2r^2\,dr\,d\theta$$</div>
+  <p class="small muted">問2で $u=xy,\ v=y/x$ とおき、次の途中式を書いたとする（誤りを含む）。</p>
+  <div class="math error-equation">$$\iint_{D_2}xy\,dx\,dy=\int_1^2\int_1^4u\cdot2v\,dv\,du$$</div>
   <blockquote class="prompt">
     誤りのある箇所と、その理由だけ教えてください。<br>
     修正式と答えは、まだ示さないでください。

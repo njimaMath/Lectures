@@ -1,0 +1,180 @@
+% Style follows ../class2/class2PT26.tex.
+% Build in this directory twice: pdflatex -interaction=nonstopmode -halt-on-error class8PT26.tex
+% Topics follow lectureNote.tex, sections 8 and 9; Levy's theorem is recalled from section 7.
+\documentclass[a4paper,10pt,pdflatex,ja=standard,jafont=ipaex-type1,
+  magstyle=real,scale=1]{bxjsarticle}
+\usepackage{lmodern}
+\usepackage{amsmath,amssymb,mathtools}
+\usepackage{geometry}
+\geometry{reset,left=22mm,right=22mm,top=20mm,bottom=17mm,
+  headheight=13pt,headsep=6mm,footskip=10mm}
+\usepackage{xcolor}
+\usepackage{enumitem}
+\usepackage{array,booktabs,tabularx}
+\usepackage{fancyhdr}
+\usepackage{hyperref}
+\definecolor{ink}{HTML}{193A5C}
+\definecolor{accent}{HTML}{237D82}
+\definecolor{soft}{HTML}{EAF3F3}
+\definecolor{muted}{HTML}{52616B}
+\newcommand{\coursename}{確率論と統計学 I}
+\newcommand{\lecturenumber}{8}
+\hypersetup{unicode=true,colorlinks=true,urlcolor=accent,linkcolor=ink,
+  pdfauthor={中島秀太},pdftitle={第8・9回：確率変数列の収束、分布の弱収束と極限定理}}
+\pdfstringdefDisableCommands{\def\quad{ }}
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\small\color{ink}\coursename{}・授業要約と演習}
+\fancyhead[R]{\small\color{ink}第\lecturenumber 回}
+\fancyfoot[C]{\small\color{ink}\thepage/\pageref*{lastpage}}
+\renewcommand{\headrulewidth}{0.3pt}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{2pt}
+\setlength{\abovedisplayskip}{4pt}
+\setlength{\belowdisplayskip}{4pt}
+\setlength{\abovedisplayshortskip}{3pt}
+\setlength{\belowdisplayshortskip}{4pt}
+\setlist[itemize]{leftmargin=1.8em,itemsep=1pt,topsep=2pt,parsep=0pt}
+\setlist[enumerate]{leftmargin=2em,itemsep=3pt,topsep=3pt,parsep=0pt}
+\newcommand{\topic}[1]{\par\vspace{5pt}
+  {\large\sffamily\mdseries\color{accent}#1}\par\vspace{2pt}}
+\newcommand{\handouttitle}[1]{%
+  \pdfbookmark[0]{#1}{lecture\lecturenumber}%
+  \begin{center}
+    {\Large\color{ink}#1}\par\vspace{3mm}
+    {\color{accent}\rule{0.88\linewidth}{0.7pt}}
+  \end{center}\vspace{-2mm}}
+\newcommand{\keybox}[1]{\par\vspace{3pt}\begingroup
+  \setlength{\fboxsep}{5pt}
+  \colorbox{soft}{\parbox{\dimexpr\linewidth-2\fboxsep\relax}{#1}}%
+  \endgroup\par\vspace{2pt}}
+\newcommand{\examplelabel}[1]{{\sffamily\mdseries\color{ink}#1}}
+\newcommand{\F}{\mathcal F}
+\newcommand{\R}{\mathbb R}
+\newcommand{\E}{\mathbb E}
+\newcommand{\ind}{\mathrm{1}}
+
+\begin{document}
+\fontsize{10pt}{13.5pt}\selectfont
+\handouttitle{第8回\quad 確率変数列の収束}
+
+\topic{概収束と確率収束}
+$X_n,X$ を同じ確率空間 $(\Omega,\F,P)$ 上の実数値確率変数とする。
+\keybox{
+$$\begin{aligned}
+ X_n\to X\ \text{a.s.}
+ &\quad:\Longleftrightarrow\quad P(\{\omega:X_n(\omega)\to X(\omega)\})=1,\\
+ X_n\xrightarrow{P}X
+ &\quad:\Longleftrightarrow\quad P(|X_n-X|>\varepsilon)\to0
+ \quad(\forall\varepsilon>0).
+\end{aligned}$$}
+概収束では一つの標本を固定して数列を見る。確率収束では各時点の誤差確率を見る。
+概収束なら $\ind_{\{|X_n-X|>\varepsilon\}}\to0$ a.s. であり、指示関数は $1$ 以下なので、
+優収束定理から $P(|X_n-X|>\varepsilon)\to0$。したがって概収束は確率収束を導く。
+
+\topic{逆向きの反例：動く区間}
+$\Omega=[0,1)$ に一様確率を入れ、$n=2^m+j$（$m\ge0$、$0\le j<2^m$）に対して
+$$X_{2^m+j}(\omega)=\ind_{[j2^{-m},(j+1)2^{-m})}(\omega)$$
+と定める。$0<\varepsilon<1$ なら $P(|X_{2^m+j}|>\varepsilon)=2^{-m}\to0$ なので
+$X_n\xrightarrow{P}0$。しかし、どの $\omega$ でも各段で $1$ を一度とり、
+$0$ も無限回とるため、列全体はどの標本でも収束しない。
+
+\topic{演算と概収束する部分列}
+$X_n\xrightarrow{P}X$、$Y_n\xrightarrow{P}Y$ なら
+$$aX_n+bY_n\xrightarrow{P}aX+bY\quad(a,b\in\R),\qquad
+ X_nY_n\xrightarrow{P}XY.$$
+積では $|X|,|Y|\le M$、$|X_n-X|,|Y_n-Y|\le\delta$ 上で
+$|X_nY_n-XY|\le\delta(2M+\delta)$ と評価し、尾の確率を $M\to\infty$ で抑える。
+また $X_n\xrightarrow{P}X$ なら、増加する $n_k$ を
+$P(|X_{n_k}-X|>2^{-k})\le2^{-k}$ となるように選べる。
+和集合の確率評価より
+$$P\left(\bigcup_{k\ge K}\{|X_{n_k}-X|>2^{-k}\}\right)
+ \le\sum_{k\ge K}2^{-k}\longrightarrow0.$$
+よって誤差がしきい値を超えるのは a.s. 有限回であり、$X_{n_k}\to X$ a.s. となる。
+
+\topic{演習問題}
+\begin{enumerate}[label=\arabic*.]
+\item $U\sim\mathrm U(0,1)$ とし、$X_n=U^n$、$Y_n=nU^n$ とおく。
+それぞれの概収束と確率収束を調べ、期待値の極限も計算せよ。
+\item $X_n\xrightarrow{P}X$、$Y_n\xrightarrow{P}Y$ とする。
+$aX_n+bY_n\xrightarrow{P}aX+bY$（$a,b\in\R$）を示せ。
+\item 動く区間の例で $n_k=2^k$ と選ぶと、$X_{n_k}$ はどこで何に収束するか。
+列全体とこの部分列の振る舞いの違いを説明せよ。
+\item $P(|X_n-X|>\varepsilon)\le C_\varepsilon n^{-2}$（各 $\varepsilon>0$）なら
+$X_n\to X$ a.s. を示せ。$n^{-1}$ の上界だけでも同じ証明が使えるか。
+\end{enumerate}
+
+\topic{レポート問題}
+\begin{enumerate}[label=\arabic*.]
+\item $X_n\xrightarrow{P}X$、$Y_n\xrightarrow{P}Y$ から
+$X_nY_n\xrightarrow{P}XY$ を証明せよ。
+$X,Y$ が有界であると仮定せず、尾の確率を先に抑えること。
+\item 独立な $\{0,1\}$ 値確率変数 $B_n$ が $P(B_n=1)=1/(n+1)$ を満たすとする。
+$B_n\xrightarrow{P}0$ を示せ。
+独立な事象に対する Borel--Cantelli の補題を用い、$B_n$ が概収束しないことを示せ。
+\end{enumerate}
+
+\examplelabel{Borel--Cantelli の補題：}
+事象列 $(A_n)$ に対して、$A_n$ が無限回起こる事象を $\limsup_n A_n$ と書く。
+$$P(\limsup_n A_n)=
+ \begin{cases}
+  0,&\sum_nP(A_n)<\infty,\\
+  1,&\sum_nP(A_n)=\infty\text{ かつ }(A_n)\text{ は相互独立}.
+ \end{cases}$$
+
+\clearpage
+\renewcommand{\lecturenumber}{9}
+\handouttitle{第9回\quad 分布の弱収束と極限定理}
+
+\topic{弱収束と分布収束}
+$\mu_n,\mu$ を $\R$ 上のボレル確率測度、$C_b(\R)$ を有界連続関数全体とする。
+$$\mu_n\Rightarrow\mu\quad:\Longleftrightarrow\quad
+ \int_\R f\,d\mu_n\to\int_\R f\,d\mu\quad(\forall f\in C_b(\R)).$$
+$X_n\Rightarrow X$ は分布 $\mu_{X_n}\Rightarrow\mu_X$ を意味する。
+変数が同じ確率空間にあることは必要ない。同じ空間上では
+$$X_n\to X\ \text{a.s.}\quad\Longrightarrow\quad
+ X_n\xrightarrow{P}X\quad\Longrightarrow\quad X_n\Rightarrow X.$$
+弱収束は、次の開集合の条件、閉集合の条件のそれぞれと同値である。
+$$\mu(O)\le\liminf_n\mu_n(O)\quad(O\text{ は開}),\qquad
+ \limsup_n\mu_n(F)\le\mu(F)\quad(F\text{ は閉}).$$
+
+\topic{L\'evy の連続性定理}
+$\varphi_n(t)=\int_\R e^{itx}\,\mu_n(dx)$、
+$\varphi_\mu(t)=\int_\R e^{itx}\,\mu(dx)$ とする。
+\keybox{
+$$\mu_n\Rightarrow\mu\quad\Longleftrightarrow\quad
+ \varphi_n(t)\to\varphi_\mu(t)\quad(\forall t\in\R).$$
+さらに $\varphi_n(t)\to\varphi(t)$ がすべての $t\in\R$ で成り立ち、
+$\varphi$ が原点で連続なら、$\varphi=\varphi_\mu$ となる確率測度 $\mu$ が一意に存在し、
+$\mu_n\Rightarrow\mu$ となる。}
+原点での連続性は必要である。$X_n\sim N(0,n)$ では
+$$\varphi_n(t)=e^{-nt^2/2}\longrightarrow
+ \begin{cases}1,&t=0,\\0,&t\ne0,\end{cases}$$
+となり、極限は特性関数にならない。
+
+\topic{Tightness と弱収束する部分列}
+確率測度列 $(\mu_n)$ が tight であるとは
+$$\forall\varepsilon>0\ \exists R>0:\quad
+ \sup_n\mu_n(\{|x|>R\})<\varepsilon$$
+となることである。例えば $p>0$、$\sup_n\E|X_n|^p\le C<\infty$ なら
+$$\sup_nP(|X_n|>R)\le C/R^p\longrightarrow0.$$
+$\R$ 上で tight な列の任意の部分列には、さらに確率測度へ弱収束する部分列がある
+（Prokhorov の定理）。すべての部分列極限が同じ $\mu$ なら、列全体が $\mu$ に弱収束する。
+
+\topic{演習問題}
+\begin{enumerate}[label=\arabic*.]
+\item 空でない集合 $A\subseteq\R$ に対し $d(x,A)=\inf_{a\in A}|x-a|$ とおく。
+$|d(x,A)-d(y,A)|\le|x-y|$ を示せ。この評価を使い、開集合に対する上の不等式を証明せよ。
+\item $\sup_n\E[X_n^2]<\infty$ なら分布列が tight であることを示せ。
+また $\mathrm U(-n,n)$ の分布列が tight でないことを示せ。
+\end{enumerate}
+
+\topic{レポート問題}
+\begin{enumerate}[label=\arabic*.]
+\item $X_n\Rightarrow X$ と $Y_n\Rightarrow Y$ だけでは、$X_n+Y_n\Rightarrow X+Y$
+とは限らないことを、公平な符号変数を使った例で示せ。
+それぞれの周辺分布、和の分布を明記すること。
+\end{enumerate}
+
+\label{lastpage}
+\end{document}

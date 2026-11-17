@@ -72,7 +72,7 @@
 \handouttitle{第7回\quad 演習問題の解答}
 
 \topic{演習1：幾何分布の特性関数}
-$0<p<1$、$q=1-p$、$P(X=k)=pq^{k-1}$（$k\ge1$）とする。
+$0<p\le1$、$q=1-p$、$P(X=k)=pq^{k-1}$（$k=1,2,\ldots$）とする。
 $|qe^{it}|=q<1$ なので、絶対収束する等比級数を用いて
 $$
   \varphi_X(t)=\sum_{k=1}^\infty pq^{k-1}e^{itk}
@@ -89,34 +89,15 @@ $$
 $t=0$ では定義から $\varphi_X(0)=1$。
 $\sin u/u\to1$（$u\to0$）より、この値で原点でも連続になる。
 
-\topic{演習3：独立な正規確率変数の和}
-独立な $X\sim N(m_1,v_1)$、$Y\sim N(m_2,v_2)$（$v_1,v_2>0$）について
+したがって、実数 $t$ の全域で
 $$
-  \begin{aligned}
-    \varphi_{X+Y}(t)&=\varphi_X(t)\varphi_Y(t)\\
-      &=e^{im_1t-v_1t^2/2}e^{im_2t-v_2t^2/2}
-       =e^{i(m_1+m_2)t-(v_1+v_2)t^2/2}.
-  \end{aligned}
+ \varphi_X(t)=
+ \begin{cases}
+  \sin(at)/(at),&t\ne0,\\
+  1,&t=0
+ \end{cases}
 $$
-これは $N(m_1+m_2,v_1+v_2)$ の特性関数であり、一意性から
-$X+Y\sim N(m_1+m_2,v_1+v_2)$ と分かる。
-
-\topic{演習4：Gauss 核による平滑化の一様収束}
-$f\in C_c(\R)$、$q_\varepsilon(y)=e^{-y^2/(2\varepsilon^2)}/(\sqrt{2\pi}\varepsilon)$ とする。
-$\int q_\varepsilon=1$ なので、$\delta>0$ に対し
-$$
-  \begin{aligned}
-    |(f*q_\varepsilon)(x)-f(x)|
-      &\le\int_\R|f(x-y)-f(x)|q_\varepsilon(y)\,dy\\
-      &\le\sup_{|u-v|\le\delta}|f(u)-f(v)|
-        +2\|f\|_\infty\int_{|y|>\delta}q_\varepsilon(y)\,dy.
-  \end{aligned}
-$$
-右辺は $x$ によらず、上限をとれば設問の評価となる。
-$f$ の一様連続性から第1項は $\delta\downarrow0$ で消える。
-固定した $\delta$ に対し、第2項の積分は $N(0,\varepsilon^2)$ の尾確率で、
-Chebyshev の不等式により $\varepsilon^2/\delta^2$ 以下となる。
-先に $\delta$ を小さく選び、次に $\varepsilon\downarrow0$ とすれば一様収束を得る。
+と表される。原点での見かけの特異点は、この値で取り除かれる。
 \clearpage
 \endgroup
 
@@ -125,7 +106,7 @@ Chebyshev の不等式により $\varepsilon^2/\delta^2$ 以下となる。
 量化の順序を区別し、どちらの条件が必要かを考えよう。}
 
 \topic{概収束：標本ごとに極限をとる}
-以下、$X_n,X$ は同じ確率空間 $(\Omega,\F,P)$ 上の実数値確率変数とする。
+以下、$X_n,X$ は同じ確率空間 $(\Omega,\F,P)$ 上の実数値確率変数とし、$n=1,2,\ldots$ とする。
 $X_n$ が $X$ に概収束するとは
 $$P(\{\omega:X_n(\omega)\to X(\omega)\})=1$$
 となることであり、$X_n\to X$ a.s. と書く。
@@ -163,41 +144,15 @@ $\varepsilon=1/m$ を可算個とれば $P(X=Y)=1$ となる。
 
 \newpage
 \topic{確率収束しても概収束しない：動く区間}
-$\Omega=[0,1)$ に一様確率を入れる。
+$\Omega=[0,1)$ にボレル集合族と一様確率（区間の長さ）を入れる。
 $n=2^m+k$（$m\ge0$、$0\le k<2^m$）と一意に書き、
 $$X_{2^m+k}(\omega):=\ind_{[k2^{-m},(k+1)2^{-m})}(\omega)$$
 と定める。区間を左から右へ走査し、一巡ごとに長さを半分にする。
 各 $0<\varepsilon<1$ に対し
 $$P(|X_{2^m+k}|>\varepsilon)=2^{-m}\longrightarrow0.$$
-したがって $X_n\xrightarrow{P}0$。
+$n\to\infty$ なら $m\to\infty$ であり、$\varepsilon\ge1$ では誤差確率は $0$ なので、$X_n\xrightarrow{P}0$。
 一方、各 $\omega$ はどの段 $m$ でもちょうど一つの区間に入るため、
 値 $1$ が無限回現れる。値 $0$ も無限回現れ、どの $\omega$ でも収束しない。
-
-\topic{和と積の確率収束}
-$X_n\xrightarrow{P}X$、$Y_n\xrightarrow{P}Y$ なら
-$$X_n+Y_n\xrightarrow{P}X+Y,\qquad X_nY_n\xrightarrow{P}XY.$$
-和には三角不等式と和集合の確率評価を使う。
-積については、$|X|,|Y|\le M$ かつ
-$|X_n-X|,|Y_n-Y|\le\delta$ という事象上で
-$$|X_nY_n-XY|
- \le|X_n-X|\,|Y_n|+|X|\,|Y_n-Y|
- \le\delta(2M+\delta).$$
-まず $M$ を大きくして $P(|X|>M)+P(|Y|>M)$ を小さくし、
-次に $\delta$ を小さく選び、最後に $n\to\infty$ とする。
-概収束の場合は、共通の確率 $1$ の集合上で通常の数列の演算を使えばよい。
-
-\topic{確率収束から概収束する部分列を取り出す}
-$X_n\xrightarrow{P}X$ なら、$n_k$ を増加するように選んで
-$$P(|X_{n_k}-X|>2^{-k})\le2^{-k}$$
-とできる。右辺の和が有限なので、Borel--Cantelli の補題により
-$|X_{n_k}-X|>2^{-k}$ は a.s. 有限回しか起こらない。
-よって $X_{n_k}\to X$ a.s.。列全体の概収束とは区別する必要がある。
-
-\topic{期待値の収束は別に確認する}
-$p>0$ に対し $\E|X_n-X|^p\to0$ なら、Markov の不等式から確率収束する。
-その逆は一般に成り立たない。$X_n=n\ind_{(0,1/n)}$ を $\Omega=(0,1)$ 上で考えると
-$X_n\to0$ a.s. だが $\E|X_n|=1$。
-確率収束や概収束だけで、非有界な関数の期待値を極限と交換してはいけない。
 
 \begin{center}
 \begin{tikzpicture}[x=9cm,y=0.42cm,font=\small]
@@ -215,7 +170,52 @@ $X_n\to0$ a.s. だが $\E|X_n|=1$。
 {\small\color{muted}帯が $X_n=1$ となる区間を表す。同じ $\omega$ に沿って見ると、
 区間が細くなっても値 $1$ が繰り返し現れる。}\par
 
+
+\topic{和と積の確率収束}
+$X_n\xrightarrow{P}X$、$Y_n\xrightarrow{P}Y$ なら
+$$X_n+Y_n\xrightarrow{P}X+Y,\qquad X_nY_n\xrightarrow{P}XY.$$
+和については、任意の $\varepsilon>0$ に対し
+$$P(|(X_n+Y_n)-(X+Y)|>\varepsilon)
+ \le P(|X_n-X|>\varepsilon/2)+P(|Y_n-Y|>\varepsilon/2)\to0.$$
+積については、$|X|,|Y|\le M$ かつ
+$|X_n-X|,|Y_n-Y|\le\delta$ という事象上で
+$$|X_nY_n-XY|
+ \le|X_n-X|\,|Y_n|+|X|\,|Y_n-Y|
+ \le\delta(2M+\delta).$$
+$\delta(2M+\delta)\le\varepsilon$ と選べば
+$$
+ \begin{aligned}
+ P(|X_nY_n-XY|>\varepsilon)
+ &\le P(|X|>M)+P(|Y|>M)\\
+ &\quad+P(|X_n-X|>\delta)+P(|Y_n-Y|>\delta).
+ \end{aligned}
+$$
+固定した $M$ と $\delta$ に対し $n\to\infty$ とすると、右辺の後ろの2項が消える。
+その後 $M\to\infty$ とすれば、$X,Y$ は実数値なので前の2項も $0$ になる。
+概収束の場合は、共通の確率 $1$ の集合上で通常の数列の演算を使えばよい。
+
 \newpage
+\topic{確率収束から概収束する部分列を取り出す}
+$X_n\xrightarrow{P}X$ なら、各 $k\ge1$ に対し $n_k>n_{k-1}$（$n_0=0$）を選んで
+$$P(|X_{n_k}-X|>2^{-k})\le2^{-k}$$
+とできる。$A_k=\{|X_{n_k}-X|>2^{-k}\}$ とおけば、和集合の確率評価から
+$$P\left(\bigcup_{k\ge K}A_k\right)
+ \le\sum_{k\ge K}P(A_k)\le\sum_{k\ge K}2^{-k}=2^{1-K}\longrightarrow0.$$
+$\bigcup_{k\ge K}A_k$ は $K$ について単調減少するので、確率の連続性より
+$$P\left(\bigcap_{K=1}^\infty\bigcup_{k\ge K}A_k\right)=0.$$
+すなわち、確率 $1$ で、ある $K(\omega)$ 以降は
+$|X_{n_k}(\omega)-X(\omega)|\le2^{-k}$ がすべての $k\ge K(\omega)$ で成り立つ。
+よって $X_{n_k}\to X$ a.s. を得る。これは Borel--Cantelli の第1補題の考え方である。
+確率収束は部分列にも受け継がれるので、元の列の任意の部分列からも概収束する部分列を取り出せる。
+ただし、列全体の概収束までは従わない。
+
+\topic{期待値の収束は別に確認する}
+$p>0$ に対し $\E|X_n-X|^p\to0$ なら、Markov の不等式から、任意の $\varepsilon>0$ について
+$$P(|X_n-X|>\varepsilon)\le\frac{\E|X_n-X|^p}{\varepsilon^p}\longrightarrow0.$$
+逆向きは $p=1$ でも成り立たない。$\Omega=(0,1)$ に一様確率を入れ、$X_n=n\ind_{(0,1/n)}$ とすると
+$X_n\to0$ a.s. だが $\E|X_n|=1$。
+確率収束や概収束だけで、非有界な関数の期待値を極限と交換してはいけない。
+
 \topic{演習問題}
 \begin{enumerate}[label=\arabic*.]
 \item $U\sim\mathrm U(0,1)$ とし、$X_n=U^n$、$Y_n=nU^n$ とおく。
