@@ -81,23 +81,30 @@ mjx-container[jax="SVG"][display="true"]{margin:.45em 0!important}
 .volume-layout figure > svg{width:100%;height:270px;display:block}
 figcaption{font-size:18px;color:var(--muted);text-align:center;margin-top:10px}
 .sphere-layout{display:grid;grid-template-columns:1.6fr 1fr;gap:28px;align-items:center}
-.sphere-layout figure > svg{display:block;width:100%;height:235px}
+.sphere-layout figure > svg{display:block;width:100%;height:220px}
 .sphere-layout figcaption{font-size:17px;line-height:1.5;margin-top:3px}
 .sphere-layout .math{font-size:24px}
-.sphere-calculation{font-size:25px;margin-top:8px}
+.sphere-calculation{font-size:25px}
+.sphere-slide .takeaway,.mass-slide .takeaway{font-size:21px;line-height:1.65;padding-top:10px}
+.sphere-slide .takeaway{padding-top:0}
+.mass-columns{margin-top:12px;padding-left:24px;border-left:3px solid var(--accent)}
+.mass-columns h3{font-size:25px;margin-bottom:6px}
 .mass-exercises{margin-top:12px;gap:28px;flex:1}
 .mass-exercises .panel{padding:24px;display:flex;flex-direction:column}
 .mass-exercises .math{font-size:25px}
 .mass-exercises .question{font-size:25px;color:var(--accent);margin-top:15px}
 .mass-exercises .hint{margin-top:auto;padding-top:24px;font-size:20px;line-height:1.6;color:var(--muted)}
-.performance-layout{display:grid;grid-template-columns:1.5fr 1fr;gap:40px;align-items:start;margin-top:16px}
-.performance-table{width:100%;border-collapse:collapse;font-size:24px;line-height:1.5}
-.performance-table th,.performance-table td{padding:9px 18px;border-bottom:1px solid var(--line);text-align:left}
-.performance-table thead{background:var(--soft)}
-.performance-table td:last-child{text-align:right;color:var(--accent);font-variant-numeric:tabular-nums}
-.performance-trend{border-left:2px solid var(--accent);padding-left:26px}
-.performance-trend p{font-size:24px;line-height:1.6;margin-bottom:17px}
-.performance-note{font-size:19px;line-height:1.6;color:var(--muted);margin-top:17px}
+.performance-slide h2{margin-bottom:12px}
+.performance-models{font-size:18px;line-height:1.6}
+.performance-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px 28px;margin-top:14px}
+.subject-chart h3{font-size:22px;line-height:1.4;margin:0}
+.subject-chart svg{display:block;width:100%;height:145px;overflow:visible}
+.chart-grid{stroke:var(--line);stroke-width:1}
+.chart-axis{fill:var(--muted);font-size:15px}
+.chart-line{fill:none;stroke:var(--accent);stroke-width:3;stroke-linecap:round;stroke-linejoin:round}
+.chart-point{fill:var(--accent);stroke:var(--bg);stroke-width:2}
+.chart-value{fill:var(--ink);font-size:18px;font-variant-numeric:tabular-nums}
+.performance-note{font-size:17px;line-height:1.5;color:var(--muted);margin-top:10px}
 .comparison{display:grid;grid-template-columns:1fr 1fr;gap:42px;align-items:center}
 .bars{display:flex;flex-direction:column;gap:21px}
 .bar-label{font-size:22px;margin-bottom:8px}
@@ -112,9 +119,13 @@ figcaption{font-size:18px;color:var(--muted);text-align:center;margin-top:10px}
 .flow h3{font-size:27px;margin-bottom:8px}
 .flow p{font-size:22px}
 .arrow{font-size:36px;color:var(--muted);text-align:center}
-.prompt{margin:0;padding:24px 30px;border-left:3px solid var(--accent);background:var(--soft);font-size:27px;line-height:1.8}
-.reply{margin-top:23px;font-size:26px;line-height:1.7}
-.error-equation{color:var(--warm);margin:0 0 10px}
+.ai-cautions{margin:0;display:grid;gap:17px}
+.ai-cautions > div{display:grid;grid-template-columns:250px 1fr;gap:24px;padding-bottom:14px;border-bottom:1px solid var(--line)}
+.ai-cautions dt{font-size:24px;line-height:1.6;color:var(--accent)}
+.ai-cautions dd{margin:0;font-size:22px;line-height:1.65}
+.short-answer{margin-top:auto;padding:20px 28px;border-left:3px solid var(--accent);background:var(--soft)}
+.short-answer h3{font-size:25px;margin-bottom:8px}
+.short-answer p{font-size:26px;line-height:1.65}
 #controls{
   position:fixed;bottom:10px;left:50%;transform:translateX(-50%);
   display:flex;align-items:center;justify-content:center;gap:8px;z-index:10;white-space:nowrap;
@@ -207,7 +218,7 @@ window.MathJax = {
   <p class="small">$u=xy,\ v=y/x$ とおく。$x,y>0$ より逆変換は $x=\sqrt{u/v},\ y=\sqrt{uv}$。</p>
   <div class="math compact">$$1\le u\le2,\qquad 1\le v\le4$$</div>
   <div class="math compact">$$\det\frac{\partial(u,v)}{\partial(x,y)}=\begin{vmatrix}y&x\\-y/x^2&1/x\end{vmatrix}=2v,\qquad dx\,dy=\frac{1}{2v}\,du\,dv$$</div>
-  <div class="math">$$\begin{aligned}
+  <div class="math compact">$$\begin{aligned}
   \iint_{D_2}xy\,dx\,dy
   &=\int_1^2\int_1^4\frac{u}{2v}\,dv\,du\\
   &=\left[\frac{u^2}{2}\right]_1^2\left[\frac{\log v}{2}\right]_1^4=\frac32\log2
@@ -274,17 +285,14 @@ window.MathJax = {
   <div class="footer"><div class="sources"><a href="class7_handout.pdf" target="_blank" rel="noopener">配布資料：体積の公式</a></div></div>
 </section>
 
-<section class="slide" aria-label="球の体積">
+<section class="slide sphere-slide" aria-label="球の体積">
   <div class="topline"><span>第２部・体積と質量</span><span>体積の例</span></div>
   <h2>球の体積を、二重積分で求める。</h2>
   <div class="sphere-layout">
     <div>
       <p class="small">半径 $R>0$ の球 $V=\{(x,y,z):x^2+y^2+z^2\le R^2\}$ を考える。</p>
       <p class="small">底面は $D=\{(x,y):x^2+y^2\le R^2\}$。</p>
-      <div class="math left">$$\begin{aligned}
-      \psi(x,y)&=\sqrt{R^2-x^2-y^2}\\
-      \phi(x,y)&=-\sqrt{R^2-x^2-y^2}
-      \end{aligned}$$</div>
+      <div class="math left">$$\psi(x,y)=-\phi(x,y)=\sqrt{R^2-x^2-y^2}$$</div>
       <div class="math left">$$\operatorname{Vol}(V)=\iint_D2\sqrt{R^2-x^2-y^2}\,dx\,dy$$</div>
     </div>
     <figure>
@@ -304,25 +312,25 @@ window.MathJax = {
         <text x="258" y="143" fill="var(--ink)" font-size="22">柱の高さ</text>
         <text x="94" y="159" fill="var(--muted)" font-size="18">中心</text>
       </svg>
-      <figcaption>中心を通る鉛直断面（模式図）<br>中心からの距離 $r=\sqrt{x^2+y^2}$、高さ $2\sqrt{R^2-r^2}$</figcaption>
+      <figcaption>鉛直断面（模式図）、$r=\sqrt{x^2+y^2}$</figcaption>
     </figure>
   </div>
   <div class="math sphere-calculation">$$\begin{aligned}
   \operatorname{Vol}(V)
   &=\int_0^{2\pi}\int_0^R2\sqrt{R^2-r^2}\,r\,dr\,d\theta\\
-  &=4\pi\left[-\frac13(R^2-r^2)^{3/2}\right]_0^R=\frac{4\pi R^3}{3}
+  &=4\pi\bigl[-\tfrac13(R^2-r^2)^{3/2}\bigr]_0^R=\frac{4\pi R^3}{3}
   \end{aligned}$$</div>
   <p class="takeaway small">底面の小さな面積に、その場所の柱の高さを掛けて足す。</p>
   <div class="footer"><div class="sources"><a href="class7_handout.pdf" target="_blank" rel="noopener">配布資料：球の体積</a></div></div>
 </section>
 
-<section class="slide" aria-label="密度と質量">
+<section class="slide mass-slide" aria-label="密度と質量">
   <div class="topline"><span>第２部・体積と質量</span><span>質量の公式</span></div>
   <h2>密度を積分すると、質量になる。</h2>
-  <p>小片の質量は、およそ「その場所の密度 × 小片の体積」。</p>
+  <p class="small">小片の質量は、およそ「その場所の密度 × 小片の体積」。</p>
   <p class="small muted">立体 $V$ 上で $\rho(x,y,z)\ge0$ は可積分とする。$dV=dx\,dy\,dz$ は体積要素。</p>
-  <div class="math result">$$M=\iiint_V\rho(x,y,z)\,dV$$</div>
-  <div class="panel soft" style="margin-top:16px">
+  <div class="math compact accent">$$M=\iiint_V\rho(x,y,z)\,dV$$</div>
+  <div class="mass-columns">
     <h3>まず、高さ方向に密度を積分する。</h3>
     <p class="small">$V=\{(x,y,z):(x,y)\in D,\ \phi(x,y)\le z\le\psi(x,y)\}$ なら</p>
     <div class="math compact">$$M=\iint_D\left(\int_{\phi(x,y)}^{\psi(x,y)}\rho(x,y,z)\,dz\right)dx\,dy$$</div>
@@ -376,37 +384,124 @@ window.MathJax = {
   <h1>AIを用いた学習について</h1>
   <div class="agenda">
     <p>1．科目別の性能とその発展</p><p>2．学習への悪影響と脳活動</p>
-    <p>3．AIを用いた学習の理想形</p><p>4．授業での使用例</p>
+    <p>3．AIを用いた学習の理想形</p><p>4．学習に使うときの注意</p>
   </div>
 </section>
 
-<section class="slide" aria-label="AIの科目別の性能と発展">
+<section class="slide performance-slide" aria-label="AIの科目別の性能と発展">
   <div class="topline"><span>第３部・AIを用いた学習</span><span>1．科目別の性能</span></div>
-  <h2>AIの発展を、科目別の得点で見る。</h2>
-  <p class="small">2026年の共通テストを解かせた一例。AIは GPT-5.2 Thinking。</p>
-  <div class="performance-layout">
-    <table class="performance-table" aria-label="2026年の共通テストにおけるAIの科目別得点率">
-      <thead><tr><th scope="col">科目</th><th scope="col">得点率</th></tr></thead>
-      <tbody>
-        <tr><th scope="row">国語</th><td>90％</td></tr>
-        <tr><th scope="row">数学（ⅠA・ⅡBC）</th><td>ともに100％</td></tr>
-        <tr><th scope="row">化学</th><td>100％</td></tr>
-        <tr><th scope="row">物理</th><td>95％</td></tr>
-        <tr><th scope="row">社会（地理・歴史・公民）</th><td>91〜100％</td></tr>
-      </tbody>
-    </table>
-    <div class="performance-trend">
-      <p><span class="accent">2024年</span><br>数学に苦戦。</p>
-      <p><span class="accent">2025年</span><br>国語・数学が大きく伸びる。</p>
-      <p><span class="accent">2026年</span><br>数学・化学で満点。</p>
-    </div>
+  <h2>AIの得点率は、科目ごとにどう変わったか。</h2>
+  <p class="performance-models">共通テスト：2024年 GPT-4 ／ 2025年 o1 ／ 2026年 GPT-5.2 Thinking</p>
+  <div class="performance-grid">
+    <figure class="subject-chart" data-scores="62,94,90">
+      <h3 id="chart-japanese">国語</h3>
+      <svg viewBox="0 0 360 145" role="img" aria-labelledby="chart-japanese chart-japanese-description">
+        <desc id="chart-japanese-description">2024年62％、2025年94％、2026年90％。縦軸は0％から100％。</desc>
+        <path class="chart-grid" d="M52 24 H336 M52 69 H336 M52 114 H336"/>
+        <g class="chart-axis" text-anchor="end">
+          <text x="44" y="29">100％</text><text x="44" y="74">50％</text><text x="44" y="119">0％</text>
+        </g>
+        <polyline class="chart-line" points="72,58.2 196,29.4 320,33"/>
+        <circle class="chart-point" cx="72" cy="58.2" r="4.5"/><text class="chart-value" x="72" y="48.2" text-anchor="middle">62％</text>
+        <circle class="chart-point" cx="196" cy="29.4" r="4.5"/><text class="chart-value" x="196" y="19.4" text-anchor="middle">94％</text>
+        <circle class="chart-point" cx="320" cy="33" r="4.5"/><text class="chart-value" x="320" y="23" text-anchor="middle">90％</text>
+        <g class="chart-axis" text-anchor="middle">
+          <text x="72" y="139">2024</text><text x="196" y="139">2025</text><text x="320" y="139">2026</text>
+        </g>
+      </svg>
+    </figure>
+    <figure class="subject-chart" data-scores="35,80,100">
+      <h3 id="chart-math-ia">数学ⅠA</h3>
+      <svg viewBox="0 0 360 145" role="img" aria-labelledby="chart-math-ia chart-math-ia-description">
+        <desc id="chart-math-ia-description">2024年35％、2025年80％、2026年100％。縦軸は0％から100％。</desc>
+        <path class="chart-grid" d="M52 24 H336 M52 69 H336 M52 114 H336"/>
+        <g class="chart-axis" text-anchor="end">
+          <text x="44" y="29">100％</text><text x="44" y="74">50％</text><text x="44" y="119">0％</text>
+        </g>
+        <polyline class="chart-line" points="72,82.5 196,42 320,24"/>
+        <circle class="chart-point" cx="72" cy="82.5" r="4.5"/><text class="chart-value" x="72" y="72.5" text-anchor="middle">35％</text>
+        <circle class="chart-point" cx="196" cy="42" r="4.5"/><text class="chart-value" x="196" y="32" text-anchor="middle">80％</text>
+        <circle class="chart-point" cx="320" cy="24" r="4.5"/><text class="chart-value" x="320" y="14" text-anchor="middle">100％</text>
+        <g class="chart-axis" text-anchor="middle">
+          <text x="72" y="139">2024</text><text x="196" y="139">2025</text><text x="320" y="139">2026</text>
+        </g>
+      </svg>
+    </figure>
+    <figure class="subject-chart" data-scores="46,93,100">
+      <h3 id="chart-math-ii">数学ⅡB → ⅡBC</h3>
+      <svg viewBox="0 0 360 145" role="img" aria-labelledby="chart-math-ii chart-math-ii-description">
+        <desc id="chart-math-ii-description">2024年46％、2025年93％、2026年100％。縦軸は0％から100％。</desc>
+        <path class="chart-grid" d="M52 24 H336 M52 69 H336 M52 114 H336"/>
+        <g class="chart-axis" text-anchor="end">
+          <text x="44" y="29">100％</text><text x="44" y="74">50％</text><text x="44" y="119">0％</text>
+        </g>
+        <polyline class="chart-line" points="72,72.6 196,30.3 320,24"/>
+        <circle class="chart-point" cx="72" cy="72.6" r="4.5"/><text class="chart-value" x="72" y="62.6" text-anchor="middle">46％</text>
+        <circle class="chart-point" cx="196" cy="30.3" r="4.5"/><text class="chart-value" x="196" y="20.3" text-anchor="middle">93％</text>
+        <circle class="chart-point" cx="320" cy="24" r="4.5"/><text class="chart-value" x="320" y="14" text-anchor="middle">100％</text>
+        <g class="chart-axis" text-anchor="middle">
+          <text x="72" y="139">2024</text><text x="196" y="139">2025</text><text x="320" y="139">2026</text>
+        </g>
+      </svg>
+    </figure>
+    <figure class="subject-chart" data-scores="87,98,97">
+      <h3 id="chart-english">英語リーディング</h3>
+      <svg viewBox="0 0 360 145" role="img" aria-labelledby="chart-english chart-english-description">
+        <desc id="chart-english-description">2024年87％、2025年98％、2026年97％。縦軸は0％から100％。</desc>
+        <path class="chart-grid" d="M52 24 H336 M52 69 H336 M52 114 H336"/>
+        <g class="chart-axis" text-anchor="end">
+          <text x="44" y="29">100％</text><text x="44" y="74">50％</text><text x="44" y="119">0％</text>
+        </g>
+        <polyline class="chart-line" points="72,35.7 196,25.8 320,26.7"/>
+        <circle class="chart-point" cx="72" cy="35.7" r="4.5"/><text class="chart-value" x="72" y="25.7" text-anchor="middle">87％</text>
+        <circle class="chart-point" cx="196" cy="25.8" r="4.5"/><text class="chart-value" x="196" y="15.8" text-anchor="middle">98％</text>
+        <circle class="chart-point" cx="320" cy="26.7" r="4.5"/><text class="chart-value" x="320" y="16.7" text-anchor="middle">97％</text>
+        <g class="chart-axis" text-anchor="middle">
+          <text x="72" y="139">2024</text><text x="196" y="139">2025</text><text x="320" y="139">2026</text>
+        </g>
+      </svg>
+    </figure>
+    <figure class="subject-chart" data-scores="88,97,97">
+      <h3 id="chart-world-history">世界史系</h3>
+      <svg viewBox="0 0 360 145" role="img" aria-labelledby="chart-world-history chart-world-history-description">
+        <desc id="chart-world-history-description">2024年88％、2025年97％、2026年97％。縦軸は0％から100％。</desc>
+        <path class="chart-grid" d="M52 24 H336 M52 69 H336 M52 114 H336"/>
+        <g class="chart-axis" text-anchor="end">
+          <text x="44" y="29">100％</text><text x="44" y="74">50％</text><text x="44" y="119">0％</text>
+        </g>
+        <polyline class="chart-line" points="72,34.8 196,26.7 320,26.7"/>
+        <circle class="chart-point" cx="72" cy="34.8" r="4.5"/><text class="chart-value" x="72" y="24.8" text-anchor="middle">88％</text>
+        <circle class="chart-point" cx="196" cy="26.7" r="4.5"/><text class="chart-value" x="196" y="16.7" text-anchor="middle">97％</text>
+        <circle class="chart-point" cx="320" cy="26.7" r="4.5"/><text class="chart-value" x="320" y="16.7" text-anchor="middle">97％</text>
+        <g class="chart-axis" text-anchor="middle">
+          <text x="72" y="139">2024</text><text x="196" y="139">2025</text><text x="320" y="139">2026</text>
+        </g>
+      </svg>
+    </figure>
+    <figure class="subject-chart" data-scores="68,79,97">
+      <h3 id="chart-japanese-history">日本史系</h3>
+      <svg viewBox="0 0 360 145" role="img" aria-labelledby="chart-japanese-history chart-japanese-history-description">
+        <desc id="chart-japanese-history-description">2024年68％、2025年79％、2026年97％。縦軸は0％から100％。</desc>
+        <path class="chart-grid" d="M52 24 H336 M52 69 H336 M52 114 H336"/>
+        <g class="chart-axis" text-anchor="end">
+          <text x="44" y="29">100％</text><text x="44" y="74">50％</text><text x="44" y="119">0％</text>
+        </g>
+        <polyline class="chart-line" points="72,52.8 196,42.9 320,26.7"/>
+        <circle class="chart-point" cx="72" cy="52.8" r="4.5"/><text class="chart-value" x="72" y="42.8" text-anchor="middle">68％</text>
+        <circle class="chart-point" cx="196" cy="42.9" r="4.5"/><text class="chart-value" x="196" y="32.9" text-anchor="middle">79％</text>
+        <circle class="chart-point" cx="320" cy="26.7" r="4.5"/><text class="chart-value" x="320" y="16.7" text-anchor="middle">97％</text>
+        <g class="chart-axis" text-anchor="middle">
+          <text x="72" y="139">2024</text><text x="196" y="139">2025</text><text x="320" y="139">2026</text>
+        </g>
+      </svg>
+    </figure>
   </div>
-  <p class="performance-note">試験年度・AI・入力方法が異なるため、厳密な同条件比較ではない。<br>国語は文字起こしを使用。社会の値は、各科目の得点率の範囲。</p>
+  <p class="performance-note">年度・モデル・入力方法が異なる参考比較。2025年から新課程（数学ⅡB→ⅡBC、歴史総合＋探究）。<br>2024年の数学ⅡBは当年記事の46％を採用（2025年記事の振り返り表では55％）。</p>
   <div class="footer"><div class="sources">
     <span>ライフプロンプトの検証：</span>
     <a href="https://note.com/lifeprompt/n/n87f4d5510100" target="_blank" rel="noopener">2024年</a>
     <a href="https://note.com/lifeprompt/n/n02c40e908130" target="_blank" rel="noopener">2025年</a>
-    <a href="https://note.com/lifeprompt/n/nb87edfb2e7ca" target="_blank" rel="noopener">2026年（得点表・実験条件）</a>
+    <a href="https://note.com/lifeprompt/n/nb87edfb2e7ca" target="_blank" rel="noopener">2026年</a>
   </div></div>
 </section>
 
@@ -477,30 +572,27 @@ window.MathJax = {
   <div class="footer"><div class="sources"><a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC12232635/" target="_blank" rel="noopener">参考：ヒントを中心にする学習支援の実験</a></div></div>
 </section>
 
-<section class="slide" aria-label="使用例：ヒントをもらう">
-  <div class="topline"><span>第３部・AIを用いた学習</span><span>4．使用例</span></div>
-  <h2>使用例：考えを伝えて、ヒントをもらう。</h2>
-  <p class="small muted" style="margin-bottom:16px">問2の双曲線と直線で囲まれた領域で、途中まで考えたとき。</p>
-  <blockquote class="prompt">
-    $u=xy,\ v=y/x$ とおくと考えました。<br>
-    答えはまだ出さず、積分範囲と面積要素を<br>
-    確認する質問を、一つずつしてください。
-  </blockquote>
-  <p class="reply"><span class="accent">想定される質問：</span><br>「$xy$ と $y/x$ は、それぞれどの範囲を動きますか。」</p>
-  <p class="takeaway">紙に範囲と $dx\,dy$ を書いてから、続きを考える。</p>
-</section>
-
-<section class="slide" aria-label="使用例：途中式を点検する">
-  <div class="topline"><span>第３部・AIを用いた学習</span><span>4．使用例</span></div>
-  <h2>使用例：途中式を点検し、自分で直す。</h2>
-  <p class="small muted">問2で $u=xy,\ v=y/x$ とおき、次の途中式を書いたとする（誤りを含む）。</p>
-  <div class="math error-equation">$$\iint_{D_2}xy\,dx\,dy=\int_1^2\int_1^4u\cdot2v\,dv\,du$$</div>
-  <blockquote class="prompt">
-    誤りのある箇所と、その理由だけ教えてください。<br>
-    修正式と答えは、まだ示さないでください。
-  </blockquote>
-  <p class="reply small">指摘を配布資料と照合する。面積要素を確かめ、自分で修正する。</p>
-  <p class="takeaway">AIを閉じ、最初からもう一度解こう。</p>
+<section class="slide" aria-label="AIを学習に使うときの注意">
+  <div class="topline"><span>第３部・AIを用いた学習</span><span>4．学習に使うときの注意</span></div>
+  <h2>考える主役は、自分のままに。</h2>
+  <dl class="ai-cautions">
+    <div>
+      <dt>自分で考えてから聞く</dt>
+      <dd>まず手を動かし、途中式や困っている点を添えて質問する。</dd>
+    </div>
+    <div>
+      <dt>回答を確かめる</dt>
+      <dd>仮定・定義域・計算を、教科書や配布資料と照らし合わせる。</dd>
+    </div>
+    <div>
+      <dt>読んだ後に解き直す</dt>
+      <dd>AIを閉じ、自分の言葉で理由を説明しながら、もう一度解く。</dd>
+    </div>
+  </dl>
+  <div class="short-answer">
+    <h3>回答は短めに頼み、必要な分だけ聞こう。</h3>
+    <p>「答えはまだ示さず、次に考えることを1つだけ、<br>3文以内で教えてください。」</p>
+  </div>
 </section>
 
 <div id="progress" aria-hidden="true"></div>
