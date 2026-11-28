@@ -1,5 +1,6 @@
 % Style follows ../class2/class2PT26.tex.
-% Build in this directory twice: pdflatex -interaction=nonstopmode -halt-on-error class8PT26.tex
+% Build in this directory (run twice to resolve page references and bookmarks):
+% pdflatex -interaction=nonstopmode -halt-on-error class8PT26.tex
 % Topics follow lectureNote.tex, sections 8 and 9; Levy's theorem is recalled from section 7.
 \documentclass[a4paper,10pt,pdflatex,ja=standard,jafont=ipaex-type1,
   magstyle=real,scale=1]{bxjsarticle}
@@ -12,7 +13,9 @@
 \usepackage{enumitem}
 \usepackage{array,booktabs,tabularx}
 \usepackage{fancyhdr}
+\usepackage{lastpage}
 \usepackage{hyperref}
+
 \definecolor{ink}{HTML}{193A5C}
 \definecolor{accent}{HTML}{237D82}
 \definecolor{soft}{HTML}{EAF3F3}
@@ -26,7 +29,7 @@
 \fancyhf{}
 \fancyhead[L]{\small\color{ink}\coursename{}・授業要約と演習}
 \fancyhead[R]{\small\color{ink}第\lecturenumber 回}
-\fancyfoot[C]{\small\color{ink}\thepage/\pageref*{lastpage}}
+\fancyfoot[C]{\small\color{ink}\thepage/\pageref*{LastPage}}
 \renewcommand{\headrulewidth}{0.3pt}
 \setlength{\parindent}{0pt}
 \setlength{\parskip}{2pt}
@@ -46,7 +49,8 @@
   \end{center}\vspace{-2mm}}
 \newcommand{\keybox}[1]{\par\vspace{3pt}\begingroup
   \setlength{\fboxsep}{5pt}
-  \colorbox{soft}{\parbox{\dimexpr\linewidth-2\fboxsep\relax}{#1}}%
+  \setlength{\fboxrule}{0pt}
+  \fbox{\parbox{\dimexpr\linewidth-2\fboxsep\relax}{#1}}%
   \endgroup\par\vspace{2pt}}
 \newcommand{\examplelabel}[1]{{\sffamily\mdseries\color{ink}#1}}
 \newcommand{\F}{\mathcal F}
@@ -63,14 +67,20 @@ $X_n,X$ を同じ確率空間 $(\Omega,\F,P)$ 上の実数値確率変数とす�
 \keybox{
 $$\begin{aligned}
  X_n\to X\ \text{a.s.}
- &\quad:\Longleftrightarrow\quad P(\{\omega:X_n(\omega)\to X(\omega)\})=1,\\
+ &\quad\overset{\rm def}{\Leftrightarrow}\quad P(\{\omega:X_n(\omega)\to X(\omega)\})=1,\\
  X_n\xrightarrow{P}X
- &\quad:\Longleftrightarrow\quad P(|X_n-X|>\varepsilon)\to0
+ &\quad\overset{\rm def}{\Leftrightarrow}\quad P(|X_n-X|>\varepsilon)\to0
  \quad(\forall\varepsilon>0).
 \end{aligned}$$}
 概収束では一つの標本を固定して数列を見る。確率収束では各時点の誤差確率を見る。
-概収束なら $\ind_{\{|X_n-X|>\varepsilon\}}\to0$ a.s. であり、指示関数は $1$ 以下なので、
-優収束定理から $P(|X_n-X|>\varepsilon)\to0$。したがって概収束は確率収束を導く。
+
+\examplelabel{定理}\quad $X_n$ が $X$ に概収束するならば、$X_n$ は $X$ に確率収束する。
+
+\examplelabel{証明}\quad $\varepsilon>0$ を任意に固定し、$A_n=\{|X_n-X|>\varepsilon\}$ とおく。
+概収束の仮定より、ほとんどすべての $\omega$ で $X_n(\omega)\to X(\omega)$ となる。
+そのような $\omega$ では、十分大きな $n$ に対して $|X_n(\omega)-X(\omega)|\le\varepsilon$ となるので、
+$\ind_{A_n}(\omega)\to0$ である。$0\le\ind_{A_n}\le1$ で定数関数 $1$ は可積分だから、
+優収束定理より $P(A_n)=\E[\ind_{A_n}]\to0$ を得る。よって $X_n\xrightarrow{P}X$ である。
 
 \topic{逆向きの反例：動く区間}
 $\Omega=[0,1)$ に一様確率を入れ、$n=2^m+j$（$m\ge0$、$0\le j<2^m$）に対して
@@ -79,48 +89,41 @@ $$X_{2^m+j}(\omega)=\ind_{[j2^{-m},(j+1)2^{-m})}(\omega)$$
 $X_n\xrightarrow{P}0$。しかし、どの $\omega$ でも各段で $1$ を一度とり、
 $0$ も無限回とるため、列全体はどの標本でも収束しない。
 
-\topic{演算と概収束する部分列}
-$X_n\xrightarrow{P}X$、$Y_n\xrightarrow{P}Y$ なら
-$$aX_n+bY_n\xrightarrow{P}aX+bY\quad(a,b\in\R),\qquad
- X_nY_n\xrightarrow{P}XY.$$
-積では $|X|,|Y|\le M$、$|X_n-X|,|Y_n-Y|\le\delta$ 上で
-$|X_nY_n-XY|\le\delta(2M+\delta)$ と評価し、尾の確率を $M\to\infty$ で抑える。
-また $X_n\xrightarrow{P}X$ なら、増加する $n_k$ を
-$P(|X_{n_k}-X|>2^{-k})\le2^{-k}$ となるように選べる。
-和集合の確率評価より
-$$P\left(\bigcup_{k\ge K}\{|X_{n_k}-X|>2^{-k}\}\right)
- \le\sum_{k\ge K}2^{-k}\longrightarrow0.$$
-よって誤差がしきい値を超えるのは a.s. 有限回であり、$X_{n_k}\to X$ a.s. となる。
-
-\topic{演習問題}
-\begin{enumerate}[label=\arabic*.]
-\item $U\sim\mathrm U(0,1)$ とし、$X_n=U^n$、$Y_n=nU^n$ とおく。
-それぞれの概収束と確率収束を調べ、期待値の極限も計算せよ。
-\item $X_n\xrightarrow{P}X$、$Y_n\xrightarrow{P}Y$ とする。
-$aX_n+bY_n\xrightarrow{P}aX+bY$（$a,b\in\R$）を示せ。
-\item 動く区間の例で $n_k=2^k$ と選ぶと、$X_{n_k}$ はどこで何に収束するか。
-列全体とこの部分列の振る舞いの違いを説明せよ。
-\item $P(|X_n-X|>\varepsilon)\le C_\varepsilon n^{-2}$（各 $\varepsilon>0$）なら
-$X_n\to X$ a.s. を示せ。$n^{-1}$ の上界だけでも同じ証明が使えるか。
-\end{enumerate}
-
-\topic{レポート問題}
-\begin{enumerate}[label=\arabic*.]
-\item $X_n\xrightarrow{P}X$、$Y_n\xrightarrow{P}Y$ から
-$X_nY_n\xrightarrow{P}XY$ を証明せよ。
-$X,Y$ が有界であると仮定せず、尾の確率を先に抑えること。
-\item 独立な $\{0,1\}$ 値確率変数 $B_n$ が $P(B_n=1)=1/(n+1)$ を満たすとする。
-$B_n\xrightarrow{P}0$ を示せ。
-独立な事象に対する Borel--Cantelli の補題を用い、$B_n$ が概収束しないことを示せ。
-\end{enumerate}
-
-\examplelabel{Borel--Cantelli の補題：}
-事象列 $(A_n)$ に対して、$A_n$ が無限回起こる事象を $\limsup_n A_n$ と書く。
-$$P(\limsup_n A_n)=
+\topic{Borel--Cantelli の補題}
+事象列 $(A_n)_{n\ge1}$ について、次が成り立つ。
+$$P(A_n\text{ が無限回起こる})=
  \begin{cases}
   0,&\sum_nP(A_n)<\infty,\\
   1,&\sum_nP(A_n)=\infty\text{ かつ }(A_n)\text{ は相互独立}.
  \end{cases}$$
+
+\topic{概収束する部分列}
+\examplelabel{定理}\quad $X_n$ が $X$ に確率収束するならば、$X$ に概収束する部分列 $(X_{n_k})$ が存在する。
+
+\examplelabel{証明}\quad 各 $k\ge1$ について、確率収束より $P(|X_n-X|>2^{-k})\to0$（$n\to\infty$）である。
+したがって $P(|X_{n_k}-X|>2^{-k})\le2^{-k}$ を満たす添字を $n_1<n_2<\cdots$ と順に選べる。
+$A_k=\{|X_{n_k}-X|>2^{-k}\}$ とおくと、
+$$\sum_{k=1}^{\infty}P(A_k)\le\sum_{k=1}^{\infty}2^{-k}=1.$$
+Borel--Cantelli の補題より $P(A_k\text{ が無限回起こる})=0$ である。
+よって、ほとんどすべての $\omega$ で、十分大きな $k$ に対して
+$|X_{n_k}(\omega)-X(\omega)|\le2^{-k}$ となる。$2^{-k}\to0$ だから、$X_{n_k}$ は $X$ に概収束する。
+
+\topic{演習問題}
+\begin{enumerate}[label=\arabic*.]
+\item $U$ は区間 $(0,1)$ 上の一様分布に従うとし、$X_n=U^n$、$Y_n=nU^n$ とおく。
+それぞれの概収束と確率収束を調べ、期待値の極限も計算せよ。
+\item $X_n$ が $X$ に確率収束し、確率 $1$ で $X_1\le X_2\le\cdots$ が成り立つとする。
+$X$ に概収束する部分列を用いて、列全体が $X$ に概収束することを証明せよ。
+\end{enumerate}
+
+\topic{レポート問題}
+\begin{enumerate}[label=\arabic*.]
+\item 同じ確率空間上で $X_n\xrightarrow{P}X$、$Y_n\xrightarrow{P}Y$ とする。
+確率収束の定義を用いて、$X_n+Y_n\xrightarrow{P}X+Y$ を証明せよ。
+\item 独立なベルヌーイ確率変数 $B_n$ が $P(B_n=1)=1/(n+1)$ を満たすとする。
+$B_n\xrightarrow{P}0$ を示せ。
+独立な事象に対する Borel--Cantelli の補題を用い、$B_n$ が概収束しないことを示せ。
+\end{enumerate}
 
 \clearpage
 \renewcommand{\lecturenumber}{9}
@@ -128,7 +131,7 @@ $$P(\limsup_n A_n)=
 
 \topic{弱収束と分布収束}
 $\mu_n,\mu$ を $\R$ 上のボレル確率測度、$C_b(\R)$ を有界連続関数全体とする。
-$$\mu_n\Rightarrow\mu\quad:\Longleftrightarrow\quad
+$$\mu_n\Rightarrow\mu\quad\overset{de}{\Leftrightarrow}\quad
  \int_\R f\,d\mu_n\to\int_\R f\,d\mu\quad(\forall f\in C_b(\R)).$$
 $X_n\Rightarrow X$ は分布 $\mu_{X_n}\Rightarrow\mu_X$ を意味する。
 変数が同じ確率空間にあることは必要ない。同じ空間上では
@@ -147,34 +150,40 @@ $$\mu_n\Rightarrow\mu\quad\Longleftrightarrow\quad
 さらに $\varphi_n(t)\to\varphi(t)$ がすべての $t\in\R$ で成り立ち、
 $\varphi$ が原点で連続なら、$\varphi=\varphi_\mu$ となる確率測度 $\mu$ が一意に存在し、
 $\mu_n\Rightarrow\mu$ となる。}
-原点での連続性は必要である。$X_n\sim N(0,n)$ では
+原点での連続性の必要性は次からわかる。$X_n\sim N(0,n)$ では
 $$\varphi_n(t)=e^{-nt^2/2}\longrightarrow
  \begin{cases}1,&t=0,\\0,&t\ne0,\end{cases}$$
 となり、極限は特性関数にならない。
 
-\topic{Tightness と弱収束する部分列}
-確率測度列 $(\mu_n)$ が tight であるとは
-$$\forall\varepsilon>0\ \exists R>0:\quad
- \sup_n\mu_n(\{|x|>R\})<\varepsilon$$
-となることである。例えば $p>0$、$\sup_n\E|X_n|^p\le C<\infty$ なら
-$$\sup_nP(|X_n|>R)\le C/R^p\longrightarrow0.$$
-$\R$ 上で tight な列の任意の部分列には、さらに確率測度へ弱収束する部分列がある
-（Prokhorov の定理）。すべての部分列極限が同じ $\mu$ なら、列全体が $\mu$ に弱収束する。
+\topic{緊密性と弱収束する部分列}
+実数値確率変数列 $(X_n)$ が緊密であるとは
+$$\lim_{R\to\infty}\sup_n P(|X_n|>R)=0$$
+となることである。各確率は $X_n$ が定義された確率空間でとる。
+緊密な確率変数列の任意の部分列には、さらに分布収束する部分列がある（Prokhorov の定理）。
+すべての分布収束する部分列の極限分布が同じ $\mu$ なら、列全体の分布が $\mu$ に弱収束する。
 
 \topic{演習問題}
 \begin{enumerate}[label=\arabic*.]
-\item 空でない集合 $A\subseteq\R$ に対し $d(x,A)=\inf_{a\in A}|x-a|$ とおく。
-$|d(x,A)-d(y,A)|\le|x-y|$ を示せ。この評価を使い、開集合に対する上の不等式を証明せよ。
-\item $\sup_n\E[X_n^2]<\infty$ なら分布列が tight であることを示せ。
-また $\mathrm U(-n,n)$ の分布列が tight でないことを示せ。
+\item $\sup_n\E[X_n^2]<\infty$ なら確率変数列 $(X_n)$ が緊密であることを示せ。
+\item 各 $n\ge1$ に対し、$X_n$ は区間 $(-n,n)$ 上の一様分布に従うとする。
+確率変数列 $(X_n)$ が緊密でないことを示せ。
 \end{enumerate}
 
 \topic{レポート問題}
 \begin{enumerate}[label=\arabic*.]
-\item $X_n\Rightarrow X$ と $Y_n\Rightarrow Y$ だけでは、$X_n+Y_n\Rightarrow X+Y$
-とは限らないことを、公平な符号変数を使った例で示せ。
-それぞれの周辺分布、和の分布を明記すること。
+\item $X_n,Y_n$（$n\ge1$）および $X,Y$ は、すべて同じ確率空間上の実数値確率変数とする。
+$X_n\Rightarrow X$ と $Y_n\Rightarrow Y$ だけでは、$X_n+Y_n\Rightarrow X+Y$ とは限らないことを示す反例を構成せよ。
+\item 緊密な確率変数列 $(Z_n)$ に対し、$Z_n$ の分布関数を $F_n$ とする。
+部分列 $(F_{n_k})$ がすべての $q\in\mathbb Q$ で $F_{n_k}(q)\to G(q)$ を満たすと仮定し、
+$x\in\R$ に対して $F(x)=\inf\{G(q):q\in\mathbb Q,\ q>x\}$ とおく。
+\begin{enumerate}[label=(\arabic*),leftmargin=2.1em]
+\item $F$ は単調非減少かつ右連続であり、$F$ の任意の連続点 $x$ で $F_{n_k}(x)\to F(x)$ が成り立つ。
+\item 緊密性より $\lim_{x\to-\infty}F(x)=0$、$\lim_{x\to\infty}F(x)=1$ を示し、$F$ が分布関数であることを導け。
+\item 一様確率を入れた $(0,1)$ 上で、$X_n(u)=\inf\{x\in\R:F_n(x)\ge u\}$、
+$X(u)=\inf\{x\in\R:F(x)\ge u\}$ とおく。$X_n$ と $X$ の分布関数がそれぞれ $F_n$ と $F$ であり、
+$X_{n_k}$ が $X$ に概収束することを示せ。さらに各 $f\in C_b(\R)$ について
+$\E[f(X_{n_k})]\to\E[f(X)]$ を証明せよ。
+\end{enumerate}
 \end{enumerate}
 
-\label{lastpage}
 \end{document}

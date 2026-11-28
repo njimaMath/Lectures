@@ -53,10 +53,8 @@
   {\fontsize{11pt}{15pt}\selectfont\sffamily\mdseries\color{accent}#1}\par\vspace{2pt}}
 \newcommand{\columnstart}[1]{\clearpage
   \setlength{\parskip}{2.5pt}
-  \fancyhead[L]{\small\color{ink}\coursename{}・発展的内容}
-  {\small\sffamily\mdseries\color{accent}発展的内容}\par\vspace{4pt}
-  {\Large\color{ink}#1}\par\vspace{2pt}
-  {\color{accent}\rule{\linewidth}{0.7pt}}\par\vspace{4pt}}
+  \fancyhead[L]{\small\color{ink}\coursename{}・コラム}
+  \handouttitle{コラム\quad #1}}
 \newcommand{\F}{\mathcal F}
 \newcommand{\R}{\mathbb R}
 \newcommand{\N}{\mathbb N}
@@ -73,52 +71,32 @@
 
 \topic{演習1：概収束と期待値の極限}
 $U\sim\mathrm U(0,1)$、$X_n=U^n$、$Y_n=nU^n$ とする。
-$0\le u<1$ なら $u^n\to0$、$nu^n\to0$ なので、両者とも $0$ に概収束し、確率収束もする。
-一方、
+$0<u<1$ を固定すると $u^n\to0$ である。また、数列 $nu^n$ の隣り合う項の比は
+$(1+1/n)u\to u<1$ なので、$nu^n\to0$ でもある。$P(0<U<1)=1$ より
+$X_n,Y_n$ はともに $0$ に概収束し、したがって $0$ に確率収束する。
+期待値は $U$ の密度を使って計算できる。
 $$
   \E[X_n]=\int_0^1u^n\,du=\frac1{n+1}\longrightarrow0,\qquad
-  \E[Y_n]=\frac n{n+1}\longrightarrow1.
+  \E[Y_n]=\int_0^1nu^n\,du=\frac n{n+1}\longrightarrow1.
 $$
 $Y_n$ では、概収束しても期待値と極限を交換できない。
 
-\topic{演習2：線形結合の確率収束}
-$X_n\xrightarrow{P}X$、$Y_n\xrightarrow{P}Y$、$a,b\in\R$ とする。
-$M=|a|+|b|>0$ のとき、$\delta=\varepsilon/M$ とおくと
-$$
-  \{|a(X_n-X)+b(Y_n-Y)|>\varepsilon\}
-   \subseteq\{|X_n-X|>\delta\}\cup\{|Y_n-Y|>\delta\}.
-$$
-両辺の確率をとれば右辺は $0$ へ収束する。
-$M=0$ では線形結合は恒等的に $0$ であり、結論は自明である。
+\topic{演習2：単調な列の確率収束と概収束}
+$X_n\xrightarrow{P}X$ で、確率 $1$ で $X_1\le X_2\le\cdots$ とする。
+第8回の部分列の定理により、$X_{n_k}\to X$ a.s. となる添字列 $n_1<n_2<\cdots$ を選べる。
+列が単調で、かつこの部分列が $X$ に収束する事象を $A$ とすると、二つの確率 $1$ の事象の共通部分なので
+$P(A)=1$ である。
 
-\topic{演習3：動く区間の部分列}
-$\Omega=[0,1)$ 上で $X_{2^m+j}=\ind_{[j2^{-m},(j+1)2^{-m})}$
-（$0\le j<2^m$）と定めた例では、
-$$
-  X_{2^k}(\omega)=\ind_{[0,2^{-k})}(\omega)
-     \longrightarrow\ind_{\{0\}}(\omega).
-$$
-$\omega=0$ で極限は $1$、それ以外では $0$ であり、部分列は $0$ へ概収束する。
-列全体は、どの $\omega$ に対しても各段で $1$ を一度とり、$0$ も無限回とるため収束しない。
-
-\topic{演習4：誤差確率の可算和による概収束}
-各 $\varepsilon>0$ で $P(|X_n-X|>\varepsilon)\le C_\varepsilon n^{-2}$ とする。
-各整数 $r\ge1$ について
-$$
-  \sum_{n=1}^\infty P(|X_n-X|>1/r)
-    \le C_{1/r}\sum_{n=1}^\infty n^{-2}<\infty.
-$$
-Borel--Cantelli の第1補題により、$|X_n-X|>1/r$ は a.s. 有限回だけ起こる。
-$r$ に関する可算個の確率 $1$ の事象の共通部分をとれば、$X_n\to X$ a.s. を得る。
-$n^{-1}$ の上界では和が発散し、同じ証明は使えない。
-実際、演習3の列では $0<\varepsilon<1$ に対し
-$P(|X_n|>\varepsilon)=2^{-m}\le2/n$ だが、列全体は概収束しない。
+$\omega\in A$ を固定する。$n\ge n_1$ に対して $n_k\le n<n_{k+1}$ となる $k$ をとると、単調性より
+$$X_{n_k}(\omega)\le X_n(\omega)\le X_{n_{k+1}}(\omega).$$
+$n\to\infty$ のとき $k\to\infty$ であり、両端はともに $X(\omega)$ へ収束する。
+はさみうちにより $X_n(\omega)\to X(\omega)$ となる。これが $A$ 上で成り立つから、列全体が $X$ に概収束する。
 \clearpage
 \endgroup
 
 \handouttitle{第9回\quad 分布の弱収束と極限定理}
-\keybox{分布の弱収束は、有界連続関数で観測した期待値の収束である。
-値そのものの近さ、区間の端点、無限遠へ逃げる確率を区別しよう。}
+\keybox{分布の弱収束を、有界連続関数の期待値と特性関数の二つの方法で調べる。
+分布列が緊密なら、そこから弱収束する部分列を取り出せる。}
 
 \topic{弱収束と分布収束}
 $\R$ 上のボレル確率測度 $\mu_n,\mu$ について
@@ -140,9 +118,26 @@ $X_n\Rightarrow X$ は、その分布が $\mu_{X_n}\Rightarrow\mu_X$ となる�
 各 $X_n$ の分布は $X$ と同じだから $X_n\Rightarrow X$。
 しかし奇数 $n$ では $P(|X_n-X|>1)=1$ なので確率収束しない。
 
-弱収束は、次の開集合の条件、閉集合の条件のそれぞれと同値である。
+\topic{区間に入る確率と分布関数の連続点}
+弱収束は、次の開集合の条件、閉集合の条件のそれぞれと同値である（Portmanteau の定理）。
 $$\mu(O)\le\liminf_n\mu_n(O)\quad(O\text{ は開}),\qquad
  \limsup_n\mu_n(F)\le\mu(F)\quad(F\text{ は閉}).$$
+$F_n(x)=\mu_n((-\infty,x])$、$F(x)=\mu((-\infty,x])$ とおく。
+開区間 $(-\infty,x)$ と閉集合 $(-\infty,x]$ に上の不等式を使うと、
+$$F(x)-\mu(\{x\})\le\liminf_n F_n(x)\le\limsup_n F_n(x)\le F(x).$$
+したがって $\mu(\{x\})=0$、すなわち $F$ が連続な点 $x$ では $F_n(x)\to F(x)$ となる。
+実数直線上では逆も成り立ち、$F$ のすべての連続点でこの収束を示せば $\mu_n\Rightarrow\mu$ といえる。
+
+\examplelabel{例}\quad 点 $a$ に確率 $1$ を置く分布を $\delta_a$ と書く。
+連続な $f$ について $f(1/n)\to f(0)$ なので $\delta_{1/n}\Rightarrow\delta_0$ である。
+それでも $x=0$ では $F_n(0)=0$、$F(0)=1$ となる。ちょうど区間の端点に極限分布の質量があるためである。
+
+\examplelabel{第6回の正規近似との関係}\quad 公平なコインを独立に $n$ 回投げたときの表の回数を $H_n$ とし、
+$Z_n=(2H_n-n)/\sqrt n$ とおく。$Z_n$ の値域は有限だが、その分布は標準正規分布 $\gamma$ に弱収束する。
+$\gamma$ はどの一点にも質量を置かないので、すべての $a<b$ について
+$$P(a<Z_n\le b)\longrightarrow\gamma((a,b]).$$
+一方、$Z_n$ の値域を $A_n$ とすると $P(Z_n\in A_n)=1$、$\gamma(A_n)=0$ である。
+固定した区間の確率が収束しても、すべての集合について確率の差が一様に小さくなるわけではない。
 
 \newpage
 \topic{L\'evy の連続性定理}
@@ -155,28 +150,34 @@ $$\mu_n\Rightarrow\mu\quad\Longleftrightarrow\quad
 $\varphi$ を特性関数とする確率測度 $\mu$ が一意に存在し、$\mu_n\Rightarrow\mu$。
 このとき $\varphi(0)=\lim_n\varphi_n(0)=1$ である。
 順向きは $\cos(tx),\sin(tx)\in C_b(\R)$ に弱収束の定義を使えば従う。
-逆向きは、後で述べる tightness によって極限測度を構成して示す。
+逆向きは、以下で導入する緊密性を使って極限測度を構成して示す。
 
 \examplelabel{例：極限が特性関数にならない場合}
 $X_n\sim N(0,n)$ なら $\varphi_n(t)=e^{-nt^2/2}$ なので
 $$\lim_n\varphi_n(t)=\begin{cases}1,&t=0,\\0,&t\ne0.\end{cases}$$
 極限は原点で不連続であり、特性関数ではない。
-実際、固定した $R$ に対し $P(|X_n|\le R)\to0$ で、列は tight でない。
+実際、標準正規変数を $Z$ とすると、どんな $R>0$ に対しても
+$P(|X_n|\le R)=P(|Z|\le R/\sqrt n)\to P(Z=0)=0$ である。
 
-\topic{Tightness：質量が一様に遠くへ逃げない}
-確率測度列 $(\mu_n)$ が tight であるとは
+\topic{緊密性：すべての分布の裾を一様に抑える}
+実数値確率変数列 $(X_n)$ が緊密であるとは、その分布 $\mu_n$ が
 $$\forall\varepsilon>0\ \exists R>0:\quad
  \sup_n\mu_n(\{|x|>R\})<\varepsilon$$
-となることである。$\R$ では、共通のコンパクト区間 $[-R,R]$ に
-どの $\mu_n$ の質量も $1-\varepsilon$ より多く入ることを意味する。
+を満たすことである。すなわち、$\lim_{R\to\infty}\sup_nP(|X_n|>R)=0$ である。
+各 $X_n$ が別々の確率空間にあってもよい。どの $n$ にも同じ区間 $[-R,R]$ を使うことが条件である。
 たとえば、ある $p>0$ と $C<\infty$ に対し $\sup_n\E|X_n|^p\le C$ なら
 $$\sup_nP(|X_n|>R)\le\frac C{R^p}\longrightarrow0.$$
 
 \topic{Prokhorov の定理：部分列の極限を取り出す}
-$\R$ 上の tight な確率測度列は、ある確率測度へ弱収束する部分列をもつ。
+$\R$ 上の緊密な確率測度列の任意の部分列には、さらにある確率測度へ弱収束する部分列がある。
 さらに、すべての弱収束部分列の極限が同じ $\mu$ なら列全体が $\mu$ へ弱収束する。
 実際、ある $f\in C_b(\R)$ の積分が収束しなければ、極限値から一定以上離れる部分列を選べる。
 そこからさらに弱収束部分列を取ると、極限が $\mu$ であることに矛盾する。
+
+実数直線上で部分列を見つけるには、有理数を $q_1,q_2,\ldots$ と並べる。
+$F_n(q_1)\in[0,1]$ だから、$q_1$ で値が収束する部分列がある。その中から $q_2$ でも収束する部分列をとり、
+同様に繰り返す。第 $k$ の部分列の第 $k$ 項を選ぶと、どの有理点でも値が収束する。
+レポート問題2では、この極限値から分布関数を作る際に、緊密性をどこで使うかを考える。
 
 \newpage
 \topic{L\'evy の連続性定理の逆向きの証明}
@@ -192,7 +193,7 @@ $$\limsup_n\mu_n(|x|>2/h)
  \le\frac1h\int_{-h}^h(1-\operatorname{Re}\varphi(t))\,dt
  \le2\sup_{|t|\le h}|1-\varphi(t)|\longrightarrow0\quad(h\downarrow0).$$
 任意の $\varepsilon>0$ に対し、$h$ を小さくすれば大きな $n$ で尾の確率は
-$\varepsilon$ 未満となる。残りの有限個の測度にも合わせて半径を広げれば、$(\mu_n)$ は tight である。
+$\varepsilon$ 未満となる。残りの有限個の測度にも合わせて半径を広げれば、$(\mu_n)$ は緊密である。
 
 Prokhorov の定理で $\mu_{n_k}\Rightarrow\mu$ を取ると、順向きの結果から
 $$\varphi_\mu(t)=\lim_k\varphi_{n_k}(t)=\varphi(t)\qquad(t\in\R).$$
@@ -202,60 +203,78 @@ $$\varphi_\mu(t)=\lim_k\varphi_{n_k}(t)=\varphi(t)\qquad(t\in\R).$$
 
 \topic{演習問題}
 \begin{enumerate}[label=\arabic*.]
-\item 空でない集合 $A\subseteq\R$ に対し $d(x,A)=\inf_{a\in A}|x-a|$ とおく。
-$|d(x,A)-d(y,A)|\le|x-y|$ を示せ。この評価を使い、開集合に対する上の不等式を証明せよ。
-\item $\sup_n\E[X_n^2]<\infty$ なら分布列が tight であることを示せ。
-また $\mathrm U(-n,n)$ の分布列が tight でないことを示せ。
+\item $\sup_n\E[X_n^2]<\infty$ なら確率変数列 $(X_n)$ が緊密であることを示せ。
+\item 各 $n\ge1$ に対し、$X_n$ は区間 $(-n,n)$ 上の一様分布に従うとする。
+確率変数列 $(X_n)$ が緊密でないことを示せ。
 \end{enumerate}
 
 \topic{レポート問題}
 \begin{enumerate}[label=\arabic*.]
-\item $X_n\Rightarrow X$ と $Y_n\Rightarrow Y$ だけでは、$X_n+Y_n\Rightarrow X+Y$
-とは限らないことを、公平な符号変数を使った例で示せ。
-それぞれの周辺分布、和の分布を明記すること。
+\item $X_n,Y_n$（$n\ge1$）および $X,Y$ は、すべて同じ確率空間上の実数値確率変数とする。
+$X_n\Rightarrow X$ と $Y_n\Rightarrow Y$ だけでは、$X_n+Y_n\Rightarrow X+Y$ とは限らないことを示す反例を構成せよ。
+\item 緊密な確率変数列 $(Z_n)$ に対し、$Z_n$ の分布関数を $F_n$ とする。
+部分列 $(F_{n_k})$ がすべての $q\in\mathbb Q$ で $F_{n_k}(q)\to G(q)$ を満たすと仮定し、
+$x\in\R$ に対して $F(x)=\inf\{G(q):q\in\mathbb Q,\ q>x\}$ とおく。
+\begin{enumerate}[label=(\arabic*),leftmargin=2.1em]
+\item $F$ は単調非減少かつ右連続であり、$F$ の任意の連続点 $x$ で $F_{n_k}(x)\to F(x)$ が成り立つ。
+\item 緊密性より $\lim_{x\to-\infty}F(x)=0$、$\lim_{x\to\infty}F(x)=1$ を示し、$F$ が分布関数であることを導け。
+\item 一様確率を入れた $(0,1)$ 上で、$X_n(u)=\inf\{x\in\R:F_n(x)\ge u\}$、
+$X(u)=\inf\{x\in\R:F(x)\ge u\}$ とおく。$X_n$ と $X$ の分布関数がそれぞれ $F_n$ と $F$ であり、
+$X_{n_k}$ が $X$ に概収束することを示せ。さらに各 $f\in C_b(\R)$ について
+$\E[f(X_{n_k})]\to\E[f(X)]$ を証明せよ。
+\end{enumerate}
 \end{enumerate}
 
 \topic{考えるための手がかり}
-弱収束では有界連続関数で観測した期待値を比べる。
-開集合・閉集合の不等号の向きと、極限の特性関数の原点での連続性を確かめよう。
-\vfill
-{\small\color{muted}解答メモ：距離関数による近似、モーメントによる尾の評価、特性関数の一意性を使い分ける。}
+レポート問題1では、各変数の分布を保ちながら、二つの変数が同じ符号をとる確率を変えてみよう。
+問題2では分布関数の右連続性に注意して、$0<u<1$ に対する $X(u)\le x$ と $u\le F(x)$ の関係を調べよう。
+$u\mapsto X(u)$ は単調なので、その不連続点は高々可算個である。
 
-\columnstart{分布が近づくとは、何が近づくことなのか}
-離散分布から正規分布への収束では、各近似分布は有限個の点に質量をもち、
-極限分布は一点にも正の確率を置かない。
-それでも、区間に入る確率は近づく。弱収束はこの現象を記述するための収束である。
+\columnstart{玉はなぜ真ん中に集まるのか}
+祭りの屋台で、釘を何段も打った板の上から玉を落とす遊びを考えよう。
+玉は釘に当たるたびに右か左に進み、板の下に並んだ箱のどれかに入る。
+いちばん入りにくい箱を景品の当たりにするとしたら、どの箱を選べばよいだろうか。
 
-\columnheading{すべての集合の確率をそろえるのは強すぎる}
-標準化したコイントス $Z_n$ の分布を $\mu_n$、標準正規分布を $\gamma$ とする。
-$Z_n$ の有限な値域を $A_n$ とすれば
-$$\mu_n(A_n)=1,\qquad\gamma(A_n)=0.$$
-したがって $\sup_{A\in\mathcal B(\R)}|\mu_n(A)-\gamma(A)|=1$ であり、
-全変動距離の意味では近づかない。
-一方、連続な観測関数や、端点に質量のない固定した区間の確率では近づく。
-どの観測を使って近さを測るかが、収束概念を決めている。
+ここでは、それまでに玉が通った道にかかわらず、次の釘では左右に半々の確率で進むとする。
+図は釘が4段の場合である。太い線は、左、右、右、左の順に進んで真ん中の箱に着く道を表す。
 
-\columnheading{境界に質量があると何が起こるか}
-$1/n\to0$ なので、連続な $f$ に対して $f(1/n)\to f(0)$。
-しかし $\ind_{\{0\}}(1/n)=0$ は $\ind_{\{0\}}(0)=1$ に近づかない。
-指示関数は境界で不連続であり、そこへ質量が集まると集合の確率が跳ぶ。
-境界での不連続性が、弱収束と集合の確率の収束とのずれを生んでいる。
+\begin{center}
+\begin{tikzpicture}[x=1.1cm,y=0.82cm,font=\small]
+  \node[above,ink] at (0,4.15) {スタート};
+  \foreach \row in {0,...,3}{
+    \foreach \j in {0,...,\row}{
+      \draw[muted!50] ({2*\j-\row},{4-\row}) -- ++(-1,-1);
+      \draw[muted!50] ({2*\j-\row},{4-\row}) -- ++(1,-1);
+    }
+  }
+  \draw[accent,line width=1.4pt] (0,4)--(-1,3)--(0,2)--(1,1)--(0,0);
+  \foreach \row in {0,...,3}{
+    \foreach \j in {0,...,\row}{
+      \fill[ink] ({2*\j-\row},{4-\row}) circle (2pt);
+    }
+  }
+  \foreach \x/\countlabel in {-4/1,-2/4,0/6,2/4,4/1}{
+    \draw[ink] ({\x-0.67},0.05) -- ++(0,-0.62) -- ++(1.34,0) -- ++(0,0.62);
+    \node[ink] at (\x,-0.26) {\countlabel 通り};
+  }
+\end{tikzpicture}
+\end{center}
 
-\columnheading{無限遠へ逃げる質量を見張る}
-点 $n$ に確率 $1$ を置く測度を $\delta_n$ と書く。
-コンパクトな台の関数は、十分遠くにある質量を見ない。
-$\delta_n$ に対する積分がすべて $0$ に近づくのは、分布がなくなったためではなく、
-観測している有限の範囲から外れたためである。
-Tightness は、どの時点でも確率の大部分が共通の有限の範囲に入ることを要求する。
-この条件によって、部分列の極限が全質量 $1$ を保つ。
+\columnheading{同じ箱に着く道を数える}
+左端の箱に着くには、4回とも左に進む必要がある。真ん中の箱に着くには、左と右に2回ずつ進めばよい。
+例えば「左・左・右・右」でも「右・左・右・左」でも同じ箱に着く。このような道は全部で6通りある。
+どの道を通る確率も等しいので、真ん中の箱に入る確率は左端の6倍になる。
+両端の箱へはそれぞれ1通りの道しかないので、景品の当たりを出にくくするには、どちらかの端を選べばよい。
 
-\columnheading{分布の情報と同じ標本の情報}
-弱収束は各 $n$ の分布だけで判定できる。
-確率収束は、同じ標本における $X_n$ と $X$ の差を使うため、両者の同時の配置に依存する。
-$$X_n\to X\ \text{a.s.}\quad\Longrightarrow\quad
- X_n\xrightarrow{P}X\quad\Longrightarrow\quad X_n\Rightarrow X.$$
-この矢印を使うときには、強い条件で示して弱い結論へ進んでいることを意識しよう。
-極限定理の目的に合う観測量を選べば、必要以上に強い収束を証明せずに済む。
+\columnheading{段数を増やすとどうなるか}
+4段でも8段でも、最も玉が入りやすいのは真ん中の箱である。では、その箱に入る確率はどう変わるだろうか。
+4段では16通りのうち6通りで約38％、8段では256通りのうち70通りで約27％となる。
+段数が増えると、玉が入りうる箱も5個から9個に増え、真ん中の一箱に入る確率はかえって小さくなる。
+
+今度は、玉が落ちる位置の分布を比べてみよう。段数ごとに、山の中心と散らばり具合がそろうように横の目盛りを取り直し、
+その目盛りの同じ位置に二本の縦線を引く。段数を増やすと、二本の線の間に玉が落ちる確率は、
+正規分布の釣り鐘形の曲線の下で、その二本の線にはさまれた部分の面積に近づく。
+これは、授業で扱った分布の弱収束の一例である。
 
 \label{lastpage}
 \end{document}

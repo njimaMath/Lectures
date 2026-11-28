@@ -53,10 +53,8 @@
   {\fontsize{11pt}{15pt}\selectfont\sffamily\mdseries\color{accent}#1}\par\vspace{2pt}}
 \newcommand{\columnstart}[1]{\clearpage
   \setlength{\parskip}{2.5pt}
-  \fancyhead[L]{\small\color{ink}\coursename{}・発展的内容}
-  {\small\sffamily\mdseries\color{accent}発展的内容}\par\vspace{4pt}
-  {\Large\color{ink}#1}\par\vspace{2pt}
-  {\color{accent}\rule{\linewidth}{0.7pt}}\par\vspace{4pt}}
+  \fancyhead[L]{\small\color{ink}\coursename{}・コラム}
+  \handouttitle{コラム\quad #1}}
 \newcommand{\F}{\mathcal F}
 \newcommand{\R}{\mathbb R}
 \newcommand{\N}{\mathbb N}
@@ -102,8 +100,8 @@ $$
 \endgroup
 
 \handouttitle{第8回\quad 確率変数列の収束}
-\keybox{概収束は各標本での長期的な振る舞い、確率収束は各時点での誤差確率を見る。
-量化の順序を区別し、どちらの条件が必要かを考えよう。}
+\keybox{概収束では、一つの標本を固定して観測値を追う。確率収束では、各時点で誤差の大きい標本の割合を調べる。
+この違いを動く区間の例で確かめ、確率収束する列から概収束する部分列を選ぶ方法を学ぶ。}
 
 \topic{概収束：標本ごとに極限をとる}
 以下、$X_n,X$ は同じ確率空間 $(\Omega,\F,P)$ 上の実数値確率変数とし、$n=1,2,\ldots$ とする。
@@ -116,7 +114,7 @@ $$A_n(\varepsilon)=\{|X_n-X|>\varepsilon\}$$
 とおくと、概収束は
 $$P\left(\bigcap_{N=1}^\infty\bigcup_{n\ge N}A_n(1/m)\right)=0
  \qquad(m=1,2,\ldots)$$
-と同値である。「誤差が一定以上になること」が無限回は起こらない、という条件である。
+と同値である。ほとんどすべての標本で、どの $1/m$ についても誤差がそれを超えるのは有限回に限られる。
 
 \topic{確率収束：大きな誤差の確率が消える}
 $X_n$ が $X$ に確率収束するとは
@@ -127,10 +125,11 @@ $$P(|X_n-X|>\varepsilon)\longrightarrow0
 その例外となる標本が $n$ ごとに入れ替わることは許される。
 
 \topic{概収束なら確率収束}
-$X_n\to X$ a.s. なら、固定した $\varepsilon>0$ について
+$X_n\to X$ a.s. とし、$\varepsilon>0$ を固定する。
+$X_n(\omega)\to X(\omega)$ となる標本では、十分大きな $n$ で誤差が $\varepsilon$ 以下になる。したがって
 $$\ind_{\{|X_n-X|>\varepsilon\}}\to0\ \text{a.s.},\qquad
  0\le\ind_{\{|X_n-X|>\varepsilon\}}\le1.$$
-優収束定理より
+定数関数 $1$ は確率空間上で可積分なので、優収束定理より
 $$P(|X_n-X|>\varepsilon)=\E[\ind_{\{|X_n-X|>\varepsilon\}}]\to0.$$
 逆向きは一般には成立しない。次ページの例では、誤差確率は小さくなるが、
 各標本では大きな誤差が無限回生じる。
@@ -140,7 +139,7 @@ $X_n\xrightarrow{P}X$ かつ $X_n\xrightarrow{P}Y$ なら、任意の $\varepsil
 $$P(|X-Y|>\varepsilon)
  \le P(|X-X_n|>\varepsilon/2)+P(|X_n-Y|>\varepsilon/2)\to0.$$
 $\varepsilon=1/m$ を可算個とれば $P(X=Y)=1$ となる。
-確率変数の極限は、零集合上での違いを除いて一意である。
+確率収束の極限は、零集合上での違いを除いて一意である。
 
 \newpage
 \topic{確率収束しても概収束しない：動く区間}
@@ -170,6 +169,9 @@ $n\to\infty$ なら $m\to\infty$ であり、$\varepsilon\ge1$ では誤差確�
 {\small\color{muted}帯が $X_n=1$ となる区間を表す。同じ $\omega$ に沿って見ると、
 区間が細くなっても値 $1$ が繰り返し現れる。}\par
 
+各段の最初の区間だけを選ぶと、$X_{2^m}=\ind_{[0,2^{-m})}$ となる。
+$\omega>0$ ではやがて値が $0$ になり、$\omega=0$ だけで値 $1$ が続く。
+一点の確率は $0$ なので、この部分列は $0$ に概収束する。
 
 \topic{和と積の確率収束}
 $X_n\xrightarrow{P}X$、$Y_n\xrightarrow{P}Y$ なら
@@ -194,95 +196,115 @@ $$
 その後 $M\to\infty$ とすれば、$X,Y$ は実数値なので前の2項も $0$ になる。
 概収束の場合は、共通の確率 $1$ の集合上で通常の数列の演算を使えばよい。
 
-\newpage
-\topic{確率収束から概収束する部分列を取り出す}
-$X_n\xrightarrow{P}X$ なら、各 $k\ge1$ に対し $n_k>n_{k-1}$（$n_0=0$）を選んで
-$$P(|X_{n_k}-X|>2^{-k})\le2^{-k}$$
-とできる。$A_k=\{|X_{n_k}-X|>2^{-k}\}$ とおけば、和集合の確率評価から
-$$P\left(\bigcup_{k\ge K}A_k\right)
- \le\sum_{k\ge K}P(A_k)\le\sum_{k\ge K}2^{-k}=2^{1-K}\longrightarrow0.$$
-$\bigcup_{k\ge K}A_k$ は $K$ について単調減少するので、確率の連続性より
-$$P\left(\bigcap_{K=1}^\infty\bigcup_{k\ge K}A_k\right)=0.$$
-すなわち、確率 $1$ で、ある $K(\omega)$ 以降は
-$|X_{n_k}(\omega)-X(\omega)|\le2^{-k}$ がすべての $k\ge K(\omega)$ で成り立つ。
-よって $X_{n_k}\to X$ a.s. を得る。これは Borel--Cantelli の第1補題の考え方である。
-確率収束は部分列にも受け継がれるので、元の列の任意の部分列からも概収束する部分列を取り出せる。
-ただし、列全体の概収束までは従わない。
-
 \topic{期待値の収束は別に確認する}
 $p>0$ に対し $\E|X_n-X|^p\to0$ なら、Markov の不等式から、任意の $\varepsilon>0$ について
 $$P(|X_n-X|>\varepsilon)\le\frac{\E|X_n-X|^p}{\varepsilon^p}\longrightarrow0.$$
 逆向きは $p=1$ でも成り立たない。$\Omega=(0,1)$ に一様確率を入れ、$X_n=n\ind_{(0,1/n)}$ とすると
 $X_n\to0$ a.s. だが $\E|X_n|=1$。
-確率収束や概収束だけで、非有界な関数の期待値を極限と交換してはいけない。
+区間 $(0,1/n)$ の確率は $1/n$ に減るが、その上での値は $n$ に増えるため、期待値は $1$ のままである。
+
+\newpage
+\topic{Borel--Cantelli の補題：事象が無限回起こる確率}
+事象 $A_n$ が無限回起こるとは、どの時点 $N$ より先にも $A_n$ が起こることをいう。
+この事象を $A=\bigcap_{N\ge1}\bigcup_{n\ge N}A_n$ と書く。
+$\sum_nP(A_n)<\infty$ なら、任意の $N$ について
+$$P(A)\le P\left(\bigcup_{n\ge N}A_n\right)\le\sum_{n\ge N}P(A_n)\longrightarrow0
+ \qquad(N\to\infty).$$
+よって $P(A)=0$ である。これが第1補題である。
+
+第2補題では、$(A_n)$ が相互独立で $\sum_nP(A_n)=\infty$ と仮定する。$M\ge N$ のとき
+$$P\left(\bigcap_{n=N}^M A_n^c\right)
+ =\prod_{n=N}^M(1-P(A_n))
+ \le\exp\left(-\sum_{n=N}^M P(A_n)\right).$$
+$N$ を固定して $M\to\infty$ とすれば、$N$ 以降に一度も起こらない確率は $0$ になる。
+そのような事象をすべての $N$ について合わせても確率は $0$ なので、$P(A)=1$ である。
+
+\topic{確率収束から概収束する部分列を取り出す}
+$X_n\xrightarrow{P}X$ とする。各 $k\ge1$ について誤差の幅 $2^{-k}$ を固定すると、
+$P(|X_n-X|>2^{-k})\to0$ だから、$n_1<n_2<\cdots$ を順に選んで
+$$P(|X_{n_k}-X|>2^{-k})\le2^{-k}\qquad(k\ge1)$$
+とできる。右辺の和は $1$ なので、第1補題より、ほとんどすべての $\omega$ で
+十分大きいすべての $k$ について $|X_{n_k}(\omega)-X(\omega)|\le2^{-k}$ となる。
+よって $X_{n_k}\to X$ a.s. である。確率収束はどの部分列にも受け継がれるので、
+任意の部分列からも $X$ に概収束する部分列を取り出せる。
 
 \topic{演習問題}
 \begin{enumerate}[label=\arabic*.]
-\item $U\sim\mathrm U(0,1)$ とし、$X_n=U^n$、$Y_n=nU^n$ とおく。
+\item $U$ は区間 $(0,1)$ 上の一様分布に従うとし、$X_n=U^n$、$Y_n=nU^n$ とおく。
 それぞれの概収束と確率収束を調べ、期待値の極限も計算せよ。
-\item $X_n\xrightarrow{P}X$、$Y_n\xrightarrow{P}Y$ とする。
-$aX_n+bY_n\xrightarrow{P}aX+bY$（$a,b\in\R$）を示せ。
-\item 動く区間の例で $n_k=2^k$ と選ぶと、$X_{n_k}$ はどこで何に収束するか。
-列全体とこの部分列の振る舞いの違いを説明せよ。
-\item $P(|X_n-X|>\varepsilon)\le C_\varepsilon n^{-2}$（各 $\varepsilon>0$）なら
-$X_n\to X$ a.s. を示せ。$n^{-1}$ の上界だけでも同じ証明が使えるか。
+\item $X_n$ が $X$ に確率収束し、確率 $1$ で $X_1\le X_2\le\cdots$ が成り立つとする。
+$X$ に概収束する部分列を用いて、列全体が $X$ に概収束することを証明せよ。
 \end{enumerate}
 
 \topic{レポート問題}
 \begin{enumerate}[label=\arabic*.]
-\item $X_n\xrightarrow{P}X$、$Y_n\xrightarrow{P}Y$ から
-$X_nY_n\xrightarrow{P}XY$ を証明せよ。
-$X,Y$ が有界であると仮定せず、尾の確率を先に抑えること。
-\item 独立な $\{0,1\}$ 値確率変数 $B_n$ が $P(B_n=1)=1/(n+1)$ を満たすとする。
+\item 同じ確率空間上で $X_n\xrightarrow{P}X$、$Y_n\xrightarrow{P}Y$ とする。
+確率収束の定義を用いて、$X_n+Y_n\xrightarrow{P}X+Y$ を証明せよ。
+\item 独立なベルヌーイ確率変数 $B_n$ が $P(B_n=1)=1/(n+1)$ を満たすとする。
 $B_n\xrightarrow{P}0$ を示せ。
 独立な事象に対する Borel--Cantelli の補題を用い、$B_n$ が概収束しないことを示せ。
 \end{enumerate}
 
 \topic{考えるための手がかり}
-確率収束では固定した時点の確率を見る。概収束では、
-同じ標本に沿って無限回の時点を見渡す。
-$\limsup_n A_n=\bigcap_N\bigcup_{n\ge N}A_n$ は、$A_n$ が無限回起こる事象である。
-\vfill
-{\small\color{muted}解答メモ：「すべての $\varepsilon$」を概収束の議論へ移す際は $\varepsilon=1/m$ を使う。}
+演習2では、$n_k\le n\le n_{k+1}$ のときの三つの観測値を、同じ標本上で比べてみよう。
+レポート問題2では、値 $1$ が現れる事象と値 $0$ が現れる事象をそれぞれ調べる。
 
-\columnstart{小さい確率の出来事も、繰り返せば起こる}
-一回ごとの失敗確率が小さくなるとき、失敗はいずれ完全になくなるだろうか。
-確率収束と概収束の違いには、まれな出来事が時間の中でどう積み重なるかが現れる。
+\columnstart{大数の法則から見る確率収束と概収束}
+成功する確率が同じ試行を独立に繰り返すとき、観測した成功の割合は、真の成功確率にどのように近づくだろうか。
+1713年に刊行されたヤコブ・ベルヌーイの『推測術』では、試行回数を増やせば、成功の割合が
+真の成功確率から一定の幅を超えて外れる確率をいくらでも小さくできることが示された。
+これは、現在でいう弱大数の法則の一例である。
 
-\columnheading{和が有限なら、無限回は起こらない}
-事象列 $(A_n)$ に対し、和集合の確率評価から
-$$P\left(\bigcup_{n\ge N}A_n\right)\le\sum_{n\ge N}P(A_n).$$
-$\sum_nP(A_n)<\infty$ なら、$N\to\infty$ で右辺は $0$ になる。
-したがって
-$$P(A_n\text{ が無限回起こる})=0.$$
-これが Borel--Cantelli の第1補題である。事象どうしの独立性は必要ない。
-誤差確率の和を有限にできれば、標本ごとの収束へ進める。
+1909年にエミール・ボレルは、$(0,1)$ のほとんどすべての実数について、2進展開の最初の $n$ 桁に占める $1$ の割合が
+$1/2$ に収束することを示した。実数を一つ固定し、その桁を順に読み進めて得られる割合の列が収束するのである。
+これは強大数の法則の一例である。ベルヌーイは回数を決めたときのずれの確率を調べ、ボレルは一つの記録に沿って割合の列を追った。
 
-\columnheading{和が無限大の場合には独立性が効く}
-事象が相互独立なら、固定した $N$ に対して
-$$P\left(\bigcap_{n=N}^M A_n^c\right)
- =\prod_{n=N}^M(1-P(A_n))
- \le\exp\left(-\sum_{n=N}^M P(A_n)\right).$$
-$\sum_nP(A_n)=\infty$ なら $M\to\infty$ で右辺は $0$。
-どの $N$ 以降にも何かが起こるので、$A_n$ は a.s. 無限回起こる。
-これが独立な事象に対する第2補題である。
-和が発散するだけでは、独立性なしにこの結論は出ない。
+{\small\color{muted}
+原典\quad
+\href{https://www.gtfp.cs.rhul.ac.uk/sheynin/008_bernoulli.pdf}{Bernoulli, \textit{Ars Conjectandi}, 第4部（1713年、英訳）}
+\qquad
+\href{https://doi.org/10.1007/BF03019651}{Borel の論文（1909年）}}
 
-\columnheading{収束の反例を一つ作る}
-独立な $B_n\in\{0,1\}$ に $P(B_n=1)=1/(n+1)$ を与える。
-各時点では $P(B_n=1)\to0$ なので $B_n\xrightarrow{P}0$。
-しかし確率の和は発散するため、値 $1$ は a.s. 無限回現れる。
-補事象の確率の和も発散し、独立性も保たれるので値 $0$ も a.s. 無限回現れる。
-よって $B_n$ は概収束しない。
-「時点ごとにはまれ」と「一つの軌跡で有限回しか起こらない」は異なる条件なのである。
+\columnheading{各時点の差と、一つの記録の中の数列}
+$X_n$ を試行の第 $n$ 回目に記録する値、$X$ をその値の収束先の候補とする。
+試行の結果をそのまま記録する場合もあれば、大数の法則のように最初の $n$ 回までの成功の割合を記録する場合もある。
 
-\columnheading{速い部分列なら標本ごとにも収束する}
-同じ例で $n_k=2^k$ とすれば
-$$\sum_{k\ge1}P(B_{2^k}=1)=\sum_{k\ge1}\frac1{2^k+1}<\infty.$$
-第1補題から $B_{2^k}\to0$ a.s. となる。
-確率収束する列から概収束する部分列を選べるという本文の定理は、
-この「誤差確率の和が有限になるまで時点を間引く」考え方を一般化したものである。
-どの収束を使っているかを明記すると、部分列の議論も見通しがよくなる。
+確率収束では、時点 $n$ ごとに、$X_n$ と $X$ の差の大きさ $|X_n-X|$ だけを見る。
+例えば100回で試行を終えるなら、知りたいのは $|X_{100}-X|$ が許容幅 $\varepsilon$ 以内に収まる確率である。
+どの $\varepsilon>0$ についても、試行回数 $n$ を増やすと
+許容幅を超える確率 $P(|X_n-X|>\varepsilon)$ が $0$ に近づくことを確率収束という。
+
+概収束では、試行の記録 $\omega$ を一つ固定する。すると各 $X_n(\omega)$ は一つの実数になり、
+$X_1(\omega),X_2(\omega),\ldots$ は通常の数列になる。この数列が $X(\omega)$ に収束することが
+確率 $1$ で成り立つとき、概収束という。記録をたどって、どの許容幅についても、
+ある時点から先は $X(\omega)$ との差がその幅以内に収まり続けるかを見ている。
+
+\columnheading{各時点の誤差確率が同じ二つの例}
+$X=0$ とし、$X_n$ が $0$ か $1$ をとる例を考えよう。
+最初の2回を一組、次の4回を一組、その次の8回を一組とし、組の長さを順に倍にする。
+各組で一か所を等確率で選び、そこを $1$、残りを $0$ とする。最初の三組は、例えば次のような記録になる。
+
+\begin{center}
+\renewcommand{\arraystretch}{1.25}
+\begin{tabular}{lccc}
+\toprule
+試行の範囲 & 1～2回目 & 3～6回目 & 7～14回目 \\
+\midrule
+$X_n$ の記録の一例 & $0\,1$ & $0\,0\,1\,0$ & $0\,1\,0\,0\,0\,0\,0\,0$ \\
+決めた時点で $|X_n-X|=1$ となる確率 & $1/2$ & $1/4$ & $1/8$ \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+例えば10回目を指定すると、$1$ になる確率は $1/8$ である。先の組ほどこの確率は小さくなるので、
+$X_n$ は $0$ に確率収束する。一つの記録を追うと、どの組にも $1$ があるため、$1$ は無限回現れる。
+したがって $X_n$ は $0$ に概収束しない。
+
+今度は $(0,1)$ から一様に数 $U$ を一度だけ選ぶ。同じ $U$ を使い、長さ $m$ の組では、
+$U<1/m$ ならその組をすべて $1$ にし、それ以外ならすべて $0$ にする。
+各時点の誤差確率は上の表と同じである。ところが、どの $U>0$ でも組が十分長くなると $1/m<U$ となり、
+その先の記録はすべて $0$ になる。こちらの列は $0$ に概収束する。
+各時点の差の分布が同じでも、一つの記録の中で値がどう並ぶかによって、概収束するかどうかは変わる。
 
 \label{lastpage}
 \end{document}
